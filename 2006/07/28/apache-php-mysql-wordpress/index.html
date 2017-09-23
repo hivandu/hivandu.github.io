@@ -1,0 +1,428 @@
+
+<!DOCTYPE html>
+<html lang="null">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Duart">
+    <title>Apache+PHP+MySQL+WordPress 本地架设的方法（转载） - Duart</title>
+    <meta name="author" content="Hivan Du">
+    
+    
+    
+    <meta name="description" content="转载自google搜索 ###系统环境:###">
+<meta name="keywords" content="wordpress,apache,mysql,php,架设">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Apache+PHP+MySQL+WordPress 本地架设的方法（转载）">
+<meta property="og:url" content="http://hivandu.github.io/2006/07/28/apache-php-mysql-wordpress/index.html">
+<meta property="og:site_name" content="Duart">
+<meta property="og:description" content="转载自google搜索 ###系统环境:###">
+<meta property="og:updated_time" content="2013-12-17T16:57:37.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Apache+PHP+MySQL+WordPress 本地架设的方法（转载）">
+<meta name="twitter:description" content="转载自google搜索 ###系统环境:###">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-27vrduj1jopliavvnzi7ibndpmbvg7lzo4a2uswrsi4m5vwauf2qi8s1v3or.min.css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">Duart</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="4">
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">Search</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/atom.xml"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            Apache+PHP+MySQL+WordPress 本地架设的方法（转载）
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Fri Jul 28 2006 17:21:00 GMT+0800">
+	
+		    Jul 28, 2006
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/develop/">develop</a>
+
+
+    
+</div>
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>转载自<a href="http://www.google.com/search?hl=zh-CN&amp;newwindow=1&amp;client=firefox&amp;rls=org.mozilla%3Azh-CN%3Aofficial&amp;q=%E6%9C%AC%E5%9C%B0%E6%9E%B6%E8%AE%BEphp+mysql+%E8%BD%AF%E4%BB%B6&amp;btnG=%E6%90%9C%E7%B4%A2&amp;lr=" target="_blank" rel="external">google搜索</a></p>
+<p>###系统环境:###</p>
+<a id="more"></a>
+<p><strong>硬件:</strong></p>
+<p>C1.7GHz + 256MB DDR266 + ST 40GB + 845GL</p>
+<p><strong>软件:</strong></p>
+<p>“Microsoft Windows XP Pro CN with SP2”, “Apache 2.053 For Win32 (x86)”,”MySQL 4.1.10 For Win32 (x86)”,”PHP 5.0.3 For Win32  “, “MyAdmin 2.6.1-pl3 (patch level 3)”</p>
+<p><strong>步骤详述：</strong> </p>
+<p>注：以下操作假设WinXP操作系统安装于 <code>C:\windows</code> ；</p>
+<p>将把 apache + php + sql + blog 安装在 <code>d:\website</code> 中。</p>
+<ul>
+<li><p>一：安装 Apache 并进行配置使其支持 Php</p>
+<p>  从 Apache官方网站下载的 Apache 2.053 For Win32 有两种格式，一种是 MSI 的安装文件；一种是 ZIP 压缩包。我选的是 MSI 格式的安装文件。<br>  运行 apache_2.0.53-win32-x86-no_ssl.msi 文件，然后根据安装向导，将 Apache 安装在 <code>d:\website\apache</code> 目录中。<br>  Apache 安装过程需要输入网站域名，本地调试使用localhost即可，安装过程很简单，全图形化界面，不再赘述。<br>  PHP官方网站提供两种格式的 Php 5.03 For Win32 下载，一种是压缩成 EXE 的文件；另一种是 ZIP 压缩包。我选择的是 ZIP 压缩包。<br>  首先将 php-5.0.3-Win32.zip 内的文件解压缩到 <code>d:\website\php</code> 目录中。<br>  然后找到 <code>d:\website\php\php.ini-dist</code> 文件，将其重命名为 <code>php.ini</code>，并复制到 <code>c:\windows</code> 目录里。<br>  再将 <code>d:\website\php\</code>目录中的 <code>php5ts.dll</code> 和 <code>libMySQL.dll</code>两个文件，一起复制到 <code>c:\windows\system</code> 或 <code>c:\windows\system32</code> 目录中。<br>  用文本编辑软件打开 <code>d:\apache\apache2\conf\httpd.conf</code> 文件，首先找到 <code>DocumentRoot</code> 一行，将其后的路径修改为 web 服务的主目录，例如：<code>DocumentRoot &amp;quot;D:/website/public_html&amp;quot;</code>；<br>  然后找到 <code>DirectoryIndex</code> 一行，在行末加上 <code>index.htm index.php</code>，例如：<code>DirectoryIndex index.html index.html.var index.htm index.php</code><br>  为 Apache 安装 Php 可以从下列两种安装模式中任选其一，建议使用模块化安装。<br>  仍然是编辑 <code>d:\apache\conf\httpd.conf</code> 文件：</p>
+<ul>
+<li>模块化安装配置：<br>找到 <code>#LoadModule ssl_module modules/mod_ssl.so</code> 这行，在此行后增加一行：   <code>LoadModule php5_module d:/website/php/php5apache2.dll</code>找到 <code>AddType application/x-gzip .gz .tgz</code>，在此行后增加一行：<code>AddType application/x-httpd-php .php</code></li>
+<li>CGI安装配置：<br>找到 <code>AddType application/x-gzip .gz .tgz</code>，在此行后增加三行：<code>ScriptAlias /php/ &amp;quot;d:/website/php/&amp;quot;</code>, <code>AddType application/x-httpd-php .php;</code>,<code>Action application/x-httpd-php &amp;quot;/php/php-cgi.exe&amp;quot;</code><br>注：以上两种安装模式中的 <code>d:/website/php/</code>是指 php 5.03 的安装目录路径，请视具体情况更改。<p></p>  <p> 重新启动 Apache 服务。</p>  <p> 到这里，Apache + Php 环境基本已经配置完成，在 web 根目录（以上例即 d:\website\public_html\ 目录）中，用记事本创建一个 <code>phpinfo.php</code> 文件，其内容如下：<code>&lt;?echo phpinfo();?&gt;</code><br>然后，在浏览器中打开 <a href="http://localhost/phpinfo.php" target="_blank" rel="external">http://localhost/phpinfo.php</a> ，如果看到 Php 配置输出信息，就说明配置正常。</p></li>
+</ul>
+</li>
+<li><p>二：安装并配置 MySQL</p>  <p></p>
+<p>  从 MySQL 官方站下载 MySQL 4.1.10 压缩包，解压缩后会有一个EXE安装文件，运行以安装，将 MySQL 安装到 d:\website\mysql\，安装完成后可以直接启动配置向导，完成 MySQL 的配置。</p>  <p></p>
+</li>
+<li><p>三、配置 php.ini 并测试 MySQL</p>
+<p>  用文本编辑软件打开 c:\windows\php.ini 文件，然后修改以下内容：   <br> 将 extension_dir = &quot;./&quot; 改为 extension_dir = &quot;d:/website/php/ext&quot;    <br> 将 ;extension=php_MySQL.dll 行首的’;’去掉；    <br> 将 ;extension=php_mbstring.dll 行首的“;”去掉；    <br> 将 ;session.save_path = &quot;/tmp&quot; 改为 session.save_path = &quot;D:/website/php/session_temp&quot;; （即将行首的’;’去掉，并设置保存session的目录）</p>  <p> 重新启动 Apache 服务。   <br> 到这里，Apache + Php + MySQL 就基本配置完成了，在Web根目录下（即 d:\website\public_html\ 目录）中，用文本编辑软件创建一个 testdb.php 文件，其内容如下：</p>  <p>&lt;?php   <br>$link=MySQL_connect(’MySQL服务器名’,’MySQL用户名’,’密码’);    <br>if(!$link) echo &quot;Error !&quot;;    <br>else echo &quot;Ok!&quot;;    <br>MySQL_close();    <br>?&gt;</p>  <p>用浏览器打开 <a href="http://localhost/testdb.php" target="_blank" rel="external">http://localhost/testdb.php</a> 如果看到输出 OK! 就说明配置正常。</p>  <p></p>
+</li>
+<li><p>四、phpMyAdmin 的安装配置</p>
+<p>  从 phpMyAdmin官方网站下载 phpMyAdmin-2.6.1-pl3.zip，然后将其解压缩到WEB根目录（即 d:\website\public_html\ 目录）中，重命名文件夹为 phpmyadmin（这个随便，你可以填写任何你愿意使用的名字）。</p>  <p> 用文本编辑软件打开 d:\website\public_html\phpmyadmin\config.inc.php 文件，找到这两行内容：   <br>$cfg[’Servers’][$i][’user’] = ‘root’;    <br>$cfg[’Servers’][$i][’password’] = ‘123456′;</p>  <p> 分别填上 MySQL 的用户和密码即可。如不是本地使用，最好加上验证：</p>  <p> 即将：$cfg[’Servers’][$i][’auth_type’] = ‘config’; 修改为 $cfg[’Servers’][$i][’auth_type’] = ‘http’;</p>  <p> 最后再设置一下 phpmyadmin 的路径，即将 $cfg[’PmaAbsoluteUri’] = ”; 改为 $cfg[’PmaAbsoluteUri’] = ‘<a href="http://localhost/phpmyadmin%27;" target="_blank" rel="external">http://localhost/phpmyadmin’;</a></p>  <p></p>
+</li>
+<li><p>五、WordPress 的安装</p>
+<p>  首先在MySQL中为wordpress创建一个新的数据库，特别提示：推荐使用二进制（binary）编码的数据库，否则将有可能导致 Wordpress 出现乱码；   <br> 其次从Wordpress官方网站下载压缩包，然后将 wordpress 解压缩到网页根目录（pub_html）下，并用记事本打开 wp-config-sample.php 文件，编辑如下字段：    <br> // <strong> MySQL settings </strong> //    <br> define(’DB_NAME’, ‘database_name’); // 数据库名    <br> define(’DB_USER’, ‘MySQL_user’); // MYSQL用户名    <br> define(’DB_PASSWORD’, ‘MySQL_pwd’); // MYSQL用户密码    <br> define(’DB_HOST’, ‘localhost’); // 一般情况下保持 localhost 即可    <br> 做完以上更改，保存退出，并将文件改名为 wp-config.php 文件。</p>  <p> 最后运行 <a href="http://localhost/wp/wp-admin/install.php" target="_blank" rel="external">http://localhost/wp/wp-admin/install.php</a> 根据向导完成安装，需要注意的是，安装向导的最后一步会随机生成登录密码，你需要记录下这个密码，然后以此用户名、密码登录，在后台管理的 user 中修改密码、配置WP的属性等等……</p>  <p>OK，经过上述步骤，一个 Apache + Php + MySQL + phpMyAdmin + Wordpress 的环境就基本上搭建好啦，呵呵，尽管还比较简陋。</p>  <p>PS.顺便推荐几个较好的程序：</p>  <p><a href="http://awstats.sourceforge.net/AWstats" target="_blank" rel="external">http://awstats.sourceforge.net/AWstats</a> ；    <br><a href="http://www.sixapart.com/movabletype/MovableType" target="_blank" rel="external">http://www.sixapart.com/movabletype/MovableType</a> ；    <br><a href="http://www.mamboserver.com/Mambo" target="_blank" rel="external">http://www.mamboserver.com/Mambo</a> 。</p><p></p><p></p>
+</li>
+</ul>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/apache/">apache</a> <a class="tag tag--primary tag--small t-link" href="/tags/mysql/">mysql</a> <a class="tag tag--primary tag--small t-link" href="/tags/php/">php</a> <a class="tag tag--primary tag--small t-link" href="/tags/wordpress/">wordpress</a> <a class="tag tag--primary tag--small t-link" href="/tags/架设/">架设</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2006/09/22/picasaweb/"  data-tooltip="picasaweb">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2006/07/27/phpwind-wamp-10/" data-tooltip="PHPWind Wamp 1.0 正式版发布">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://hivandu.github.io/2006/07/28/apache-php-mysql-wordpress/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://hivandu.github.io/2006/07/28/apache-php-mysql-wordpress/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://hivandu.github.io/2006/07/28/apache-php-mysql-wordpress/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2017 Hivan Du. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2006/09/22/picasaweb/"  data-tooltip="picasaweb">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2006/07/27/phpwind-wamp-10/" data-tooltip="PHPWind Wamp 1.0 正式版发布">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://hivandu.github.io/2006/07/28/apache-php-mysql-wordpress/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://hivandu.github.io/2006/07/28/apache-php-mysql-wordpress/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://hivandu.github.io/2006/07/28/apache-php-mysql-wordpress/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://hivandu.github.io/2006/07/28/apache-php-mysql-wordpress/">
+                <i class="fa fa-google-plus"></i><span class="">Share on Google Plus</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://hivandu.github.io/2006/07/28/apache-php-mysql-wordpress/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://hivandu.github.io/2006/07/28/apache-php-mysql-wordpress/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Hivan Du</h4>
+        
+            <h5 id="about-card-bio"><p>author.bio</p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>author.job</p>
+
+            </h5>
+        
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/scrip-tu4ziscb5jrkjxubeugdgizktyuugflfq5jvgz4agzzmwifuq01g1lmq8giw.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+
+
+</html>

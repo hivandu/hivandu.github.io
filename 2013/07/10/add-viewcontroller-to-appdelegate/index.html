@@ -1,0 +1,406 @@
+
+<!DOCTYPE html>
+<html lang="null">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Duart">
+    <title>Add ViewController to AppDelegate - Duart</title>
+    <meta name="author" content="Hivan Du">
+    
+    
+    
+    <meta name="description" content="之前一直是Nib形式建立ViewController视图，这样建立以后关系都是已经写好的，可是Nib有自己的弊端，虽然可视化很方便，可是无法很方便的管理自己的代码，并且灵活性不够。于是就想还是自己纯粹手动代码建立视图来的灵活一点。">
+<meta name="keywords" content="ViewController,xcode">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Add ViewController to AppDelegate">
+<meta property="og:url" content="http://hivandu.github.io/2013/07/10/add-viewcontroller-to-appdelegate/index.html">
+<meta property="og:site_name" content="Duart">
+<meta property="og:description" content="之前一直是Nib形式建立ViewController视图，这样建立以后关系都是已经写好的，可是Nib有自己的弊端，虽然可视化很方便，可是无法很方便的管理自己的代码，并且灵活性不够。于是就想还是自己纯粹手动代码建立视图来的灵活一点。">
+<meta property="og:updated_time" content="2013-12-17T14:02:22.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Add ViewController to AppDelegate">
+<meta name="twitter:description" content="之前一直是Nib形式建立ViewController视图，这样建立以后关系都是已经写好的，可是Nib有自己的弊端，虽然可视化很方便，可是无法很方便的管理自己的代码，并且灵活性不够。于是就想还是自己纯粹手动代码建立视图来的灵活一点。">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-27vrduj1jopliavvnzi7ibndpmbvg7lzo4a2uswrsi4m5vwauf2qi8s1v3or.min.css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">Duart</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="4">
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">Search</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/atom.xml"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            Add ViewController to AppDelegate
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Wed Jul 10 2013 14:41:43 GMT+0800">
+	
+		    Jul 10, 2013
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/develop/">develop</a>
+
+
+    
+</div>
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>之前一直是Nib形式建立ViewController视图，这样建立以后关系都是已经写好的，可是Nib有自己的弊端，虽然可视化很方便，可是无法很方便的管理自己的代码，并且灵活性不够。于是就想还是自己纯粹手动代码建立视图来的灵活一点。</p>
+<a id="more"></a>
+<p>就这点东西简直搞死我了，因为之前Nib建立视图建立好的XIBs文件和ViewController关系是绑定好的，并且在AppDelegate中也有相应的关系绑定，一旦自己建立了，就一头懵！</p>
+<h3 id="建立”ViewController”视图"><a href="#建立”ViewController”视图" class="headerlink" title="建立”ViewController”视图"></a>建立”ViewController”视图</h3><p>首先，我们需要建立好ViewController视图，然后在AppDelegate中将其导入，并声明属性。加入我们建立的是NHDemoViewController视图，那么我们在AppDelegate.h中将其导入，并声明属性，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">#import  &lt;UIKit/UIKit.h&gt;</div><div class="line">#import &quot;NHdemoViewController&quot;</div><div class="line"></div><div class="line">@interface NHAppDelegate : UIResponder &lt;UIApplicationDelegate&gt;</div><div class="line"></div><div class="line">@property (strong, nonatomic) UIWindow *window;</div><div class="line">@property (strong, nonatomic) NHDemoViewController *demoView;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<p>然后在AppDelegate.m文件中实现，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions</div><div class="line">&#123;</div><div class="line">self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];</div><div class="line">// 实现</div><div class="line">self.demoView = [[[NHDemoViewController alloc] initWithNibName:nil bundle: nil] autorelease];</div><div class="line">self.window.rootViewController = self.demoView;</div><div class="line"></div><div class="line">self.window.backgroundColor = [UIColor whiteColor];</div><div class="line">[self.window makeKeyAndVisible];</div><div class="line">return YES;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这样心建立的NHDemoViewControoler视图就会在App启动的时候出现了。</p>
+<p>啊，对了，如果版本较低的Xcode，记得要自己手动写上: <code>@synthesize dragonView = _dragonView;</code></p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/ViewController/">ViewController</a> <a class="tag tag--primary tag--small t-link" href="/tags/xcode/">xcode</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2013/08/18/mac-max_open/"  data-tooltip="Mac MAX_open">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2013/05/01/macxian-shi-yin-cang-wen-jian/" data-tooltip="Mac显示隐藏文件">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://hivandu.github.io/2013/07/10/add-viewcontroller-to-appdelegate/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://hivandu.github.io/2013/07/10/add-viewcontroller-to-appdelegate/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://hivandu.github.io/2013/07/10/add-viewcontroller-to-appdelegate/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2017 Hivan Du. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2013/08/18/mac-max_open/"  data-tooltip="Mac MAX_open">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2013/05/01/macxian-shi-yin-cang-wen-jian/" data-tooltip="Mac显示隐藏文件">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://hivandu.github.io/2013/07/10/add-viewcontroller-to-appdelegate/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://hivandu.github.io/2013/07/10/add-viewcontroller-to-appdelegate/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://hivandu.github.io/2013/07/10/add-viewcontroller-to-appdelegate/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://hivandu.github.io/2013/07/10/add-viewcontroller-to-appdelegate/">
+                <i class="fa fa-google-plus"></i><span class="">Share on Google Plus</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://hivandu.github.io/2013/07/10/add-viewcontroller-to-appdelegate/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://hivandu.github.io/2013/07/10/add-viewcontroller-to-appdelegate/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Hivan Du</h4>
+        
+            <h5 id="about-card-bio"><p>author.bio</p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>author.job</p>
+
+            </h5>
+        
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/scrip-tu4ziscb5jrkjxubeugdgizktyuugflfq5jvgz4agzzmwifuq01g1lmq8giw.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+
+
+</html>

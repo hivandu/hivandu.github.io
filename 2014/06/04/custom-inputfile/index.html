@@ -1,0 +1,475 @@
+
+<!DOCTYPE html>
+<html lang="null">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Duart">
+    <title>自定义文件上传框 - Duart</title>
+    <meta name="author" content="Hivan Du">
+    
+    
+    
+    <meta name="description" content="其实这根本就不值得写出来，只是可能前几步大家都做了，只是最后一步就忽略了。我们在自定义input:file的时候，一般来说都是外边包一层，里边在写一个&amp;lt;input type=&amp;quot;file&amp;quot;&amp;gt;, 然后将其透明值设置成0,然后再定义外层的样式来达到自定义的目的。">
+<meta name="keywords" content="code">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="自定义文件上传框">
+<meta property="og:url" content="http://hivandu.github.io/2014/06/04/custom-inputfile/index.html">
+<meta property="og:site_name" content="Duart">
+<meta property="og:description" content="其实这根本就不值得写出来，只是可能前几步大家都做了，只是最后一步就忽略了。我们在自定义input:file的时候，一般来说都是外边包一层，里边在写一个&amp;lt;input type=&amp;quot;file&amp;quot;&amp;gt;, 然后将其透明值设置成0,然后再定义外层的样式来达到自定义的目的。">
+<meta property="og:image" content="https://farm6.staticflickr.com/5196/14320298586_2c05c821ac_o_d.png">
+<meta property="og:image" content="https://farm4.staticflickr.com/3874/14156755400_e1e91a66b6_o_d.png">
+<meta property="og:image" content="https://farm4.staticflickr.com/3903/14343379175_89590a504f_o_d.png">
+<meta property="og:image" content="https://farm4.staticflickr.com/3920/14342594154_1cb4af92b4_o_d.png">
+<meta property="og:image" content="https://farm4.staticflickr.com/3926/14156914197_ccb8fd7e43_o_d.png">
+<meta property="og:updated_time" content="2014-06-04T09:13:49.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="自定义文件上传框">
+<meta name="twitter:description" content="其实这根本就不值得写出来，只是可能前几步大家都做了，只是最后一步就忽略了。我们在自定义input:file的时候，一般来说都是外边包一层，里边在写一个&amp;lt;input type=&amp;quot;file&amp;quot;&amp;gt;, 然后将其透明值设置成0,然后再定义外层的样式来达到自定义的目的。">
+<meta name="twitter:image" content="https://farm6.staticflickr.com/5196/14320298586_2c05c821ac_o_d.png">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-27vrduj1jopliavvnzi7ibndpmbvg7lzo4a2uswrsi4m5vwauf2qi8s1v3or.min.css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">Duart</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="4">
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">Search</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/atom.xml"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            自定义文件上传框
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Wed Jun 04 2014 15:12:48 GMT+0800">
+	
+		    Jun 04, 2014
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/develop/">develop</a>
+
+
+    
+</div>
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>其实这根本就不值得写出来，只是可能前几步大家都做了，只是最后一步就忽略了。<br><img src="https://farm6.staticflickr.com/5196/14320298586_2c05c821ac_o_d.png" alt=""><br>我们在自定义<code>input:file</code>的时候，一般来说都是外边包一层，里边在写一个<code>&lt;input type=&quot;file&quot;&gt;</code>, 然后将其透明值设置成<code>0</code>,然后再定义外层的样式来达到自定义的目的。</p>
+<a id="more"></a>
+<p>HTML：</p>
+<pre><code>&lt;div class=&quot;upfileOutWrap&quot;&gt;
+  &lt;div class=&quot;upfileWrap&quot;&gt;&lt;input type=&quot;file&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;upfileBG&quot;&gt;upload image&lt;/div&gt;
+&lt;/div&gt;
+</code></pre><p><strong>CSS：</strong></p>
+<pre><code>.upfileOutWrap { 
+  cursor: pointer; 
+  width: 199px;  height: 42px; 
+  line-height: 42px; 
+  position: relative;
+}
+.upfileWrap{
+  width: 100%;  height: 100%; 
+  position: absolute; 
+  top:-1; left: -1; 
+  z-index:2;
+}
+.upfileWrap input{
+  opacity: 0; filter: alpha(opacity=0); 
+  cursor: pointer; 
+  width: 100%; height: 100%;
+  font-size: 32px;
+}
+.upfileBG{
+  width:100%; height:100%; 
+  background: url(./images/upload.png) no-repeat; 
+  font-size: 14px; 
+  color: white; 
+  position: absolute; 
+  top:-1; left: -1; 
+  padding-left:10px; 
+  z-index:1;
+}
+</code></pre><p><img src="https://farm4.staticflickr.com/3874/14156755400_e1e91a66b6_o_d.png" alt=""></p>
+<p>可是这个时候还是有点问题，就是万恶的IE下边。</p>
+<p>IE下边的<code>input</code>标签默认都是有光标的，<code>:file</code>也不例外，而且IE下边必须要点击”Browse”或者双击<code>input</code>输入框才会有效果。那么这个时候在IE下就会出现如图的莫名其妙的问题，注意左边的光标，并且还需要双击才会弹出文件选择窗口。<br><img src="https://farm4.staticflickr.com/3903/14343379175_89590a504f_o_d.png" alt=""></p>
+<p>这个时候如果你把input透明度设置成100显示出来，就会发现原来是这样的。</p>
+<p><img src="https://farm4.staticflickr.com/3920/14342594154_1cb4af92b4_o_d.png" alt=""></p>
+<p>所以这个时候，如果是其他标准浏览器，那么设置好input的高宽就搞定了，而IE下边，还必须考虑如何让”Browse”按钮能铺满我们所自定的div样式。这样我们才能实现IE下不出现光标，而且单击弹出文件选择窗口。</p>
+<p>这个时候，看似毫无办法，其实我们可以选择增加字体的大小。当字体变成<code>32px</code>的时候，就是这个样子的。<br><img src="https://farm4.staticflickr.com/3926/14156914197_ccb8fd7e43_o_d.png" alt=""></p>
+<p>好了，这样我们就搞定了，将<code>input:file</code> 继续设置为完全透明。那个可恶的光标不见了，我们也可以实现IE下单击。当然，字体到底用多大的，要视你自己定义的视觉效果来看，自己调试吧。</p>
+<p><strong> Final CSS: </strong></p>
+<pre><code>.upfileOutWrap { 
+  cursor: pointer; 
+  width: 199px;  height: 42px; 
+  line-height: 42px; 
+  position: relative;
+}
+.upfileWrap{
+  width: 100%;  height: 100%; 
+  position: absolute; 
+  top:-1; left: -1; 
+  z-index:2;
+}
+.upfileWrap input{
+  opacity: 0; filter: alpha(opacity=0); 
+  cursor: pointer; 
+  width: 100%; height: 100%;
+}
+.upfileBG{
+  width:100%; height:100%; 
+  background: url(./images/upload.png) no-repeat; 
+  font-size: 14px; 
+  color: white; 
+  position: absolute; 
+  top:-1; left: -1; 
+  padding-left:10px; 
+  z-index:1;
+}
+</code></pre>
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/code/">code</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2014/06/04/25X2de6cifang/"  data-tooltip="纪念">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2014/05/19/just-breathable/" data-tooltip="just breathable">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://hivandu.github.io/2014/06/04/custom-inputfile/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://hivandu.github.io/2014/06/04/custom-inputfile/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://hivandu.github.io/2014/06/04/custom-inputfile/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2017 Hivan Du. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2014/06/04/25X2de6cifang/"  data-tooltip="纪念">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2014/05/19/just-breathable/" data-tooltip="just breathable">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://hivandu.github.io/2014/06/04/custom-inputfile/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://hivandu.github.io/2014/06/04/custom-inputfile/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://hivandu.github.io/2014/06/04/custom-inputfile/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://hivandu.github.io/2014/06/04/custom-inputfile/">
+                <i class="fa fa-google-plus"></i><span class="">Share on Google Plus</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://hivandu.github.io/2014/06/04/custom-inputfile/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://hivandu.github.io/2014/06/04/custom-inputfile/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Hivan Du</h4>
+        
+            <h5 id="about-card-bio"><p>author.bio</p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>author.job</p>
+
+            </h5>
+        
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/scrip-tu4ziscb5jrkjxubeugdgizktyuugflfq5jvgz4agzzmwifuq01g1lmq8giw.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+
+
+</html>

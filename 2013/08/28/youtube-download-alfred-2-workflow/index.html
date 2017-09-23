@@ -1,0 +1,414 @@
+
+<!DOCTYPE html>
+<html lang="null">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Duart">
+    <title>Youtube Download Alfred 2 Workflow - Duart</title>
+    <meta name="author" content="Hivan Du">
+    
+    
+    
+    <meta name="description" content="在Youtube上浏览某个视频的时候，有没有很想下下来的冲动？毕竟有的时候VPN和SSH都不是太给力的时候，Youtube并不流畅，是慢慢加载？反正我是喜欢下载到本地。">
+<meta name="keywords" content="Alfred,workflow">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Youtube Download Alfred 2 Workflow">
+<meta property="og:url" content="http://hivandu.github.io/2013/08/28/youtube-download-alfred-2-workflow/index.html">
+<meta property="og:site_name" content="Duart">
+<meta property="og:description" content="在Youtube上浏览某个视频的时候，有没有很想下下来的冲动？毕竟有的时候VPN和SSH都不是太给力的时候，Youtube并不流畅，是慢慢加载？反正我是喜欢下载到本地。">
+<meta property="og:image" content="http://farm4.staticflickr.com/3831/9613403353_04b6f68151_z.jpg">
+<meta property="og:updated_time" content="2014-11-07T11:12:21.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Youtube Download Alfred 2 Workflow">
+<meta name="twitter:description" content="在Youtube上浏览某个视频的时候，有没有很想下下来的冲动？毕竟有的时候VPN和SSH都不是太给力的时候，Youtube并不流畅，是慢慢加载？反正我是喜欢下载到本地。">
+<meta name="twitter:image" content="http://farm4.staticflickr.com/3831/9613403353_04b6f68151_z.jpg">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-27vrduj1jopliavvnzi7ibndpmbvg7lzo4a2uswrsi4m5vwauf2qi8s1v3or.min.css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">Duart</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="4">
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">Search</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/atom.xml"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            Youtube Download Alfred 2 Workflow
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Wed Aug 28 2013 14:31:23 GMT+0800">
+	
+		    Aug 28, 2013
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/develop/">develop</a>
+
+
+    
+</div>
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>在Youtube上浏览某个视频的时候，有没有很想下下来的冲动？毕竟有的时候VPN和SSH都不是太给力的时候，Youtube并不流畅，是慢慢加载？反正我是喜欢下载到本地。</p>
+<a id="more"></a>
+<p>Chrome有很多下载Utube视频的插件，而我今天要介绍的，是Alfred的workflow -&gt; Youtube Download Alfred 2 Workflow。</p>
+<p><img src="http://farm4.staticflickr.com/3831/9613403353_04b6f68151_z.jpg" alt="Youtube Download Alfred 2 Wordflow"></p>
+<p>在使用这个workflow的之前，我们还需要做一些工作，当然，设置完毕之后是很爽的，so，之前的麻烦都是值得的，不嫌麻烦的就跟着我一起做吧。</p>
+<p>首先，我们需要下载<a href="http://rg3.github.io/youtube-dl/" target="_blank" rel="external">youtube-dl</a>,我们需要wget命令来获取它，好吧，比较麻烦的是，OSX默认是没有wget命令的，So,让我们再绕一圈吧，先去安装wget.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$ curl -O http://ftp.gnu.org/gnu/wget/wget-1.13.tar.gz</div><div class="line">$ tar -xzvf wget-1.13.tar.gz</div><div class="line">$ cd wget-1.13</div><div class="line">$ ./configure --with-ssl=openssl</div><div class="line">$ make</div><div class="line">$ sudo make install</div></pre></td></tr></table></figure>
+<p>测试一个wget命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ wget --help</div></pre></td></tr></table></figure>
+<p>OK，最后让我们删除下载的文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ cd .. &amp;&amp; rm -rf wget-*</div></pre></td></tr></table></figure>
+<p>然后，我们可以获取youtube-dl了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ sudo wget https://yt-dl.org/downloads/2013.08.28/youtube-dl -O /usr/local/bin/youtube-dl</div><div class="line">$ sudo chmod a+x /usr/local/bin/youtube-dl</div></pre></td></tr></table></figure>
+<p>之后，去下载我们今天的主角,<a href="http://dferg.us/youtube-download-alfred-2-workflow/" target="_blank" rel="external">Youtube Download Alfred 2 Workflow</a>.</p>
+<p>好了，尽情享用吧！</p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/Alfred/">Alfred</a> <a class="tag tag--primary tag--small t-link" href="/tags/workflow/">workflow</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2013/09/02/white-spacenowrap/"  data-tooltip="white-space:nowrap">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2013/08/27/hexo-generator-feed/" data-tooltip="hexo-generator-feed">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://hivandu.github.io/2013/08/28/youtube-download-alfred-2-workflow/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://hivandu.github.io/2013/08/28/youtube-download-alfred-2-workflow/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://hivandu.github.io/2013/08/28/youtube-download-alfred-2-workflow/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2017 Hivan Du. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2013/09/02/white-spacenowrap/"  data-tooltip="white-space:nowrap">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2013/08/27/hexo-generator-feed/" data-tooltip="hexo-generator-feed">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://hivandu.github.io/2013/08/28/youtube-download-alfred-2-workflow/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://hivandu.github.io/2013/08/28/youtube-download-alfred-2-workflow/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://hivandu.github.io/2013/08/28/youtube-download-alfred-2-workflow/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://hivandu.github.io/2013/08/28/youtube-download-alfred-2-workflow/">
+                <i class="fa fa-google-plus"></i><span class="">Share on Google Plus</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://hivandu.github.io/2013/08/28/youtube-download-alfred-2-workflow/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://hivandu.github.io/2013/08/28/youtube-download-alfred-2-workflow/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Hivan Du</h4>
+        
+            <h5 id="about-card-bio"><p>author.bio</p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>author.job</p>
+
+            </h5>
+        
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/scrip-tu4ziscb5jrkjxubeugdgizktyuugflfq5jvgz4agzzmwifuq01g1lmq8giw.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+
+
+</html>

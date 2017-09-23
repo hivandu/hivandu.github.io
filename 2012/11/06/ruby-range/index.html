@@ -1,0 +1,424 @@
+
+<!DOCTYPE html>
+<html lang="null">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Duart">
+    <title>Ruby Range - Duart</title>
+    <meta name="author" content="Hivan Du">
+    
+    
+    
+    <meta name="description" content="Range在概念上看是非常直观的。不过在实际的使用中，我们可能会遇到一些令人混淆的东西。看如下代码：123digits = 0..9     #0到9scale1 = 0..10    #0到10scale2 = 0...10   #0到9,不包含10">
+<meta name="keywords" content="Ruby">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Ruby Range">
+<meta property="og:url" content="http://hivandu.github.io/2012/11/06/ruby-range/index.html">
+<meta property="og:site_name" content="Duart">
+<meta property="og:description" content="Range在概念上看是非常直观的。不过在实际的使用中，我们可能会遇到一些令人混淆的东西。看如下代码：123digits = 0..9     #0到9scale1 = 0..10    #0到10scale2 = 0...10   #0到9,不包含10">
+<meta property="og:updated_time" content="2015-11-20T08:21:42.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ruby Range">
+<meta name="twitter:description" content="Range在概念上看是非常直观的。不过在实际的使用中，我们可能会遇到一些令人混淆的东西。看如下代码：123digits = 0..9     #0到9scale1 = 0..10    #0到10scale2 = 0...10   #0到9,不包含10">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-27vrduj1jopliavvnzi7ibndpmbvg7lzo4a2uswrsi4m5vwauf2qi8s1v3or.min.css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">Duart</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="4">
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">Search</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/atom.xml"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            Ruby Range
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Tue Nov 06 2012 12:19:48 GMT+0800">
+	
+		    Nov 06, 2012
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/develop/">develop</a>
+
+
+    
+</div>
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>Range在概念上看是非常直观的。不过在实际的使用中，我们可能会遇到一些令人混淆的东西。<br>看如下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">digits = 0..9     #0到9</div><div class="line">scale1 = 0..10    #0到10</div><div class="line">scale2 = 0...10   #0到9,不包含10</div></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p><code>..</code>操作符将包含上限，而<code>...</code>不包含上限。</p>
+<p>不过，Range不只是作用于数字类型，基本上对于任何的对象都有用，但结果是否有实际意义要看实际的情况了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">a = &apos;A&apos;..&apos;Z&apos;</div><div class="line">a.to_a.each&#123;|c| puts c&#125;</div></pre></td></tr></table></figure>
+<p>我们称..这样的Range为”关闭”的Range,而<code>...</code>的Range为”开放”的Range。<br>使用first和last方法(或同义方法begin和end)，可以获取一个Range的开始和结束元素：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">r1 = 3..6</div><div class="line">r2 = 3...6</div><div class="line">r1a, r1b = r1.first, r1.last    # 3, 6</div><div class="line">r1c, r1d = r1.begin, r1.end     # 3, 6</div><div class="line">r2a, r2b = r2.begin, r2.end     # 3, 6 (注意：不是3和5)</div></pre></td></tr></table></figure>
+<p><code>exclude_end?</code>方法可以得到Range是否排除上限项(即是否是…的Range)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">r1.exclude_end?   # false</div><div class="line">r2.exclude_end?   # true</div></pre></td></tr></table></figure>
+<h3 id="对Range进行迭代"><a href="#对Range进行迭代" class="headerlink" title="对Range进行迭代"></a>对Range进行迭代</h3><p>Range是可迭代的，不过，为了更加实际有用，确认你的Range包含的对象已经有一个有意义的succ方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(3..6).each &#123;|x| puts x &#125;</div></pre></td></tr></table></figure>
+<p>我们看一个有趣的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">r1 = &quot;7&quot;..&quot;9&quot;</div><div class="line">r2 = &quot;7&quot;..&quot;10&quot;</div><div class="line">r1.each &#123;|x| puts x &#125;   # 打印出7,8,9</div><div class="line">r2.each &#123;|x| puts x &#125;   # 未打印任何东西</div></pre></td></tr></table></figure>
+<p>为什么会出现这样的情况？这是因为这里都是字符串，由于r1中，”7”比”9”小，所以，它是个合理的Range；而表达式r2中， “7”比”10”大，下限大于了上限，就不合理了。</p>
+<p>浮点数的Range可以进行迭代么？我们来看一下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">fr = 2.0..2.2</div><div class="line">fr.each &#123;|x| puts x &#125;   # 错误!</div></pre></td></tr></table></figure>
+<p>为什么浮点数不可以迭代呢？因为浮点数对象没有succ方法。是因为不能实现么？理论上，这是没有问题的，但是，实际上，如果浮点数 Range迭代，这有可能出现：很小的一个范围，将产生非常庞大的迭代量。这对语言的实现有非常高的要求。况且，这样的功能，极少有用到。</p>
+<h3 id="测试范围关系"><a href="#测试范围关系" class="headerlink" title="测试范围关系"></a>测试范围关系</h3><p>include?方法（同义方法member?）可以判断一个值是否处在当前的Range中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">r1 = 23456..34567</div><div class="line">x = 14142</div><div class="line">y = 31416</div><div class="line">r1.include?(x)      # false</div><div class="line">r1.include?(y)      # true</div></pre></td></tr></table></figure>
+<p>它内部是怎么实现的呢？其实，它只是把给出的值和该Range的上限做比较得出的（所以，它依赖与一个有意义的&lt;=&gt;）。</p>
+<h3 id="转化为数组"><a href="#转化为数组" class="headerlink" title="转化为数组"></a>转化为数组</h3><p>很简单，to_a方法搞定：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">r = 3..12</div><div class="line">arr = r.to_a     # [3,4,5,6,7,8,9,10,11,12]</div></pre></td></tr></table></figure>
+<h3 id="反向的Range"><a href="#反向的Range" class="headerlink" title="反向的Range"></a>反向的Range</h3><p>我们前面讨论过了下限大于上限的Range，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">r = 6..3</div><div class="line">x = r.begin              # 6</div><div class="line">y = r.end                # 3</div><div class="line">flag = r.end_excluded?   # false</div></pre></td></tr></table></figure>
+<p>它确实是个合法的Range，但是，它包含的内容缺并不是我们想像的那样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">arr = r.to_a       # 得到空的数组[]</div><div class="line">r.each &#123;|x| p x&#125;   # 无结果</div><div class="line">r.include?(5)      # false</div></pre></td></tr></table></figure>
+<p>那么说反向Range是没有什么用处的咯？那倒不是，我们可以在字符串和数组中使用反向Range：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">string = &quot;flowery&quot;</div><div class="line">str1   = string[0..-2]   # &quot;flower&quot;</div><div class="line">str2   = string[1..-2]   # &quot;lower&quot;</div><div class="line">str3   = string[-5..-3]  # &quot;owe&quot; (其实这是个正向的Range)</div></pre></td></tr></table></figure>
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/Ruby/">Ruby</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2013/03/08/chrome-all-download/"  data-tooltip="chrome-all-download">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2012/11/05/ruby-「file」/" data-tooltip="ruby-「file」">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://hivandu.github.io/2012/11/06/ruby-range/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://hivandu.github.io/2012/11/06/ruby-range/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://hivandu.github.io/2012/11/06/ruby-range/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2017 Hivan Du. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2013/03/08/chrome-all-download/"  data-tooltip="chrome-all-download">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2012/11/05/ruby-「file」/" data-tooltip="ruby-「file」">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://hivandu.github.io/2012/11/06/ruby-range/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://hivandu.github.io/2012/11/06/ruby-range/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://hivandu.github.io/2012/11/06/ruby-range/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://hivandu.github.io/2012/11/06/ruby-range/">
+                <i class="fa fa-google-plus"></i><span class="">Share on Google Plus</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://hivandu.github.io/2012/11/06/ruby-range/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://hivandu.github.io/2012/11/06/ruby-range/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Hivan Du</h4>
+        
+            <h5 id="about-card-bio"><p>author.bio</p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>author.job</p>
+
+            </h5>
+        
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/scrip-tu4ziscb5jrkjxubeugdgizktyuugflfq5jvgz4agzzmwifuq01g1lmq8giw.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+
+
+</html>

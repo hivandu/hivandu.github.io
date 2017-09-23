@@ -1,0 +1,407 @@
+
+<!DOCTYPE html>
+<html lang="null">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Duart">
+    <title>Ruby Chinese input error - Duart</title>
+    <meta name="author" content="Hivan Du">
+    
+    
+    
+    <meta name="description" content="这里是有需求了才知道有麻烦了.一直按照剧本来演, 根本就不知道自己再超脱剧本之外有多大的创造力.而当自己真的开始尝试了以后,才知道有这样那样诸多的问题.">
+<meta name="keywords" content="Ruby,Chinese">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Ruby Chinese input error">
+<meta property="og:url" content="http://hivandu.github.io/2012/09/16/ruby-chinese-input-error/index.html">
+<meta property="og:site_name" content="Duart">
+<meta property="og:description" content="这里是有需求了才知道有麻烦了.一直按照剧本来演, 根本就不知道自己再超脱剧本之外有多大的创造力.而当自己真的开始尝试了以后,才知道有这样那样诸多的问题.">
+<meta property="og:updated_time" content="2015-11-20T08:23:38.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ruby Chinese input error">
+<meta name="twitter:description" content="这里是有需求了才知道有麻烦了.一直按照剧本来演, 根本就不知道自己再超脱剧本之外有多大的创造力.而当自己真的开始尝试了以后,才知道有这样那样诸多的问题.">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-27vrduj1jopliavvnzi7ibndpmbvg7lzo4a2uswrsi4m5vwauf2qi8s1v3or.min.css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">Duart</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="4">
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">Search</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/atom.xml"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            Ruby Chinese input error
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Sun Sep 16 2012 12:18:00 GMT+0800">
+	
+		    Sep 16, 2012
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/develop/">develop</a>
+
+
+    
+</div>
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>这里是有需求了才知道有麻烦了.一直按照剧本来演, 根本就不知道自己再超脱剧本之外有多大的创造力.而当自己真的开始尝试了以后,才知道有这样那样诸多的问题.</p>
+<a id="more"></a>
+<p>本来这次是想编写一个小程序,就是自用的一套工资结算程序.很简单的文字输入输出.而问题来了,无法打印出中文.当时给出的错误是 <code>invalid multibyte char (US-ASCII)</code>, 当然这个错误一眼就能看出来,是编码问题.在我之前写的博客里也有<a href="http://hivan.me/ruby-chinese-error-ascii/" target="_blank" rel="external">关于中文输入的错误</a>,按照传说中的秘籍来做就是再文件开头加上一个声明:<code># encoding: utf-8</code>, 不过这并不能完全解决.因为其实不是每一个人都用的是UTF-8代码编辑器来写的.我再任意操作系统下都使用的是”Sublime Text 2”,所以默认是UTF-8编码,而如果您使用的是Eclipse,那么您可以这个问题并不能如愿解决.原因就是Eclipse默认使用的将会是GBK,所以,请再 设置 -&gt; 工作空间 里将编码由GBK更改为UTF-8.</p>
+<p>另外要说明一下的是Ruby有一个很方便的测试程序,就是irb,原则上,任何Ruby程序都可以用irb进行方便的测试.当然,当你exit以后,这些程序就都作废了.我再irb中进行了中文输入测试,完全不行,会自动转码. 这个问题其实是在1.9.3版本上比较突出.解决的方法也很简单,就是没有安装readline的安装一下,而安装完readline以后问题依旧的,请从新编译一遍.方法如下:</p>
+<h3 id="1-安装Readline"><a href="#1-安装Readline" class="headerlink" title="1. 安装Readline"></a>1. 安装Readline</h3><p>安装Readline我是使用RVM安装的,当然,你首先也要安装RVM,具体的安装步骤可以参见Ruby-China</p>
+<h3 id="2-重新编译"><a href="#2-重新编译" class="headerlink" title="2. 重新编译"></a>2. 重新编译</h3><p>如果安装了Readline以后仍然不能输入中文,那么可能就需要从新编译Readline了,可能从新编译Ruby也可以,但是我还是选择了前者.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ cd $HOME/.rvm/src/ruby-1.9.3*/ext/readline</div><div class="line">$ ruby extconf.rb -- --with-readline-dir=&quot;/usr/local/Cellar/readline/6.2.2&quot;</div><div class="line">$ make install</div></pre></td></tr></table></figure>
+<p>然后再测试一下是否可以输入中文了:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">irb :001 &gt; &quot;这些傻逼愤青&quot;</div><div class="line">=&gt; &quot;这些傻逼愤青&quot;</div></pre></td></tr></table></figure>
+<p>OK,至此问题应该解决了.如果您的问题还没有解决,那暂时我也不知道该怎样做了!再问问其他大牛吧.</p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/Chinese/">Chinese</a> <a class="tag tag--primary tag--small t-link" href="/tags/Ruby/">Ruby</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2012/11/05/ruby-「file」/"  data-tooltip="ruby-「file」">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2012/07/27/ruby-chinese-error-ascii/" data-tooltip="Ruby 中文错误-ASCII">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://hivandu.github.io/2012/09/16/ruby-chinese-input-error/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://hivandu.github.io/2012/09/16/ruby-chinese-input-error/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://hivandu.github.io/2012/09/16/ruby-chinese-input-error/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2017 Hivan Du. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2012/11/05/ruby-「file」/"  data-tooltip="ruby-「file」">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2012/07/27/ruby-chinese-error-ascii/" data-tooltip="Ruby 中文错误-ASCII">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://hivandu.github.io/2012/09/16/ruby-chinese-input-error/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://hivandu.github.io/2012/09/16/ruby-chinese-input-error/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://hivandu.github.io/2012/09/16/ruby-chinese-input-error/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://hivandu.github.io/2012/09/16/ruby-chinese-input-error/">
+                <i class="fa fa-google-plus"></i><span class="">Share on Google Plus</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://hivandu.github.io/2012/09/16/ruby-chinese-input-error/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://hivandu.github.io/2012/09/16/ruby-chinese-input-error/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Hivan Du</h4>
+        
+            <h5 id="about-card-bio"><p>author.bio</p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>author.job</p>
+
+            </h5>
+        
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/scrip-tu4ziscb5jrkjxubeugdgizktyuugflfq5jvgz4agzzmwifuq01g1lmq8giw.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+
+
+</html>

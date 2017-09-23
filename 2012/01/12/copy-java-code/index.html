@@ -1,0 +1,465 @@
+
+<!DOCTYPE html>
+<html lang="null">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Duart">
+    <title>一段实现Copy的Java代码 - Duart</title>
+    <meta name="author" content="Hivan Du">
+    
+    
+    
+    <meta name="description" content="在DOS命中存在一个文件的复制命令(copy),例如,,将D盘中XX文件复制到D盘中并另命名为OO文件,则只要在命令行中输入copy即可完成.">
+<meta name="keywords" content="java,copy,code">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="一段实现Copy的Java代码">
+<meta property="og:url" content="http://hivandu.github.io/2012/01/12/copy-java-code/index.html">
+<meta property="og:site_name" content="Duart">
+<meta property="og:description" content="在DOS命中存在一个文件的复制命令(copy),例如,,将D盘中XX文件复制到D盘中并另命名为OO文件,则只要在命令行中输入copy即可完成.">
+<meta property="og:image" content="http://www.assoc-amazon.cn/e/ir?t=duart-23&l=as2&o=28&a=B002IIE012">
+<meta property="og:updated_time" content="2013-12-18T02:22:38.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一段实现Copy的Java代码">
+<meta name="twitter:description" content="在DOS命中存在一个文件的复制命令(copy),例如,,将D盘中XX文件复制到D盘中并另命名为OO文件,则只要在命令行中输入copy即可完成.">
+<meta name="twitter:image" content="http://www.assoc-amazon.cn/e/ir?t=duart-23&l=as2&o=28&a=B002IIE012">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-27vrduj1jopliavvnzi7ibndpmbvg7lzo4a2uswrsi4m5vwauf2qi8s1v3or.min.css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">Duart</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="4">
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">Search</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/atom.xml"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            一段实现Copy的Java代码
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Thu Jan 12 2012 12:16:00 GMT+0800">
+	
+		    Jan 12, 2012
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/develop/">develop</a>
+
+
+    
+</div>
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>在DOS命中存在一个文件的复制命令(copy),例如,,将D盘中XX文件复制到D盘中并另命名为OO文件,则只要在命令行中输入copy即可完成.<br><a id="more"></a></p>
+<p>DOS中的命令:</p>
+<pre><code>copy d:\xx.zip d:\oo.zip
+</code></pre><p>而以下要实现的代码用Java完成以上功能.程序运行时也如下格式:</p>
+<pre><code>java Copy 源文件 目标文件
+</code></pre><h3 id="程序实现"><a href="#程序实现" class="headerlink" title="程序实现:"></a>程序实现:</h3><p>要想输入源文件或目标文件的路径,可以通过命令行参数完成,但是此时就必须对输入的参数进行验证,如果输入的参数个数不是两个,或者输入的源文件路径不存在,则程序都应该给出错误信息并退出.\<br> 要完成这样的复制程序可以有以下两种方式操作:\<br> 将源文件中的内容全部读取到内存中,并一次性写入到目标文件中.\<br> 不讲源文件的内容全部读取进来,而是采用边读边写的方式.\<br> 而如果源文件过多过大,则会出现异常,因为内存装不下.</p>
+<h3 id="代码可能如下"><a href="#代码可能如下" class="headerlink" title="代码可能如下:"></a>代码可能如下:</h3><pre><code>//实现复制功能
+import java.io.*;
+public class Copy {
+    public static void main(String[] args) throws Exception{
+        if(args.length!=2){
+            System.out.println(&quot;输入的参数不正确&quot;);
+            System.out.println(&quot;例: Java Copy 源文件路径 目标文件路径&quot;);
+            System.exit(1);
+        }
+        File f1 = new File(args[0]);
+        File f2 = new File(args[1]);
+        if(!f1.exists()){
+            System.out.println(&quot;源文件不存在!&quot;);
+            System.exit(1);
+        }
+        InputStream input = null;
+        OutputStream out = null;
+        try{
+            input = new FileInputStream(f1);
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        }
+        try{
+            out = new FileOutputStream(f2);
+            }catch(FileNotFoundException e){
+                e.printStackTrace();
+        }
+        if(input != null &amp;&amp; out != null){
+            int temp = 0;
+            try {
+                while ((temp = input.read())!=-1){
+                    out.write(temp);
+                }
+                System.out.println(&quot;复制完成!&quot;);
+            }catch (IOException e){
+                e.printStackTrace();
+                System.out.println(&quot;复制失败!&quot;);
+            }
+            try{
+                input.close();
+                out.close();
+
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+    }
+}
+</code></pre><h3 id="运行情况"><a href="#运行情况" class="headerlink" title="运行情况:"></a>运行情况:</h3><pre><code>先编译:javac Copy.java
+执行 java copy d:\xx.zip d:\oo.zip
+</code></pre><p>1.如果没有输入源文件或目标文件</p>
+<pre><code>输入的参数不正确.
+例:java Copy 源文件路径 目标文件路径
+</code></pre><p>2.输入的源文件路径不正确</p>
+<pre><code>源文件不存在!
+</code></pre><p>3.正确执行:java Copy d:\xx.zip d:\oo.zip</p>
+<pre><code>复制完成!
+</code></pre><p>当然,也可能是</p>
+<pre><code>复制失败!
+</code></pre><p><strong>本文原文出自: 李兴华 <a href="http://www.amazon.cn/gp/product/B002IIE012/ref=as_li_tf_tl?ie=UTF8&amp;tag=duart-23&amp;linkCode=as2&amp;camp=536&amp;creative=3200&amp;creativeASIN=B002IIE012" target="_blank" rel="external">《Java 开发与实战宝典》</a><img src="http://www.assoc-amazon.cn/e/ir?t=duart-23&amp;l=as2&amp;o=28&amp;a=B002IIE012" alt="image">第十二章<br>JavaIO P430</strong></p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/code/">code</a> <a class="tag tag--primary tag--small t-link" href="/tags/copy/">copy</a> <a class="tag tag--primary tag--small t-link" href="/tags/java/">java</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2012/01/17/maya-learn-in-google-sites/"  data-tooltip="Maya Learn in Google Sites">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2012/01/09/gmail-forward-upper-limit/" data-tooltip="Gmail 的转发上限">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://hivandu.github.io/2012/01/12/copy-java-code/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://hivandu.github.io/2012/01/12/copy-java-code/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://hivandu.github.io/2012/01/12/copy-java-code/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2017 Hivan Du. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2012/01/17/maya-learn-in-google-sites/"  data-tooltip="Maya Learn in Google Sites">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2012/01/09/gmail-forward-upper-limit/" data-tooltip="Gmail 的转发上限">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://hivandu.github.io/2012/01/12/copy-java-code/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://hivandu.github.io/2012/01/12/copy-java-code/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://hivandu.github.io/2012/01/12/copy-java-code/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://hivandu.github.io/2012/01/12/copy-java-code/">
+                <i class="fa fa-google-plus"></i><span class="">Share on Google Plus</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://hivandu.github.io/2012/01/12/copy-java-code/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://hivandu.github.io/2012/01/12/copy-java-code/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Hivan Du</h4>
+        
+            <h5 id="about-card-bio"><p>author.bio</p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>author.job</p>
+
+            </h5>
+        
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/scrip-tu4ziscb5jrkjxubeugdgizktyuugflfq5jvgz4agzzmwifuq01g1lmq8giw.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+
+
+</html>

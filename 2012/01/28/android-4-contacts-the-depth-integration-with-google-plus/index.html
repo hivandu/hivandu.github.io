@@ -1,0 +1,422 @@
+
+<!DOCTYPE html>
+<html lang="null">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Duart">
+    <title>Android 4.0 通讯录与Google+的深度整合 - Duart</title>
+    <meta name="author" content="Hivan Du">
+    
+    
+    
+    <meta name="description" content="在4.0以前,我记得Android里的通讯录名称是“contact”.而在4.0之后,我的手机上是4.0.3,将其更改为“people”了. 而更改的不仅仅是这小小的名称!大家都记得在之前版本的contact里,拨打界面和通讯录界面是整合在一起的.所以那个时候我第一屏单单放一个拨打电话就OK了.需要查找通讯录的话,可以切换tab.">
+<meta name="keywords" content="Android,通讯录,Google-Plus,connection,选单,整合,Gtalk">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Android 4.0 通讯录与Google+的深度整合">
+<meta property="og:url" content="http://hivandu.github.io/2012/01/28/android-4-contacts-the-depth-integration-with-google-plus/index.html">
+<meta property="og:site_name" content="Duart">
+<meta property="og:description" content="在4.0以前,我记得Android里的通讯录名称是“contact”.而在4.0之后,我的手机上是4.0.3,将其更改为“people”了. 而更改的不仅仅是这小小的名称!大家都记得在之前版本的contact里,拨打界面和通讯录界面是整合在一起的.所以那个时候我第一屏单单放一个拨打电话就OK了.需要查找通讯录的话,可以切换tab.">
+<meta property="og:image" content="http://farm8.staticflickr.com/7173/6774975553_9920907f85_z.jpg">
+<meta property="og:image" content="http://farm8.staticflickr.com/7149/6774975209_8bc11374a3_z.jpg">
+<meta property="og:image" content="http://farm8.staticflickr.com/7147/6774974883_a15899889b_z.jpg">
+<meta property="og:image" content="http://farm8.staticflickr.com/7150/6774975651_95ac938359_z.jpg">
+<meta property="og:image" content="http://farm8.staticflickr.com/7175/6774975845_c2a6fd62e8_z.jpg">
+<meta property="og:image" content="http://farm8.staticflickr.com/7023/6774975043_8693082f9f_z.jpg">
+<meta property="og:updated_time" content="2013-12-17T16:54:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 4.0 通讯录与Google+的深度整合">
+<meta name="twitter:description" content="在4.0以前,我记得Android里的通讯录名称是“contact”.而在4.0之后,我的手机上是4.0.3,将其更改为“people”了. 而更改的不仅仅是这小小的名称!大家都记得在之前版本的contact里,拨打界面和通讯录界面是整合在一起的.所以那个时候我第一屏单单放一个拨打电话就OK了.需要查找通讯录的话,可以切换tab.">
+<meta name="twitter:image" content="http://farm8.staticflickr.com/7173/6774975553_9920907f85_z.jpg">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-27vrduj1jopliavvnzi7ibndpmbvg7lzo4a2uswrsi4m5vwauf2qi8s1v3or.min.css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">Duart</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="4">
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">Search</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/atom.xml"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            Android 4.0 通讯录与Google+的深度整合
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Sat Jan 28 2012 12:16:00 GMT+0800">
+	
+		    Jan 28, 2012
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/develop/">develop</a>
+
+
+    
+</div>
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>在4.0以前,我记得Android里的通讯录名称是“contact”.而在4.0之后,我的手机上是4.0.3,将其更改为“people”了.</p>
+<p>而更改的不仅仅是这小小的名称!大家都记得在之前版本的contact里,拨打界面和通讯录界面是整合在一起的.所以那个时候我第一屏单单放一个拨打电话就OK了.需要查找通讯录的话,可以切换tab.</p>
+<p><img src="http://farm8.staticflickr.com/7173/6774975553_9920907f85_z.jpg" alt="image"> </p>
+<a id="more"></a>
+<h3 id="1-理念"><a href="#1-理念" class="headerlink" title="1.理念:"></a>1.理念:</h3><p>而在4.0里面,你在people里面找不到拨打电话界面,而在拨打电话的界面里也找不到通讯录.Google将这两个单独分立了开来!貌似不方便了,其实不是,反而变得异常容易整理和操作!Google在Android4.0里的理念就是将电话和联系人完全分离开,这本来就不是一回事!智能手机时代,谁说的联系人就一定只能是打电话和发短信的?</p>
+<h3 id="2-整合"><a href="#2-整合" class="headerlink" title="2.整合:"></a>2.整合:</h3><p>说了些小变化,下面切入正题,就是Android 4.0 之后通讯录与Google+的深度整合!<br>这也是我昨晚没事整理联系人的时候才注意到的,不知道是不是4.0之处就是这样的,还是到了4.0.3的改变!\</p>
+<p>当我们进入一个单独的联系人界面的时候,发现除了常用的PHONE,EMAIL等选项之后,会有一个CONNECTIONS项目选项,这里会显示手机上安装过的SNS程序里联系人的关联账户!<br>比如WhatsApp,Twitter或Facebook等! 当然,你也有可能看到一个Add<br>connection选项. 这个选项,其实就是和Google+整合的选单!<br>可以选择添加联系人到自己的Google+<br>圈子里!当然,有可能你的联系人根本没有在Google+注册过! </p>
+<p><img src="http://farm8.staticflickr.com/7149/6774975209_8bc11374a3_z.jpg" alt="image"></p>
+<p><img src="http://farm8.staticflickr.com/7147/6774974883_a15899889b_z.jpg" alt="Screenshot\_2012-01-28-16-45-59"> </p>
+<p><img src="http://farm8.staticflickr.com/7150/6774975651_95ac938359_z.jpg" alt="image"></p>
+<p><strong>我猜测,Google以后有可能会将Google+的圈子代替联系人来使用!</strong>也就是说,你所有的联系人都是要圈养的.不管他是否注册过Google+,利用圈子的概念管理联系人,其实比较起来而言,比Gmail里的通讯录要高效一点!</p>
+<p>接下来,才是深度整合的重点,以我自己为例:</p>
+<p>用过4.0的朋友都知道,联系人选单是可以向左拖动的,就是右边还有一块和联系人有关的“update”选项!当然,这一块内容需要对方联系人有Gtalk或者Google+才会显现出来!</p>
+<p><img src="http://farm8.staticflickr.com/7175/6774975845_c2a6fd62e8_z.jpg" alt="image"></p>
+<p>平时就会显示Gtalk上的签名状态,而对于有Google+的联系人,则会显示他在Google+中的信息!<br>我们大家应该都用过MSN或者QQ,应该可以想象一下,MSN当初和Space深度整合,QQ和QQ空间深度整合的情形!<br>当你查看某个联系人的时候,他在自己空间里发表的文章或相片,都会在其信息里显示出来!当然,QQ有的时候会闹点小情绪,来一两次大姨妈…我们可能没那么及时看到!所以说这个概念并不新奇,只是这次Google借用到了手机上而已!<br>哈哈,想象一下,够方便吧? </p>
+<p><img src="http://farm8.staticflickr.com/7023/6774975043_8693082f9f_z.jpg" alt="Screenshot\_2012-01-28-16-52-22"></p>
+<h3 id="3-想法"><a href="#3-想法" class="headerlink" title="3.想法:"></a>3.想法:</h3><p>写到这里,我到觉得Google有些小气了. 右边状态栏完全可以让出来给其他的SNS<br>APP来使用而不只是Google+,譬如Twitter和Facebook,或者是QQ空间!既然有了这样一个功能,而又是在消费者手上的,那么决定权就该交给消费者!否则,自己联系人里没多少用Google+的,右边信息栏岂不是浪费?\<br> 我想,再以后,这块地方应该会被其他SNS<br>APP占用吧!届时,通过手机通讯录,大家就可以看到某人最近在做什么了!而无需再登录单独的App去查看!</p>
+<h3 id="4-后记"><a href="#4-后记" class="headerlink" title="4.后记:"></a>4.后记:</h3><p>当然,除了Contact以外,Gallery等都和Google的产品有深度整合!而这些,和其他APP整合的可能性是有的!比如Gallery里直接查看Flickr里的相片而不只是Picasa.不过在Google推销自己的Google+这段时间里,我看是不太可能了!</p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/Android/">Android</a> <a class="tag tag--primary tag--small t-link" href="/tags/Google-Plus/">Google-Plus</a> <a class="tag tag--primary tag--small t-link" href="/tags/Gtalk/">Gtalk</a> <a class="tag tag--primary tag--small t-link" href="/tags/connection/">connection</a> <a class="tag tag--primary tag--small t-link" href="/tags/整合/">整合</a> <a class="tag tag--primary tag--small t-link" href="/tags/选单/">选单</a> <a class="tag tag--primary tag--small t-link" href="/tags/通讯录/">通讯录</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2012/03/22/returns-my-seagate/"  data-tooltip="我的希捷退换货经历">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2012/01/24/the-third-part-of-the-java-learning/" data-tooltip="Java学习 开始第三部分">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://hivandu.github.io/2012/01/28/android-4-contacts-the-depth-integration-with-google-plus/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://hivandu.github.io/2012/01/28/android-4-contacts-the-depth-integration-with-google-plus/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://hivandu.github.io/2012/01/28/android-4-contacts-the-depth-integration-with-google-plus/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2017 Hivan Du. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2012/03/22/returns-my-seagate/"  data-tooltip="我的希捷退换货经历">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2012/01/24/the-third-part-of-the-java-learning/" data-tooltip="Java学习 开始第三部分">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://hivandu.github.io/2012/01/28/android-4-contacts-the-depth-integration-with-google-plus/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://hivandu.github.io/2012/01/28/android-4-contacts-the-depth-integration-with-google-plus/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://hivandu.github.io/2012/01/28/android-4-contacts-the-depth-integration-with-google-plus/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://hivandu.github.io/2012/01/28/android-4-contacts-the-depth-integration-with-google-plus/">
+                <i class="fa fa-google-plus"></i><span class="">Share on Google Plus</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://hivandu.github.io/2012/01/28/android-4-contacts-the-depth-integration-with-google-plus/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://hivandu.github.io/2012/01/28/android-4-contacts-the-depth-integration-with-google-plus/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Hivan Du</h4>
+        
+            <h5 id="about-card-bio"><p>author.bio</p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>author.job</p>
+
+            </h5>
+        
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/scrip-tu4ziscb5jrkjxubeugdgizktyuugflfq5jvgz4agzzmwifuq01g1lmq8giw.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+
+
+</html>

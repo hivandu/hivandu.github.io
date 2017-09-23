@@ -1,0 +1,451 @@
+
+<!DOCTYPE html>
+<html lang="null">
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Duart">
+    <title>Debian安装SSH - Duart</title>
+    <meta name="author" content="Hivan Du">
+    
+    
+    
+    <meta name="description" content="for my dote 要求： 安装Debian 8.* 64位操作系统分区要求: 不要分区">
+<meta name="keywords" content="linux,ssh,dote">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Debian安装SSH">
+<meta property="og:url" content="http://hivandu.github.io/2016/05/12/debian-install-ssh/index.html">
+<meta property="og:site_name" content="Duart">
+<meta property="og:description" content="for my dote 要求： 安装Debian 8.* 64位操作系统分区要求: 不要分区">
+<meta property="og:image" content="http://duart.qiniudn.com/debian-install-1.jpg">
+<meta property="og:image" content="http://duart.qiniudn.com/debian-install-2.jpg">
+<meta property="og:image" content="http://duart.qiniudn.com/debian-instal-3.jpg">
+<meta property="og:image" content="http://duart.qiniudn.com/debian-install-4.jpg">
+<meta property="og:image" content="http://duart.qiniudn.com/debian-install-5.jpg">
+<meta property="og:image" content="http://duart.qiniudn.com/debian-source-list.jpg">
+<meta property="og:image" content="http://duart.qiniudn.com/debian-source-list-change.jpg">
+<meta property="og:image" content="http://duart.qiniudn.com/debian-install-ssh.jpg">
+<meta property="og:updated_time" content="2016-05-13T09:14:22.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Debian安装SSH">
+<meta name="twitter:description" content="for my dote 要求： 安装Debian 8.* 64位操作系统分区要求: 不要分区">
+<meta name="twitter:image" content="http://duart.qiniudn.com/debian-install-1.jpg">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-27vrduj1jopliavvnzi7ibndpmbvg7lzo4a2uswrsi4m5vwauf2qi8s1v3or.min.css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">Duart</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="4">
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link st-search-show-outputs"
+                         href="#search"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
+                    <span class="sidebar-button-desc">Search</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/atom.xml"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">RSS</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            Debian安装SSH
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" content="Thu May 12 2016 12:02:56 GMT+0800">
+	
+		    May 12, 2016
+    	
+    </time>
+    
+</div>
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p><span style="font-size:14px; color: #eee;">for my dote</span></p>
+<h1 id="要求：-安装Debian-8-64位操作系统"><a href="#要求：-安装Debian-8-64位操作系统" class="headerlink" title="要求： 安装Debian 8.* 64位操作系统"></a>要求： 安装Debian 8.* 64位操作系统</h1><h3 id="分区要求-不要分区"><a href="#分区要求-不要分区" class="headerlink" title="分区要求: 不要分区"></a>分区要求: 不要分区</h3><a id="more"></a>
+<blockquote>
+<ul>
+<li>Partitioning mehod: use entire disk<br><img src="http://duart.qiniudn.com/debian-install-1.jpg" alt="entire disk"></li>
+<li>Partitioning scheme: All files in one partition<br><img src="http://duart.qiniudn.com/debian-install-2.jpg" alt="All files"></li>
+</ul>
+</blockquote>
+<h3 id="选择源镜像-mirror-country"><a href="#选择源镜像-mirror-country" class="headerlink" title="选择源镜像 (mirror country)"></a>选择源镜像 (mirror country)</h3><blockquote>
+<p>请选择china<br><img src="http://duart.qiniudn.com/debian-instal-3.jpg" alt="country"><br>然后选择<strong><code>ftp.cn.debian.org</code></strong><br><img src="http://duart.qiniudn.com/debian-install-4.jpg" alt="ftp"></p>
+</blockquote>
+<h3 id="程序和服务需求"><a href="#程序和服务需求" class="headerlink" title="程序和服务需求"></a>程序和服务需求</h3><blockquote>
+<p>debian 默认最小安装，安装的时候不用安装桌面环境和标准系统实用程序(以下两个不需要勾选):</p>
+<ul>
+<li>Debian destop environment</li>
+<li>Standard system utilities<br><strong>如果有<code>SSH server</code>选项，请务必勾选，会省很多麻烦</strong><br><img src="http://duart.qiniudn.com/debian-install-5.jpg" alt="server"></li>
+</ul>
+</blockquote>
+<h1 id="安装SSH"><a href="#安装SSH" class="headerlink" title="安装SSH"></a>安装SSH</h1><p>debian最小安装默认是没有配置<code>apt-get</code>源的，这个时候无法实用<code>apt-get install</code>命令，所以在安装SSH之前，我们需要先配置<code>apt-get</code>:</p>
+<h3 id="配置apt-get"><a href="#配置apt-get" class="headerlink" title="配置apt-get"></a>配置<code>apt-get</code></h3><p><strong>终端内操作</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"># 首先我们需要备份原有配置文件</div><div class="line">cp /etc/apt/sources.list /etc/apt/sources.listbak</div><div class="line"></div><div class="line"># 然后对资源列表文件进行编辑</div><div class="line">vi /etc/apt/sources.list</div><div class="line"># 当然也可以实用nano命令</div><div class="line">nano /etc/apt/source.list</div></pre></td></tr></table></figure>
+<p>PS: 如果对VI操作不熟悉的，可以看这里 <a href="http://c.biancheng.net/cpp/html/2735.html" target="_blank" rel="external">vi编辑器常见命令实用</a></p>
+<p>如果安装的时候按照之前我给的步骤来，那么这会的<code>sources.list</code>应该是这样的<br><img src="http://duart.qiniudn.com/debian-source-list.jpg" alt="source.list"></p>
+<p>对文件进行更改，将以下命令加入文件并保存:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">deb http://ftp.cn.debian.org/debian/ jessie main contrib non-free </div><div class="line">deb-src http://ftp.cn.debian.org/debian/ jessie main contrib non-free</div></pre></td></tr></table></figure>
+<p>更改后的文件如图:<br><img src="http://duart.qiniudn.com/debian-source-list-change.jpg" alt="source change"></p>
+<p><strong><code>main, contrib, non-free 分属不同的源，添加后可以从不同的源仓库更新文件索引</code></strong></p>
+<p>至此<code>apt-get</code>源就配置完毕，接下来我们就可以安装SSH了</p>
+<h3 id="安装SSH-1"><a href="#安装SSH-1" class="headerlink" title="安装SSH"></a>安装SSH</h3><p>在终端内输入以下命令:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"># 更新apt-get源</div><div class="line">apt-get update</div><div class="line"></div><div class="line"># 更新系统</div><div class="line">apt-get upgrade</div><div class="line"></div><div class="line"># 安装SSH</div><div class="line">apt-get install ssh</div></pre></td></tr></table></figure>
+<p>这样就好了，SSH安装完毕</p>
+<p><img src="http://duart.qiniudn.com/debian-install-ssh.jpg" alt="install ssh"></p>
+<h2 id="注意-如果一直安装不能成功，请往下看"><a href="#注意-如果一直安装不能成功，请往下看" class="headerlink" title="注意 如果一直安装不能成功，请往下看:"></a>注意 如果一直安装不能成功，请往下看:</h2><p>首先，请<code>ping ftp.cn.debin.org</code> 和 <code>ping mirrors.163.com</code> 来测试一下能否ping的通域名，如果ping不通，请往下看:</p>
+<p><strong>有的时候机房安装debian后会出现域名解析问题</strong>,这又是另外一个问题。比如<code>ping 123.111.123.111</code> 是OK的，但是如果ping对应的域名如: <code>ping mirrors.163.com</code>就会出现<strong>unknow host</strong>的问题。</p>
+<p>似乎linux很大一部分都会出现这种问题，能ping的通IP但是ping不通域名。那么请查看以下原因解决:</p>
+<h3 id="1-查看DNS解析是否有问题，确定设置了域名服务器"><a href="#1-查看DNS解析是否有问题，确定设置了域名服务器" class="headerlink" title="1. 查看DNS解析是否有问题，确定设置了域名服务器:"></a>1. 查看DNS解析是否有问题，确定设置了域名服务器:</h3><p><code>cat /etc/resolv.conf</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">nameserver 114.114.114.114  </div><div class="line">nameserver 8.8.8.8  </div><div class="line">nameserver 8.8.4.4</div></pre></td></tr></table></figure>
+<h3 id="2-确保网关已设置"><a href="#2-确保网关已设置" class="headerlink" title="2. 确保网关已设置"></a>2. 确保网关已设置</h3><p><code>grep GATEWAY /etc/sysconfig/network-scripts/ifcfg*</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/etc/sysconfig/network-scripts/ifcfg-eth0:GATEWAY=192.168.40.1</div></pre></td></tr></table></figure></p>
+<p>如果未设置，则通过以下方法增加网关</p>
+<p><code>route add default gw 192.168.40.1</code></p>
+<p>或者手工编写<code>/etc/sysconfig/network-scripts/ifcfg*</code></p>
+<p>然后重启network服务:</p>
+<p><code>service network restart</code></p>
+<h3 id="3-确保可用dns解析"><a href="#3-确保可用dns解析" class="headerlink" title="3. 确保可用dns解析"></a>3. 确保可用dns解析</h3><p><code>grep hosts /etc/nsswitch.conf</code></p>
+<p>文件打开后为:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hosts: files dns</div></pre></td></tr></table></figure>
+<h3 id="4-查看是否防火墙的问题"><a href="#4-查看是否防火墙的问题" class="headerlink" title="4. 查看是否防火墙的问题"></a>4. 查看是否防火墙的问题</h3><p>因为域名解析用到了53端口,需要把下面设置配置到防火墙里:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">iptables -A INPUT -p udp --sport 53 -j ACCEPT  </div><div class="line">iptables -A OUTPUT -p udp --dport 53 -j ACCEPT  </div><div class="line">iptables -A INPUT -p udp --dport 53 -j ACCEPT  </div><div class="line">iptables -A OUTPUT -p udp --sport 53 -j ACCEPT</div></pre></td></tr></table></figure></p>
+<p>如果找不到原因或者不知道怎么设置，那么就用以下最笨的方法:</p>
+<p>如果出现这样的问题，更新<code>sources.list</code>后会无法更新也无法安装ssh. 如果出现这样的问题，更新<code>sources.list</code>地址为一下地址:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">deb http://123.58.173.186/debian/ jessie main non-free contrib</div><div class="line">deb http://123.58.173.186/debian/ jessie-updates main non-free contrib</div><div class="line">deb http://123.58.173.186/debian/ jessie-backports main non-free contrib</div><div class="line">deb-src http://123.58.173.186/debian/ jessie main non-free contrib</div><div class="line">deb-src http://123.58.173.186/debian/ jessie-updates main non-free contrib</div><div class="line">deb-src http://123.58.173.186/debian/ jessie-backports main non-free contrib</div><div class="line">deb http://123.58.173.186/debian-security/ jessie/updates main non-free contrib</div><div class="line">deb-src http://123.58.173.186/debian-security/ jessie/updates main non-free contrib</div></pre></td></tr></table></figure>
+<p><strong>利用IP地址代替域名，但是测试下来只有163的镜像可以这样做。来源为网易镜像的帮助文档: <a href="http://mirrors.163.com/.help/debian.html" target="_blank" rel="external">Debian镜像使用帮助</a></strong></p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/dote/">dote</a> <a class="tag tag--primary tag--small t-link" href="/tags/linux/">linux</a> <a class="tag tag--primary tag--small t-link" href="/tags/ssh/">ssh</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/07/27/css-rem-and-javascript/"  data-tooltip="关于设备转向后的自适应">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/01/29/VH-brass-pen/" data-tooltip="VH 情怀黄铜原子笔">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://hivandu.github.io/2016/05/12/debian-install-ssh/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://hivandu.github.io/2016/05/12/debian-install-ssh/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://hivandu.github.io/2016/05/12/debian-install-ssh/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2017 Hivan Du. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/07/27/css-rem-and-javascript/"  data-tooltip="关于设备转向后的自适应">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2016/01/29/VH-brass-pen/" data-tooltip="VH 情怀黄铜原子笔">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://hivandu.github.io/2016/05/12/debian-install-ssh/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://hivandu.github.io/2016/05/12/debian-install-ssh/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://hivandu.github.io/2016/05/12/debian-install-ssh/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://hivandu.github.io/2016/05/12/debian-install-ssh/">
+                <i class="fa fa-google-plus"></i><span class="">Share on Google Plus</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://hivandu.github.io/2016/05/12/debian-install-ssh/">
+                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://hivandu.github.io/2016/05/12/debian-install-ssh/">
+                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <h4 id="about-card-name">Hivan Du</h4>
+        
+            <h5 id="about-card-bio"><p>author.bio</p>
+</h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>author.job</p>
+
+            </h5>
+        
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/scrip-tu4ziscb5jrkjxubeugdgizktyuugflfq5jvgz4agzzmwifuq01g1lmq8giw.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+
+
+</html>
