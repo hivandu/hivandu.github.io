@@ -1,514 +1,1142 @@
-
 <!DOCTYPE html>
-<html lang="null">
-    
+<html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Duart">
+    <meta charset="utf-8">
+    
     <title>Duart</title>
-    <meta name="author" content="Hivan Du">
-    
-    
-    
-    <meta property="og:type" content="blog">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta property="og:type" content="website">
 <meta property="og:title" content="Duart">
 <meta property="og:url" content="http://hivandu.github.io/page/6/index.html">
 <meta property="og:site_name" content="Duart">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Duart">
     
+
     
-        
+
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
     
     
     
     
-    
-    <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-27vrduj1jopliavvnzi7ibndpmbvg7lzo4a2uswrsi4m5vwauf2qi8s1v3or.min.css">
-    <!--STYLES END-->
-    
-    
+
 </head>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                
+                <span class="site-title">Duart</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/css/images/avatar.jpg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
 
-    <body>
-        <div id="blog">
-            <!-- Define author's picture -->
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
 
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
 
-    
-
-<header id="header" data-behavior="2">
-    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
-    <h1 class="header-title">
-        <a class="header-title-link" href="/ ">Duart</a>
-    </h1>
-    
-        
-            <a  class="header-right-picture "
-                href="#about">
-        
-        
-        </a>
-    
+                </td>
+            </tr>
+        </table>
+    </div>
 </header>
 
-            <!-- Define author's picture -->
-
-
-<nav id="sidebar" data-behavior="2">
-    
-    
-        <ul class="sidebar-buttons">
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="/ "
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
-                    <span class="sidebar-button-desc">Home</span>
-                </a>
-        </li>
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="/all-categories"
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
-                    <span class="sidebar-button-desc">Categories</span>
-                </a>
-        </li>
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="/all-tags"
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
-                    <span class="sidebar-button-desc">Tags</span>
-                </a>
-        </li>
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="/all-archives"
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
-                    <span class="sidebar-button-desc">Archives</span>
-                </a>
-        </li>
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link st-search-show-outputs"
-                         href="#search"
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
-                    <span class="sidebar-button-desc">Search</span>
-                </a>
-        </li>
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="#about"
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
-                    <span class="sidebar-button-desc">About</span>
-                </a>
-        </li>
-        
-    </ul>
-    
-        <ul class="sidebar-buttons">
-        
-    </ul>
-    
-        <ul class="sidebar-buttons">
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="/atom.xml"
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
-                    <span class="sidebar-button-desc">RSS</span>
-                </a>
-        </li>
-        
-    </ul>
-    
-</nav>
-
+        <div class="outer">
             
-            <div id="main" data-behavior="2"
-                 class="
-                        hasCoverMetaIn
-                        ">
                 
 
-<section class="postShorten-group main-content-wrap">
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2012/04/07/octopress-install-to-windows8/">
-                            Windows 8安装Octopress记录
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Sat Apr 07 2012 11:59:25 GMT+0800">
-	
-		    Apr 07, 2012
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/develop/">develop</a>
-
-
-    
-</div>
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/css/images/avatar.jpg" />
+            <h2 id="name">Hivan Du</h2>
+            <h3 id="title">Web Developer &amp; Designer</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Shanghai, China</span>
+            <a id="follow" target="_blank" href="https://github.com/hivandu">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                150
+                <span>posts</span>
             </div>
-            
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>虽然昨晚因为代码高亮问题有想过放弃(<a href="http://hivan.me/2012-w16-06/" target="_blank" rel="external">见此文</a>),但今早上网查阅的时候忽然发现一篇自己以前从来没Google到的<a href="http://blog.sprabbit.com/blog/2012/03/23/octopress/" target="_blank" rel="external">文章</a>,所以抱着试试的心态又尝试了一下!果然解决了.其实说起来搞笑,那么多技术性文章,原来最终的原因简单的知识因为我安装的是64bit的Python,而ruby对windows下64bit的Python支持非常差! <strong>安装32bit Python后问题如愿解决</strong>.下边做一个这几天的完整记录.</p>
-<h3 id="安装Ruby"><a href="#安装Ruby" class="headerlink" title="安装Ruby"></a>安装Ruby</h3>
-                    
-                        <a href="/2012/04/07/octopress-install-to-windows8/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
+            <div class="article-info-block">
+                240
+                <span>tags</span>
+            </div>
         </div>
         
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
+        <div class="profile-block social-links">
+            <table>
+                <tr>
                     
-                        <a class="link-unstyled" href="/2012/04/06/begin_maya_pdf/">
-                            begin_maya_pdf.md
-                        </a>
+                    <td><a href="http://github.com/hivandu" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
                     
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Fri Apr 06 2012 12:27:43 GMT+0800">
-	
-		    Apr 06, 2012
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/web/">web</a>
-
-
-    
-</div>
-            </div>
-            
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>前言: 这份教程从我08年做完到现在,经历了很多次博客更换服务器和改版!而至此,我打算将其迁移出博客本身,归纳为一个Project托管到Github上! <a href="https://github.com/hivan/Project/tree/master/Maya%20Begin" target="_blank" rel="external">项目地址</a>,以及Google Sites:<a href="https://sites.google.com/site/hivancodelearn/index/cg-learn/maya-learn/maya-begin" target="_blank" rel="external">项目地址</a></p>
-<p><strong>开始Maya吧</strong></p>
+                    <td><a href="https://twitter.com/hivan" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
                     
-                        <a href="/2012/04/06/begin_maya_pdf/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
+                    <td><a href="https://facebook.com/hivan" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
                     
-                </div>
-            
+                    <td><a href="https://dribbble.com/Hivan" target="_blank" title="dribbble"><i class="fa fa-dribbble"></i></a></td>
+                    
+                    <td><a href="/atom.xml" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+                    
+                </tr>
+            </table>
         </div>
         
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2012/03/30/post-from-markpad/">
-                            利用Markpad发布博客
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Fri Mar 30 2012 12:16:00 GMT+0800">
-	
-		    Mar 30, 2012
-    	
-    </time>
-    
-        <span>in </span>
+    </div>
+</aside>
+
+            
+            <section id="main">
+    <article id="post-octopress-install-to-windows8" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
         
-    <a class="category-link" href="/categories/software/">software</a>
-
-
+        
+        
+            <header class="article-header">
+                
     
-</div>
-            </div>
-            
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>这篇文章是来自Markpad，一款Windows上的Markdown写作软件，分屏预览，绑定自己的博客发布地址，并且很重要的一点，他是绿色的！</p>
+        <h1 itemprop="name">
+            <a class="article-title" href="/2012/04/07/octopress-install-to-windows8/">Windows 8安装Octopress记录</a>
+        </h1>
+    
+
+                <div class="article-meta">
                     
-                        <a href="/2012/03/30/post-from-markpad/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2012/04/07/octopress-install-to-windows8/">
+            <time datetime="2012-04-07T03:59:25.000Z" itemprop="datePublished">2012-04-07</time>
+        </a>
+    </div>
+
+
                     
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/develop/">develop</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/code/">code</a>, <a class="tag-link" href="/tags/octopress/">octopress</a>, <a class="tag-link" href="/tags/windows/">windows</a>
+    </div>
+
                 </div>
-            
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>虽然昨晚因为代码高亮问题有想过放弃(<a href="http://hivan.me/2012-w16-06/" target="_blank" rel="external">见此文</a>),但今早上网查阅的时候忽然发现一篇自己以前从来没Google到的<a href="http://blog.sprabbit.com/blog/2012/03/23/octopress/" target="_blank" rel="external">文章</a>,所以抱着试试的心态又尝试了一下!果然解决了.其实说起来搞笑,那么多技术性文章,原来最终的原因简单的知识因为我安装的是64bit的Python,而ruby对windows下64bit的Python支持非常差! <strong>安装32bit Python后问题如愿解决</strong>.下边做一个这几天的完整记录.</p>
+<h3 id="安装Ruby"><a href="#安装Ruby" class="headerlink" title="安装Ruby"></a>安装Ruby</h3></p>
+            <p class="article-more-link">
+                <a href="/2012/04/07/octopress-install-to-windows8/#more">Read More</a>
+            </p>
+        
         </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2012/03/27/install-windows-8/">
-                            安全玩你的Win8
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Tue Mar 27 2012 12:16:00 GMT+0800">
-	
-		    Mar 27, 2012
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/software/">software</a>
+        <footer class="article-footer">
+            <div class="share-container">
 
 
-    
+
 </div>
-            </div>
+
+    <a data-url="http://hivandu.github.io/2012/04/07/octopress-install-to-windows8/" data-id="cj7xk9ejj00854dlruav6rssr" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
             
+    
+        <a href="http://hivandu.github.io/2012/04/07/octopress-install-to-windows8/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/04/07/octopress-install-to-windows8/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-begin_maya_pdf" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2012/04/06/begin_maya_pdf/">begin_maya_pdf.md</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2012/04/06/begin_maya_pdf/">
+            <time datetime="2012-04-06T04:27:43.000Z" itemprop="datePublished">2012-04-06</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/web/">web</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/download/">download</a>, <a class="tag-link" href="/tags/maya/">maya</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><p>前言: 这份教程从我08年做完到现在,经历了很多次博客更换服务器和改版!而至此,我打算将其迁移出博客本身,归纳为一个Project托管到Github上! <a href="https://github.com/hivan/Project/tree/master/Maya%20Begin" target="_blank" rel="external">项目地址</a>,以及Google Sites:<a href="https://sites.google.com/site/hivancodelearn/index/cg-learn/maya-learn/maya-begin" target="_blank" rel="external">项目地址</a></p>
+<p><strong>开始Maya吧</strong></p></p>
+            <p class="article-more-link">
+                <a href="/2012/04/06/begin_maya_pdf/#more">Read More</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://hivandu.github.io/2012/04/06/begin_maya_pdf/" data-id="cj7xk9efg002n4dlrubfin7d4" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
             
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>不错，我再三就结下才决定玩一下Windows 8，不过也是因为最近稍微闲了一点！早就体验过的不要说我火星就好了。</p>
+    
+        <a href="http://hivandu.github.io/2012/04/06/begin_maya_pdf/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/04/06/begin_maya_pdf/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-post-from-markpad" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2012/03/30/post-from-markpad/">利用Markpad发布博客</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2012/03/30/post-from-markpad/">
+            <time datetime="2012-03-30T04:16:00.000Z" itemprop="datePublished">2012-03-30</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/software/">software</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/markdown/">markdown</a>, <a class="tag-link" href="/tags/markpad/">markpad</a>, <a class="tag-link" href="/tags/windows/">windows</a>, <a class="tag-link" href="/tags/wordpress/">wordpress</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><p>这篇文章是来自Markpad，一款Windows上的Markdown写作软件，分屏预览，绑定自己的博客发布地址，并且很重要的一点，他是绿色的！</p></p>
+            <p class="article-more-link">
+                <a href="/2012/03/30/post-from-markpad/#more">Read More</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://hivandu.github.io/2012/03/30/post-from-markpad/" data-id="cj7xk9ejv008m4dlrixi8azf8" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://hivandu.github.io/2012/03/30/post-from-markpad/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/03/30/post-from-markpad/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-install-windows-8" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2012/03/27/install-windows-8/">安全玩你的Win8</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2012/03/27/install-windows-8/">
+            <time datetime="2012-03-27T04:16:00.000Z" itemprop="datePublished">2012-03-27</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/software/">software</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Metro/">Metro</a>, <a class="tag-link" href="/tags/bug/">bug</a>, <a class="tag-link" href="/tags/store/">store</a>, <a class="tag-link" href="/tags/windows/">windows</a>, <a class="tag-link" href="/tags/优化/">优化</a>, <a class="tag-link" href="/tags/恢复/">恢复</a>, <a class="tag-link" href="/tags/系统/">系统</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><p>不错，我再三就结下才决定玩一下Windows 8，不过也是因为最近稍微闲了一点！早就体验过的不要说我火星就好了。</p>
 <p>首先我要说，对于现阶段的Win8，千万不要使用任何的优化软件！</p>
-<p>因为对于那些优化软件来说，就像拿着别人设定好的Ghost来装在自己的电脑上一样，而且因为很多设定和服务有关，恢复的时候还不太好恢复！才出来的系统，谁又比谁懂多少？<br>
-                    
-                        <a href="/2012/03/27/install-windows-8/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
+<p>因为对于那些优化软件来说，就像拿着别人设定好的Ghost来装在自己的电脑上一样，而且因为很多设定和服务有关，恢复的时候还不太好恢复！才出来的系统，谁又比谁懂多少？<br></p>
+            <p class="article-more-link">
+                <a href="/2012/03/27/install-windows-8/#more">Read More</a>
+            </p>
+        
         </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2012/03/22/returns-my-seagate/">
-                            我的希捷退换货经历
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Thu Mar 22 2012 12:16:00 GMT+0800">
-	
-		    Mar 22, 2012
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/life/">life</a>
+        <footer class="article-footer">
+            <div class="share-container">
 
 
-    
+
 </div>
-            </div>
+
+    <a data-url="http://hivandu.github.io/2012/03/27/install-windows-8/" data-id="cj7xk9ei2005l4dlrc92acqgw" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
             
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>硬盘出毛病已经是年前的事情了,去年一月初.<br>大家应该都记得,那会正好是泰国发洪灾的时候,所以硬盘的价格异常的贵.也不知道现在硬盘是否有降下来.</p>
+    
+        <a href="http://hivandu.github.io/2012/03/27/install-windows-8/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/03/27/install-windows-8/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-returns-my-seagate" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2012/03/22/returns-my-seagate/">我的希捷退换货经历</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2012/03/22/returns-my-seagate/">
+            <time datetime="2012-03-22T04:16:00.000Z" itemprop="datePublished">2012-03-22</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/life/">life</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/客服/">客服</a>, <a class="tag-link" href="/tags/希捷/">希捷</a>, <a class="tag-link" href="/tags/硬盘/">硬盘</a>, <a class="tag-link" href="/tags/经历/">经历</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><p>硬盘出毛病已经是年前的事情了,去年一月初.<br>大家应该都记得,那会正好是泰国发洪灾的时候,所以硬盘的价格异常的贵.也不知道现在硬盘是否有降下来.</p>
 <p>硬盘更换之后就搁置在那里没有理会,今天忽然想应该还在期限内,于是打算退换货.然后就开始繁冗的退换货程序!发文之时,我的硬盘还没有发货出去.</p>
-<p>首先,我们都知道,如果想要希捷退换货,必须要经由希捷自己的检测工具检测才可以,所以我只能先撤掉自己的另外一块从盘,装上这块有问题的,然后到官方网站下载<br><a href="http://www.seagate.com/www/en-us/support/downloads/seatools" target="_blank" rel="external">SeaTools for Windows</a><br>
-                    
-                        <a href="/2012/03/22/returns-my-seagate/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
+<p>首先,我们都知道,如果想要希捷退换货,必须要经由希捷自己的检测工具检测才可以,所以我只能先撤掉自己的另外一块从盘,装上这块有问题的,然后到官方网站下载<br><a href="http://www.seagate.com/www/en-us/support/downloads/seatools" target="_blank" rel="external">SeaTools for Windows</a><br></p>
+            <p class="article-more-link">
+                <a href="/2012/03/22/returns-my-seagate/#more">Read More</a>
+            </p>
+        
         </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2012/01/28/android-4-contacts-the-depth-integration-with-google-plus/">
-                            Android 4.0 通讯录与Google+的深度整合
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Sat Jan 28 2012 12:16:00 GMT+0800">
-	
-		    Jan 28, 2012
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/develop/">develop</a>
+        <footer class="article-footer">
+            <div class="share-container">
 
 
-    
+
 </div>
-            </div>
+
+    <a data-url="http://hivandu.github.io/2012/03/22/returns-my-seagate/" data-id="cj7xk9ek800944dlroi36fbjn" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
             
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>在4.0以前,我记得Android里的通讯录名称是“contact”.而在4.0之后,我的手机上是4.0.3,将其更改为“people”了.</p>
+    
+        <a href="http://hivandu.github.io/2012/03/22/returns-my-seagate/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/03/22/returns-my-seagate/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-android-4-contacts-the-depth-integration-with-google-plus" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2012/01/28/android-4-contacts-the-depth-integration-with-google-plus/">Android 4.0 通讯录与Google+的深度整合</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2012/01/28/android-4-contacts-the-depth-integration-with-google-plus/">
+            <time datetime="2012-01-28T04:16:00.000Z" itemprop="datePublished">2012-01-28</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/develop/">develop</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Android/">Android</a>, <a class="tag-link" href="/tags/Google-Plus/">Google-Plus</a>, <a class="tag-link" href="/tags/Gtalk/">Gtalk</a>, <a class="tag-link" href="/tags/connection/">connection</a>, <a class="tag-link" href="/tags/整合/">整合</a>, <a class="tag-link" href="/tags/选单/">选单</a>, <a class="tag-link" href="/tags/通讯录/">通讯录</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><p>在4.0以前,我记得Android里的通讯录名称是“contact”.而在4.0之后,我的手机上是4.0.3,将其更改为“people”了.</p>
 <p>而更改的不仅仅是这小小的名称!大家都记得在之前版本的contact里,拨打界面和通讯录界面是整合在一起的.所以那个时候我第一屏单单放一个拨打电话就OK了.需要查找通讯录的话,可以切换tab.</p>
-<p><img src="http://farm8.staticflickr.com/7173/6774975553_9920907f85_z.jpg" alt="image"> </p>
-                    
-                        <a href="/2012/01/28/android-4-contacts-the-depth-integration-with-google-plus/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
+<p><img src="http://farm8.staticflickr.com/7173/6774975553_9920907f85_z.jpg" alt="image"> </p></p>
+            <p class="article-more-link">
+                <a href="/2012/01/28/android-4-contacts-the-depth-integration-with-google-plus/#more">Read More</a>
+            </p>
+        
         </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2012/01/24/the-third-part-of-the-java-learning/">
-                            Java学习 开始第三部分
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Tue Jan 24 2012 12:16:00 GMT+0800">
-	
-		    Jan 24, 2012
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/develop/">develop</a>
+        <footer class="article-footer">
+            <div class="share-container">
 
 
-    
+
 </div>
-            </div>
+
+    <a data-url="http://hivandu.github.io/2012/01/28/android-4-contacts-the-depth-integration-with-google-plus/" data-id="cj7xk9ef000244dlrhehp5oek" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
             
+    
+        <a href="http://hivandu.github.io/2012/01/28/android-4-contacts-the-depth-integration-with-google-plus/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/01/28/android-4-contacts-the-depth-integration-with-google-plus/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-the-third-part-of-the-java-learning" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2012/01/24/the-third-part-of-the-java-learning/">Java学习 开始第三部分</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2012/01/24/the-third-part-of-the-java-learning/">
+            <time datetime="2012-01-24T04:16:00.000Z" itemprop="datePublished">2012-01-24</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/develop/">develop</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/api/">api</a>, <a class="tag-link" href="/tags/code/">code</a>, <a class="tag-link" href="/tags/java/">java</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
             
-                <div class="postShorten-content" itemprop="articleBody">
-                    <p>其实早几天前就进入了第三部分,而因为第二部分面向对象程序设计糊里糊涂,搞得再接下来的学习里有很多实例根本看不懂,或者很难回忆起所学的知识点.不得不回头又一个字一个字的老老实实的看了一遍,并且将每个字都敲出来更新到了Sites上!至此算是比较牢固了..而更新的部分,相信对于想进入Java世界的新手们也算是一个好的参考.</p>
+            <p>其实早几天前就进入了第三部分,而因为第二部分面向对象程序设计糊里糊涂,搞得再接下来的学习里有很多实例根本看不懂,或者很难回忆起所学的知识点.不得不回头又一个字一个字的老老实实的看了一遍,并且将每个字都敲出来更新到了Sites上!至此算是比较牢固了..而更新的部分,相信对于想进入Java世界的新手们也算是一个好的参考.</p>
 <p>其中前两部分分为八章,第一部分为基础程序设计,第二部分为面向对象程序设计 ,第三部分则是实战的Java应用程序设计.我询问过一个朋友,说是对于Android开发来说,Java的前两部分属于基础,非常重要.而第三部分也就无所谓了.不过想来,还是将所有的东西全部抓牢以后再开始.毕竟Java已经学到这一步,规规矩矩做一个Java开发者也未尝不可.下面给出Java前两部分的链接,算是再次推广我的Learn Wiki.而第三部分将不会在此更新了.有兴趣的自己跟着我在Sites上的更新翻看吧,更新速度要视我自己的学习速度而定!现在手上的教程为:<a href="http://www.amazon.cn/gp/product/B002IIE012/ref=as_li_tf_tl?ie=UTF8&amp;tag=duart-23&amp;linkCode=as2&amp;camp=536&amp;creative=3200&amp;creativeASIN=B002IIE012" target="_blank" rel="external">《Java 开发与实战经典》</a></p>
 <p><img src="http://farm8.staticflickr.com/7153/6750793489_d9338b03b7_z.jpg" alt="image"></p>
 <p>第一部分:Java基础程序设计 <a href="http://learn.hivan.me/index/home/java-learn/Java-DAP/chapter1" target="_blank" rel="external">1.Java概述及开发环境搭建</a> <a href="http://learn.hivan.me/index/home/java-learn/Java-DAP/chapter2" target="_blank" rel="external">2.简单的Java程序</a> <a href="http://learn.hivan.me/index/home/java-learn/Java-DAP/chapter3" target="_blank" rel="external">3.Java基础程序设计</a> <a href="http://learn.hivan.me/index/home/java-learn/Java-DAP/chapter4" target="_blank" rel="external">4.数组与方法</a></p>
 <p>第二部分:Java面向对象程序设计 <a href="http://learn.hivan.me/index/home/java-learn/Java-DAP/chapter5" target="_blank" rel="external">5.面向对象(基础篇)</a> <a href="http://learn.hivan.me/index/home/java-learn/Java-DAP/chapter06" target="_blank" rel="external">6.面向对象(高级篇)</a> <a href="http://learn.hivan.me/index/home/java-learn/Java-DAP/chapter07" target="_blank" rel="external">7.异常的捕获与处理</a> <a href="http://learn.hivan.me/index/home/java-learn/Java-DAP/chapter08" target="_blank" rel="external">8.包及访问控制权限</a></p>
 <p>第三部分将不会继续在这里给出链接.请自行查看 <a href="http://learn.hivan.me/index/home/java-learn/Java-DAP" target="_blank" rel="external">http://learn.hivan.me/index/home/java-learn/Java-DAP</a></p>
 
-                    
-                        
-                    
-                    
-                        <p>
-                            <a href="/2012/01/24/the-third-part-of-the-java-learning/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
+        
         </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2012/01/17/maya-learn-in-google-sites/">
-                            Maya Learn in Google Sites
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Tue Jan 17 2012 12:16:00 GMT+0800">
-	
-		    Jan 17, 2012
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/web/">web</a>
+        <footer class="article-footer">
+            <div class="share-container">
 
 
-    
+
 </div>
-            </div>
+
+    <a data-url="http://hivandu.github.io/2012/01/24/the-third-part-of-the-java-learning/" data-id="cj7xk9ela00a64dlr80idjt7v" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
             
+    
+        <a href="http://hivandu.github.io/2012/01/24/the-third-part-of-the-java-learning/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/01/24/the-third-part-of-the-java-learning/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-maya-learn-in-google-sites" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2012/01/17/maya-learn-in-google-sites/">Maya Learn in Google Sites</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2012/01/17/maya-learn-in-google-sites/">
+            <time datetime="2012-01-17T04:16:00.000Z" itemprop="datePublished">2012-01-17</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/web/">web</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Evernote/">Evernote</a>, <a class="tag-link" href="/tags/code/">code</a>, <a class="tag-link" href="/tags/post/">post</a>, <a class="tag-link" href="/tags/sites/">sites</a>, <a class="tag-link" href="/tags/wiki/">wiki</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
             
-                <div class="postShorten-content" itemprop="articleBody">
-                    <p>前些日子在Google Sites上建立了一个Learn Wiki,想必有些同学已经知道了!不过想是推广的还不够…</p>
+            <p>前些日子在Google Sites上建立了一个Learn Wiki,想必有些同学已经知道了!不过想是推广的还不够…</p>
 <p>关于这个Wiki,有想过几种预案,一种是直接在Evernote上记录,然后直接共享!不过这有一个问题,就像我上上上篇Post里所写的,不好归纳和查找!本地是没有什么问题,但是共享出来的目录都是单独的,无法形成相互联系的节点!</p>
 <p>还有一种是借照<a href="http://riku.wowubuntu.com/" title="Riku" target="_blank" rel="external">@Riku</a>以前曾经用过的方案,使用Wiki程序自搭建!</p>
 <p>这虽然是一个很不错的方案,可是由于我这次的主机是在国内主机商上选用的最便宜的那种,根本不够空间和流量搭建博客以外的东西…</p>
@@ -522,94 +1150,266 @@
 <p>如果您有关于Code 和<br>CG的相关资源向要记录或分享,可以写信给我,我给您一个Edit权限.好让您与我一同维护这个wiki站点!不过需要注意的,虽然浏览可以通过我的二级域名,可是编辑还是需要直接访问sites,也就是说需要翻墙!</p>
 <p>最后,希望这个我的这个Wiki内容逐渐丰富起来,对大家也能有所帮助!谢谢大家捧场…</p>
 
-                    
-                        
-                    
-                    
-                        <p>
-                            <a href="/2012/01/17/maya-learn-in-google-sites/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
+        
         </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2012/01/12/copy-java-code/">
-                            一段实现Copy的Java代码
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Thu Jan 12 2012 12:16:00 GMT+0800">
-	
-		    Jan 12, 2012
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/develop/">develop</a>
+        <footer class="article-footer">
+            <div class="share-container">
 
 
-    
+
 </div>
-            </div>
+
+    <a data-url="http://hivandu.github.io/2012/01/17/maya-learn-in-google-sites/" data-id="cj7xk9eiu00704dlrqffxqvue" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
             
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>在DOS命中存在一个文件的复制命令(copy),例如,,将D盘中XX文件复制到D盘中并另命名为OO文件,则只要在命令行中输入copy即可完成.<br>
+    
+        <a href="http://hivandu.github.io/2012/01/17/maya-learn-in-google-sites/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/01/17/maya-learn-in-google-sites/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-copy-java-code" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2012/01/12/copy-java-code/">一段实现Copy的Java代码</a>
+        </h1>
+    
+
+                <div class="article-meta">
                     
-                        <a href="/2012/01/12/copy-java-code/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2012/01/12/copy-java-code/">
+            <time datetime="2012-01-12T04:16:00.000Z" itemprop="datePublished">2012-01-12</time>
+        </a>
+    </div>
+
+
                     
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/develop/">develop</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/code/">code</a>, <a class="tag-link" href="/tags/copy/">copy</a>, <a class="tag-link" href="/tags/java/">java</a>
+    </div>
+
                 </div>
-            
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><p>在DOS命中存在一个文件的复制命令(copy),例如,,将D盘中XX文件复制到D盘中并另命名为OO文件,则只要在命令行中输入copy即可完成.<br></p>
+            <p class="article-more-link">
+                <a href="/2012/01/12/copy-java-code/#more">Read More</a>
+            </p>
+        
         </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2012/01/09/gmail-forward-upper-limit/">
-                            Gmail 的转发上限
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Mon Jan 09 2012 12:16:00 GMT+0800">
-	
-		    Jan 09, 2012
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/web/">web</a>
+        <footer class="article-footer">
+            <div class="share-container">
 
 
-    
+
 </div>
-            </div>
+
+    <a data-url="http://hivandu.github.io/2012/01/12/copy-java-code/" data-id="cj7xk9eft00384dlr4tveh1ck" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
             
+    
+        <a href="http://hivandu.github.io/2012/01/12/copy-java-code/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/01/12/copy-java-code/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-gmail-forward-upper-limit" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2012/01/09/gmail-forward-upper-limit/">Gmail 的转发上限</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2012/01/09/gmail-forward-upper-limit/">
+            <time datetime="2012-01-09T04:16:00.000Z" itemprop="datePublished">2012-01-09</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/web/">web</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Gmail/">Gmail</a>, <a class="tag-link" href="/tags/forward/">forward</a>, <a class="tag-link" href="/tags/过滤器/">过滤器</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
             
-                <div class="postShorten-content" itemprop="articleBody">
-                    <p>在Gmail中创建转发过滤器是有上限的,这个估计没有多少人知道!我想也是因为没有多少人有实际的需求…</p>
+            <p>在Gmail中创建转发过滤器是有上限的,这个估计没有多少人知道!我想也是因为没有多少人有实际的需求…</p>
 <p>今天我在Twitter上抱怨Gmail里的邮件过多,占用了很大一部分空间,以至于我的Gmail空间已经临近上限… 也终于迫使我开始清理邮件! </p>
 <p>###问题产生:###<br>在清理的时候发现,除了一些比较大附件的邮件以外,大部分占用空间的邮件都是一些广告邮件!</p>
 <p>我很少设置过滤器删除广告邮件,特别是一些推送服务的广告,不过大多都是直接略过收件箱存档而已,有空了还可以去看看…这也使得我这几年来邮箱里布满了此类邮件!</p>
@@ -622,91 +1422,209 @@
 <p>###解决方案:###<br>比如说,我要将 renren.com kaixin001.com 高朋 卓越 美团 拉手等邮件过滤直接forward到QQ邮箱里,那么其实创建一条filter就够了!按如下格式<code>renren.com OR kaixin001.com OR 高朋 OR 卓越 OR 美团  OR 拉手</code>,其中“OR”是Gmail中所支持的布尔运算符,而且必须大写.</p>
 <h3 id="延伸阅读"><a href="#延伸阅读" class="headerlink" title="延伸阅读:"></a>延伸阅读:</h3><p>希望这篇文可以帮助更多的人更好的利用Gmail.更详尽的运算符可以查阅<a href="https://support.google.com/mail/bin/answer.py?hl=en&amp;answer=7190" target="_blank" rel="external">Gmail的帮助手册</a></p>
 
-                    
-                        
-                    
-                    
-                        <p>
-                            <a href="/2012/01/09/gmail-forward-upper-limit/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
         
-    </article>
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://hivandu.github.io/2012/01/09/gmail-forward-upper-limit/" data-id="cj7xk9egl00454dlrsvhwnm96" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
     
-    <div class="pagination-bar">
-    <ul class="pagination">
-        
-        <li class="pagination-prev">
-            
-                <a class="btn btn--default btn--small" href="/page/5/">
-            
-                <i class="fa fa-angle-left text-base icon-mr"></i>
-                    <span>NEWER POSTS</span>
-            </a>
-        </li>
-        
-        
-        <li class="pagination-next">
-            <a class="btn btn--default btn--small" href="/page/7/">
-                    <span>OLDER POSTS</span>
-                <i class="fa fa-angle-right text-base icon-ml"></i>
-            </a>
-        </li>
-        
-        <li class="pagination-number">page 6 of 15</li>
-    </ul>
-</div>
+        <a href="http://hivandu.github.io/2012/01/09/gmail-forward-upper-limit/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/01/09/gmail-forward-upper-limit/">Comments</a>
+    
 
-</section>
-
-
-                <footer id="footer" class="main-content-wrap">
-    <span class="copyrights">
-        Copyrights &copy; 2017 Hivan Du. All Rights Reserved.
-    </span>
-</footer>
-
-            </div>
-            
-        </div>
-        
-
-
-<div id="about">
-    <div id="about-card">
-        <div id="about-btn-close">
-            <i class="fa fa-remove"></i>
-        </div>
-        
-            <h4 id="about-card-name">Hivan Du</h4>
-        
-            <h5 id="about-card-bio"><p>author.bio</p>
-</h5>
-        
-        
-            <h5 id="about-card-job">
-                <i class="fa fa-briefcase"></i>
-                <br/>
-                <p>author.job</p>
-
-            </h5>
-        
-        
+        </footer>
     </div>
-</div>
+    
+</article>
 
+
+
+    <nav id="page-nav">
+        <a class="extend prev" rel="prev" href="/page/5/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/7/">Next &raquo;</a>
+    </nav>
+</section>
+            
+                <aside id="sidebar">
+   
         
-<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
-    </body>
-    <!--SCRIPTS-->
-<script src="/assets/js/scrip-tu4ziscb5jrkjxubeugdgizktyuugflfq5jvgz4agzzmwifuq01g1lmq8giw.min.js"></script>
-<!--SCRIPTS END-->
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2017/09/23/ssh-link-server-use-iTerm2/" class="title">ssh link server use iTerm2</a></p>
+                            <p class="item-date"><time datetime="2017-09-23T15:42:30.000Z" itemprop="datePublished">2017-09-23</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2017/06/29/sketch-open-hight-version-file/" class="title">sketch中打开高版本文件</a></p>
+                            <p class="item-date"><time datetime="2017-06-29T08:43:46.000Z" itemprop="datePublished">2017-06-29</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2017/05/14/set-Dynamic-universe-canvas/" class="title">宇宙星空特效</a></p>
+                            <p class="item-date"><time datetime="2017-05-13T17:54:35.000Z" itemprop="datePublished">2017-05-14</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2017/02/13/npm-check/" class="title">npm-check</a></p>
+                            <p class="item-date"><time datetime="2017-02-13T02:54:03.000Z" itemprop="datePublished">2017-02-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/12/30/vue2.0-custom-filter-to-global/" class="title">vue 2.0 自定义filter并挂载到全局使用</a></p>
+                            <p class="item-date"><time datetime="2016-12-30T04:59:03.000Z" itemprop="datePublished">2016-12-30</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2017 Hivan Du<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_shortname = 'duart';
+    
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
 
 
 
+    
+        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
 </html>

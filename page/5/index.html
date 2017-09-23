@@ -1,687 +1,1601 @@
-
 <!DOCTYPE html>
-<html lang="null">
-    
+<html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Duart">
+    <meta charset="utf-8">
+    
     <title>Duart</title>
-    <meta name="author" content="Hivan Du">
-    
-    
-    
-    <meta property="og:type" content="blog">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta property="og:type" content="website">
 <meta property="og:title" content="Duart">
 <meta property="og:url" content="http://hivandu.github.io/page/5/index.html">
 <meta property="og:site_name" content="Duart">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Duart">
     
+
     
-        
+
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
     
     
     
     
-    
-    <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-27vrduj1jopliavvnzi7ibndpmbvg7lzo4a2uswrsi4m5vwauf2qi8s1v3or.min.css">
-    <!--STYLES END-->
-    
-    
+
 </head>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                
+                <span class="site-title">Duart</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/css/images/avatar.jpg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
 
-    <body>
-        <div id="blog">
-            <!-- Define author's picture -->
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
 
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
 
-    
-
-<header id="header" data-behavior="2">
-    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
-    <h1 class="header-title">
-        <a class="header-title-link" href="/ ">Duart</a>
-    </h1>
-    
-        
-            <a  class="header-right-picture "
-                href="#about">
-        
-        
-        </a>
-    
+                </td>
+            </tr>
+        </table>
+    </div>
 </header>
 
-            <!-- Define author's picture -->
-
-
-<nav id="sidebar" data-behavior="2">
-    
-    
-        <ul class="sidebar-buttons">
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="/ "
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
-                    <span class="sidebar-button-desc">Home</span>
-                </a>
-        </li>
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="/all-categories"
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
-                    <span class="sidebar-button-desc">Categories</span>
-                </a>
-        </li>
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="/all-tags"
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
-                    <span class="sidebar-button-desc">Tags</span>
-                </a>
-        </li>
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="/all-archives"
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
-                    <span class="sidebar-button-desc">Archives</span>
-                </a>
-        </li>
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link st-search-show-outputs"
-                         href="#search"
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
-                    <span class="sidebar-button-desc">Search</span>
-                </a>
-        </li>
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="#about"
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
-                    <span class="sidebar-button-desc">About</span>
-                </a>
-        </li>
-        
-    </ul>
-    
-        <ul class="sidebar-buttons">
-        
-    </ul>
-    
-        <ul class="sidebar-buttons">
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="/atom.xml"
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
-                    <span class="sidebar-button-desc">RSS</span>
-                </a>
-        </li>
-        
-    </ul>
-    
-</nav>
-
+        <div class="outer">
             
-            <div id="main" data-behavior="2"
-                 class="
-                        hasCoverMetaIn
-                        ">
                 
 
-<section class="postShorten-group main-content-wrap">
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2012/11/06/ruby-range/">
-                            Ruby Range
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Tue Nov 06 2012 12:19:48 GMT+0800">
-	
-		    Nov 06, 2012
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/develop/">develop</a>
-
-
-    
-</div>
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/css/images/avatar.jpg" />
+            <h2 id="name">Hivan Du</h2>
+            <h3 id="title">Web Developer &amp; Designer</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Shanghai, China</span>
+            <a id="follow" target="_blank" href="https://github.com/hivandu">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                150
+                <span>posts</span>
             </div>
-            
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>Range在概念上看是非常直观的。不过在实际的使用中，我们可能会遇到一些令人混淆的东西。<br>看如下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">digits = 0..9     #0到9</div><div class="line">scale1 = 0..10    #0到10</div><div class="line">scale2 = 0...10   #0到9,不包含10</div></pre></td></tr></table></figure></p>
-                    
-                        <a href="/2012/11/06/ruby-range/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
+            <div class="article-info-block">
+                240
+                <span>tags</span>
+            </div>
         </div>
         
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
+        <div class="profile-block social-links">
+            <table>
+                <tr>
                     
-                        <a class="link-unstyled" href="/2012/11/05/ruby-「file」/">
-                            ruby-「file」
-                        </a>
+                    <td><a href="http://github.com/hivandu" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
                     
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Mon Nov 05 2012 12:14:41 GMT+0800">
-	
-		    Nov 05, 2012
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/develop/">develop</a>
-
-
-    
-</div>
-            </div>
-            
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>读取一行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">File.open(&apos;test.txt&apos;,&apos;r&apos;) do |f|</div><div class="line">  while line = f.gets</div><div class="line">      #puts line</div><div class="line">  end</div><div class="line">end</div></pre></td></tr></table></figure>
+                    <td><a href="https://twitter.com/hivan" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
                     
-                        <a href="/2012/11/05/ruby-「file」/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
+                    <td><a href="https://facebook.com/hivan" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
                     
-                </div>
-            
+                    <td><a href="https://dribbble.com/Hivan" target="_blank" title="dribbble"><i class="fa fa-dribbble"></i></a></td>
+                    
+                    <td><a href="/atom.xml" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+                    
+                </tr>
+            </table>
         </div>
         
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2012/09/16/ruby-chinese-input-error/">
-                            Ruby Chinese input error
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Sun Sep 16 2012 12:18:00 GMT+0800">
-	
-		    Sep 16, 2012
-    	
-    </time>
-    
-        <span>in </span>
+    </div>
+</aside>
+
+            
+            <section id="main">
+    <article id="post-ruby-range" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
         
-    <a class="category-link" href="/categories/develop/">develop</a>
-
-
+        
+        
+            <header class="article-header">
+                
     
-</div>
-            </div>
-            
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>这里是有需求了才知道有麻烦了.一直按照剧本来演, 根本就不知道自己再超脱剧本之外有多大的创造力.而当自己真的开始尝试了以后,才知道有这样那样诸多的问题.</p>
+        <h1 itemprop="name">
+            <a class="article-title" href="/2012/11/06/ruby-range/">Ruby Range</a>
+        </h1>
+    
+
+                <div class="article-meta">
                     
-                        <a href="/2012/09/16/ruby-chinese-input-error/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2012/11/06/ruby-range/">
+            <time datetime="2012-11-06T04:19:48.000Z" itemprop="datePublished">2012-11-06</time>
+        </a>
+    </div>
+
+
                     
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/develop/">develop</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Ruby/">Ruby</a>
+    </div>
+
                 </div>
-            
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><p>Range在概念上看是非常直观的。不过在实际的使用中，我们可能会遇到一些令人混淆的东西。<br>看如下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">digits = 0..9     #0到9</div><div class="line">scale1 = 0..10    #0到10</div><div class="line">scale2 = 0...10   #0到9,不包含10</div></pre></td></tr></table></figure></p></p>
+            <p class="article-more-link">
+                <a href="/2012/11/06/ruby-range/#more">Read More</a>
+            </p>
+        
         </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2012/07/27/ruby-chinese-error-ascii/">
-                            Ruby 中文错误-ASCII
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Fri Jul 27 2012 12:16:58 GMT+0800">
-	
-		    Jul 27, 2012
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/develop/">develop</a>
+        <footer class="article-footer">
+            <div class="share-container">
 
 
-    
+
 </div>
-            </div>
+
+    <a data-url="http://hivandu.github.io/2012/11/06/ruby-range/" data-id="cj7xk9ekf009a4dlrsy0vkok7" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
             
+    
+        <a href="http://hivandu.github.io/2012/11/06/ruby-range/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/11/06/ruby-range/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-ruby-「file」" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2012/11/05/ruby-「file」/">ruby-「file」</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2012/11/05/ruby-「file」/">
+            <time datetime="2012-11-05T04:14:41.000Z" itemprop="datePublished">2012-11-05</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/develop/">develop</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Ruby/">Ruby</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><p>读取一行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">File.open(&apos;test.txt&apos;,&apos;r&apos;) do |f|</div><div class="line">  while line = f.gets</div><div class="line">      #puts line</div><div class="line">  end</div><div class="line">end</div></pre></td></tr></table></figure></p>
+            <p class="article-more-link">
+                <a href="/2012/11/05/ruby-「file」/#more">Read More</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://hivandu.github.io/2012/11/05/ruby-「file」/" data-id="cj7xk9ekj009e4dlrkqojz9v5" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
             
-                <div class="postShorten-content" itemprop="articleBody">
-                    <p>才开始学习Ruby,当然免不了诸如此类的错误!未免忘记,还是记录一下!好记性不如烂笔头…</p>
+    
+        <a href="http://hivandu.github.io/2012/11/05/ruby-「file」/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/11/05/ruby-「file」/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-ruby-chinese-input-error" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2012/09/16/ruby-chinese-input-error/">Ruby Chinese input error</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2012/09/16/ruby-chinese-input-error/">
+            <time datetime="2012-09-16T04:18:00.000Z" itemprop="datePublished">2012-09-16</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/develop/">develop</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Chinese/">Chinese</a>, <a class="tag-link" href="/tags/Ruby/">Ruby</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><p>这里是有需求了才知道有麻烦了.一直按照剧本来演, 根本就不知道自己再超脱剧本之外有多大的创造力.而当自己真的开始尝试了以后,才知道有这样那样诸多的问题.</p></p>
+            <p class="article-more-link">
+                <a href="/2012/09/16/ruby-chinese-input-error/#more">Read More</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://hivandu.github.io/2012/09/16/ruby-chinese-input-error/" data-id="cj7xk9ekd00984dlr24yld13x" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://hivandu.github.io/2012/09/16/ruby-chinese-input-error/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/09/16/ruby-chinese-input-error/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-ruby-chinese-error-ascii" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2012/07/27/ruby-chinese-error-ascii/">Ruby 中文错误-ASCII</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2012/07/27/ruby-chinese-error-ascii/">
+            <time datetime="2012-07-27T04:16:58.000Z" itemprop="datePublished">2012-07-27</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/develop/">develop</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Chinese/">Chinese</a>, <a class="tag-link" href="/tags/Ruby/">Ruby</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>才开始学习Ruby,当然免不了诸如此类的错误!未免忘记,还是记录一下!好记性不如烂笔头…</p>
 <p>编译含有中文字符的.rb文件会出现这种错误,原因是因为Ruby1.9是用ASCII编码来读源码的. 解决办法就是再源文件的第一行加上 <code># encoding:utf-8</code></p>
 <p>或者再执行文件的时候执行如下代码: <code>ruby -Ku test.rb (Mac下) ruby -Ks test.rb</code> (Win下)</p>
 
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://hivandu.github.io/2012/07/27/ruby-chinese-error-ascii/" data-id="cj7xk9ek500924dlr89kz6jq2" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://hivandu.github.io/2012/07/27/ruby-chinese-error-ascii/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/07/27/ruby-chinese-error-ascii/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-socialnomics-vs-sina" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2012/07/18/socialnomics-vs-sina/">socialnomics VS Sina</a>
+        </h1>
+    
+
+                <div class="article-meta">
                     
-                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2012/07/18/socialnomics-vs-sina/">
+            <time datetime="2012-07-18T13:31:00.000Z" itemprop="datePublished">2012-07-18</time>
+        </a>
+    </div>
+
+
                     
-                    
-                        <p>
-                            <a href="/2012/07/27/ruby-chinese-error-ascii/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/web/">web</a>
+    </div>
+
                     
                 </div>
-            
-        </div>
+            </header>
         
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2012/07/18/socialnomics-vs-sina/">
-                            socialnomics VS Sina
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Wed Jul 18 2012 21:31:00 GMT+0800">
-	
-		    Jul 18, 2012
-    	
-    </time>
-    
-        <span>in </span>
+        <div class="article-entry" itemprop="articleBody">
         
-    <a class="category-link" href="/categories/web/">web</a>
-
-
-    
-</div>
-            </div>
-            
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>注： 这篇文是转载自Google+上 @<a href="https://plus.google.com/u/0/108255121787158995006/posts/LA7c9c52HKo" target="_blank" rel="external">Isaac Mao</a>。<a href="http://stocktwits.com/symbol/SINA" target="_blank" rel="external">地址</a></p>
+            <p><p>注： 这篇文是转载自Google+上 @<a href="https://plus.google.com/u/0/108255121787158995006/posts/LA7c9c52HKo" target="_blank" rel="external">Isaac Mao</a>。<a href="http://stocktwits.com/symbol/SINA" target="_blank" rel="external">地址</a></p>
 <p>在此之前，还真不知道<code>socialnomics</code>这样一个概念。我在自己的博客上很少转发别人的文，转发此文，原意完全是为了能更广的传播，因为Google+相当一部分人打不开，而文又比较长不适合发微博，即便发了，相信Sina上也很快就回删除。让Sina自己和自己玩去吧。</p>
 <p>转文：</p>
 <p>#SINA   #Alert </p>
-<p>自6月17日新浪微博刪除我賬戶以來，以每天平均10條微博，10美元/條的低價索賠，並發分析新浪審查自毀的信件給全球基金經理建議“削” $SINA 股票</p>
-                    
-                        <a href="/2012/07/18/socialnomics-vs-sina/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
+<p>自6月17日新浪微博刪除我賬戶以來，以每天平均10條微博，10美元/條的低價索賠，並發分析新浪審查自毀的信件給全球基金經理建議“削” $SINA 股票</p></p>
+            <p class="article-more-link">
+                <a href="/2012/07/18/socialnomics-vs-sina/#more">Read More</a>
+            </p>
+        
         </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2012/07/17/ruby1-dot-9-3-for-lion/">
-                            ruby1.9.3 for Lion
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Tue Jul 17 2012 12:24:15 GMT+0800">
-	
-		    Jul 17, 2012
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/develop/">develop</a>
+        <footer class="article-footer">
+            <div class="share-container">
 
 
-    
+
 </div>
-            </div>
+
+    <a data-url="http://hivandu.github.io/2012/07/18/socialnomics-vs-sina/" data-id="cj7xk9el200a04dlrj8dv4qwj" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
             
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>最近败了个MACBOOK PRO，才发现以前在PC上装的黑苹果和正宗的Lion简直是天差地别！好用到近期都不再碰Windows。</p>
+    
+        <a href="http://hivandu.github.io/2012/07/18/socialnomics-vs-sina/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/07/18/socialnomics-vs-sina/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-ruby1-dot-9-3-for-lion" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2012/07/17/ruby1-dot-9-3-for-lion/">ruby1.9.3 for Lion</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2012/07/17/ruby1-dot-9-3-for-lion/">
+            <time datetime="2012-07-17T04:24:15.000Z" itemprop="datePublished">2012-07-17</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/develop/">develop</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/OSX/">OSX</a>, <a class="tag-link" href="/tags/Ruby/">Ruby</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><p>最近败了个MACBOOK PRO，才发现以前在PC上装的黑苹果和正宗的Lion简直是天差地别！好用到近期都不再碰Windows。</p>
 <p>其实说起来，网上大牛们都曾经说过开发Ruby的话，在Windows下是一种折磨，所以我一开始用过Ubuntu。其实我开始用Ruby的原因仅仅是因为Octopress，并且在Win8上使用过一段时间。看过我之前博客的人应该都知道，那真是段折磨人的日子。</p>
-<p>说回Mac的Ruby开发，当然首先都知道在Mac上开发要去下载一个xcode，在无法忍受的网络环境下将1G多的Xcode下载安装后以为就万事大吉，相反，这才是开始！在Xcode4.3中，GCC编译环境似乎并没有集成，当然，不只是GCC而已！所以，我们不得不去又去折腾一番才行。如图： </p>
+<p>说回Mac的Ruby开发，当然首先都知道在Mac上开发要去下载一个xcode，在无法忍受的网络环境下将1G多的Xcode下载安装后以为就万事大吉，相反，这才是开始！在Xcode4.3中，GCC编译环境似乎并没有集成，当然，不只是GCC而已！所以，我们不得不去又去折腾一番才行。如图： </p></p>
+            <p class="article-more-link">
+                <a href="/2012/07/17/ruby1-dot-9-3-for-lion/#more">Read More</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://hivandu.github.io/2012/07/17/ruby1-dot-9-3-for-lion/" data-id="cj7xk9ekr009m4dlrdizeg3hb" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://hivandu.github.io/2012/07/17/ruby1-dot-9-3-for-lion/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/07/17/ruby1-dot-9-3-for-lion/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-cnbloggercon-20" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2012/07/04/cnbloggercon-20/">CnBloggerCon 2012</a>
+        </h1>
+    
+
+                <div class="article-meta">
                     
-                        <a href="/2012/07/17/ruby1-dot-9-3-for-lion/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2012/07/04/cnbloggercon-20/">
+            <time datetime="2012-07-04T01:46:00.000Z" itemprop="datePublished">2012-07-04</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/web/">web</a>
+    </div>
+
                     
                 </div>
-            
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><p>一年一度的中文网志年会与今晨八点开始，不过没想到的是昨晚就已经完成了开幕式。在Google+上由<a href="https://plus.google.com/u/0/108255121787158995006/posts" target="_blank" rel="external">Isaac Mao</a>主持开幕Hangout视频。可惜我没有看到！<br><img src="http://farm8.staticflickr.com/7248/7482001638_741df3dc29_z.jpg" alt="CBC ShangHai"></p></p>
+            <p class="article-more-link">
+                <a href="/2012/07/04/cnbloggercon-20/#more">Read More</a>
+            </p>
+        
         </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2012/07/04/cnbloggercon-20/">
-                            CnBloggerCon 2012
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Wed Jul 04 2012 09:46:00 GMT+0800">
-	
-		    Jul 04, 2012
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/web/">web</a>
+        <footer class="article-footer">
+            <div class="share-container">
 
 
-    
+
 </div>
-            </div>
+
+    <a data-url="http://hivandu.github.io/2012/07/04/cnbloggercon-20/" data-id="cj7xk9efr00344dlr33vjrm81" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
             
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>一年一度的中文网志年会与今晨八点开始，不过没想到的是昨晚就已经完成了开幕式。在Google+上由<a href="https://plus.google.com/u/0/108255121787158995006/posts" target="_blank" rel="external">Isaac Mao</a>主持开幕Hangout视频。可惜我没有看到！<br><img src="http://farm8.staticflickr.com/7248/7482001638_741df3dc29_z.jpg" alt="CBC ShangHai"></p>
+    
+        <a href="http://hivandu.github.io/2012/07/04/cnbloggercon-20/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/07/04/cnbloggercon-20/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-ladlibray-with-error-6" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2012/04/10/ladlibray-with-error-6/">ladlibray with error 126</a>
+        </h1>
+    
+
+                <div class="article-meta">
                     
-                        <a href="/2012/07/04/cnbloggercon-20/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2012/04/10/ladlibray-with-error-6/">
+            <time datetime="2012-04-10T15:19:00.000Z" itemprop="datePublished">2012-04-10</time>
+        </a>
+    </div>
+
+
                     
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/software/">software</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/ATI/">ATI</a>, <a class="tag-link" href="/tags/windows-8/">windows 8</a>, <a class="tag-link" href="/tags/显卡/">显卡</a>, <a class="tag-link" href="/tags/错误/">错误</a>, <a class="tag-link" href="/tags/驱动/">驱动</a>
+    </div>
+
                 </div>
-            
-        </div>
+            </header>
         
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2012/04/10/ladlibray-with-error-6/">
-                            ladlibray with error 126
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Tue Apr 10 2012 23:19:00 GMT+0800">
-	
-		    Apr 10, 2012
-    	
-    </time>
-    
-        <span>in </span>
+        <div class="article-entry" itemprop="articleBody">
         
-    <a class="category-link" href="/categories/software/">software</a>
-
-
-    
-</div>
-            </div>
             
-            
-                <div class="postShorten-content" itemprop="articleBody">
-                    <p>这里仅做个记录,以后好查找相应命令!</p>
+            <p>这里仅做个记录,以后好查找相应命令!</p>
 <p>这个错误产生的原因是因为显卡驱动没有完善,运行openGL需要loadlibrary的API加载一个模块,但是模块没有找到. 问题只会出现在Win8,Win7和Vista上,并且是ATI显卡才会出现这种问题! <a href="http://www.tomshardware.com/forum/284973-33-catalyst-breaks-opengl-games" target="_blank" rel="external">Link</a> 不幸的是我才换了一块A卡!</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">* Win+X</div><div class="line">* 选择**命令提示符(管理员) #要复制文件到Windows目录必须管理员权限</div><div class="line">* cd c:\windows\System32</div><div class="line">* copy opengl32.dll .dll</div><div class="line">已复制		1个文件</div></pre></td></tr></table></figure>
 <p>再打开Maya或者Photoshop等,应该OK了!但是会被告知停用GPU增强! </p>
 <p>所以我劝各位,还是赶快升级你的显卡驱动吧!或者换块显卡(这两样对我都不实际)</p>
 <p>update:刚才Google相关资料的时候,发现有个老外有<a href="http://www.withinwindows.com/2012/03/31/loadlibrary-failed-with-error-126-redux/" target="_blank" rel="external">更简单的办法</a>!直接导入注册表.但是因为注册表文件是Win8的,所以Win7的童鞋慎行! 如果上边的地址失效,你可以在这里<a href="http://hivan.me/downloads/code/Windows/ati_w8_opengl_64bit.reg" target="_blank" rel="external">下载.reg</a></p>
 
-                    
-                        
-                    
-                    
-                        <p>
-                            <a href="/2012/04/10/ladlibray-with-error-6/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
+        
         </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2012/04/10/auto-save-photo-to-qqmail/">
-                            Auto-save-photo-to-qqmail
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Tue Apr 10 2012 12:19:22 GMT+0800">
-	
-		    Apr 10, 2012
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/web/">web</a>
+        <footer class="article-footer">
+            <div class="share-container">
 
 
-    
-</div>
-            </div>
-            
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>为什么是QQ Mail?</p>
-<p>因为它大,而且不断自动扩容,你想把它装满暂时是不太现实. 而且来说,QQ邮箱的体验还是非常不错的!过滤规则也很能满足要求,归档搜索查找都不错!一些不涉及隐私而又想保存的文件或者照片或者其他什么东东,存在QQ邮箱里还是不错的!比如:XXX</p>
-                    
-                        <a href="/2012/04/10/auto-save-photo-to-qqmail/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2012/04/09/note-about-my-ubuntu/">
-                            Note about my ubuntu
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Mon Apr 09 2012 11:49:33 GMT+0800">
-	
-		    Apr 09, 2012
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/develop/">develop</a>
 
-
-    
-</div>
-            </div>
-            
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>这是我为了便于自己以后方便而记录的一些关于我ubuntu上设置所需要的内容！当然其中内容都是通用的，只是如果你们要拿去用的话记得将路径以及一些变量变成你自己的！</p>
-<h3 id="about-system"><a href="#about-system" class="headerlink" title="about system"></a>about system</h3><p><code>$ sudo gedit /etc/apt/sources.list</code></p>
-                    
-                        <a href="/2012/04/09/note-about-my-ubuntu/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    <div class="pagination-bar">
-    <ul class="pagination">
-        
-        <li class="pagination-prev">
-            
-                <a class="btn btn--default btn--small" href="/page/4/">
-            
-                <i class="fa fa-angle-left text-base icon-mr"></i>
-                    <span>NEWER POSTS</span>
-            </a>
-        </li>
-        
-        
-        <li class="pagination-next">
-            <a class="btn btn--default btn--small" href="/page/6/">
-                    <span>OLDER POSTS</span>
-                <i class="fa fa-angle-right text-base icon-ml"></i>
-            </a>
-        </li>
-        
-        <li class="pagination-number">page 5 of 15</li>
-    </ul>
 </div>
 
-</section>
+    <a data-url="http://hivandu.github.io/2012/04/10/ladlibray-with-error-6/" data-id="cj7xk9eic00674dlr1j32ezdy" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
 
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
 
-                <footer id="footer" class="main-content-wrap">
-    <span class="copyrights">
-        Copyrights &copy; 2017 Hivan Du. All Rights Reserved.
-    </span>
-</footer>
+            if ($('#' + id).length) {
+                box = $('#' + id);
 
-            </div>
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
             
-        </div>
-        
+    
+        <a href="http://hivandu.github.io/2012/04/10/ladlibray-with-error-6/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/04/10/ladlibray-with-error-6/">Comments</a>
+    
 
-
-<div id="about">
-    <div id="about-card">
-        <div id="about-btn-close">
-            <i class="fa fa-remove"></i>
-        </div>
-        
-            <h4 id="about-card-name">Hivan Du</h4>
-        
-            <h5 id="about-card-bio"><p>author.bio</p>
-</h5>
-        
-        
-            <h5 id="about-card-job">
-                <i class="fa fa-briefcase"></i>
-                <br/>
-                <p>author.job</p>
-
-            </h5>
-        
-        
+        </footer>
     </div>
+    
+</article>
+
+
+
+    <article id="post-auto-save-photo-to-qqmail" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2012/04/10/auto-save-photo-to-qqmail/">Auto-save-photo-to-qqmail</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2012/04/10/auto-save-photo-to-qqmail/">
+            <time datetime="2012-04-10T04:19:22.000Z" itemprop="datePublished">2012-04-10</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/web/">web</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Mail/">Mail</a>, <a class="tag-link" href="/tags/ifttt/">ifttt</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>为什么是QQ Mail?</p>
+<p>因为它大,而且不断自动扩容,你想把它装满暂时是不太现实. 而且来说,QQ邮箱的体验还是非常不错的!过滤规则也很能满足要求,归档搜索查找都不错!一些不涉及隐私而又想保存的文件或者照片或者其他什么东东,存在QQ邮箱里还是不错的!比如:XXX</p></p>
+            <p class="article-more-link">
+                <a href="/2012/04/10/auto-save-photo-to-qqmail/#more">Read More</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
 </div>
 
+    <a data-url="http://hivandu.github.io/2012/04/10/auto-save-photo-to-qqmail/" data-id="cj7xk9efg002p4dlrgcz3cpgr" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://hivandu.github.io/2012/04/10/auto-save-photo-to-qqmail/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/04/10/auto-save-photo-to-qqmail/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-note-about-my-ubuntu" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
         
-<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
-    </body>
-    <!--SCRIPTS-->
-<script src="/assets/js/scrip-tu4ziscb5jrkjxubeugdgizktyuugflfq5jvgz4agzzmwifuq01g1lmq8giw.min.js"></script>
-<!--SCRIPTS END-->
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2012/04/09/note-about-my-ubuntu/">Note about my ubuntu</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2012/04/09/note-about-my-ubuntu/">
+            <time datetime="2012-04-09T03:49:33.000Z" itemprop="datePublished">2012-04-09</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/develop/">develop</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/linux/">linux</a>, <a class="tag-link" href="/tags/ubuntu/">ubuntu</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><p>这是我为了便于自己以后方便而记录的一些关于我ubuntu上设置所需要的内容！当然其中内容都是通用的，只是如果你们要拿去用的话记得将路径以及一些变量变成你自己的！</p>
+<h3 id="about-system"><a href="#about-system" class="headerlink" title="about system"></a>about system</h3><p><code>$ sudo gedit /etc/apt/sources.list</code></p></p>
+            <p class="article-more-link">
+                <a href="/2012/04/09/note-about-my-ubuntu/#more">Read More</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
 
 
 
+</div>
+
+    <a data-url="http://hivandu.github.io/2012/04/09/note-about-my-ubuntu/" data-id="cj7xk9ejd007w4dlripporz21" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://hivandu.github.io/2012/04/09/note-about-my-ubuntu/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/04/09/note-about-my-ubuntu/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <nav id="page-nav">
+        <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
+    </nav>
+</section>
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2017/09/23/ssh-link-server-use-iTerm2/" class="title">ssh link server use iTerm2</a></p>
+                            <p class="item-date"><time datetime="2017-09-23T15:42:30.000Z" itemprop="datePublished">2017-09-23</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2017/06/29/sketch-open-hight-version-file/" class="title">sketch中打开高版本文件</a></p>
+                            <p class="item-date"><time datetime="2017-06-29T08:43:46.000Z" itemprop="datePublished">2017-06-29</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2017/05/14/set-Dynamic-universe-canvas/" class="title">宇宙星空特效</a></p>
+                            <p class="item-date"><time datetime="2017-05-13T17:54:35.000Z" itemprop="datePublished">2017-05-14</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2017/02/13/npm-check/" class="title">npm-check</a></p>
+                            <p class="item-date"><time datetime="2017-02-13T02:54:03.000Z" itemprop="datePublished">2017-02-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/12/30/vue2.0-custom-filter-to-global/" class="title">vue 2.0 自定义filter并挂载到全局使用</a></p>
+                            <p class="item-date"><time datetime="2016-12-30T04:59:03.000Z" itemprop="datePublished">2016-12-30</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2017 Hivan Du<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_shortname = 'duart';
+    
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+    
+        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
 </html>

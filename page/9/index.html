@@ -1,288 +1,477 @@
-
 <!DOCTYPE html>
-<html lang="null">
-    
+<html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Duart">
+    <meta charset="utf-8">
+    
     <title>Duart</title>
-    <meta name="author" content="Hivan Du">
-    
-    
-    
-    <meta property="og:type" content="blog">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta property="og:type" content="website">
 <meta property="og:title" content="Duart">
 <meta property="og:url" content="http://hivandu.github.io/page/9/index.html">
 <meta property="og:site_name" content="Duart">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Duart">
     
+
     
-        
+
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
     
     
     
     
-    
-    <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-27vrduj1jopliavvnzi7ibndpmbvg7lzo4a2uswrsi4m5vwauf2qi8s1v3or.min.css">
-    <!--STYLES END-->
-    
-    
+
 </head>
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                
+                <span class="site-title">Duart</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/css/images/avatar.jpg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
 
-    <body>
-        <div id="blog">
-            <!-- Define author's picture -->
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
 
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
 
-    
-
-<header id="header" data-behavior="2">
-    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
-    <h1 class="header-title">
-        <a class="header-title-link" href="/ ">Duart</a>
-    </h1>
-    
-        
-            <a  class="header-right-picture "
-                href="#about">
-        
-        
-        </a>
-    
+                </td>
+            </tr>
+        </table>
+    </div>
 </header>
 
-            <!-- Define author's picture -->
-
-
-<nav id="sidebar" data-behavior="2">
-    
-    
-        <ul class="sidebar-buttons">
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="/ "
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
-                    <span class="sidebar-button-desc">Home</span>
-                </a>
-        </li>
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="/all-categories"
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
-                    <span class="sidebar-button-desc">Categories</span>
-                </a>
-        </li>
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="/all-tags"
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
-                    <span class="sidebar-button-desc">Tags</span>
-                </a>
-        </li>
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="/all-archives"
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
-                    <span class="sidebar-button-desc">Archives</span>
-                </a>
-        </li>
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link st-search-show-outputs"
-                         href="#search"
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-search"></i>
-                    <span class="sidebar-button-desc">Search</span>
-                </a>
-        </li>
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="#about"
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
-                    <span class="sidebar-button-desc">About</span>
-                </a>
-        </li>
-        
-    </ul>
-    
-        <ul class="sidebar-buttons">
-        
-    </ul>
-    
-        <ul class="sidebar-buttons">
-        
-            <li class="sidebar-button">
-                
-                    <a  class="sidebar-button-link "
-                         href="/atom.xml"
-                        
-                    >
-                
-                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
-                    <span class="sidebar-button-desc">RSS</span>
-                </a>
-        </li>
-        
-    </ul>
-    
-</nav>
-
+        <div class="outer">
             
-            <div id="main" data-behavior="2"
-                 class="
-                        hasCoverMetaIn
-                        ">
                 
 
-<section class="postShorten-group main-content-wrap">
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2011/04/01/miss-puffs-hourglass/">
-                            泡芙小姐的沙漏
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Fri Apr 01 2011 00:00:00 GMT+0800">
-	
-		    Apr 01, 2011
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/design/">design</a>
-
-
-    
-</div>
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/css/images/avatar.jpg" />
+            <h2 id="name">Hivan Du</h2>
+            <h3 id="title">Web Developer &amp; Designer</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Shanghai, China</span>
+            <a id="follow" target="_blank" href="https://github.com/hivandu">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                150
+                <span>posts</span>
             </div>
-            
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>在之前,我有分享过<a href="http://hivan.me/11-youth-film-series-miss-bubble-fus-aquarium/" target="_blank" rel="external">泡芙小姐的鱼缸</a>,我很喜欢这个系列片!现实和动画的结合的非常巧妙.</p>
-                    
-                        <a href="/2011/04/01/miss-puffs-hourglass/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
+            <div class="article-info-block">
+                240
+                <span>tags</span>
+            </div>
         </div>
         
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
+        <div class="profile-block social-links">
+            <table>
+                <tr>
                     
-                        <a class="link-unstyled" href="/2011/03/13/maya-iff-plugin-photoshop/">
-                            Maya IFF plugin for Photoshop
-                        </a>
+                    <td><a href="http://github.com/hivandu" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
                     
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Sun Mar 13 2011 18:21:00 GMT+0800">
-	
-		    Mar 13, 2011
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/software/">software</a>
-
-
-    
-</div>
-            </div>
-            
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>这是一个Photoshop的插件,支持CS5.Photoshop默认输出是没有IFF文件选项的,这个插件可以让Photoshop支持输出Maya的IFF文件格式!如图:</p>
-
-<p><img src="http://i859.photobucket.com/albums/ab159/hivandoo/Blog%20image/MayaIFF.jpg" alt="Maya IFF plugin"><br>
+                    <td><a href="https://twitter.com/hivan" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></td>
                     
-                        <a href="/2011/03/13/maya-iff-plugin-photoshop/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
+                    <td><a href="https://facebook.com/hivan" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
                     
-                </div>
-            
+                    <td><a href="https://dribbble.com/Hivan" target="_blank" title="dribbble"><i class="fa fa-dribbble"></i></a></td>
+                    
+                    <td><a href="/atom.xml" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+                    
+                </tr>
+            </table>
         </div>
         
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2011/02/27/iviewmediaprov313build42e6-key/">
-                            IViewMediaPro-v3.1.3.Build.42E6 Key
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Sun Feb 27 2011 21:25:00 GMT+0800">
-	
-		    Feb 27, 2011
-    	
-    </time>
-    
-        <span>in </span>
+    </div>
+</aside>
+
+            
+            <section id="main">
+    <article id="post-miss-puffs-hourglass" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
         
-    <a class="category-link" href="/categories/software/">software</a>
-
-
+        
+        
+            <header class="article-header">
+                
     
+        <h1 itemprop="name">
+            <a class="article-title" href="/2011/04/01/miss-puffs-hourglass/">泡芙小姐的沙漏</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2011/04/01/miss-puffs-hourglass/">
+            <time datetime="2011-03-31T16:00:00.000Z" itemprop="datePublished">2011-04-01</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/design/">design</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/animation/">animation</a>, <a class="tag-link" href="/tags/动画/">动画</a>, <a class="tag-link" href="/tags/泡芙小姐/">泡芙小姐</a>, <a class="tag-link" href="/tags/皮三/">皮三</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><p>在之前,我有分享过<a href="http://hivan.me/11-youth-film-series-miss-bubble-fus-aquarium/" target="_blank" rel="external">泡芙小姐的鱼缸</a>,我很喜欢这个系列片!现实和动画的结合的非常巧妙.</p></p>
+            <p class="article-more-link">
+                <a href="/2011/04/01/miss-puffs-hourglass/#more">Read More</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
 </div>
-            </div>
+
+    <a data-url="http://hivandu.github.io/2011/04/01/miss-puffs-hourglass/" data-id="cj7xk9ej2007h4dlrqvekkj1w" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
             
+    
+        <a href="http://hivandu.github.io/2011/04/01/miss-puffs-hourglass/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2011/04/01/miss-puffs-hourglass/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-maya-iff-plugin-photoshop" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2011/03/13/maya-iff-plugin-photoshop/">Maya IFF plugin for Photoshop</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2011/03/13/maya-iff-plugin-photoshop/">
+            <time datetime="2011-03-13T10:21:00.000Z" itemprop="datePublished">2011-03-13</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/software/">software</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Maya/">Maya</a>, <a class="tag-link" href="/tags/Photoshop/">Photoshop</a>, <a class="tag-link" href="/tags/download/">download</a>, <a class="tag-link" href="/tags/iff/">iff</a>, <a class="tag-link" href="/tags/plugin/">plugin</a>, <a class="tag-link" href="/tags/save/">save</a>, <a class="tag-link" href="/tags/保存/">保存</a>, <a class="tag-link" href="/tags/格式/">格式</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><p>这是一个Photoshop的插件,支持CS5.Photoshop默认输出是没有IFF文件选项的,这个插件可以让Photoshop支持输出Maya的IFF文件格式!如图:</p>
+
+<p><img src="http://i859.photobucket.com/albums/ab159/hivandoo/Blog%20image/MayaIFF.jpg" alt="Maya IFF plugin"><br></p>
+            <p class="article-more-link">
+                <a href="/2011/03/13/maya-iff-plugin-photoshop/#more">Read More</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://hivandu.github.io/2011/03/13/maya-iff-plugin-photoshop/" data-id="cj7xk9eix00764dlrnbca30ym" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
             
-                <div class="postShorten-content" itemprop="articleBody">
-                    <p>IViewMediaPro-v3.1.3.Build.42E6 的注册码以及程序下载!</p>
+    
+        <a href="http://hivandu.github.io/2011/03/13/maya-iff-plugin-photoshop/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2011/03/13/maya-iff-plugin-photoshop/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-iviewmediaprov313build42e6-key" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2011/02/27/iviewmediaprov313build42e6-key/">IViewMediaPro-v3.1.3.Build.42E6 Key</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2011/02/27/iviewmediaprov313build42e6-key/">
+            <time datetime="2011-02-27T13:25:00.000Z" itemprop="datePublished">2011-02-27</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/software/">software</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Media/">Media</a>, <a class="tag-link" href="/tags/image/">image</a>, <a class="tag-link" href="/tags/电脑软件/">电脑软件</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>IViewMediaPro-v3.1.3.Build.42E6 的注册码以及程序下载!</p>
 <p>对于那些想用合理价格买到专业级媒体管理工具的设计师来说,MediaPro的最新版本很理想.这个小的工具包运行速度非常快.几秒钟就可以处理大量媒体文件,而且即使是最大的目录也是可以快速载入的.</p>
 <p>添加文件和文件夹到你所创建的目录中也只是轻松的拖拉动作而已,程序在记录多个数据源方面是很棒的,包括自动系统同步.</p>
 <p>尤其喜欢”文件夹查看”功能,这样你就可以添加元件到不同的目录下,只需简单的快速拖动它们到桌面文件夹即可.</p>
@@ -291,184 +480,528 @@
 <p>不过MediaPro所无法提供的是完整DAM系统的升级路径,这与Extensis Portfoio 7是不同的!</p>
 <p>软件主页 : <a href="http://iview-multimedia.com/" target="_blank" rel="external">http://iview-multimedia.com/</a></p>
 
-                    
-                        
-                    
-                    
-                        <p>
-                            <a href="/2011/02/27/iviewmediaprov313build42e6-key/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
+        
         </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2011/02/15/android-ownandroidify/">
-                            Make Android Your Own-Androidify
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Tue Feb 15 2011 21:24:00 GMT+0800">
-	
-		    Feb 15, 2011
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/software/">software</a>
+        <footer class="article-footer">
+            <div class="share-container">
 
 
-    
+
 </div>
-            </div>
+
+    <a data-url="http://hivandu.github.io/2011/02/27/iviewmediaprov313build42e6-key/" data-id="cj7xk9ei6005w4dlr6hmza69m" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
             
+    
+        <a href="http://hivandu.github.io/2011/02/27/iviewmediaprov313build42e6-key/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2011/02/27/iviewmediaprov313build42e6-key/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-android-ownandroidify" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2011/02/15/android-ownandroidify/">Make Android Your Own-Androidify</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2011/02/15/android-ownandroidify/">
+            <time datetime="2011-02-15T13:24:00.000Z" itemprop="datePublished">2011-02-15</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/software/">software</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Android/">Android</a>, <a class="tag-link" href="/tags/Androidify/">Androidify</a>, <a class="tag-link" href="/tags/Google/">Google</a>, <a class="tag-link" href="/tags/Own/">Own</a>, <a class="tag-link" href="/tags/app/">app</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
             
-                <div class="postShorten-content" itemprop="articleBody">
-                    <p>Androidify,由Google推出的一个app，可以让Android使用者在手机上创造属于自己的形象Android。是一套单纯的纸娃娃系统,可以自定义包括肤色、发色、衣服、裤子、鞋子、饰品等众多套件，还可变更身体的比例，其实还颇好玩的哩。只要直接在Android Market搜寻Androidify就能找到这个可爱的小软件。</p>
+            <p>Androidify,由Google推出的一个app，可以让Android使用者在手机上创造属于自己的形象Android。是一套单纯的纸娃娃系统,可以自定义包括肤色、发色、衣服、裤子、鞋子、饰品等众多套件，还可变更身体的比例，其实还颇好玩的哩。只要直接在Android Market搜寻Androidify就能找到这个可爱的小软件。</p>
 <p>跳转有Google针对这个app推出的小短片。不过还不如自己赶快下载回来玩比较实在。</p>
 <div class="video-container"><embed src="http://www.tudou.com/v/xmAwwxbn0Tw/&rpid=2060991/v.swf" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" wmode="opaque" width="480" height="400"></div>
-                    
-                        
-                    
-                    
-                        <p>
-                            <a href="/2011/02/15/android-ownandroidify/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
+        
         </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2011/01/06/android-3-0-preview/">
-                            Android 3.0 Preview
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Thu Jan 06 2011 18:21:00 GMT+0800">
-	
-		    Jan 06, 2011
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/develop/">develop</a>
+        <footer class="article-footer">
+            <div class="share-container">
 
 
-    
+
 </div>
-            </div>
+
+    <a data-url="http://hivandu.github.io/2011/02/15/android-ownandroidify/" data-id="cj7xk9ef7002a4dlr6i2mp36b" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
             
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>整个界面都显得很陌生啊!大家可以从视频中看到.<br>
+    
+        <a href="http://hivandu.github.io/2011/02/15/android-ownandroidify/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2011/02/15/android-ownandroidify/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-android-3-0-preview" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2011/01/06/android-3-0-preview/">Android 3.0 Preview</a>
+        </h1>
+    
+
+                <div class="article-meta">
                     
-                        <a href="/2011/01/06/android-3-0-preview/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2011/01/06/android-3-0-preview/">
+            <time datetime="2011-01-06T10:21:00.000Z" itemprop="datePublished">2011-01-06</time>
+        </a>
+    </div>
+
+
                     
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/develop/">develop</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Android/">Android</a>, <a class="tag-link" href="/tags/Android-3-0/">Android-3.0</a>, <a class="tag-link" href="/tags/Google/">Google</a>, <a class="tag-link" href="/tags/preview/">preview</a>
+    </div>
+
                 </div>
-            
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><p>整个界面都显得很陌生啊!大家可以从视频中看到.<br></p>
+            <p class="article-more-link">
+                <a href="/2011/01/06/android-3-0-preview/#more">Read More</a>
+            </p>
+        
         </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2011/01/05/windows-phone-7-carck-download/">
-                            Windows phone 7 破解工具开放下载
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Wed Jan 05 2011 18:22:00 GMT+0800">
-	
-		    Jan 05, 2011
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/develop/">develop</a>
+        <footer class="article-footer">
+            <div class="share-container">
 
 
-    
+
 </div>
-            </div>
+
+    <a data-url="http://hivandu.github.io/2011/01/06/android-3-0-preview/" data-id="cj7xk9ees001x4dlrsl5h0uar" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
             
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>微软Windows Phone 7应用程序商店早前被发现存在严重漏洞，Tobias对微软和各位开发者做以警告，希望微软能竟快的将漏洞补上，但是微软方面没有实质动静。现在终于有一款XAP下载工具露面，WP7 MktPlace 0.36d于今日被正式公开提供下载！<br>
+    
+        <a href="http://hivandu.github.io/2011/01/06/android-3-0-preview/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2011/01/06/android-3-0-preview/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-windows-phone-7-carck-download" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2011/01/05/windows-phone-7-carck-download/">Windows phone 7 破解工具开放下载</a>
+        </h1>
+    
+
+                <div class="article-meta">
                     
-                        <a href="/2011/01/05/windows-phone-7-carck-download/" class="postShorten-excerpt_link link">
-                            Continue reading
-                        </a>
-                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2011/01/05/windows-phone-7-carck-download/">
+            <time datetime="2011-01-05T10:22:00.000Z" itemprop="datePublished">2011-01-05</time>
+        </a>
+    </div>
+
+
                     
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/develop/">develop</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/download/">download</a>, <a class="tag-link" href="/tags/windows-phone/">windows-phone</a>, <a class="tag-link" href="/tags/破解/">破解</a>
+    </div>
+
                 </div>
-            
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><p>微软Windows Phone 7应用程序商店早前被发现存在严重漏洞，Tobias对微软和各位开发者做以警告，希望微软能竟快的将漏洞补上，但是微软方面没有实质动静。现在终于有一款XAP下载工具露面，WP7 MktPlace 0.36d于今日被正式公开提供下载！<br></p>
+            <p class="article-more-link">
+                <a href="/2011/01/05/windows-phone-7-carck-download/#more">Read More</a>
+            </p>
+        
         </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2010/12/17/google-translate/">
-                            Google Translate
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Fri Dec 17 2010 15:01:00 GMT+0800">
-	
-		    Dec 17, 2010
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/web/">web</a>
+        <footer class="article-footer">
+            <div class="share-container">
 
 
-    
+
 </div>
-            </div>
+
+    <a data-url="http://hivandu.github.io/2011/01/05/windows-phone-7-carck-download/" data-id="cj7xk9ely00ar4dlrsni4oc33" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
             
+    
+        <a href="http://hivandu.github.io/2011/01/05/windows-phone-7-carck-download/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2011/01/05/windows-phone-7-carck-download/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-google-translate" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2010/12/17/google-translate/">Google Translate</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2010/12/17/google-translate/">
+            <time datetime="2010-12-17T07:01:00.000Z" itemprop="datePublished">2010-12-17</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/web/">web</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Google/">Google</a>, <a class="tag-link" href="/tags/Tool/">Tool</a>, <a class="tag-link" href="/tags/Translate/">Translate</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
             
-                <div class="postShorten-content" itemprop="articleBody">
-                    <p>一些比较有意思的发音,自己点击传送门去听!<br><a href="http://translate.google.com/#de|de|pv%20zk%20pv%20pv%20zk%20pv%20zk%20kz%20zk%20pv%20pv%20pv%20zk%20pv%20zk%20zk%20pzk%20pzk%20pvzkpkzvpvzk%20kkkkkk%20bsch" target="_blank" rel="external">一段DJ</a></p>
+            <p>一些比较有意思的发音,自己点击传送门去听!<br><a href="http://translate.google.com/#de|de|pv%20zk%20pv%20pv%20zk%20pv%20zk%20kz%20zk%20pv%20pv%20pv%20zk%20pv%20zk%20zk%20pzk%20pzk%20pvzkpkzvpvzk%20kkkkkk%20bsch" target="_blank" rel="external">一段DJ</a></p>
 
 <p><a href="http://translate.google.cn/#zh-CN|en|Knee%20Mug%20Bee!Knee%20Mug%20Bee!Knee%20MugKnee%20MugKnee%20Mug%20Bee" target="_blank" rel="external">不雅段子1</a></p>
 
@@ -476,52 +1009,135 @@
 
 <p><a href="http://translate.google.com/?js= ... l=en&tl=zh-CN#zh-CN|en|ha%20ha%20ha%20ha%20%20wo%20chao%20ni%20ma%20%20gebee%20" target="_blank" rel="external">呃,这个是….</a>　　<br><br>　　</p>
 
-                    
-                        
-                    
-                    
-                        <p>
-                            <a href="/2010/12/17/google-translate/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
+        
         </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2010/12/11/android-2-2-app2sd/">
-                            Android 2.2 App2sd 问题
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Sat Dec 11 2010 15:01:00 GMT+0800">
-	
-		    Dec 11, 2010
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/develop/">develop</a>
+        <footer class="article-footer">
+            <div class="share-container">
 
 
-    
+
 </div>
-            </div>
+
+    <a data-url="http://hivandu.github.io/2010/12/17/google-translate/" data-id="cj7xk9eh9004q4dlralios4z6" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
             
+    
+        <a href="http://hivandu.github.io/2010/12/17/google-translate/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2010/12/17/google-translate/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-android-2-2-app2sd" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2010/12/11/android-2-2-app2sd/">Android 2.2 App2sd 问题</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2010/12/11/android-2-2-app2sd/">
+            <time datetime="2010-12-11T07:01:00.000Z" itemprop="datePublished">2010-12-11</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/develop/">develop</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Android/">Android</a>, <a class="tag-link" href="/tags/app2sd/">app2sd</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
             
-                <div class="postShorten-content" itemprop="articleBody">
-                    <p>其实比起以前版本的app2sd来说,设置是一样的!只是多了一个步骤,就是需要给rom添加一个sdext.然后所有的设置就和以前的版本一模一样了.</p>
+            <p>其实比起以前版本的app2sd来说,设置是一样的!只是多了一个步骤,就是需要给rom添加一个sdext.然后所有的设置就和以前的版本一模一样了.</p>
 
 <p>首先当然需要有一个已经分好区的sdcard,具体设置可以查看我以前的文,有ubuntu下进行分区的和windows下的!</p>
 
@@ -546,195 +1162,471 @@
 
 <p>有什么不明白的再问吧!</p>
 
-                    
-                        
-                    
-                    
-                        <p>
-                            <a href="/2010/12/11/android-2-2-app2sd/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
+        
         </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2010/07/06/cm6-test0-32b/">
-                            CM6 test0 32b
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Tue Jul 06 2010 15:01:00 GMT+0800">
-	
-		    Jul 06, 2010
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/develop/">develop</a>
+        <footer class="article-footer">
+            <div class="share-container">
 
 
-    
+
 </div>
-            </div>
+
+    <a data-url="http://hivandu.github.io/2010/12/11/android-2-2-app2sd/" data-id="cj7xk9eem001o4dlrmfx0exnh" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
             
+    
+        <a href="http://hivandu.github.io/2010/12/11/android-2-2-app2sd/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2010/12/11/android-2-2-app2sd/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-cm6-test0-32b" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2010/07/06/cm6-test0-32b/">CM6 test0 32b</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2010/07/06/cm6-test0-32b/">
+            <time datetime="2010-07-06T07:01:00.000Z" itemprop="datePublished">2010-07-06</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/develop/">develop</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/32b/">32b</a>, <a class="tag-link" href="/tags/Android/">Android</a>, <a class="tag-link" href="/tags/CM/">CM</a>, <a class="tag-link" href="/tags/G1/">G1</a>, <a class="tag-link" href="/tags/rom/">rom</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
             
-                <div class="postShorten-content" itemprop="articleBody">
-                    <p>好吧,熟悉的人看到标题应该能猜到这就是Android 2.2 的CM版本.没想到这么快会出现,和之前发布的版本不同,这次编译与CM大神的版本!没想到在和儿子过生的当间就发布了…<br><ul><br>    <li>基于7月5日最新CM6源码编译，新增了电池百分比显示的开关，在Cyanogenmod 设置里进行更改</li><br>    <li>默认关闭jit，在32a/32b等低端机上开启jit对性能没有改善，反倒更占内存，故在这个版本中关闭jit</li><br>    <li>修改ADW的默认设置，使其常驻内存，改善从其它程序退回桌面的速度</li><br>    <li>修改ADW的壁纸图库，用AOSP的图库替换了CM的图库</li><br>    <li>修改了framework.jar，使用了geesun的代码试其支持中文运营商显示</li><br>    <li>使用了最新的FRF91的GAPPS</li><br>    <li>CM6自带的contact文件有不少bug，故换成了aosp的contact，虽然相对cm6的功能更少，但非常稳定</li><br>    <li>重新编译了kernel，个人感觉比默认的kernel更稳定</li><br>    <li>进一步汉化了framework和superuser等程序</li><br>    <li>新增32a的支持，32a的用户也可以使用</li><br></ul><br>Known Issues：<br><ul><br>    <li>第一次启动时可能会意外重启，完成设置后就不会出现这个问题</li><br>    <li>相机中按0x变焦按键会使相机fc</li><br>    <li>摄像无法正常使用</li><br>    <li>由于Gapps都是Nexus专用的，故其素材的尺寸都很大，特别是gmail，显示出来很大，这个暂时无法解决</li><br>    <li>Dream和Magic因为性能问题，不支持flash，即便刷了2.2也不可能运行flash，所以不要去市场下载flash程序了，不会起作用的，另外也不要再求使用flash的方法了，在地球上不存在解决方法，除非你换手机</li><br></ul><br>App2sd：<br><br>rom支持app2sd，但默认没有开启。<br><br>开启方法：<br><br>在超级终端中输入：<br><br>su<br><br>pm setInstallLocation 2<br><br>即可开启app2sd，不需要有ext分区就可以使用，但官方的这个app2sd还不太稳定，不建议使用。<br><br>Download：<br><br>Dream/Magic 32b:<a href="http://thesoloblack.com/rom/cm6-test0-32b-0705-fixed.zip" target="_blank" rel="external">http://thesoloblack.com/rom/cm6-test0-32b-0705-fixed.zip</a><br><br>Magic 32a:<a href="http://thesoloblack.com/rom/cm6-test0-32a-0705-fixed.zip" target="_blank" rel="external">http://thesoloblack.com/rom/cm6-test0-32a-0705-fixed.zip</a></p>
+            <p>好吧,熟悉的人看到标题应该能猜到这就是Android 2.2 的CM版本.没想到这么快会出现,和之前发布的版本不同,这次编译与CM大神的版本!没想到在和儿子过生的当间就发布了…<br><ul><br>    <li>基于7月5日最新CM6源码编译，新增了电池百分比显示的开关，在Cyanogenmod 设置里进行更改</li><br>    <li>默认关闭jit，在32a/32b等低端机上开启jit对性能没有改善，反倒更占内存，故在这个版本中关闭jit</li><br>    <li>修改ADW的默认设置，使其常驻内存，改善从其它程序退回桌面的速度</li><br>    <li>修改ADW的壁纸图库，用AOSP的图库替换了CM的图库</li><br>    <li>修改了framework.jar，使用了geesun的代码试其支持中文运营商显示</li><br>    <li>使用了最新的FRF91的GAPPS</li><br>    <li>CM6自带的contact文件有不少bug，故换成了aosp的contact，虽然相对cm6的功能更少，但非常稳定</li><br>    <li>重新编译了kernel，个人感觉比默认的kernel更稳定</li><br>    <li>进一步汉化了framework和superuser等程序</li><br>    <li>新增32a的支持，32a的用户也可以使用</li><br></ul><br>Known Issues：<br><ul><br>    <li>第一次启动时可能会意外重启，完成设置后就不会出现这个问题</li><br>    <li>相机中按0x变焦按键会使相机fc</li><br>    <li>摄像无法正常使用</li><br>    <li>由于Gapps都是Nexus专用的，故其素材的尺寸都很大，特别是gmail，显示出来很大，这个暂时无法解决</li><br>    <li>Dream和Magic因为性能问题，不支持flash，即便刷了2.2也不可能运行flash，所以不要去市场下载flash程序了，不会起作用的，另外也不要再求使用flash的方法了，在地球上不存在解决方法，除非你换手机</li><br></ul><br>App2sd：<br><br>rom支持app2sd，但默认没有开启。<br><br>开启方法：<br><br>在超级终端中输入：<br><br>su<br><br>pm setInstallLocation 2<br><br>即可开启app2sd，不需要有ext分区就可以使用，但官方的这个app2sd还不太稳定，不建议使用。<br><br>Download：<br><br>Dream/Magic 32b:<a href="http://thesoloblack.com/rom/cm6-test0-32b-0705-fixed.zip" target="_blank" rel="external">http://thesoloblack.com/rom/cm6-test0-32b-0705-fixed.zip</a><br><br>Magic 32a:<a href="http://thesoloblack.com/rom/cm6-test0-32a-0705-fixed.zip" target="_blank" rel="external">http://thesoloblack.com/rom/cm6-test0-32a-0705-fixed.zip</a></p>
 
 <p><strong>本更新信息和下载链接均来源于机锋网!</strong></p>
 
-                    
-                        
-                    
-                    
-                        <p>
-                            <a href="/2010/07/06/cm6-test0-32b/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
+        
         </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2010/07/03/android-2-2-for-g1/">
-                            Android 2.2 for G1
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Sat Jul 03 2010 15:01:00 GMT+0800">
-	
-		    Jul 03, 2010
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/develop/">develop</a>
+        <footer class="article-footer">
+            <div class="share-container">
 
 
-    
-</div>
-            </div>
-            
-            
-                <div class="postShorten-content" itemprop="articleBody">
-                    <p>親愛的Android,我回歸了…說實話,後兩個月我真的有些壓抑.現在感覺解脫了!<br><img src="http://farm5.static.flickr.com/4080/4754782987_f6b843d0c0.jpg" alt=""><br>Android 2.2 For G1 已經被C神放出,貌似解決了相機問題,而其他問題暫時沒有進行測試,因為本人也正在下載中…萬分期待!</p>
 
-<p>先提供下載地址,等待我適用後再放試用報告..</p>
-
-<p><a href="http://drop.io/ionstorm/asset/defcon-dream-ota-eng-t1-signed-zip" target="_blank" rel="external">http://drop.io/ionstorm/asset/defcon-dream-ota-eng-t1-signed-zip</a></p>
-
-<p>PS:如果沒有語言要求可以下載這個版本就OK了,如果強烈需求中文,需要下載中文補丁包</p>
-
-<p>试用报告:<br><ul><br>    <li>仍然没有中文</li><br>    <li>系统默认没有中文输入法(这个到不是问题)</li><br>    <li>没有Google Map,市场无法下到.并且安装了4.2开发版后打开就崩溃(这点对于喜欢Buzz的朋友是个致命伤)</li><br>    <li>3D图库效果有.</li><br>    <li>相机不能用,和2.1不同的是,就算拍照有图片,打开来看也是一个android小人….</li><br>    <li>WIFI正常使用</li><br>    <li>蓝牙没有测试.</li><br>    <li>速度真的比2.1快了不少,没有一点卡的感觉.</li><br>    <li>Settings里有CyanogenMod settings,可以直接更新Rom,可是我这里链接失败.</li><br>    <li>Apn需要自行设置,具体的设置方法可在网上Google</li><br>    <li>Vpn使用正常</li><br>    <li>因为地图没有打开,所以GPS模块没有测试.</li><br>    <li>其他不进行补充了,由于以上有些原因是我无法接受的.所以打算刷回1.6rom,以前刷2.1是为了绑定自己和公司双帐号,现在不必了!不用忍受2.1的速度了…</li><br></ul></p>
-
-                    
-                        
-                    
-                    
-                        <p>
-                            <a href="/2010/07/03/android-2-2-for-g1/#post-footer" class="postShorten-excerpt_link link">
-                                Comment and share
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    <div class="pagination-bar">
-    <ul class="pagination">
-        
-        <li class="pagination-prev">
-            
-                <a class="btn btn--default btn--small" href="/page/8/">
-            
-                <i class="fa fa-angle-left text-base icon-mr"></i>
-                    <span>NEWER POSTS</span>
-            </a>
-        </li>
-        
-        
-        <li class="pagination-next">
-            <a class="btn btn--default btn--small" href="/page/10/">
-                    <span>OLDER POSTS</span>
-                <i class="fa fa-angle-right text-base icon-ml"></i>
-            </a>
-        </li>
-        
-        <li class="pagination-number">page 9 of 15</li>
-    </ul>
 </div>
 
-</section>
+    <a data-url="http://hivandu.github.io/2010/07/06/cm6-test0-32b/" data-id="cj7xk9efp00314dlr8yvcp0n9" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
 
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
 
-                <footer id="footer" class="main-content-wrap">
-    <span class="copyrights">
-        Copyrights &copy; 2017 Hivan Du. All Rights Reserved.
-    </span>
-</footer>
+            if ($('#' + id).length) {
+                box = $('#' + id);
 
-            </div>
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
             
-        </div>
-        
+    
+        <a href="http://hivandu.github.io/2010/07/06/cm6-test0-32b/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2010/07/06/cm6-test0-32b/">Comments</a>
+    
 
-
-<div id="about">
-    <div id="about-card">
-        <div id="about-btn-close">
-            <i class="fa fa-remove"></i>
-        </div>
-        
-            <h4 id="about-card-name">Hivan Du</h4>
-        
-            <h5 id="about-card-bio"><p>author.bio</p>
-</h5>
-        
-        
-            <h5 id="about-card-job">
-                <i class="fa fa-briefcase"></i>
-                <br/>
-                <p>author.job</p>
-
-            </h5>
-        
-        
+        </footer>
     </div>
-</div>
+    
+</article>
+
+
+
+    <article id="post-android-3-0" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2010/07/03/android-3-0/">Android 3.0</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2010/07/03/android-3-0/">
+            <time datetime="2010-07-03T07:01:00.000Z" itemprop="datePublished">2010-07-03</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/develop/">develop</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Android/">Android</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>好吧,7.1号Eldar Murtazin在其博客上已经放出一个可信度比较高的谣言,就是Android3.0将于十月份发布,代号姜饼(Gingerbread)<br><img src="http://www.unwiredview.com/wp-content/uploads/2010/06/Android-Gingerbread.jpg" alt=""><br>据传,3.0rom将会针对高端市场,分辨率达到了1280X760,支持此系统的最低配置将为1Ghz处理器,512M内存.可以这么说,在3.0系统发布以后,就可以正式宣布G1被彻底淘汰了.<br><ul><br>    <li>Android 3.0 Gingerbread will be released in mid- October (around 15 -16th), 2010. First handsets shipping in November/December – for the Holiday Season.</li><br>    <li><em>Minimum</em> hardware requirements for Android 3.0 devices are: 1GHZ CPU, 512MB or RAM, displays from 3.5” and higher.  (We all, of course, heard that <a href="http://www.unwiredview.com/2010/06/10/motorola-raises-the-bar-with-plans-for-2-ghz-android-in-2010/" target="_blank" rel="external">Android handsets with 2GHz CPU’s</a> are coming)</li><br>    <li>New 1280×760 resolution available for the devices with displays of 4” and higher. (Anyone thinking about Android tablets now? )</li><br>    <li>Completely revamped user interface. If you want to get a feeling of what Android 3.0 Gingerbread UX is like, check out the <a href="http://www.youtube.com/watch?v=1E1mSSBKEPU" target="_blank">Gallery  App</a> on Nexus One. The same overall feel, light animated transitions,etc. Natively, through all the UI.</li><br>    <li>Android’s split into 2 branches becomes official. 3.0 for top of the line/high end devices. Cheap, low-end mass market handsets will keep Android 2.1/2.2</li><br></ul><br>详情可以参看:<a href="http://www.unwiredview.com/2010/06/30/android-3-0-gingerbread-details-1280x760-resolution-1ghz-minimum-specs-mid-oct-release/" target="_blank" rel="external">http://www.unwiredview.com/2010/06/30/android-3-0-gingerbread-details-1280x760-resolution-1ghz-minimum-specs-mid-oct-release/</a></p>
 
         
-<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
-    </body>
-    <!--SCRIPTS-->
-<script src="/assets/js/scrip-tu4ziscb5jrkjxubeugdgizktyuugflfq5jvgz4agzzmwifuq01g1lmq8giw.min.js"></script>
-<!--SCRIPTS END-->
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
 
 
 
+</div>
+
+    <a data-url="http://hivandu.github.io/2010/07/03/android-3-0/" data-id="cj7xk9eex00224dlronv15iwr" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://hivandu.github.io/2010/07/03/android-3-0/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2010/07/03/android-3-0/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <nav id="page-nav">
+        <a class="extend prev" rel="prev" href="/page/8/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/10/">Next &raquo;</a>
+    </nav>
+</section>
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2017/09/23/ssh-link-server-use-iTerm2/" class="title">ssh link server use iTerm2</a></p>
+                            <p class="item-date"><time datetime="2017-09-23T15:42:30.000Z" itemprop="datePublished">2017-09-23</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2017/06/29/sketch-open-hight-version-file/" class="title">sketch中打开高版本文件</a></p>
+                            <p class="item-date"><time datetime="2017-06-29T08:43:46.000Z" itemprop="datePublished">2017-06-29</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2017/05/14/set-Dynamic-universe-canvas/" class="title">宇宙星空特效</a></p>
+                            <p class="item-date"><time datetime="2017-05-13T17:54:35.000Z" itemprop="datePublished">2017-05-14</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2017/02/13/npm-check/" class="title">npm-check</a></p>
+                            <p class="item-date"><time datetime="2017-02-13T02:54:03.000Z" itemprop="datePublished">2017-02-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/12/30/vue2.0-custom-filter-to-global/" class="title">vue 2.0 自定义filter并挂载到全局使用</a></p>
+                            <p class="item-date"><time datetime="2016-12-30T04:59:03.000Z" itemprop="datePublished">2016-12-30</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2017 Hivan Du<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_shortname = 'duart';
+    
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+    
+        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
 </html>
