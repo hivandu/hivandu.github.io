@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://hivandu.github.io/2017/09/23/ssh-link-server-use-iTerm2/index.html">
 <meta property="og:site_name" content="Duart">
 <meta property="og:description" content="123456789$ ssh-keygen -t rsa -C hvian -f id_rsa$ scp ~/.ssh/id_rsa_pub root@100.100.100.100:.ssh/id_rsa.pub$ ssh root@100.100.100.100$ password: xxxxxxx$ cat ~/.ssh/id_rsa.pub &amp;gt;&amp;gt; ~/.ssh/authoriz">
-<meta property="og:updated_time" content="2017-09-23T16:22:36.000Z">
+<meta property="og:updated_time" content="2017-09-23T17:10:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ssh link server use iTerm2">
 <meta name="twitter:description" content="123456789$ ssh-keygen -t rsa -C hvian -f id_rsa$ scp ~/.ssh/id_rsa_pub root@100.100.100.100:.ssh/id_rsa.pub$ ssh root@100.100.100.100$ password: xxxxxxx$ cat ~/.ssh/id_rsa.pub &amp;gt;&amp;gt; ~/.ssh/authoriz">
@@ -200,10 +200,11 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">$ ssh-keygen -t rsa -C hvian -f id_rsa</div><div class="line">$ scp ~/.ssh/id_rsa_pub root@<span class="number">100.100</span>.<span class="number">100.100</span>:.ssh/id_rsa.pub</div><div class="line">$ ssh root@<span class="number">100.100</span>.<span class="number">100.100</span></div><div class="line">$ password: xxxxxxx</div><div class="line">$ cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys</div><div class="line">$ <span class="keyword">exit</span></div><div class="line"></div><div class="line"><span class="comment">#################</span></div><div class="line">subl ~/.ssh/conifg</div></pre></td></tr></table></figure>
+            <figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">$ ssh-keygen -t rsa -C hvian -f id_rsa</div><div class="line">$ scp ~/.ssh/id_rsa_pub root@<span class="number">100.100</span>.<span class="number">100.100</span>:.ssh/id_rsa.pub</div><div class="line">$ ssh root@<span class="number">100.100</span>.<span class="number">100.100</span></div><div class="line">$ password: xxxxxxx</div><div class="line">$ cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys</div><div class="line">$ <span class="keyword">exit</span></div><div class="line"></div><div class="line"><span class="comment">#################</span></div><div class="line">subl ~/.ssh/config</div></pre></td></tr></table></figure>
 <p>配置:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Host dev</div><div class="line">Hostname 100.100.100.100</div><div class="line">Port 22</div><div class="line">User root</div><div class="line">IdentityFile ~/.ssh/id_rsa</div></pre></td></tr></table></figure>
 <p><strong>save, over</strong></p>
+<p>PS: 打开<strong>Surge</strong>的时候，<code>deploy</code>是无法上传到github上的。显示链接被重置！<br>PS2: <code>hexo</code>长久不更新会生锈的，频频报错</p>
 
         
         </div>
@@ -214,7 +215,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2017/09/23/ssh-link-server-use-iTerm2/" data-id="cj7xkdbpq00aa5vrle4is54bi" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2017/09/23/ssh-link-server-use-iTerm2/" data-id="cj7xknc2f00a79qlruhci9s6n" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
