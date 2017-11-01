@@ -134,7 +134,7 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                150
+                151
                 <span>posts</span>
             </div>
             <div class="article-info-block">
@@ -166,6 +166,136 @@
 
             
             <section id="main">
+    <article id="post-vux-tabbar-selected" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2017/11/01/vux-tabbar-selected/">vux更改Tabbar选中状态</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/11/01/vux-tabbar-selected/">
+            <time datetime="2017-11-01T15:56:29.000Z" itemprop="datePublished">2017-11-01</time>
+        </a>
+    </div>
+
+
+                    
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/vue/">vue</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>在vux的文档和示例中，都没有明确的说明tabbar上v-model的使用</p>
+<p>文档中将<code>v-model</code>说明放在了TabbarItem示例下，但是其实这个应该是放在<code>Tabbar</code>上</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">router-view</span> <span class="attr">class</span>=<span class="string">"view"</span> <span class="attr">v-on:changeTab</span>=<span class="string">"changeTab"</span>&gt;</span><span class="tag">&lt;/<span class="name">router-view</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">tabbar</span> <span class="attr">v-model</span>=<span class="string">"index"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">tabbar-item</span>&gt;</span><span class="tag">&lt;/<span class="name">tabbar-item</span>&gt;</span></div><div class="line">    ...</div><div class="line">    <span class="tag">&lt;<span class="name">tabbar-item</span>&gt;</span><span class="tag">&lt;/<span class="name">tabbar-item</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">tabbar</span>&gt;</span></div><div class="line">...</div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">data()&#123;</div><div class="line">    <span class="keyword">return</span>&#123;</div><div class="line">        <span class="attr">index</span>:<span class="number">0</span>,</div><div class="line">        ...</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">methods:&#123;</div><div class="line">    changeTab(num)&#123;</div><div class="line">        ...</div><div class="line">        this.index = num;</div><div class="line">        ...</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">&lt;<span class="regexp">/scirpt&gt;</span></div></pre></td></tr></table></figure>
+<p>然后子组件中调用</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mounted()&#123;</div><div class="line">    <span class="keyword">this</span>.$emit(<span class="string">'changeTab'</span>, <span class="number">2</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这样就便于在不同的组件内都可以更改Tabbar选中状态</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://hivandu.github.io/2017/11/01/vux-tabbar-selected/" data-id="cj9h8frtu00ak6flrzsnun4xg" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://hivandu.github.io/2017/11/01/vux-tabbar-selected/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2017/11/01/vux-tabbar-selected/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-ssh-link-server-use-iTerm2" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -212,7 +342,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2017/09/23/ssh-link-server-use-iTerm2/" data-id="cj7xknc2f00a79qlruhci9s6n" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2017/09/23/ssh-link-server-use-iTerm2/" data-id="cj9h8frtn00a96flr8u7w22za" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -345,7 +475,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2017/06/29/sketch-open-hight-version-file/" data-id="cj7xknc1w009l9qlrc9dzouvw" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2017/06/29/sketch-open-hight-version-file/" data-id="cj9h8frtg009t6flr77k9rftt" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -472,7 +602,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2017/05/14/set-Dynamic-universe-canvas/" data-id="cj7xknc1s009i9qlrzkzuz4sj" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2017/05/14/set-Dynamic-universe-canvas/" data-id="cj9h8frtb009k6flrmadtf0e6" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -616,7 +746,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2017/02/13/npm-check/" data-id="cj7xknc0y00819qlrocyjm7f4" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2017/02/13/npm-check/" data-id="cj9h8frsi007w6flrdl0kfda2" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -751,7 +881,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2016/12/30/vue2.0-custom-filter-to-global/" data-id="cj7xknc2z00ak9qlrvtb2upvu" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2016/12/30/vue2.0-custom-filter-to-global/" data-id="cj9h8frtt00ai6flrqvbbolqg" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -878,7 +1008,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2016/08/25/mac-False-Desktop-icon/" data-id="cj7xknc04006j9qlrumbiqllm" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2016/08/25/mac-False-Desktop-icon/" data-id="cj9h8frrm006j6flreoy0mqff" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1005,7 +1135,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2016/08/20/mac-port-occupied/" data-id="cj7xknc09006u9qlrve478tyq" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2016/08/20/mac-port-occupied/" data-id="cj9h8frrz006r6flrbcyyoxrs" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1132,7 +1262,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2016/07/28/install-node-to-Debian/" data-id="cj7xknbzr005n9qlrr0g2272e" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2016/07/28/install-node-to-Debian/" data-id="cj9h8frra005v6flrpgwb2bmb" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1261,7 +1391,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2016/07/27/css-rem-and-javascript/" data-id="cj7xknby8003b9qlrv9n03hf8" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2016/07/27/css-rem-and-javascript/" data-id="cj9h8frps003b6flrsap0es75" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1339,135 +1469,8 @@
 
 
 
-    <article id="post-debian-install-ssh" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2016/05/12/debian-install-ssh/">Debian安装SSH</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2016/05/12/debian-install-ssh/">
-            <time datetime="2016-05-12T04:02:56.000Z" itemprop="datePublished">2016-05-12</time>
-        </a>
-    </div>
-
-
-                    
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/dote/">dote</a>, <a class="tag-link" href="/tags/linux/">linux</a>, <a class="tag-link" href="/tags/ssh/">ssh</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><p><span style="font-size:14px; color: #eee;">for my dote</span></p>
-<h1 id="要求：-安装Debian-8-64位操作系统"><a href="#要求：-安装Debian-8-64位操作系统" class="headerlink" title="要求： 安装Debian 8.* 64位操作系统"></a>要求： 安装Debian 8.* 64位操作系统</h1><h3 id="分区要求-不要分区"><a href="#分区要求-不要分区" class="headerlink" title="分区要求: 不要分区"></a>分区要求: 不要分区</h3></p>
-            <p class="article-more-link">
-                <a href="/2016/05/12/debian-install-ssh/#more">Read More</a>
-            </p>
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="http://hivandu.github.io/2016/05/12/debian-install-ssh/" data-id="cj7xknby9003e9qlreuupxb9s" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="http://hivandu.github.io/2016/05/12/debian-install-ssh/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2016/05/12/debian-install-ssh/">Comments</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <nav id="page-nav">
-        <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+        <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
 </section>
             
@@ -1478,6 +1481,15 @@
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2017/11/01/vux-tabbar-selected/" class="title">vux更改Tabbar选中状态</a></p>
+                            <p class="item-date"><time datetime="2017-11-01T15:56:29.000Z" itemprop="datePublished">2017-11-01</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -1512,15 +1524,6 @@
                             <p class="item-category"></p>
                             <p class="item-title"><a href="/2017/02/13/npm-check/" class="title">npm-check</a></p>
                             <p class="item-date"><time datetime="2017-02-13T02:54:03.000Z" itemprop="datePublished">2017-02-13</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2016/12/30/vue2.0-custom-filter-to-global/" class="title">vue 2.0 自定义filter并挂载到全局使用</a></p>
-                            <p class="item-date"><time datetime="2016-12-30T04:59:03.000Z" itemprop="datePublished">2016-12-30</time></p>
                         </div>
                     </li>
                 

@@ -134,7 +134,7 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                150
+                151
                 <span>posts</span>
             </div>
             <div class="article-info-block">
@@ -166,6 +166,145 @@
 
             
             <section id="main">
+    <article id="post-modeling-by-photoshop" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2006/11/29/modeling-by-photoshop/">利用photoshop来进行建模</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2006/11/29/modeling-by-photoshop/">
+            <time datetime="2006-11-29T03:41:42.000Z" itemprop="datePublished">2006-11-29</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/design/">design</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Photoshop/">Photoshop</a>, <a class="tag-link" href="/tags/maya/">maya</a>, <a class="tag-link" href="/tags/model/">model</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>有很多朋友都为了建模烦恼，特别是没有经过专业美工出身的。比如是我。。。其实利用一些简单的方法，在平常的应用中足够了。。</p>
+<p>这次，我们就来学习如何利用photoshop来进行建模。。。</p>
+<p>整好这次我打算做一个CGMage站点的三维logo，那我们就用（下图）作为例子，在开始工作之前，我们先想一下建模的步骤。这个模型很简单，只要有了准确的NURBS曲线，利用Maya里面的“Surface”中的工具就OK了。那么作品的好坏，关键就在于如何得到正确、平滑的NURBS曲线这个环节上。我们一般是把图片导入Maya，然后用曲线工具来描边，再经过手工调整CV点来得到NURBS曲线的。这一次，我们利用PhotoShop来得到一条 NURBS曲线。</p>
+<p>步骤一：在Photoshop中获取LOGO轮廓<br>在PhotoShop中打开图一，为了准确地选择轮廓，我们打开通道栏，选择绿色通道（可以各个通道都试着点一下，主要是为了得到准确的轮廓。如果图片的质量太差，就用PhotoShop处理一下）。然后使用魔术棒工具并且按下Shift键建立选区，如图二。</p>
+<p>选择选区以后建立工作路径。。。。。,在跳出的对话框中设定“容差”为0.7（自己调试，这个值可以让你控制路径的准确程度）。好了，现在我们得到了需要的工作路径，如图。路径对我们来说是很重要的。。对于路径不太熟悉的化找相应的文章好好学习一下吧。</p>
+<p>最后选择“文件”|“导出”|“路径到Illustrator”，在跳出的对话框中保存文件（后缀名为.ai）。</p>
+<p>在maya中 File&gt;Import,导入刚才保存的路径文件，如图四。导入ai文件。。。如图：</p>
+<p>然后需要利用菜单Edit Curves&gt;open/close Curves来将没有闭合的曲线闭合。。。最后利用菜单Surfaces&gt;bevel plus倒角。。。如图：</p>
+<p>那么这个小窍门还有什么用处呢？很多朋友对Maya不支持中文很是头疼，满世界的找插件，好不容易找到一个，不是版本不合适就是用不了。其实只要用上面的方法，在PhotoShop里输入中文，然后利用PhotoShop的“图层”|“文字”|“创建工作路径”生成路径，再执行“路径到 Illustrator”，就可以在Maya里随心所欲的使用中文字体了。现在你硬盘上的字库，Maya全都能用了。</p>
+<p>PS: 图片以前是存再巴巴变上的，好吧，现在没了！</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://hivandu.github.io/2006/11/29/modeling-by-photoshop/" data-id="cj9h8frs8007d6flr65mvybgn" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://hivandu.github.io/2006/11/29/modeling-by-photoshop/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2006/11/29/modeling-by-photoshop/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-maya-plugin-turtle" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -219,7 +358,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2006/11/22/maya-plugin-turtle/" data-id="cj7xknc0i00789qlrl3vfymou" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2006/11/22/maya-plugin-turtle/" data-id="cj9h8frs400756flr1k8qd45m" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -350,7 +489,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2006/10/23/pageflakes/" data-id="cj7xknc15008c9qlrmja819yz" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2006/10/23/pageflakes/" data-id="cj9h8frsm00876flrqdvo5e1g" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -480,7 +619,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2006/10/23/google-code-search/" data-id="cj7xknbz6004k9qlrr747k2xe" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2006/10/23/google-code-search/" data-id="cj9h8frqm004j6flrss23wfbu" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -610,7 +749,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2006/10/23/ireader/" data-id="cj7xknbzu005t9qlrpct056gq" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2006/10/23/ireader/" data-id="cj9h8frr6005q6flrhxhteknd" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -741,7 +880,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2006/10/20/How-to-add-emoticons-in-wordpress-background/" data-id="cj7xknbvi00019qlro5tvs8r0" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2006/10/20/How-to-add-emoticons-in-wordpress-background/" data-id="cj9h8frnv00046flr0e447k68" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -819,137 +958,6 @@
 
 
 
-    <article id="post-wordpress-plugin-ajaxified-expand-now" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2006/10/16/wordpress-plugin-ajaxified-expand-now/">WordPress plugin – Ajaxified Expand NOW</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2006/10/16/wordpress-plugin-ajaxified-expand-now/">
-            <time datetime="2006-10-16T06:21:00.000Z" itemprop="datePublished">2006-10-16</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/web/">web</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/plugin/">plugin</a>, <a class="tag-link" href="/tags/wordpress/">wordpress</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><p></p><p>功能介紹:   <br>利用 <a>AJAX 技術，在不用重新整理網頁的狀態下，提供直接讀取“深入閱讀”與迴響的功能。</a><a></a></p>  <p>這個版本可說是 <a href="http://blog.chweng.idv.tw/wordpress/ajaxified-expand-post-now/" target="_blank" rel="external">Ajaxified Expand Post NOW</a> 的延伸，如果不需要顯示評論的功能，請用前述的版本就可以了。</p></p>
-            <p class="article-more-link">
-                <a href="/2006/10/16/wordpress-plugin-ajaxified-expand-now/#more">Read More</a>
-            </p>
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="http://hivandu.github.io/2006/10/16/wordpress-plugin-ajaxified-expand-now/" data-id="cj7xknc3g00ay9qlrfj56tjrk" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="http://hivandu.github.io/2006/10/16/wordpress-plugin-ajaxified-expand-now/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2006/10/16/wordpress-plugin-ajaxified-expand-now/">Comments</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <article id="post-wordpress-plugin-coolplayer" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -1003,7 +1011,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2006/10/16/wordpress-plugin-coolplayer/" data-id="cj7xknc3m00b79qlrkfthf6hz" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2006/10/16/wordpress-plugin-coolplayer/" data-id="cj9h8fru100az6flrc0a7t0s6" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1081,6 +1089,137 @@
 
 
 
+    <article id="post-wordpress-plugin-ajaxified-expand-now" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2006/10/16/wordpress-plugin-ajaxified-expand-now/">WordPress plugin – Ajaxified Expand NOW</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2006/10/16/wordpress-plugin-ajaxified-expand-now/">
+            <time datetime="2006-10-16T06:21:00.000Z" itemprop="datePublished">2006-10-16</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/web/">web</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/plugin/">plugin</a>, <a class="tag-link" href="/tags/wordpress/">wordpress</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><p></p><p>功能介紹:   <br>利用 <a>AJAX 技術，在不用重新整理網頁的狀態下，提供直接讀取“深入閱讀”與迴響的功能。</a><a></a></p>  <p>這個版本可說是 <a href="http://blog.chweng.idv.tw/wordpress/ajaxified-expand-post-now/" target="_blank" rel="external">Ajaxified Expand Post NOW</a> 的延伸，如果不需要顯示評論的功能，請用前述的版本就可以了。</p></p>
+            <p class="article-more-link">
+                <a href="/2006/10/16/wordpress-plugin-ajaxified-expand-now/#more">Read More</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://hivandu.github.io/2006/10/16/wordpress-plugin-ajaxified-expand-now/" data-id="cj9h8frud00bg6flroqhe5rjt" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://hivandu.github.io/2006/10/16/wordpress-plugin-ajaxified-expand-now/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2006/10/16/wordpress-plugin-ajaxified-expand-now/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-Remove-the-wp-background-edit-the-article-preview" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -1134,7 +1273,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2006/10/15/Remove-the-wp-background-edit-the-article-preview/" data-id="cj7xknbwb000h9qlr2z17toe8" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2006/10/15/Remove-the-wp-background-edit-the-article-preview/" data-id="cj9h8fro6000g6flre4p2eytv" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1265,7 +1404,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2006/09/26/Knowledge-of-color-management/" data-id="cj7xknbw200069qlr1ucox5j3" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2006/09/26/Knowledge-of-color-management/" data-id="cj9h8frny00066flre7sabz3e" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1343,149 +1482,8 @@
 
 
 
-    <article id="post-picasaweb" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2006/09/22/picasaweb/">picasaweb</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2006/09/22/picasaweb/">
-            <time datetime="2006-09-22T06:21:00.000Z" itemprop="datePublished">2006-09-22</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/web/">web</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Google/">Google</a>, <a class="tag-link" href="/tags/picasaweb/">picasaweb</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>这一下就经过了很多日子，本来前些天是想写一些教程的。</p>
-<p>现在脑子里的想法大多都被时间冲淡了。只是随便写写吧。</p>
-<p>由于我的机子重新装了系统的原因。迅雷里的原始连接我也找不到了，有兴趣的朋友可以自己去找找看</p>
-<p>picasa2和picasaweb有很多的不同，最大的不一样大概就是现在没有推出中文版本。一切都是E文。自信能看得懂的朋友可以下载来试试。</p>
-<p>picasaweb是和自己的google账号绑定的。google的picasaweb服务在网上有250M的存储空间。可以利用picasaweb直接上传到自己的账号上。我去试验了一下，服务很不错，而且有很多新的功能，可惜的是不支持外连，估计快可以了，因为每一张图片都有自己的地址。</p>
-<p>Picasaweb和原版本还有很多新加的功能。其中我比较感兴趣的就是色相搜索。输入<code>color:xxx</code>(比如red)就会有相应色相的相片被搜索出来。效果大家可以自己下载以后自己看看@。在我使用过程中，虽然E文给我找了不少麻烦，但是总体上感觉这次的升级还是有很多实用的功能在里边。</p>
-<p>好了，软件谈完了，说说最近看的电影。。我这个人不喜欢在网上下载，质量太侮辱我眼睛。所以我一般都是等到碟版出来以后买回来看。。。。等到现在才看了达芬奇密码和碟三，但是我并不是要向大家说这两部片子，而是我看的另外一部:<strong>《东京审判》</strong>这是一部设计历史题材和政治题材的片子。1945年日本签署投降书的以后，联盟国法官团赶赴东京对日本的20多位战犯进行审判。长达817次审判和最后一次宣判共818次的审判历程。</p>
-<p>印象最深的是曾志伟饰演的日本人。从他嘴里说出来的:狗日的日本鬼子。</p>
-<p>不知道这句话是因为深受其害还是因为别的原因。再怎么样，一个日本人不会如此辱骂自己的国家吧。就象中国人自己，如果说了一句中国猪，反映会是怎样的？</p>
-<p>so。。。最后还是不得不感叹战争带来的危害。所有的一切，也都仅仅是战争引起来的而已</p>
-<p>不过再如何，日本到现在为止的历史观确实让我恶心。我到现在才知道靖国神社原来一共供奉着2000多位战犯，而其中有7位是甲级战犯，而最大的也是最可恶的战端挑起者东条英机，也被供奉在里边。这，是对人类文明的一种侮辱。</p>
-<p>OK。。。写到这里了。。该去看书了</p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="http://hivandu.github.io/2006/09/22/picasaweb/" data-id="cj7xknc16008f9qlrbx166w7z" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="http://hivandu.github.io/2006/09/22/picasaweb/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2006/09/22/picasaweb/">Comments</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/page/13/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/15/">Next &raquo;</a>
+        <a class="extend prev" rel="prev" href="/page/13/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/page/15/">15</a><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/15/">Next &raquo;</a>
     </nav>
 </section>
             
@@ -1496,6 +1494,15 @@
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2017/11/01/vux-tabbar-selected/" class="title">vux更改Tabbar选中状态</a></p>
+                            <p class="item-date"><time datetime="2017-11-01T15:56:29.000Z" itemprop="datePublished">2017-11-01</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -1530,15 +1537,6 @@
                             <p class="item-category"></p>
                             <p class="item-title"><a href="/2017/02/13/npm-check/" class="title">npm-check</a></p>
                             <p class="item-date"><time datetime="2017-02-13T02:54:03.000Z" itemprop="datePublished">2017-02-13</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2016/12/30/vue2.0-custom-filter-to-global/" class="title">vue 2.0 自定义filter并挂载到全局使用</a></p>
-                            <p class="item-date"><time datetime="2016-12-30T04:59:03.000Z" itemprop="datePublished">2016-12-30</time></p>
                         </div>
                     </li>
                 

@@ -5,17 +5,17 @@
     
     <title>关于android开发中的环境变量 | Duart</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="在使用Eclipse的过程中有三个关于变量的问题我一直搞不懂,在坛子里询问高人. 1.环境变量到底是添加java sdk的地址还是android sdk的地址.网上的教程很混乱,说什么的都有,2.变量值已经存在怎么办,path已经被其他变量占用,该如何再添加其他变量?3.我在安装java sdk后,将android sdk以及eclipse解压缩,启动eclipse,下载插件ADT以及制作简易he">
+    <meta name="description" content="在使用Eclipse的过程中有三个关于变量的问题我一直搞不懂,在坛子里询问高人.  环境变量到底是添加java sdk的地址还是android sdk的地址.网上的教程很混乱,说什么的都有,   变量值已经存在怎么办,path已经被其他变量占用,该如何再添加其他变量?   我在安装java sdk后,将android sdk以及eclipse解压缩,启动eclipse,下载插件ADT以及制作简易h">
 <meta name="keywords" content="Android">
 <meta property="og:type" content="article">
 <meta property="og:title" content="关于android开发中的环境变量">
 <meta property="og:url" content="http://hivandu.github.io/2009/05/23/about-android-environment-variable/index.html">
 <meta property="og:site_name" content="Duart">
-<meta property="og:description" content="在使用Eclipse的过程中有三个关于变量的问题我一直搞不懂,在坛子里询问高人. 1.环境变量到底是添加java sdk的地址还是android sdk的地址.网上的教程很混乱,说什么的都有,2.变量值已经存在怎么办,path已经被其他变量占用,该如何再添加其他变量?3.我在安装java sdk后,将android sdk以及eclipse解压缩,启动eclipse,下载插件ADT以及制作简易he">
-<meta property="og:updated_time" content="2015-11-20T06:34:19.000Z">
+<meta property="og:description" content="在使用Eclipse的过程中有三个关于变量的问题我一直搞不懂,在坛子里询问高人.  环境变量到底是添加java sdk的地址还是android sdk的地址.网上的教程很混乱,说什么的都有,   变量值已经存在怎么办,path已经被其他变量占用,该如何再添加其他变量?   我在安装java sdk后,将android sdk以及eclipse解压缩,启动eclipse,下载插件ADT以及制作简易h">
+<meta property="og:updated_time" content="2017-10-07T15:44:12.617Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于android开发中的环境变量">
-<meta name="twitter:description" content="在使用Eclipse的过程中有三个关于变量的问题我一直搞不懂,在坛子里询问高人. 1.环境变量到底是添加java sdk的地址还是android sdk的地址.网上的教程很混乱,说什么的都有,2.变量值已经存在怎么办,path已经被其他变量占用,该如何再添加其他变量?3.我在安装java sdk后,将android sdk以及eclipse解压缩,启动eclipse,下载插件ADT以及制作简易he">
+<meta name="twitter:description" content="在使用Eclipse的过程中有三个关于变量的问题我一直搞不懂,在坛子里询问高人.  环境变量到底是添加java sdk的地址还是android sdk的地址.网上的教程很混乱,说什么的都有,   变量值已经存在怎么办,path已经被其他变量占用,该如何再添加其他变量?   我在安装java sdk后,将android sdk以及eclipse解压缩,启动eclipse,下载插件ADT以及制作简易h">
     
 
     
@@ -139,7 +139,7 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                150
+                151
                 <span>posts</span>
             </div>
             <div class="article-info-block">
@@ -212,7 +212,14 @@
         
             
             <p>在使用Eclipse的过程中有三个关于变量的问题我一直搞不懂,在坛子里询问高人.</p>
-<p>1.环境变量到底是添加java sdk的地址还是android sdk的地址.网上的教程很混乱,说什么的都有,<br>2.变量值已经存在怎么办,path已经被其他变量占用,该如何再添加其他变量?<br>3.我在安装java sdk后,将android sdk以及eclipse解压缩,启动eclipse,下载插件ADT以及制作简易helloworld都并没有什么错误出现,期间也并没有更改任何变量值.请问这样我是否还有必要添加变量,添加变量的主要作用是什么?</p>
+<ol>
+<li><p>环境变量到底是添加java sdk的地址还是android sdk的地址.网上的教程很混乱,说什么的都有, </p>
+</li>
+<li><p>变量值已经存在怎么办,path已经被其他变量占用,该如何再添加其他变量? </p>
+</li>
+<li><p>我在安装java sdk后,将android sdk以及eclipse解压缩,启动eclipse,下载插件ADT以及制作简易helloworld都并没有什么错误出现,期间也并没有更改任何变量值.请问这样我是否还有必要添加变量,添加变量的主要作用是什么?</p>
+</li>
+</ol>
 <p>以下为答案:可以不添加环境变量，环境变量的作用是你在命令行模式下任意路径都可以直接使用android SDK Tools中的工具，而不用先把路径转到android SDK Tools中。</p>
 <p>这句话里明白了几点,就是java sdk和android sdk的变量都是可以设置的,而设置了此变量后就可以不用再CD入sdk&gt;tools,而之前Eclipse的找不到javaw.exe的错误也就消失了.</p>
 <p>然后又有人解答了我其他的问题:在windows中设置环境变量,path值可以添加多个,只要用”;”号隔开就可以了!</p>
@@ -227,7 +234,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2009/05/23/about-android-environment-variable/" data-id="cj7xknbwz001c9qlrepjt19ej" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2009/05/23/about-android-environment-variable/" data-id="cj9h8fron00166flrhe9cm2sz" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -351,6 +358,15 @@
                         
                         <div class="item-inner">
                             <p class="item-category"></p>
+                            <p class="item-title"><a href="/2017/11/01/vux-tabbar-selected/" class="title">vux更改Tabbar选中状态</a></p>
+                            <p class="item-date"><time datetime="2017-11-01T15:56:29.000Z" itemprop="datePublished">2017-11-01</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
                             <p class="item-title"><a href="/2017/09/23/ssh-link-server-use-iTerm2/" class="title">ssh link server use iTerm2</a></p>
                             <p class="item-date"><time datetime="2017-09-23T15:42:30.000Z" itemprop="datePublished">2017-09-23</time></p>
                         </div>
@@ -380,15 +396,6 @@
                             <p class="item-category"></p>
                             <p class="item-title"><a href="/2017/02/13/npm-check/" class="title">npm-check</a></p>
                             <p class="item-date"><time datetime="2017-02-13T02:54:03.000Z" itemprop="datePublished">2017-02-13</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2016/12/30/vue2.0-custom-filter-to-global/" class="title">vue 2.0 自定义filter并挂载到全局使用</a></p>
-                            <p class="item-date"><time datetime="2016-12-30T04:59:03.000Z" itemprop="datePublished">2016-12-30</time></p>
                         </div>
                     </li>
                 

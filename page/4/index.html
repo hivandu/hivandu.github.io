@@ -134,7 +134,7 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                150
+                151
                 <span>posts</span>
             </div>
             <div class="article-info-block">
@@ -166,6 +166,140 @@
 
             
             <section id="main">
+    <article id="post-white-spacenowrap" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2013/09/02/white-spacenowrap/">white-space:nowrap</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2013/09/02/white-spacenowrap/">
+            <time datetime="2013-09-02T06:19:50.000Z" itemprop="datePublished">2013-09-02</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/develop/">develop</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/HTML/">HTML</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>奇葩的需求就有奇葩的设计，虽然这样做会超出父类，制式表格超过边线，不过既然有这样的需求也没办法。</p>
+<p>在Table中强制为一行显示，我也是今天才知道原来有这样的方式！</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">table</div><div class="line">  tr</div><div class="line">    td white-space:nowrap;</div></pre></td></tr></table></figure>
+<p>以上是sass写法，css应该为:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">table tr td&#123;white-space:nowrap;&#125;</div></pre></td></tr></table></figure>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://hivandu.github.io/2013/09/02/white-spacenowrap/" data-id="cj9h8frtw00ao6flrgjnzmmdi" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://hivandu.github.io/2013/09/02/white-spacenowrap/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2013/09/02/white-spacenowrap/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-youtube-download-alfred-2-workflow" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -219,7 +353,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2013/08/28/youtube-download-alfred-2-workflow/" data-id="cj7xknc3w00bl9qlryiwq9bsf" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2013/08/28/youtube-download-alfred-2-workflow/" data-id="cj9h8frug00bm6flrvn1sykm2" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -350,7 +484,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2013/08/27/hexo-generator-feed/" data-id="cj7xknbzj00559qlr2upi0rf5" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2013/08/27/hexo-generator-feed/" data-id="cj9h8frqx00596flr3e2m4eia" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -482,7 +616,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2013/08/25/devices-from-xcode/" data-id="cj7xknbyb003h9qlrzfafx4ep" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2013/08/25/devices-from-xcode/" data-id="cj9h8frpv003f6flrhf8lmqco" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -613,7 +747,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2013/08/18/mac-max_open/" data-id="cj7xknc08006q9qlrn6vjya15" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2013/08/18/mac-max_open/" data-id="cj9h8frrx006o6flr308927v8" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -744,7 +878,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2013/07/10/add-viewcontroller-to-appdelegate/" data-id="cj7xknbx1001f9qlrted48hxg" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2013/07/10/add-viewcontroller-to-appdelegate/" data-id="cj9h8froq001c6flr99fn59g3" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -879,7 +1013,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2013/05/01/macxian-shi-yin-cang-wen-jian/" data-id="cj7xknc0b006x9qlrgqz6vpw1" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2013/05/01/macxian-shi-yin-cang-wen-jian/" data-id="cj9h8frs0006t6flrdsfo3pk2" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1012,7 +1146,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2013/04/19/to-s-and-to-str-and-inspect/" data-id="cj7xknc2p00ac9qlrbrjxutpy" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2013/04/19/to-s-and-to-str-and-inspect/" data-id="cj9h8frtr00af6flrk5c2qfdv" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1148,7 +1282,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2013/03/26/zi-fu-iconluan-ma/" data-id="cj7xknc3y00bo9qlru97l0o5n" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2013/03/26/zi-fu-iconluan-ma/" data-id="cj9h8fruh00bq6flrj8n6vlqw" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1281,7 +1415,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2013/03/14/bye-google-reader/" data-id="cj7xknby1002t9qlrqflz2nqk" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2013/03/14/bye-google-reader/" data-id="cj9h8frpc002n6flrws0c35a2" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1359,139 +1493,8 @@
 
 
 
-    <article id="post-chrome-all-download" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2013/03/08/chrome-all-download/">chrome-all-download</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2013/03/08/chrome-all-download/">
-            <time datetime="2013-03-08T09:07:01.000Z" itemprop="datePublished">2013-03-08</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/software/">software</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Chrome/">Chrome</a>, <a class="tag-link" href="/tags/Google/">Google</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><h2 id="Chrome-OS-下载（由-Hexxeh提供的第三方编译版本）："><a href="#Chrome-OS-下载（由-Hexxeh提供的第三方编译版本）：" class="headerlink" title="Chrome OS 下载（由 Hexxeh提供的第三方编译版本）："></a>Chrome OS 下载（由 Hexxeh提供的第三方编译版本）：</h2><p>Chrome OS USB 镜像:<a href="http://chromeos.hexxeh.net/download.php?release=Flow&amp;type=usb" target="_blank" rel="external">【点击这里】</a>(new)<br>Chrome OS WMware 镜像:<a href="http://chromeos.hexxeh.net/download.php?release=Flow&amp;type=vmware" target="_blank" rel="external">【点击这里】</a>(new)<br>Chrome OS 小白版（可能不稳定）USB 镜像：<a href="http://chromeos.hexxeh.net/vanilla.php" target="_blank" rel="external">【点击这里】</a>(new)</p></p>
-            <p class="article-more-link">
-                <a href="/2013/03/08/chrome-all-download/#more">Read More</a>
-            </p>
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="http://hivandu.github.io/2013/03/08/chrome-all-download/" data-id="cj7xknby2002v9qlrrzb5btgr" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="http://hivandu.github.io/2013/03/08/chrome-all-download/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2013/03/08/chrome-all-download/">Comments</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
+        <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
     </nav>
 </section>
             
@@ -1502,6 +1505,15 @@
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2017/11/01/vux-tabbar-selected/" class="title">vux更改Tabbar选中状态</a></p>
+                            <p class="item-date"><time datetime="2017-11-01T15:56:29.000Z" itemprop="datePublished">2017-11-01</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -1536,15 +1548,6 @@
                             <p class="item-category"></p>
                             <p class="item-title"><a href="/2017/02/13/npm-check/" class="title">npm-check</a></p>
                             <p class="item-date"><time datetime="2017-02-13T02:54:03.000Z" itemprop="datePublished">2017-02-13</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2016/12/30/vue2.0-custom-filter-to-global/" class="title">vue 2.0 自定义filter并挂载到全局使用</a></p>
-                            <p class="item-date"><time datetime="2016-12-30T04:59:03.000Z" itemprop="datePublished">2016-12-30</time></p>
                         </div>
                     </li>
                 

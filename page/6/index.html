@@ -134,7 +134,7 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                150
+                151
                 <span>posts</span>
             </div>
             <div class="article-info-block">
@@ -166,6 +166,138 @@
 
             
             <section id="main">
+    <article id="post-note-about-my-ubuntu" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2012/04/09/note-about-my-ubuntu/">Note about my ubuntu</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2012/04/09/note-about-my-ubuntu/">
+            <time datetime="2012-04-09T03:49:33.000Z" itemprop="datePublished">2012-04-09</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/develop/">develop</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/linux/">linux</a>, <a class="tag-link" href="/tags/ubuntu/">ubuntu</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><p>这是我为了便于自己以后方便而记录的一些关于我ubuntu上设置所需要的内容！当然其中内容都是通用的，只是如果你们要拿去用的话记得将路径以及一些变量变成你自己的！</p>
+<h3 id="about-system"><a href="#about-system" class="headerlink" title="about system"></a>about system</h3><p><code>$ sudo gedit /etc/apt/sources.list</code></p></p>
+            <p class="article-more-link">
+                <a href="/2012/04/09/note-about-my-ubuntu/#more">Read More</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://hivandu.github.io/2012/04/09/note-about-my-ubuntu/" data-id="cj9h8frsk00826flr6og9418t" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://hivandu.github.io/2012/04/09/note-about-my-ubuntu/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/04/09/note-about-my-ubuntu/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-octopress-install-to-windows8" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -220,7 +352,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2012/04/07/octopress-install-to-windows8/" data-id="cj7xknc1000839qlrmkhonpkd" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2012/04/07/octopress-install-to-windows8/" data-id="cj9h8frso00896flrlbnayen5" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -352,7 +484,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2012/04/06/begin_maya_pdf/" data-id="cj7xknby0002p9qlryxoguz81" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2012/04/06/begin_maya_pdf/" data-id="cj9h8frpa002k6flr6gpop37y" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -483,7 +615,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2012/03/30/post-from-markpad/" data-id="cj7xknc1a008m9qlr5i6ymlmg" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2012/03/30/post-from-markpad/" data-id="cj9h8frsu008m6flrmllfagiv" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -616,7 +748,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2012/03/27/install-windows-8/" data-id="cj7xknbzo005i9qlrspfuvtmw" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2012/03/27/install-windows-8/" data-id="cj9h8frr2005l6flrykui778e" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -749,7 +881,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2012/03/22/returns-my-seagate/" data-id="cj7xknc1g008z9qlrslau7bld" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2012/03/22/returns-my-seagate/" data-id="cj9h8frt500986flrlqbhgcs6" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -882,7 +1014,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2012/01/28/android-4-contacts-the-depth-integration-with-google-plus/" data-id="cj7xknbxc001x9qlrkowh51ii" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2012/01/28/android-4-contacts-the-depth-integration-with-google-plus/" data-id="cj9h8frp8002f6flrkuhzj2sk" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1017,7 +1149,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2012/01/24/the-third-part-of-the-java-learning/" data-id="cj7xknc2u00ae9qlrhgbebodg" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2012/01/24/the-third-part-of-the-java-learning/" data-id="cj9h8frtp00ac6flrypd4r32h" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1159,7 +1291,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2012/01/17/maya-learn-in-google-sites/" data-id="cj7xknc0g00769qlrv25f9yqp" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2012/01/17/maya-learn-in-google-sites/" data-id="cj9h8frs300726flrgp2puppp" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1290,7 +1422,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2012/01/12/copy-java-code/" data-id="cj7xknby500329qlrddvlso23" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2012/01/12/copy-java-code/" data-id="cj9h8frpq00386flrfm2nkz7a" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1368,149 +1500,8 @@
 
 
 
-    <article id="post-gmail-forward-upper-limit" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2012/01/09/gmail-forward-upper-limit/">Gmail 的转发上限</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2012/01/09/gmail-forward-upper-limit/">
-            <time datetime="2012-01-09T04:16:00.000Z" itemprop="datePublished">2012-01-09</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/web/">web</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Gmail/">Gmail</a>, <a class="tag-link" href="/tags/forward/">forward</a>, <a class="tag-link" href="/tags/过滤器/">过滤器</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>在Gmail中创建转发过滤器是有上限的,这个估计没有多少人知道!我想也是因为没有多少人有实际的需求…</p>
-<p>今天我在Twitter上抱怨Gmail里的邮件过多,占用了很大一部分空间,以至于我的Gmail空间已经临近上限… 也终于迫使我开始清理邮件! </p>
-<p>###问题产生:###<br>在清理的时候发现,除了一些比较大附件的邮件以外,大部分占用空间的邮件都是一些广告邮件!</p>
-<p>我很少设置过滤器删除广告邮件,特别是一些推送服务的广告,不过大多都是直接略过收件箱存档而已,有空了还可以去看看…这也使得我这几年来邮箱里布满了此类邮件!</p>
-<p>当然,清理的过程还是比较顺利的,毕竟这些邮件的时效性的原因,这些邮件删除起来一点也不心疼!</p>
-<p>那么,对于新邮件该怎么处理呢,总不能继续占用存储空间吧.也不好直接删除,毕竟有的时候我还是要看看的.</p>
-<p>那么,过滤器这个时候就起作用了!</p>
-<p>我的想法很简单,既然QQ邮箱空间是无上限的,而广告邮件又无关乎隐私问题,所以可以放心的转发到QQ空间进行保存!所以对一些广告邮件设置了forward filter…然后问题来了,当我建立到一定的数量的时候,Gmail开始提醒我“转发邮件地址过多,无法创建过滤器</p>
-<p>这可怎么办,总该是有解决办法的!于是查阅Gmail的帮助手册发信,Gmail是支持布尔运算符来查找邮件的!而这些布尔运算符一样可以创建到filter里.</p>
-<p>OK,问题到这里就变得简单了…</p>
-<p>###解决方案:###<br>比如说,我要将 renren.com kaixin001.com 高朋 卓越 美团 拉手等邮件过滤直接forward到QQ邮箱里,那么其实创建一条filter就够了!按如下格式<code>renren.com OR kaixin001.com OR 高朋 OR 卓越 OR 美团  OR 拉手</code>,其中“OR”是Gmail中所支持的布尔运算符,而且必须大写.</p>
-<h3 id="延伸阅读"><a href="#延伸阅读" class="headerlink" title="延伸阅读:"></a>延伸阅读:</h3><p>希望这篇文可以帮助更多的人更好的利用Gmail.更详尽的运算符可以查阅<a href="https://support.google.com/mail/bin/answer.py?hl=en&amp;answer=7190" target="_blank" rel="external">Gmail的帮助手册</a></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="http://hivandu.github.io/2012/01/09/gmail-forward-upper-limit/" data-id="cj7xknbyw004b9qlrrhqvp86y" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="http://hivandu.github.io/2012/01/09/gmail-forward-upper-limit/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/01/09/gmail-forward-upper-limit/">Comments</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/page/5/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/7/">Next &raquo;</a>
+        <a class="extend prev" rel="prev" href="/page/5/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/7/">Next &raquo;</a>
     </nav>
 </section>
             
@@ -1521,6 +1512,15 @@
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2017/11/01/vux-tabbar-selected/" class="title">vux更改Tabbar选中状态</a></p>
+                            <p class="item-date"><time datetime="2017-11-01T15:56:29.000Z" itemprop="datePublished">2017-11-01</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -1555,15 +1555,6 @@
                             <p class="item-category"></p>
                             <p class="item-title"><a href="/2017/02/13/npm-check/" class="title">npm-check</a></p>
                             <p class="item-date"><time datetime="2017-02-13T02:54:03.000Z" itemprop="datePublished">2017-02-13</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2016/12/30/vue2.0-custom-filter-to-global/" class="title">vue 2.0 自定义filter并挂载到全局使用</a></p>
-                            <p class="item-date"><time datetime="2016-12-30T04:59:03.000Z" itemprop="datePublished">2016-12-30</time></p>
                         </div>
                     </li>
                 

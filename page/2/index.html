@@ -134,7 +134,7 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                150
+                151
                 <span>posts</span>
             </div>
             <div class="article-info-block">
@@ -166,6 +166,133 @@
 
             
             <section id="main">
+    <article id="post-debian-install-ssh" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2016/05/12/debian-install-ssh/">Debian安装SSH</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/05/12/debian-install-ssh/">
+            <time datetime="2016-05-12T04:02:56.000Z" itemprop="datePublished">2016-05-12</time>
+        </a>
+    </div>
+
+
+                    
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/dote/">dote</a>, <a class="tag-link" href="/tags/linux/">linux</a>, <a class="tag-link" href="/tags/ssh/">ssh</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><p><span style="font-size:14px; color: #eee;">for my dote</span></p>
+<h1 id="要求：-安装Debian-8-64位操作系统"><a href="#要求：-安装Debian-8-64位操作系统" class="headerlink" title="要求： 安装Debian 8.* 64位操作系统"></a>要求： 安装Debian 8.* 64位操作系统</h1><h3 id="分区要求-不要分区"><a href="#分区要求-不要分区" class="headerlink" title="分区要求: 不要分区"></a>分区要求: 不要分区</h3></p>
+            <p class="article-more-link">
+                <a href="/2016/05/12/debian-install-ssh/#more">Read More</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://hivandu.github.io/2016/05/12/debian-install-ssh/" data-id="cj9h8frq3003q6flrqfl4oc5b" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://hivandu.github.io/2016/05/12/debian-install-ssh/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2016/05/12/debian-install-ssh/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-VH-brass-pen" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -212,7 +339,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2016/01/29/VH-brass-pen/" data-id="cj7xknbwg000o9qlrgx40vxsm" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2016/01/29/VH-brass-pen/" data-id="cj9h8froc000o6flr1uterghf" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -336,7 +463,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2015/11/30/solove/" data-id="cj7xknc2d00a39qlrk43rcp14" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2015/11/30/solove/" data-id="cj9h8frtl00a26flrqqsuu6be" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -464,7 +591,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2015/04/23/VSCO-FILM-00-FREE-STARTER-PACK/" data-id="cj7xknbwj000v9qlr4qq737oc" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2015/04/23/VSCO-FILM-00-FREE-STARTER-PACK/" data-id="cj9h8froh000u6flrmeuf3smk" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -594,7 +721,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2015/04/10/enlight-VS-snapseed2/" data-id="cj7xknbyd003n9qlru9j7cey0" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2015/04/10/enlight-VS-snapseed2/" data-id="cj9h8frpz003j6flrpqmokztl" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -717,7 +844,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2015/02/15/Knock-update/" data-id="cj7xknbvu00049qlrji3t93vs" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2015/02/15/Knock-update/" data-id="cj9h8frnw00056flrz13b5pkr" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -844,7 +971,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2015/01/26/reinstall-mac-osx-Yosemite/" data-id="cj7xknc1f008w9qlrvmci7irn" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2015/01/26/reinstall-mac-osx-Yosemite/" data-id="cj9h8frt200966flr8a114mta" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -974,7 +1101,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2015/01/09/Power-for-Mac/" data-id="cj7xknbw9000f9qlro6spdmb5" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2015/01/09/Power-for-Mac/" data-id="cj9h8fro000096flrnyv9xs3a" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1101,7 +1228,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2014/11/07/setting-pow-at-Yosemite/" data-id="cj7xknc23009s9qlrvbmv14gb" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2014/11/07/setting-pow-at-Yosemite/" data-id="cj9h8frtd009p6flrjs350w8i" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1228,7 +1355,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2014/11/02/VPS-setting-hexo/" data-id="cj7xknbwh000s9qlr0ioiekkm" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2014/11/02/VPS-setting-hexo/" data-id="cj9h8frof000s6flr02ibg2j7" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1306,135 +1433,8 @@
 
 
 
-    <article id="compass-compass-enable-sourcemaps" class="article article-type-compass" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2014/10/29/compass-enable-sourcemaps/">compass 开启 sourcemaps</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2014/10/29/compass-enable-sourcemaps/">
-            <time datetime="2014-10-29T07:28:41.000Z" itemprop="datePublished">2014-10-29</time>
-        </a>
-    </div>
-
-
-                    
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/compass/">compass</a>, <a class="tag-link" href="/tags/sass/">sass</a>, <a class="tag-link" href="/tags/sourcemaps/">sourcemaps</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><p>sass 3.0 开始包含了sourcemaps…. （妈蛋，都是屁话，大家都知道了）</p>
-<p>直接进入正题，sass开启sourcemaps的话，命令行如下:</p></p>
-            <p class="article-more-link">
-                <a href="/2014/10/29/compass-enable-sourcemaps/#more">Read More</a>
-            </p>
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="http://hivandu.github.io/2014/10/29/compass-enable-sourcemaps/" data-id="cj7xknby400309qlre3isuudl" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="http://hivandu.github.io/2014/10/29/compass-enable-sourcemaps/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2014/10/29/compass-enable-sourcemaps/">Comments</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+        <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
 </section>
             
@@ -1445,6 +1445,15 @@
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2017/11/01/vux-tabbar-selected/" class="title">vux更改Tabbar选中状态</a></p>
+                            <p class="item-date"><time datetime="2017-11-01T15:56:29.000Z" itemprop="datePublished">2017-11-01</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -1479,15 +1488,6 @@
                             <p class="item-category"></p>
                             <p class="item-title"><a href="/2017/02/13/npm-check/" class="title">npm-check</a></p>
                             <p class="item-date"><time datetime="2017-02-13T02:54:03.000Z" itemprop="datePublished">2017-02-13</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2016/12/30/vue2.0-custom-filter-to-global/" class="title">vue 2.0 自定义filter并挂载到全局使用</a></p>
-                            <p class="item-date"><time datetime="2016-12-30T04:59:03.000Z" itemprop="datePublished">2016-12-30</time></p>
                         </div>
                     </li>
                 
