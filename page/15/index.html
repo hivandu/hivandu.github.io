@@ -9,6 +9,7 @@
 <meta property="og:title" content="Duart">
 <meta property="og:url" content="http://hivandu.github.io/page/15/index.html">
 <meta property="og:site_name" content="Duart">
+<meta property="og:locale" content="default">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Duart">
     
@@ -63,7 +64,7 @@
             <div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
@@ -82,10 +83,10 @@
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Entradas',
+            POSTS: 'Posts',
             PAGES: 'Pages',
-            CATEGORIES: 'Categorias',
-            TAGS: 'Etiquetas',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
             UNTITLED: '(Untitled)',
         },
         ROOT_URL: '/',
@@ -110,7 +111,7 @@
                 <td>
                     
     <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
     </div>
 
                 </td>
@@ -130,16 +131,16 @@
             <h2 id="name">Hivan Du</h2>
             <h3 id="title">Web Developer &amp; Designer</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Shanghai, China</span>
-            <a id="follow" target="_blank" href="https://github.com/hivandu">SEGUIR</a>
+            <a id="follow" target="_blank" href="https://github.com/hivandu">FOLLOW</a>
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                151
-                <span>Entradas</span>
+                152
+                <span>posts</span>
             </div>
             <div class="article-info-block">
-                240
-                <span>Etiquetas</span>
+                242
+                <span>tags</span>
             </div>
         </div>
         
@@ -166,6 +167,137 @@
 
             
             <section id="main">
+    <article id="post-Knowledge-of-color-management" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2006/09/26/Knowledge-of-color-management/">颜色基础知识</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2006/09/26/Knowledge-of-color-management/">
+            <time datetime="2006-09-26T06:21:00.000Z" itemprop="datePublished">2006-09-26</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/design/">design</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/color/">color</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><p></p><p>到底美术基础都是很重要。对于我来说。。呵呵。所以只能耐下性子来研究一下色彩了。</p></p>
+            <p class="article-more-link">
+                <a href="/2006/09/26/Knowledge-of-color-management/#more">Read More</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://hivandu.github.io/2006/09/26/Knowledge-of-color-management/" data-id="cjhyy6wm40006mllrcg052ulr" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://hivandu.github.io/2006/09/26/Knowledge-of-color-management/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2006/09/26/Knowledge-of-color-management/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-picasaweb" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -229,7 +361,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2006/09/22/picasaweb/" data-id="cj9h8m7vc008ha0lrp23lgyzs" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+    <a data-url="http://hivandu.github.io/2006/09/22/picasaweb/" data-id="cjhyy6wwx00gwmllrdm9s7gpu" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -297,7 +429,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2006/09/22/picasaweb/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2006/09/22/picasaweb/">Comentarios</a>
+        <a href="http://hivandu.github.io/2006/09/22/picasaweb/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2006/09/22/picasaweb/">Comments</a>
     
 
         </footer>
@@ -347,7 +479,7 @@
         
         <div class="article-entry" itemprop="articleBody">
         
-            <p><p>转载自<a href="http://www.google.com/search?hl=zh-CN&amp;newwindow=1&amp;client=firefox&amp;rls=org.mozilla%3Azh-CN%3Aofficial&amp;q=%E6%9C%AC%E5%9C%B0%E6%9E%B6%E8%AE%BEphp+mysql+%E8%BD%AF%E4%BB%B6&amp;btnG=%E6%90%9C%E7%B4%A2&amp;lr=" target="_blank" rel="external">google搜索</a></p>
+            <p><p>转载自<a href="http://www.google.com/search?hl=zh-CN&amp;newwindow=1&amp;client=firefox&amp;rls=org.mozilla%3Azh-CN%3Aofficial&amp;q=%E6%9C%AC%E5%9C%B0%E6%9E%B6%E8%AE%BEphp+mysql+%E8%BD%AF%E4%BB%B6&amp;btnG=%E6%90%9C%E7%B4%A2&amp;lr=" target="_blank" rel="noopener">google搜索</a></p>
 <p>###系统环境:###</p></p>
             <p class="article-more-link">
                 <a href="/2006/07/28/apache-php-mysql-wordpress/#more">Read More</a>
@@ -361,7 +493,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2006/07/28/apache-php-mysql-wordpress/" data-id="cj9h8m7pu002ia0lr5a6g8muj" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+    <a data-url="http://hivandu.github.io/2006/07/28/apache-php-mysql-wordpress/" data-id="cjhyy6wo5002pmllrtqwhvtic" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -429,7 +561,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2006/07/28/apache-php-mysql-wordpress/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2006/07/28/apache-php-mysql-wordpress/">Comentarios</a>
+        <a href="http://hivandu.github.io/2006/07/28/apache-php-mysql-wordpress/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2006/07/28/apache-php-mysql-wordpress/">Comments</a>
     
 
         </footer>
@@ -487,7 +619,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2006/07/27/phpwind-wamp-10/" data-id="cj9h8m7va008ca0lrct7r2rnl" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+    <a data-url="http://hivandu.github.io/2006/07/27/phpwind-wamp-10/" data-id="cjhyy6wwr00gpmllrmvn64jt2" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -555,7 +687,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2006/07/27/phpwind-wamp-10/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2006/07/27/phpwind-wamp-10/">Comentarios</a>
+        <a href="http://hivandu.github.io/2006/07/27/phpwind-wamp-10/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2006/07/27/phpwind-wamp-10/">Comments</a>
     
 
         </footer>
@@ -608,9 +740,9 @@
             
             <p>目前有不少AMP（Apache\MySQL\PHP）的集成软件，可以让我们一次安装并设置好。这对于不熟悉AMP的用户来说，好处多多。</p>
 <p><strong>一、使用AMP集成软件的优点</strong>：<br>1、可避免由于缺乏AMP的知识，而无法正确设置环境；<br>2、可快速安装并设置好AMP环境，让我们直接开始真正感兴趣的软件，如xoops；<br>3、可方便的搭建测试环境，对于测试“是AMP环境问题，还是XOOPS造成的问题”很有帮助，采用排除法即可。</p>
-<p><strong>二、常用的AMP集成软件</strong>：<br>1、AppServ：<a href="http://www.appservnetwork.com/" target="_blank" rel="external">http://www.appservnetwork.com/</a><br>这个软件在台湾很流行。看到不少书籍也极力推荐，估计都是受台湾用户的影响。</p>
-<p>2、XAMPP：<a href="http://www.apachefriends.org/en" target="_blank" rel="external">http://www.apachefriends.org/en</a><br>这个软件支持多个平台,Win\Linux\Solaris\Mac OS X，目前也有不少人使用。</p>
-<p><strong>3、WAMP5：<a href="http://www.wampserver.com/en/" target="_blank" rel="external">http://www.wampserver.com/en/</a></strong><br>这是我今天极力推荐的，绝对五星级。注意它的名字是带个5的哦，意思就是WAMP5使用最新的PHP5版本，正如官方网站上的口号：Discover PHP5 with WAMP5 !</p>
+<p><strong>二、常用的AMP集成软件</strong>：<br>1、AppServ：<a href="http://www.appservnetwork.com/" target="_blank" rel="noopener">http://www.appservnetwork.com/</a><br>这个软件在台湾很流行。看到不少书籍也极力推荐，估计都是受台湾用户的影响。</p>
+<p>2、XAMPP：<a href="http://www.apachefriends.org/en" target="_blank" rel="noopener">http://www.apachefriends.org/en</a><br>这个软件支持多个平台,Win\Linux\Solaris\Mac OS X，目前也有不少人使用。</p>
+<p><strong>3、WAMP5：<a href="http://www.wampserver.com/en/" target="_blank" rel="noopener">http://www.wampserver.com/en/</a></strong><br>这是我今天极力推荐的，绝对五星级。注意它的名字是带个5的哦，意思就是WAMP5使用最新的PHP5版本，正如官方网站上的口号：Discover PHP5 with WAMP5 !</p>
 <p><strong>三、根据我的经验，WAMP5有如下优点</strong>：<br>1、XOOPS在WAMP5中使用，没有任何问题。<br>2、WAMP5专注于Windows平台，安装设置及其简单。<br>3、PHP默认的是5.x版本，如果需要php4.x，只要安装php4.x插件，就可以在两者之间自由的切换，非常方便。<br>4、MySQL默认的是5.x版本，但可以通过选择老版本的WAMP5，从而使用4.x的MySQL。<br>5、可视化的菜单管理，极其方便。如，打开关闭php extention、Apache module等，直接通过菜单选择就可以。<br>6、还有各种插件，如ZEND OPTIMIZER ADD-ON等。<br>7、如果有疑问，官方还有论坛可以求助。<br>……更多优点：谁用谁知道，早用早知道^_^</p>
 <p><strong>四、使用WAMP5的经验、技巧</strong><br>1、安装时的设置：可以自定义WWW根目录的存放位置哦，强烈建议放到D盘等安全的分区中，以避免万一系统崩溃，造成数据丢失。</p>
 <p>2、对于中文用户来说，安装结束后，首先要设置的是，把MySQL的数据库默认编码改为UTF-8，这样可以排除很多中文乱码问题：在WAMP5菜单中选择打开<code>my(wamp).ini</code>，设置其中的<code>default-character-set=utf8</code>, 然后重启WAMP5。</p>
@@ -627,7 +759,7 @@
 <blockquote>
 <p>[Date]<br>; Defines the default timezone used by the date functions<br>date.timezone = “Asia/Shanghai”</p>
 </blockquote>
-<p>如果你不在北京，那么就改动上述的设置即可，具体设置值可参考：<a href="http://us2.php.net/manual/en/timezones.php" target="_blank" rel="external">http://us2.php.net/manual/en/timezones.php</a></p>
+<p>如果你不在北京，那么就改动上述的设置即可，具体设置值可参考：<a href="http://us2.php.net/manual/en/timezones.php" target="_blank" rel="noopener">http://us2.php.net/manual/en/timezones.php</a></p>
 <p>通过上述WAMP5的设置之后，我们在XOOPS中的时区设置就可以这样：服务器时区、默认时区、个人帐号的时区这三者都设置为上述的时区就可以了，如：北京时间（GMT+8）</p>
 <p>OK，这就是所有的AMP设置秘籍！！</p>
 
@@ -640,7 +772,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2006/07/19/wamp5-make-apachemysqlphp/" data-id="cj9h8m7wi00ama0lr9eswn450" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+    <a data-url="http://hivandu.github.io/2006/07/19/wamp5-make-apachemysqlphp/" data-id="cjhyy6wyv00j1mllruowuak2i" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -708,7 +840,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2006/07/19/wamp5-make-apachemysqlphp/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2006/07/19/wamp5-make-apachemysqlphp/">Comentarios</a>
+        <a href="http://hivandu.github.io/2006/07/19/wamp5-make-apachemysqlphp/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2006/07/19/wamp5-make-apachemysqlphp/">Comments</a>
     
 
         </footer>
@@ -761,7 +893,7 @@
             
             <p>使用Telnet数据流创造了正在进行比赛的ASCII影像,   </p>
 <p>尽管这难以令人想象. 看看他是怎么做的… </p>
-<p>在比赛开始10分钟以前,   简单的打开Windows开始-运行窗口, 输入 <code>telnet ascii-wm.net 2006</code> , 你将会看到 “现场直播” 视频流.    明显的, 这是互联网应用的又一创新. 来试一下吧!    <a href="http://ascii-wm.net/" target="_blank" rel="external">http://ascii-wm.net/</a>  </p>
+<p>在比赛开始10分钟以前,   简单的打开Windows开始-运行窗口, 输入 <code>telnet ascii-wm.net 2006</code> , 你将会看到 “现场直播” 视频流.    明显的, 这是互联网应用的又一创新. 来试一下吧!    <a href="http://ascii-wm.net/" target="_blank" rel="noopener">http://ascii-wm.net/</a>  </p>
 <p>由于我家里只有电脑没有电视，所以全程我都是这么干的。。。可惜，经常与主机断开连接。。而且，很多时候我看不懂。。。郁闷。只能知道个大概。。有兴趣的可以去看看＠</p>
 
         
@@ -773,7 +905,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2006/06/27/Use-the-telnet-data-stream-to-watch-the-World-Cup/" data-id="cj9h8m7ou000ka0lre1sdlyd7" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+    <a data-url="http://hivandu.github.io/2006/06/27/Use-the-telnet-data-stream-to-watch-the-World-Cup/" data-id="cjhyy6wml000kmllrohelvllm" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -841,7 +973,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2006/06/27/Use-the-telnet-data-stream-to-watch-the-World-Cup/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2006/06/27/Use-the-telnet-data-stream-to-watch-the-World-Cup/">Comentarios</a>
+        <a href="http://hivandu.github.io/2006/06/27/Use-the-telnet-data-stream-to-watch-the-World-Cup/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2006/06/27/Use-the-telnet-data-stream-to-watch-the-World-Cup/">Comments</a>
     
 
         </footer>
@@ -894,7 +1026,7 @@
             
             <p>由于我是作图的，所以电脑里各种素材和作品很多，容量差不多有100GB，里面有相当不少的文件体积不小于100MB或者更大。</p>
 <p>使用ACDSee来管理的话，速度较慢，经常很长的时间都没有反应，而且笔者隔几天就会有新的图片和数码照片输入到计算机里，图片库在不断增加。</p>
-<p>使用Picasa2这个软件就可以让我们瞬间查看图片，不需要等待很长的时间。Picasa 原为独立收费的图像管理、处理软件, 其界面美观华丽, 功能实用丰富。现在已被 Google 收购改为免费软件, 成为了 Google 的一部分，它最突出的优点是搜索硬盘中的相片图片的速度很快，当你输入一个字后，准备输入第二个字时，它已经即时显示出搜索出的图片。不管照片有多少，空间有多大，几秒内就可以查找到所需要的图片，但搜索同样的图片，ACDSee却花了一分钟多！<a href="http://dl.google.com/picasa/picasa2-current.exe" target="_blank" rel="external">Download</a>   </p>
+<p>使用Picasa2这个软件就可以让我们瞬间查看图片，不需要等待很长的时间。Picasa 原为独立收费的图像管理、处理软件, 其界面美观华丽, 功能实用丰富。现在已被 Google 收购改为免费软件, 成为了 Google 的一部分，它最突出的优点是搜索硬盘中的相片图片的速度很快，当你输入一个字后，准备输入第二个字时，它已经即时显示出搜索出的图片。不管照片有多少，空间有多大，几秒内就可以查找到所需要的图片，但搜索同样的图片，ACDSee却花了一分钟多！<a href="http://dl.google.com/picasa/picasa2-current.exe" target="_blank" rel="noopener">Download</a>   </p>
 <p><strong>特色功能：</strong></p>
 <ul>
 <li><p>它对图片的管理界面和方式和ACDSee相比，最大的优势就是可以从“全局”的角度来浏览图片，比较有特色，而且右下角还有一个滑动条，可以随意拖动放大、缩小缩略图，十分方便。浏览图片速度飞快   </p>
@@ -915,7 +1047,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2006/05/11/picasa2/" data-id="cj9h8m7vb008ea0lrk2ugporc" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+    <a data-url="http://hivandu.github.io/2006/05/11/picasa2/" data-id="cjhyy6wwt00gsmllr81ftngr5" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -983,7 +1115,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2006/05/11/picasa2/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2006/05/11/picasa2/">Comentarios</a>
+        <a href="http://hivandu.github.io/2006/05/11/picasa2/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2006/05/11/picasa2/">Comments</a>
     
 
         </footer>
@@ -1055,7 +1187,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2006/05/09/write-blog-is-very-foolish/" data-id="cj9h8m7x300bfa0lraq7qgcjv" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+    <a data-url="http://hivandu.github.io/2006/05/09/write-blog-is-very-foolish/" data-id="cjhyy6wzj00jxmllrn3r211f4" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1123,7 +1255,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2006/05/09/write-blog-is-very-foolish/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2006/05/09/write-blog-is-very-foolish/">Comentarios</a>
+        <a href="http://hivandu.github.io/2006/05/09/write-blog-is-very-foolish/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2006/05/09/write-blog-is-very-foolish/">Comments</a>
     
 
         </footer>
@@ -1186,7 +1318,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2006/03/10/freedom/" data-id="cj9h8m7qr003va0lrhjeasmwd" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+    <a data-url="http://hivandu.github.io/2006/03/10/freedom/" data-id="cjhyy6woz003vmllr6qk08cy8" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1254,7 +1386,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2006/03/10/freedom/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2006/03/10/freedom/">Comentarios</a>
+        <a href="http://hivandu.github.io/2006/03/10/freedom/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2006/03/10/freedom/">Comments</a>
     
 
         </footer>
@@ -1317,7 +1449,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2006/02/21/airship/" data-id="cj9h8m7p8001fa0lrkh4tor3w" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+    <a data-url="http://hivandu.github.io/2006/02/21/airship/" data-id="cjhyy6wn8001fmllra5qaewix" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1385,141 +1517,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2006/02/21/airship/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2006/02/21/airship/">Comentarios</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-Really-surprised" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2005/12/12/Really-surprised/">真是很意外</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2005/12/12/Really-surprised/">
-            <time datetime="2005-12-12T13:07:00.000Z" itemprop="datePublished">2005-12-12</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/life/">life</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/msn/">msn</a>, <a class="tag-link" href="/tags/冯文/">冯文</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>真是很意外@突然收到一个人加MSN的邀请。。</p>
-<p>发现这个人有空间@便很有兴趣的进去看看。。</p>
-<p>哈@居然看到了一个熟悉的面孔，我的冯老师。。</p>
-<p>虽然只给我们上过一节课，可是印象却很深。。</p>
-<p>我这个人，只有对美女有印象@哈哈。。</p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="http://hivandu.github.io/2005/12/12/Really-surprised/" data-id="cj9h8m7op000ba0lrjc90ipev" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="http://hivandu.github.io/2005/12/12/Really-surprised/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2005/12/12/Really-surprised/">Comentarios</a>
+        <a href="http://hivandu.github.io/2006/02/21/airship/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2006/02/21/airship/">Comments</a>
     
 
         </footer>
@@ -1530,7 +1528,7 @@
 
 
     <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/page/14/">&laquo; Anterior</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/16/">Siguiente  &raquo;</a>
+        <a class="extend prev" rel="prev" href="/page/14/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/16/">Next &raquo;</a>
     </nav>
 </section>
             
@@ -1538,9 +1536,18 @@
    
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Recientes</h3>
+        <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/06/02/homebrew-manage-node-version/" class="title">[homebrew manage node version]</a></p>
+                            <p class="item-date"><time datetime="2018-06-01T16:55:16.000Z" itemprop="datePublished">2018-06-02</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -1578,15 +1585,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2017/02/13/npm-check/" class="title">npm-check</a></p>
-                            <p class="item-date"><time datetime="2017-02-13T02:54:03.000Z" itemprop="datePublished">2017-02-13</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -1594,7 +1592,7 @@
     
         
     <div class="widget-wrap widget-list">
-        <h3 class="widget-title">Links</h3>
+        <h3 class="widget-title">links</h3>
         <div class="widget">
             <ul>
                 
@@ -1615,7 +1613,7 @@
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2017 Hivan Du<br>
+            &copy; 2018 Hivan Du<br>
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>

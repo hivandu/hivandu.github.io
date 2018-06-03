@@ -12,6 +12,7 @@
 <meta property="og:url" content="http://hivandu.github.io/2012/11/06/ruby-range/index.html">
 <meta property="og:site_name" content="Duart">
 <meta property="og:description" content="Range在概念上看是非常直观的。不过在实际的使用中，我们可能会遇到一些令人混淆的东西。看如下代码：123digits = 0..9     #0到9scale1 = 0..10    #0到10scale2 = 0...10   #0到9,不包含10">
+<meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2015-11-20T08:21:42.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ruby Range">
@@ -68,7 +69,7 @@
             <div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
@@ -87,10 +88,10 @@
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Entradas',
+            POSTS: 'Posts',
             PAGES: 'Pages',
-            CATEGORIES: 'Categorias',
-            TAGS: 'Etiquetas',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
             UNTITLED: '(Untitled)',
         },
         ROOT_URL: '/',
@@ -115,7 +116,7 @@
                 <td>
                     
     <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
     </div>
 
                 </td>
@@ -135,16 +136,16 @@
             <h2 id="name">Hivan Du</h2>
             <h3 id="title">Web Developer &amp; Designer</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Shanghai, China</span>
-            <a id="follow" target="_blank" href="https://github.com/hivandu">SEGUIR</a>
+            <a id="follow" target="_blank" href="https://github.com/hivandu">FOLLOW</a>
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                151
-                <span>Entradas</span>
+                152
+                <span>posts</span>
             </div>
             <div class="article-info-block">
-                240
-                <span>Etiquetas</span>
+                242
+                <span>tags</span>
             </div>
         </div>
         
@@ -211,34 +212,34 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p>Range在概念上看是非常直观的。不过在实际的使用中，我们可能会遇到一些令人混淆的东西。<br>看如下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">digits = 0..9     #0到9</div><div class="line">scale1 = 0..10    #0到10</div><div class="line">scale2 = 0...10   #0到9,不包含10</div></pre></td></tr></table></figure></p>
+            <p>Range在概念上看是非常直观的。不过在实际的使用中，我们可能会遇到一些令人混淆的东西。<br>看如下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">digits = 0..9     #0到9</span><br><span class="line">scale1 = 0..10    #0到10</span><br><span class="line">scale2 = 0...10   #0到9,不包含10</span><br></pre></td></tr></table></figure></p>
 <a id="more"></a>
 <p><code>..</code>操作符将包含上限，而<code>...</code>不包含上限。</p>
 <p>不过，Range不只是作用于数字类型，基本上对于任何的对象都有用，但结果是否有实际意义要看实际的情况了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">a = &apos;A&apos;..&apos;Z&apos;</div><div class="line">a.to_a.each&#123;|c| puts c&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = &apos;A&apos;..&apos;Z&apos;</span><br><span class="line">a.to_a.each&#123;|c| puts c&#125;</span><br></pre></td></tr></table></figure>
 <p>我们称..这样的Range为”关闭”的Range,而<code>...</code>的Range为”开放”的Range。<br>使用first和last方法(或同义方法begin和end)，可以获取一个Range的开始和结束元素：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">r1 = 3..6</div><div class="line">r2 = 3...6</div><div class="line">r1a, r1b = r1.first, r1.last    # 3, 6</div><div class="line">r1c, r1d = r1.begin, r1.end     # 3, 6</div><div class="line">r2a, r2b = r2.begin, r2.end     # 3, 6 (注意：不是3和5)</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">r1 = 3..6</span><br><span class="line">r2 = 3...6</span><br><span class="line">r1a, r1b = r1.first, r1.last    # 3, 6</span><br><span class="line">r1c, r1d = r1.begin, r1.end     # 3, 6</span><br><span class="line">r2a, r2b = r2.begin, r2.end     # 3, 6 (注意：不是3和5)</span><br></pre></td></tr></table></figure>
 <p><code>exclude_end?</code>方法可以得到Range是否排除上限项(即是否是…的Range)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">r1.exclude_end?   # false</div><div class="line">r2.exclude_end?   # true</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">r1.exclude_end?   # false</span><br><span class="line">r2.exclude_end?   # true</span><br></pre></td></tr></table></figure>
 <h3 id="对Range进行迭代"><a href="#对Range进行迭代" class="headerlink" title="对Range进行迭代"></a>对Range进行迭代</h3><p>Range是可迭代的，不过，为了更加实际有用，确认你的Range包含的对象已经有一个有意义的succ方法。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(3..6).each &#123;|x| puts x &#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(3..6).each &#123;|x| puts x &#125;</span><br></pre></td></tr></table></figure>
 <p>我们看一个有趣的例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">r1 = &quot;7&quot;..&quot;9&quot;</div><div class="line">r2 = &quot;7&quot;..&quot;10&quot;</div><div class="line">r1.each &#123;|x| puts x &#125;   # 打印出7,8,9</div><div class="line">r2.each &#123;|x| puts x &#125;   # 未打印任何东西</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">r1 = &quot;7&quot;..&quot;9&quot;</span><br><span class="line">r2 = &quot;7&quot;..&quot;10&quot;</span><br><span class="line">r1.each &#123;|x| puts x &#125;   # 打印出7,8,9</span><br><span class="line">r2.each &#123;|x| puts x &#125;   # 未打印任何东西</span><br></pre></td></tr></table></figure>
 <p>为什么会出现这样的情况？这是因为这里都是字符串，由于r1中，”7”比”9”小，所以，它是个合理的Range；而表达式r2中， “7”比”10”大，下限大于了上限，就不合理了。</p>
 <p>浮点数的Range可以进行迭代么？我们来看一下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">fr = 2.0..2.2</div><div class="line">fr.each &#123;|x| puts x &#125;   # 错误!</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fr = 2.0..2.2</span><br><span class="line">fr.each &#123;|x| puts x &#125;   # 错误!</span><br></pre></td></tr></table></figure>
 <p>为什么浮点数不可以迭代呢？因为浮点数对象没有succ方法。是因为不能实现么？理论上，这是没有问题的，但是，实际上，如果浮点数 Range迭代，这有可能出现：很小的一个范围，将产生非常庞大的迭代量。这对语言的实现有非常高的要求。况且，这样的功能，极少有用到。</p>
 <h3 id="测试范围关系"><a href="#测试范围关系" class="headerlink" title="测试范围关系"></a>测试范围关系</h3><p>include?方法（同义方法member?）可以判断一个值是否处在当前的Range中：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">r1 = 23456..34567</div><div class="line">x = 14142</div><div class="line">y = 31416</div><div class="line">r1.include?(x)      # false</div><div class="line">r1.include?(y)      # true</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">r1 = 23456..34567</span><br><span class="line">x = 14142</span><br><span class="line">y = 31416</span><br><span class="line">r1.include?(x)      # false</span><br><span class="line">r1.include?(y)      # true</span><br></pre></td></tr></table></figure>
 <p>它内部是怎么实现的呢？其实，它只是把给出的值和该Range的上限做比较得出的（所以，它依赖与一个有意义的&lt;=&gt;）。</p>
 <h3 id="转化为数组"><a href="#转化为数组" class="headerlink" title="转化为数组"></a>转化为数组</h3><p>很简单，to_a方法搞定：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">r = 3..12</div><div class="line">arr = r.to_a     # [3,4,5,6,7,8,9,10,11,12]</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">r = 3..12</span><br><span class="line">arr = r.to_a     # [3,4,5,6,7,8,9,10,11,12]</span><br></pre></td></tr></table></figure>
 <h3 id="反向的Range"><a href="#反向的Range" class="headerlink" title="反向的Range"></a>反向的Range</h3><p>我们前面讨论过了下限大于上限的Range，如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">r = 6..3</div><div class="line">x = r.begin              # 6</div><div class="line">y = r.end                # 3</div><div class="line">flag = r.end_excluded?   # false</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">r = 6..3</span><br><span class="line">x = r.begin              # 6</span><br><span class="line">y = r.end                # 3</span><br><span class="line">flag = r.end_excluded?   # false</span><br></pre></td></tr></table></figure>
 <p>它确实是个合法的Range，但是，它包含的内容缺并不是我们想像的那样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">arr = r.to_a       # 得到空的数组[]</div><div class="line">r.each &#123;|x| p x&#125;   # 无结果</div><div class="line">r.include?(5)      # false</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">arr = r.to_a       # 得到空的数组[]</span><br><span class="line">r.each &#123;|x| p x&#125;   # 无结果</span><br><span class="line">r.include?(5)      # false</span><br></pre></td></tr></table></figure>
 <p>那么说反向Range是没有什么用处的咯？那倒不是，我们可以在字符串和数组中使用反向Range：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">string = &quot;flowery&quot;</div><div class="line">str1   = string[0..-2]   # &quot;flower&quot;</div><div class="line">str2   = string[1..-2]   # &quot;lower&quot;</div><div class="line">str3   = string[-5..-3]  # &quot;owe&quot; (其实这是个正向的Range)</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">string = &quot;flowery&quot;</span><br><span class="line">str1   = string[0..-2]   # &quot;flower&quot;</span><br><span class="line">str2   = string[1..-2]   # &quot;lower&quot;</span><br><span class="line">str3   = string[-5..-3]  # &quot;owe&quot; (其实这是个正向的Range)</span><br></pre></td></tr></table></figure>
         
         </div>
         <footer class="article-footer">
@@ -248,7 +249,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2012/11/06/ruby-range/" data-id="cj9h8m7vp0099a0lrpna3k8m0" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+    <a data-url="http://hivandu.github.io/2012/11/06/ruby-range/" data-id="cjhyy6wxq00homllr7wib2r55" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -316,7 +317,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2012/11/06/ruby-range/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/11/06/ruby-range/">Comentarios</a>
+        <a href="http://hivandu.github.io/2012/11/06/ruby-range/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/11/06/ruby-range/">Comments</a>
     
 
         </footer>
@@ -326,7 +327,7 @@
 <nav id="article-nav">
     
         <a href="/2013/03/08/chrome-all-download/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Más nuevo</strong>
+            <strong class="article-nav-caption">Newer</strong>
             <div class="article-nav-title">
                 
                     chrome-all-download
@@ -336,7 +337,7 @@
     
     
         <a href="/2012/11/05/ruby-「file」/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Más viejo</strong>
+            <strong class="article-nav-caption">Older</strong>
             <div class="article-nav-title">ruby-「file」</div>
         </a>
     
@@ -364,9 +365,18 @@
    
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Recientes</h3>
+        <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/06/02/homebrew-manage-node-version/" class="title">[homebrew manage node version]</a></p>
+                            <p class="item-date"><time datetime="2018-06-01T16:55:16.000Z" itemprop="datePublished">2018-06-02</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -404,15 +414,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2017/02/13/npm-check/" class="title">npm-check</a></p>
-                            <p class="item-date"><time datetime="2017-02-13T02:54:03.000Z" itemprop="datePublished">2017-02-13</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -420,7 +421,7 @@
     
         
     <div class="widget-wrap widget-list">
-        <h3 class="widget-title">Links</h3>
+        <h3 class="widget-title">links</h3>
         <div class="widget">
             <ul>
                 
@@ -441,7 +442,7 @@
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2017 Hivan Du<br>
+            &copy; 2018 Hivan Du<br>
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>

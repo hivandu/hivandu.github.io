@@ -12,6 +12,7 @@
 <meta property="og:url" content="http://hivandu.github.io/2011/05/23/maya-vector/index.html">
 <meta property="og:site_name" content="Duart">
 <meta property="og:description" content="和一个朋友讨论Maya节点的时候谈到了Maya的向量。好在我学生时代数学是比较好的一门学科，所以这里所讨论的会涉及到一些数学方面的内容，不进行补课，有需要的请学习相关的专门课程。">
+<meta property="og:locale" content="default">
 <meta property="og:image" content="http://farm3.static.flickr.com/2758/5750346925_b0124ec302_o.jpg">
 <meta property="og:updated_time" content="2013-12-18T05:45:39.000Z">
 <meta name="twitter:card" content="summary">
@@ -70,7 +71,7 @@
             <div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
@@ -89,10 +90,10 @@
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Entradas',
+            POSTS: 'Posts',
             PAGES: 'Pages',
-            CATEGORIES: 'Categorias',
-            TAGS: 'Etiquetas',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
             UNTITLED: '(Untitled)',
         },
         ROOT_URL: '/',
@@ -117,7 +118,7 @@
                 <td>
                     
     <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
     </div>
 
                 </td>
@@ -137,16 +138,16 @@
             <h2 id="name">Hivan Du</h2>
             <h3 id="title">Web Developer &amp; Designer</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Shanghai, China</span>
-            <a id="follow" target="_blank" href="https://github.com/hivandu">SEGUIR</a>
+            <a id="follow" target="_blank" href="https://github.com/hivandu">FOLLOW</a>
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                151
-                <span>Entradas</span>
+                152
+                <span>posts</span>
             </div>
             <div class="article-info-block">
-                240
-                <span>Etiquetas</span>
+                242
+                <span>tags</span>
             </div>
         </div>
         
@@ -222,7 +223,7 @@
 <p>##向量的表示##</p>
 <p>既然向量是一个既有方向又有大小的量，大小可以用一个数字来表示，那么如何才能表示其方向呢？用上面这个例子来说明，最简单的方法就是用图来表示，如一张甲乙两地的方位示意图：</p>
 <p><img src="http://farm3.static.flickr.com/2758/5750346925_b0124ec302_o.jpg" alt="方向和距离"></p>
-<p>具体的向量表述说起来话就比较多了，这里不赘述，可以参看 <a href="http://zh.wikipedia.org/wiki/%E5%90%91%E9%87%8F" target="_blank" rel="external"><strong>Wikipedia关于向量的表述</strong></a></p>
+<p>具体的向量表述说起来话就比较多了，这里不赘述，可以参看 <a href="http://zh.wikipedia.org/wiki/%E5%90%91%E9%87%8F" target="_blank" rel="noopener"><strong>Wikipedia关于向量的表述</strong></a></p>
 <p>##Maya中的向量##</p>
 <p>以上是基于数学定义对向量的说明，在Maya中大多数情况下并不直接使用向量这一定义（vector），比如物体的空间位置（translate）属性类型并不是vector，而是“double3”–三元双精度浮点数。Maya的节点类型中有一种类型是三元属性，其中包括上面所说的double3，还有Float3等。实际上在Maya中所有的三元属性同时具有两个性质，第一是每个三元属性都是一个向量，即计算过程中整个属性可以按照一个向量参与计算，第二是任意一个三元属性都可以分解成为三个分量，每个分量可以依照一元属性的规则参与计算。<br>第二个性质就使Maya中的三元属性与标准的数学概念中的向量有所区别。比如。纯数学定义的向量进行加法计算时，只能在向量与向量之间进行，不允许将一个向量与一个单独的数想加，要向在向量三个分量中一个分量上加一个输，其他两个分量保持不变的话，只能将这个单独的数转化成向量形式，如将一个独立的数字 <code>a</code>变成<code>（a，0，0)</code>或<code>(0，a，0)、（0，0，a）</code>的形式，然后再与向量相加。而在Maya中可以把向量的一个分量提出来单独计算，比如可以在表达始终输入：<br><code>nurbsSphere1.tx = nurbsSphere1.tx + frame</code></p>
 <p>##Maya中向量的表示方法##</p>
@@ -241,7 +242,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2011/05/23/maya-vector/" data-id="cj9h8m7ur007aa0lrp0m6f1w6" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+    <a data-url="http://hivandu.github.io/2011/05/23/maya-vector/" data-id="cjhyy6wvt00flmllrow0o11qz" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -309,7 +310,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2011/05/23/maya-vector/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2011/05/23/maya-vector/">Comentarios</a>
+        <a href="http://hivandu.github.io/2011/05/23/maya-vector/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2011/05/23/maya-vector/">Comments</a>
     
 
         </footer>
@@ -319,7 +320,7 @@
 <nav id="article-nav">
     
         <a href="/2011/07/04/what-is-ifttt-and-how-to-play/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Más nuevo</strong>
+            <strong class="article-nav-caption">Newer</strong>
             <div class="article-nav-title">
                 
                     什么事ifttt,ifttt怎么玩?
@@ -329,7 +330,7 @@
     
     
         <a href="/2011/05/23/nuffnang-challenge-1000/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Más viejo</strong>
+            <strong class="article-nav-caption">Older</strong>
             <div class="article-nav-title">拿福能千人挑战活动</div>
         </a>
     
@@ -357,9 +358,18 @@
    
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Recientes</h3>
+        <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/06/02/homebrew-manage-node-version/" class="title">[homebrew manage node version]</a></p>
+                            <p class="item-date"><time datetime="2018-06-01T16:55:16.000Z" itemprop="datePublished">2018-06-02</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -397,15 +407,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2017/02/13/npm-check/" class="title">npm-check</a></p>
-                            <p class="item-date"><time datetime="2017-02-13T02:54:03.000Z" itemprop="datePublished">2017-02-13</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -413,7 +414,7 @@
     
         
     <div class="widget-wrap widget-list">
-        <h3 class="widget-title">Links</h3>
+        <h3 class="widget-title">links</h3>
         <div class="widget">
             <ul>
                 
@@ -434,7 +435,7 @@
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2017 Hivan Du<br>
+            &copy; 2018 Hivan Du<br>
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>

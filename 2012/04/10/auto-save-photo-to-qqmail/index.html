@@ -12,6 +12,7 @@
 <meta property="og:url" content="http://hivandu.github.io/2012/04/10/auto-save-photo-to-qqmail/index.html">
 <meta property="og:site_name" content="Duart">
 <meta property="og:description" content="前言为什么是QQ Mail? 因为它大,而且不断自动扩容,你想把它装满暂时是不太现实. 而且来说,QQ邮箱的体验还是非常不错的!过滤规则也很能满足要求,归档搜索查找都不错!一些不涉及隐私而又想保存的文件或者照片或者其他什么东东,存在QQ邮箱里还是不错的!比如:XXX">
+<meta property="og:locale" content="default">
 <meta property="og:image" content="http://farm6.staticflickr.com/5454/7062008689_141e7cde9a_z.jpg">
 <meta property="og:updated_time" content="2015-11-20T08:32:57.000Z">
 <meta name="twitter:card" content="summary">
@@ -70,7 +71,7 @@
             <div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
@@ -89,10 +90,10 @@
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Entradas',
+            POSTS: 'Posts',
             PAGES: 'Pages',
-            CATEGORIES: 'Categorias',
-            TAGS: 'Etiquetas',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
             UNTITLED: '(Untitled)',
         },
         ROOT_URL: '/',
@@ -117,7 +118,7 @@
                 <td>
                     
     <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
     </div>
 
                 </td>
@@ -137,16 +138,16 @@
             <h2 id="name">Hivan Du</h2>
             <h3 id="title">Web Developer &amp; Designer</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Shanghai, China</span>
-            <a id="follow" target="_blank" href="https://github.com/hivandu">SEGUIR</a>
+            <a id="follow" target="_blank" href="https://github.com/hivandu">FOLLOW</a>
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                151
-                <span>Entradas</span>
+                152
+                <span>posts</span>
             </div>
             <div class="article-info-block">
-                240
-                <span>Etiquetas</span>
+                242
+                <span>tags</span>
             </div>
         </div>
         
@@ -217,20 +218,20 @@
 <p>因为它大,而且不断自动扩容,你想把它装满暂时是不太现实. 而且来说,QQ邮箱的体验还是非常不错的!过滤规则也很能满足要求,归档搜索查找都不错!一些不涉及隐私而又想保存的文件或者照片或者其他什么东东,存在QQ邮箱里还是不错的!比如:XXX</p>
 <a id="more"></a>
 <p><strong>如果想同步到Google+请看完文章后看最后部分的更新说明!</strong></p>
-<h3 id="如何实现"><a href="#如何实现" class="headerlink" title="如何实现"></a>如何实现</h3><p>通过众所周知的<a href="http://ifttt.com/" target="_blank" rel="external">ifttt</a></p>
+<h3 id="如何实现"><a href="#如何实现" class="headerlink" title="如何实现"></a>如何实现</h3><p>通过众所周知的<a href="http://ifttt.com/" target="_blank" rel="noopener">ifttt</a></p>
 <p>其实,这主要是一个我为了保存自己照片的方式!(爱信不信,不相信拉倒!)</p>
 <p>建立一个task, if Instagram 设定条件:New Liked photo, then Gmail 设定条件:Send an email.</p>
-<p>好了,填上 To address: xxx@qq.com 就OK了! 简单吧?</p>
-<p>如果你熟悉某个联系人,那么建立规则by Username,然后包含此用户名关键词的主题都标上相应的关键词.比如<a href="https://twitter.com/#!/ladiiprang" target="_blank" rel="external">by ladiiprang</a>在邮箱规则里就可以加上”妹子”的tags.</p>
+<p>好了,填上 To address: <a href="mailto:xxx@qq.com" target="_blank" rel="noopener">xxx@qq.com</a> 就OK了! 简单吧?</p>
+<p>如果你熟悉某个联系人,那么建立规则by Username,然后包含此用户名关键词的主题都标上相应的关键词.比如<a href="https://twitter.com/#!/ladiiprang" target="_blank" rel="noopener">by ladiiprang</a>在邮箱规则里就可以加上”妹子”的tags.</p>
 <p><img src="http://farm6.staticflickr.com/5454/7062008689_141e7cde9a_z.jpg" alt="妹子"></p>
 <h3 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h3><p>如果你不想后期被众多的新邮件搞得头昏脑胀的话,那么你一开始就要设定好过滤条件!</p>
 <p>在ifttt中,Send an email的时候Subject记得填写上一些关键词,比如From Instagram,这样,对于主题内有关键词的邮件就好管理的多了.添加过滤规则就好了!将来自己发送邮箱Gmail的邮件主题包含From和Instagram的都自动移动到一个新建的文件夹内,Ex:Photo DB,完工!</p>
-<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>同理,我们也可以建立来自Flickr的发送规则,原理是一样的!注意Gmail邮箱里的过滤条件要建好!否则Gmail爆满是迟早的事情!运用这样的规则,我们还可以发送<a href="http://db.tt/46tx8aDd" target="_blank" rel="external">Dropbox</a>里的文档到QQ邮箱内保存,不过规则限定发送的只能是Public内的文档!</p>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>同理,我们也可以建立来自Flickr的发送规则,原理是一样的!注意Gmail邮箱里的过滤条件要建好!否则Gmail爆满是迟早的事情!运用这样的规则,我们还可以发送<a href="http://db.tt/46tx8aDd" target="_blank" rel="noopener">Dropbox</a>里的文档到QQ邮箱内保存,不过规则限定发送的只能是Public内的文档!</p>
 <p>其实一开始我不确定是发送文件还是只有地址!所以我开始的方法很绕,就是将相片想Save到Dropbox,然后再通过Dropbox建立if.then.Gmail.不过试验下来既然能直接发送文件,建立task就简单多了!</p>
 <p>还等什么,快去你的Instagram和Flickr上收藏妹子到邮箱内吧!</p>
 <h3 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h3><p>本来因为标题的原因,这点是不加在这里的!但是想着再写一篇一样意义的文章很没意思,所以就在这里说明一下好了!</p>
-<p>在我这篇文章发布之后,G+上看到了<a href="http://playpcesor.blogspot.com/" target="_blank" rel="external">电脑玩物</a>的作者+<a href="https://plus.google.com/u/0/100105166562504132677/" target="_blank" rel="external">esor huang</a> 的一篇讲解<a href="http://playpcesor.blogspot.com/2012/04/instagram-dropbox-google.html" target="_blank" rel="external">Instagram同步到Dropbox和Google+的说明</a>!以及<a href="http://www.androidcentral.com/sync-your-instagram-photos-google-how" target="_blank" rel="external">这篇E文</a>!说起来,这样的同步方式确实很笨拙.你打算电脑24小时开着picasa来为你同步么?那么,我从我这篇文的基础上考虑可行方案!记得之前Picasaweb给每个人都有一个邮箱推送地址!就是类似username.password@picasaweb.com这样的地址!好吧,有邮箱地址就简单了.不过这个地址需要你再登录picasaweb.com去找,在Google+页面上是找不到的!同理,Flickr也有类似的推送地址! 该怎么做我想你已经清楚了吧!</p>
-<p>最后,我想到了是否同样可以传送到QQ相册!毕竟和邮箱最大的不同就是相册是用来分享的,而邮箱是用来保存的!可惜,QQ没有针对相册的推送,而推送到QQ空间的XXX@qzone.qq.com这个地址也是必须QQ邮箱内部发才行!是的,和你们一样,我又想到了邮箱转发规则.用QQ邮箱收到邮件后转发到QQ空间邮箱去不就好了!测试后,果然.</p>
+<p>在我这篇文章发布之后,G+上看到了<a href="http://playpcesor.blogspot.com/" target="_blank" rel="noopener">电脑玩物</a>的作者+<a href="https://plus.google.com/u/0/100105166562504132677/" target="_blank" rel="noopener">esor huang</a> 的一篇讲解<a href="http://playpcesor.blogspot.com/2012/04/instagram-dropbox-google.html" target="_blank" rel="noopener">Instagram同步到Dropbox和Google+的说明</a>!以及<a href="http://www.androidcentral.com/sync-your-instagram-photos-google-how" target="_blank" rel="noopener">这篇E文</a>!说起来,这样的同步方式确实很笨拙.你打算电脑24小时开着picasa来为你同步么?那么,我从我这篇文的基础上考虑可行方案!记得之前Picasaweb给每个人都有一个邮箱推送地址!就是类似<a href="mailto:username.password@picasaweb.com" target="_blank" rel="noopener">username.password@picasaweb.com</a>这样的地址!好吧,有邮箱地址就简单了.不过这个地址需要你再登录picasaweb.com去找,在Google+页面上是找不到的!同理,Flickr也有类似的推送地址! 该怎么做我想你已经清楚了吧!</p>
+<p>最后,我想到了是否同样可以传送到QQ相册!毕竟和邮箱最大的不同就是相册是用来分享的,而邮箱是用来保存的!可惜,QQ没有针对相册的推送,而推送到QQ空间的<a href="mailto:XXX@qzone.qq.com" target="_blank" rel="noopener">XXX@qzone.qq.com</a>这个地址也是必须QQ邮箱内部发才行!是的,和你们一样,我又想到了邮箱转发规则.用QQ邮箱收到邮件后转发到QQ空间邮箱去不就好了!测试后,果然.</p>
 <p>…</p>
 <p>果然没那么简单,这次我失误了,特么的QQ小气到不允许自己的QQ邮箱转发邮件到QQzone的邮箱来自动推送文章!提示这是一个无效地址!不过也无所谓了,毕竟是推送文章的邮件地址,你也不想自己的QQ空间全是大片的文章,而且每篇文章里只有一张相片吧 ?</p>
 <p>这个说明本来是在G+上有提出的,但是有基友测试成功后给的是这里的url,所以我就想,补上这个说明!谁说是一样的到底,但是如果不提Picasaweb有邮件推送地址,估计很多人都已经忘记了!为了找同步到G+上的朋友会看得糊里糊涂!</p>
@@ -244,7 +245,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2012/04/10/auto-save-photo-to-qqmail/" data-id="cj9h8m7pz002na0lrh7biclqg" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+    <a data-url="http://hivandu.github.io/2012/04/10/auto-save-photo-to-qqmail/" data-id="cjhyy6wo2002kmllrkhjn61fb" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -312,7 +313,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2012/04/10/auto-save-photo-to-qqmail/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/04/10/auto-save-photo-to-qqmail/">Comentarios</a>
+        <a href="http://hivandu.github.io/2012/04/10/auto-save-photo-to-qqmail/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/04/10/auto-save-photo-to-qqmail/">Comments</a>
     
 
         </footer>
@@ -322,7 +323,7 @@
 <nav id="article-nav">
     
         <a href="/2012/04/10/ladlibray-with-error-6/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Más nuevo</strong>
+            <strong class="article-nav-caption">Newer</strong>
             <div class="article-nav-title">
                 
                     ladlibray with error 126
@@ -332,7 +333,7 @@
     
     
         <a href="/2012/04/09/note-about-my-ubuntu/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Más viejo</strong>
+            <strong class="article-nav-caption">Older</strong>
             <div class="article-nav-title">Note about my ubuntu</div>
         </a>
     
@@ -360,9 +361,18 @@
    
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Recientes</h3>
+        <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/06/02/homebrew-manage-node-version/" class="title">[homebrew manage node version]</a></p>
+                            <p class="item-date"><time datetime="2018-06-01T16:55:16.000Z" itemprop="datePublished">2018-06-02</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -400,15 +410,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2017/02/13/npm-check/" class="title">npm-check</a></p>
-                            <p class="item-date"><time datetime="2017-02-13T02:54:03.000Z" itemprop="datePublished">2017-02-13</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -416,7 +417,7 @@
     
         
     <div class="widget-wrap widget-list">
-        <h3 class="widget-title">Links</h3>
+        <h3 class="widget-title">links</h3>
         <div class="widget">
             <ul>
                 
@@ -437,7 +438,7 @@
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2017 Hivan Du<br>
+            &copy; 2018 Hivan Du<br>
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>

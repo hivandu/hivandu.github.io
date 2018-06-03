@@ -12,6 +12,7 @@
 <meta property="og:url" content="http://hivandu.github.io/2012/04/10/ladlibray-with-error-6/index.html">
 <meta property="og:site_name" content="Duart">
 <meta property="og:description" content="这里仅做个记录,以后好查找相应命令! 这个错误产生的原因是因为显卡驱动没有完善,运行openGL需要loadlibrary的API加载一个模块,但是模块没有找到. 问题只会出现在Win8,Win7和Vista上,并且是ATI显卡才会出现这种问题! Link 不幸的是我才换了一块A卡! 12345* Win+X* 选择**命令提示符(管理员) #要复制文件到Windows目录必须管理员权限* cd">
+<meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2013-12-18T02:50:16.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ladlibray with error 126">
@@ -68,7 +69,7 @@
             <div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
@@ -87,10 +88,10 @@
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Entradas',
+            POSTS: 'Posts',
             PAGES: 'Pages',
-            CATEGORIES: 'Categorias',
-            TAGS: 'Etiquetas',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
             UNTITLED: '(Untitled)',
         },
         ROOT_URL: '/',
@@ -115,7 +116,7 @@
                 <td>
                     
     <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
     </div>
 
                 </td>
@@ -135,16 +136,16 @@
             <h2 id="name">Hivan Du</h2>
             <h3 id="title">Web Developer &amp; Designer</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Shanghai, China</span>
-            <a id="follow" target="_blank" href="https://github.com/hivandu">SEGUIR</a>
+            <a id="follow" target="_blank" href="https://github.com/hivandu">FOLLOW</a>
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                151
-                <span>Entradas</span>
+                152
+                <span>posts</span>
             </div>
             <div class="article-info-block">
-                240
-                <span>Etiquetas</span>
+                242
+                <span>tags</span>
             </div>
         </div>
         
@@ -212,11 +213,11 @@
         
             
             <p>这里仅做个记录,以后好查找相应命令!</p>
-<p>这个错误产生的原因是因为显卡驱动没有完善,运行openGL需要loadlibrary的API加载一个模块,但是模块没有找到. 问题只会出现在Win8,Win7和Vista上,并且是ATI显卡才会出现这种问题! <a href="http://www.tomshardware.com/forum/284973-33-catalyst-breaks-opengl-games" target="_blank" rel="external">Link</a> 不幸的是我才换了一块A卡!</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">* Win+X</div><div class="line">* 选择**命令提示符(管理员) #要复制文件到Windows目录必须管理员权限</div><div class="line">* cd c:\windows\System32</div><div class="line">* copy opengl32.dll .dll</div><div class="line">已复制		1个文件</div></pre></td></tr></table></figure>
+<p>这个错误产生的原因是因为显卡驱动没有完善,运行openGL需要loadlibrary的API加载一个模块,但是模块没有找到. 问题只会出现在Win8,Win7和Vista上,并且是ATI显卡才会出现这种问题! <a href="http://www.tomshardware.com/forum/284973-33-catalyst-breaks-opengl-games" target="_blank" rel="noopener">Link</a> 不幸的是我才换了一块A卡!</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">* Win+X</span><br><span class="line">* 选择**命令提示符(管理员) #要复制文件到Windows目录必须管理员权限</span><br><span class="line">* cd c:\windows\System32</span><br><span class="line">* copy opengl32.dll .dll</span><br><span class="line">已复制		1个文件</span><br></pre></td></tr></table></figure>
 <p>再打开Maya或者Photoshop等,应该OK了!但是会被告知停用GPU增强! </p>
 <p>所以我劝各位,还是赶快升级你的显卡驱动吧!或者换块显卡(这两样对我都不实际)</p>
-<p>update:刚才Google相关资料的时候,发现有个老外有<a href="http://www.withinwindows.com/2012/03/31/loadlibrary-failed-with-error-126-redux/" target="_blank" rel="external">更简单的办法</a>!直接导入注册表.但是因为注册表文件是Win8的,所以Win7的童鞋慎行! 如果上边的地址失效,你可以在这里<a href="http://hivan.me/downloads/code/Windows/ati_w8_opengl_64bit.reg" target="_blank" rel="external">下载.reg</a></p>
+<p>update:刚才Google相关资料的时候,发现有个老外有<a href="http://www.withinwindows.com/2012/03/31/loadlibrary-failed-with-error-126-redux/" target="_blank" rel="noopener">更简单的办法</a>!直接导入注册表.但是因为注册表文件是Win8的,所以Win7的童鞋慎行! 如果上边的地址失效,你可以在这里<a href="http://hivan.me/downloads/code/Windows/ati_w8_opengl_64bit.reg" target="_blank" rel="noopener">下载.reg</a></p>
 
         
         </div>
@@ -227,7 +228,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2012/04/10/ladlibray-with-error-6/" data-id="cj9h8m7ti006ba0lrvh6mu2cq" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+    <a data-url="http://hivandu.github.io/2012/04/10/ladlibray-with-error-6/" data-id="cjhyy6wut00elmllrxtvt2lg1" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -295,7 +296,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2012/04/10/ladlibray-with-error-6/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/04/10/ladlibray-with-error-6/">Comentarios</a>
+        <a href="http://hivandu.github.io/2012/04/10/ladlibray-with-error-6/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/04/10/ladlibray-with-error-6/">Comments</a>
     
 
         </footer>
@@ -305,7 +306,7 @@
 <nav id="article-nav">
     
         <a href="/2012/07/04/cnbloggercon-20/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Más nuevo</strong>
+            <strong class="article-nav-caption">Newer</strong>
             <div class="article-nav-title">
                 
                     CnBloggerCon 2012
@@ -315,7 +316,7 @@
     
     
         <a href="/2012/04/10/auto-save-photo-to-qqmail/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Más viejo</strong>
+            <strong class="article-nav-caption">Older</strong>
             <div class="article-nav-title">Auto-save-photo-to-qqmail</div>
         </a>
     
@@ -343,9 +344,18 @@
    
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Recientes</h3>
+        <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/06/02/homebrew-manage-node-version/" class="title">[homebrew manage node version]</a></p>
+                            <p class="item-date"><time datetime="2018-06-01T16:55:16.000Z" itemprop="datePublished">2018-06-02</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -383,15 +393,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2017/02/13/npm-check/" class="title">npm-check</a></p>
-                            <p class="item-date"><time datetime="2017-02-13T02:54:03.000Z" itemprop="datePublished">2017-02-13</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -399,7 +400,7 @@
     
         
     <div class="widget-wrap widget-list">
-        <h3 class="widget-title">Links</h3>
+        <h3 class="widget-title">links</h3>
         <div class="widget">
             <ul>
                 
@@ -420,7 +421,7 @@
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2017 Hivan Du<br>
+            &copy; 2018 Hivan Du<br>
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>

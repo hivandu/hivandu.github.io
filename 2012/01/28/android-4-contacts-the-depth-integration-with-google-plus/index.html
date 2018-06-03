@@ -12,6 +12,7 @@
 <meta property="og:url" content="http://hivandu.github.io/2012/01/28/android-4-contacts-the-depth-integration-with-google-plus/index.html">
 <meta property="og:site_name" content="Duart">
 <meta property="og:description" content="在4.0以前,我记得Android里的通讯录名称是“contact”.而在4.0之后,我的手机上是4.0.3,将其更改为“people”了. 而更改的不仅仅是这小小的名称!大家都记得在之前版本的contact里,拨打界面和通讯录界面是整合在一起的.所以那个时候我第一屏单单放一个拨打电话就OK了.需要查找通讯录的话,可以切换tab.">
+<meta property="og:locale" content="default">
 <meta property="og:image" content="http://farm8.staticflickr.com/7173/6774975553_9920907f85_z.jpg">
 <meta property="og:updated_time" content="2013-12-17T16:54:00.000Z">
 <meta name="twitter:card" content="summary">
@@ -70,7 +71,7 @@
             <div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
@@ -89,10 +90,10 @@
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Entradas',
+            POSTS: 'Posts',
             PAGES: 'Pages',
-            CATEGORIES: 'Categorias',
-            TAGS: 'Etiquetas',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
             UNTITLED: '(Untitled)',
         },
         ROOT_URL: '/',
@@ -117,7 +118,7 @@
                 <td>
                     
     <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
     </div>
 
                 </td>
@@ -137,16 +138,16 @@
             <h2 id="name">Hivan Du</h2>
             <h3 id="title">Web Developer &amp; Designer</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Shanghai, China</span>
-            <a id="follow" target="_blank" href="https://github.com/hivandu">SEGUIR</a>
+            <a id="follow" target="_blank" href="https://github.com/hivandu">FOLLOW</a>
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                151
-                <span>Entradas</span>
+                152
+                <span>posts</span>
             </div>
             <div class="article-info-block">
-                240
-                <span>Etiquetas</span>
+                242
+                <span>tags</span>
             </div>
         </div>
         
@@ -241,7 +242,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2012/01/28/android-4-contacts-the-depth-integration-with-google-plus/" data-id="cj9h8m7pk0022a0lrbf7h5500" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+    <a data-url="http://hivandu.github.io/2012/01/28/android-4-contacts-the-depth-integration-with-google-plus/" data-id="cjhyy6wnp0022mllr353pkwgf" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -309,7 +310,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2012/01/28/android-4-contacts-the-depth-integration-with-google-plus/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/01/28/android-4-contacts-the-depth-integration-with-google-plus/">Comentarios</a>
+        <a href="http://hivandu.github.io/2012/01/28/android-4-contacts-the-depth-integration-with-google-plus/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/01/28/android-4-contacts-the-depth-integration-with-google-plus/">Comments</a>
     
 
         </footer>
@@ -319,7 +320,7 @@
 <nav id="article-nav">
     
         <a href="/2012/03/22/returns-my-seagate/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Más nuevo</strong>
+            <strong class="article-nav-caption">Newer</strong>
             <div class="article-nav-title">
                 
                     我的希捷退换货经历
@@ -329,7 +330,7 @@
     
     
         <a href="/2012/01/24/the-third-part-of-the-java-learning/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Más viejo</strong>
+            <strong class="article-nav-caption">Older</strong>
             <div class="article-nav-title">Java学习 开始第三部分</div>
         </a>
     
@@ -357,9 +358,18 @@
    
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Recientes</h3>
+        <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/06/02/homebrew-manage-node-version/" class="title">[homebrew manage node version]</a></p>
+                            <p class="item-date"><time datetime="2018-06-01T16:55:16.000Z" itemprop="datePublished">2018-06-02</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -397,15 +407,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2017/02/13/npm-check/" class="title">npm-check</a></p>
-                            <p class="item-date"><time datetime="2017-02-13T02:54:03.000Z" itemprop="datePublished">2017-02-13</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -413,7 +414,7 @@
     
         
     <div class="widget-wrap widget-list">
-        <h3 class="widget-title">Links</h3>
+        <h3 class="widget-title">links</h3>
         <div class="widget">
             <ul>
                 
@@ -434,7 +435,7 @@
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2017 Hivan Du<br>
+            &copy; 2018 Hivan Du<br>
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>

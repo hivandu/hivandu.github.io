@@ -12,6 +12,7 @@
 <meta property="og:url" content="http://hivandu.github.io/2012/11/05/ruby-「file」/index.html">
 <meta property="og:site_name" content="Duart">
 <meta property="og:description" content="读取一行 12345File.open(&amp;apos;test.txt&amp;apos;,&amp;apos;r&amp;apos;) do |f|  while line = f.gets      #puts line  endend">
+<meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2015-11-20T08:21:59.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ruby-「file」">
@@ -68,7 +69,7 @@
             <div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
@@ -87,10 +88,10 @@
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Entradas',
+            POSTS: 'Posts',
             PAGES: 'Pages',
-            CATEGORIES: 'Categorias',
-            TAGS: 'Etiquetas',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
             UNTITLED: '(Untitled)',
         },
         ROOT_URL: '/',
@@ -115,7 +116,7 @@
                 <td>
                     
     <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
     </div>
 
                 </td>
@@ -135,16 +136,16 @@
             <h2 id="name">Hivan Du</h2>
             <h3 id="title">Web Developer &amp; Designer</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Shanghai, China</span>
-            <a id="follow" target="_blank" href="https://github.com/hivandu">SEGUIR</a>
+            <a id="follow" target="_blank" href="https://github.com/hivandu">FOLLOW</a>
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                151
-                <span>Entradas</span>
+                152
+                <span>posts</span>
             </div>
             <div class="article-info-block">
-                240
-                <span>Etiquetas</span>
+                242
+                <span>tags</span>
             </div>
         </div>
         
@@ -212,16 +213,16 @@
         
             
             <p>读取一行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">File.open(&apos;test.txt&apos;,&apos;r&apos;) do |f|</div><div class="line">  while line = f.gets</div><div class="line">      #puts line</div><div class="line">  end</div><div class="line">end</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">File.open(&apos;test.txt&apos;,&apos;r&apos;) do |f|</span><br><span class="line">  while line = f.gets</span><br><span class="line">      #puts line</span><br><span class="line">  end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
 <p>读取整个文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">lines = File.readlines(&apos;test.txt&apos;) #存入数组中</div><div class="line">#puts lines</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lines = File.readlines(&apos;test.txt&apos;) #存入数组中</span><br><span class="line">#puts lines</span><br></pre></td></tr></table></figure>
 <p>写入数据</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">File.open(&apos;test.txt&apos;,&apos;w&apos;) do |f|</div><div class="line">  f.puts &apos;test99999&apos;;</div><div class="line">  f.puts &quot;ok come on&quot; #这样会插入两行数据</div><div class="line">end</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">File.open(&apos;test.txt&apos;,&apos;w&apos;) do |f|</span><br><span class="line">  f.puts &apos;test99999&apos;;</span><br><span class="line">  f.puts &quot;ok come on&quot; #这样会插入两行数据</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
 <p>遍历目录 使用 Find模块</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">require &apos;find&apos;</div><div class="line">Find.find(&quot;~/Box\ Documents/Ruby&quot;) do |f| </div><div class="line">  type = case</div><div class="line">      when File.file?(f) then &apos;File&apos; #是不是文件</div><div class="line">      when File.directory?(f) then &apos;Dir&apos; #是不是目录</div><div class="line">      else &apos;?&apos;</div><div class="line">      end</div><div class="line">  #puts &quot;#&#123;type&#125;: #&#123;f&#125;&quot;</div><div class="line">end</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">require &apos;find&apos;</span><br><span class="line">Find.find(&quot;~/Box\ Documents/Ruby&quot;) do |f| </span><br><span class="line">  type = case</span><br><span class="line">      when File.file?(f) then &apos;File&apos; #是不是文件</span><br><span class="line">      when File.directory?(f) then &apos;Dir&apos; #是不是目录</span><br><span class="line">      else &apos;?&apos;</span><br><span class="line">      end</span><br><span class="line">  #puts &quot;#&#123;type&#125;: #&#123;f&#125;&quot;</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
 <p>文件访问</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">f = File.new(&apos;test.txt&apos;)</div><div class="line">f.seek(2,IO::SEEK_SET) #访问位置</div><div class="line">puts f.readline</div><div class="line">=begin</div><div class="line"></div><div class="line">IO::SEEK_CUR -  从当前位置加上第一个参数的位置开始（相对位置）。  </div><div class="line">IO::SEEK_END -  从文件尾开始反向读取，位置是第一个参数的绝对值。</div><div class="line">IO::SEEK_SET -  从第一个参数给定的位置开始（绝对位置）</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">f = File.new(&apos;test.txt&apos;)</span><br><span class="line">f.seek(2,IO::SEEK_SET) #访问位置</span><br><span class="line">puts f.readline</span><br><span class="line">=begin</span><br><span class="line"></span><br><span class="line">IO::SEEK_CUR -  从当前位置加上第一个参数的位置开始（相对位置）。  </span><br><span class="line">IO::SEEK_END -  从文件尾开始反向读取，位置是第一个参数的绝对值。</span><br><span class="line">IO::SEEK_SET -  从第一个参数给定的位置开始（绝对位置）</span><br></pre></td></tr></table></figure>
 <p><code>IO::SEEK_CUR</code> ，<code>IO::SEEK_END</code> ，<code>IO::SEEK_SET</code> 这三个参数是相对于第一个参数的。 如果使用 IO::SEEK_CUR，那就说明第一个参数给的位置是相对位置，真正的 seek 起始点应 该是第一个参数值+当前位置。如果使用 IO::SEEK_SET，那就说明第一个参数给的位置是 绝对位置，真正的 seek 起始点就是第一个参数值的位置。如果使用 IO::SEEK_END，说明要 从文件尾开始方向读取，seek 的起始点就是第一个参数值的绝对值，为什么要说是绝对值， 是因为在这种情况下，第一个参数要给定一个负整数。还有一个算法是用这个负整数+文件 的长度，结果值就是 seek 的起始点位置。</p>
 
         
@@ -233,7 +234,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2012/11/05/ruby-「file」/" data-id="cj9h8m7vq009ca0lrlfjpaqrn" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+    <a data-url="http://hivandu.github.io/2012/11/05/ruby-「file」/" data-id="cjhyy6wxs00hrmllr9295f5ep" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -301,7 +302,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2012/11/05/ruby-「file」/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/11/05/ruby-「file」/">Comentarios</a>
+        <a href="http://hivandu.github.io/2012/11/05/ruby-「file」/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/11/05/ruby-「file」/">Comments</a>
     
 
         </footer>
@@ -311,7 +312,7 @@
 <nav id="article-nav">
     
         <a href="/2012/11/06/ruby-range/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Más nuevo</strong>
+            <strong class="article-nav-caption">Newer</strong>
             <div class="article-nav-title">
                 
                     Ruby Range
@@ -321,7 +322,7 @@
     
     
         <a href="/2012/09/16/ruby-chinese-input-error/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Más viejo</strong>
+            <strong class="article-nav-caption">Older</strong>
             <div class="article-nav-title">Ruby Chinese input error</div>
         </a>
     
@@ -349,9 +350,18 @@
    
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Recientes</h3>
+        <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/06/02/homebrew-manage-node-version/" class="title">[homebrew manage node version]</a></p>
+                            <p class="item-date"><time datetime="2018-06-01T16:55:16.000Z" itemprop="datePublished">2018-06-02</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -389,15 +399,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2017/02/13/npm-check/" class="title">npm-check</a></p>
-                            <p class="item-date"><time datetime="2017-02-13T02:54:03.000Z" itemprop="datePublished">2017-02-13</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -405,7 +406,7 @@
     
         
     <div class="widget-wrap widget-list">
-        <h3 class="widget-title">Links</h3>
+        <h3 class="widget-title">links</h3>
         <div class="widget">
             <ul>
                 
@@ -426,7 +427,7 @@
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2017 Hivan Du<br>
+            &copy; 2018 Hivan Du<br>
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>

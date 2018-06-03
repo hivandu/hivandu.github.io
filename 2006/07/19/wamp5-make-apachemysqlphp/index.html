@@ -12,6 +12,7 @@
 <meta property="og:url" content="http://hivandu.github.io/2006/07/19/wamp5-make-apachemysqlphp/index.html">
 <meta property="og:site_name" content="Duart">
 <meta property="og:description" content="目前有不少AMP（Apache\MySQL\PHP）的集成软件，可以让我们一次安装并设置好。这对于不熟悉AMP的用户来说，好处多多。 一、使用AMP集成软件的优点：1、可避免由于缺乏AMP的知识，而无法正确设置环境；2、可快速安装并设置好AMP环境，让我们直接开始真正感兴趣的软件，如xoops；3、可方便的搭建测试环境，对于测试“是AMP环境问题，还是XOOPS造成的问题”很有帮助，采用排除法即可">
+<meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2013-12-18T03:40:08.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用WAMP5搭建Apache+MySQL+PHP环境">
@@ -68,7 +69,7 @@
             <div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
@@ -87,10 +88,10 @@
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Entradas',
+            POSTS: 'Posts',
             PAGES: 'Pages',
-            CATEGORIES: 'Categorias',
-            TAGS: 'Etiquetas',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
             UNTITLED: '(Untitled)',
         },
         ROOT_URL: '/',
@@ -115,7 +116,7 @@
                 <td>
                     
     <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
     </div>
 
                 </td>
@@ -135,16 +136,16 @@
             <h2 id="name">Hivan Du</h2>
             <h3 id="title">Web Developer &amp; Designer</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Shanghai, China</span>
-            <a id="follow" target="_blank" href="https://github.com/hivandu">SEGUIR</a>
+            <a id="follow" target="_blank" href="https://github.com/hivandu">FOLLOW</a>
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                151
-                <span>Entradas</span>
+                152
+                <span>posts</span>
             </div>
             <div class="article-info-block">
-                240
-                <span>Etiquetas</span>
+                242
+                <span>tags</span>
             </div>
         </div>
         
@@ -213,9 +214,9 @@
             
             <p>目前有不少AMP（Apache\MySQL\PHP）的集成软件，可以让我们一次安装并设置好。这对于不熟悉AMP的用户来说，好处多多。</p>
 <p><strong>一、使用AMP集成软件的优点</strong>：<br>1、可避免由于缺乏AMP的知识，而无法正确设置环境；<br>2、可快速安装并设置好AMP环境，让我们直接开始真正感兴趣的软件，如xoops；<br>3、可方便的搭建测试环境，对于测试“是AMP环境问题，还是XOOPS造成的问题”很有帮助，采用排除法即可。</p>
-<p><strong>二、常用的AMP集成软件</strong>：<br>1、AppServ：<a href="http://www.appservnetwork.com/" target="_blank" rel="external">http://www.appservnetwork.com/</a><br>这个软件在台湾很流行。看到不少书籍也极力推荐，估计都是受台湾用户的影响。</p>
-<p>2、XAMPP：<a href="http://www.apachefriends.org/en" target="_blank" rel="external">http://www.apachefriends.org/en</a><br>这个软件支持多个平台,Win\Linux\Solaris\Mac OS X，目前也有不少人使用。</p>
-<p><strong>3、WAMP5：<a href="http://www.wampserver.com/en/" target="_blank" rel="external">http://www.wampserver.com/en/</a></strong><br>这是我今天极力推荐的，绝对五星级。注意它的名字是带个5的哦，意思就是WAMP5使用最新的PHP5版本，正如官方网站上的口号：Discover PHP5 with WAMP5 !</p>
+<p><strong>二、常用的AMP集成软件</strong>：<br>1、AppServ：<a href="http://www.appservnetwork.com/" target="_blank" rel="noopener">http://www.appservnetwork.com/</a><br>这个软件在台湾很流行。看到不少书籍也极力推荐，估计都是受台湾用户的影响。</p>
+<p>2、XAMPP：<a href="http://www.apachefriends.org/en" target="_blank" rel="noopener">http://www.apachefriends.org/en</a><br>这个软件支持多个平台,Win\Linux\Solaris\Mac OS X，目前也有不少人使用。</p>
+<p><strong>3、WAMP5：<a href="http://www.wampserver.com/en/" target="_blank" rel="noopener">http://www.wampserver.com/en/</a></strong><br>这是我今天极力推荐的，绝对五星级。注意它的名字是带个5的哦，意思就是WAMP5使用最新的PHP5版本，正如官方网站上的口号：Discover PHP5 with WAMP5 !</p>
 <p><strong>三、根据我的经验，WAMP5有如下优点</strong>：<br>1、XOOPS在WAMP5中使用，没有任何问题。<br>2、WAMP5专注于Windows平台，安装设置及其简单。<br>3、PHP默认的是5.x版本，如果需要php4.x，只要安装php4.x插件，就可以在两者之间自由的切换，非常方便。<br>4、MySQL默认的是5.x版本，但可以通过选择老版本的WAMP5，从而使用4.x的MySQL。<br>5、可视化的菜单管理，极其方便。如，打开关闭php extention、Apache module等，直接通过菜单选择就可以。<br>6、还有各种插件，如ZEND OPTIMIZER ADD-ON等。<br>7、如果有疑问，官方还有论坛可以求助。<br>……更多优点：谁用谁知道，早用早知道^_^</p>
 <p><strong>四、使用WAMP5的经验、技巧</strong><br>1、安装时的设置：可以自定义WWW根目录的存放位置哦，强烈建议放到D盘等安全的分区中，以避免万一系统崩溃，造成数据丢失。</p>
 <p>2、对于中文用户来说，安装结束后，首先要设置的是，把MySQL的数据库默认编码改为UTF-8，这样可以排除很多中文乱码问题：在WAMP5菜单中选择打开<code>my(wamp).ini</code>，设置其中的<code>default-character-set=utf8</code>, 然后重启WAMP5。</p>
@@ -232,7 +233,7 @@
 <blockquote>
 <p>[Date]<br>; Defines the default timezone used by the date functions<br>date.timezone = “Asia/Shanghai”</p>
 </blockquote>
-<p>如果你不在北京，那么就改动上述的设置即可，具体设置值可参考：<a href="http://us2.php.net/manual/en/timezones.php" target="_blank" rel="external">http://us2.php.net/manual/en/timezones.php</a></p>
+<p>如果你不在北京，那么就改动上述的设置即可，具体设置值可参考：<a href="http://us2.php.net/manual/en/timezones.php" target="_blank" rel="noopener">http://us2.php.net/manual/en/timezones.php</a></p>
 <p>通过上述WAMP5的设置之后，我们在XOOPS中的时区设置就可以这样：服务器时区、默认时区、个人帐号的时区这三者都设置为上述的时区就可以了，如：北京时间（GMT+8）</p>
 <p>OK，这就是所有的AMP设置秘籍！！</p>
 
@@ -245,7 +246,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2006/07/19/wamp5-make-apachemysqlphp/" data-id="cj9h8m7wi00ama0lr9eswn450" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+    <a data-url="http://hivandu.github.io/2006/07/19/wamp5-make-apachemysqlphp/" data-id="cjhyy6wyv00j1mllruowuak2i" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -313,7 +314,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2006/07/19/wamp5-make-apachemysqlphp/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2006/07/19/wamp5-make-apachemysqlphp/">Comentarios</a>
+        <a href="http://hivandu.github.io/2006/07/19/wamp5-make-apachemysqlphp/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2006/07/19/wamp5-make-apachemysqlphp/">Comments</a>
     
 
         </footer>
@@ -323,7 +324,7 @@
 <nav id="article-nav">
     
         <a href="/2006/07/27/phpwind-wamp-10/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Más nuevo</strong>
+            <strong class="article-nav-caption">Newer</strong>
             <div class="article-nav-title">
                 
                     PHPWind Wamp 1.0 正式版发布
@@ -333,7 +334,7 @@
     
     
         <a href="/2006/06/27/Use-the-telnet-data-stream-to-watch-the-World-Cup/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Más viejo</strong>
+            <strong class="article-nav-caption">Older</strong>
             <div class="article-nav-title">使用Telnet数据流看世界杯</div>
         </a>
     
@@ -361,9 +362,18 @@
    
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Recientes</h3>
+        <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/06/02/homebrew-manage-node-version/" class="title">[homebrew manage node version]</a></p>
+                            <p class="item-date"><time datetime="2018-06-01T16:55:16.000Z" itemprop="datePublished">2018-06-02</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -401,15 +411,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2017/02/13/npm-check/" class="title">npm-check</a></p>
-                            <p class="item-date"><time datetime="2017-02-13T02:54:03.000Z" itemprop="datePublished">2017-02-13</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -417,7 +418,7 @@
     
         
     <div class="widget-wrap widget-list">
-        <h3 class="widget-title">Links</h3>
+        <h3 class="widget-title">links</h3>
         <div class="widget">
             <ul>
                 
@@ -438,7 +439,7 @@
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2017 Hivan Du<br>
+            &copy; 2018 Hivan Du<br>
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>

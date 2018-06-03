@@ -12,6 +12,7 @@
 <meta property="og:url" content="http://hivandu.github.io/2013/04/19/to-s-and-to-str-and-inspect/index.html">
 <meta property="og:site_name" content="Duart">
 <meta property="og:description" content="这篇文是转载自「Rubylution」，似乎那上边也是转载自「Ruby-china」。 不过作为记录，在自己的博客上记录一下总归是好的，便于查阅！ 原文地址： 1, 2">
+<meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2015-11-20T08:18:22.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="to_s；to_str；inspect">
@@ -68,7 +69,7 @@
             <div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
@@ -87,10 +88,10 @@
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Entradas',
+            POSTS: 'Posts',
             PAGES: 'Pages',
-            CATEGORIES: 'Categorias',
-            TAGS: 'Etiquetas',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
             UNTITLED: '(Untitled)',
         },
         ROOT_URL: '/',
@@ -115,7 +116,7 @@
                 <td>
                     
     <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
     </div>
 
                 </td>
@@ -135,16 +136,16 @@
             <h2 id="name">Hivan Du</h2>
             <h3 id="title">Web Developer &amp; Designer</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Shanghai, China</span>
-            <a id="follow" target="_blank" href="https://github.com/hivandu">SEGUIR</a>
+            <a id="follow" target="_blank" href="https://github.com/hivandu">FOLLOW</a>
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                151
-                <span>Entradas</span>
+                152
+                <span>posts</span>
             </div>
             <div class="article-info-block">
-                240
-                <span>Etiquetas</span>
+                242
+                <span>tags</span>
             </div>
         </div>
         
@@ -213,24 +214,24 @@
             
             <p>这篇文是转载自「Rubylution」，似乎那上边也是转载自「Ruby-china」。</p>
 <p>不过作为记录，在自己的博客上记录一下总归是好的，便于查阅！ 原文地址：</p>
-<p><a href="http://rubylution.herokuapp.com/topics/19" target="_blank" rel="external">1</a>, <a href="http://rubylution.herokuapp.com/topics/17" target="_blank" rel="external">2</a></p>
+<p><a href="http://rubylution.herokuapp.com/topics/19" target="_blank" rel="noopener">1</a>, <a href="http://rubylution.herokuapp.com/topics/17" target="_blank" rel="noopener">2</a></p>
 <a id="more"></a>
-<h3 id="1-to-s-和-to-str的区别"><a href="#1-to-s-和-to-str的区别" class="headerlink" title="1. to_s 和 to_str的区别"></a>1. to_s 和 to_str的区别</h3><p>在Github上面看到tenderlove大神的<a href="https://github.com/rails/rails/commit/188cc90af9b29d5520564af7bd7bbcdc647953ca#actionpack-lib-action_view-template-resolver-rb-P24" target="_blank" rel="external">一个回复</a>，解释为什么定义to_str方法，和如何强制转换成字符串。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">irb(main):001:0&gt; class Foo; def to_str; &apos;hello&apos;; end end</div><div class="line">=&gt; nil</div><div class="line">irb(main):002:0&gt; class Bar; def to_s; &apos;hello&apos;; end end</div><div class="line">=&gt; nil</div><div class="line">irb(main):003:0&gt; File.join(&apos;/&apos;, Foo.new)</div><div class="line">=&gt; &quot;/hello&quot;</div><div class="line">irb(main):004:0&gt; File.join(&apos;/&apos;, Bar.new)</div><div class="line">TypeError: can&apos;t convert Bar into String</div><div class="line">    from (irb):4:in `join&apos;</div><div class="line">    from (irb):4</div><div class="line">    from /Users/aaron/.local/bin/irb:12:in `&lt;main&gt;&apos;</div><div class="line">irb(main):005:0&gt;</div></pre></td></tr></table></figure>
+<h3 id="1-to-s-和-to-str的区别"><a href="#1-to-s-和-to-str的区别" class="headerlink" title="1. to_s 和 to_str的区别"></a>1. to_s 和 to_str的区别</h3><p>在Github上面看到tenderlove大神的<a href="https://github.com/rails/rails/commit/188cc90af9b29d5520564af7bd7bbcdc647953ca#actionpack-lib-action_view-template-resolver-rb-P24" target="_blank" rel="noopener">一个回复</a>，解释为什么定义to_str方法，和如何强制转换成字符串。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">irb(main):001:0&gt; class Foo; def to_str; &apos;hello&apos;; end end</span><br><span class="line">=&gt; nil</span><br><span class="line">irb(main):002:0&gt; class Bar; def to_s; &apos;hello&apos;; end end</span><br><span class="line">=&gt; nil</span><br><span class="line">irb(main):003:0&gt; File.join(&apos;/&apos;, Foo.new)</span><br><span class="line">=&gt; &quot;/hello&quot;</span><br><span class="line">irb(main):004:0&gt; File.join(&apos;/&apos;, Bar.new)</span><br><span class="line">TypeError: can&apos;t convert Bar into String</span><br><span class="line">    from (irb):4:in `join&apos;</span><br><span class="line">    from (irb):4</span><br><span class="line">    from /Users/aaron/.local/bin/irb:12:in `&lt;main&gt;&apos;</span><br><span class="line">irb(main):005:0&gt;</span><br></pre></td></tr></table></figure>
 <p>to_s和to_str的行为在大部分时候是相同的。几乎每个对象都有to_s方法，因为都继承自Object对象。但是不是每个对象都有to_str方法，一般只有这个对象具有某些String-like的行为时才去定义to_str方法。</p>
-<p>就像<a href="https://github.com/rails/rails/commit/188cc90af9b29d5520564af7bd7bbcdc647953ca#actionpack-lib-action_view-template-resolver-rb-P24" target="_blank" rel="external">上面的链接</a>提到的，原本Path是继承自String类的，修改之后只只定义了一个to_str方法就可以和其他String进行join了…</p>
+<p>就像<a href="https://github.com/rails/rails/commit/188cc90af9b29d5520564af7bd7bbcdc647953ca#actionpack-lib-action_view-template-resolver-rb-P24" target="_blank" rel="noopener">上面的链接</a>提到的，原本Path是继承自String类的，修改之后只只定义了一个to_str方法就可以和其他String进行join了…</p>
 <p>像这样表示的XX-like的方式还有很多，比如to_i和to_int，to_a和to_ary等。</p>
 <p>但是，并不是所有和字符串交互的方法都会调用to_str，下面演示一下常用的：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">class Hooopo</div><div class="line">  def to_str</div><div class="line">    &quot;to_str&quot;</div><div class="line">  end</div><div class="line"></div><div class="line">  def to_s</div><div class="line">    &quot;to_s&quot;</div><div class="line">  end</div><div class="line">end</div><div class="line"></div><div class="line">ruby-1.9.3-p0 :075 &gt; hooopo = Hooopo.new</div><div class="line"> =&gt; to_s </div><div class="line">ruby-1.9.3-p0 :076 &gt; &quot;hello #&#123;hooopo&#125;&quot;</div><div class="line"> =&gt; &quot;hello to_s&quot; </div><div class="line">ruby-1.9.3-p0 :078 &gt; [&quot;hello&quot;, hooopo].join(&quot; &quot;)</div><div class="line"> =&gt; &quot;hello to_str&quot; #这里也说明在join的时候数组里不一定要都是string啊，只要能响应to_str或to_s方法就OK！</div><div class="line">ruby-1.9.3-p0 :079 &gt; &quot;hello &quot; + hooopo</div><div class="line"> =&gt; &quot;hello to_str&quot; </div><div class="line">ruby-1.9.3-p0 :080 &gt; File.join(&quot;hello&quot;, hooopo)</div><div class="line"> =&gt; &quot;hello/to_str&quot; </div><div class="line">ruby-1.9.3-p0 :081 &gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">class Hooopo</span><br><span class="line">  def to_str</span><br><span class="line">    &quot;to_str&quot;</span><br><span class="line">  end</span><br><span class="line"></span><br><span class="line">  def to_s</span><br><span class="line">    &quot;to_s&quot;</span><br><span class="line">  end</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">ruby-1.9.3-p0 :075 &gt; hooopo = Hooopo.new</span><br><span class="line"> =&gt; to_s </span><br><span class="line">ruby-1.9.3-p0 :076 &gt; &quot;hello #&#123;hooopo&#125;&quot;</span><br><span class="line"> =&gt; &quot;hello to_s&quot; </span><br><span class="line">ruby-1.9.3-p0 :078 &gt; [&quot;hello&quot;, hooopo].join(&quot; &quot;)</span><br><span class="line"> =&gt; &quot;hello to_str&quot; #这里也说明在join的时候数组里不一定要都是string啊，只要能响应to_str或to_s方法就OK！</span><br><span class="line">ruby-1.9.3-p0 :079 &gt; &quot;hello &quot; + hooopo</span><br><span class="line"> =&gt; &quot;hello to_str&quot; </span><br><span class="line">ruby-1.9.3-p0 :080 &gt; File.join(&quot;hello&quot;, hooopo)</span><br><span class="line"> =&gt; &quot;hello/to_str&quot; </span><br><span class="line">ruby-1.9.3-p0 :081 &gt;</span><br></pre></td></tr></table></figure>
 <p>上面的演示可以得出结论，在字符串内插和inspect的时候调用的是to_s，在Array#join, File#join, String#+的时候都是优先调用的to_str。</p>
-<h3 id="2-to-s和inspect的区别"><a href="#2-to-s和inspect的区别" class="headerlink" title="2. to_s和inspect的区别"></a>2. to_s和inspect的区别</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">[1] pry(main)&gt; class Hooopo</div><div class="line">[1] pry(main)*   def to_s</div><div class="line">[1] pry(main)*     &quot;to_s&quot;</div><div class="line">[1] pry(main)*   end  </div><div class="line">[1] pry(main)*   def inspect</div><div class="line">[1] pry(main)*     &quot;inspect&quot;</div><div class="line">[1] pry(main)*   end  </div><div class="line">[1] pry(main)* end  </div><div class="line">=&gt; nil</div><div class="line">[2] pry(main)&gt; hooopo = Hooopo.new</div><div class="line">=&gt; inspect</div><div class="line">[3] pry(main)&gt; puts hooopo</div><div class="line">to_s</div><div class="line">=&gt; nil</div><div class="line">[4] pry(main)&gt; print hooopo</div><div class="line">to_s=&gt; nil</div><div class="line">[5] pry(main)&gt; p hooopo</div><div class="line">inspect</div><div class="line">=&gt; inspect</div></pre></td></tr></table></figure>
+<h3 id="2-to-s和inspect的区别"><a href="#2-to-s和inspect的区别" class="headerlink" title="2. to_s和inspect的区别"></a>2. to_s和inspect的区别</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[1] pry(main)&gt; class Hooopo</span><br><span class="line">[1] pry(main)*   def to_s</span><br><span class="line">[1] pry(main)*     &quot;to_s&quot;</span><br><span class="line">[1] pry(main)*   end  </span><br><span class="line">[1] pry(main)*   def inspect</span><br><span class="line">[1] pry(main)*     &quot;inspect&quot;</span><br><span class="line">[1] pry(main)*   end  </span><br><span class="line">[1] pry(main)* end  </span><br><span class="line">=&gt; nil</span><br><span class="line">[2] pry(main)&gt; hooopo = Hooopo.new</span><br><span class="line">=&gt; inspect</span><br><span class="line">[3] pry(main)&gt; puts hooopo</span><br><span class="line">to_s</span><br><span class="line">=&gt; nil</span><br><span class="line">[4] pry(main)&gt; print hooopo</span><br><span class="line">to_s=&gt; nil</span><br><span class="line">[5] pry(main)&gt; p hooopo</span><br><span class="line">inspect</span><br><span class="line">=&gt; inspect</span><br></pre></td></tr></table></figure>
 <p>结论就是</p>
 <p>1.puts obj ==&gt; puts obj.to_s</p>
 <p>2.p obj ==&gt; puts obj.inspect</p>
-<p>其实其他的debug工具像<a href="https://github.com/michaeldv/awesome_print" target="_blank" rel="external">awesome_print</a>和<a href="http://www.ruby-doc.org/stdlib-1.9.3/libdoc/pp/rdoc/Kernel.html#method-c-pp" target="_blank" rel="external">pretty_print</a>（就是<a href="http://www.ruby-doc.org/stdlib-1.9.3/libdoc/pp/rdoc/Kernel.html#method-c-pp" target="_blank" rel="external">pp</a>）也都是p的同类，他们的行为更接近inspect而不是to_s：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">[6] pry(main)&gt; require &apos;pp&apos;</div><div class="line">=&gt; false</div><div class="line">[7] pry(main)&gt; require &apos;awesome_print&apos;</div><div class="line">=&gt; true</div><div class="line">[8] pry(main)&gt; pp hooopo</div><div class="line">inspect</div><div class="line">=&gt; inspect</div><div class="line">[9] pry(main)&gt; ap hooopo</div><div class="line">inspect</div></pre></td></tr></table></figure>
+<p>其实其他的debug工具像<a href="https://github.com/michaeldv/awesome_print" target="_blank" rel="noopener">awesome_print</a>和<a href="http://www.ruby-doc.org/stdlib-1.9.3/libdoc/pp/rdoc/Kernel.html#method-c-pp" target="_blank" rel="noopener">pretty_print</a>（就是<a href="http://www.ruby-doc.org/stdlib-1.9.3/libdoc/pp/rdoc/Kernel.html#method-c-pp" target="_blank" rel="noopener">pp</a>）也都是p的同类，他们的行为更接近inspect而不是to_s：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[6] pry(main)&gt; require &apos;pp&apos;</span><br><span class="line">=&gt; false</span><br><span class="line">[7] pry(main)&gt; require &apos;awesome_print&apos;</span><br><span class="line">=&gt; true</span><br><span class="line">[8] pry(main)&gt; pp hooopo</span><br><span class="line">inspect</span><br><span class="line">=&gt; inspect</span><br><span class="line">[9] pry(main)&gt; ap hooopo</span><br><span class="line">inspect</span><br></pre></td></tr></table></figure>
 <p>还有就是ap和pp都会带各自的inspect方法，awesome_inspect和pretty_inspect,如果你不想只是输出结果，而是想对结果当作字符串处理可以用这两个方法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[10] pry(main)&gt; hooopo.pretty_inspect</div><div class="line">=&gt; &quot;inspect\n&quot;</div><div class="line">[11] pry(main)&gt; hooopo.awesome_inspect</div><div class="line">=&gt; &quot;inspect&quot;</div><div class="line">[13] pry(main)&gt; [1,2,3].awesome_inspect</div><div class="line">=&gt; &quot;[\n    \e[1;37m[0] \e[0m\e[1;34m1\e[0m,\n    \e[1;37m[1] \e[0m\e[1;34m2\e[0m,\n    \e[1;37m[2] \e[0m\e[1;34m3\e[0m\n]&quot;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[10] pry(main)&gt; hooopo.pretty_inspect</span><br><span class="line">=&gt; &quot;inspect\n&quot;</span><br><span class="line">[11] pry(main)&gt; hooopo.awesome_inspect</span><br><span class="line">=&gt; &quot;inspect&quot;</span><br><span class="line">[13] pry(main)&gt; [1,2,3].awesome_inspect</span><br><span class="line">=&gt; &quot;[\n    \e[1;37m[0] \e[0m\e[1;34m1\e[0m,\n    \e[1;37m[1] \e[0m\e[1;34m2\e[0m,\n    \e[1;37m[2] \e[0m\e[1;34m3\e[0m\n]&quot;</span><br></pre></td></tr></table></figure>
         
         </div>
         <footer class="article-footer">
@@ -240,7 +241,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2013/04/19/to-s-and-to-str-and-inspect/" data-id="cj9h8m7wd00aca0lrevdltvkx" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+    <a data-url="http://hivandu.github.io/2013/04/19/to-s-and-to-str-and-inspect/" data-id="cjhyy6wyo00itmllr7z7f4bxx" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -308,7 +309,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2013/04/19/to-s-and-to-str-and-inspect/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2013/04/19/to-s-and-to-str-and-inspect/">Comentarios</a>
+        <a href="http://hivandu.github.io/2013/04/19/to-s-and-to-str-and-inspect/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2013/04/19/to-s-and-to-str-and-inspect/">Comments</a>
     
 
         </footer>
@@ -318,7 +319,7 @@
 <nav id="article-nav">
     
         <a href="/2013/05/01/macxian-shi-yin-cang-wen-jian/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Más nuevo</strong>
+            <strong class="article-nav-caption">Newer</strong>
             <div class="article-nav-title">
                 
                     Mac显示隐藏文件
@@ -328,7 +329,7 @@
     
     
         <a href="/2013/03/26/zi-fu-iconluan-ma/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Más viejo</strong>
+            <strong class="article-nav-caption">Older</strong>
             <div class="article-nav-title">字符icon乱码</div>
         </a>
     
@@ -356,9 +357,18 @@
    
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Recientes</h3>
+        <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/06/02/homebrew-manage-node-version/" class="title">[homebrew manage node version]</a></p>
+                            <p class="item-date"><time datetime="2018-06-01T16:55:16.000Z" itemprop="datePublished">2018-06-02</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -396,15 +406,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2017/02/13/npm-check/" class="title">npm-check</a></p>
-                            <p class="item-date"><time datetime="2017-02-13T02:54:03.000Z" itemprop="datePublished">2017-02-13</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -412,7 +413,7 @@
     
         
     <div class="widget-wrap widget-list">
-        <h3 class="widget-title">Links</h3>
+        <h3 class="widget-title">links</h3>
         <div class="widget">
             <ul>
                 
@@ -433,7 +434,7 @@
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2017 Hivan Du<br>
+            &copy; 2018 Hivan Du<br>
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>

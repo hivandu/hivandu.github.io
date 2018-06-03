@@ -12,6 +12,7 @@
 <meta property="og:url" content="http://hivandu.github.io/2013/08/28/youtube-download-alfred-2-workflow/index.html">
 <meta property="og:site_name" content="Duart">
 <meta property="og:description" content="在Youtube上浏览某个视频的时候，有没有很想下下来的冲动？毕竟有的时候VPN和SSH都不是太给力的时候，Youtube并不流畅，是慢慢加载？反正我是喜欢下载到本地。">
+<meta property="og:locale" content="default">
 <meta property="og:image" content="http://farm4.staticflickr.com/3831/9613403353_04b6f68151_z.jpg">
 <meta property="og:updated_time" content="2014-11-07T11:12:21.000Z">
 <meta name="twitter:card" content="summary">
@@ -70,7 +71,7 @@
             <div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
@@ -89,10 +90,10 @@
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Entradas',
+            POSTS: 'Posts',
             PAGES: 'Pages',
-            CATEGORIES: 'Categorias',
-            TAGS: 'Etiquetas',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
             UNTITLED: '(Untitled)',
         },
         ROOT_URL: '/',
@@ -117,7 +118,7 @@
                 <td>
                     
     <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
     </div>
 
                 </td>
@@ -137,16 +138,16 @@
             <h2 id="name">Hivan Du</h2>
             <h3 id="title">Web Developer &amp; Designer</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Shanghai, China</span>
-            <a id="follow" target="_blank" href="https://github.com/hivandu">SEGUIR</a>
+            <a id="follow" target="_blank" href="https://github.com/hivandu">FOLLOW</a>
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                151
-                <span>Entradas</span>
+                152
+                <span>posts</span>
             </div>
             <div class="article-info-block">
-                240
-                <span>Etiquetas</span>
+                242
+                <span>tags</span>
             </div>
         </div>
         
@@ -218,15 +219,15 @@
 <p>Chrome有很多下载Utube视频的插件，而我今天要介绍的，是Alfred的workflow -&gt; Youtube Download Alfred 2 Workflow。</p>
 <p><img src="http://farm4.staticflickr.com/3831/9613403353_04b6f68151_z.jpg" alt="Youtube Download Alfred 2 Wordflow"></p>
 <p>在使用这个workflow的之前，我们还需要做一些工作，当然，设置完毕之后是很爽的，so，之前的麻烦都是值得的，不嫌麻烦的就跟着我一起做吧。</p>
-<p>首先，我们需要下载<a href="http://rg3.github.io/youtube-dl/" target="_blank" rel="external">youtube-dl</a>,我们需要wget命令来获取它，好吧，比较麻烦的是，OSX默认是没有wget命令的，So,让我们再绕一圈吧，先去安装wget.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$ curl -O http://ftp.gnu.org/gnu/wget/wget-1.13.tar.gz</div><div class="line">$ tar -xzvf wget-1.13.tar.gz</div><div class="line">$ cd wget-1.13</div><div class="line">$ ./configure --with-ssl=openssl</div><div class="line">$ make</div><div class="line">$ sudo make install</div></pre></td></tr></table></figure>
+<p>首先，我们需要下载<a href="http://rg3.github.io/youtube-dl/" target="_blank" rel="noopener">youtube-dl</a>,我们需要wget命令来获取它，好吧，比较麻烦的是，OSX默认是没有wget命令的，So,让我们再绕一圈吧，先去安装wget.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ curl -O http://ftp.gnu.org/gnu/wget/wget-1.13.tar.gz</span><br><span class="line">$ tar -xzvf wget-1.13.tar.gz</span><br><span class="line">$ cd wget-1.13</span><br><span class="line">$ ./configure --with-ssl=openssl</span><br><span class="line">$ make</span><br><span class="line">$ sudo make install</span><br></pre></td></tr></table></figure>
 <p>测试一个wget命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ wget --help</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget --help</span><br></pre></td></tr></table></figure>
 <p>OK，最后让我们删除下载的文件。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ cd .. &amp;&amp; rm -rf wget-*</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cd .. &amp;&amp; rm -rf wget-*</span><br></pre></td></tr></table></figure>
 <p>然后，我们可以获取youtube-dl了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ sudo wget https://yt-dl.org/downloads/2013.08.28/youtube-dl -O /usr/local/bin/youtube-dl</div><div class="line">$ sudo chmod a+x /usr/local/bin/youtube-dl</div></pre></td></tr></table></figure>
-<p>之后，去下载我们今天的主角,<a href="http://dferg.us/youtube-download-alfred-2-workflow/" target="_blank" rel="external">Youtube Download Alfred 2 Workflow</a>.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo wget https://yt-dl.org/downloads/2013.08.28/youtube-dl -O /usr/local/bin/youtube-dl</span><br><span class="line">$ sudo chmod a+x /usr/local/bin/youtube-dl</span><br></pre></td></tr></table></figure>
+<p>之后，去下载我们今天的主角,<a href="http://dferg.us/youtube-download-alfred-2-workflow/" target="_blank" rel="noopener">Youtube Download Alfred 2 Workflow</a>.</p>
 <p>好了，尽情享用吧！</p>
 
         
@@ -238,7 +239,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2013/08/28/youtube-download-alfred-2-workflow/" data-id="cj9h8m7x800bma0lr16czrlrn" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+    <a data-url="http://hivandu.github.io/2013/08/28/youtube-download-alfred-2-workflow/" data-id="cjhyy6wzo00k4mllr5bl5b61v" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -306,7 +307,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2013/08/28/youtube-download-alfred-2-workflow/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2013/08/28/youtube-download-alfred-2-workflow/">Comentarios</a>
+        <a href="http://hivandu.github.io/2013/08/28/youtube-download-alfred-2-workflow/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2013/08/28/youtube-download-alfred-2-workflow/">Comments</a>
     
 
         </footer>
@@ -316,7 +317,7 @@
 <nav id="article-nav">
     
         <a href="/2013/09/02/white-spacenowrap/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Más nuevo</strong>
+            <strong class="article-nav-caption">Newer</strong>
             <div class="article-nav-title">
                 
                     white-space:nowrap
@@ -326,7 +327,7 @@
     
     
         <a href="/2013/08/27/hexo-generator-feed/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Más viejo</strong>
+            <strong class="article-nav-caption">Older</strong>
             <div class="article-nav-title">hexo-generator-feed</div>
         </a>
     
@@ -354,9 +355,18 @@
    
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Recientes</h3>
+        <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/06/02/homebrew-manage-node-version/" class="title">[homebrew manage node version]</a></p>
+                            <p class="item-date"><time datetime="2018-06-01T16:55:16.000Z" itemprop="datePublished">2018-06-02</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -394,15 +404,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2017/02/13/npm-check/" class="title">npm-check</a></p>
-                            <p class="item-date"><time datetime="2017-02-13T02:54:03.000Z" itemprop="datePublished">2017-02-13</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -410,7 +411,7 @@
     
         
     <div class="widget-wrap widget-list">
-        <h3 class="widget-title">Links</h3>
+        <h3 class="widget-title">links</h3>
         <div class="widget">
             <ul>
                 
@@ -431,7 +432,7 @@
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2017 Hivan Du<br>
+            &copy; 2018 Hivan Du<br>
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>

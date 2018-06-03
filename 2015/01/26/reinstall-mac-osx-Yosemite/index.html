@@ -12,6 +12,7 @@
 <meta property="og:url" content="http://hivandu.github.io/2015/01/26/reinstall-mac-osx-Yosemite/index.html">
 <meta property="og:site_name" content="Duart">
 <meta property="og:description" content="重裝系統之後，很多東西需要重裝，特別是開發環境。而開發環境的先後順序和設置，一直是我頭疼的事情。這次就着從新安裝了一遍，把很多東西都記錄下來。之前那個環境被我搞的亂七八糟，並且恢復不回來了。">
+<meta property="og:locale" content="default">
 <meta property="og:image" content="http://duart.qiniudn.com/Yosemite.jpg">
 <meta property="og:updated_time" content="2015-12-09T05:14:17.000Z">
 <meta name="twitter:card" content="summary">
@@ -70,7 +71,7 @@
             <div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
@@ -89,10 +90,10 @@
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Entradas',
+            POSTS: 'Posts',
             PAGES: 'Pages',
-            CATEGORIES: 'Categorias',
-            TAGS: 'Etiquetas',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
             UNTITLED: '(Untitled)',
         },
         ROOT_URL: '/',
@@ -117,7 +118,7 @@
                 <td>
                     
     <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
     </div>
 
                 </td>
@@ -137,16 +138,16 @@
             <h2 id="name">Hivan Du</h2>
             <h3 id="title">Web Developer &amp; Designer</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Shanghai, China</span>
-            <a id="follow" target="_blank" href="https://github.com/hivandu">SEGUIR</a>
+            <a id="follow" target="_blank" href="https://github.com/hivandu">FOLLOW</a>
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                151
-                <span>Entradas</span>
+                152
+                <span>posts</span>
             </div>
             <div class="article-info-block">
-                240
-                <span>Etiquetas</span>
+                242
+                <span>tags</span>
             </div>
         </div>
         
@@ -211,7 +212,7 @@
             <p>重裝系統之後，很多東西需要重裝，特別是開發環境。而開發環境的先後順序和設置，一直是我頭疼的事情。這次就着從新安裝了一遍，把很多東西都記錄下來。之前那個環境被我搞的亂七八糟，並且恢復不回來了。</p>
 <p><img src="http://duart.qiniudn.com/Yosemite.jpg" alt="image"></p>
 <a id="more"></a>
-<p>多大多數次序參照 @<a href="http://mrzhang.me/blog/after-reinstall-the-system.html" target="_blank" rel="external">mrzhang</a></p>
+<p>多大多數次序參照 @<a href="http://mrzhang.me/blog/after-reinstall-the-system.html" target="_blank" rel="noopener">mrzhang</a></p>
 <h2 id="系統偏好設置"><a href="#系統偏好設置" class="headerlink" title="系統偏好設置"></a>系統偏好設置</h2><ul>
 <li><p>更改電腦名稱</p>
 <p>共享</p>
@@ -225,35 +226,35 @@
 </ul>
 <h2 id="配置VPN以及SSH"><a href="#配置VPN以及SSH" class="headerlink" title="配置VPN以及SSH"></a>配置VPN以及SSH</h2><p>  <strong>很重要，因爲很多源都在牆外了</strong></p>
 <h2 id="安裝輸入法"><a href="#安裝輸入法" class="headerlink" title="安裝輸入法"></a>安裝輸入法</h2><ul>
-<li>下載並安裝”<a href="https://code.google.com/p/rimeime/" target="_blank" rel="external">Squirrel</a>“</li>
+<li>下載並安裝”<a href="https://code.google.com/p/rimeime/" target="_blank" rel="noopener">Squirrel</a>“</li>
 <li>下載並安裝”SCU” </li>
 </ul>
-<p>安裝<a href="http://www.sublimetext.com/3" target="_blank" rel="external">Sublime Text 3</a></p>
-<p><a href="https://packagecontrol.io/installation" target="_blank" rel="external">設置package</a></p>
-<p><code>Ctrl+ ,</code> and <a href="https://github.com/hivan/SomeSetting/blob/master/SubT2Setting.md" target="_blank" rel="external">setting</a>:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  &quot;caret\_style&quot;: &quot;phase&quot;,</div><div class="line">  &quot;color\_scheme&quot;: &quot;Packages/Color Scheme - Default/Solarized (Light).tmTheme&quot;,</div><div class="line">  &quot;font\_face&quot;: &quot;Monaco&quot;,</div><div class="line">  &quot;font\_size&quot;: 13.0,</div><div class="line">  &quot;hightlight\_line&quot;: true,</div><div class="line">  &quot;hightlight\_modified\_tabs&quot;: true,</div><div class="line">  &quot;ignored\_packages&quot;:</div><div class="line">  [</div><div class="line">	&quot;Vintage&quot;</div><div class="line">  ],</div><div class="line">  &quot;indent\_to\_bracket&quot;: true,</div><div class="line">  &quot;draw\_centered&quot;: false, //居中显示</div><div class="line">  &quot;line\_numbers&quot;: true, //显示行号</div><div class="line">  &quot;gutter&quot;: true, //显示行号边栏</div><div class="line">  &quot;fold\_buttons&quot;: true, //显示折叠按钮</div><div class="line">  &quot;fade\_fold\_buttons&quot;: true, //始终显示折叠按钮</div><div class="line">  &quot;rulers&quot;: [], //列显示垂直标尺，在中括号里填写数字，宽度按字符计算</div><div class="line">  &quot;spell\_check&quot;: false, //拼写检查</div><div class="line">  &quot;hot\_exit&quot;: true, //保留未保存内容</div><div class="line">  &quot;line\_padding\_bottom&quot;: 1,</div><div class="line">  &quot;line\_padding\_top&quot;: 1,</div><div class="line">  &quot;scroll\_past\_end&quot;: true, //文本最下方缓冲区</div><div class="line">  &quot;tab\_size&quot;: 2, // Tab制表宽度</div><div class="line">  &quot;translate\_tabs\_to\_spaces&quot;: true, //缩进和遇到Tab键用空格替代</div><div class="line">  &quot;wide\_caret&quot;: true,</div><div class="line">  &quot;word\_wrap&quot;: true,</div><div class="line">  &quot;match\_tags&quot;: true, //HTML下突出显示光标所在标签的两端。</div><div class="line">  &quot;match\_selection&quot;: true, //全文高亮当前选中字符</div><div class="line">  &quot;wrap\_width&quot;: 80</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="編輯設置-etc-paths"><a href="#編輯設置-etc-paths" class="headerlink" title="編輯設置 /etc/paths"></a>編輯設置 /etc/paths</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">/usr/local/bin</div><div class="line">/usr/local/sbin</div><div class="line">/usr/bin</div><div class="line">/usr/sbin</div><div class="line">/bin</div><div class="line">/sbin</div></pre></td></tr></table></figure>
-<h2 id="安裝Xcode"><a href="#安裝Xcode" class="headerlink" title="安裝Xcode"></a>安裝<a href="https://developer.apple.com/xcode/" target="_blank" rel="external">Xcode</a></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">xcode-select --install</div></pre></td></tr></table></figure>
-<h2 id="安裝Homebrew"><a href="#安裝Homebrew" class="headerlink" title="安裝Homebrew"></a>安裝<a href="http://brew.sh/" target="_blank" rel="external">Homebrew</a></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/homebrew/go/install)&quot;</div></pre></td></tr></table></figure>
+<p>安裝<a href="http://www.sublimetext.com/3" target="_blank" rel="noopener">Sublime Text 3</a></p>
+<p><a href="https://packagecontrol.io/installation" target="_blank" rel="noopener">設置package</a></p>
+<p><code>Ctrl+ ,</code> and <a href="https://github.com/hivan/SomeSetting/blob/master/SubT2Setting.md" target="_blank" rel="noopener">setting</a>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;caret\_style&quot;: &quot;phase&quot;,</span><br><span class="line">  &quot;color\_scheme&quot;: &quot;Packages/Color Scheme - Default/Solarized (Light).tmTheme&quot;,</span><br><span class="line">  &quot;font\_face&quot;: &quot;Monaco&quot;,</span><br><span class="line">  &quot;font\_size&quot;: 13.0,</span><br><span class="line">  &quot;hightlight\_line&quot;: true,</span><br><span class="line">  &quot;hightlight\_modified\_tabs&quot;: true,</span><br><span class="line">  &quot;ignored\_packages&quot;:</span><br><span class="line">  [</span><br><span class="line">	&quot;Vintage&quot;</span><br><span class="line">  ],</span><br><span class="line">  &quot;indent\_to\_bracket&quot;: true,</span><br><span class="line">  &quot;draw\_centered&quot;: false, //居中显示</span><br><span class="line">  &quot;line\_numbers&quot;: true, //显示行号</span><br><span class="line">  &quot;gutter&quot;: true, //显示行号边栏</span><br><span class="line">  &quot;fold\_buttons&quot;: true, //显示折叠按钮</span><br><span class="line">  &quot;fade\_fold\_buttons&quot;: true, //始终显示折叠按钮</span><br><span class="line">  &quot;rulers&quot;: [], //列显示垂直标尺，在中括号里填写数字，宽度按字符计算</span><br><span class="line">  &quot;spell\_check&quot;: false, //拼写检查</span><br><span class="line">  &quot;hot\_exit&quot;: true, //保留未保存内容</span><br><span class="line">  &quot;line\_padding\_bottom&quot;: 1,</span><br><span class="line">  &quot;line\_padding\_top&quot;: 1,</span><br><span class="line">  &quot;scroll\_past\_end&quot;: true, //文本最下方缓冲区</span><br><span class="line">  &quot;tab\_size&quot;: 2, // Tab制表宽度</span><br><span class="line">  &quot;translate\_tabs\_to\_spaces&quot;: true, //缩进和遇到Tab键用空格替代</span><br><span class="line">  &quot;wide\_caret&quot;: true,</span><br><span class="line">  &quot;word\_wrap&quot;: true,</span><br><span class="line">  &quot;match\_tags&quot;: true, //HTML下突出显示光标所在标签的两端。</span><br><span class="line">  &quot;match\_selection&quot;: true, //全文高亮当前选中字符</span><br><span class="line">  &quot;wrap\_width&quot;: 80</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="編輯設置-etc-paths"><a href="#編輯設置-etc-paths" class="headerlink" title="編輯設置 /etc/paths"></a>編輯設置 /etc/paths</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/bin</span><br><span class="line">/usr/local/sbin</span><br><span class="line">/usr/bin</span><br><span class="line">/usr/sbin</span><br><span class="line">/bin</span><br><span class="line">/sbin</span><br></pre></td></tr></table></figure>
+<h2 id="安裝Xcode"><a href="#安裝Xcode" class="headerlink" title="安裝Xcode"></a>安裝<a href="https://developer.apple.com/xcode/" target="_blank" rel="noopener">Xcode</a></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xcode-select --install</span><br></pre></td></tr></table></figure>
+<h2 id="安裝Homebrew"><a href="#安裝Homebrew" class="headerlink" title="安裝Homebrew"></a>安裝<a href="http://brew.sh/" target="_blank" rel="noopener">Homebrew</a></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/homebrew/go/install)&quot;</span><br></pre></td></tr></table></figure>
 <p><strong>PS: 這裏可能會很長時間的等待</strong></p>
-<h2 id="設置Sublime終端鏈接"><a href="#設置Sublime終端鏈接" class="headerlink" title="設置Sublime終端鏈接"></a>設置Sublime終端鏈接</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ln -s /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl /usr/local/bin/sm</div></pre></td></tr></table></figure>
-<h2 id="Git-autojump"><a href="#Git-autojump" class="headerlink" title="Git, autojump"></a>Git, <a href="https://github.com/joelthelion/autojump" target="_blank" rel="external">autojump</a></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">brew install git autojump</div></pre></td></tr></table></figure>
-<h2 id="Oh-My-Zsh"><a href="#Oh-My-Zsh" class="headerlink" title="Oh My Zsh"></a><a href="http://ohmyz.sh/" target="_blank" rel="external">Oh My Zsh</a></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | sh</div></pre></td></tr></table></figure>
+<h2 id="設置Sublime終端鏈接"><a href="#設置Sublime終端鏈接" class="headerlink" title="設置Sublime終端鏈接"></a>設置Sublime終端鏈接</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl /usr/local/bin/sm</span><br></pre></td></tr></table></figure>
+<h2 id="Git-autojump"><a href="#Git-autojump" class="headerlink" title="Git, autojump"></a>Git, <a href="https://github.com/joelthelion/autojump" target="_blank" rel="noopener">autojump</a></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install git autojump</span><br></pre></td></tr></table></figure>
+<h2 id="Oh-My-Zsh"><a href="#Oh-My-Zsh" class="headerlink" title="Oh My Zsh"></a><a href="http://ohmyz.sh/" target="_blank" rel="noopener">Oh My Zsh</a></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | sh</span><br></pre></td></tr></table></figure>
 <p>設置 <code>~/.zshrc</code>:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">export NVM\_NODEJS\_ORG\_MIRROR=&quot;http://npm.taobao.org/dist&quot;</div><div class="line"></div><div class="line">[[ -s &quot;$HOME/.nvm/nvm.sh&quot; ]] &amp;&amp; . &quot;$HOME/.nvm/nvm.sh&quot;</div><div class="line">export NODE\_PATH=$NVM\_DIR/$(nvm\_ls current)/lib/node\_modules</div></pre></td></tr></table></figure>
-<h2 id="安裝-NodeJS"><a href="#安裝-NodeJS" class="headerlink" title="安裝 NodeJS"></a>安裝 NodeJS</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">nvm install 0.11.15</div><div class="line">nvm alias default 0.11.15</div></pre></td></tr></table></figure>
-<h2 id="安裝rbenv"><a href="#安裝rbenv" class="headerlink" title="安裝rbenv"></a>安裝<a href="https://github.com/sstephenson/rbenv" target="_blank" rel="external">rbenv</a></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">git clone git://github.com/sstephenson/rbenv.git \~/.rbenv</div><div class="line"># 用来编译安装 ruby</div><div class="line">git clone git://github.com/sstephenson/ruby-build.git \~/.rbenv/plugins/ruby-build</div><div class="line"># 用来管理 gemset, 可选, 因为有 bundler 也没什么必要</div><div class="line">git clone git://github.com/jamis/rbenv-gemset.git  \~/.rbenv/plugins/rbenv-gemset</div><div class="line"># 通过 gem 命令安装完 gem 后无需手动输入 rbenv rehash 命令, 推荐</div><div class="line">git clone git://github.com/sstephenson/rbenv-gem-rehash.git \~/.rbenv/plugins/rbenv-gem-rehash</div><div class="line"># 通过 rbenv update 命令来更新 rbenv 以及所有插件, 推荐</div><div class="line">git clone https://github.com/rkh/rbenv-update.git \~/.rbenv/plugins/rbenv-update</div></pre></td></tr></table></figure>
-<h4 id="設置-zshrc"><a href="#設置-zshrc" class="headerlink" title="設置~/.zshrc"></a>設置<code>~/.zshrc</code></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">export PATH=&quot;$HOME/.rbenv/bin:$PATH&quot;</div><div class="line">eval &quot;$(rbenv init -)&quot;</div></pre></td></tr></table></figure>
-<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a><a href="https://ruby-china.org/wiki/rbenv-guide" target="_blank" rel="external">其他</a></h4><h2 id="安裝Ruby"><a href="#安裝Ruby" class="headerlink" title="安裝Ruby"></a>安裝Ruby</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">rbenv install -l      # list all available versions</div><div class="line">rbenv install 2.1.5   # install a Ruby version</div><div class="line">rbenv global 2.1.5    # set the global version</div><div class="line">rbenv versions        # list all installed Ruby versions</div></pre></td></tr></table></figure>
-<h2 id="配置gem源"><a href="#配置gem源" class="headerlink" title="配置gem源"></a>配置gem源</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">gem sources -a http://ruby.taobao.org/ -r https://rubygems.org/</div><div class="line">echo &apos;gem: --no-document&apos; \&gt;\&gt; \~/.gemrc</div><div class="line">gem update</div><div class="line">gem update --system</div></pre></td></tr></table></figure>
-<h2 id="安装-MongoDB-MySQL"><a href="#安装-MongoDB-MySQL" class="headerlink" title="安装 MongoDB, MySQL"></a>安装 MongoDB, MySQL</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">brew install mongodb mysql</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">export NVM\_NODEJS\_ORG\_MIRROR=&quot;http://npm.taobao.org/dist&quot;</span><br><span class="line"></span><br><span class="line">[[ -s &quot;$HOME/.nvm/nvm.sh&quot; ]] &amp;&amp; . &quot;$HOME/.nvm/nvm.sh&quot;</span><br><span class="line">export NODE\_PATH=$NVM\_DIR/$(nvm\_ls current)/lib/node\_modules</span><br></pre></td></tr></table></figure>
+<h2 id="安裝-NodeJS"><a href="#安裝-NodeJS" class="headerlink" title="安裝 NodeJS"></a>安裝 NodeJS</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nvm install 0.11.15</span><br><span class="line">nvm alias default 0.11.15</span><br></pre></td></tr></table></figure>
+<h2 id="安裝rbenv"><a href="#安裝rbenv" class="headerlink" title="安裝rbenv"></a>安裝<a href="https://github.com/sstephenson/rbenv" target="_blank" rel="noopener">rbenv</a></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">git clone git://github.com/sstephenson/rbenv.git \~/.rbenv</span><br><span class="line"># 用来编译安装 ruby</span><br><span class="line">git clone git://github.com/sstephenson/ruby-build.git \~/.rbenv/plugins/ruby-build</span><br><span class="line"># 用来管理 gemset, 可选, 因为有 bundler 也没什么必要</span><br><span class="line">git clone git://github.com/jamis/rbenv-gemset.git  \~/.rbenv/plugins/rbenv-gemset</span><br><span class="line"># 通过 gem 命令安装完 gem 后无需手动输入 rbenv rehash 命令, 推荐</span><br><span class="line">git clone git://github.com/sstephenson/rbenv-gem-rehash.git \~/.rbenv/plugins/rbenv-gem-rehash</span><br><span class="line"># 通过 rbenv update 命令来更新 rbenv 以及所有插件, 推荐</span><br><span class="line">git clone https://github.com/rkh/rbenv-update.git \~/.rbenv/plugins/rbenv-update</span><br></pre></td></tr></table></figure>
+<h4 id="設置-zshrc"><a href="#設置-zshrc" class="headerlink" title="設置~/.zshrc"></a>設置<code>~/.zshrc</code></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export PATH=&quot;$HOME/.rbenv/bin:$PATH&quot;</span><br><span class="line">eval &quot;$(rbenv init -)&quot;</span><br></pre></td></tr></table></figure>
+<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a><a href="https://ruby-china.org/wiki/rbenv-guide" target="_blank" rel="noopener">其他</a></h4><h2 id="安裝Ruby"><a href="#安裝Ruby" class="headerlink" title="安裝Ruby"></a>安裝Ruby</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rbenv install -l      # list all available versions</span><br><span class="line">rbenv install 2.1.5   # install a Ruby version</span><br><span class="line">rbenv global 2.1.5    # set the global version</span><br><span class="line">rbenv versions        # list all installed Ruby versions</span><br></pre></td></tr></table></figure>
+<h2 id="配置gem源"><a href="#配置gem源" class="headerlink" title="配置gem源"></a>配置gem源</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gem sources -a http://ruby.taobao.org/ -r https://rubygems.org/</span><br><span class="line">echo &apos;gem: --no-document&apos; \&gt;\&gt; \~/.gemrc</span><br><span class="line">gem update</span><br><span class="line">gem update --system</span><br></pre></td></tr></table></figure>
+<h2 id="安装-MongoDB-MySQL"><a href="#安装-MongoDB-MySQL" class="headerlink" title="安装 MongoDB, MySQL"></a>安装 MongoDB, MySQL</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install mongodb mysql</span><br></pre></td></tr></table></figure>
 <p>設置開機自啓動「可選」</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mkdir -p \~/Library/LaunchAgents</div><div class="line">ln -sfv /usr/local/opt/mongodb/\*.plist \~/Library/LaunchAgents</div><div class="line">ln -sfv /usr/local/opt/mysql/\*.plist \~/Library/LaunchAgents</div></pre></td></tr></table></figure>
-<h2 id="安装-Pow"><a href="#安装-Pow" class="headerlink" title="安装 Pow"></a>安装 <a href="http://pow.cx/" target="_blank" rel="external">Pow</a></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">curl get.pow.cx | sh</div><div class="line">gem install powder</div></pre></td></tr></table></figure>
-<p><a href="https://github.com/Rodreegez/powder" target="_blank" rel="external">Powder</a> 是一套管理工具</p>
-<h2 id="SSH-KeyGen"><a href="#SSH-KeyGen" class="headerlink" title="SSH-KeyGen"></a>SSH-KeyGen</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ssh-keygen -t rsa</div><div class="line">cat \~/.ssh/id\_rsa.pub</div></pre></td></tr></table></figure>
-<h2 id="安裝Rails-sass-compass-以及-hexo"><a href="#安裝Rails-sass-compass-以及-hexo" class="headerlink" title="安裝Rails, sass, compass 以及 hexo"></a>安裝Rails, sass, compass 以及 hexo</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">gem install rails sass compass</div><div class="line">npm install -g hexo</div></pre></td></tr></table></figure>
-<h4 id="安裝必要工具"><a href="#安裝必要工具" class="headerlink" title="安裝必要工具"></a>安裝必要工具</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">gem install mysql2</div><div class="line">gem install capistrano</div><div class="line">gem install capistrano-ext</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p \~/Library/LaunchAgents</span><br><span class="line">ln -sfv /usr/local/opt/mongodb/\*.plist \~/Library/LaunchAgents</span><br><span class="line">ln -sfv /usr/local/opt/mysql/\*.plist \~/Library/LaunchAgents</span><br></pre></td></tr></table></figure>
+<h2 id="安装-Pow"><a href="#安装-Pow" class="headerlink" title="安装 Pow"></a>安装 <a href="http://pow.cx/" target="_blank" rel="noopener">Pow</a></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl get.pow.cx | sh</span><br><span class="line">gem install powder</span><br></pre></td></tr></table></figure>
+<p><a href="https://github.com/Rodreegez/powder" target="_blank" rel="noopener">Powder</a> 是一套管理工具</p>
+<h2 id="SSH-KeyGen"><a href="#SSH-KeyGen" class="headerlink" title="SSH-KeyGen"></a>SSH-KeyGen</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa</span><br><span class="line">cat \~/.ssh/id\_rsa.pub</span><br></pre></td></tr></table></figure>
+<h2 id="安裝Rails-sass-compass-以及-hexo"><a href="#安裝Rails-sass-compass-以及-hexo" class="headerlink" title="安裝Rails, sass, compass 以及 hexo"></a>安裝Rails, sass, compass 以及 hexo</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gem install rails sass compass</span><br><span class="line">npm install -g hexo</span><br></pre></td></tr></table></figure>
+<h4 id="安裝必要工具"><a href="#安裝必要工具" class="headerlink" title="安裝必要工具"></a>安裝必要工具</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gem install mysql2</span><br><span class="line">gem install capistrano</span><br><span class="line">gem install capistrano-ext</span><br></pre></td></tr></table></figure>
 <h2 id="Snippets-Download"><a href="#Snippets-Download" class="headerlink" title="Snippets -  Download"></a>Snippets -  <a href="Snippets - Download">Download</a></h2><h2 id="安裝其他APP"><a href="#安裝其他APP" class="headerlink" title="安裝其他APP"></a>安裝其他APP</h2>
         
         </div>
@@ -264,7 +265,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2015/01/26/reinstall-mac-osx-Yosemite/" data-id="cj9h8m7vj0090a0lr0uovfsm0" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+    <a data-url="http://hivandu.github.io/2015/01/26/reinstall-mac-osx-Yosemite/" data-id="cjhyy6wxg00hcmllrbbuwc8pb" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -332,7 +333,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2015/01/26/reinstall-mac-osx-Yosemite/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2015/01/26/reinstall-mac-osx-Yosemite/">Comentarios</a>
+        <a href="http://hivandu.github.io/2015/01/26/reinstall-mac-osx-Yosemite/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2015/01/26/reinstall-mac-osx-Yosemite/">Comments</a>
     
 
         </footer>
@@ -342,7 +343,7 @@
 <nav id="article-nav">
     
         <a href="/2015/02/15/Knock-update/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Más nuevo</strong>
+            <strong class="article-nav-caption">Newer</strong>
             <div class="article-nav-title">
                 
                     Knock 升级 -- 快速输入管理员密码
@@ -352,7 +353,7 @@
     
     
         <a href="/2015/01/09/Power-for-Mac/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Más viejo</strong>
+            <strong class="article-nav-caption">Older</strong>
             <div class="article-nav-title">Power for Mac</div>
         </a>
     
@@ -380,9 +381,18 @@
    
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Recientes</h3>
+        <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/06/02/homebrew-manage-node-version/" class="title">[homebrew manage node version]</a></p>
+                            <p class="item-date"><time datetime="2018-06-01T16:55:16.000Z" itemprop="datePublished">2018-06-02</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -420,15 +430,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2017/02/13/npm-check/" class="title">npm-check</a></p>
-                            <p class="item-date"><time datetime="2017-02-13T02:54:03.000Z" itemprop="datePublished">2017-02-13</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -436,7 +437,7 @@
     
         
     <div class="widget-wrap widget-list">
-        <h3 class="widget-title">Links</h3>
+        <h3 class="widget-title">links</h3>
         <div class="widget">
             <ul>
                 
@@ -457,7 +458,7 @@
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2017 Hivan Du<br>
+            &copy; 2018 Hivan Du<br>
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>

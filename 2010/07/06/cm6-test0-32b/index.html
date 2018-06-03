@@ -12,6 +12,7 @@
 <meta property="og:url" content="http://hivandu.github.io/2010/07/06/cm6-test0-32b/index.html">
 <meta property="og:site_name" content="Duart">
 <meta property="og:description" content="好吧,熟悉的人看到标题应该能猜到这就是Android 2.2 的CM版本.没想到这么快会出现,和之前发布的版本不同,这次编译与CM大神的版本!没想到在和儿子过生的当间就发布了…    基于7月5日最新CM6源码编译，新增了电池百分比显示的开关，在Cyanogenmod 设置里进行更改    默认关闭jit，在32a/32b等低端机上开启jit对性能没有改善，反倒更占内存，故在这个版本中关闭jit">
+<meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2013-12-18T02:13:30.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CM6 test0 32b">
@@ -68,7 +69,7 @@
             <div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
@@ -87,10 +88,10 @@
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Entradas',
+            POSTS: 'Posts',
             PAGES: 'Pages',
-            CATEGORIES: 'Categorias',
-            TAGS: 'Etiquetas',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
             UNTITLED: '(Untitled)',
         },
         ROOT_URL: '/',
@@ -115,7 +116,7 @@
                 <td>
                     
     <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
     </div>
 
                 </td>
@@ -135,16 +136,16 @@
             <h2 id="name">Hivan Du</h2>
             <h3 id="title">Web Developer &amp; Designer</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Shanghai, China</span>
-            <a id="follow" target="_blank" href="https://github.com/hivandu">SEGUIR</a>
+            <a id="follow" target="_blank" href="https://github.com/hivandu">FOLLOW</a>
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                151
-                <span>Entradas</span>
+                152
+                <span>posts</span>
             </div>
             <div class="article-info-block">
-                240
-                <span>Etiquetas</span>
+                242
+                <span>tags</span>
             </div>
         </div>
         
@@ -211,7 +212,7 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p>好吧,熟悉的人看到标题应该能猜到这就是Android 2.2 的CM版本.没想到这么快会出现,和之前发布的版本不同,这次编译与CM大神的版本!没想到在和儿子过生的当间就发布了…<br><ul><br>    <li>基于7月5日最新CM6源码编译，新增了电池百分比显示的开关，在Cyanogenmod 设置里进行更改</li><br>    <li>默认关闭jit，在32a/32b等低端机上开启jit对性能没有改善，反倒更占内存，故在这个版本中关闭jit</li><br>    <li>修改ADW的默认设置，使其常驻内存，改善从其它程序退回桌面的速度</li><br>    <li>修改ADW的壁纸图库，用AOSP的图库替换了CM的图库</li><br>    <li>修改了framework.jar，使用了geesun的代码试其支持中文运营商显示</li><br>    <li>使用了最新的FRF91的GAPPS</li><br>    <li>CM6自带的contact文件有不少bug，故换成了aosp的contact，虽然相对cm6的功能更少，但非常稳定</li><br>    <li>重新编译了kernel，个人感觉比默认的kernel更稳定</li><br>    <li>进一步汉化了framework和superuser等程序</li><br>    <li>新增32a的支持，32a的用户也可以使用</li><br></ul><br>Known Issues：<br><ul><br>    <li>第一次启动时可能会意外重启，完成设置后就不会出现这个问题</li><br>    <li>相机中按0x变焦按键会使相机fc</li><br>    <li>摄像无法正常使用</li><br>    <li>由于Gapps都是Nexus专用的，故其素材的尺寸都很大，特别是gmail，显示出来很大，这个暂时无法解决</li><br>    <li>Dream和Magic因为性能问题，不支持flash，即便刷了2.2也不可能运行flash，所以不要去市场下载flash程序了，不会起作用的，另外也不要再求使用flash的方法了，在地球上不存在解决方法，除非你换手机</li><br></ul><br>App2sd：<br><br>rom支持app2sd，但默认没有开启。<br><br>开启方法：<br><br>在超级终端中输入：<br><br>su<br><br>pm setInstallLocation 2<br><br>即可开启app2sd，不需要有ext分区就可以使用，但官方的这个app2sd还不太稳定，不建议使用。<br><br>Download：<br><br>Dream/Magic 32b:<a href="http://thesoloblack.com/rom/cm6-test0-32b-0705-fixed.zip" target="_blank" rel="external">http://thesoloblack.com/rom/cm6-test0-32b-0705-fixed.zip</a><br><br>Magic 32a:<a href="http://thesoloblack.com/rom/cm6-test0-32a-0705-fixed.zip" target="_blank" rel="external">http://thesoloblack.com/rom/cm6-test0-32a-0705-fixed.zip</a></p>
+            <p>好吧,熟悉的人看到标题应该能猜到这就是Android 2.2 的CM版本.没想到这么快会出现,和之前发布的版本不同,这次编译与CM大神的版本!没想到在和儿子过生的当间就发布了…<br><ul><br>    <li>基于7月5日最新CM6源码编译，新增了电池百分比显示的开关，在Cyanogenmod 设置里进行更改</li><br>    <li>默认关闭jit，在32a/32b等低端机上开启jit对性能没有改善，反倒更占内存，故在这个版本中关闭jit</li><br>    <li>修改ADW的默认设置，使其常驻内存，改善从其它程序退回桌面的速度</li><br>    <li>修改ADW的壁纸图库，用AOSP的图库替换了CM的图库</li><br>    <li>修改了framework.jar，使用了geesun的代码试其支持中文运营商显示</li><br>    <li>使用了最新的FRF91的GAPPS</li><br>    <li>CM6自带的contact文件有不少bug，故换成了aosp的contact，虽然相对cm6的功能更少，但非常稳定</li><br>    <li>重新编译了kernel，个人感觉比默认的kernel更稳定</li><br>    <li>进一步汉化了framework和superuser等程序</li><br>    <li>新增32a的支持，32a的用户也可以使用</li><br></ul><br>Known Issues：<br><ul><br>    <li>第一次启动时可能会意外重启，完成设置后就不会出现这个问题</li><br>    <li>相机中按0x变焦按键会使相机fc</li><br>    <li>摄像无法正常使用</li><br>    <li>由于Gapps都是Nexus专用的，故其素材的尺寸都很大，特别是gmail，显示出来很大，这个暂时无法解决</li><br>    <li>Dream和Magic因为性能问题，不支持flash，即便刷了2.2也不可能运行flash，所以不要去市场下载flash程序了，不会起作用的，另外也不要再求使用flash的方法了，在地球上不存在解决方法，除非你换手机</li><br></ul><br>App2sd：<br><br>rom支持app2sd，但默认没有开启。<br><br>开启方法：<br><br>在超级终端中输入：<br><br>su<br><br>pm setInstallLocation 2<br><br>即可开启app2sd，不需要有ext分区就可以使用，但官方的这个app2sd还不太稳定，不建议使用。<br><br>Download：<br><br>Dream/Magic 32b:<a href="http://thesoloblack.com/rom/cm6-test0-32b-0705-fixed.zip" target="_blank" rel="noopener">http://thesoloblack.com/rom/cm6-test0-32b-0705-fixed.zip</a><br><br>Magic 32a:<a href="http://thesoloblack.com/rom/cm6-test0-32a-0705-fixed.zip" target="_blank" rel="noopener">http://thesoloblack.com/rom/cm6-test0-32a-0705-fixed.zip</a></p>
 
 <p><strong>本更新信息和下载链接均来源于机锋网!</strong></p>
 
@@ -224,7 +225,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2010/07/06/cm6-test0-32b/" data-id="cj9h8m7q80031a0lrnceq4j29" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+    <a data-url="http://hivandu.github.io/2010/07/06/cm6-test0-32b/" data-id="cjhyy6wod0031mllry6ypp55w" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -292,7 +293,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2010/07/06/cm6-test0-32b/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2010/07/06/cm6-test0-32b/">Comentarios</a>
+        <a href="http://hivandu.github.io/2010/07/06/cm6-test0-32b/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2010/07/06/cm6-test0-32b/">Comments</a>
     
 
         </footer>
@@ -302,7 +303,7 @@
 <nav id="article-nav">
     
         <a href="/2010/12/11/android-2-2-app2sd/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Más nuevo</strong>
+            <strong class="article-nav-caption">Newer</strong>
             <div class="article-nav-title">
                 
                     Android 2.2 App2sd 问题
@@ -312,7 +313,7 @@
     
     
         <a href="/2010/07/03/android-2-2-for-g1/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Más viejo</strong>
+            <strong class="article-nav-caption">Older</strong>
             <div class="article-nav-title">Android 2.2 for G1</div>
         </a>
     
@@ -340,9 +341,18 @@
    
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Recientes</h3>
+        <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/06/02/homebrew-manage-node-version/" class="title">[homebrew manage node version]</a></p>
+                            <p class="item-date"><time datetime="2018-06-01T16:55:16.000Z" itemprop="datePublished">2018-06-02</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -380,15 +390,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2017/02/13/npm-check/" class="title">npm-check</a></p>
-                            <p class="item-date"><time datetime="2017-02-13T02:54:03.000Z" itemprop="datePublished">2017-02-13</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -396,7 +397,7 @@
     
         
     <div class="widget-wrap widget-list">
-        <h3 class="widget-title">Links</h3>
+        <h3 class="widget-title">links</h3>
         <div class="widget">
             <ul>
                 
@@ -417,7 +418,7 @@
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2017 Hivan Du<br>
+            &copy; 2018 Hivan Du<br>
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>

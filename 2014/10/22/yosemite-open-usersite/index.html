@@ -12,6 +12,7 @@
 <meta property="og:url" content="http://hivandu.github.io/2014/10/22/yosemite-open-usersite/index.html">
 <meta property="og:site_name" content="Duart">
 <meta property="og:description" content="升级到OSX 10.10(Yosemite)以后，localhost是可以正常访问的，只是localhost/~user无法打开了，提示403错误。">
+<meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2014-10-23T03:06:46.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Yosemite访问用户级服务器目录">
@@ -68,7 +69,7 @@
             <div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
@@ -87,10 +88,10 @@
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Entradas',
+            POSTS: 'Posts',
             PAGES: 'Pages',
-            CATEGORIES: 'Categorias',
-            TAGS: 'Etiquetas',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
             UNTITLED: '(Untitled)',
         },
         ROOT_URL: '/',
@@ -115,7 +116,7 @@
                 <td>
                     
     <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
     </div>
 
                 </td>
@@ -135,16 +136,16 @@
             <h2 id="name">Hivan Du</h2>
             <h3 id="title">Web Developer &amp; Designer</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Shanghai, China</span>
-            <a id="follow" target="_blank" href="https://github.com/hivandu">SEGUIR</a>
+            <a id="follow" target="_blank" href="https://github.com/hivandu">FOLLOW</a>
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                151
-                <span>Entradas</span>
+                152
+                <span>posts</span>
             </div>
             <div class="article-info-block">
-                240
-                <span>Etiquetas</span>
+                242
+                <span>tags</span>
             </div>
         </div>
         
@@ -210,30 +211,30 @@
 <a id="more"></a>
 <p>网上查找资料，说是随着系统的更新，Apache本本更新到2.4.9，PHP也更新到了5.5.14，所以Apache的配置就需要做相应的修改。</p>
 <p>首先，我们需要确定打开了Apache</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apachectl start</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apachectl start</span><br></pre></td></tr></table></figure>
 <p>然后设置允许访问用户目录</p>
 <ol>
 <li>修改httpd.conf配置</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo subl /etc/apache2/httpd.conf</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo subl /etc/apache2/httpd.conf</span><br></pre></td></tr></table></figure>
 <p>command + f 查找代码，并去掉注释符 <code>#</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">LoadModule authz_core_module libexec/apache2/mod_authz_core.so</div><div class="line">LoadModule authz_host_module libexec/apache2/mod_authz_host.so</div><div class="line">LoadModule userdir_module libexec/apache2/mod_userdir.so</div><div class="line">LoadModule php5_module libexec/apache2/libphp5.so</div><div class="line">Include /private/etc/apache2/extra/httpd-vhosts.conf</div><div class="line">Include /private/etc/apache2/extra/httpd-userdir.conf</div></pre></td></tr></table></figure>
-<ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">LoadModule authz_core_module libexec/apache2/mod_authz_core.so</span><br><span class="line">LoadModule authz_host_module libexec/apache2/mod_authz_host.so</span><br><span class="line">LoadModule userdir_module libexec/apache2/mod_userdir.so</span><br><span class="line">LoadModule php5_module libexec/apache2/libphp5.so</span><br><span class="line">Include /private/etc/apache2/extra/httpd-vhosts.conf</span><br><span class="line">Include /private/etc/apache2/extra/httpd-userdir.conf</span><br></pre></td></tr></table></figure>
+<ol start="2">
 <li>修改httpd-userdir.conf配置</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo subl /etc/apache2/extra/httpd-userdir.conf</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo subl /etc/apache2/extra/httpd-userdir.conf</span><br></pre></td></tr></table></figure>
 <p>command + f 查找以下代码，去掉注释符<code>#</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Include /private/etc/apache2/users/*.conf</div></pre></td></tr></table></figure>
-<ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Include /private/etc/apache2/users/*.conf</span><br></pre></td></tr></table></figure>
+<ol start="3">
 <li>修改yourUserName.conf配置</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo subl /etc/apache2/users/username.conf</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo subl /etc/apache2/users/username.conf</span><br></pre></td></tr></table></figure>
 <p>PS: username为你的用户名称，如果没有该文件则新建一个，然后将内容修改为:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Options Indexes MultiViews</div><div class="line">AllowOverride None</div><div class="line">Require all granted</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Options Indexes MultiViews</span><br><span class="line">AllowOverride None</span><br><span class="line">Require all granted</span><br></pre></td></tr></table></figure>
 <p>然后设置文件权限为<code>755</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo chmod 755 /etc/apache2/users/haibor.conf</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod 755 /etc/apache2/users/haibor.conf</span><br></pre></td></tr></table></figure>
 <p>最后我们需要重启Apache</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apachectl restart</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apachectl restart</span><br></pre></td></tr></table></figure>
 
         
         </div>
@@ -244,7 +245,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2014/10/22/yosemite-open-usersite/" data-id="cj9h8m7x600bja0lrly9d8m0u" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+    <a data-url="http://hivandu.github.io/2014/10/22/yosemite-open-usersite/" data-id="cjhyy6wzm00k1mllrt0b06sl0" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -312,7 +313,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2014/10/22/yosemite-open-usersite/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2014/10/22/yosemite-open-usersite/">Comentarios</a>
+        <a href="http://hivandu.github.io/2014/10/22/yosemite-open-usersite/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2014/10/22/yosemite-open-usersite/">Comments</a>
     
 
         </footer>
@@ -322,7 +323,7 @@
 <nav id="article-nav">
     
         <a href="/2014/10/29/compass-enable-sourcemaps/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Más nuevo</strong>
+            <strong class="article-nav-caption">Newer</strong>
             <div class="article-nav-title">
                 
                     compass 开启 sourcemaps
@@ -332,7 +333,7 @@
     
     
         <a href="/2014/09/09/alfred-2-plugin----open-in-atom/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Más viejo</strong>
+            <strong class="article-nav-caption">Older</strong>
             <div class="article-nav-title">Alfred 2 Plugin -- open in Atom</div>
         </a>
     
@@ -360,9 +361,18 @@
    
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Recientes</h3>
+        <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/06/02/homebrew-manage-node-version/" class="title">[homebrew manage node version]</a></p>
+                            <p class="item-date"><time datetime="2018-06-01T16:55:16.000Z" itemprop="datePublished">2018-06-02</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -400,15 +410,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2017/02/13/npm-check/" class="title">npm-check</a></p>
-                            <p class="item-date"><time datetime="2017-02-13T02:54:03.000Z" itemprop="datePublished">2017-02-13</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -416,7 +417,7 @@
     
         
     <div class="widget-wrap widget-list">
-        <h3 class="widget-title">Links</h3>
+        <h3 class="widget-title">links</h3>
         <div class="widget">
             <ul>
                 
@@ -437,7 +438,7 @@
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2017 Hivan Du<br>
+            &copy; 2018 Hivan Du<br>
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>

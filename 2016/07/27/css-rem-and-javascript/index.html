@@ -12,6 +12,7 @@
 <meta property="og:url" content="http://hivandu.github.io/2016/07/27/css-rem-and-javascript/index.html">
 <meta property="og:site_name" content="Duart">
 <meta property="og:description" content="关于移动端的适配，都知道其实rem是比较好的一个适配方案，但是rem是根据根目录的字体大小来调解的，那么，我们在做网页的时候，屏幕旋转后，能否让根目录的字体跟着变化呢？ 先上代码： 1234$(function()&amp;#123;  var size = $(window).width() / 25;  $(&apos;html&apos;).css(&apos;font-size&apos;: size);&amp;#125;); 这样在css中">
+<meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2016-07-27T06:44:54.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于设备转向后的自适应">
@@ -68,7 +69,7 @@
             <div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
@@ -87,10 +88,10 @@
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Entradas',
+            POSTS: 'Posts',
             PAGES: 'Pages',
-            CATEGORIES: 'Categorias',
-            TAGS: 'Etiquetas',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
             UNTITLED: '(Untitled)',
         },
         ROOT_URL: '/',
@@ -115,7 +116,7 @@
                 <td>
                     
     <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
     </div>
 
                 </td>
@@ -135,16 +136,16 @@
             <h2 id="name">Hivan Du</h2>
             <h3 id="title">Web Developer &amp; Designer</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Shanghai, China</span>
-            <a id="follow" target="_blank" href="https://github.com/hivandu">SEGUIR</a>
+            <a id="follow" target="_blank" href="https://github.com/hivandu">FOLLOW</a>
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                151
-                <span>Entradas</span>
+                152
+                <span>posts</span>
             </div>
             <div class="article-info-block">
-                240
-                <span>Etiquetas</span>
+                242
+                <span>tags</span>
             </div>
         </div>
         
@@ -208,10 +209,10 @@
             
             <p>关于移动端的适配，都知道其实rem是比较好的一个适配方案，但是rem是根据根目录的字体大小来调解的，那么，我们在做网页的时候，屏幕旋转后，能否让根目录的字体跟着变化呢？</p>
 <p>先上代码：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> size = $(<span class="built_in">window</span>).width() / <span class="number">25</span>;</div><div class="line">  $(<span class="string">'html'</span>).css(<span class="string">'font-size'</span>: size);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> size = $(<span class="built_in">window</span>).width() / <span class="number">25</span>;</span><br><span class="line">  $(<span class="string">'html'</span>).css(<span class="string">'font-size'</span>: size);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <p>这样在css中用rem单位是没什么问题，但是如果屏幕旋转之后，你就会发现，真的不能看了就。原因就是屏幕旋转以后，根上的字体并没有随之变化。</p>
 <p>所以我们来加上</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 监视设备方向</span></div><div class="line"><span class="built_in">window</span>.addEventListener(<span class="string">"orientationchange"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  media();</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">media</span>(<span class="params">argument</span>) </span>&#123;</div><div class="line">  <span class="comment">// 因为获取尺寸出错，需要延迟获取</span></div><div class="line">  setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> size = $(<span class="built_in">window</span>).width() / <span class="number">25</span>;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'the device size: '</span>+size);</div><div class="line">    $(<span class="string">'html'</span>).css(<span class="string">'font-size'</span>, size);</div><div class="line">  &#125;, <span class="number">200</span>);  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 监视设备方向</span></span><br><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">"orientationchange"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  media();</span><br><span class="line">&#125;, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">media</span>(<span class="params">argument</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 因为获取尺寸出错，需要延迟获取</span></span><br><span class="line">  setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> size = $(<span class="built_in">window</span>).width() / <span class="number">25</span>;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'the device size: '</span>+size);</span><br><span class="line">    $(<span class="string">'html'</span>).css(<span class="string">'font-size'</span>, size);</span><br><span class="line">  &#125;, <span class="number">200</span>);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
         
         </div>
         <footer class="article-footer">
@@ -221,7 +222,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2016/07/27/css-rem-and-javascript/" data-id="cj9h8m7qe003ba0lrefmnb32j" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+    <a data-url="http://hivandu.github.io/2016/07/27/css-rem-and-javascript/" data-id="cjhyy6woj003bmllrqx2oz6mc" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -289,7 +290,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2016/07/27/css-rem-and-javascript/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2016/07/27/css-rem-and-javascript/">Comentarios</a>
+        <a href="http://hivandu.github.io/2016/07/27/css-rem-and-javascript/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2016/07/27/css-rem-and-javascript/">Comments</a>
     
 
         </footer>
@@ -299,7 +300,7 @@
 <nav id="article-nav">
     
         <a href="/2016/07/28/install-node-to-Debian/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Más nuevo</strong>
+            <strong class="article-nav-caption">Newer</strong>
             <div class="article-nav-title">
                 
                     Debian上安装Node服务器
@@ -309,7 +310,7 @@
     
     
         <a href="/2016/05/12/debian-install-ssh/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Más viejo</strong>
+            <strong class="article-nav-caption">Older</strong>
             <div class="article-nav-title">Debian安装SSH</div>
         </a>
     
@@ -337,9 +338,18 @@
    
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Recientes</h3>
+        <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/06/02/homebrew-manage-node-version/" class="title">[homebrew manage node version]</a></p>
+                            <p class="item-date"><time datetime="2018-06-01T16:55:16.000Z" itemprop="datePublished">2018-06-02</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -377,15 +387,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2017/02/13/npm-check/" class="title">npm-check</a></p>
-                            <p class="item-date"><time datetime="2017-02-13T02:54:03.000Z" itemprop="datePublished">2017-02-13</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -393,7 +394,7 @@
     
         
     <div class="widget-wrap widget-list">
-        <h3 class="widget-title">Links</h3>
+        <h3 class="widget-title">links</h3>
         <div class="widget">
             <ul>
                 
@@ -414,7 +415,7 @@
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2017 Hivan Du<br>
+            &copy; 2018 Hivan Du<br>
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>

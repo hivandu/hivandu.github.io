@@ -12,6 +12,7 @@
 <meta property="og:url" content="http://hivandu.github.io/2017/11/01/vux-tabbar-selected/index.html">
 <meta property="og:site_name" content="Duart">
 <meta property="og:description" content="在vux的文档和示例中，都没有明确的说明tabbar上v-model的使用 文档中将v-model说明放在了TabbarItem示例下，但是其实这个应该是放在Tabbar上 1234567891011121314151617181920212223&amp;lt;template&amp;gt;    &amp;lt;router-view class=&amp;quot;view&amp;quot; v-on:changeTab=&amp;q">
+<meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2017-11-01T16:07:11.359Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="vux更改Tabbar选中状态">
@@ -68,7 +69,7 @@
             <div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
@@ -87,10 +88,10 @@
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Entradas',
+            POSTS: 'Posts',
             PAGES: 'Pages',
-            CATEGORIES: 'Categorias',
-            TAGS: 'Etiquetas',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
             UNTITLED: '(Untitled)',
         },
         ROOT_URL: '/',
@@ -115,7 +116,7 @@
                 <td>
                     
     <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
     </div>
 
                 </td>
@@ -135,16 +136,16 @@
             <h2 id="name">Hivan Du</h2>
             <h3 id="title">Web Developer &amp; Designer</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Shanghai, China</span>
-            <a id="follow" target="_blank" href="https://github.com/hivandu">SEGUIR</a>
+            <a id="follow" target="_blank" href="https://github.com/hivandu">FOLLOW</a>
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                151
-                <span>Entradas</span>
+                152
+                <span>posts</span>
             </div>
             <div class="article-info-block">
-                240
-                <span>Etiquetas</span>
+                242
+                <span>tags</span>
             </div>
         </div>
         
@@ -208,9 +209,9 @@
             
             <p>在vux的文档和示例中，都没有明确的说明tabbar上v-model的使用</p>
 <p>文档中将<code>v-model</code>说明放在了TabbarItem示例下，但是其实这个应该是放在<code>Tabbar</code>上</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">&lt;template&gt;</div><div class="line">    &lt;router-view class=&quot;view&quot; v-on:changeTab=&quot;changeTab&quot;&gt;&lt;/router-view&gt;</div><div class="line">    &lt;tabbar v-model=&quot;index&quot;&gt;</div><div class="line">        &lt;tabbar-item&gt;&lt;/tabbar-item&gt;</div><div class="line">        ...</div><div class="line">        &lt;tabbar-item&gt;&lt;/tabbar-item&gt;</div><div class="line">    &lt;/tabbar&gt;</div><div class="line">&lt;/template&gt;</div><div class="line">&lt;script&gt;</div><div class="line">data()&#123;</div><div class="line">    return&#123;</div><div class="line">        index:0,</div><div class="line">        ...</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">methods:&#123;</div><div class="line">    changeTab(num)&#123;</div><div class="line">        ...</div><div class="line">        this.index = num;</div><div class="line">        ...</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">&lt;/scirpt&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;router-view class=&quot;view&quot; v-on:changeTab=&quot;changeTab&quot;&gt;&lt;/router-view&gt;</span><br><span class="line">    &lt;tabbar v-model=&quot;index&quot;&gt;</span><br><span class="line">        &lt;tabbar-item&gt;&lt;/tabbar-item&gt;</span><br><span class="line">        ...</span><br><span class="line">        &lt;tabbar-item&gt;&lt;/tabbar-item&gt;</span><br><span class="line">    &lt;/tabbar&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">data()&#123;</span><br><span class="line">    return&#123;</span><br><span class="line">        index:0,</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">methods:&#123;</span><br><span class="line">    changeTab(num)&#123;</span><br><span class="line">        ...</span><br><span class="line">        this.index = num;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/scirpt&gt;</span><br></pre></td></tr></table></figure>
 <p>然后子组件中调用</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mounted()&#123;</div><div class="line">    <span class="keyword">this</span>.$emit(<span class="string">'changeTab'</span>, <span class="number">2</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mounted()&#123;</span><br><span class="line">    <span class="keyword">this</span>.$emit(<span class="string">'changeTab'</span>, <span class="number">2</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这样就便于在不同的组件内都可以更改Tabbar选中状态</p>
 
         
@@ -222,7 +223,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2017/11/01/vux-tabbar-selected/" data-id="cj9h8m7wh00aia0lrkui55v1t" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+    <a data-url="http://hivandu.github.io/2017/11/01/vux-tabbar-selected/" data-id="cjhyy6wys00iymllrxm86kko5" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -290,7 +291,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2017/11/01/vux-tabbar-selected/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2017/11/01/vux-tabbar-selected/">Comentarios</a>
+        <a href="http://hivandu.github.io/2017/11/01/vux-tabbar-selected/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2017/11/01/vux-tabbar-selected/">Comments</a>
     
 
         </footer>
@@ -299,9 +300,18 @@
         
 <nav id="article-nav">
     
+        <a href="/2018/06/02/homebrew-manage-node-version/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    [homebrew manage node version]
+                
+            </div>
+        </a>
+    
     
         <a href="/2017/09/23/ssh-link-server-use-iTerm2/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Más viejo</strong>
+            <strong class="article-nav-caption">Older</strong>
             <div class="article-nav-title">ssh link server use iTerm2</div>
         </a>
     
@@ -329,9 +339,18 @@
    
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Recientes</h3>
+        <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/06/02/homebrew-manage-node-version/" class="title">[homebrew manage node version]</a></p>
+                            <p class="item-date"><time datetime="2018-06-01T16:55:16.000Z" itemprop="datePublished">2018-06-02</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -369,15 +388,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2017/02/13/npm-check/" class="title">npm-check</a></p>
-                            <p class="item-date"><time datetime="2017-02-13T02:54:03.000Z" itemprop="datePublished">2017-02-13</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -385,7 +395,7 @@
     
         
     <div class="widget-wrap widget-list">
-        <h3 class="widget-title">Links</h3>
+        <h3 class="widget-title">links</h3>
         <div class="widget">
             <ul>
                 
@@ -406,7 +416,7 @@
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2017 Hivan Du<br>
+            &copy; 2018 Hivan Du<br>
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>

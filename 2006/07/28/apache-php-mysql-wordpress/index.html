@@ -12,6 +12,7 @@
 <meta property="og:url" content="http://hivandu.github.io/2006/07/28/apache-php-mysql-wordpress/index.html">
 <meta property="og:site_name" content="Duart">
 <meta property="og:description" content="转载自google搜索 ###系统环境:###">
+<meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2013-12-17T16:57:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Apache+PHP+MySQL+WordPress 本地架设的方法（转载）">
@@ -68,7 +69,7 @@
             <div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
@@ -87,10 +88,10 @@
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Entradas',
+            POSTS: 'Posts',
             PAGES: 'Pages',
-            CATEGORIES: 'Categorias',
-            TAGS: 'Etiquetas',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
             UNTITLED: '(Untitled)',
         },
         ROOT_URL: '/',
@@ -115,7 +116,7 @@
                 <td>
                     
     <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
     </div>
 
                 </td>
@@ -135,16 +136,16 @@
             <h2 id="name">Hivan Du</h2>
             <h3 id="title">Web Developer &amp; Designer</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Shanghai, China</span>
-            <a id="follow" target="_blank" href="https://github.com/hivandu">SEGUIR</a>
+            <a id="follow" target="_blank" href="https://github.com/hivandu">FOLLOW</a>
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                151
-                <span>Entradas</span>
+                152
+                <span>posts</span>
             </div>
             <div class="article-info-block">
-                240
-                <span>Etiquetas</span>
+                242
+                <span>tags</span>
             </div>
         </div>
         
@@ -211,7 +212,7 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p>转载自<a href="http://www.google.com/search?hl=zh-CN&amp;newwindow=1&amp;client=firefox&amp;rls=org.mozilla%3Azh-CN%3Aofficial&amp;q=%E6%9C%AC%E5%9C%B0%E6%9E%B6%E8%AE%BEphp+mysql+%E8%BD%AF%E4%BB%B6&amp;btnG=%E6%90%9C%E7%B4%A2&amp;lr=" target="_blank" rel="external">google搜索</a></p>
+            <p>转载自<a href="http://www.google.com/search?hl=zh-CN&amp;newwindow=1&amp;client=firefox&amp;rls=org.mozilla%3Azh-CN%3Aofficial&amp;q=%E6%9C%AC%E5%9C%B0%E6%9E%B6%E8%AE%BEphp+mysql+%E8%BD%AF%E4%BB%B6&amp;btnG=%E6%90%9C%E7%B4%A2&amp;lr=" target="_blank" rel="noopener">google搜索</a></p>
 <p>###系统环境:###</p>
 <a id="more"></a>
 <p><strong>硬件:</strong></p>
@@ -226,20 +227,20 @@
 <p>  从 Apache官方网站下载的 Apache 2.053 For Win32 有两种格式，一种是 MSI 的安装文件；一种是 ZIP 压缩包。我选的是 MSI 格式的安装文件。<br>  运行 apache_2.0.53-win32-x86-no_ssl.msi 文件，然后根据安装向导，将 Apache 安装在 <code>d:\website\apache</code> 目录中。<br>  Apache 安装过程需要输入网站域名，本地调试使用localhost即可，安装过程很简单，全图形化界面，不再赘述。<br>  PHP官方网站提供两种格式的 Php 5.03 For Win32 下载，一种是压缩成 EXE 的文件；另一种是 ZIP 压缩包。我选择的是 ZIP 压缩包。<br>  首先将 php-5.0.3-Win32.zip 内的文件解压缩到 <code>d:\website\php</code> 目录中。<br>  然后找到 <code>d:\website\php\php.ini-dist</code> 文件，将其重命名为 <code>php.ini</code>，并复制到 <code>c:\windows</code> 目录里。<br>  再将 <code>d:\website\php\</code>目录中的 <code>php5ts.dll</code> 和 <code>libMySQL.dll</code>两个文件，一起复制到 <code>c:\windows\system</code> 或 <code>c:\windows\system32</code> 目录中。<br>  用文本编辑软件打开 <code>d:\apache\apache2\conf\httpd.conf</code> 文件，首先找到 <code>DocumentRoot</code> 一行，将其后的路径修改为 web 服务的主目录，例如：<code>DocumentRoot &amp;quot;D:/website/public_html&amp;quot;</code>；<br>  然后找到 <code>DirectoryIndex</code> 一行，在行末加上 <code>index.htm index.php</code>，例如：<code>DirectoryIndex index.html index.html.var index.htm index.php</code><br>  为 Apache 安装 Php 可以从下列两种安装模式中任选其一，建议使用模块化安装。<br>  仍然是编辑 <code>d:\apache\conf\httpd.conf</code> 文件：</p>
 <ul>
 <li>模块化安装配置：<br>找到 <code>#LoadModule ssl_module modules/mod_ssl.so</code> 这行，在此行后增加一行：   <code>LoadModule php5_module d:/website/php/php5apache2.dll</code>找到 <code>AddType application/x-gzip .gz .tgz</code>，在此行后增加一行：<code>AddType application/x-httpd-php .php</code></li>
-<li>CGI安装配置：<br>找到 <code>AddType application/x-gzip .gz .tgz</code>，在此行后增加三行：<code>ScriptAlias /php/ &amp;quot;d:/website/php/&amp;quot;</code>, <code>AddType application/x-httpd-php .php;</code>,<code>Action application/x-httpd-php &amp;quot;/php/php-cgi.exe&amp;quot;</code><br>注：以上两种安装模式中的 <code>d:/website/php/</code>是指 php 5.03 的安装目录路径，请视具体情况更改。<p></p>  <p> 重新启动 Apache 服务。</p>  <p> 到这里，Apache + Php 环境基本已经配置完成，在 web 根目录（以上例即 d:\website\public_html\ 目录）中，用记事本创建一个 <code>phpinfo.php</code> 文件，其内容如下：<code>&lt;?echo phpinfo();?&gt;</code><br>然后，在浏览器中打开 <a href="http://localhost/phpinfo.php" target="_blank" rel="external">http://localhost/phpinfo.php</a> ，如果看到 Php 配置输出信息，就说明配置正常。</p></li>
+<li>CGI安装配置：<br>找到 <code>AddType application/x-gzip .gz .tgz</code>，在此行后增加三行：<code>ScriptAlias /php/ &amp;quot;d:/website/php/&amp;quot;</code>, <code>AddType application/x-httpd-php .php;</code>,<code>Action application/x-httpd-php &amp;quot;/php/php-cgi.exe&amp;quot;</code><br>注：以上两种安装模式中的 <code>d:/website/php/</code>是指 php 5.03 的安装目录路径，请视具体情况更改。<p></p>  <p> 重新启动 Apache 服务。</p>  <p> 到这里，Apache + Php 环境基本已经配置完成，在 web 根目录（以上例即 d:\website\public_html\ 目录）中，用记事本创建一个 <code>phpinfo.php</code> 文件，其内容如下：<code>&lt;?echo phpinfo();?&gt;</code><br>然后，在浏览器中打开 <a href="http://localhost/phpinfo.php" target="_blank" rel="noopener">http://localhost/phpinfo.php</a> ，如果看到 Php 配置输出信息，就说明配置正常。</p></li>
 </ul>
 </li>
 <li><p>二：安装并配置 MySQL</p>  <p></p>
 <p>  从 MySQL 官方站下载 MySQL 4.1.10 压缩包，解压缩后会有一个EXE安装文件，运行以安装，将 MySQL 安装到 d:\website\mysql\，安装完成后可以直接启动配置向导，完成 MySQL 的配置。</p>  <p></p>
 </li>
 <li><p>三、配置 php.ini 并测试 MySQL</p>
-<p>  用文本编辑软件打开 c:\windows\php.ini 文件，然后修改以下内容：   <br> 将 extension_dir = &quot;./&quot; 改为 extension_dir = &quot;d:/website/php/ext&quot;    <br> 将 ;extension=php_MySQL.dll 行首的’;’去掉；    <br> 将 ;extension=php_mbstring.dll 行首的“;”去掉；    <br> 将 ;session.save_path = &quot;/tmp&quot; 改为 session.save_path = &quot;D:/website/php/session_temp&quot;; （即将行首的’;’去掉，并设置保存session的目录）</p>  <p> 重新启动 Apache 服务。   <br> 到这里，Apache + Php + MySQL 就基本配置完成了，在Web根目录下（即 d:\website\public_html\ 目录）中，用文本编辑软件创建一个 testdb.php 文件，其内容如下：</p>  <p>&lt;?php   <br>$link=MySQL_connect(’MySQL服务器名’,’MySQL用户名’,’密码’);    <br>if(!$link) echo &quot;Error !&quot;;    <br>else echo &quot;Ok!&quot;;    <br>MySQL_close();    <br>?&gt;</p>  <p>用浏览器打开 <a href="http://localhost/testdb.php" target="_blank" rel="external">http://localhost/testdb.php</a> 如果看到输出 OK! 就说明配置正常。</p>  <p></p>
+<p>  用文本编辑软件打开 c:\windows\php.ini 文件，然后修改以下内容：   <br> 将 extension_dir = &quot;./&quot; 改为 extension_dir = &quot;d:/website/php/ext&quot;    <br> 将 ;extension=php_MySQL.dll 行首的’;’去掉；    <br> 将 ;extension=php_mbstring.dll 行首的“;”去掉；    <br> 将 ;session.save_path = &quot;/tmp&quot; 改为 session.save_path = &quot;D:/website/php/session_temp&quot;; （即将行首的’;’去掉，并设置保存session的目录）</p>  <p> 重新启动 Apache 服务。   <br> 到这里，Apache + Php + MySQL 就基本配置完成了，在Web根目录下（即 d:\website\public_html\ 目录）中，用文本编辑软件创建一个 testdb.php 文件，其内容如下：</p>  <p>&lt;?php   <br>$link=MySQL_connect(’MySQL服务器名’,’MySQL用户名’,’密码’);    <br>if(!$link) echo &quot;Error !&quot;;    <br>else echo &quot;Ok!&quot;;    <br>MySQL_close();    <br>?&gt;</p>  <p>用浏览器打开 <a href="http://localhost/testdb.php" target="_blank" rel="noopener">http://localhost/testdb.php</a> 如果看到输出 OK! 就说明配置正常。</p>  <p></p>
 </li>
 <li><p>四、phpMyAdmin 的安装配置</p>
-<p>  从 phpMyAdmin官方网站下载 phpMyAdmin-2.6.1-pl3.zip，然后将其解压缩到WEB根目录（即 d:\website\public_html\ 目录）中，重命名文件夹为 phpmyadmin（这个随便，你可以填写任何你愿意使用的名字）。</p>  <p> 用文本编辑软件打开 d:\website\public_html\phpmyadmin\config.inc.php 文件，找到这两行内容：   <br>$cfg[’Servers’][$i][’user’] = ‘root’;    <br>$cfg[’Servers’][$i][’password’] = ‘123456′;</p>  <p> 分别填上 MySQL 的用户和密码即可。如不是本地使用，最好加上验证：</p>  <p> 即将：$cfg[’Servers’][$i][’auth_type’] = ‘config’; 修改为 $cfg[’Servers’][$i][’auth_type’] = ‘http’;</p>  <p> 最后再设置一下 phpmyadmin 的路径，即将 $cfg[’PmaAbsoluteUri’] = ”; 改为 $cfg[’PmaAbsoluteUri’] = ‘<a href="http://localhost/phpmyadmin%27;" target="_blank" rel="external">http://localhost/phpmyadmin’;</a></p>  <p></p>
+<p>  从 phpMyAdmin官方网站下载 phpMyAdmin-2.6.1-pl3.zip，然后将其解压缩到WEB根目录（即 d:\website\public_html\ 目录）中，重命名文件夹为 phpmyadmin（这个随便，你可以填写任何你愿意使用的名字）。</p>  <p> 用文本编辑软件打开 d:\website\public_html\phpmyadmin\config.inc.php 文件，找到这两行内容：   <br>$cfg[’Servers’][$i][’user’] = ‘root’;    <br>$cfg[’Servers’][$i][’password’] = ‘123456′;</p>  <p> 分别填上 MySQL 的用户和密码即可。如不是本地使用，最好加上验证：</p>  <p> 即将：$cfg[’Servers’][$i][’auth_type’] = ‘config’; 修改为 $cfg[’Servers’][$i][’auth_type’] = ‘http’;</p>  <p> 最后再设置一下 phpmyadmin 的路径，即将 $cfg[’PmaAbsoluteUri’] = ”; 改为 $cfg[’PmaAbsoluteUri’] = ‘<a href="http://localhost/phpmyadmin%27;" target="_blank" rel="noopener">http://localhost/phpmyadmin’;</a></p>  <p></p>
 </li>
 <li><p>五、WordPress 的安装</p>
-<p>  首先在MySQL中为wordpress创建一个新的数据库，特别提示：推荐使用二进制（binary）编码的数据库，否则将有可能导致 Wordpress 出现乱码；   <br> 其次从Wordpress官方网站下载压缩包，然后将 wordpress 解压缩到网页根目录（pub_html）下，并用记事本打开 wp-config-sample.php 文件，编辑如下字段：    <br> // <strong> MySQL settings </strong> //    <br> define(’DB_NAME’, ‘database_name’); // 数据库名    <br> define(’DB_USER’, ‘MySQL_user’); // MYSQL用户名    <br> define(’DB_PASSWORD’, ‘MySQL_pwd’); // MYSQL用户密码    <br> define(’DB_HOST’, ‘localhost’); // 一般情况下保持 localhost 即可    <br> 做完以上更改，保存退出，并将文件改名为 wp-config.php 文件。</p>  <p> 最后运行 <a href="http://localhost/wp/wp-admin/install.php" target="_blank" rel="external">http://localhost/wp/wp-admin/install.php</a> 根据向导完成安装，需要注意的是，安装向导的最后一步会随机生成登录密码，你需要记录下这个密码，然后以此用户名、密码登录，在后台管理的 user 中修改密码、配置WP的属性等等……</p>  <p>OK，经过上述步骤，一个 Apache + Php + MySQL + phpMyAdmin + Wordpress 的环境就基本上搭建好啦，呵呵，尽管还比较简陋。</p>  <p>PS.顺便推荐几个较好的程序：</p>  <p><a href="http://awstats.sourceforge.net/AWstats" target="_blank" rel="external">http://awstats.sourceforge.net/AWstats</a> ；    <br><a href="http://www.sixapart.com/movabletype/MovableType" target="_blank" rel="external">http://www.sixapart.com/movabletype/MovableType</a> ；    <br><a href="http://www.mamboserver.com/Mambo" target="_blank" rel="external">http://www.mamboserver.com/Mambo</a> 。</p><p></p><p></p>
+<p>  首先在MySQL中为wordpress创建一个新的数据库，特别提示：推荐使用二进制（binary）编码的数据库，否则将有可能导致 Wordpress 出现乱码；   <br> 其次从Wordpress官方网站下载压缩包，然后将 wordpress 解压缩到网页根目录（pub_html）下，并用记事本打开 wp-config-sample.php 文件，编辑如下字段：    <br> // <strong> MySQL settings </strong> //    <br> define(’DB_NAME’, ‘database_name’); // 数据库名    <br> define(’DB_USER’, ‘MySQL_user’); // MYSQL用户名    <br> define(’DB_PASSWORD’, ‘MySQL_pwd’); // MYSQL用户密码    <br> define(’DB_HOST’, ‘localhost’); // 一般情况下保持 localhost 即可    <br> 做完以上更改，保存退出，并将文件改名为 wp-config.php 文件。</p>  <p> 最后运行 <a href="http://localhost/wp/wp-admin/install.php" target="_blank" rel="noopener">http://localhost/wp/wp-admin/install.php</a> 根据向导完成安装，需要注意的是，安装向导的最后一步会随机生成登录密码，你需要记录下这个密码，然后以此用户名、密码登录，在后台管理的 user 中修改密码、配置WP的属性等等……</p>  <p>OK，经过上述步骤，一个 Apache + Php + MySQL + phpMyAdmin + Wordpress 的环境就基本上搭建好啦，呵呵，尽管还比较简陋。</p>  <p>PS.顺便推荐几个较好的程序：</p>  <p><a href="http://awstats.sourceforge.net/AWstats" target="_blank" rel="noopener">http://awstats.sourceforge.net/AWstats</a> ；    <br><a href="http://www.sixapart.com/movabletype/MovableType" target="_blank" rel="noopener">http://www.sixapart.com/movabletype/MovableType</a> ；    <br><a href="http://www.mamboserver.com/Mambo" target="_blank" rel="noopener">http://www.mamboserver.com/Mambo</a> 。</p><p></p><p></p>
 </li>
 </ul>
 
@@ -252,7 +253,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2006/07/28/apache-php-mysql-wordpress/" data-id="cj9h8m7pu002ia0lr5a6g8muj" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+    <a data-url="http://hivandu.github.io/2006/07/28/apache-php-mysql-wordpress/" data-id="cjhyy6wo5002pmllrtqwhvtic" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -320,7 +321,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2006/07/28/apache-php-mysql-wordpress/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2006/07/28/apache-php-mysql-wordpress/">Comentarios</a>
+        <a href="http://hivandu.github.io/2006/07/28/apache-php-mysql-wordpress/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2006/07/28/apache-php-mysql-wordpress/">Comments</a>
     
 
         </footer>
@@ -330,7 +331,7 @@
 <nav id="article-nav">
     
         <a href="/2006/09/22/picasaweb/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Más nuevo</strong>
+            <strong class="article-nav-caption">Newer</strong>
             <div class="article-nav-title">
                 
                     picasaweb
@@ -340,7 +341,7 @@
     
     
         <a href="/2006/07/27/phpwind-wamp-10/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Más viejo</strong>
+            <strong class="article-nav-caption">Older</strong>
             <div class="article-nav-title">PHPWind Wamp 1.0 正式版发布</div>
         </a>
     
@@ -368,9 +369,18 @@
    
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Recientes</h3>
+        <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/06/02/homebrew-manage-node-version/" class="title">[homebrew manage node version]</a></p>
+                            <p class="item-date"><time datetime="2018-06-01T16:55:16.000Z" itemprop="datePublished">2018-06-02</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -408,15 +418,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2017/02/13/npm-check/" class="title">npm-check</a></p>
-                            <p class="item-date"><time datetime="2017-02-13T02:54:03.000Z" itemprop="datePublished">2017-02-13</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -424,7 +425,7 @@
     
         
     <div class="widget-wrap widget-list">
-        <h3 class="widget-title">Links</h3>
+        <h3 class="widget-title">links</h3>
         <div class="widget">
             <ul>
                 
@@ -445,7 +446,7 @@
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2017 Hivan Du<br>
+            &copy; 2018 Hivan Du<br>
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>

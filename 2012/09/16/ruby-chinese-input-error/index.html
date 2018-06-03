@@ -12,6 +12,7 @@
 <meta property="og:url" content="http://hivandu.github.io/2012/09/16/ruby-chinese-input-error/index.html">
 <meta property="og:site_name" content="Duart">
 <meta property="og:description" content="这里是有需求了才知道有麻烦了.一直按照剧本来演, 根本就不知道自己再超脱剧本之外有多大的创造力.而当自己真的开始尝试了以后,才知道有这样那样诸多的问题.">
+<meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2015-11-20T08:23:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ruby Chinese input error">
@@ -68,7 +69,7 @@
             <div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
@@ -87,10 +88,10 @@
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Entradas',
+            POSTS: 'Posts',
             PAGES: 'Pages',
-            CATEGORIES: 'Categorias',
-            TAGS: 'Etiquetas',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
             UNTITLED: '(Untitled)',
         },
         ROOT_URL: '/',
@@ -115,7 +116,7 @@
                 <td>
                     
     <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
     </div>
 
                 </td>
@@ -135,16 +136,16 @@
             <h2 id="name">Hivan Du</h2>
             <h3 id="title">Web Developer &amp; Designer</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Shanghai, China</span>
-            <a id="follow" target="_blank" href="https://github.com/hivandu">SEGUIR</a>
+            <a id="follow" target="_blank" href="https://github.com/hivandu">FOLLOW</a>
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                151
-                <span>Entradas</span>
+                152
+                <span>posts</span>
             </div>
             <div class="article-info-block">
-                240
-                <span>Etiquetas</span>
+                242
+                <span>tags</span>
             </div>
         </div>
         
@@ -213,13 +214,13 @@
             
             <p>这里是有需求了才知道有麻烦了.一直按照剧本来演, 根本就不知道自己再超脱剧本之外有多大的创造力.而当自己真的开始尝试了以后,才知道有这样那样诸多的问题.</p>
 <a id="more"></a>
-<p>本来这次是想编写一个小程序,就是自用的一套工资结算程序.很简单的文字输入输出.而问题来了,无法打印出中文.当时给出的错误是 <code>invalid multibyte char (US-ASCII)</code>, 当然这个错误一眼就能看出来,是编码问题.在我之前写的博客里也有<a href="http://hivan.me/ruby-chinese-error-ascii/" target="_blank" rel="external">关于中文输入的错误</a>,按照传说中的秘籍来做就是再文件开头加上一个声明:<code># encoding: utf-8</code>, 不过这并不能完全解决.因为其实不是每一个人都用的是UTF-8代码编辑器来写的.我再任意操作系统下都使用的是”Sublime Text 2”,所以默认是UTF-8编码,而如果您使用的是Eclipse,那么您可以这个问题并不能如愿解决.原因就是Eclipse默认使用的将会是GBK,所以,请再 设置 -&gt; 工作空间 里将编码由GBK更改为UTF-8.</p>
+<p>本来这次是想编写一个小程序,就是自用的一套工资结算程序.很简单的文字输入输出.而问题来了,无法打印出中文.当时给出的错误是 <code>invalid multibyte char (US-ASCII)</code>, 当然这个错误一眼就能看出来,是编码问题.在我之前写的博客里也有<a href="http://hivan.me/ruby-chinese-error-ascii/" target="_blank" rel="noopener">关于中文输入的错误</a>,按照传说中的秘籍来做就是再文件开头加上一个声明:<code># encoding: utf-8</code>, 不过这并不能完全解决.因为其实不是每一个人都用的是UTF-8代码编辑器来写的.我再任意操作系统下都使用的是”Sublime Text 2”,所以默认是UTF-8编码,而如果您使用的是Eclipse,那么您可以这个问题并不能如愿解决.原因就是Eclipse默认使用的将会是GBK,所以,请再 设置 -&gt; 工作空间 里将编码由GBK更改为UTF-8.</p>
 <p>另外要说明一下的是Ruby有一个很方便的测试程序,就是irb,原则上,任何Ruby程序都可以用irb进行方便的测试.当然,当你exit以后,这些程序就都作废了.我再irb中进行了中文输入测试,完全不行,会自动转码. 这个问题其实是在1.9.3版本上比较突出.解决的方法也很简单,就是没有安装readline的安装一下,而安装完readline以后问题依旧的,请从新编译一遍.方法如下:</p>
 <h3 id="1-安装Readline"><a href="#1-安装Readline" class="headerlink" title="1. 安装Readline"></a>1. 安装Readline</h3><p>安装Readline我是使用RVM安装的,当然,你首先也要安装RVM,具体的安装步骤可以参见Ruby-China</p>
 <h3 id="2-重新编译"><a href="#2-重新编译" class="headerlink" title="2. 重新编译"></a>2. 重新编译</h3><p>如果安装了Readline以后仍然不能输入中文,那么可能就需要从新编译Readline了,可能从新编译Ruby也可以,但是我还是选择了前者.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ cd $HOME/.rvm/src/ruby-1.9.3*/ext/readline</div><div class="line">$ ruby extconf.rb -- --with-readline-dir=&quot;/usr/local/Cellar/readline/6.2.2&quot;</div><div class="line">$ make install</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ cd $HOME/.rvm/src/ruby-1.9.3*/ext/readline</span><br><span class="line">$ ruby extconf.rb -- --with-readline-dir=&quot;/usr/local/Cellar/readline/6.2.2&quot;</span><br><span class="line">$ make install</span><br></pre></td></tr></table></figure>
 <p>然后再测试一下是否可以输入中文了:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">irb :001 &gt; &quot;这些傻逼愤青&quot;</div><div class="line">=&gt; &quot;这些傻逼愤青&quot;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">irb :001 &gt; &quot;这些傻逼愤青&quot;</span><br><span class="line">=&gt; &quot;这些傻逼愤青&quot;</span><br></pre></td></tr></table></figure>
 <p>OK,至此问题应该解决了.如果您的问题还没有解决,那暂时我也不知道该怎样做了!再问问其他大牛吧.</p>
 
         
@@ -231,7 +232,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2012/09/16/ruby-chinese-input-error/" data-id="cj9h8m7vo0098a0lrrmd9mdlf" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+    <a data-url="http://hivandu.github.io/2012/09/16/ruby-chinese-input-error/" data-id="cjhyy6wxo00hmmllrakz2abyd" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -299,7 +300,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2012/09/16/ruby-chinese-input-error/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/09/16/ruby-chinese-input-error/">Comentarios</a>
+        <a href="http://hivandu.github.io/2012/09/16/ruby-chinese-input-error/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/09/16/ruby-chinese-input-error/">Comments</a>
     
 
         </footer>
@@ -309,7 +310,7 @@
 <nav id="article-nav">
     
         <a href="/2012/11/05/ruby-「file」/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Más nuevo</strong>
+            <strong class="article-nav-caption">Newer</strong>
             <div class="article-nav-title">
                 
                     ruby-「file」
@@ -319,7 +320,7 @@
     
     
         <a href="/2012/07/27/ruby-chinese-error-ascii/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Más viejo</strong>
+            <strong class="article-nav-caption">Older</strong>
             <div class="article-nav-title">Ruby 中文错误-ASCII</div>
         </a>
     
@@ -347,9 +348,18 @@
    
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Recientes</h3>
+        <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/06/02/homebrew-manage-node-version/" class="title">[homebrew manage node version]</a></p>
+                            <p class="item-date"><time datetime="2018-06-01T16:55:16.000Z" itemprop="datePublished">2018-06-02</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -387,15 +397,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2017/02/13/npm-check/" class="title">npm-check</a></p>
-                            <p class="item-date"><time datetime="2017-02-13T02:54:03.000Z" itemprop="datePublished">2017-02-13</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -403,7 +404,7 @@
     
         
     <div class="widget-wrap widget-list">
-        <h3 class="widget-title">Links</h3>
+        <h3 class="widget-title">links</h3>
         <div class="widget">
             <ul>
                 
@@ -424,7 +425,7 @@
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2017 Hivan Du<br>
+            &copy; 2018 Hivan Du<br>
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>

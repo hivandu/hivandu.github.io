@@ -12,6 +12,7 @@
 <meta property="og:url" content="http://hivandu.github.io/2006/10/20/How-to-add-emoticons-in-wordpress-background/index.html">
 <meta property="og:site_name" content="Duart">
 <meta property="og:description" content="本文来自zengrong  这应该是比较老的话题了，请参阅Smilies in WP (wp中的表情)  WordPress自带了二十多个表情符号:  这些符号是使用代码插入的，要记住这些代码可不太容易，因此如果将这些表情符号嵌入到后台就方便了。">
+<meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2013-12-18T02:39:11.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何在WordPress后台中加入表情符号">
@@ -68,7 +69,7 @@
             <div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
@@ -87,10 +88,10 @@
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Entradas',
+            POSTS: 'Posts',
             PAGES: 'Pages',
-            CATEGORIES: 'Categorias',
-            TAGS: 'Etiquetas',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
             UNTITLED: '(Untitled)',
         },
         ROOT_URL: '/',
@@ -115,7 +116,7 @@
                 <td>
                     
     <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
     </div>
 
                 </td>
@@ -135,16 +136,16 @@
             <h2 id="name">Hivan Du</h2>
             <h3 id="title">Web Developer &amp; Designer</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Shanghai, China</span>
-            <a id="follow" target="_blank" href="https://github.com/hivandu">SEGUIR</a>
+            <a id="follow" target="_blank" href="https://github.com/hivandu">FOLLOW</a>
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                151
-                <span>Entradas</span>
+                152
+                <span>posts</span>
             </div>
             <div class="article-info-block">
-                240
-                <span>Etiquetas</span>
+                242
+                <span>tags</span>
             </div>
         </div>
         
@@ -211,7 +212,7 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p></p><p>本文来自<a href="http://www.zengrong.net/wp-trackback.php?p=109" target="_blank" rel="external">zengrong</a></p>  <p>这应该是比较老的话题了，请参阅<a href="http://dark.supercn.net/index.php/81/" target="_blank" rel="external">Smilies in WP (wp中的表情)</a></p>  <p>WordPress自带了二十多个表情符号:</p>  <p>这些符号是使用代码插入的，要记住这些代码可不太容易，因此如果将这些表情符号嵌入到后台就方便了。</p> <a id="more"></a>  <p>   <br>方法也并不麻烦，首先下载<a href="http://www.alexking.org/blog/2004/01/24/wp-grins-clickable-smilies-hack/" target="_blank" rel="external"> WP-Grins</a>这个插件，按正常方式安装。由于此插件并不是针对2.0开发，因此要先修改一下。找到wp-grins.php中的下面这句（大约在34行）</p>  <blockquote>   <p>$grins .= ‘&lt;img src=&quot;’.get_settings(‘siteurl’).’/wp-images/smilies/‘.$grin.’&quot; alt=&quot;’.$tag.’&quot; onclick=&quot;grin(\’’.$tag.’\’);&quot;/&gt; ‘;</p> </blockquote>  <p>将其中的“/wp-images/smilies/”    <br>修改为“/wp-includes/images/smilies/”。</p>  <p>安装后在插件管理器中激活它，然后编辑“/wp-admin/admin-functions.php”文件，搜索“ edToolbar();”，大约在1079行，找到下面这句</p>  <blockquote>   <p>if (!strstr($_SERVER[‘HTTP_USER_AGENT’], ‘Safari’))      <br>echo ‘       <br>&lt;div id=&quot;quicktags&quot;&gt;       <br>&lt;script src=&quot;../wp-includes/js/quicktags.js&quot;       <br>type=&quot;text/javascript&quot;&gt;&lt;/script&gt;       <br>&lt;script type=&quot;text/javascript&quot;&gt;if ( typeof tinyMCE ==       <br>&quot;undefined&quot; || tinyMCE.configs.length &lt; 1 ) edToolbar();&lt;/script&gt;       <br>&lt;/div&gt;       <br>‘;</p> </blockquote>  <p>再上面这句之下加入：</p>  <blockquote>   <p>if (function_exists(&quot;wp_grins&quot;)) { echo &quot;&quot;; wp_grins(); }&#160;&#160;&#160; //zrong added</p> </blockquote>  <p>修改完毕上传，打开后台撰写文章即可看到，可爱的表情已经加入到编辑器中了。</p>  <p>如果要将这些表情也加入到评论页面中，可以在主模版的comments.php中搜索如下语句（可能不完全相同）：</p>  <blockquote>   <p>&lt;p&gt;      <br>&lt;textarea class=&quot;textform&quot; name=&quot;comment&quot; id=&quot;comment&quot; cols=&quot;100%&quot;rows=&quot;10&quot; tabindex=&quot;4&quot;&gt;&lt;/textarea&gt;       <br>&lt;/p&gt;</p> </blockquote>  <p>在其上加入如下PHP语句即可：</p>  <blockquote>   <p>&lt;?php wp_grins(); ?&gt;</p> </blockquote>  <p>完毕。记下来也方便自己查找。    <br>顺便：</p>  <p>如果想在页面中加入表情，还可以借助<a href="http://www.coolcode.cn/?p=74" target="_blank" rel="external">Emotions</a>这个插件。</p><p></p>
+            <p></p><p>本文来自<a href="http://www.zengrong.net/wp-trackback.php?p=109" target="_blank" rel="noopener">zengrong</a></p>  <p>这应该是比较老的话题了，请参阅<a href="http://dark.supercn.net/index.php/81/" target="_blank" rel="noopener">Smilies in WP (wp中的表情)</a></p>  <p>WordPress自带了二十多个表情符号:</p>  <p>这些符号是使用代码插入的，要记住这些代码可不太容易，因此如果将这些表情符号嵌入到后台就方便了。</p> <a id="more"></a>  <p>   <br>方法也并不麻烦，首先下载<a href="http://www.alexking.org/blog/2004/01/24/wp-grins-clickable-smilies-hack/" target="_blank" rel="noopener"> WP-Grins</a>这个插件，按正常方式安装。由于此插件并不是针对2.0开发，因此要先修改一下。找到wp-grins.php中的下面这句（大约在34行）</p>  <blockquote>   <p>$grins .= ‘&lt;img src=&quot;’.get_settings(‘siteurl’).’/wp-images/smilies/‘.$grin.’&quot; alt=&quot;’.$tag.’&quot; onclick=&quot;grin(\’’.$tag.’\’);&quot;/&gt; ‘;</p> </blockquote>  <p>将其中的“/wp-images/smilies/”    <br>修改为“/wp-includes/images/smilies/”。</p>  <p>安装后在插件管理器中激活它，然后编辑“/wp-admin/admin-functions.php”文件，搜索“ edToolbar();”，大约在1079行，找到下面这句</p>  <blockquote>   <p>if (!strstr($_SERVER[‘HTTP_USER_AGENT’], ‘Safari’))      <br>echo ‘       <br>&lt;div id=&quot;quicktags&quot;&gt;       <br>&lt;script src=&quot;../wp-includes/js/quicktags.js&quot;       <br>type=&quot;text/javascript&quot;&gt;&lt;/script&gt;       <br>&lt;script type=&quot;text/javascript&quot;&gt;if ( typeof tinyMCE ==       <br>&quot;undefined&quot; || tinyMCE.configs.length &lt; 1 ) edToolbar();&lt;/script&gt;       <br>&lt;/div&gt;       <br>‘;</p> </blockquote>  <p>再上面这句之下加入：</p>  <blockquote>   <p>if (function_exists(&quot;wp_grins&quot;)) { echo &quot;&quot;; wp_grins(); }&#160;&#160;&#160; //zrong added</p> </blockquote>  <p>修改完毕上传，打开后台撰写文章即可看到，可爱的表情已经加入到编辑器中了。</p>  <p>如果要将这些表情也加入到评论页面中，可以在主模版的comments.php中搜索如下语句（可能不完全相同）：</p>  <blockquote>   <p>&lt;p&gt;      <br>&lt;textarea class=&quot;textform&quot; name=&quot;comment&quot; id=&quot;comment&quot; cols=&quot;100%&quot;rows=&quot;10&quot; tabindex=&quot;4&quot;&gt;&lt;/textarea&gt;       <br>&lt;/p&gt;</p> </blockquote>  <p>在其上加入如下PHP语句即可：</p>  <blockquote>   <p>&lt;?php wp_grins(); ?&gt;</p> </blockquote>  <p>完毕。记下来也方便自己查找。    <br>顺便：</p>  <p>如果想在页面中加入表情，还可以借助<a href="http://www.coolcode.cn/?p=74" target="_blank" rel="noopener">Emotions</a>这个插件。</p><p></p>
 
         
         </div>
@@ -222,7 +223,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2006/10/20/How-to-add-emoticons-in-wordpress-background/" data-id="cj9h8m7oi0004a0lrr9t33wq0" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+    <a data-url="http://hivandu.github.io/2006/10/20/How-to-add-emoticons-in-wordpress-background/" data-id="cjhyy6wm00004mllrxkcz05c8" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -290,7 +291,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2006/10/20/How-to-add-emoticons-in-wordpress-background/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2006/10/20/How-to-add-emoticons-in-wordpress-background/">Comentarios</a>
+        <a href="http://hivandu.github.io/2006/10/20/How-to-add-emoticons-in-wordpress-background/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2006/10/20/How-to-add-emoticons-in-wordpress-background/">Comments</a>
     
 
         </footer>
@@ -299,18 +300,18 @@
         
 <nav id="article-nav">
     
-        <a href="/2006/10/23/google-code-search/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Más nuevo</strong>
+        <a href="/2006/10/23/ireader/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
             <div class="article-nav-title">
                 
-                    Google正式推出代码搜索 Code Search
+                    iReader
                 
             </div>
         </a>
     
     
         <a href="/2006/10/16/wordpress-plugin-ajaxified-expand-now/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Más viejo</strong>
+            <strong class="article-nav-caption">Older</strong>
             <div class="article-nav-title">WordPress plugin – Ajaxified Expand NOW</div>
         </a>
     
@@ -338,9 +339,18 @@
    
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Recientes</h3>
+        <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/06/02/homebrew-manage-node-version/" class="title">[homebrew manage node version]</a></p>
+                            <p class="item-date"><time datetime="2018-06-01T16:55:16.000Z" itemprop="datePublished">2018-06-02</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -378,15 +388,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2017/02/13/npm-check/" class="title">npm-check</a></p>
-                            <p class="item-date"><time datetime="2017-02-13T02:54:03.000Z" itemprop="datePublished">2017-02-13</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -394,7 +395,7 @@
     
         
     <div class="widget-wrap widget-list">
-        <h3 class="widget-title">Links</h3>
+        <h3 class="widget-title">links</h3>
         <div class="widget">
             <ul>
                 
@@ -415,7 +416,7 @@
         <footer id="footer">
     <div class="outer">
         <div id="footer-info" class="inner">
-            &copy; 2017 Hivan Du<br>
+            &copy; 2018 Hivan Du<br>
             Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
         </div>
     </div>
