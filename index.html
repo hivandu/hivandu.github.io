@@ -64,7 +64,7 @@
             <div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Rechercher" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
@@ -83,9 +83,9 @@
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Posts',
+            POSTS: 'Articles',
             PAGES: 'Pages',
-            CATEGORIES: 'Categories',
+            CATEGORIES: 'Catégories',
             TAGS: 'Tags',
             UNTITLED: '(Untitled)',
         },
@@ -111,7 +111,7 @@
                 <td>
                     
     <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Rechercher" />
     </div>
 
                 </td>
@@ -131,16 +131,16 @@
             <h2 id="name">Hivan Du</h2>
             <h3 id="title">Web Developer &amp; Designer</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Shanghai, China</span>
-            <a id="follow" target="_blank" href="https://github.com/hivandu">FOLLOW</a>
+            <a id="follow" target="_blank" href="https://github.com/hivandu">SUIVRE</a>
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                152
-                <span>posts</span>
+                153
+                <span>Articles</span>
             </div>
             <div class="article-info-block">
-                243
-                <span>tags</span>
+                245
+                <span>Tags</span>
             </div>
         </div>
         
@@ -167,7 +167,7 @@
 
             
             <section id="main">
-    <article id="post-rpmdb-open-failed" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-avn-change-node-version-for-a-project" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -176,7 +176,7 @@
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2018/06/06/rpmdb-open-failed/">rpmdb open failed</a>
+            <a class="article-title" href="/2018/06/13/avn-change-node-version-for-a-project/">针对某一个项目自动切换node版本</a>
         </h1>
     
 
@@ -184,8 +184,8 @@
                     
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2018/06/06/rpmdb-open-failed/">
-            <time datetime="2018-06-06T06:39:24.000Z" itemprop="datePublished">2018-06-06</time>
+        <a href="/2018/06/13/avn-change-node-version-for-a-project/">
+            <time datetime="2018-06-12T16:26:09.000Z" itemprop="datePublished">2018-06-13</time>
         </a>
     </div>
 
@@ -194,7 +194,7 @@
                     
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/centOS/">centOS</a>, <a class="tag-link" href="/tags/rpm/">rpm</a>, <a class="tag-link" href="/tags/yum/">yum</a>
+        <a class="tag-link" href="/tags/avn/">avn</a>, <a class="tag-link" href="/tags/node/">node</a>, <a class="tag-link" href="/tags/version/">version</a>
     </div>
 
                 </div>
@@ -202,9 +202,14 @@
         
         <div class="article-entry" itemprop="articleBody">
         
-            
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@dhcp yum.repos.d]# cd /var/lib/rpm/</span><br><span class="line">[root@dhcp rpm]# ls</span><br><span class="line">[root@dhcp rpm]# rm __db.* -rf</span><br><span class="line">[root@dhcp rpm]# rpm --rebuilddb</span><br><span class="line">[root@dhcp rpm]# yum clean all</span><br><span class="line">[root@dhcp rpm]# yum update</span><br></pre></td></tr></table></figure>
-
+            <p><p><code>nvm</code>作为node的版本管理器，并不具备自动切换版本切换的功能，有的时候我们需要针对某一个项目切换当前的node版本，这个时候就需要用到其他工具了。比如<code>avn</code></p>
+<p>举例项目:<code>project</code></p>
+<p>因为最近Node更新到10之后，我将系统默认版本切换到了10，有不更新不舒服斯基强迫症<br>而<code>project</code> 编译的版本为8，否则会出现编译出错。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ brew install nvm</span><br><span class="line">$ nvm i -g avn</span><br><span class="line">$ avn steup</span><br></pre></td></tr></table></figure>
+<p>之后在<code>project</code>根目录中添加一个文件<code>.node-version</code></p></p>
+            <p class="article-more-link">
+                <a href="/2018/06/13/avn-change-node-version-for-a-project/#more">Read More</a>
+            </p>
         
         </div>
         <footer class="article-footer">
@@ -214,7 +219,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2018/06/06/rpmdb-open-failed/" data-id="cji2qv4wh00dkqmrl5mzuvi4b" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2018/06/13/avn-change-node-version-for-a-project/" data-id="cjibwub52002itorlf9dbedex" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -282,7 +287,132 @@
 
             
     
-        <a href="http://hivandu.github.io/2018/06/06/rpmdb-open-failed/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2018/06/06/rpmdb-open-failed/">Comments</a>
+        <a href="http://hivandu.github.io/2018/06/13/avn-change-node-version-for-a-project/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2018/06/13/avn-change-node-version-for-a-project/">Commentaires</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-rpmdb-open-failed" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2018/06/06/rpmdb-open-failed/">rpmdb open failed</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/06/06/rpmdb-open-failed/">
+            <time datetime="2018-06-06T06:39:24.000Z" itemprop="datePublished">2018-06-06</time>
+        </a>
+    </div>
+
+
+                    
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/centOS/">centOS</a>, <a class="tag-link" href="/tags/rpm/">rpm</a>, <a class="tag-link" href="/tags/yum/">yum</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@dhcp yum.repos.d]# cd /var/lib/rpm/</span><br><span class="line">[root@dhcp rpm]# ls</span><br><span class="line">[root@dhcp rpm]# rm __db.* -rf</span><br><span class="line">[root@dhcp rpm]# rpm --rebuilddb</span><br><span class="line">[root@dhcp rpm]# yum clean all</span><br><span class="line">[root@dhcp rpm]# yum update</span><br></pre></td></tr></table></figure>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://hivandu.github.io/2018/06/06/rpmdb-open-failed/" data-id="cjibwub96008ztorlso4ibuz3" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://hivandu.github.io/2018/06/06/rpmdb-open-failed/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2018/06/06/rpmdb-open-failed/">Commentaires</a>
     
 
         </footer>
@@ -344,7 +474,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2017/11/01/vux-tabbar-selected/" data-id="cji2qv4xl00fiqmrlnl3xabu5" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2017/11/01/vux-tabbar-selected/" data-id="cjibwub9u00aftorljuyj476g" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -412,7 +542,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2017/11/01/vux-tabbar-selected/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2017/11/01/vux-tabbar-selected/">Comments</a>
+        <a href="http://hivandu.github.io/2017/11/01/vux-tabbar-selected/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2017/11/01/vux-tabbar-selected/">Commentaires</a>
     
 
         </footer>
@@ -468,7 +598,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2017/09/23/ssh-link-server-use-iTerm2/" data-id="cji2qv4xg00f8qmrloaxb3m43" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2017/09/23/ssh-link-server-use-iTerm2/" data-id="cjibwub9r00aatorl6b6hhexn" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -536,7 +666,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2017/09/23/ssh-link-server-use-iTerm2/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2017/09/23/ssh-link-server-use-iTerm2/">Comments</a>
+        <a href="http://hivandu.github.io/2017/09/23/ssh-link-server-use-iTerm2/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2017/09/23/ssh-link-server-use-iTerm2/">Commentaires</a>
     
 
         </footer>
@@ -601,7 +731,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2017/06/29/sketch-open-hight-version-file/" data-id="cji2qv4x900eqqmrlbu5mhqxo" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2017/06/29/sketch-open-hight-version-file/" data-id="cjibwub9g009ktorlof3s2vam" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -669,7 +799,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2017/06/29/sketch-open-hight-version-file/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2017/06/29/sketch-open-hight-version-file/">Comments</a>
+        <a href="http://hivandu.github.io/2017/06/29/sketch-open-hight-version-file/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2017/06/29/sketch-open-hight-version-file/">Commentaires</a>
     
 
         </footer>
@@ -728,7 +858,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2017/05/14/set-Dynamic-universe-canvas/" data-id="cji2qv4x400efqmrl13wwl1g7" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2017/05/14/set-Dynamic-universe-canvas/" data-id="cjibwub9h009ntorl0h35b5l3" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -796,7 +926,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2017/05/14/set-Dynamic-universe-canvas/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2017/05/14/set-Dynamic-universe-canvas/">Comments</a>
+        <a href="http://hivandu.github.io/2017/05/14/set-Dynamic-universe-canvas/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2017/05/14/set-Dynamic-universe-canvas/">Commentaires</a>
     
 
         </footer>
@@ -872,7 +1002,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2017/02/13/npm-check/" data-id="cji2qv4w400czqmrleb3h5nzn" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2017/02/13/npm-check/" data-id="cjibwub8h007xtorli0mm4w3g" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -940,7 +1070,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2017/02/13/npm-check/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2017/02/13/npm-check/">Comments</a>
+        <a href="http://hivandu.github.io/2017/02/13/npm-check/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2017/02/13/npm-check/">Commentaires</a>
     
 
         </footer>
@@ -1007,7 +1137,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2016/12/30/vue2.0-custom-filter-to-global/" data-id="cji2qv4xi00fbqmrlxkd0nb7r" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2016/12/30/vue2.0-custom-filter-to-global/" data-id="cjibwub9p00a6torlp78wfnpk" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1075,7 +1205,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2016/12/30/vue2.0-custom-filter-to-global/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2016/12/30/vue2.0-custom-filter-to-global/">Comments</a>
+        <a href="http://hivandu.github.io/2016/12/30/vue2.0-custom-filter-to-global/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2016/12/30/vue2.0-custom-filter-to-global/">Commentaires</a>
     
 
         </footer>
@@ -1134,7 +1264,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2016/08/25/mac-False-Desktop-icon/" data-id="cji2qv4v800b3qmrluwa8xoeb" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2016/08/25/mac-False-Desktop-icon/" data-id="cjibwub7w006dtorlq3p314pv" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1202,7 +1332,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2016/08/25/mac-False-Desktop-icon/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2016/08/25/mac-False-Desktop-icon/">Comments</a>
+        <a href="http://hivandu.github.io/2016/08/25/mac-False-Desktop-icon/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2016/08/25/mac-False-Desktop-icon/">Commentaires</a>
     
 
         </footer>
@@ -1261,7 +1391,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2016/08/20/mac-port-occupied/" data-id="cji2qv4vb00bdqmrl188i3yxe" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2016/08/20/mac-port-occupied/" data-id="cjibwub82006ttorltdyp7631" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1329,133 +1459,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2016/08/20/mac-port-occupied/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2016/08/20/mac-port-occupied/">Comments</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-install-node-to-Debian" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2016/07/28/install-node-to-Debian/">Debian上安装Node服务器</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2016/07/28/install-node-to-Debian/">
-            <time datetime="2016-07-28T08:43:17.000Z" itemprop="datePublished">2016-07-28</time>
-        </a>
-    </div>
-
-
-                    
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Debian/">Debian</a>, <a class="tag-link" href="/tags/Linux/">Linux</a>, <a class="tag-link" href="/tags/Node/">Node</a>, <a class="tag-link" href="/tags/Server/">Server</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><h3 id="本教程只针对我自己，记录用，而且并不是完整版，不对其他人负责。请尽量不要参照本文"><a href="#本教程只针对我自己，记录用，而且并不是完整版，不对其他人负责。请尽量不要参照本文" class="headerlink" title="本教程只针对我自己，记录用，而且并不是完整版，不对其他人负责。请尽量不要参照本文"></a>本教程只针对我自己，记录用，而且并不是完整版，不对其他人负责。请尽量不要参照本文</h3><p>最近一直在学习NodeJS，本地上玩的差不多了，总要去架设个服务器跑一下，选择了<strong>digitalocean</strong>加的$5/mo 服务，安装了个Debian，至于为什么是Debian，好吧，因为。。。</p></p>
-            <p class="article-more-link">
-                <a href="/2016/07/28/install-node-to-Debian/#more">Read More</a>
-            </p>
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="http://hivandu.github.io/2016/07/28/install-node-to-Debian/" data-id="cji2qv4ue009yqmrl6hgsvo22" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="http://hivandu.github.io/2016/07/28/install-node-to-Debian/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2016/07/28/install-node-to-Debian/">Comments</a>
+        <a href="http://hivandu.github.io/2016/08/20/mac-port-occupied/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2016/08/20/mac-port-occupied/">Commentaires</a>
     
 
         </footer>
@@ -1466,7 +1470,7 @@
 
 
     <nav id="page-nav">
-        <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+        <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/2/">Suiv &raquo;</a>
     </nav>
 </section>
             
@@ -1474,9 +1478,18 @@
    
         
     <div class="widget-wrap">
-        <h3 class="widget-title">recent</h3>
+        <h3 class="widget-title">Récents</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/06/13/avn-change-node-version-for-a-project/" class="title">针对某一个项目自动切换node版本</a></p>
+                            <p class="item-date"><time datetime="2018-06-12T16:26:09.000Z" itemprop="datePublished">2018-06-13</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -1514,15 +1527,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2017/05/14/set-Dynamic-universe-canvas/" class="title">宇宙星空特效</a></p>
-                            <p class="item-date"><time datetime="2017-05-13T17:54:35.000Z" itemprop="datePublished">2017-05-14</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -1530,7 +1534,7 @@
     
         
     <div class="widget-wrap widget-list">
-        <h3 class="widget-title">links</h3>
+        <h3 class="widget-title">Liens</h3>
         <div class="widget">
             <ul>
                 

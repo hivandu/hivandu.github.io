@@ -64,7 +64,7 @@
             <div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Rechercher" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
@@ -83,9 +83,9 @@
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Posts',
+            POSTS: 'Articles',
             PAGES: 'Pages',
-            CATEGORIES: 'Categories',
+            CATEGORIES: 'Catégories',
             TAGS: 'Tags',
             UNTITLED: '(Untitled)',
         },
@@ -111,7 +111,7 @@
                 <td>
                     
     <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Rechercher" />
     </div>
 
                 </td>
@@ -131,16 +131,16 @@
             <h2 id="name">Hivan Du</h2>
             <h3 id="title">Web Developer &amp; Designer</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Shanghai, China</span>
-            <a id="follow" target="_blank" href="https://github.com/hivandu">FOLLOW</a>
+            <a id="follow" target="_blank" href="https://github.com/hivandu">SUIVRE</a>
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                152
-                <span>posts</span>
+                153
+                <span>Articles</span>
             </div>
             <div class="article-info-block">
-                243
-                <span>tags</span>
+                245
+                <span>Tags</span>
             </div>
         </div>
         
@@ -167,7 +167,7 @@
 
             
             <section id="main">
-    <article id="post-auto-save-photo-to-qqmail" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-ladlibray-with-error-6" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -176,7 +176,7 @@
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2012/04/10/auto-save-photo-to-qqmail/">Auto-save-photo-to-qqmail</a>
+            <a class="article-title" href="/2012/04/10/ladlibray-with-error-6/">ladlibray with error 126</a>
         </h1>
     
 
@@ -184,8 +184,8 @@
                     
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2012/04/10/auto-save-photo-to-qqmail/">
-            <time datetime="2012-04-10T04:19:22.000Z" itemprop="datePublished">2012-04-10</time>
+        <a href="/2012/04/10/ladlibray-with-error-6/">
+            <time datetime="2012-04-10T15:19:00.000Z" itemprop="datePublished">2012-04-10</time>
         </a>
     </div>
 
@@ -193,13 +193,13 @@
                     
     <div class="article-category">
     	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/web/">web</a>
+        <a class="article-category-link" href="/categories/software/">software</a>
     </div>
 
                     
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Mail/">Mail</a>, <a class="tag-link" href="/tags/ifttt/">ifttt</a>
+        <a class="tag-link" href="/tags/ATI/">ATI</a>, <a class="tag-link" href="/tags/windows-8/">windows 8</a>, <a class="tag-link" href="/tags/显卡/">显卡</a>, <a class="tag-link" href="/tags/错误/">错误</a>, <a class="tag-link" href="/tags/驱动/">驱动</a>
     </div>
 
                 </div>
@@ -207,11 +207,14 @@
         
         <div class="article-entry" itemprop="articleBody">
         
-            <p><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>为什么是QQ Mail?</p>
-<p>因为它大,而且不断自动扩容,你想把它装满暂时是不太现实. 而且来说,QQ邮箱的体验还是非常不错的!过滤规则也很能满足要求,归档搜索查找都不错!一些不涉及隐私而又想保存的文件或者照片或者其他什么东东,存在QQ邮箱里还是不错的!比如:XXX</p></p>
-            <p class="article-more-link">
-                <a href="/2012/04/10/auto-save-photo-to-qqmail/#more">Read More</a>
-            </p>
+            
+            <p>这里仅做个记录,以后好查找相应命令!</p>
+<p>这个错误产生的原因是因为显卡驱动没有完善,运行openGL需要loadlibrary的API加载一个模块,但是模块没有找到. 问题只会出现在Win8,Win7和Vista上,并且是ATI显卡才会出现这种问题! <a href="http://www.tomshardware.com/forum/284973-33-catalyst-breaks-opengl-games" target="_blank" rel="noopener">Link</a> 不幸的是我才换了一块A卡!</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">* Win+X</span><br><span class="line">* 选择**命令提示符(管理员) #要复制文件到Windows目录必须管理员权限</span><br><span class="line">* cd c:\windows\System32</span><br><span class="line">* copy opengl32.dll .dll</span><br><span class="line">已复制		1个文件</span><br></pre></td></tr></table></figure>
+<p>再打开Maya或者Photoshop等,应该OK了!但是会被告知停用GPU增强! </p>
+<p>所以我劝各位,还是赶快升级你的显卡驱动吧!或者换块显卡(这两样对我都不实际)</p>
+<p>update:刚才Google相关资料的时候,发现有个老外有<a href="http://www.withinwindows.com/2012/03/31/loadlibrary-failed-with-error-126-redux/" target="_blank" rel="noopener">更简单的办法</a>!直接导入注册表.但是因为注册表文件是Win8的,所以Win7的童鞋慎行! 如果上边的地址失效,你可以在这里<a href="http://hivan.me/downloads/code/Windows/ati_w8_opengl_64bit.reg" target="_blank" rel="noopener">下载.reg</a></p>
+
         
         </div>
         <footer class="article-footer">
@@ -221,7 +224,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2012/04/10/auto-save-photo-to-qqmail/" data-id="cji2qv4q3002lqmrluqa0uvpi" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2012/04/10/ladlibray-with-error-6/" data-id="cjibwub7t0066torlevneejny" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -289,7 +292,139 @@
 
             
     
-        <a href="http://hivandu.github.io/2012/04/10/auto-save-photo-to-qqmail/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/04/10/auto-save-photo-to-qqmail/">Comments</a>
+        <a href="http://hivandu.github.io/2012/04/10/ladlibray-with-error-6/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/04/10/ladlibray-with-error-6/">Commentaires</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-auto-save-photo-to-qqmail" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2012/04/10/auto-save-photo-to-qqmail/">Auto-save-photo-to-qqmail</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2012/04/10/auto-save-photo-to-qqmail/">
+            <time datetime="2012-04-10T04:19:22.000Z" itemprop="datePublished">2012-04-10</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/web/">web</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Mail/">Mail</a>, <a class="tag-link" href="/tags/ifttt/">ifttt</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>为什么是QQ Mail?</p>
+<p>因为它大,而且不断自动扩容,你想把它装满暂时是不太现实. 而且来说,QQ邮箱的体验还是非常不错的!过滤规则也很能满足要求,归档搜索查找都不错!一些不涉及隐私而又想保存的文件或者照片或者其他什么东东,存在QQ邮箱里还是不错的!比如:XXX</p></p>
+            <p class="article-more-link">
+                <a href="/2012/04/10/auto-save-photo-to-qqmail/#more">Read More</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://hivandu.github.io/2012/04/10/auto-save-photo-to-qqmail/" data-id="cjibwub57002ptorl3r3lzk3q" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://hivandu.github.io/2012/04/10/auto-save-photo-to-qqmail/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/04/10/auto-save-photo-to-qqmail/">Commentaires</a>
     
 
         </footer>
@@ -353,7 +488,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2012/04/09/note-about-my-ubuntu/" data-id="cji2qv4vw00cjqmrlcasjwo74" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2012/04/09/note-about-my-ubuntu/" data-id="cjibwub8e007ttorlzazn6ryq" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -421,7 +556,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2012/04/09/note-about-my-ubuntu/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/04/09/note-about-my-ubuntu/">Comments</a>
+        <a href="http://hivandu.github.io/2012/04/09/note-about-my-ubuntu/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/04/09/note-about-my-ubuntu/">Commentaires</a>
     
 
         </footer>
@@ -485,7 +620,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2012/04/07/octopress-install-to-windows8/" data-id="cji2qv51a00qeqmrlpuinwp9z" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2012/04/07/octopress-install-to-windows8/" data-id="cjibwubic00rrtorl640md4p5" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -553,7 +688,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2012/04/07/octopress-install-to-windows8/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/04/07/octopress-install-to-windows8/">Comments</a>
+        <a href="http://hivandu.github.io/2012/04/07/octopress-install-to-windows8/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/04/07/octopress-install-to-windows8/">Commentaires</a>
     
 
         </footer>
@@ -617,7 +752,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2012/04/06/begin_maya_pdf/" data-id="cji2qv4q5002nqmrlbqo76yrf" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2012/04/06/begin_maya_pdf/" data-id="cjibwub5b002utorlx6ao3jt7" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -685,7 +820,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2012/04/06/begin_maya_pdf/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/04/06/begin_maya_pdf/">Comments</a>
+        <a href="http://hivandu.github.io/2012/04/06/begin_maya_pdf/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/04/06/begin_maya_pdf/">Commentaires</a>
     
 
         </footer>
@@ -748,7 +883,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2012/03/30/post-from-markpad/" data-id="cji2qv4w900d8qmrl9c25fau9" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2012/03/30/post-from-markpad/" data-id="cjibwub8l0089torlvyrl20ge" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -816,7 +951,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2012/03/30/post-from-markpad/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/03/30/post-from-markpad/">Comments</a>
+        <a href="http://hivandu.github.io/2012/03/30/post-from-markpad/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/03/30/post-from-markpad/">Commentaires</a>
     
 
         </footer>
@@ -881,7 +1016,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2012/03/27/install-windows-8/" data-id="cji2qv4uf00a0qmrlgldjrwqo" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2012/03/27/install-windows-8/" data-id="cjibwub7a005ktorlkgfd0lfw" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -949,7 +1084,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2012/03/27/install-windows-8/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/03/27/install-windows-8/">Comments</a>
+        <a href="http://hivandu.github.io/2012/03/27/install-windows-8/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/03/27/install-windows-8/">Commentaires</a>
     
 
         </footer>
@@ -1014,7 +1149,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2012/03/22/returns-my-seagate/" data-id="cji2qv4we00dhqmrl6b1zngcb" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2012/03/22/returns-my-seagate/" data-id="cjibwub93008utorl8yxrwim3" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1082,7 +1217,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2012/03/22/returns-my-seagate/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/03/22/returns-my-seagate/">Comments</a>
+        <a href="http://hivandu.github.io/2012/03/22/returns-my-seagate/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/03/22/returns-my-seagate/">Commentaires</a>
     
 
         </footer>
@@ -1147,7 +1282,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2012/01/28/android-4-contacts-the-depth-integration-with-google-plus/" data-id="cji2qv4po001xqmrlrmz5o7vl" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2012/01/28/android-4-contacts-the-depth-integration-with-google-plus/" data-id="cjibwub4s0020torl2empgsq3" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1215,7 +1350,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2012/01/28/android-4-contacts-the-depth-integration-with-google-plus/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/01/28/android-4-contacts-the-depth-integration-with-google-plus/">Comments</a>
+        <a href="http://hivandu.github.io/2012/01/28/android-4-contacts-the-depth-integration-with-google-plus/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/01/28/android-4-contacts-the-depth-integration-with-google-plus/">Commentaires</a>
     
 
         </footer>
@@ -1282,7 +1417,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2012/01/24/the-third-part-of-the-java-learning/" data-id="cji2qv4xc00ewqmrllx0naw7v" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2012/01/24/the-third-part-of-the-java-learning/" data-id="cjibwub9o00a3torlaxcntjgd" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1350,149 +1485,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2012/01/24/the-third-part-of-the-java-learning/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/01/24/the-third-part-of-the-java-learning/">Comments</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-maya-learn-in-google-sites" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2012/01/17/maya-learn-in-google-sites/">Maya Learn in Google Sites</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2012/01/17/maya-learn-in-google-sites/">
-            <time datetime="2012-01-17T04:16:00.000Z" itemprop="datePublished">2012-01-17</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/web/">web</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Evernote/">Evernote</a>, <a class="tag-link" href="/tags/code/">code</a>, <a class="tag-link" href="/tags/post/">post</a>, <a class="tag-link" href="/tags/sites/">sites</a>, <a class="tag-link" href="/tags/wiki/">wiki</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>前些日子在Google Sites上建立了一个Learn Wiki,想必有些同学已经知道了!不过想是推广的还不够…</p>
-<p>关于这个Wiki,有想过几种预案,一种是直接在Evernote上记录,然后直接共享!不过这有一个问题,就像我上上上篇Post里所写的,不好归纳和查找!本地是没有什么问题,但是共享出来的目录都是单独的,无法形成相互联系的节点!</p>
-<p>还有一种是借照<a href="http://riku.wowubuntu.com/" title="Riku" target="_blank" rel="noopener">@Riku</a>以前曾经用过的方案,使用Wiki程序自搭建!</p>
-<p>这虽然是一个很不错的方案,可是由于我这次的主机是在国内主机商上选用的最便宜的那种,根本不够空间和流量搭建博客以外的东西…</p>
-<p>因为域名更换的问题(虽然已经更换过好几个月了),老访客们都不来了!而由于feed.hivan.net</p>
-<p>这个域名被封锁的关系,我的订阅量也一下下降到了几十而已!虽然最高的时候也仅仅200多一点!所以根据访问量,觉得没有必要再去花钱购买一个单独的大容量国外主机!就先在国内凑合过过…兴许以后又上来了呢!</p>
-<p>而在甄选以上种种方案的时候,发现sites是可以绑定二级域名的!</p>
-<p>本来sites因为墙外的关系被我放在备选方案之外,而绑定域名之后,也就不存在墙的问题了!访问OK.所以,也就选择了Sites作为自己Learn记录的Wiki站点!并且说来,Google提供的一些小工具已经非常强大了.</p>
-<p>而昨天,忽然发现有人从搜索引擎上搜索“开始Maya吧”来到我的站点,话说这个教程是三年前放出的,当时站点还是ivandoo.com,并且教程非常受欢迎,下载量一度达到1W+.</p>
-<p>没想到这么久了,还有人会因为这个教程而访问到我的站点!于是就有了将这套教程<del>半岛</del>搬到Learn Wiki上的想法!便于查找和学习!毕竟在Wiki上章节目录之间的关系都很清晰! 不像在我博客上阅读的时候那么乱…</p>
-<p>好了,在此再向大家推荐一下此站点: <a href="http://learn.hivan.me%20" title="Learn Wiki" target="_blank" rel="noopener">http://learn.hivan.me</a></p>
-<p>如果您有关于Code 和<br>CG的相关资源向要记录或分享,可以写信给我,我给您一个Edit权限.好让您与我一同维护这个wiki站点!不过需要注意的,虽然浏览可以通过我的二级域名,可是编辑还是需要直接访问sites,也就是说需要翻墙!</p>
-<p>最后,希望这个我的这个Wiki内容逐渐丰富起来,对大家也能有所帮助!谢谢大家捧场…</p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="http://hivandu.github.io/2012/01/17/maya-learn-in-google-sites/" data-id="cji2qv4ve00bjqmrlqw7igfg0" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="http://hivandu.github.io/2012/01/17/maya-learn-in-google-sites/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/01/17/maya-learn-in-google-sites/">Comments</a>
+        <a href="http://hivandu.github.io/2012/01/24/the-third-part-of-the-java-learning/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2012/01/24/the-third-part-of-the-java-learning/">Commentaires</a>
     
 
         </footer>
@@ -1503,7 +1496,7 @@
 
 
     <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/page/5/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/7/">Next &raquo;</a>
+        <a class="extend prev" rel="prev" href="/page/5/">&laquo; Préc</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/7/">Suiv &raquo;</a>
     </nav>
 </section>
             
@@ -1511,9 +1504,18 @@
    
         
     <div class="widget-wrap">
-        <h3 class="widget-title">recent</h3>
+        <h3 class="widget-title">Récents</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/06/13/avn-change-node-version-for-a-project/" class="title">针对某一个项目自动切换node版本</a></p>
+                            <p class="item-date"><time datetime="2018-06-12T16:26:09.000Z" itemprop="datePublished">2018-06-13</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -1551,15 +1553,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2017/05/14/set-Dynamic-universe-canvas/" class="title">宇宙星空特效</a></p>
-                            <p class="item-date"><time datetime="2017-05-13T17:54:35.000Z" itemprop="datePublished">2017-05-14</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -1567,7 +1560,7 @@
     
         
     <div class="widget-wrap widget-list">
-        <h3 class="widget-title">links</h3>
+        <h3 class="widget-title">Liens</h3>
         <div class="widget">
             <ul>
                 

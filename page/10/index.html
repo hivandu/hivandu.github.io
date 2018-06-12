@@ -64,7 +64,7 @@
             <div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Rechercher" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
@@ -83,9 +83,9 @@
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Posts',
+            POSTS: 'Articles',
             PAGES: 'Pages',
-            CATEGORIES: 'Categories',
+            CATEGORIES: 'Catégories',
             TAGS: 'Tags',
             UNTITLED: '(Untitled)',
         },
@@ -111,7 +111,7 @@
                 <td>
                     
     <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Rechercher" />
     </div>
 
                 </td>
@@ -131,16 +131,16 @@
             <h2 id="name">Hivan Du</h2>
             <h3 id="title">Web Developer &amp; Designer</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Shanghai, China</span>
-            <a id="follow" target="_blank" href="https://github.com/hivandu">FOLLOW</a>
+            <a id="follow" target="_blank" href="https://github.com/hivandu">SUIVRE</a>
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                152
-                <span>posts</span>
+                153
+                <span>Articles</span>
             </div>
             <div class="article-info-block">
-                243
-                <span>tags</span>
+                245
+                <span>Tags</span>
             </div>
         </div>
         
@@ -167,7 +167,7 @@
 
             
             <section id="main">
-    <article id="post-cm6-test0-32b" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-android-2-2-app2sd" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -176,7 +176,7 @@
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2010/07/06/cm6-test0-32b/">CM6 test0 32b</a>
+            <a class="article-title" href="/2010/12/11/android-2-2-app2sd/">Android 2.2 App2sd 问题</a>
         </h1>
     
 
@@ -184,8 +184,8 @@
                     
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2010/07/06/cm6-test0-32b/">
-            <time datetime="2010-07-06T07:01:00.000Z" itemprop="datePublished">2010-07-06</time>
+        <a href="/2010/12/11/android-2-2-app2sd/">
+            <time datetime="2010-12-11T07:01:00.000Z" itemprop="datePublished">2010-12-11</time>
         </a>
     </div>
 
@@ -199,7 +199,7 @@
                     
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/32b/">32b</a>, <a class="tag-link" href="/tags/Android/">Android</a>, <a class="tag-link" href="/tags/CM/">CM</a>, <a class="tag-link" href="/tags/G1/">G1</a>, <a class="tag-link" href="/tags/rom/">rom</a>
+        <a class="tag-link" href="/tags/Android/">Android</a>, <a class="tag-link" href="/tags/app2sd/">app2sd</a>
     </div>
 
                 </div>
@@ -208,9 +208,30 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p>好吧,熟悉的人看到标题应该能猜到这就是Android 2.2 的CM版本.没想到这么快会出现,和之前发布的版本不同,这次编译与CM大神的版本!没想到在和儿子过生的当间就发布了…<br><ul><br>    <li>基于7月5日最新CM6源码编译，新增了电池百分比显示的开关，在Cyanogenmod 设置里进行更改</li><br>    <li>默认关闭jit，在32a/32b等低端机上开启jit对性能没有改善，反倒更占内存，故在这个版本中关闭jit</li><br>    <li>修改ADW的默认设置，使其常驻内存，改善从其它程序退回桌面的速度</li><br>    <li>修改ADW的壁纸图库，用AOSP的图库替换了CM的图库</li><br>    <li>修改了framework.jar，使用了geesun的代码试其支持中文运营商显示</li><br>    <li>使用了最新的FRF91的GAPPS</li><br>    <li>CM6自带的contact文件有不少bug，故换成了aosp的contact，虽然相对cm6的功能更少，但非常稳定</li><br>    <li>重新编译了kernel，个人感觉比默认的kernel更稳定</li><br>    <li>进一步汉化了framework和superuser等程序</li><br>    <li>新增32a的支持，32a的用户也可以使用</li><br></ul><br>Known Issues：<br><ul><br>    <li>第一次启动时可能会意外重启，完成设置后就不会出现这个问题</li><br>    <li>相机中按0x变焦按键会使相机fc</li><br>    <li>摄像无法正常使用</li><br>    <li>由于Gapps都是Nexus专用的，故其素材的尺寸都很大，特别是gmail，显示出来很大，这个暂时无法解决</li><br>    <li>Dream和Magic因为性能问题，不支持flash，即便刷了2.2也不可能运行flash，所以不要去市场下载flash程序了，不会起作用的，另外也不要再求使用flash的方法了，在地球上不存在解决方法，除非你换手机</li><br></ul><br>App2sd：<br><br>rom支持app2sd，但默认没有开启。<br><br>开启方法：<br><br>在超级终端中输入：<br><br>su<br><br>pm setInstallLocation 2<br><br>即可开启app2sd，不需要有ext分区就可以使用，但官方的这个app2sd还不太稳定，不建议使用。<br><br>Download：<br><br>Dream/Magic 32b:<a href="http://thesoloblack.com/rom/cm6-test0-32b-0705-fixed.zip" target="_blank" rel="noopener">http://thesoloblack.com/rom/cm6-test0-32b-0705-fixed.zip</a><br><br>Magic 32a:<a href="http://thesoloblack.com/rom/cm6-test0-32a-0705-fixed.zip" target="_blank" rel="noopener">http://thesoloblack.com/rom/cm6-test0-32a-0705-fixed.zip</a></p>
+            <p>其实比起以前版本的app2sd来说,设置是一样的!只是多了一个步骤,就是需要给rom添加一个sdext.然后所有的设置就和以前的版本一模一样了.</p>
 
-<p><strong>本更新信息和下载链接均来源于机锋网!</strong></p>
+<p>首先当然需要有一个已经分好区的sdcard,具体设置可以查看我以前的文,有ubuntu下进行分区的和windows下的!</p>
+
+<p>然后需要最近版本的SPL和Radio,这个本人不提供了,可以自行解决!伸手党可以留下自己的邮箱,我提供下载地址!</p>
+
+<p>准备工作做足后,第一步就是需要在手机上建立一个sdext访问.这里提供一个文本文档:<a href="http://yunfile.com/file/hivandu/16325f3c/" target="_blank" rel="noopener">下载： fr-patch134.zip</a> </p>
+<p>放在sdcard根目录,然后在连接手机的情况下在终端如下操作:</p>
+<ul>
+<li><code>adb shell</code></li>
+<li><code># sh /sdcard/fr-patch134.txt sdext</code></li>
+<li><code>busybox df -h</code></li>
+</ul>
+<p>如果看到有/sd-ext分区,OK,以下的事情就顺理成章了,参考我以前发布的app2sd步骤操作就好了!</p>
+
+<p>至此所有问题解决!</p>
+
+<p>此处为后续更新,由于之前忽略了点东西,所以这里做一个补充!</p>
+
+<p>由于2.2rom和以前版本的一些差别,在做app2sd之前,需要挂在system,sd-ext和data分区,这是需要注意的一点!挂在命令为:mount</p>
+
+<p>例子: mount system</p>
+
+<p>有什么不明白的再问吧!</p>
 
         
         </div>
@@ -221,7 +242,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2010/07/06/cm6-test0-32b/" data-id="cji2qv4qe002xqmrlq91ahzc1" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2010/12/11/android-2-2-app2sd/" data-id="cjibwub4m001rtorldyzpuiyz" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -289,7 +310,269 @@
 
             
     
-        <a href="http://hivandu.github.io/2010/07/06/cm6-test0-32b/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2010/07/06/cm6-test0-32b/">Comments</a>
+        <a href="http://hivandu.github.io/2010/12/11/android-2-2-app2sd/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2010/12/11/android-2-2-app2sd/">Commentaires</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-cm6-test0-32b" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2010/07/06/cm6-test0-32b/">CM6 test0 32b</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2010/07/06/cm6-test0-32b/">
+            <time datetime="2010-07-06T07:01:00.000Z" itemprop="datePublished">2010-07-06</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/develop/">develop</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/32b/">32b</a>, <a class="tag-link" href="/tags/Android/">Android</a>, <a class="tag-link" href="/tags/CM/">CM</a>, <a class="tag-link" href="/tags/G1/">G1</a>, <a class="tag-link" href="/tags/rom/">rom</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>好吧,熟悉的人看到标题应该能猜到这就是Android 2.2 的CM版本.没想到这么快会出现,和之前发布的版本不同,这次编译与CM大神的版本!没想到在和儿子过生的当间就发布了…<br><ul><br>    <li>基于7月5日最新CM6源码编译，新增了电池百分比显示的开关，在Cyanogenmod 设置里进行更改</li><br>    <li>默认关闭jit，在32a/32b等低端机上开启jit对性能没有改善，反倒更占内存，故在这个版本中关闭jit</li><br>    <li>修改ADW的默认设置，使其常驻内存，改善从其它程序退回桌面的速度</li><br>    <li>修改ADW的壁纸图库，用AOSP的图库替换了CM的图库</li><br>    <li>修改了framework.jar，使用了geesun的代码试其支持中文运营商显示</li><br>    <li>使用了最新的FRF91的GAPPS</li><br>    <li>CM6自带的contact文件有不少bug，故换成了aosp的contact，虽然相对cm6的功能更少，但非常稳定</li><br>    <li>重新编译了kernel，个人感觉比默认的kernel更稳定</li><br>    <li>进一步汉化了framework和superuser等程序</li><br>    <li>新增32a的支持，32a的用户也可以使用</li><br></ul><br>Known Issues：<br><ul><br>    <li>第一次启动时可能会意外重启，完成设置后就不会出现这个问题</li><br>    <li>相机中按0x变焦按键会使相机fc</li><br>    <li>摄像无法正常使用</li><br>    <li>由于Gapps都是Nexus专用的，故其素材的尺寸都很大，特别是gmail，显示出来很大，这个暂时无法解决</li><br>    <li>Dream和Magic因为性能问题，不支持flash，即便刷了2.2也不可能运行flash，所以不要去市场下载flash程序了，不会起作用的，另外也不要再求使用flash的方法了，在地球上不存在解决方法，除非你换手机</li><br></ul><br>App2sd：<br><br>rom支持app2sd，但默认没有开启。<br><br>开启方法：<br><br>在超级终端中输入：<br><br>su<br><br>pm setInstallLocation 2<br><br>即可开启app2sd，不需要有ext分区就可以使用，但官方的这个app2sd还不太稳定，不建议使用。<br><br>Download：<br><br>Dream/Magic 32b:<a href="http://thesoloblack.com/rom/cm6-test0-32b-0705-fixed.zip" target="_blank" rel="noopener">http://thesoloblack.com/rom/cm6-test0-32b-0705-fixed.zip</a><br><br>Magic 32a:<a href="http://thesoloblack.com/rom/cm6-test0-32a-0705-fixed.zip" target="_blank" rel="noopener">http://thesoloblack.com/rom/cm6-test0-32a-0705-fixed.zip</a></p>
+
+<p><strong>本更新信息和下载链接均来源于机锋网!</strong></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://hivandu.github.io/2010/07/06/cm6-test0-32b/" data-id="cjibwub5f0033torltg1s6mw9" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://hivandu.github.io/2010/07/06/cm6-test0-32b/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2010/07/06/cm6-test0-32b/">Commentaires</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-android-3-0" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2010/07/03/android-3-0/">Android 3.0</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2010/07/03/android-3-0/">
+            <time datetime="2010-07-03T07:01:00.000Z" itemprop="datePublished">2010-07-03</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/develop/">develop</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Android/">Android</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>好吧,7.1号Eldar Murtazin在其博客上已经放出一个可信度比较高的谣言,就是Android3.0将于十月份发布,代号姜饼(Gingerbread)<br><img src="http://www.unwiredview.com/wp-content/uploads/2010/06/Android-Gingerbread.jpg" alt=""><br>据传,3.0rom将会针对高端市场,分辨率达到了1280X760,支持此系统的最低配置将为1Ghz处理器,512M内存.可以这么说,在3.0系统发布以后,就可以正式宣布G1被彻底淘汰了.<br><ul><br>    <li>Android 3.0 Gingerbread will be released in mid- October (around 15 -16th), 2010. First handsets shipping in November/December – for the Holiday Season.</li><br>    <li><em>Minimum</em> hardware requirements for Android 3.0 devices are: 1GHZ CPU, 512MB or RAM, displays from 3.5” and higher.  (We all, of course, heard that <a href="http://www.unwiredview.com/2010/06/10/motorola-raises-the-bar-with-plans-for-2-ghz-android-in-2010/" target="_blank" rel="noopener">Android handsets with 2GHz CPU’s</a> are coming)</li><br>    <li>New 1280×760 resolution available for the devices with displays of 4” and higher. (Anyone thinking about Android tablets now? )</li><br>    <li>Completely revamped user interface. If you want to get a feeling of what Android 3.0 Gingerbread UX is like, check out the <a href="http://www.youtube.com/watch?v=1E1mSSBKEPU" target="_blank">Gallery  App</a> on Nexus One. The same overall feel, light animated transitions,etc. Natively, through all the UI.</li><br>    <li>Android’s split into 2 branches becomes official. 3.0 for top of the line/high end devices. Cheap, low-end mass market handsets will keep Android 2.1/2.2</li><br></ul><br>详情可以参看:<a href="http://www.unwiredview.com/2010/06/30/android-3-0-gingerbread-details-1280x760-resolution-1ghz-minimum-specs-mid-oct-release/" target="_blank" rel="noopener">http://www.unwiredview.com/2010/06/30/android-3-0-gingerbread-details-1280x760-resolution-1ghz-minimum-specs-mid-oct-release/</a></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://hivandu.github.io/2010/07/03/android-3-0/" data-id="cjibwub4r001ytorlpwkmbhxl" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://hivandu.github.io/2010/07/03/android-3-0/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2010/07/03/android-3-0/">Commentaires</a>
     
 
         </footer>
@@ -359,7 +642,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2010/07/03/android-2-2-for-g1/" data-id="cji2qv4pi001nqmrl2w5m320r" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2010/07/03/android-2-2-for-g1/" data-id="cjibwub4p001utorl12z5bfdq" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -427,137 +710,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2010/07/03/android-2-2-for-g1/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2010/07/03/android-2-2-for-g1/">Comments</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-android-3-0" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2010/07/03/android-3-0/">Android 3.0</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2010/07/03/android-3-0/">
-            <time datetime="2010-07-03T07:01:00.000Z" itemprop="datePublished">2010-07-03</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/develop/">develop</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Android/">Android</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>好吧,7.1号Eldar Murtazin在其博客上已经放出一个可信度比较高的谣言,就是Android3.0将于十月份发布,代号姜饼(Gingerbread)<br><img src="http://www.unwiredview.com/wp-content/uploads/2010/06/Android-Gingerbread.jpg" alt=""><br>据传,3.0rom将会针对高端市场,分辨率达到了1280X760,支持此系统的最低配置将为1Ghz处理器,512M内存.可以这么说,在3.0系统发布以后,就可以正式宣布G1被彻底淘汰了.<br><ul><br>    <li>Android 3.0 Gingerbread will be released in mid- October (around 15 -16th), 2010. First handsets shipping in November/December – for the Holiday Season.</li><br>    <li><em>Minimum</em> hardware requirements for Android 3.0 devices are: 1GHZ CPU, 512MB or RAM, displays from 3.5” and higher.  (We all, of course, heard that <a href="http://www.unwiredview.com/2010/06/10/motorola-raises-the-bar-with-plans-for-2-ghz-android-in-2010/" target="_blank" rel="noopener">Android handsets with 2GHz CPU’s</a> are coming)</li><br>    <li>New 1280×760 resolution available for the devices with displays of 4” and higher. (Anyone thinking about Android tablets now? )</li><br>    <li>Completely revamped user interface. If you want to get a feeling of what Android 3.0 Gingerbread UX is like, check out the <a href="http://www.youtube.com/watch?v=1E1mSSBKEPU" target="_blank">Gallery  App</a> on Nexus One. The same overall feel, light animated transitions,etc. Natively, through all the UI.</li><br>    <li>Android’s split into 2 branches becomes official. 3.0 for top of the line/high end devices. Cheap, low-end mass market handsets will keep Android 2.1/2.2</li><br></ul><br>详情可以参看:<a href="http://www.unwiredview.com/2010/06/30/android-3-0-gingerbread-details-1280x760-resolution-1ghz-minimum-specs-mid-oct-release/" target="_blank" rel="noopener">http://www.unwiredview.com/2010/06/30/android-3-0-gingerbread-details-1280x760-resolution-1ghz-minimum-specs-mid-oct-release/</a></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="http://hivandu.github.io/2010/07/03/android-3-0/" data-id="cji2qv4pj001qqmrldix6s1si" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="http://hivandu.github.io/2010/07/03/android-3-0/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2010/07/03/android-3-0/">Comments</a>
+        <a href="http://hivandu.github.io/2010/07/03/android-2-2-for-g1/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2010/07/03/android-2-2-for-g1/">Commentaires</a>
     
 
         </footer>
@@ -621,7 +774,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2010/05/30/g1-mentioned-order-of-the-right-brush/" data-id="cji2qv4tr008kqmrlu5dphwom" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2010/05/30/g1-mentioned-order-of-the-right-brush/" data-id="cjibwub6a0044torlygxs910p" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -689,7 +842,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2010/05/30/g1-mentioned-order-of-the-right-brush/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2010/05/30/g1-mentioned-order-of-the-right-brush/">Comments</a>
+        <a href="http://hivandu.github.io/2010/05/30/g1-mentioned-order-of-the-right-brush/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2010/05/30/g1-mentioned-order-of-the-right-brush/">Commentaires</a>
     
 
         </footer>
@@ -756,7 +909,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2010/05/04/ipad-get-started/" data-id="cji2qv4uu00amqmrltpcq2udh" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2010/05/04/ipad-get-started/" data-id="cjibwub7h005mtorlvca9mq37" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -824,7 +977,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2010/05/04/ipad-get-started/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2010/05/04/ipad-get-started/">Comments</a>
+        <a href="http://hivandu.github.io/2010/05/04/ipad-get-started/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2010/05/04/ipad-get-started/">Commentaires</a>
     
 
         </footer>
@@ -891,7 +1044,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2010/04/29/qq-microblogging-invite-self-stick/" data-id="cji2qv4wi00dlqmrlp5jas16o" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2010/04/29/qq-microblogging-invite-self-stick/" data-id="cjibwub8t008otorlx9n1wq2e" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -959,7 +1112,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2010/04/29/qq-microblogging-invite-self-stick/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2010/04/29/qq-microblogging-invite-self-stick/">Comments</a>
+        <a href="http://hivandu.github.io/2010/04/29/qq-microblogging-invite-self-stick/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2010/04/29/qq-microblogging-invite-self-stick/">Commentaires</a>
     
 
         </footer>
@@ -1027,7 +1180,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2010/04/06/install-64-bit-system-on-32bit-windows-7/" data-id="cji2qv4uc009tqmrll4begeqc" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2010/04/06/install-64-bit-system-on-32bit-windows-7/" data-id="cjibwub720058torlymfvkee5" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1095,7 +1248,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2010/04/06/install-64-bit-system-on-32bit-windows-7/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2010/04/06/install-64-bit-system-on-32bit-windows-7/">Comments</a>
+        <a href="http://hivandu.github.io/2010/04/06/install-64-bit-system-on-32bit-windows-7/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2010/04/06/install-64-bit-system-on-32bit-windows-7/">Commentaires</a>
     
 
         </footer>
@@ -1161,7 +1314,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2010/03/25/limit-tm-with-comodo/" data-id="cji2qv4v200awqmrll17d6iob" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2010/03/25/limit-tm-with-comodo/" data-id="cjibwub7y006jtorlz26rafzc" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1229,7 +1382,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2010/03/25/limit-tm-with-comodo/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2010/03/25/limit-tm-with-comodo/">Comments</a>
+        <a href="http://hivandu.github.io/2010/03/25/limit-tm-with-comodo/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2010/03/25/limit-tm-with-comodo/">Commentaires</a>
     
 
         </footer>
@@ -1299,7 +1452,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2010/03/08/android-g1-optimization/" data-id="cji2qv4pt0027qmrlfjbm31pq" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2010/03/08/android-g1-optimization/" data-id="cjibwub4x0028torlugn50m5r" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1367,137 +1520,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2010/03/08/android-g1-optimization/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2010/03/08/android-g1-optimization/">Comments</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-a-shock-animation" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2010/02/24/a-shock-animation/">一段牛逼的动画</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2010/02/24/a-shock-animation/">
-            <time datetime="2010-02-24T07:01:00.000Z" itemprop="datePublished">2010-02-24</time>
-        </a>
-    </div>
-
-
-                    
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/design/">design</a>
-    </div>
-
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/animation/">animation</a>, <a class="tag-link" href="/tags/定格/">定格</a>, <a class="tag-link" href="/tags/手绘/">手绘</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p><object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="420" height="363" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0"><param name="allowFullScreen" value="true"><param name="allowscriptaccess" value="always"><param name="wmode" value="opaque"><param name="src" value="http://www.tudou.com/v/68ZsSCHJccE"><param name="allowfullscreen" value="true"><embed type="application/x-shockwave-flash" width="420" height="363" src="http://www.tudou.com/v/68ZsSCHJccE" wmode="opaque" allowscriptaccess="always" allowfullscreen="true"></object></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="http://hivandu.github.io/2010/02/24/a-shock-animation/" data-id="cji2qv4p50010qmrlsudtlxy0" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="http://hivandu.github.io/2010/02/24/a-shock-animation/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2010/02/24/a-shock-animation/">Comments</a>
+        <a href="http://hivandu.github.io/2010/03/08/android-g1-optimization/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2010/03/08/android-g1-optimization/">Commentaires</a>
     
 
         </footer>
@@ -1508,7 +1531,7 @@
 
 
     <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/page/9/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/11/">Next &raquo;</a>
+        <a class="extend prev" rel="prev" href="/page/9/">&laquo; Préc</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/11/">Suiv &raquo;</a>
     </nav>
 </section>
             
@@ -1516,9 +1539,18 @@
    
         
     <div class="widget-wrap">
-        <h3 class="widget-title">recent</h3>
+        <h3 class="widget-title">Récents</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/06/13/avn-change-node-version-for-a-project/" class="title">针对某一个项目自动切换node版本</a></p>
+                            <p class="item-date"><time datetime="2018-06-12T16:26:09.000Z" itemprop="datePublished">2018-06-13</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -1556,15 +1588,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2017/05/14/set-Dynamic-universe-canvas/" class="title">宇宙星空特效</a></p>
-                            <p class="item-date"><time datetime="2017-05-13T17:54:35.000Z" itemprop="datePublished">2017-05-14</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -1572,7 +1595,7 @@
     
         
     <div class="widget-wrap widget-list">
-        <h3 class="widget-title">links</h3>
+        <h3 class="widget-title">Liens</h3>
         <div class="widget">
             <ul>
                 

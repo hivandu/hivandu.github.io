@@ -69,7 +69,7 @@
             <div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Rechercher" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
@@ -88,9 +88,9 @@
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Posts',
+            POSTS: 'Articles',
             PAGES: 'Pages',
-            CATEGORIES: 'Categories',
+            CATEGORIES: 'Catégories',
             TAGS: 'Tags',
             UNTITLED: '(Untitled)',
         },
@@ -116,7 +116,7 @@
                 <td>
                     
     <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Rechercher" />
     </div>
 
                 </td>
@@ -136,16 +136,16 @@
             <h2 id="name">Hivan Du</h2>
             <h3 id="title">Web Developer &amp; Designer</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Shanghai, China</span>
-            <a id="follow" target="_blank" href="https://github.com/hivandu">FOLLOW</a>
+            <a id="follow" target="_blank" href="https://github.com/hivandu">SUIVRE</a>
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                152
-                <span>posts</span>
+                153
+                <span>Articles</span>
             </div>
             <div class="article-info-block">
-                243
-                <span>tags</span>
+                245
+                <span>Tags</span>
             </div>
         </div>
         
@@ -219,13 +219,13 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo subl /etc/apache2/httpd.conf</span><br></pre></td></tr></table></figure>
 <p>command + f 查找代码，并去掉注释符 <code>#</code></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">LoadModule authz_core_module libexec/apache2/mod_authz_core.so</span><br><span class="line">LoadModule authz_host_module libexec/apache2/mod_authz_host.so</span><br><span class="line">LoadModule userdir_module libexec/apache2/mod_userdir.so</span><br><span class="line">LoadModule php5_module libexec/apache2/libphp5.so</span><br><span class="line">Include /private/etc/apache2/extra/httpd-vhosts.conf</span><br><span class="line">Include /private/etc/apache2/extra/httpd-userdir.conf</span><br></pre></td></tr></table></figure>
-<ol start="2">
+<ol>
 <li>修改httpd-userdir.conf配置</li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo subl /etc/apache2/extra/httpd-userdir.conf</span><br></pre></td></tr></table></figure>
 <p>command + f 查找以下代码，去掉注释符<code>#</code></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Include /private/etc/apache2/users/*.conf</span><br></pre></td></tr></table></figure>
-<ol start="3">
+<ol>
 <li>修改yourUserName.conf配置</li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo subl /etc/apache2/users/username.conf</span><br></pre></td></tr></table></figure>
@@ -245,7 +245,7 @@
 
 </div>
 
-    <a data-url="http://hivandu.github.io/2014/10/22/yosemite-open-usersite/" data-id="cji2qv4y100gaqmrl5wieq0rb" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://hivandu.github.io/2014/10/22/yosemite-open-usersite/" data-id="cjibwubb900bftorlsefrec11" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -313,7 +313,7 @@
 
             
     
-        <a href="http://hivandu.github.io/2014/10/22/yosemite-open-usersite/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2014/10/22/yosemite-open-usersite/">Comments</a>
+        <a href="http://hivandu.github.io/2014/10/22/yosemite-open-usersite/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://hivandu.github.io/2014/10/22/yosemite-open-usersite/">Commentaires</a>
     
 
         </footer>
@@ -323,7 +323,7 @@
 <nav id="article-nav">
     
         <a href="/2014/10/29/compass-enable-sourcemaps/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Newer</strong>
+            <strong class="article-nav-caption">Plus récent</strong>
             <div class="article-nav-title">
                 
                     compass 开启 sourcemaps
@@ -333,7 +333,7 @@
     
     
         <a href="/2014/09/09/alfred-2-plugin----open-in-atom/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Older</strong>
+            <strong class="article-nav-caption">Plus ancien</strong>
             <div class="article-nav-title">Alfred 2 Plugin -- open in Atom</div>
         </a>
     
@@ -361,9 +361,18 @@
    
         
     <div class="widget-wrap">
-        <h3 class="widget-title">recent</h3>
+        <h3 class="widget-title">Récents</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/06/13/avn-change-node-version-for-a-project/" class="title">针对某一个项目自动切换node版本</a></p>
+                            <p class="item-date"><time datetime="2018-06-12T16:26:09.000Z" itemprop="datePublished">2018-06-13</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -401,15 +410,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2017/05/14/set-Dynamic-universe-canvas/" class="title">宇宙星空特效</a></p>
-                            <p class="item-date"><time datetime="2017-05-13T17:54:35.000Z" itemprop="datePublished">2017-05-14</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -417,7 +417,7 @@
     
         
     <div class="widget-wrap widget-list">
-        <h3 class="widget-title">links</h3>
+        <h3 class="widget-title">Liens</h3>
         <div class="widget">
             <ul>
                 
