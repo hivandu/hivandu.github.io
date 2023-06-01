@@ -99,7 +99,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hivan.me/exercise/" data-id="clid1n2wi004f2nj73nmw7t6b" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://hivan.me/exercise/" data-id="clid1r2gb004f56j70zp8fqnj" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -136,7 +136,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hivan.me/heart/" data-id="clid1n2wl005d2nj782og3a9q" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://hivan.me/heart/" data-id="clid1r2ge005d56j78rahfgqh" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -433,7 +433,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hivan.me/Assignment/" data-id="clid1n2w000062nj73ffs97vx" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://hivan.me/Assignment/" data-id="clid1r2g0000n56j7ecz2g5ox" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -486,7 +486,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hivan.me/Lecture_1/" data-id="clid1n2w500132nj7dmd9frl4" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://hivan.me/Lecture_1/" data-id="clid1r2g1001356j79so1c7nz" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -546,7 +546,42 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hivan.me/SVM-based_text_classification_in_practice/" data-id="clid1n2w8001t2nj7cwkigyxm" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://hivan.me/SVM-based_text_classification_in_practice/" data-id="clid1r2g4001v56j75j9c49v2" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-auto_operation_weibo" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/auto_operation_weibo/" class="article-date">
+  <time class="dt-published" datetime="2021-08-31T14:21:07.776Z" itemprop="datePublished">2021-08-31</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Auto-operation-Weibo"><a href="#Auto-operation-Weibo" class="headerlink" title="Auto operation Weibo"></a>Auto operation Weibo</h1><blockquote>
+<p>The code address of this article is: <a target="_blank" rel="noopener" href="https://github.com/hivandu/colab/blob/master/AI_data/auto%20operation%20weibo.ipynb">auto operation weibo</a><br>Chromedrive download: <a target="_blank" rel="noopener" href="http://npm.taobao.org/mirrors/chromedriver">Taobao Mirror</a> , <strong>need to be consistent with your Chrome version</strong></p>
+</blockquote>
+<h2 id="auto-operation-weibo"><a href="#auto-operation-weibo" class="headerlink" title="auto operation weibo"></a>auto operation weibo</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line">driver = webdriver.Chrome(<span class="string">&#x27;/Applications/chromedriver&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># login weibo</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">weibo_login</span>(<span class="params">username, password</span>):</span><br><span class="line"></span><br><span class="line">    <span class="comment"># open weibo index</span></span><br><span class="line">    driver.get(<span class="string">&#x27;https://passport.weibo.cn/signin/login&#x27;</span>)</span><br><span class="line">    driver.implicitly_wait(<span class="number">5</span>)</span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># fill the info: username, password</span></span><br><span class="line">    driver.find_element_by_id(<span class="string">&#x27;loginName&#x27;</span>).send_keys(username)</span><br><span class="line">    driver.find_element_by_id(<span class="string">&#x27;loginPassword&#x27;</span>).send_keys(password)</span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># click login</span></span><br><span class="line">    driver.find_element_by_id(<span class="string">&#x27;loginAction&#x27;</span>).click()</span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># set username, password</span></span><br><span class="line">username = <span class="string">&#x27;ivandoo75@gmail.com&#x27;</span></span><br><span class="line">password = <span class="string">&#x27;ooxx&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Mobile phone verification is required here, but still can’t log in fully automatically</span></span><br><span class="line">weibo_login(username, password)</span><br></pre></td></tr></table></figure>
+
+<h2 id="follow-user"><a href="#follow-user" class="headerlink" title="follow user"></a>follow user</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">add_follow</span>(<span class="params">uid</span>):</span><br><span class="line">    driver.get(<span class="string">&#x27;https://m.weibo.com/u/&#x27;</span> + <span class="built_in">str</span>(uid))</span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># driver.find_element_by_id(&#x27;follow&#x27;).click()</span></span><br><span class="line">    follow_button = driver.find_element_by_xpath(<span class="string">&#x27;//div[@class=&quot;btn_bed W_fl&quot;]&#x27;</span>)</span><br><span class="line">    follow_button.click()</span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># select group</span></span><br><span class="line">    group_button = driver.find_element_by_xpath(<span class="string">&#x27;//div[@class=&quot;list_content W_f14&quot;]/ul[@class=&quot;list_ul&quot;]/li[@class=&quot;item&quot;][2]&#x27;</span>)</span><br><span class="line">    group_button.click()</span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># cancel the select</span></span><br><span class="line">    cancel_button = driver.find_element_by_xpath(<span class="string">&#x27;//div[@class=&quot;W_layer_btn S_bg1&quot;]/a[@class=&quot;W_btn_b btn_34px&quot;]&#x27;</span>)</span><br><span class="line">    cancel_button.click()</span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 每天学点心理学UID</span></span><br><span class="line">uid = <span class="string">&#x27;1890826225&#x27;</span></span><br><span class="line">add_follow(uid)</span><br></pre></td></tr></table></figure>
+
+<h2 id="create-text-and-publish"><a href="#create-text-and-publish" class="headerlink" title="create text and publish"></a>create text and publish</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">add_comment</span>(<span class="params">weibo_url, content</span>):</span><br><span class="line">    driver.get(weibo_url)</span><br><span class="line">    driver.implicitly_wait(<span class="number">5</span>)</span><br><span class="line"></span><br><span class="line">    content_textarea = driver.find_element_by_css_selector(<span class="string">&#x27;textarea.W.input&#x27;</span>).clear()</span><br><span class="line">    content_textarea = driver.find_element_by_css_selector(<span class="string">&#x27;textarea.W.input&#x27;</span>).send_keys(content)</span><br><span class="line"></span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">    comment_button = driver.find_element_by_css_selector(<span class="string">&#x27;.W_btn_a&#x27;</span>).click()</span><br><span class="line"></span><br><span class="line"><span class="comment"># post the text</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">post_weibo</span>(<span class="params">content</span>):</span><br><span class="line">    <span class="comment"># go to the user index</span></span><br><span class="line">    driver.get(<span class="string">&#x27;https://weibo.com&#x27;</span>)</span><br><span class="line">    driver.implicitly_wait(<span class="number">5</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># click publish button</span></span><br><span class="line">    <span class="comment"># post_button = driver.find_element_by_css_selector(&#x27;[node-type=&quot;publish&quot;]&#x27;).click()</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># input content word to textarea</span></span><br><span class="line">    content_textarea = driver.find_element_by_css_selector(<span class="string">&#x27;textarea.W_input[node-type=&quot;textEl&quot;]&#x27;</span>).send_keys(content)</span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># click publish button</span></span><br><span class="line">    post_button = driver.find_element_by_css_selector(<span class="string">&quot;[node-type=&#x27;submit&#x27;]&quot;</span>).click()</span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># comment the weibo</span></span><br><span class="line">weibo_url = <span class="string">&#x27;https://weibo.com/1890826225/HjjqSahwl&#x27;</span></span><br><span class="line">content= <span class="string">&#x27;here is Hivan du, Best wish to u.&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># auto send weibo</span></span><br><span class="line">content = <span class="string">&#x27;Learning is a belief!&#x27;</span></span><br><span class="line">post_weibo(content)</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hivan.me/auto_operation_weibo/" data-id="clid1r2g8003756j70e20054l" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -625,7 +660,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hivan.me/boston_analysis/" data-id="clid1n2wf003d2nj7atfi5oyr" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://hivan.me/boston_analysis/" data-id="clid1r2g8003c56j70m9z705b" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -658,42 +693,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hivan.me/boston_data_CART/" data-id="clid1n2wf003f2nj75hu1058d" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-auto_operation_weibo" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/auto_operation_weibo/" class="article-date">
-  <time class="dt-published" datetime="2021-08-31T14:21:07.776Z" itemprop="datePublished">2021-08-31</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Auto-operation-Weibo"><a href="#Auto-operation-Weibo" class="headerlink" title="Auto operation Weibo"></a>Auto operation Weibo</h1><blockquote>
-<p>The code address of this article is: <a target="_blank" rel="noopener" href="https://github.com/hivandu/colab/blob/master/AI_data/auto%20operation%20weibo.ipynb">auto operation weibo</a><br>Chromedrive download: <a target="_blank" rel="noopener" href="http://npm.taobao.org/mirrors/chromedriver">Taobao Mirror</a> , <strong>need to be consistent with your Chrome version</strong></p>
-</blockquote>
-<h2 id="auto-operation-weibo"><a href="#auto-operation-weibo" class="headerlink" title="auto operation weibo"></a>auto operation weibo</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line">driver = webdriver.Chrome(<span class="string">&#x27;/Applications/chromedriver&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># login weibo</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">weibo_login</span>(<span class="params">username, password</span>):</span><br><span class="line"></span><br><span class="line">    <span class="comment"># open weibo index</span></span><br><span class="line">    driver.get(<span class="string">&#x27;https://passport.weibo.cn/signin/login&#x27;</span>)</span><br><span class="line">    driver.implicitly_wait(<span class="number">5</span>)</span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># fill the info: username, password</span></span><br><span class="line">    driver.find_element_by_id(<span class="string">&#x27;loginName&#x27;</span>).send_keys(username)</span><br><span class="line">    driver.find_element_by_id(<span class="string">&#x27;loginPassword&#x27;</span>).send_keys(password)</span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># click login</span></span><br><span class="line">    driver.find_element_by_id(<span class="string">&#x27;loginAction&#x27;</span>).click()</span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># set username, password</span></span><br><span class="line">username = <span class="string">&#x27;ivandoo75@gmail.com&#x27;</span></span><br><span class="line">password = <span class="string">&#x27;ooxx&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Mobile phone verification is required here, but still can’t log in fully automatically</span></span><br><span class="line">weibo_login(username, password)</span><br></pre></td></tr></table></figure>
-
-<h2 id="follow-user"><a href="#follow-user" class="headerlink" title="follow user"></a>follow user</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">add_follow</span>(<span class="params">uid</span>):</span><br><span class="line">    driver.get(<span class="string">&#x27;https://m.weibo.com/u/&#x27;</span> + <span class="built_in">str</span>(uid))</span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># driver.find_element_by_id(&#x27;follow&#x27;).click()</span></span><br><span class="line">    follow_button = driver.find_element_by_xpath(<span class="string">&#x27;//div[@class=&quot;btn_bed W_fl&quot;]&#x27;</span>)</span><br><span class="line">    follow_button.click()</span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># select group</span></span><br><span class="line">    group_button = driver.find_element_by_xpath(<span class="string">&#x27;//div[@class=&quot;list_content W_f14&quot;]/ul[@class=&quot;list_ul&quot;]/li[@class=&quot;item&quot;][2]&#x27;</span>)</span><br><span class="line">    group_button.click()</span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># cancel the select</span></span><br><span class="line">    cancel_button = driver.find_element_by_xpath(<span class="string">&#x27;//div[@class=&quot;W_layer_btn S_bg1&quot;]/a[@class=&quot;W_btn_b btn_34px&quot;]&#x27;</span>)</span><br><span class="line">    cancel_button.click()</span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 每天学点心理学UID</span></span><br><span class="line">uid = <span class="string">&#x27;1890826225&#x27;</span></span><br><span class="line">add_follow(uid)</span><br></pre></td></tr></table></figure>
-
-<h2 id="create-text-and-publish"><a href="#create-text-and-publish" class="headerlink" title="create text and publish"></a>create text and publish</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">add_comment</span>(<span class="params">weibo_url, content</span>):</span><br><span class="line">    driver.get(weibo_url)</span><br><span class="line">    driver.implicitly_wait(<span class="number">5</span>)</span><br><span class="line"></span><br><span class="line">    content_textarea = driver.find_element_by_css_selector(<span class="string">&#x27;textarea.W.input&#x27;</span>).clear()</span><br><span class="line">    content_textarea = driver.find_element_by_css_selector(<span class="string">&#x27;textarea.W.input&#x27;</span>).send_keys(content)</span><br><span class="line"></span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">    comment_button = driver.find_element_by_css_selector(<span class="string">&#x27;.W_btn_a&#x27;</span>).click()</span><br><span class="line"></span><br><span class="line"><span class="comment"># post the text</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">post_weibo</span>(<span class="params">content</span>):</span><br><span class="line">    <span class="comment"># go to the user index</span></span><br><span class="line">    driver.get(<span class="string">&#x27;https://weibo.com&#x27;</span>)</span><br><span class="line">    driver.implicitly_wait(<span class="number">5</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># click publish button</span></span><br><span class="line">    <span class="comment"># post_button = driver.find_element_by_css_selector(&#x27;[node-type=&quot;publish&quot;]&#x27;).click()</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># input content word to textarea</span></span><br><span class="line">    content_textarea = driver.find_element_by_css_selector(<span class="string">&#x27;textarea.W_input[node-type=&quot;textEl&quot;]&#x27;</span>).send_keys(content)</span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># click publish button</span></span><br><span class="line">    post_button = driver.find_element_by_css_selector(<span class="string">&quot;[node-type=&#x27;submit&#x27;]&quot;</span>).click()</span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># comment the weibo</span></span><br><span class="line">weibo_url = <span class="string">&#x27;https://weibo.com/1890826225/HjjqSahwl&#x27;</span></span><br><span class="line">content= <span class="string">&#x27;here is Hivan du, Best wish to u.&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># auto send weibo</span></span><br><span class="line">content = <span class="string">&#x27;Learning is a belief!&#x27;</span></span><br><span class="line">post_weibo(content)</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://hivan.me/auto_operation_weibo/" data-id="clid1n2wg003n2nj7dzdc39fa" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://hivan.me/boston_data_CART/" data-id="clid1r2g9003f56j7h19j1kgn" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -732,7 +732,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hivan.me/digits_recognition/" data-id="clid1n2wg003r2nj78tmi5t26" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://hivan.me/digits_recognition/" data-id="clid1r2ga003u56j72ojparpx" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -960,7 +960,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hivan.me/Analysis_data_and_research_report_collection/" data-id="clid1n2w2000c2nj7a41qdk4r" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://hivan.me/Analysis_data_and_research_report_collection/" data-id="clid1r2fw000556j78wxvhlrv" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       

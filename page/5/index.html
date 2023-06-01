@@ -101,7 +101,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hivan.me/%E4%BE%9B%E5%BA%94%E9%93%BE%E7%9A%84%E6%A0%B9%E6%9C%AC%E6%98%AF%E5%8D%8F%E4%BD%9C%EF%BC%8C%E9%82%A3%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E5%8D%8F%E4%BD%9C/" data-id="clid1n2ws007x2nj77vv7fptp" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://hivan.me/%E4%BE%9B%E5%BA%94%E9%93%BE%E7%9A%84%E6%A0%B9%E6%9C%AC%E6%98%AF%E5%8D%8F%E4%BD%9C%EF%BC%8C%E9%82%A3%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E5%8D%8F%E4%BD%9C/" data-id="clid1r2gp009f56j7hsmubk31" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -134,7 +134,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hivan.me/%E4%BB%8E%E7%BE%8E%E5%9B%BD%E4%B8%89%E5%A4%A7%E5%8D%8F%E4%BC%9A%E8%AF%B4%E4%BE%9B%E5%BA%94%E9%93%BE%E7%AE%A1%E7%90%86%E7%9A%84%E6%BC%94%E5%8F%98/" data-id="clid1n2ws007v2nj7atyp8f0y" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://hivan.me/%E4%BB%8E%E7%BE%8E%E5%9B%BD%E4%B8%89%E5%A4%A7%E5%8D%8F%E4%BC%9A%E8%AF%B4%E4%BE%9B%E5%BA%94%E9%93%BE%E7%AE%A1%E7%90%86%E7%9A%84%E6%BC%94%E5%8F%98/" data-id="clid1r2gl007y56j7g6vd7j00" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -167,73 +167,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hivan.me/mac-apache/" data-id="clid1n2wm005s2nj7bysn52o9" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-mac-False-Desktop-icon" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/mac-False-Desktop-icon/" class="article-date">
-  <time class="dt-published" datetime="2021-08-31T14:21:07.787Z" itemprop="datePublished">2021-08-31</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Mac隐藏-x2F-显示桌面图标"><a href="#Mac隐藏-x2F-显示桌面图标" class="headerlink" title="Mac隐藏&#x2F;显示桌面图标"></a>Mac隐藏&#x2F;显示桌面图标</h1><h2 id="Shell"><a href="#Shell" class="headerlink" title="Shell:"></a>Shell:</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">defaults <span class="built_in">write</span> com.apple.finder CreateDesktop <span class="literal">-bool</span> FALSE;killall Finder</span><br></pre></td></tr></table></figure>
-<p>&amp;</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">defaults delete com.apple.finder CreateDesktop;killall Finder</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="AppleScript"><a href="#AppleScript" class="headerlink" title="AppleScript:"></a>AppleScript:</h2><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">display dialog</span> <span class="string">&quot;桌面图标设置为可见或隐藏?&quot;</span> buttons &#123;<span class="string">&quot;可见&quot;</span>, <span class="string">&quot;隐藏&quot;</span>&#125; <span class="keyword">with</span> icon <span class="number">2</span> <span class="keyword">with</span> title <span class="string">&quot;Switch to presentation mode&quot;</span> default button <span class="number">1</span></span><br><span class="line"><span class="keyword">set</span> switch <span class="keyword">to</span> button returned <span class="keyword">of</span> <span class="literal">result</span></span><br><span class="line"><span class="keyword">if</span> switch <span class="keyword">is</span> <span class="string">&quot;隐藏&quot;</span> <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">do shell script</span> <span class="string">&quot;defaults write com.apple.finder CreateDesktop -bool FALSE;killall Finder&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">        <span class="built_in">do shell script</span> <span class="string">&quot;defaults delete com.apple.finder CreateDesktop;killall Finder&quot;</span></span><br><span class="line"><span class="keyword">end</span> <span class="keyword">if</span></span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://hivan.me/mac-False-Desktop-icon/" data-id="clid1n2wn005x2nj7beal9xac" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-mac-max_open" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/mac-max_open/" class="article-date">
-  <time class="dt-published" datetime="2021-08-31T14:21:07.787Z" itemprop="datePublished">2021-08-31</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Mac-MAX-open"><a href="#Mac-MAX-open" class="headerlink" title="Mac MAX_open"></a>Mac MAX_open</h1><p>在使用Hexo的过程里，经常会卡在deploy指令上，错误原因之一可能是因为Mac的MAX_open数小的原因，Linux默认为1024，而Mac上只有256，所以只要修改MAX_open数就可以了。指令如下：</p>
-        
-          <p class="article-more-link">
-            <a href="/mac-max_open/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://hivan.me/mac-max_open/" data-id="clid1n2wn00602nj72zxf5pw7" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://hivan.me/mac-apache/" data-id="clid1r2gg005x56j74xnu61pt" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -267,7 +201,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hivan.me/mac-port-occupied/" data-id="clid1n2wn00622nj7gz576td6" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://hivan.me/mac-port-occupied/" data-id="clid1r2gg006056j79pc75cwv" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -300,7 +234,73 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hivan.me/macxian-shi-yin-cang-wen-jian/" data-id="clid1n2wn00682nj7bobwee7n" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://hivan.me/macxian-shi-yin-cang-wen-jian/" data-id="clid1r2gg006156j70e5jdfh8" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-mac-False-Desktop-icon" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/mac-False-Desktop-icon/" class="article-date">
+  <time class="dt-published" datetime="2021-08-31T14:21:07.787Z" itemprop="datePublished">2021-08-31</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Mac隐藏-x2F-显示桌面图标"><a href="#Mac隐藏-x2F-显示桌面图标" class="headerlink" title="Mac隐藏&#x2F;显示桌面图标"></a>Mac隐藏&#x2F;显示桌面图标</h1><h2 id="Shell"><a href="#Shell" class="headerlink" title="Shell:"></a>Shell:</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">defaults <span class="built_in">write</span> com.apple.finder CreateDesktop <span class="literal">-bool</span> FALSE;killall Finder</span><br></pre></td></tr></table></figure>
+<p>&amp;</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">defaults delete com.apple.finder CreateDesktop;killall Finder</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="AppleScript"><a href="#AppleScript" class="headerlink" title="AppleScript:"></a>AppleScript:</h2><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">display dialog</span> <span class="string">&quot;桌面图标设置为可见或隐藏?&quot;</span> buttons &#123;<span class="string">&quot;可见&quot;</span>, <span class="string">&quot;隐藏&quot;</span>&#125; <span class="keyword">with</span> icon <span class="number">2</span> <span class="keyword">with</span> title <span class="string">&quot;Switch to presentation mode&quot;</span> default button <span class="number">1</span></span><br><span class="line"><span class="keyword">set</span> switch <span class="keyword">to</span> button returned <span class="keyword">of</span> <span class="literal">result</span></span><br><span class="line"><span class="keyword">if</span> switch <span class="keyword">is</span> <span class="string">&quot;隐藏&quot;</span> <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">do shell script</span> <span class="string">&quot;defaults write com.apple.finder CreateDesktop -bool FALSE;killall Finder&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">        <span class="built_in">do shell script</span> <span class="string">&quot;defaults delete com.apple.finder CreateDesktop;killall Finder&quot;</span></span><br><span class="line"><span class="keyword">end</span> <span class="keyword">if</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hivan.me/mac-False-Desktop-icon/" data-id="clid1r2gg006556j77s4n3ra3" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-mac-max_open" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/mac-max_open/" class="article-date">
+  <time class="dt-published" datetime="2021-08-31T14:21:07.787Z" itemprop="datePublished">2021-08-31</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Mac-MAX-open"><a href="#Mac-MAX-open" class="headerlink" title="Mac MAX_open"></a>Mac MAX_open</h1><p>在使用Hexo的过程里，经常会卡在deploy指令上，错误原因之一可能是因为Mac的MAX_open数小的原因，Linux默认为1024，而Mac上只有256，所以只要修改MAX_open数就可以了。指令如下：</p>
+        
+          <p class="article-more-link">
+            <a href="/mac-max_open/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hivan.me/mac-max_open/" data-id="clid1r2gh006f56j7apuvbnwg" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -334,7 +334,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hivan.me/note-about-my-ubuntu/" data-id="clid1n2wo006d2nj71zo3243l" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://hivan.me/note-about-my-ubuntu/" data-id="clid1r2gh006i56j7gpzq3ety" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -368,7 +368,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hivan.me/reinstall-mac-osx-Yosemite/" data-id="clid1n2wp006y2nj76d81a79i" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://hivan.me/reinstall-mac-osx-Yosemite/" data-id="clid1r2gi007056j7ax2vbmns" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
@@ -402,7 +402,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://hivan.me/setting-pow-at-Yosemite/" data-id="clid1n2wq00762nj7hh4faimq" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      <a data-url="https://hivan.me/setting-pow-at-Yosemite/" data-id="clid1r2gj007756j749yv2q7q" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
       
       
       
