@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>06 快速建立一个AI应用 | 茶桁.MAMT</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Hi，我是茶桁。 在过去的两讲中，我们已经使用 OpenAI 提供的 Embedding 接口完成了文本分类的功能。现在，我们回到 Completion 接口，这一讲将带你更深入地了解该接口的使用。除此之外，我们还将快速搭建一个有界面的聊天机器人，这将让你更好地理解 Completion 接口的应用场景。在这个过程中，你将第一次使用 HuggingFace 这个平台，它是目前最流行的深度学习模型社">
+<meta property="og:type" content="article">
+<meta property="og:title" content="06 快速建立一个AI应用">
+<meta property="og:url" content="https://hivan.me/Quickly-build-an-AI-application/index.html">
+<meta property="og:site_name" content="茶桁.MAMT">
+<meta property="og:description" content="Hi，我是茶桁。 在过去的两讲中，我们已经使用 OpenAI 提供的 Embedding 接口完成了文本分类的功能。现在，我们回到 Completion 接口，这一讲将带你更深入地了解该接口的使用。除此之外，我们还将快速搭建一个有界面的聊天机器人，这将让你更好地理解 Completion 接口的应用场景。在这个过程中，你将第一次使用 HuggingFace 这个平台，它是目前最流行的深度学习模型社">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://qiniu.hivan.me/picGo/20230601165713.png?imgNote">
+<meta property="og:image" content="http://qiniu.hivan.me/picGo/20230601165716.png?imgNote">
+<meta property="og:image" content="http://qiniu.hivan.me/picGo/20230601165722.png?imgNote">
+<meta property="og:image" content="http://qiniu.hivan.me/picGo/20230601165729.png?imgNote">
+<meta property="og:image" content="http://qiniu.hivan.me/picGo/20230601165747.png?imgNote">
+<meta property="og:image" content="http://qiniu.hivan.me/picGo/20230601165800.png?imgNote">
+<meta property="og:image" content="http://qiniu.hivan.me/picGo/20230601165811.png?imgNote">
+<meta property="og:image" content="http://qiniu.hivan.me/picGo/20230601165818.png?imgNote">
+<meta property="og:image" content="http://qiniu.hivan.me/picGo/20230601165828.png?imgNote">
+<meta property="og:image" content="http://qiniu.hivan.me/picGo/20230601165833.png?imgNote">
+<meta property="article:published_time" content="2023-05-13T08:56:19.000Z">
+<meta property="article:modified_time" content="2023-06-01T09:22:53.255Z">
+<meta property="article:author" content="Hivan Du">
+<meta property="article:tag" content="AI">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://qiniu.hivan.me/picGo/20230601165713.png?imgNote">
+  
+    <link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">茶桁.MAMT</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">ChaHeng Notes，codding and writting ~</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://hivan.me"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Quickly-build-an-AI-application" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/Quickly-build-an-AI-application/" class="article-date">
+  <time class="dt-published" datetime="2023-05-13T08:56:19.000Z" itemprop="datePublished">2023-05-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/">从零开始接触人工智能大模型</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      06 快速建立一个AI应用
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>Hi，我是茶桁。</p>
+<p>在过去的两讲中，我们已经使用 OpenAI 提供的 Embedding 接口完成了文本分类的功能。现在，我们回到 Completion 接口，这一讲将带你更深入地了解该接口的使用。除此之外，我们还将快速搭建一个有界面的聊天机器人，这将让你更好地理解 Completion 接口的应用场景。在这个过程中，你将第一次使用 HuggingFace 这个平台，它是目前最流行的深度学习模型社区。通过 HuggingFace，你可以下载到最新的开源模型，查看其他人提供的示例代码，并参与到社区的交流中。</p>
+<span id="more"></span>
+
+<h2 id="价廉高质的ChatGPT"><a href="#价廉高质的ChatGPT" class="headerlink" title="价廉高质的ChatGPT"></a>价廉高质的ChatGPT</h2><p>我们在[第三讲](<a target="_blank" rel="noopener" href="https://www.hivan.me/Let's">https://www.hivan.me/Let&#39;s</a> Build a Chatbot)里介绍了Completion接口，并且通过它实现了一个聊天机器人的功能。在那个时候，我们采用的是自己将整个对话拼接起来，将整个上下文都发送给 OpenAI 的 Completion API 的方式。不过，在 3 月 2 日，因为 ChatGPT 的火热，OpenAI 放出了一个直接可以进行对话聊天的接口。这个接口叫做 ChatCompletion，对应的模型叫做 gpt-3.5-turbo，不但用起来更容易了，速度还快，而且价格也是我们之前使用的 text-davinci-003 的十分之一，可谓是物美价廉了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Note: you need to be using OpenAI Python v0.27.0 for the code below to work</span></span><br><span class="line"></span><br><span class="line">openai.ChatCompletion.create(</span><br><span class="line">  model=<span class="string">&quot;gpt-3.5-turbo&quot;</span>,</span><br><span class="line">  messages=[</span><br><span class="line">        &#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;system&quot;</span>, <span class="string">&quot;content&quot;</span>: <span class="string">&quot;You are a helpful assistant.&quot;</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;user&quot;</span>, <span class="string">&quot;content&quot;</span>: <span class="string">&quot;Who won the world series in 2020?&quot;</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;assistant&quot;</span>, <span class="string">&quot;content&quot;</span>: <span class="string">&quot;The Los Angeles Dodgers won the World Series in 2020.&quot;</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;user&quot;</span>, <span class="string">&quot;content&quot;</span>: <span class="string">&quot;Where was it played?&quot;</span>&#125;</span><br><span class="line">    ]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这里需要注意，我们运行这段代码需要的是OpenAI Python v0.27.0， 或者以上版本。如果你的版本过低，可能会报错找不到ChatCompletion这个方法，这个时候请重新更新一下你的OpenAI API库 <code>conda install -c conda-forge openai</code></p>
+</blockquote>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://platform.openai.com/docs/guides/chat">这个链接</a>内，你可以看到官方的接口调用示例</p>
+</blockquote>
+<p>在 OpenAI 的官方文档里，可以看到这个接口也非常简单。实际上，在使用 OpenAI API 进行自然语言处理时，你只需要传入一个包括多个元素的数组。每个数组元素都包含两个字段： <code>role</code> 和 <code>content</code>。其中，role 字段具有三种选择，分别为 <code>system</code>、 <code>user</code>  和 <code>assistant</code>。</p>
+<p>当 <code>role</code> 字段的取值为 <code>system</code> 时， <code>content</code> 字段中的内容表示我们向 AI 发送的指令，也就是告诉 AI 如何回答用户的问题。例如，如果我们希望 AI 通过中文回答用户的问题，我们就可以在 content 字段中写入“你是一个只会用中文回答问题的助理”。这样，即使用户的问题是用英语提出的，AI 的回答也会是中文的。</p>
+<p>当 <code>role</code> 字段的取值为 <code>user</code> 或 <code>assistant</code> 时， <code>content</code> 字段中的内容则表示用户和 AI 之间的对话内容。与我们在[第 03 讲](<a target="_blank" rel="noopener" href="https://www.hivan.me/Let's">https://www.hivan.me/Let&#39;s</a> Build a Chatbot)中制作的聊天机器人类似，你需要将对话历史记录一起发送给 OpenAI 的接口，这样它才能理解整个对话的上下文，并作出更加准确的回答。</p>
+<p>有了这个接口，我们就可以很方便地封装一个聊天机器人。聊天机器人能够在许多领域中发挥作用，比如在客服领域中，它可以帮助客户解决问题。在社交娱乐领域中，聊天机器人可以模拟真实的人类交流，从而为人们提供更好的体验。此外，我们还可以通过加入自然语言处理算法，让聊天机器人更加聪明、更加智能化。下面是我封装的聊天机器人的代码，一起来看一看吧。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> openai</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">openai.api_key = <span class="string">&#x27;OPENAI_API_KEY&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Conversation</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, prompt, num_of_round</span>):</span><br><span class="line">        self.prompt = prompt</span><br><span class="line">        self.num_of_round = num_of_round</span><br><span class="line">        self.messages = []</span><br><span class="line">        self.messages.append(&#123;<span class="string">&#x27;role&#x27;</span>:<span class="string">&#x27;system&#x27;</span>, <span class="string">&#x27;content&#x27;</span>: self.prompt&#125;)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">ask</span>(<span class="params">self, question</span>):</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            self.messages.append(&#123;<span class="string">&#x27;role&#x27;</span>:<span class="string">&#x27;user&#x27;</span>, <span class="string">&#x27;content&#x27;</span>: question&#125;)</span><br><span class="line">            response = openai.ChatCompletion.create(</span><br><span class="line">                model=<span class="string">&#x27;gpt-3.5-turbo&#x27;</span>,</span><br><span class="line">                messages = self.messages,</span><br><span class="line">                temperature = <span class="number">0.5</span>,</span><br><span class="line">                max_tokens = <span class="number">2048</span>,</span><br><span class="line">                top_p = <span class="number">1</span>,</span><br><span class="line">            )</span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">            <span class="built_in">print</span>(e)</span><br><span class="line">            <span class="keyword">return</span> e</span><br><span class="line">        </span><br><span class="line">        message  = response[<span class="string">&#x27;choices&#x27;</span>][<span class="number">0</span>][<span class="string">&#x27;message&#x27;</span>][<span class="string">&#x27;content&#x27;</span>]</span><br><span class="line">        self.messages.append(&#123;<span class="string">&#x27;role&#x27;</span>:<span class="string">&#x27;assistant&#x27;</span>, <span class="string">&#x27;content&#x27;</span>: message&#125;)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(self.messages) &gt; self.num_of_round*<span class="number">2</span> + <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">del</span> self.messages[<span class="number">1</span>:<span class="number">3</span>] <span class="comment"># Remove the first round conversation left</span></span><br><span class="line">        <span class="keyword">return</span> message</span><br></pre></td></tr></table></figure>
+
+<p>我们为了更好地使用这个聊天机器人，封装了一个 Conversation 类，构造函数 init 接受两个参数。第一个参数是 prompt，表示我们对这个聊天机器人的指令，它是系统的 content。第二个参数是 num_of_round，代表每次向 ChatGPT 发起请求时，保留过去几轮会话。这个构造函数的作用是初始化 ChatGPT 对象和对话数组。</p>
+<p>我们的 Conversation 类只有一个 ask 函数，输入是一个 string 类型的 question，返回结果也是 string 类型的一条 message。每次调用 ask 函数，都会向 ChatGPT 发起一个请求。在这个请求中，我们会把最新的问题拼接到整个对话数组的最后，得到 ChatGPT 的回答之后再把回答拼接上去。如果回答完之后，发现会话的轮数超过我们设置的 num_of_round，我们就去掉最前面的一轮会话。</p>
+<p>因此，我们的 Conversation 类可以帮助我们更好地管理整个聊天过程，并且可以根据我们的需求来定制保留会话轮数的数量。现在，我们可以尝试使用这个 Conversation 类来和聊天机器人进行交互，享受无限畅聊的乐趣。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">prompt = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">你是一个律师，用中文回答一些法律的问题。你的回答需要满足以下要求:</span></span><br><span class="line"><span class="string">1. 你的回答必须是中文</span></span><br><span class="line"><span class="string">2. 回答限制在100个字以</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">conv1 = Conversation(prompt, <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">question1 = <span class="string">&quot;你是谁？&quot;</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;User : %s&quot;</span> % question1)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Assistant : %s\n&quot;</span> % conv1.ask(question1))</span><br><span class="line"></span><br><span class="line">question2 = <span class="string">&quot;请问什么是正当防卫？&quot;</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;User : %s&quot;</span> % question2)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Assistant : %s\n&quot;</span> % conv1.ask(question2))</span><br><span class="line"></span><br><span class="line">question3 = <span class="string">&quot;那防卫过当呢？&quot;</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;User : %s&quot;</span> % question3)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Assistant : %s\n&quot;</span> % conv1.ask(question3))</span><br></pre></td></tr></table></figure>
+
+<p>我们给 ChatGPT 下达了指令，让它扮演一位中国律师，使用中文回答问题，每个回答不超过100个字，并设置AI只记住过去三轮对话。</p>
+<p>接着，我们按顺序问了三个问题：“您是谁？”、“请问什么是正当防卫？”以及“那防卫过当呢？”。</p>
+<p>可以看到，它在回答中表示自己能够回答法律问题，每个回答都在100个字以内。</p>
+<p>此外，当我们问它“那防卫过当呢？”时，它也确实记住了上下文，知道我们正在问法律问题，而不是其他信息。为了保证回答充分，我们可以补充一些细节和背景信息，如何定义正当防卫以及何时认为防卫过当等。这些信息将有助于更全面地回答用户的问题。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">User : 你是谁？</span><br><span class="line">Assistant : 我是一个AI语言模型，专门用于回答各种问题，包括法律问题。</span><br><span class="line"></span><br><span class="line">User : 请问什么是正当防卫？</span><br><span class="line">Assistant : 正当防卫是指在必要时为了保护自己、他人或者国家公共利益而采取的防御行为。在我国法律中，对于正当防卫的情况，法律规定可以免除或减轻犯罪责任。但是，正当防卫也有限制，必须符合法律规定的情形和条件，否则可能构成违法犯罪行为。</span><br><span class="line"></span><br><span class="line">User : 那防卫过当呢？</span><br><span class="line">Assistant : 防卫过当是指在正当防卫行为中，因过度防卫而超出了必要限度，对袭击者造成了严重伤害或者死亡的行为。在我国法律中，防卫过当是不被允许的，因为它已经超出了必要的防卫范围，可能构成过失犯罪或者故意犯罪。如果行为构成犯罪，防卫人需要承担相应的法律责任。</span><br></pre></td></tr></table></figure>
+
+<p>在问完了 3 个问题之后，我们又问了第四个问题，也就是我们最初问它的问题是什么。因为记录了过去 1-3 轮的对话，所以它能正确地回答出我们最初问的是”你是谁”。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">question4 = <span class="string">&quot;我问你的第一个问题是什么？&quot;</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;User : %s&quot;</span> % question4)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Assistant : %s\n&quot;</span> % conv1.ask(question4))</span><br><span class="line"><span class="comment"># 输出结果</span></span><br><span class="line">User : 我问你的第一个问题是什么？</span><br><span class="line">Assistant : 你问的第一个问题是：<span class="string">&quot;请问什么是正当防卫？&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到，回答我们的是“请问什么是正当防卫？”， 这个问题对于我们提问来说似乎是第二个，先不管这个，继续问问看，看看我们设置的次数限制有没有效果。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">question5 = <span class="string">&quot;我问你的第一个问题是什么？&quot;</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;User : %s&quot;</span> % question5)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Assistant : %s\n&quot;</span> % conv1.ask(question5))</span><br><span class="line"><span class="comment"># 输出结果</span></span><br><span class="line">User : 我问你的第一个问题是什么？</span><br><span class="line">Assistant : 你问的第一个问题是：<span class="string">&quot;那防卫过当呢？&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>似乎是剔除了一个最前方的问题，原因是我在问道这个问题的时候，也算是一个新问题。上一轮已经是第四轮了，而我们设置记住的 num_of_round 是 3。在上一轮的问题回答完了之后，AI记录的第一轮的关于”请问什么是正当防卫？”的问答，被我们从 ChatGPT 的对话历史里去掉了。所以这个时候，它会告诉我们，第一个问题是”那防卫过当呢？”。</p>
+<h2 id="聊天的成本"><a href="#聊天的成本" class="headerlink" title="聊天的成本"></a>聊天的成本</h2><p>无论是在[第 03 讲](<a target="_blank" rel="noopener" href="https://www.hivan.me/Let's">https://www.hivan.me/Let&#39;s</a> Build a Chatbot)里，还是这一讲里，我们每次都要发送一大段之前的聊天记录给到 OpenAI。这是由 OpenAI 的 GPT-3 系列的大语言模型的原理所决定的。GPT-3 系列的模型的使用流程非常简单，只需要提供一段文字，它就可以续写下一段内容。因为 OpenAI 为了能够方便地为所有人提供服务，没有在服务器端维护整个对话过程自己去拼接，所以就需要由你来拼接。</p>
+<p>实际上，在 ChatGPT 的接口中，虽然把对话分成了一个数组，但最终发送给模型的仍然是拼接到一起的字符串。为了方便用户使用，OpenAI 提供了一个名为 <a target="_blank" rel="noopener" href="https://github.com/openai/openai-python/blob/main/chatml.md">ChatML</a> 的格式，它是 ChatGPT 的 API 的底层实现。OpenAI 根据一个定义好特定分隔符的格式，将提供的多轮对话内容拼接在一起，然后提交给 gpt-3.5-turbo 这个模型。这样，用户就可以轻松地使用 ChatGPT 接口进行对话，而不必担心对话过程中的拼接问题。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;|im_start|&gt;system</span><br><span class="line">You are ChatGPT, a large language model trained by OpenAI. Answer as concisely as possible.</span><br><span class="line">Knowledge cutoff: 2021-09-01</span><br><span class="line">Current date: 2023-03-01&lt;|im_end|&gt;</span><br><span class="line">&lt;|im_start|&gt;user</span><br><span class="line">How are you&lt;|im_end|&gt;</span><br><span class="line">&lt;|im_start|&gt;assistant</span><br><span class="line">I am doing well!&lt;|im_end|&gt;</span><br><span class="line">&lt;|im_start|&gt;user</span><br><span class="line">How are you now?&lt;|im_end|&gt;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注：chatml 的文档里，你可以看到你的对话，就是通过 &lt;|im_start|&gt;system|user|assistant、&lt;|im_end|&gt; 这些分隔符分割拼装的字符串。底层仍然是一个内容续写的大语言模型。</p>
+</blockquote>
+<p>ChatGPT 是一个方便易用的对话模型，但是在使用过程中需要注意一些细节。特别是在需要传达大量上下文信息的情况下，可能需要消耗更多的费用。OpenAI 根据模型处理的 Token 数量来计算费用，但需要注意的是，这种费用是”双向收费”的。也就是说，费用是根据发送给 ChatGPT 的上下文和 ChatGPT 返回的内容所包含的 Token 数量总和来计算的。</p>
+<p>从模型原理上来看，这种计费方式是合理的。因为每一个 Token，无论是发送给 ChatGPT 的还是 ChatGPT 返回的，都需要通过 GPU 或 CPU 进行计算。因此，你发送的上下文越长，ChatGPT 消耗的资源也会越多。但是在实际使用中，你可能会感到疑惑。比如，你进行了 10 轮对话，一共发送了 1000 个 Token，那么你可能会认为只需要支付 1000 个 Token 的费用。然而实际上，由于每一轮对话都需要发送之前的上下文，因此第二轮需要 200 个 Token，第三轮需要 300 个 Token，以此类推。因此，10 轮对话所需要的 Token 数量是 5500，而不是之前估算的 1000。</p>
+<p>如果你要开发 ChatGPT 应用，计算 Token 的数量是非常重要的。下面是一段示例代码，可以帮助你计算在 ChatGPT 对话模型下所消耗的 Token 数量。</p>
+<h3 id="通过-API-计算-Token-数量"><a href="#通过-API-计算-Token-数量" class="headerlink" title="*通过 API 计算 Token 数量*"></a><em><strong>*通过 API 计算 Token 数量*</strong></em></h3><p>第一种计算 Token 数量的方式，是从 API 返回的结果里面获取。当我们调用 API 时，我们可以从返回的结果中获取 Token 的数量。这个数量代表了这次请求消耗的 Token 数。我们可以利用这个信息来计算出整个会话过程中使用的 Token 数量。为了实现这个计算方式，我们需要修改一下刚才的 Conversation 类。我们可以重新创建一个 Conversation2 类来实现这个功能。这个新类和之前的类只有一个不同，就是 ask 函数除了返回回复的消息之外，还会返回这次请求消耗的 Token 数。这样我们就可以更好地掌握整个会话过程中的 Token 使用情况，从而更好地优化我们的代码和算法。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Conversation2</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, prompt, num_of_round</span>):</span><br><span class="line">        self.prompt = prompt</span><br><span class="line">        self.num_of_round = num_of_round</span><br><span class="line">        self.messages = []</span><br><span class="line">        self.messages.append(&#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;system&quot;</span>, <span class="string">&quot;content&quot;</span>: self.prompt&#125;)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">ask</span>(<span class="params">self, question</span>):</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            self.messages.append( &#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;user&quot;</span>, <span class="string">&quot;content&quot;</span>: question&#125;)</span><br><span class="line">            response = openai.ChatCompletion.create(</span><br><span class="line">                model=<span class="string">&quot;gpt-3.5-turbo&quot;</span>,</span><br><span class="line">                messages=self.messages,</span><br><span class="line">                temperature=<span class="number">0.5</span>,</span><br><span class="line">                max_tokens=<span class="number">2048</span>,</span><br><span class="line">                top_p=<span class="number">1</span>,</span><br><span class="line">            )</span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">            <span class="built_in">print</span>(e)</span><br><span class="line">            <span class="keyword">return</span> e</span><br><span class="line"></span><br><span class="line">        message = response[<span class="string">&quot;choices&quot;</span>][<span class="number">0</span>][<span class="string">&quot;message&quot;</span>][<span class="string">&quot;content&quot;</span>]</span><br><span class="line">        num_of_tokens = response[<span class="string">&#x27;usage&#x27;</span>][<span class="string">&#x27;total_tokens&#x27;</span>]</span><br><span class="line">        self.messages.append(&#123;<span class="string">&quot;role&quot;</span>: <span class="string">&quot;assistant&quot;</span>, <span class="string">&quot;content&quot;</span>: message&#125;)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(self.messages) &gt; self.num_of_round*<span class="number">2</span> + <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">del</span> self.messages[<span class="number">1</span>:<span class="number">3</span>]</span><br><span class="line">        <span class="keyword">return</span> message, num_of_tokens</span><br></pre></td></tr></table></figure>
+
+<p>然后我们还是问一遍之前的问题，看看每一轮问答消耗的 Token 数量。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">conv2 = Conversation2(prompt, <span class="number">3</span>)</span><br><span class="line">questions = [question1, question2, question3, question4, question5]</span><br><span class="line"><span class="keyword">for</span> question <span class="keyword">in</span> questions:</span><br><span class="line">    answer, num_of_tokens = conv2.ask(question)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;询问 &#123;%s&#125; 消耗的token数量是 : %d&quot;</span> % (question, num_of_tokens))输出结果：</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">询问&#123;你是谁？&#125; 消耗的Token数量是： <span class="number">113</span></span><br><span class="line">询问&#123;请问什么是正当防卫？&#125; 消耗的Token数量是： <span class="number">302</span></span><br><span class="line">询问&#123;那防卫过当呢？&#125; 消耗的Token数量是： <span class="number">516</span></span><br><span class="line">询问&#123;我问你的第一个问题是什么？&#125; 消耗的Token数量是： <span class="number">549</span></span><br><span class="line">询问&#123;我问你的第一个问题是什么？&#125; 消耗的Token数量是： <span class="number">546</span></span><br></pre></td></tr></table></figure>
+
+<p>根据我们的数据，我们可以看出前几轮的 Token 消耗数量在逐渐增多，这表明 ChatGPT 能在前几轮对话中提供更多的信息和回答。然而，最后 3 轮的 Token 消耗数量保持不变。这是因为我们代码里只使用过去 3 轮的对话内容向 ChatGPT 发起请求。我们可以考虑增加对话轮数以便更好地利用 ChatGPT 的能力，同时也需要注意 Token 消耗量的控制。</p>
+<h3 id="通过-Tiktoken-库计算-Token-数量"><a href="#通过-Tiktoken-库计算-Token-数量" class="headerlink" title="*通过 Tiktoken 库计算 Token 数量*"></a><em><strong>*通过 Tiktoken 库计算 Token 数量*</strong></em></h3><p>第二种方式是使用Python库Tiktoken对文本进行分词并计算Token数量。这种方法在上一讲中已经提到过。</p>
+<p>需要注意的是，使用不同的GPT模型需要对应不同的Tiktoken编码器模型。对应文档可以在以下链接中查询：<a target="_blank" rel="noopener" href="https://github.com/openai/openai-cookbook/blob/main/examples/How_to_count_tokens_with_tiktoken.ipynb">https://github.com/openai/openai-cookbook/blob/main/examples/How_to_count_tokens_with_tiktoken.ipynb</a></p>
+<p>我们所使用的ChatGPT模型采用的是cl100k_base的编码器。我们也可以用它计算第一轮对话使用的Token数量，以此来丰富我们的文本内容。 在计算Token数量方面，我们可以试着定义不同的计算方法，例如考虑标点符号的使用、停用词的去除、Token的长度等等。这些方法可以更加准确地计算Token数量，并且有助于我们更好地理解文本内容。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tiktoken</span><br><span class="line">encoding = tiktoken.get_encoding(<span class="string">&quot;cl100k_base&quot;</span>)</span><br><span class="line"></span><br><span class="line">conv2 = Conversation2(prompt, <span class="number">3</span>)</span><br><span class="line">question1 = <span class="string">&quot;你是谁？&quot;</span></span><br><span class="line">answer1, num_of_tokens = conv2.ask(question1)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;总共消耗的token数量是 : %d&quot;</span> % (num_of_tokens))</span><br><span class="line"></span><br><span class="line">prompt_count = <span class="built_in">len</span>(encoding.encode(prompt))</span><br><span class="line">question1_count = <span class="built_in">len</span>(encoding.encode(question1))</span><br><span class="line">answer1_count = <span class="built_in">len</span>(encoding.encode(answer1))</span><br><span class="line">total_count = prompt_count + question1_count + answer1_count</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Prompt消耗 %d Token, 问题消耗 %d Token，回答消耗 %d Token，总共消耗 %d Token&quot;</span> % (prompt_count, question1_count, answer1_count, total_count))</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">总共消耗的token数量是 : <span class="number">113</span></span><br><span class="line">Prompt消耗 <span class="number">66</span> Token, 问题消耗 <span class="number">5</span> Token，回答消耗 <span class="number">29</span> Token，总共消耗 <span class="number">100</span> Token</span><br></pre></td></tr></table></figure>
+
+<p>我们通过 API 获得了消耗的 Token 数，然后又通过 Tiktoken 分别计算了 System 的指示内容、用户的问题和 AI 生成的回答，发现了两者还有小小的差异。这个是因为，我们没有计算 OpenAI 去拼接它们内部需要的格式的 Token 数量。很多时候，我们都需要通过 Tiktoken 预先计算一下 Token 数量，避免提交的内容太多，导致 API 返回报错。</p>
+<p>为了更好地解决这个问题，我们可以使用一种称为“Tokenization”的技术。这种技术可以将一段文本分割成单个的词语或符号，这些词语或符号被称为Token。通过计算每个Token的数量，我们可以更准确地预测 API 的返回值。此外，我们还可以使用另一种技术，称为“Compression”，通过压缩文本以减少Token的数量。这样可以大大减少提交的内容，提高API的速度和准确性。</p>
+<h2 id="使用Gradio搭建一个聊天界面"><a href="#使用Gradio搭建一个聊天界面" class="headerlink" title="使用Gradio搭建一个聊天界面"></a>使用Gradio搭建一个聊天界面</h2><p>我们已经有了一个封装好的聊天机器人，但是它现在只能在 Python Notebook 中使用，每次需要通过调用代码来提问。因此，我们接下来将为我们封装好的 Convesation 接口开发一个界面，并添加一些新的功能。</p>
+<p>我们将使用 Gradio 这个 Python 库来开发这个聊天机器人的界面，因为它有以下几个优点。首先，我们现有的代码都是使用 Python 实现的，所以你不需要再去学习 JavaScript、TypeScript 以及相关的前端框架。其次，Gradio 渲染出来的界面可以直接在 Jupyter Notebook 中显示出来，这对于不了解技术的同学来说，大大减轻了其他环境搭建的负担。此外，Gradio 这个公司已被目前最大的开源机器学习模型社区 HuggingFace 收购了。你可以免费将 Gradio 的应用部署到 HuggingFace 上。接下来，我将教你如何部署，你可以将你自己开发的聊天机器人部署上去，让你的朋友们也能使用。最后，值得一提的是，在后面的课程中，我们有时也会使用一些开源的模型，而这些模型往往也托管在 HuggingFace 上。因此，使用 HuggingFace Gradio 的部署方式，特别方便我们演示给其他人看。</p>
+<blockquote>
+<p>注：Gradio 官方也有用其他开源预训练模型创建 Chatbot 的教程<a target="_blank" rel="noopener" href="https://gradio.app/creating-a-chatbot/">https://gradio.app/creating-a-chatbot/</a></p>
+</blockquote>
+<p>首先，让我们先安装所需的包：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda install -c conda-forge gradio</span><br></pre></td></tr></table></figure>
+
+<p>Gradio 应用的代码我也列在了下面，对应的逻辑也非常简单。首先，我们定义好了 system 这个系统角色的提示语，创建了一个 Conversation 对象。</p>
+<p>然后，我们为了更好的用户体验，对 answer 方法进行了进一步封装。在这个新的版本中，我们添加了更多的逻辑，使得 Chatbot 能够更好地处理用户的输入。具体来说，我们加入了一个新的函数，用于判断用户输入的语句是否是一个问题。如果是一个问题，我们会对其进行解答，并返回一个对应的答案。如果不是一个问题，我们会将其添加到历史记录中。</p>
+<p>此外，我们还对 Conversation 类进行了扩展，增加了一个名为“recommend”的方法。该方法可以根据用户的历史记录，为用户推荐一些相关的话题。这样可以增强 Chatbot 的交互性和趣味性。</p>
+<p>最后，我们通过一段 with 代码，创建了对应的聊天界面。Gradio 提供了一个现成的 Chatbot 组件，我们只需要调用它，然后提供一个文本输入框就好了。这样用户就可以通过输入文字与 Chatbot 进行交互，获取他们想要的信息。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gradio <span class="keyword">as</span> gr</span><br><span class="line"></span><br><span class="line">prompt = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">你是一个律师，用中文回答一些法律的问题。你的回答需要满足以下要求:</span></span><br><span class="line"><span class="string">1. 你的回答必须是中文</span></span><br><span class="line"><span class="string">2. 回答限制在100个字以</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">conv = Conversation(prompt, <span class="number">10</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">answer</span>(<span class="params">question, history=[]</span>):</span><br><span class="line">    history.append(question)</span><br><span class="line">    response = conv.ask(question)</span><br><span class="line">    history.append(response)</span><br><span class="line">    responses = [(u,b) <span class="keyword">for</span> u,b <span class="keyword">in</span> <span class="built_in">zip</span>(history[::<span class="number">2</span>], history[<span class="number">1</span>::<span class="number">2</span>])]</span><br><span class="line">    <span class="keyword">return</span> responses, history</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> gr.Blocks(css=<span class="string">&quot;#chatbot&#123;height:300px&#125; .overflow-y-auto&#123;height:500px&#125;&quot;</span>) <span class="keyword">as</span> demo:</span><br><span class="line">    chatbot = gr.Chatbot(elem_id=<span class="string">&quot;chatbot&quot;</span>)</span><br><span class="line">    state = gr.State([])</span><br><span class="line"></span><br><span class="line">    <span class="keyword">with</span> gr.Row():</span><br><span class="line">        txt = gr.Textbox(show_label=<span class="literal">False</span>, placeholder=<span class="string">&quot;Enter text and press enter&quot;</span>).style(container=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">    txt.submit(answer, [txt, state], [chatbot, state])</span><br><span class="line"></span><br><span class="line">demo.launch()</span><br></pre></td></tr></table></figure>
+
+<p>你直接在 Colab 或者你本地的 Jupyter Notebook 里面，执行一下这一讲到目前的所有代码，就得到了一个可以和 ChatGPT 聊天的机器人了。</p>
+<p>你可以直接在Jupyter中使用，当然，程序也提供了一个本地地址供你使用，如下图：</p>
+<p>VSCode Jupyter内：</p>
+<p><img src="http://qiniu.hivan.me/picGo/20230601165713.png?imgNote" alt="notion image"></p>
+<p>浏览器上：</p>
+<p><img src="http://qiniu.hivan.me/picGo/20230601165716.png?imgNote" alt="notion image"></p>
+<h2 id="部署到HuggingFace上"><a href="#部署到HuggingFace上" class="headerlink" title="部署到HuggingFace上"></a>部署到HuggingFace上</h2><p>如果你拥有一个聊天机器人，你肯定会想和你的朋友一起分享这个惊奇的机器人。为了让你的朋友也能使用这个机器人，我们建议你将它部署到 <a target="_blank" rel="noopener" href="https://huggingface.co/">HuggingFace</a> 上。</p>
+<ol>
+<li><p>首先，如果你还没有 HuggingFace 的账号，你需要先注册一个账号。选择Spaces之后，然后选择 “ Create New Space” 创建一个新的项目空间。接下来，你需要将机器人的代码上传到你的项目空间中。</p>
+</li>
+<li><ol>
+<li><img src="http://qiniu.hivan.me/picGo/20230601165722.png?imgNote" alt="notion image"></li>
+</ol>
+</li>
+<li><p>在接下来的界面里，你需要为你的 Space 取一个名字。这个名字应该是能够代表你的项目的，也应该是容易记忆的。你可以将你的 Space 命名为“gradio”，或者其他什么奇奇怪怪的名字。License随便选择一个协议，或者跟我一样选择MIT。在 Select the Space SDK 里面，你需要选择第二个 Gradio。这个 SDK 是一个简单易用的工具，能够帮助你快速地构建和部署你的应用程序。如果你对编程不是很熟悉，这个 SDK 就更加适合你了。在选择硬件方面，我们建议选择免费的选项。这样可以避免花费不必要的成本，同时也能够让你更加专注于开发你的应用程序。在选择项目的时候，我们建议选择 public。这样其他人就可以看到你的项目，给你提供反馈和建议。不过需要注意的是，public 的 space，是连你后面上传的代码也能够看到的。因此，你需要确保你上传的代码是没有敏感信息的，同时也需要遵守相关的法律法规。一切都准备好之后，选择最下方的Create Space按钮吧。</p>
+</li>
+<li><ol>
+<li><img src="http://qiniu.hivan.me/picGo/20230601165729.png?imgNote" alt="notion image"></li>
+</ol>
+</li>
+<li><p>创建成功后，会跳转到 HuggingFace 的 App 界面。在这个界面里，你可以找到如何使用当前 space 的方法，包括克隆 Clone 当前的 space 和提交代码部署 App 等。为了方便这个过程，我们只需要通过 Git 把当前 space 下载下来，然后提交两个文件就可以了。这两个文件对于 App 的部署非常重要。第一个文件包含了 App 的所有必要文件，第二个文件则包含了 App 的所有依赖。这些文件都需要在部署前进行正确的配置，以确保 App 能够顺利地运行。</p>
+</li>
+<li><ol>
+<li><a target="_blank" rel="noopener" href="http://app.py/">app.py</a> 包含了我们的 Gradio 应用；</li>
+<li>requirements.txt 包含了这个应用依赖的 Python 包，这里我们只依赖 OpenAI 这一个包。</li>
+<li><img src="http://qiniu.hivan.me/picGo/20230601165747.png?imgNote" alt="notion image"></li>
+</ol>
+</li>
+<li><p>下载这个Git到本地，如果本地没有这两个文件，记得自己创建一下，然后将我们刚才的代码粘贴到app.py内，最后全部提交:</p>
+</li>
+<li><ol>
+<li><img src="http://qiniu.hivan.me/picGo/20230601165800.png?imgNote" alt="notion image"></li>
+</ol>
+</li>
+<li><p>还记得咱们之前提到过，选择Public之后，不仅App，甚至于代码都是公开的吗？那么我们就不能在其中放入我们的Api Key这种敏感内容了，所以我们需要在HuggingFace的Space内设置一下这个环境变量。</p>
+</li>
+<li><ol>
+<li><p>你可以点击界面里面的 Settings，然后往下找到 Repository secret，点击New secret</p>
+</li>
+<li><ol>
+<li><img src="http://qiniu.hivan.me/picGo/20230601165811.png?imgNote" alt="notion image"></li>
+</ol>
+</li>
+<li><p>在 Name 这里输入 OPENAI_API_KEY，然后在 Secret value 里面填入你的 OpenAI 的密钥。</p>
+</li>
+<li><ol>
+<li><img src="http://qiniu.hivan.me/picGo/20230601165818.png?imgNote" alt="notion image"></li>
+</ol>
+</li>
+<li><p>最后，添加完成之后记得要重启一下Space</p>
+</li>
+<li><ol>
+<li><img src="http://qiniu.hivan.me/picGo/20230601165828.png?imgNote" alt="notion image"></li>
+</ol>
+</li>
+<li><p>好啦，这个时候，你可以重新点击 App 这个 Tab 页面，试试你的聊天机器人是否可以正常工作了。</p>
+</li>
+<li><p><img src="http://qiniu.hivan.me/picGo/20230601165833.png?imgNote" alt="notion image"></p>
+</li>
+</ol>
+</li>
+</ol>
+<p>因为本人比较吝啬，也就不提供免费的测试Demo了，文中用于演示的Demo也一并删除了，但是 <code>app.py</code>这个在Github上可以找到。</p>
+<p>有兴趣的可以去徐文浩的Spaces空间去测试下：<a target="_blank" rel="noopener" href="https://huggingface.co/spaces/xuwenhao83/simple_chatbot">https://huggingface.co/spaces/xuwenhao83/simple_chatbot</a></p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>希望通过这一讲，你已经学会了怎么使用 ChatGPT 的接口来实现一个聊天机器人了。在我们实现只保留固定轮数的对话的过程中，我们发现这样的限制可以防止聊天机器人在对话的过程中变得混乱。我们也了解到了通过在对话过程中一直发送所有上下文的原因，这使得聊天机器人能够更好地理解用户的意图和需求。</p>
+<p>此外，我们还学习了如何使用 Gradio 这个库来创建一个聊天机器人界面。通过使用 Gradio，我们可以轻松地为我们的聊天机器人提供一个直观的界面，使得用户可以更方便地与聊天机器人进行交互。</p>
+<p>最后，我们将这个简单的聊天机器人部署到了 HuggingFace 上。这为我们提供了一个可靠的平台，可以与他人分享我们的聊天机器人，并在他们的设备上使用。希望你可以在这个过程中享受到学习的乐趣，以及尝试着将这个聊天机器人进一步优化和扩展。</p>
+<h2 id="课后练习"><a href="#课后练习" class="headerlink" title="课后练习"></a>课后练习</h2><p>在这一讲里，我们讨论的是 Chatbot 的维护能力。目前 Chatbot 只能维护过去 N 轮的对话，这意味着如果对话很长的话，我们一开始对话的信息就被丢掉了。但是，我们可以采用一种不设定轮数，只限制传入的上下文的 Token 数量的方式来解决这个问题。这种方式可以让 Chatbot 尽可能多地记住上下文，同时在 Token 数量超标的时候再删减最开始的对话。</p>
+<p>要实现这个功能，你可以根据这一讲学到的内容，修改代码，让聊天机器人在不限制轮数的情况下，能够保存尽可能多的上下文信息。除了“忘记”开始的几轮，你还能想到什么办法让 AI 记住更多的上下文信息吗？</p>
+<p>期待能在评论区看到你的思考，也欢迎你把这节课分享给感兴趣的朋友，我们下一讲再见。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hivan.me/Quickly-build-an-AI-application/" data-id="clid1n2w7001i2nj77vs492vd" data-title="06 快速建立一个AI应用" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/" rel="tag">AI</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/AI-can-help-you-summarize-your-content/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          07 AI帮你做总结
+        
+      </div>
+    </a>
+  
+  
+    <a href="/Text-Classification/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">05 为文本分类</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/develop/">develop</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/software/">software</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/">从零开始接触人工智能大模型</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AI/" rel="tag">AI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ChatGPT/" rel="tag">ChatGPT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Chrome/" rel="tag">Chrome</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gmail/" rel="tag">Gmail</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Google/" rel="tag">Google</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Google-Plus/" rel="tag">Google Plus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gplus/" rel="tag">Gplus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mac/" rel="tag">Mac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mail/" rel="tag">Mail</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Model/" rel="tag">Model</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NFC/" rel="tag">NFC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/O2O/" rel="tag">O2O</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PS/" rel="tag">PS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/QQ/" rel="tag">QQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SNS/" rel="tag">SNS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Stable-Diffusion/" rel="tag">Stable Diffusion</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tool/" rel="tag">Tool</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Translate/" rel="tag">Translate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/allove/" rel="tag">allove</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/app/" rel="tag">app</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/avn/" rel="tag">avn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/" rel="tag">blog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bluehost/" rel="tag">bluehost</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/code/" rel="tag">code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/device/" rel="tag">device</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/feed/" rel="tag">feed</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/flickr/" rel="tag">flickr</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/forward/" rel="tag">forward</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gmail/" rel="tag">gmail</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/habari/" rel="tag">habari</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ifttt/" rel="tag">ifttt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/install/" rel="tag">install</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ireader/" rel="tag">ireader</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/istef/" rel="tag">istef</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/location/" rel="tag">location</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/more/" rel="tag">more</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/net/" rel="tag">net</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nitrous/" rel="tag">nitrous</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node/" rel="tag">node</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pageflakes/" rel="tag">pageflakes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/picasaweb/" rel="tag">picasaweb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/plugin/" rel="tag">plugin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reader/" rel="tag">reader</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/research/" rel="tag">research</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/search/" rel="tag">search</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sms/" rel="tag">sms</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/telnet/" rel="tag">telnet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/twitter/" rel="tag">twitter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/url/" rel="tag">url</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/version/" rel="tag">version</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows-8/" rel="tag">windows 8</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wordpress/" rel="tag">wordpress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%96%E7%95%8C%E6%9D%AF/" rel="tag">世界杯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%AE%E5%8D%9A/" rel="tag">微博</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%97%B6%E5%8C%BA/" rel="tag">时区</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A4%BE%E4%BA%A4/" rel="tag">社交</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%8A%B1%E5%84%BF%E5%BC%80%E4%BA%86/" rel="tag">花儿开了</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%A8%E6%83%85/" rel="tag">表情</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%87%E6%BB%A4%E5%99%A8/" rel="tag">过滤器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E5%BA%A6/" rel="tag">进度</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AI/" style="font-size: 20px;">AI</a> <a href="/tags/ChatGPT/" style="font-size: 10px;">ChatGPT</a> <a href="/tags/Chrome/" style="font-size: 10px;">Chrome</a> <a href="/tags/Gmail/" style="font-size: 10px;">Gmail</a> <a href="/tags/Google/" style="font-size: 18px;">Google</a> <a href="/tags/Google-Plus/" style="font-size: 10px;">Google Plus</a> <a href="/tags/Gplus/" style="font-size: 10px;">Gplus</a> <a href="/tags/Mac/" style="font-size: 10px;">Mac</a> <a href="/tags/Mail/" style="font-size: 10px;">Mail</a> <a href="/tags/Model/" style="font-size: 10px;">Model</a> <a href="/tags/NFC/" style="font-size: 10px;">NFC</a> <a href="/tags/O2O/" style="font-size: 10px;">O2O</a> <a href="/tags/PS/" style="font-size: 10px;">PS</a> <a href="/tags/Python/" style="font-size: 16px;">Python</a> <a href="/tags/QQ/" style="font-size: 10px;">QQ</a> <a href="/tags/SNS/" style="font-size: 10px;">SNS</a> <a href="/tags/Stable-Diffusion/" style="font-size: 12px;">Stable Diffusion</a> <a href="/tags/Tool/" style="font-size: 10px;">Tool</a> <a href="/tags/Translate/" style="font-size: 10px;">Translate</a> <a href="/tags/allove/" style="font-size: 10px;">allove</a> <a href="/tags/app/" style="font-size: 10px;">app</a> <a href="/tags/avn/" style="font-size: 10px;">avn</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/bluehost/" style="font-size: 10px;">bluehost</a> <a href="/tags/code/" style="font-size: 10px;">code</a> <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/device/" style="font-size: 10px;">device</a> <a href="/tags/feed/" style="font-size: 10px;">feed</a> <a href="/tags/flickr/" style="font-size: 10px;">flickr</a> <a href="/tags/forward/" style="font-size: 10px;">forward</a> <a href="/tags/gmail/" style="font-size: 10px;">gmail</a> <a href="/tags/habari/" style="font-size: 16px;">habari</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/ifttt/" style="font-size: 12px;">ifttt</a> <a href="/tags/install/" style="font-size: 10px;">install</a> <a href="/tags/ireader/" style="font-size: 10px;">ireader</a> <a href="/tags/istef/" style="font-size: 10px;">istef</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/location/" style="font-size: 10px;">location</a> <a href="/tags/more/" style="font-size: 10px;">more</a> <a href="/tags/net/" style="font-size: 10px;">net</a> <a href="/tags/nitrous/" style="font-size: 10px;">nitrous</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/pageflakes/" style="font-size: 10px;">pageflakes</a> <a href="/tags/picasaweb/" style="font-size: 10px;">picasaweb</a> <a href="/tags/plugin/" style="font-size: 10px;">plugin</a> <a href="/tags/reader/" style="font-size: 10px;">reader</a> <a href="/tags/research/" style="font-size: 10px;">research</a> <a href="/tags/search/" style="font-size: 10px;">search</a> <a href="/tags/sms/" style="font-size: 10px;">sms</a> <a href="/tags/telnet/" style="font-size: 10px;">telnet</a> <a href="/tags/twitter/" style="font-size: 12px;">twitter</a> <a href="/tags/url/" style="font-size: 10px;">url</a> <a href="/tags/version/" style="font-size: 10px;">version</a> <a href="/tags/windows-8/" style="font-size: 10px;">windows 8</a> <a href="/tags/wordpress/" style="font-size: 14px;">wordpress</a> <a href="/tags/%E4%B8%96%E7%95%8C%E6%9D%AF/" style="font-size: 10px;">世界杯</a> <a href="/tags/%E5%BE%AE%E5%8D%9A/" style="font-size: 10px;">微博</a> <a href="/tags/%E6%97%B6%E5%8C%BA/" style="font-size: 10px;">时区</a> <a href="/tags/%E7%A4%BE%E4%BA%A4/" style="font-size: 10px;">社交</a> <a href="/tags/%E8%8A%B1%E5%84%BF%E5%BC%80%E4%BA%86/" style="font-size: 10px;">花儿开了</a> <a href="/tags/%E8%A1%A8%E6%83%85/" style="font-size: 10px;">表情</a> <a href="/tags/%E8%BF%87%E6%BB%A4%E5%99%A8/" style="font-size: 10px;">过滤器</a> <a href="/tags/%E8%BF%9B%E5%BA%A6/" style="font-size: 10px;">进度</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">五月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">四月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">三月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">九月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">八月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">六月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">八月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">三月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">七月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">一月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">十一月 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">十月 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">七月 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">十二月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/04/">四月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/10/">十月 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/02/">二月 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/06/">六月 2008</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/10/">十月 2006</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/09/">九月 2006</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/06/">六月 2006</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/Use-AI-to-write-a-snake-game/">利用AI写一个『贪吃蛇游戏』</a>
+          </li>
+        
+          <li>
+            <a href="/Use-multi-step-prompts-to-ask-AI-to-write-tests-for-you/">13 使用多步提示语让AI帮你写测试</a>
+          </li>
+        
+          <li>
+            <a href="/AI-create-a-excel-plugin/">12 AI帮你写个小插件，轻松处理Excel文件</a>
+          </li>
+        
+          <li>
+            <a href="/Save-costs-with-an-open-source-model/">11 用好开源模型节约成本</a>
+          </li>
+        
+          <li>
+            <a href="/Use-AI-to-index-and-analyze-documents-and-images/">10 利用AI索引并分析文献和图片</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 Hivan Du<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

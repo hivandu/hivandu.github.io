@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>玩转Stable Diffusion WebUI 各类模型 | 茶桁.MAMT</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Stable Diffusion WebUI 最有意思的地方不是在安装好之后生成图像，而是各种各样的模型。 提前警告：如果你的硬盘空间不够大的话，还是不要随便玩模型了，随随便便就是好几 G，又得甚至于 10 多个 G。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="玩转Stable Diffusion WebUI 各类模型">
+<meta property="og:url" content="https://hivan.me/stable-diffusion-webUI-models/index.html">
+<meta property="og:site_name" content="茶桁.MAMT">
+<meta property="og:description" content="Stable Diffusion WebUI 最有意思的地方不是在安装好之后生成图像，而是各种各样的模型。 提前警告：如果你的硬盘空间不够大的话，还是不要随便玩模型了，随随便便就是好几 G，又得甚至于 10 多个 G。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://qiniu.hivan.me/picGo/20230601161901.png?imgNote">
+<meta property="og:image" content="http://qiniu.hivan.me/picGo/20230601161911.png?imgNote">
+<meta property="og:image" content="https://thumbnails.huggingface.co/social-thumbnails/models/stabilityai/stable-diffusion-2-1-base.png">
+<meta property="og:image" content="https://thumbnails.huggingface.co/social-thumbnails/models/stabilityai/stable-diffusion-2-1.png">
+<meta property="og:image" content="https://thumbnails.huggingface.co/social-thumbnails/models/stabilityai/stable-diffusion-2-depth.png">
+<meta property="og:image" content="https://thumbnails.huggingface.co/social-thumbnails/models/stabilityai/stable-diffusion-2-inpainting.png">
+<meta property="og:image" content="https://thumbnails.huggingface.co/social-thumbnails/models/stabilityai/stable-diffusion-x4-upscaler.png">
+<meta property="og:image" content="https://thumbnails.huggingface.co/social-thumbnails/models/runwayml/stable-diffusion-v1-5.png">
+<meta property="og:image" content="https://thumbnails.huggingface.co/social-thumbnails/models/CompVis/stable-diffusion-v-1-4-original.png">
+<meta property="og:image" content="https://thumbnails.huggingface.co/social-thumbnails/models/waifu-diffusion/wd-1-5-beta.png">
+<meta property="og:image" content="https://thumbnails.huggingface.co/social-thumbnails/models/hakurei/waifu-diffusion-v1-4.png">
+<meta property="og:image" content="https://thumbnails.huggingface.co/social-thumbnails/models/waifu-diffusion/wd-1-5-beta2.png">
+<meta property="og:image" content="https://thumbnails.huggingface.co/social-thumbnails/models/hakurei/waifu-diffusion-v1-4.png">
+<meta property="og:image" content="https://thumbnails.huggingface.co/social-thumbnails/models/hakurei/waifu-diffusion-v1-4.png">
+<meta property="og:image" content="https://thumbnails.huggingface.co/social-thumbnails/models/hakurei/waifu-diffusion-v1-4.png">
+<meta property="og:image" content="https://thumbnails.huggingface.co/social-thumbnails/models/hakurei/waifu-diffusion-v1-4.png">
+<meta property="og:image" content="https://thumbnails.huggingface.co/social-thumbnails/models/hesw23168/SD-Elysium-Model.png">
+<meta property="og:image" content="https://thumbnails.huggingface.co/social-thumbnails/models/hesw23168/SD_Elysium_Kuro_Model.png">
+<meta property="og:image" content="https://thumbnails.huggingface.co/social-thumbnails/models/hesw23168/SD-Elysium-Model.png">
+<meta property="og:image" content="https://thumbnails.huggingface.co/social-thumbnails/models/andite/anything-v4.0.png">
+<meta property="og:image" content="https://thumbnails.huggingface.co/social-thumbnails/models/andite/anything-v4.0.png">
+<meta property="og:image" content="https://thumbnails.huggingface.co/social-thumbnails/models/acheong08/f222.png">
+<meta property="og:image" content="https://thumbnails.huggingface.co/social-thumbnails/models/Reachout/F111.png">
+<meta property="og:image" content="https://thumbnails.huggingface.co/social-thumbnails/models/Reachout/F111.png">
+<meta property="og:image" content="https://mega.nz/favicon.ico?v=3">
+<meta property="og:image" content="https://mega.nz/rich-file.png">
+<meta property="og:image" content="https://thumbnails.huggingface.co/social-thumbnails/models/haor/Evt_V4-preview.png">
+<meta property="og:image" content="https://thumbnails.huggingface.co/social-thumbnails/models/haor/Evt_V3.png">
+<meta property="og:image" content="https://thumbnails.huggingface.co/social-thumbnails/models/haor/Evt_V2.png">
+<meta property="og:image" content="https://thumbnails.huggingface.co/social-thumbnails/models/nuigurumi/basil_mix.png">
+<meta property="og:image" content="https://thumbnails.huggingface.co/social-thumbnails/models/stabilityai/sd-vae-ft-mse-original.png">
+<meta property="og:image" content="https://civitai.com/favicon.ico">
+<meta property="article:published_time" content="2023-03-09T08:17:18.000Z">
+<meta property="article:modified_time" content="2023-06-01T08:20:33.047Z">
+<meta property="article:author" content="Hivan Du">
+<meta property="article:tag" content="Stable Diffusion">
+<meta property="article:tag" content="Model">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://qiniu.hivan.me/picGo/20230601161901.png?imgNote">
+  
+    <link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">茶桁.MAMT</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">ChaHeng Notes，codding and writting ~</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://hivan.me"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-stable-diffusion-webUI-models" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/stable-diffusion-webUI-models/" class="article-date">
+  <time class="dt-published" datetime="2023-03-09T08:17:18.000Z" itemprop="datePublished">2023-03-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      玩转Stable Diffusion WebUI 各类模型
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>Stable Diffusion WebUI 最有意思的地方不是在安装好之后生成图像，而是各种各样的模型。</p>
+<p>提前警告：如果你的硬盘空间不够大的话，还是不要随便玩模型了，随随便便就是好几 G，又得甚至于 10 多个 G。</p>
+<span id="more"></span>
+
+<p>目前我仅留了最常用的 SD V1.5 和 SD V2.1两个模型，大小为 13G。</p>
+<p><img src="http://qiniu.hivan.me/picGo/20230601161901.png?imgNote" alt="notion image"></p>
+<p>另外还需要说明一点，就是我曾经测试过用 NAS 来存储模型使用，完全不能用，暂时没有时间具体去研究到底什么原因。只有老老实实的继续在本地硬盘上跑。所以 NAS 上存了大量模型，真需要用到的时候再复制过来。</p>
+<p>写这篇文章也是因为近期玩模型过程中打算整理一波，一是方便自己，二么也算是对其他小伙伴做些贡献。</p>
+<p>Stable Diffusion 各种模型层出不穷，要说完估计需要费一番功夫，所以我摒弃其他小模型，只整理收集大模型，就是 ckpt 和 safetensors。如果你也打算跟着我一起玩模型但是还未安装，可以先参看我之前的文章：</p>
+<p>在 Apple Silicon M1&#x2F;M2 Mac 上安装和运行Stable Diffusion</p>
+<p>说实话，我找了好多关于如何在 M1&#x2F;M2 上安装和运行 Stable Diffusion 的教程和帖子，发现相互之间借鉴的不少，但是能用的确实没几个。 寻找一番后，发现其实没那么复杂。也不知道为什么网上的那么多教程搞得那么复杂，又是这个又是那个的一大堆，简单实现的方式有好几种：</p>
+<p><a target="_blank" rel="noopener" href="https://www.hivan.me/How%20to%20install%20and%20run%20Stable%20Diffusion%20on%20Apple%20Silicon">https://www.hivan.me/How%20to%20install%20and%20run%20Stable%20Diffusion%20on%20Apple%20Silicon</a></p>
+<p><img src="http://qiniu.hivan.me/picGo/20230601161911.png?imgNote" alt="在 Apple Silicon M1/M2 Mac 上安装和运行Stable Diffusion"></p>
+<p>还是先从最基础的模型开始：</p>
+<h2 id="Stable-Diffusion"><a href="#Stable-Diffusion" class="headerlink" title="Stable Diffusion"></a>Stable Diffusion</h2><p>其他多数模型基本上都是从这个基础模型上再次训练得到的。</p>
+<h3 id="Stable-Diffusion-v2-1"><a href="#Stable-Diffusion-v2-1" class="headerlink" title="Stable Diffusion v2.1"></a>Stable Diffusion v2.1</h3><ol>
+<li><p>SDv2.1提升了人物生成能力，因为SDv2.0大量增加了风景、建筑物和动物的数据集，减少了人物的学习量。</p>
+</li>
+<li><p>SDv2.1提高了NSFW过滤器准确度，因为SDv2.0的成人过滤器过滤的太狠，错误判定很多</p>
+</li>
+<li><p>即使是极端长宽比的图像也能顺利生成。</p>
+</li>
+<li><p>解剖学的身体和手（特别是手掌）的描写精度提高。</p>
+</li>
+</ol>
+<h4 id="512-X-512-model"><a href="#512-X-512-model" class="headerlink" title="512 X 512 model :"></a>512 X 512 model :</h4><p>stabilityai&#x2F;stable-diffusion-2-1-base · Hugging Face</p>
+<p>We’re on a journey to advance and democratize artificial intelligence through open source and open science.</p>
+<p><a target="_blank" rel="noopener" href="https://huggingface.co/stabilityai/stable-diffusion-2-1-base">https://huggingface.co/stabilityai/stable-diffusion-2-1-base</a></p>
+<p><img src="https://thumbnails.huggingface.co/social-thumbnails/models/stabilityai/stable-diffusion-2-1-base.png" alt="stabilityai/stable-diffusion-2-1-base · Hugging Face"></p>
+<h4 id="768-X-768-model"><a href="#768-X-768-model" class="headerlink" title="768 X 768 model:"></a>768 X 768 model:</h4><p>stabilityai&#x2F;stable-diffusion-2-1 · Hugging Face</p>
+<p>We’re on a journey to advance and democratize artificial intelligence through open source and open science.</p>
+<p><a target="_blank" rel="noopener" href="https://huggingface.co/stabilityai/stable-diffusion-2-1">https://huggingface.co/stabilityai/stable-diffusion-2-1</a></p>
+<p><img src="https://thumbnails.huggingface.co/social-thumbnails/models/stabilityai/stable-diffusion-2-1.png" alt="stabilityai/stable-diffusion-2-1 · Hugging Face"></p>
+<h4 id="img2img-model"><a href="#img2img-model" class="headerlink" title="img2img model"></a>img2img model</h4><p>stabilityai&#x2F;stable-diffusion-2-depth · Hugging Face</p>
+<p>We’re on a journey to advance and democratize artificial intelligence through open source and open science.</p>
+<p><a target="_blank" rel="noopener" href="https://huggingface.co/stabilityai/stable-diffusion-2-depth">https://huggingface.co/stabilityai/stable-diffusion-2-depth</a></p>
+<p><img src="https://thumbnails.huggingface.co/social-thumbnails/models/stabilityai/stable-diffusion-2-depth.png" alt="stabilityai/stable-diffusion-2-depth · Hugging Face"></p>
+<h4 id="重绘model"><a href="#重绘model" class="headerlink" title="重绘model"></a>重绘model</h4><p>stabilityai&#x2F;stable-diffusion-2-inpainting · Hugging Face</p>
+<p>We’re on a journey to advance and democratize artificial intelligence through open source and open science.</p>
+<p><a target="_blank" rel="noopener" href="https://huggingface.co/stabilityai/stable-diffusion-2-inpainting">https://huggingface.co/stabilityai/stable-diffusion-2-inpainting</a></p>
+<p><img src="https://thumbnails.huggingface.co/social-thumbnails/models/stabilityai/stable-diffusion-2-inpainting.png" alt="stabilityai/stable-diffusion-2-inpainting · Hugging Face"></p>
+<h4 id="超分-model"><a href="#超分-model" class="headerlink" title="超分 model"></a>超分 model</h4><p>stabilityai&#x2F;stable-diffusion-x4-upscaler · Hugging Face</p>
+<p>We’re on a journey to advance and democratize artificial intelligence through open source and open science.</p>
+<p><a target="_blank" rel="noopener" href="https://huggingface.co/stabilityai/stable-diffusion-x4-upscaler">https://huggingface.co/stabilityai/stable-diffusion-x4-upscaler</a></p>
+<p><img src="https://thumbnails.huggingface.co/social-thumbnails/models/stabilityai/stable-diffusion-x4-upscaler.png" alt="stabilityai/stable-diffusion-x4-upscaler · Hugging Face"></p>
+<h3 id="Stable-Diffusion-V-1-5"><a href="#Stable-Diffusion-V-1-5" class="headerlink" title="Stable Diffusion V 1.5"></a>Stable Diffusion V 1.5</h3><p>runwayml&#x2F;stable-diffusion-v1-5 at main</p>
+<p>We’re on a journey to advance and democratize artificial intelligence through open source and open science.</p>
+<p><a target="_blank" rel="noopener" href="https://huggingface.co/runwayml/stable-diffusion-v1-5/tree/main">https://huggingface.co/runwayml/stable-diffusion-v1-5/tree/main</a></p>
+<p><img src="https://thumbnails.huggingface.co/social-thumbnails/models/runwayml/stable-diffusion-v1-5.png" alt="runwayml/stable-diffusion-v1-5 at main"></p>
+<h3 id="Stable-Diffusion-V-1-4"><a href="#Stable-Diffusion-V-1-4" class="headerlink" title="Stable Diffusion V 1.4"></a>Stable Diffusion V 1.4</h3><p>CompVis&#x2F;stable-diffusion-v-1-4-original · Hugging Face</p>
+<p>We’re on a journey to advance and democratize artificial intelligence through open source and open science.</p>
+<p><a target="_blank" rel="noopener" href="https://huggingface.co/CompVis/stable-diffusion-v-1-4-original">https://huggingface.co/CompVis/stable-diffusion-v-1-4-original</a></p>
+<p><img src="https://thumbnails.huggingface.co/social-thumbnails/models/CompVis/stable-diffusion-v-1-4-original.png" alt="CompVis/stable-diffusion-v-1-4-original · Hugging Face"></p>
+<h2 id="NovelAI"><a href="#NovelAI" class="headerlink" title="NovelAI"></a>NovelAI</h2><p>大名鼎鼎的 NovelAI，属于商业泄露模型。经过人在回路精细微调，可以生成高质量的二次元图像。但是千万时刻记得这个可是商用泄露模型，要注意避免法律风险：</p>
+<p>pub-2fdef7a2969f43289c42ac5ae3412fd4.r2.dev</p>
+<p><a target="_blank" rel="noopener" href="https://pub-2fdef7a2969f43289c42ac5ae3412fd4.r2.dev/animefull-latest.tar">https://pub-2fdef7a2969f43289c42ac5ae3412fd4.r2.dev/animefull-latest.tar</a></p>
+<h2 id="Waifu-Diffusion"><a href="#Waifu-Diffusion" class="headerlink" title="Waifu Diffusion"></a>Waifu Diffusion</h2><p>基于 Stable Diffusion 模型训练得到，增加了动漫及人物训练得到的模型，基本平时各种公开场合看到 WD 就是他。</p>
+<p>WD 和 NovelAI 模型有些同质化，但是 NovelAI 实际是商用模型泄露，在某些使用情况下是有风险的。而 WD 不是，不过也不是说他绝对安全，毕竟 WD 也使用 Danbooru 进行学习，所以如果你关心这个需要注意一点。</p>
+<h3 id="Waifu-Diffusion-V1-5"><a href="#Waifu-Diffusion-V1-5" class="headerlink" title="Waifu Diffusion V1.5"></a>Waifu Diffusion V1.5</h3><p>这个模型使用是需要一个 yaml 文件的，究其原因是这个模型是基于 SD V2 得出的，需要把和 Model 同名的 yaml 文件放在模型所在的文件夹下，目前 1.5 模型是 beta2 版本，持续迭代 ing…</p>
+<h4 id="Waifu-Diffusion-v1-5-beta"><a href="#Waifu-Diffusion-v1-5-beta" class="headerlink" title="Waifu Diffusion v1.5 beta"></a>Waifu Diffusion v1.5 beta</h4><p>waifu-diffusion&#x2F;wd-1-5-beta · Hugging Face</p>
+<p>We’re on a journey to advance and democratize artificial intelligence through open source and open science.</p>
+<p><a target="_blank" rel="noopener" href="https://huggingface.co/waifu-diffusion/wd-1-5-beta">https://huggingface.co/waifu-diffusion/wd-1-5-beta</a></p>
+<p><img src="https://thumbnails.huggingface.co/social-thumbnails/models/waifu-diffusion/wd-1-5-beta.png" alt="waifu-diffusion/wd-1-5-beta · Hugging Face"></p>
+<h4 id="VAE-1-4-VAE-通用"><a href="#VAE-1-4-VAE-通用" class="headerlink" title="VAE(1.4 VAE 通用)"></a>VAE(1.4 VAE 通用)</h4><p>vae&#x2F;kl-f8-anime2.ckpt · hakurei&#x2F;waifu-diffusion-v1-4 at main</p>
+<p>We’re on a journey to advance and democratize artificial intelligence through open source and open science.</p>
+<p><a target="_blank" rel="noopener" href="https://huggingface.co/hakurei/waifu-diffusion-v1-4/blob/main/vae/kl-f8-anime2.ckpt">https://huggingface.co/hakurei/waifu-diffusion-v1-4/blob/main/vae/kl-f8-anime2.ckpt</a></p>
+<p><img src="https://thumbnails.huggingface.co/social-thumbnails/models/hakurei/waifu-diffusion-v1-4.png" alt="vae/kl-f8-anime2.ckpt · hakurei/waifu-diffusion-v1-4 at main"></p>
+<h4 id="YAML"><a href="#YAML" class="headerlink" title="YAML"></a>YAML</h4><p>waifu-diffusion&#x2F;wd-1-5-beta2 at main</p>
+<p>We’re on a journey to advance and democratize artificial intelligence through open source and open science.</p>
+<p><a target="_blank" rel="noopener" href="https://huggingface.co/waifu-diffusion/wd-1-5-beta2/tree/main/checkpoints">https://huggingface.co/waifu-diffusion/wd-1-5-beta2/tree/main/checkpoints</a></p>
+<p><img src="https://thumbnails.huggingface.co/social-thumbnails/models/waifu-diffusion/wd-1-5-beta2.png" alt="waifu-diffusion/wd-1-5-beta2 at main"></p>
+<h3 id="Waifu-Diffusion-V1-4"><a href="#Waifu-Diffusion-V1-4" class="headerlink" title="Waifu Diffusion V1.4"></a>Waifu Diffusion V1.4</h3><p>和 1.5 版本一样，基于 SD V2得到的，依然需要下载 yaml 文件放在 model 同文件夹下。</p>
+<h4 id="Waifu-Diffusion-V-1-4"><a href="#Waifu-Diffusion-V-1-4" class="headerlink" title="Waifu Diffusion V 1.4"></a>Waifu Diffusion V 1.4</h4><p>wd-1-4-anime_e1.ckpt · hakurei&#x2F;waifu-diffusion-v1-4 at main</p>
+<p>We’re on a journey to advance and democratize artificial intelligence through open source and open science.</p>
+<p><a target="_blank" rel="noopener" href="https://huggingface.co/hakurei/waifu-diffusion-v1-4/blob/main/wd-1-4-anime_e1.ckpt">https://huggingface.co/hakurei/waifu-diffusion-v1-4/blob/main/wd-1-4-anime_e1.ckpt</a></p>
+<p><img src="https://thumbnails.huggingface.co/social-thumbnails/models/hakurei/waifu-diffusion-v1-4.png" alt="wd-1-4-anime_e1.ckpt · hakurei/waifu-diffusion-v1-4 at main"></p>
+<p>wd-1-4-anime_e2.ckpt · hakurei&#x2F;waifu-diffusion-v1-4 at main</p>
+<p>We’re on a journey to advance and democratize artificial intelligence through open source and open science.</p>
+<p><a target="_blank" rel="noopener" href="https://huggingface.co/hakurei/waifu-diffusion-v1-4/blob/main/wd-1-4-anime_e2.ckpt">https://huggingface.co/hakurei/waifu-diffusion-v1-4/blob/main/wd-1-4-anime_e2.ckpt</a></p>
+<p><img src="https://thumbnails.huggingface.co/social-thumbnails/models/hakurei/waifu-diffusion-v1-4.png" alt="wd-1-4-anime_e2.ckpt · hakurei/waifu-diffusion-v1-4 at main"></p>
+<h4 id="VAE-1-5-通用）"><a href="#VAE-1-5-通用）" class="headerlink" title="VAE(1.5 通用）"></a>VAE(1.5 通用）</h4><p>vae&#x2F;kl-f8-anime2.ckpt · hakurei&#x2F;waifu-diffusion-v1-4 at main</p>
+<p>We’re on a journey to advance and democratize artificial intelligence through open source and open science.</p>
+<p><a target="_blank" rel="noopener" href="https://huggingface.co/hakurei/waifu-diffusion-v1-4/blob/main/vae/kl-f8-anime2.ckpt">https://huggingface.co/hakurei/waifu-diffusion-v1-4/blob/main/vae/kl-f8-anime2.ckpt</a></p>
+<p><img src="https://thumbnails.huggingface.co/social-thumbnails/models/hakurei/waifu-diffusion-v1-4.png" alt="vae/kl-f8-anime2.ckpt · hakurei/waifu-diffusion-v1-4 at main"></p>
+<h4 id="YAML-1"><a href="#YAML-1" class="headerlink" title="YAML"></a>YAML</h4><p>e2 和 e1 是通用的，但是需要改名</p>
+<p>hakurei&#x2F;waifu-diffusion-v1-4 at main</p>
+<p>We’re on a journey to advance and democratize artificial intelligence through open source and open science.</p>
+<p><a target="_blank" rel="noopener" href="https://huggingface.co/hakurei/waifu-diffusion-v1-4/tree/main">https://huggingface.co/hakurei/waifu-diffusion-v1-4/tree/main</a></p>
+<p><img src="https://thumbnails.huggingface.co/social-thumbnails/models/hakurei/waifu-diffusion-v1-4.png" alt="hakurei/waifu-diffusion-v1-4 at main"></p>
+<h2 id="Elysium-Anime"><a href="#Elysium-Anime" class="headerlink" title="*Elysium Anime*"></a><em><strong>*Elysium Anime*</strong></em></h2><p>生成偏真实风格的动漫图片，风格比较偏向西式，光影还不错。</p>
+<p>模型推荐写下面这些负面提示，可有效提升质量。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry</span><br></pre></td></tr></table></figure>
+
+<h3 id="Elysium-V1"><a href="#Elysium-V1" class="headerlink" title="Elysium_V1"></a>Elysium_V1</h3><p>偏真实风的模型，手画的还不错，模型底稿基本是以西方人为主，所以生成的脸也偏西方人。</p>
+<p>Elysium_V1.ckpt · hesw23168&#x2F;SD-Elysium-Model at main</p>
+<p>We’re on a journey to advance and democratize artificial intelligence through open source and open science.</p>
+<p><a target="_blank" rel="noopener" href="https://huggingface.co/hesw23168/SD-Elysium-Model/blob/main/Elysium_V1.ckpt">https://huggingface.co/hesw23168/SD-Elysium-Model/blob/main/Elysium_V1.ckpt</a></p>
+<p><img src="https://thumbnails.huggingface.co/social-thumbnails/models/hesw23168/SD-Elysium-Model.png" alt="Elysium_V1.ckpt · hesw23168/SD-Elysium-Model at main"></p>
+<h3 id="SD-Elysium-Kuro-Model"><a href="#SD-Elysium-Kuro-Model" class="headerlink" title="*SD_Elysium_Kuro_Model*"></a><em><strong>*SD_Elysium_Kuro_Model*</strong></em></h3><p>与Anything 4.0、WD 1.4等合并后经过微调的二次元用模型。已经包含 WD 的“kl-f8-anime2”VAE 文件，因此<strong>无需使用额外的 VAE 文件</strong></p>
+<p>Elysium_Kuro_Anime_V1.safetensors · hesw23168&#x2F;SD_Elysium_Kuro_Model at main</p>
+<p>We’re on a journey to advance and democratize artificial intelligence through open source and open science.</p>
+<p><a target="_blank" rel="noopener" href="https://huggingface.co/hesw23168/SD_Elysium_Kuro_Model/blob/main/Elysium_Kuro_Anime_V1.safetensors">https://huggingface.co/hesw23168/SD_Elysium_Kuro_Model/blob/main/Elysium_Kuro_Anime_V1.safetensors</a></p>
+<p><img src="https://thumbnails.huggingface.co/social-thumbnails/models/hesw23168/SD_Elysium_Kuro_Model.png" alt="Elysium_Kuro_Anime_V1.safetensors · hesw23168/SD_Elysium_Kuro_Model at main"></p>
+<h3 id="Elysium-Anime-V3"><a href="#Elysium-Anime-V3" class="headerlink" title="*Elysium_Anime_V3*"></a><em><strong>*Elysium_Anime_V3*</strong></em></h3><p>动漫的附加学习模型，NSFW化相当严重，有更清晰的轮廓和轻微的三维效果。基于Elysium_V1</p>
+<p>Elysium_Anime_V3.safetensors · hesw23168&#x2F;SD-Elysium-Model at main</p>
+<p>We’re on a journey to advance and democratize artificial intelligence through open source and open science.</p>
+<p><a target="_blank" rel="noopener" href="https://huggingface.co/hesw23168/SD-Elysium-Model/blob/main/Elysium_Anime_V3.safetensors">https://huggingface.co/hesw23168/SD-Elysium-Model/blob/main/Elysium_Anime_V3.safetensors</a></p>
+<p><img src="https://thumbnails.huggingface.co/social-thumbnails/models/hesw23168/SD-Elysium-Model.png" alt="Elysium_Anime_V3.safetensors · hesw23168/SD-Elysium-Model at main"></p>
+<h2 id="Anything系列"><a href="#Anything系列" class="headerlink" title="*Anything系列*"></a><em><strong>*Anything系列*</strong></em></h2><p>Anything是个神奇的二次元模型，据说是基于几十种模型融合+未知图片训练而来，随便写几个提示，就能到的不错的结果。不过这个模型整个就是一团混沌，实际训练模型，过程，方法，作者全部都是未知的。模型容易过拟合，非专业人士，请不要在此基础上训练模型。</p>
+<h3 id="Anything-v3-0"><a href="#Anything-v3-0" class="headerlink" title="Anything v3.0"></a><strong>Anything v3.0</strong></h3><p>“应该”是基于NAI模型+WD+SD等几十种模型+手部图片强化训练得出的。实际训练模型，过程，方法，作者全部都是未知的。如果没有.vae.pt，图片整体颜色浓度（饱和度）会更很浅。PS：Anything v3.0 的 .vae.pt 文件可以用于 NAI。</p>
+<ul>
+<li><p>Anything V3.0 fp16: magnet:?xt&#x3D;urn:btih&#x2F;:45cd353ac4fa87098db5e3a6a349539710a3a1f5&amp;dn&#x3D;Anything-V3.0-fp16.zip</p>
+</li>
+<li><p>Anything v3.0 fp32: magnet:?xt&#x3D;urn:btih&#x2F;:d9db662ab5ace77004b3348c23c9381380c27156&amp;dn&#x3D;Anything-V3.0-fp32.zip</p>
+</li>
+<li><p>Anything v3.0 full-ema: magnet:?xt&#x3D;urn:btih&#x2F;:80460036625fb61dce4bc6e7dab744744309a2a0&amp;dn&#x3D;Anything-V3.0-fullema.zip</p>
+</li>
+</ul>
+<p>huggingface.co</p>
+<p><a target="_blank" rel="noopener" href="https://huggingface.co/Linaqruf/anything-v3-better-vae/tree/main">https://huggingface.co/Linaqruf/anything-v3-better-vae/tree/main</a></p>
+<h3 id="Anything-v4"><a href="#Anything-v4" class="headerlink" title="Anything v4"></a><strong>Anything v4</strong></h3><p>自称是Anything最新版本的模型，实际一切都是未知的。仅需几个提示即可生成详细的 2D 插图的能力以及使用 danbooru 标签的能力。整体比过拟合的v3更自然，人物姿势等更容易操作。</p>
+<p>anything-v4.0-pruned.safetensors · andite&#x2F;anything-v4.0 at main</p>
+<p>We’re on a journey to advance and democratize artificial intelligence through open source and open science.</p>
+<p><a target="_blank" rel="noopener" href="https://huggingface.co/andite/anything-v4.0/blob/main/anything-v4.0-pruned.safetensors">https://huggingface.co/andite/anything-v4.0/blob/main/anything-v4.0-pruned.safetensors</a></p>
+<p><img src="https://thumbnails.huggingface.co/social-thumbnails/models/andite/anything-v4.0.png" alt="anything-v4.0-pruned.safetensors · andite/anything-v4.0 at main"></p>
+<h3 id="Anything-v4-5"><a href="#Anything-v4-5" class="headerlink" title="Anything v4.5"></a><strong>Anything v4.5</strong></h3><p>貌似是Anything v4的进化，但实际一切都是未知的。比v4画风更柔和一点。</p>
+<p>anything-v4.5-pruned.safetensors · andite&#x2F;anything-v4.0 at main</p>
+<p>We’re on a journey to advance and democratize artificial intelligence through open source and open science.</p>
+<p><a target="_blank" rel="noopener" href="https://huggingface.co/andite/anything-v4.0/blob/main/anything-v4.5-pruned.safetensors">https://huggingface.co/andite/anything-v4.0/blob/main/anything-v4.5-pruned.safetensors</a></p>
+<p><img src="https://thumbnails.huggingface.co/social-thumbnails/models/andite/anything-v4.0.png" alt="anything-v4.5-pruned.safetensors · andite/anything-v4.0 at main"></p>
+<h2 id="Zeipher"><a href="#Zeipher" class="headerlink" title="Zeipher"></a><strong>Zeipher</strong></h2><p>生成更符合真人解剖结构的真人模型，训练集以女性图像为主官方网站是 <a target="_blank" rel="noopener" href="https://ai.zeipher.com/">https://ai.zeipher.com</a>，已经关闭。<strong>请不要用真人模型画明星和未成年的NSFW内容，不然你可能会遇到很麻烦的法律问题</strong></p>
+<h3 id="F222"><a href="#F222" class="headerlink" title="F222"></a><strong>F222</strong></h3><p>f222.safetensors · acheong08&#x2F;f222 at main</p>
+<p>We’re on a journey to advance and democratize artificial intelligence through open source and open science.</p>
+<p><a target="_blank" rel="noopener" href="https://huggingface.co/acheong08/f222/blob/main/f222.safetensors">https://huggingface.co/acheong08/f222/blob/main/f222.safetensors</a></p>
+<p><img src="https://thumbnails.huggingface.co/social-thumbnails/models/acheong08/f222.png" alt="f222.safetensors · acheong08/f222 at main"></p>
+<h3 id="F111"><a href="#F111" class="headerlink" title="F111"></a><strong>F111</strong></h3><p>f111.ckpt · Reachout&#x2F;F111 at main</p>
+<p>We’re on a journey to advance and democratize artificial intelligence through open source and open science.</p>
+<p><a target="_blank" rel="noopener" href="https://huggingface.co/Reachout/F111/blob/main/f111.ckpt">https://huggingface.co/Reachout/F111/blob/main/f111.ckpt</a></p>
+<p><img src="https://thumbnails.huggingface.co/social-thumbnails/models/Reachout/F111.png" alt="f111.ckpt · Reachout/F111 at main"></p>
+<h2 id="3DKX"><a href="#3DKX" class="headerlink" title="3DKX"></a><strong>3DKX</strong></h2><p>因为Zeipher官方已经GG，这是热心网友创建的衍生3DKX模型如果你想让你的 3D 角色有一张更“二次元”的脸，提示词最开始写 “3d cartoon of”，或者如果你想要经典的 3D 渲染外观，写“a 3d render of”高分辨率模型，推荐分辨率为 1152 x 768 或更高</p>
+<h3 id="3DKX-1-0b"><a href="#3DKX-1-0b" class="headerlink" title="3DKX_1.0b"></a><strong>3DKX_1.0b</strong></h3><p>f111.ckpt · Reachout&#x2F;F111 at main</p>
+<p>We’re on a journey to advance and democratize artificial intelligence through open source and open science.</p>
+<p><a target="_blank" rel="noopener" href="https://huggingface.co/Reachout/F111/blob/main/f111.ckpt">https://huggingface.co/Reachout/F111/blob/main/f111.ckpt</a></p>
+<p><img src="https://thumbnails.huggingface.co/social-thumbnails/models/Reachout/F111.png" alt="f111.ckpt · Reachout/F111 at main"></p>
+<h2 id="R34"><a href="#R34" class="headerlink" title="R34"></a><strong>R34</strong></h2><p>从网站“rule34.xxx”的 150,000 张图像中进行训练。rule34.xxx几乎全是NSFW图片，所以你懂的</p>
+<h3 id="r34-e4"><a href="#r34-e4" class="headerlink" title="r34_e4"></a><strong>r34_e4</strong></h3><p>1.99 GB file on MEGA</p>
+<p><img src="https://mega.nz/favicon.ico?v=3" alt="1.99 GB file on MEGA"></p>
+<p><a target="_blank" rel="noopener" href="https://mega.nz/file/yJgDUCzA#zOD2yeE6QLBqPEjEpIi2b4FWOlb64yVUveOd_eW6teI">https://mega.nz/file/yJgDUCzA#zOD2yeE6QLBqPEjEpIi2b4FWOlb64yVUveOd_eW6teI</a></p>
+<p><img src="https://mega.nz/rich-file.png" alt="1.99 GB file on MEGA"></p>
+<p>磁力链接：magnet:?xt&#x3D;urn:btih&#x2F;:ed9f0e3f849d7119107ef4e072c6abeb129e1a51&amp;dn&#x3D;r34_e4.ckpt</p>
+<h2 id="EVT-pixiv排行榜模型"><a href="#EVT-pixiv排行榜模型" class="headerlink" title="EVT pixiv排行榜模型"></a><strong>EVT pixiv排行榜模型</strong></h2><p>基于pixiv排行图片训练，夹杂有部分R18排行图片</p>
+<h3 id="Evt-V4-e10-ema"><a href="#Evt-V4-e10-ema" class="headerlink" title="Evt_V4_e10_ema"></a><strong>Evt_V4_e10_ema</strong></h3><p>Evt_V4_e10_ema.safetensors · haor&#x2F;Evt_V4-preview at main</p>
+<p>We’re on a journey to advance and democratize artificial intelligence through open source and open science.</p>
+<p><a target="_blank" rel="noopener" href="https://huggingface.co/haor/Evt_V4-preview/blob/main/Evt_V4_e10_ema.safetensors">https://huggingface.co/haor/Evt_V4-preview/blob/main/Evt_V4_e10_ema.safetensors</a></p>
+<p><img src="https://thumbnails.huggingface.co/social-thumbnails/models/haor/Evt_V4-preview.png" alt="Evt_V4_e10_ema.safetensors · haor/Evt_V4-preview at main"></p>
+<h3 id="EVT-V3"><a href="#EVT-V3" class="headerlink" title="EVT_V3"></a><strong>EVT_V3</strong></h3><p>haor&#x2F;Evt_V3 · Hugging Face</p>
+<p>We’re on a journey to advance and democratize artificial intelligence through open source and open science.</p>
+<p><a target="_blank" rel="noopener" href="https://huggingface.co/haor/Evt_V3">https://huggingface.co/haor/Evt_V3</a></p>
+<p><img src="https://thumbnails.huggingface.co/social-thumbnails/models/haor/Evt_V3.png" alt="haor/Evt_V3 · Hugging Face"></p>
+<h3 id="EVT-V2"><a href="#EVT-V2" class="headerlink" title="EVT_V2"></a><strong>EVT_V2</strong></h3><p>haor&#x2F;Evt_V2 · Hugging Face</p>
+<p>We’re on a journey to advance and democratize artificial intelligence through open source and open science.</p>
+<p><a target="_blank" rel="noopener" href="https://huggingface.co/haor/Evt_V2">https://huggingface.co/haor/Evt_V2</a></p>
+<p><img src="https://thumbnails.huggingface.co/social-thumbnails/models/haor/Evt_V2.png" alt="haor/Evt_V2 · Hugging Face"></p>
+<h2 id="Basil-mix"><a href="#Basil-mix" class="headerlink" title="Basil_mix"></a><strong>Basil_mix</strong></h2><p>逼真的真人模型，基于亚洲风格训练，支持Danbur标签提示词需要加载VAE，不然画面色彩浓度和边缘会很淡提示词应尽可能简单不要堆砌大量质量标签和负面提示，不然会适得其反。<strong>请不要用真人模型画明星和未成年的NSFW内容，不然你可能会遇到很麻烦的法律问题</strong></p>
+<h4 id="basil-mix"><a href="#basil-mix" class="headerlink" title="basil_mix"></a><strong>basil_mix</strong></h4><p>basil mix.ckpt · nuigurumi&#x2F;basil_mix at main</p>
+<p>We’re on a journey to advance and democratize artificial intelligence through open source and open science.</p>
+<p><a target="_blank" rel="noopener" href="https://huggingface.co/nuigurumi/basil_mix/blob/main/basil%20mix.ckpt">https://huggingface.co/nuigurumi/basil_mix/blob/main/basil%20mix.ckpt</a></p>
+<p><img src="https://thumbnails.huggingface.co/social-thumbnails/models/nuigurumi/basil_mix.png" alt="basil mix.ckpt · nuigurumi/basil_mix at main"></p>
+<h4 id="VAE"><a href="#VAE" class="headerlink" title="VAE"></a>VAE</h4><p>vae-ft-mse-840000-ema-pruned.ckpt · stabilityai&#x2F;sd-vae-ft-mse-original at main</p>
+<p>We’re on a journey to advance and democratize artificial intelligence through open source and open science.</p>
+<p><a target="_blank" rel="noopener" href="https://huggingface.co/stabilityai/sd-vae-ft-mse-original/blob/main/vae-ft-mse-840000-ema-pruned.ckpt">https://huggingface.co/stabilityai/sd-vae-ft-mse-original/blob/main/vae-ft-mse-840000-ema-pruned.ckpt</a></p>
+<p><img src="https://thumbnails.huggingface.co/social-thumbnails/models/stabilityai/sd-vae-ft-mse-original.png" alt="vae-ft-mse-840000-ema-pruned.ckpt · stabilityai/sd-vae-ft-mse-original at main"></p>
+<h2 id="Chillout-Mix"><a href="#Chillout-Mix" class="headerlink" title="Chillout Mix"></a><strong>Chillout Mix</strong></h2><p>逼真的真人模型，基于亚洲风格训练，支持Danbur标签提示词<strong>请不要用真人模型画明星和未成年的NSFW内容，不然你可能会遇到很麻烦的法律问题</strong></p>
+<h4 id="chillout-mix-NiPruned-Fp32-Fix"><a href="#chillout-mix-NiPruned-Fp32-Fix" class="headerlink" title="chillout mix _ NiPruned Fp32 Fix"></a><strong>chillout mix _ NiPruned Fp32 Fix</strong></h4><p>chilloutmix_NiPrunedFp32Fix.safetensors · Inzamam567&#x2F;useless_Chillout_mix at main</p>
+<p>We’re on a journey to advance and democratize artificial intelligence through open source and open science.</p>
+<p><a target="_blank" rel="noopener" href="https://huggingface.co/Inzamam567/useless_Chillout_mix/blob/main/chilloutmix_NiPrunedFp32Fix.safetensors">https://huggingface.co/Inzamam567/useless_Chillout_mix/blob/main/chilloutmix_NiPrunedFp32Fix.safetensors</a></p>
+<h2 id="Uber-Realistic-Porn-Merge"><a href="#Uber-Realistic-Porn-Merge" class="headerlink" title="Uber Realistic Porn Merge"></a><strong>Uber Realistic Porn Merge</strong></h2><p>如名字所说，逼真的真人Porn模型，简称 URPM 模型<strong>请不要用真人模型画明星和未成年的NSFW内容，不然你可能会遇到很麻烦的法律问题</strong></p>
+<h4 id="Uber-Realistic-Porn-Merge-1"><a href="#Uber-Realistic-Porn-Merge-1" class="headerlink" title="Uber Realistic Porn Merge"></a><strong>Uber Realistic Porn Merge</strong></h4><p>Uber Realistic Porn Merge (URPM) | Stable Diffusion Checkpoint | Civitai</p>
+<p>For early access builds and to support daily work on URPM, please check out my patreon! <a target="_blank" rel="noopener" href="https://www.patreon.com/uber_realistic_porn_merge">https://www.patreon.com/uber_realistic_porn_merge</a> , or disc…</p>
+<p><img src="https://civitai.com/favicon.ico" alt="Uber Realistic Porn Merge (URPM) | Stable Diffusion Checkpoint | Civitai"></p>
+<p><a target="_blank" rel="noopener" href="https://civitai.com/models/2661/uber-realistic-porn-merge-urpm">https://civitai.com/models/2661/uber-realistic-porn-merge-urpm</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hivan.me/stable-diffusion-webUI-models/" data-id="clid1n2wr007f2nj7eg2dc8gg" data-title="玩转Stable Diffusion WebUI 各类模型" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Model/" rel="tag">Model</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Stable-Diffusion/" rel="tag">Stable Diffusion</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/Exploring-the-Potential-and-Challenges-of-Hybrid-Machine-Learning-Systems-in-AI/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          Exploring the Potential and Challenges of Hybrid Machine Learning Systems in AI
+        
+      </div>
+    </a>
+  
+  
+    <a href="/How-to-install-and-run-Stable-Diffusion-on-Apple-Silicon/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">在 Apple Silicon M1/M2 Mac 上安装和运行Stable Diffusion</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/develop/">develop</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/software/">software</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/">从零开始接触人工智能大模型</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AI/" rel="tag">AI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ChatGPT/" rel="tag">ChatGPT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Chrome/" rel="tag">Chrome</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gmail/" rel="tag">Gmail</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Google/" rel="tag">Google</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Google-Plus/" rel="tag">Google Plus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gplus/" rel="tag">Gplus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mac/" rel="tag">Mac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mail/" rel="tag">Mail</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Model/" rel="tag">Model</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NFC/" rel="tag">NFC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/O2O/" rel="tag">O2O</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PS/" rel="tag">PS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/QQ/" rel="tag">QQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SNS/" rel="tag">SNS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Stable-Diffusion/" rel="tag">Stable Diffusion</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tool/" rel="tag">Tool</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Translate/" rel="tag">Translate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/allove/" rel="tag">allove</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/app/" rel="tag">app</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/avn/" rel="tag">avn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/" rel="tag">blog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bluehost/" rel="tag">bluehost</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/code/" rel="tag">code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/device/" rel="tag">device</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/feed/" rel="tag">feed</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/flickr/" rel="tag">flickr</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/forward/" rel="tag">forward</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gmail/" rel="tag">gmail</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/habari/" rel="tag">habari</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ifttt/" rel="tag">ifttt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/install/" rel="tag">install</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ireader/" rel="tag">ireader</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/istef/" rel="tag">istef</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/location/" rel="tag">location</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/more/" rel="tag">more</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/net/" rel="tag">net</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nitrous/" rel="tag">nitrous</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node/" rel="tag">node</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pageflakes/" rel="tag">pageflakes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/picasaweb/" rel="tag">picasaweb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/plugin/" rel="tag">plugin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reader/" rel="tag">reader</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/research/" rel="tag">research</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/search/" rel="tag">search</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sms/" rel="tag">sms</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/telnet/" rel="tag">telnet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/twitter/" rel="tag">twitter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/url/" rel="tag">url</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/version/" rel="tag">version</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows-8/" rel="tag">windows 8</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wordpress/" rel="tag">wordpress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%96%E7%95%8C%E6%9D%AF/" rel="tag">世界杯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%AE%E5%8D%9A/" rel="tag">微博</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%97%B6%E5%8C%BA/" rel="tag">时区</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A4%BE%E4%BA%A4/" rel="tag">社交</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%8A%B1%E5%84%BF%E5%BC%80%E4%BA%86/" rel="tag">花儿开了</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%A8%E6%83%85/" rel="tag">表情</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%87%E6%BB%A4%E5%99%A8/" rel="tag">过滤器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E5%BA%A6/" rel="tag">进度</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AI/" style="font-size: 20px;">AI</a> <a href="/tags/ChatGPT/" style="font-size: 10px;">ChatGPT</a> <a href="/tags/Chrome/" style="font-size: 10px;">Chrome</a> <a href="/tags/Gmail/" style="font-size: 10px;">Gmail</a> <a href="/tags/Google/" style="font-size: 18px;">Google</a> <a href="/tags/Google-Plus/" style="font-size: 10px;">Google Plus</a> <a href="/tags/Gplus/" style="font-size: 10px;">Gplus</a> <a href="/tags/Mac/" style="font-size: 10px;">Mac</a> <a href="/tags/Mail/" style="font-size: 10px;">Mail</a> <a href="/tags/Model/" style="font-size: 10px;">Model</a> <a href="/tags/NFC/" style="font-size: 10px;">NFC</a> <a href="/tags/O2O/" style="font-size: 10px;">O2O</a> <a href="/tags/PS/" style="font-size: 10px;">PS</a> <a href="/tags/Python/" style="font-size: 16px;">Python</a> <a href="/tags/QQ/" style="font-size: 10px;">QQ</a> <a href="/tags/SNS/" style="font-size: 10px;">SNS</a> <a href="/tags/Stable-Diffusion/" style="font-size: 12px;">Stable Diffusion</a> <a href="/tags/Tool/" style="font-size: 10px;">Tool</a> <a href="/tags/Translate/" style="font-size: 10px;">Translate</a> <a href="/tags/allove/" style="font-size: 10px;">allove</a> <a href="/tags/app/" style="font-size: 10px;">app</a> <a href="/tags/avn/" style="font-size: 10px;">avn</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/bluehost/" style="font-size: 10px;">bluehost</a> <a href="/tags/code/" style="font-size: 10px;">code</a> <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/device/" style="font-size: 10px;">device</a> <a href="/tags/feed/" style="font-size: 10px;">feed</a> <a href="/tags/flickr/" style="font-size: 10px;">flickr</a> <a href="/tags/forward/" style="font-size: 10px;">forward</a> <a href="/tags/gmail/" style="font-size: 10px;">gmail</a> <a href="/tags/habari/" style="font-size: 16px;">habari</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/ifttt/" style="font-size: 12px;">ifttt</a> <a href="/tags/install/" style="font-size: 10px;">install</a> <a href="/tags/ireader/" style="font-size: 10px;">ireader</a> <a href="/tags/istef/" style="font-size: 10px;">istef</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/location/" style="font-size: 10px;">location</a> <a href="/tags/more/" style="font-size: 10px;">more</a> <a href="/tags/net/" style="font-size: 10px;">net</a> <a href="/tags/nitrous/" style="font-size: 10px;">nitrous</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/pageflakes/" style="font-size: 10px;">pageflakes</a> <a href="/tags/picasaweb/" style="font-size: 10px;">picasaweb</a> <a href="/tags/plugin/" style="font-size: 10px;">plugin</a> <a href="/tags/reader/" style="font-size: 10px;">reader</a> <a href="/tags/research/" style="font-size: 10px;">research</a> <a href="/tags/search/" style="font-size: 10px;">search</a> <a href="/tags/sms/" style="font-size: 10px;">sms</a> <a href="/tags/telnet/" style="font-size: 10px;">telnet</a> <a href="/tags/twitter/" style="font-size: 12px;">twitter</a> <a href="/tags/url/" style="font-size: 10px;">url</a> <a href="/tags/version/" style="font-size: 10px;">version</a> <a href="/tags/windows-8/" style="font-size: 10px;">windows 8</a> <a href="/tags/wordpress/" style="font-size: 14px;">wordpress</a> <a href="/tags/%E4%B8%96%E7%95%8C%E6%9D%AF/" style="font-size: 10px;">世界杯</a> <a href="/tags/%E5%BE%AE%E5%8D%9A/" style="font-size: 10px;">微博</a> <a href="/tags/%E6%97%B6%E5%8C%BA/" style="font-size: 10px;">时区</a> <a href="/tags/%E7%A4%BE%E4%BA%A4/" style="font-size: 10px;">社交</a> <a href="/tags/%E8%8A%B1%E5%84%BF%E5%BC%80%E4%BA%86/" style="font-size: 10px;">花儿开了</a> <a href="/tags/%E8%A1%A8%E6%83%85/" style="font-size: 10px;">表情</a> <a href="/tags/%E8%BF%87%E6%BB%A4%E5%99%A8/" style="font-size: 10px;">过滤器</a> <a href="/tags/%E8%BF%9B%E5%BA%A6/" style="font-size: 10px;">进度</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">五月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">四月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">三月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">九月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">八月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">六月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">八月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">三月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">七月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">一月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">十一月 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">十月 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">七月 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">十二月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/04/">四月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/10/">十月 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/02/">二月 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/06/">六月 2008</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/10/">十月 2006</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/09/">九月 2006</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/06/">六月 2006</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/Use-AI-to-write-a-snake-game/">利用AI写一个『贪吃蛇游戏』</a>
+          </li>
+        
+          <li>
+            <a href="/Use-multi-step-prompts-to-ask-AI-to-write-tests-for-you/">13 使用多步提示语让AI帮你写测试</a>
+          </li>
+        
+          <li>
+            <a href="/AI-create-a-excel-plugin/">12 AI帮你写个小插件，轻松处理Excel文件</a>
+          </li>
+        
+          <li>
+            <a href="/Save-costs-with-an-open-source-model/">11 用好开源模型节约成本</a>
+          </li>
+        
+          <li>
+            <a href="/Use-AI-to-index-and-analyze-documents-and-images/">10 利用AI索引并分析文献和图片</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 Hivan Du<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

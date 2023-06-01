@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>茶桁.MAMT</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="我是茶桁，这里是我用于写字，码代码以及记录的地方。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="茶桁.MAMT">
+<meta property="og:url" content="https://hivan.me/page/2/index.html">
+<meta property="og:site_name" content="茶桁.MAMT">
+<meta property="og:description" content="我是茶桁，这里是我用于写字，码代码以及记录的地方。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="Hivan Du">
+<meta property="article:tag" content="AI,人工智能,代码,大语言模型">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">茶桁.MAMT</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">ChaHeng Notes，codding and writting ~</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://hivan.me"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-GPT-3-VS-Other-Model" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/GPT-3-VS-Other-Model/" class="article-date">
+  <time class="dt-published" datetime="2023-05-11T08:51:26.000Z" itemprop="datePublished">2023-05-11</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/">从零开始接触人工智能大模型</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/GPT-3-VS-Other-Model/">04 GPT-3/4对比其他模型胜在哪？</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>大家好，我是茶桁。</p>
+<p>在前两节课中，我们一起体验了 OpenAI 提供的 GPT-3.5 系列模型的两个核心接口。一个是获取文本的 Embedding 向量，另一个是根据提示语生成补全的文本内容。通过这两种方法，我们可以在零样本或少样本的情况下进行情感分析任务。然而，你可能会有两个疑问。首先，Embedding 不就是将文本转换为向量吗？为什么不直接使用开源模型（如Word2Vec、Bert）而要调用 OpenAI 的 API 呢？在我们的情感分析任务中，我们进行了一些简化处理。一方面，我们排除了相对中性的评分（3分）；另一方面，我们将1分、2分和4分、5分合并，将原本需要判断5个分类的问题简化了。那么，如果我们想要准确预测多个分类，是否也能如此简单呢？</p>
+        
+          <p class="article-more-link">
+            <a href="/GPT-3-VS-Other-Model/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hivan.me/GPT-3-VS-Other-Model/" data-id="clid1n2w3000l2nj73olk53c7" data-title="04 GPT-3/4对比其他模型胜在哪？" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/" rel="tag">AI</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Let-s-Build-a-Chatbot" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/Let-s-Build-a-Chatbot/" class="article-date">
+  <time class="dt-published" datetime="2023-05-11T08:43:15.000Z" itemprop="datePublished">2023-05-11</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/">从零开始接触人工智能大模型</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/Let-s-Build-a-Chatbot/">03 提示语，做个聊天机器人</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>大家好，我是茶桁。</p>
+<p>在本次讲座中，我们将研究 OpenAI 提供的 Completion API 接口。你可能已经体验过与 ChatGPT 进行聊天的乐趣，或是利用它帮我们编写各种文本材料的便利。现在，我们可以从这个需求出发，进一步探索 Completion API 的具体用法，以及如何利用它来生成更加优质的文本。</p>
+        
+          <p class="article-more-link">
+            <a href="/Let-s-Build-a-Chatbot/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hivan.me/Let-s-Build-a-Chatbot/" data-id="clid1n2w500142nj79qlw8ge0" data-title="03 提示语，做个聊天机器人" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/" rel="tag">AI</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Best-ChatGPT-Chrome-Extension" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/Best-ChatGPT-Chrome-Extension/" class="article-date">
+  <time class="dt-published" datetime="2023-05-10T08:38:41.000Z" itemprop="datePublished">2023-05-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/Best-ChatGPT-Chrome-Extension/">最佳 ChatGPT Chrome 扩展程序</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>想要轻松访问ChatGPT吗？其中一个最佳方式是通过其一系列Chrome扩展程序。这些扩展程序还为您提供更好的使用ChatGPT的方法，包括帮助您编写更好的提示以获得更好的响应，或为ChatGPT授予搜索互联网的能力，从而提供对更多最新信息的访问。</p>
+<p>这是您现在可以使用的最佳 ChatGPT Chrome 扩展程序。</p>
+        
+          <p class="article-more-link">
+            <a href="/Best-ChatGPT-Chrome-Extension/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hivan.me/Best-ChatGPT-Chrome-Extension/" data-id="clid1n2w100072nj77njva42m" data-title="最佳 ChatGPT Chrome 扩展程序" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ChatGPT/" rel="tag">ChatGPT</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Chrome/" rel="tag">Chrome</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Large-language-model-for-sentiment-analysis" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/Large-language-model-for-sentiment-analysis/" class="article-date">
+  <time class="dt-published" datetime="2023-05-09T08:32:50.000Z" itemprop="datePublished">2023-05-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/">从零开始接触人工智能大模型</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/Large-language-model-for-sentiment-analysis/">02 大语言模型做情感分析</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>上一节中，我们介绍了大型语言模型的接口非常简单，仅提供了Complete和Embedding两个接口。但这样看似简单的接口，实际上可以解决很多自然语言处理问题。例如，情感分析、文本分类、文章聚类、摘要生成、搜索等问题，都可以使用大型语言模型解决。接下来的几节课中，我们将介绍如何使用这两个简单的API来解决传统的自然语言处理问题。本节我们将从最常见的自然语言处理问题“情感分析”开始介绍，看看如何使用大型语言模型。</p>
+        
+          <p class="article-more-link">
+            <a href="/Large-language-model-for-sentiment-analysis/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hivan.me/Large-language-model-for-sentiment-analysis/" data-id="clid1n2w6001a2nj7bif25oov" data-title="02 大语言模型做情感分析" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/" rel="tag">AI</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Enter-the-door-of-AI-learn-to-communicate-with-it" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/Enter-the-door-of-AI-learn-to-communicate-with-it/" class="article-date">
+  <time class="dt-published" datetime="2023-05-07T08:26:43.000Z" itemprop="datePublished">2023-05-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/">从零开始接触人工智能大模型</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/Enter-the-door-of-AI-learn-to-communicate-with-it/">01 进入AI大门，学会与其交谈</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>不用问我都知道，你们一定是被ChatGPT的火热出圈导致的开始关注人工智能，也是由于此才看到我这篇文章。</p>
+<p>放心，大家想要的我一定会给予，既然大家都想先认识ChatGPT，那么我们就从这个主题开始。</p>
+        
+          <p class="article-more-link">
+            <a href="/Enter-the-door-of-AI-learn-to-communicate-with-it/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hivan.me/Enter-the-door-of-AI-learn-to-communicate-with-it/" data-id="clid1n2w3000g2nj78s4l1qpz" data-title="01 进入AI大门，学会与其交谈" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/" rel="tag">AI</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Understanding_and_Utilizing_AI" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/Understanding_and_Utilizing_AI/" class="article-date">
+  <time class="dt-published" datetime="2023-05-06T07:01:00.000Z" itemprop="datePublished">2023-05-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/">从零开始接触人工智能大模型</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/Understanding_and_Utilizing_AI/">导读：了解AI并使用它/他/她们</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>如果你想开始学习AI应用开发，那么在学习之前，有一些学前提醒需要注意。在当今AI爆发的时代，学习AI应用开发需要的学习方法和策略也发生了变化。本课程的目标是通过多尝试、多体验、多做头脑风暴的学习方法，帮助学生在短时间内掌握AI应用开发的基本技能。我们并不会传授过于深奥的数学和理论知识，而是会通过简单易学的API，让学生能够快速上手开发实用价值的AI应用。因此，在学习本课程的过程中，我们鼓励学生多尝试、多体验、多做头脑风暴，以更加轻松、快速地掌握AI应用开发的技能。如果你不知道如何开始，你可以使用Jupyter或者Golab这样的工具来帮助自己入门。</p>
+        
+          <p class="article-more-link">
+            <a href="/Understanding_and_Utilizing_AI/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hivan.me/Understanding_and_Utilizing_AI/" data-id="clid1n2wd002u2nj7e9li1q0k" data-title="导读：了解AI并使用它/他/她们" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/" rel="tag">AI</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Gettin_started_with_large-scale_artificial_intelligence_models_from_scratch" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/Gettin_started_with_large-scale_artificial_intelligence_models_from_scratch/" class="article-date">
+  <time class="dt-published" datetime="2023-05-05T06:41:03.000Z" itemprop="datePublished">2023-05-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/">从零开始接触人工智能大模型</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/Gettin_started_with_large-scale_artificial_intelligence_models_from_scratch/">系列课程：从零开始接触人工智能大模型（介绍）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>整个系列课程内容虽然为自己所写，但是参考了bothub 创始人徐文浩的课程《AI 大模型之美》</p>
+</blockquote>
+<p>人工智能是计算机科学领域中最具前瞻性和影响力的技术之一。它是一种智慧型算法，能够模拟人类的思维过程，处理大量的数据和信息，从而发现隐藏在其中的规律和趋势。人工智能的应用范围非常广泛，包括语音识别、图像识别、自然语言处理、机器翻译、智能推荐、智能问答、自动驾驶等等。</p>
+        
+          <p class="article-more-link">
+            <a href="/Gettin_started_with_large-scale_artificial_intelligence_models_from_scratch/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hivan.me/Gettin_started_with_large-scale_artificial_intelligence_models_from_scratch/" data-id="clid1n2w4000r2nj79lgabmgk" data-title="系列课程：从零开始接触人工智能大模型（介绍）" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/" rel="tag">AI</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Exploring-the-Potential-and-Challenges-of-Hybrid-Machine-Learning-Systems-in-AI" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/Exploring-the-Potential-and-Challenges-of-Hybrid-Machine-Learning-Systems-in-AI/" class="article-date">
+  <time class="dt-published" datetime="2023-04-01T08:24:52.000Z" itemprop="datePublished">2023-04-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/Exploring-the-Potential-and-Challenges-of-Hybrid-Machine-Learning-Systems-in-AI/">Exploring the Potential and Challenges of Hybrid Machine Learning Systems in AI</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>随着机器学习和深度学习的飞速发展，人工智能（AI）正取得飞跃性进展。然而，越来越多的研究者一致认为，AI演进的下一个阶段在于开发混合机器学习系统。这篇博客文章将探讨这个新兴领域，讨论它的潜力、挑战以及对AI未来的影响。</p>
+        
+          <p class="article-more-link">
+            <a href="/Exploring-the-Potential-and-Challenges-of-Hybrid-Machine-Learning-Systems-in-AI/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hivan.me/Exploring-the-Potential-and-Challenges-of-Hybrid-Machine-Learning-Systems-in-AI/" data-id="clid1n2w3000h2nj793s866hs" data-title="Exploring the Potential and Challenges of Hybrid Machine Learning Systems in AI" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-stable-diffusion-webUI-models" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/stable-diffusion-webUI-models/" class="article-date">
+  <time class="dt-published" datetime="2023-03-09T08:17:18.000Z" itemprop="datePublished">2023-03-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/stable-diffusion-webUI-models/">玩转Stable Diffusion WebUI 各类模型</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>Stable Diffusion WebUI 最有意思的地方不是在安装好之后生成图像，而是各种各样的模型。</p>
+<p>提前警告：如果你的硬盘空间不够大的话，还是不要随便玩模型了，随随便便就是好几 G，又得甚至于 10 多个 G。</p>
+        
+          <p class="article-more-link">
+            <a href="/stable-diffusion-webUI-models/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hivan.me/stable-diffusion-webUI-models/" data-id="clid1n2wr007f2nj7eg2dc8gg" data-title="玩转Stable Diffusion WebUI 各类模型" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Model/" rel="tag">Model</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Stable-Diffusion/" rel="tag">Stable Diffusion</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-How-to-install-and-run-Stable-Diffusion-on-Apple-Silicon" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/How-to-install-and-run-Stable-Diffusion-on-Apple-Silicon/" class="article-date">
+  <time class="dt-published" datetime="2023-02-23T08:10:30.000Z" itemprop="datePublished">2023-02-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/How-to-install-and-run-Stable-Diffusion-on-Apple-Silicon/">在 Apple Silicon M1/M2 Mac 上安装和运行Stable Diffusion</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p> 说实话，我找了好多关于如何在 M1&#x2F;M2 上安装和运行 Stable Diffusion 的教程和帖子，发现相互之间借鉴的不少，但是能用的确实没几个。</p>
+<p>寻找一番后，发现其实没那么复杂。也不知道为什么网上的那么多教程搞得那么复杂，又是这个又是那个的一大堆，简单实现的方式有好几种：</p>
+        
+          <p class="article-more-link">
+            <a href="/How-to-install-and-run-Stable-Diffusion-on-Apple-Silicon/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hivan.me/How-to-install-and-run-Stable-Diffusion-on-Apple-Silicon/" data-id="clid1n2w4000w2nj71eluer4h" data-title="在 Apple Silicon M1/M2 Mac 上安装和运行Stable Diffusion" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Mac/" rel="tag">Mac</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Stable-Diffusion/" rel="tag">Stable Diffusion</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/3/">下一页 &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/develop/">develop</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/software/">software</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/">从零开始接触人工智能大模型</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AI/" rel="tag">AI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ChatGPT/" rel="tag">ChatGPT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Chrome/" rel="tag">Chrome</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gmail/" rel="tag">Gmail</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Google/" rel="tag">Google</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Google-Plus/" rel="tag">Google Plus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gplus/" rel="tag">Gplus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mac/" rel="tag">Mac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mail/" rel="tag">Mail</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Model/" rel="tag">Model</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NFC/" rel="tag">NFC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/O2O/" rel="tag">O2O</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PS/" rel="tag">PS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/QQ/" rel="tag">QQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SNS/" rel="tag">SNS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Stable-Diffusion/" rel="tag">Stable Diffusion</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tool/" rel="tag">Tool</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Translate/" rel="tag">Translate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/allove/" rel="tag">allove</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/app/" rel="tag">app</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/avn/" rel="tag">avn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/" rel="tag">blog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bluehost/" rel="tag">bluehost</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/code/" rel="tag">code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/device/" rel="tag">device</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/feed/" rel="tag">feed</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/flickr/" rel="tag">flickr</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/forward/" rel="tag">forward</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gmail/" rel="tag">gmail</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/habari/" rel="tag">habari</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ifttt/" rel="tag">ifttt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/install/" rel="tag">install</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ireader/" rel="tag">ireader</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/istef/" rel="tag">istef</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/location/" rel="tag">location</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/more/" rel="tag">more</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/net/" rel="tag">net</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nitrous/" rel="tag">nitrous</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node/" rel="tag">node</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pageflakes/" rel="tag">pageflakes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/picasaweb/" rel="tag">picasaweb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/plugin/" rel="tag">plugin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reader/" rel="tag">reader</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/research/" rel="tag">research</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/search/" rel="tag">search</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sms/" rel="tag">sms</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/telnet/" rel="tag">telnet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/twitter/" rel="tag">twitter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/url/" rel="tag">url</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/version/" rel="tag">version</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows-8/" rel="tag">windows 8</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wordpress/" rel="tag">wordpress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%96%E7%95%8C%E6%9D%AF/" rel="tag">世界杯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%AE%E5%8D%9A/" rel="tag">微博</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%97%B6%E5%8C%BA/" rel="tag">时区</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A4%BE%E4%BA%A4/" rel="tag">社交</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%8A%B1%E5%84%BF%E5%BC%80%E4%BA%86/" rel="tag">花儿开了</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%A8%E6%83%85/" rel="tag">表情</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%87%E6%BB%A4%E5%99%A8/" rel="tag">过滤器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E5%BA%A6/" rel="tag">进度</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AI/" style="font-size: 20px;">AI</a> <a href="/tags/ChatGPT/" style="font-size: 10px;">ChatGPT</a> <a href="/tags/Chrome/" style="font-size: 10px;">Chrome</a> <a href="/tags/Gmail/" style="font-size: 10px;">Gmail</a> <a href="/tags/Google/" style="font-size: 18px;">Google</a> <a href="/tags/Google-Plus/" style="font-size: 10px;">Google Plus</a> <a href="/tags/Gplus/" style="font-size: 10px;">Gplus</a> <a href="/tags/Mac/" style="font-size: 10px;">Mac</a> <a href="/tags/Mail/" style="font-size: 10px;">Mail</a> <a href="/tags/Model/" style="font-size: 10px;">Model</a> <a href="/tags/NFC/" style="font-size: 10px;">NFC</a> <a href="/tags/O2O/" style="font-size: 10px;">O2O</a> <a href="/tags/PS/" style="font-size: 10px;">PS</a> <a href="/tags/Python/" style="font-size: 16px;">Python</a> <a href="/tags/QQ/" style="font-size: 10px;">QQ</a> <a href="/tags/SNS/" style="font-size: 10px;">SNS</a> <a href="/tags/Stable-Diffusion/" style="font-size: 12px;">Stable Diffusion</a> <a href="/tags/Tool/" style="font-size: 10px;">Tool</a> <a href="/tags/Translate/" style="font-size: 10px;">Translate</a> <a href="/tags/allove/" style="font-size: 10px;">allove</a> <a href="/tags/app/" style="font-size: 10px;">app</a> <a href="/tags/avn/" style="font-size: 10px;">avn</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/bluehost/" style="font-size: 10px;">bluehost</a> <a href="/tags/code/" style="font-size: 10px;">code</a> <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/device/" style="font-size: 10px;">device</a> <a href="/tags/feed/" style="font-size: 10px;">feed</a> <a href="/tags/flickr/" style="font-size: 10px;">flickr</a> <a href="/tags/forward/" style="font-size: 10px;">forward</a> <a href="/tags/gmail/" style="font-size: 10px;">gmail</a> <a href="/tags/habari/" style="font-size: 16px;">habari</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/ifttt/" style="font-size: 12px;">ifttt</a> <a href="/tags/install/" style="font-size: 10px;">install</a> <a href="/tags/ireader/" style="font-size: 10px;">ireader</a> <a href="/tags/istef/" style="font-size: 10px;">istef</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/location/" style="font-size: 10px;">location</a> <a href="/tags/more/" style="font-size: 10px;">more</a> <a href="/tags/net/" style="font-size: 10px;">net</a> <a href="/tags/nitrous/" style="font-size: 10px;">nitrous</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/pageflakes/" style="font-size: 10px;">pageflakes</a> <a href="/tags/picasaweb/" style="font-size: 10px;">picasaweb</a> <a href="/tags/plugin/" style="font-size: 10px;">plugin</a> <a href="/tags/reader/" style="font-size: 10px;">reader</a> <a href="/tags/research/" style="font-size: 10px;">research</a> <a href="/tags/search/" style="font-size: 10px;">search</a> <a href="/tags/sms/" style="font-size: 10px;">sms</a> <a href="/tags/telnet/" style="font-size: 10px;">telnet</a> <a href="/tags/twitter/" style="font-size: 12px;">twitter</a> <a href="/tags/url/" style="font-size: 10px;">url</a> <a href="/tags/version/" style="font-size: 10px;">version</a> <a href="/tags/windows-8/" style="font-size: 10px;">windows 8</a> <a href="/tags/wordpress/" style="font-size: 14px;">wordpress</a> <a href="/tags/%E4%B8%96%E7%95%8C%E6%9D%AF/" style="font-size: 10px;">世界杯</a> <a href="/tags/%E5%BE%AE%E5%8D%9A/" style="font-size: 10px;">微博</a> <a href="/tags/%E6%97%B6%E5%8C%BA/" style="font-size: 10px;">时区</a> <a href="/tags/%E7%A4%BE%E4%BA%A4/" style="font-size: 10px;">社交</a> <a href="/tags/%E8%8A%B1%E5%84%BF%E5%BC%80%E4%BA%86/" style="font-size: 10px;">花儿开了</a> <a href="/tags/%E8%A1%A8%E6%83%85/" style="font-size: 10px;">表情</a> <a href="/tags/%E8%BF%87%E6%BB%A4%E5%99%A8/" style="font-size: 10px;">过滤器</a> <a href="/tags/%E8%BF%9B%E5%BA%A6/" style="font-size: 10px;">进度</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">五月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">四月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">三月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">九月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">八月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">六月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">八月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">三月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">七月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">一月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">十一月 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">十月 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">七月 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">十二月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/04/">四月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/10/">十月 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/02/">二月 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/06/">六月 2008</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/10/">十月 2006</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/09/">九月 2006</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/06/">六月 2006</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/Use-AI-to-write-a-snake-game/">利用AI写一个『贪吃蛇游戏』</a>
+          </li>
+        
+          <li>
+            <a href="/Use-multi-step-prompts-to-ask-AI-to-write-tests-for-you/">13 使用多步提示语让AI帮你写测试</a>
+          </li>
+        
+          <li>
+            <a href="/AI-create-a-excel-plugin/">12 AI帮你写个小插件，轻松处理Excel文件</a>
+          </li>
+        
+          <li>
+            <a href="/Save-costs-with-an-open-source-model/">11 用好开源模型节约成本</a>
+          </li>
+        
+          <li>
+            <a href="/Use-AI-to-index-and-analyze-documents-and-images/">10 利用AI索引并分析文献和图片</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 Hivan Du<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

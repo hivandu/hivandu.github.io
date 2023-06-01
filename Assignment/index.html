@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>茶桁.MAMT</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Finish the search problem The code address of this article is: example_01_Assignment  Please read the answer below after thinking for yourselfPlease using the search policy to implement an agent.This">
+<meta property="og:type" content="article">
+<meta property="og:title" content="茶桁.MAMT">
+<meta property="og:url" content="https://hivan.me/Assignment/index.html">
+<meta property="og:site_name" content="茶桁.MAMT">
+<meta property="og:description" content="Finish the search problem The code address of this article is: example_01_Assignment  Please read the answer below after thinking for yourselfPlease using the search policy to implement an agent.This">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://jtapi.bendibao.com/ditie/inc/bj/xianluda.gif">
+<meta property="article:published_time" content="2021-08-31T14:21:07.776Z">
+<meta property="article:modified_time" content="2021-08-31T14:21:07.776Z">
+<meta property="article:author" content="Hivan Du">
+<meta property="article:tag" content="AI,人工智能,代码,大语言模型">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://jtapi.bendibao.com/ditie/inc/bj/xianluda.gif">
+  
+    <link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">茶桁.MAMT</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">ChaHeng Notes，codding and writting ~</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://hivan.me"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Assignment" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/Assignment/" class="article-date">
+  <time class="dt-published" datetime="2021-08-31T14:21:07.776Z" itemprop="datePublished">2021-08-31</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Finish-the-search-problem"><a href="#Finish-the-search-problem" class="headerlink" title="Finish the search problem"></a>Finish the search problem</h1><blockquote>
+<p>The code address of this article is: <a target="_blank" rel="noopener" href="https://github.com/hivandu/practise/blob/master/MicsoftAINine/example_01_Assignment.ipynb">example_01_Assignment</a></p>
+</blockquote>
+<h3 id="Please-read-the-answer-below-after-thinking-for-yourself"><a href="#Please-read-the-answer-below-after-thinking-for-yourself" class="headerlink" title="Please read the answer below after thinking for yourself"></a>Please read the answer below after thinking for yourself</h3><p>Please using the search policy to implement an agent.<br>This agent receives two input, one is @param start station and the other is @param destination.<br>Your agent should give the optimal route based on Beijing Subway system. </p>
+<img src="http://jtapi.bendibao.com/ditie/inc/bj/xianluda.gif" alt="图片替换文本" width="900" height="900" align="bottom" />
+
+<h4 id="Dataflow"><a href="#Dataflow" class="headerlink" title="Dataflow:"></a>Dataflow:</h4><h5 id="1-Get-data-from-web-page"><a href="#1-Get-data-from-web-page" class="headerlink" title="1.	Get data from web page."></a>1.	Get data from web page.</h5><blockquote>
+<p>a.	Get web page source from: <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%8C%97%E4%BA%AC%E5%9C%B0%E9%93%81/408485">https://baike.baidu.com/item/%E5%8C%97%E4%BA%AC%E5%9C%B0%E9%93%81/408485</a></p>
+</blockquote>
+<blockquote>
+<p>b.	You may need @package <strong>requests</strong> <a target="_blank" rel="noopener" href="https://2.python-requests.org/en/master/">https://2.python-requests.org/en/master/</a> page to get the response via url</p>
+</blockquote>
+<blockquote>
+<p>c.	You may need save the page source to file system.</p>
+</blockquote>
+<blockquote>
+<p>d.	The target of this step is to get station information of all the subway lines;</p>
+</blockquote>
+<blockquote>
+<p>e.	You may need install @package beautiful soup <a target="_blank" rel="noopener" href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/">https://www.crummy.com/software/BeautifulSoup/bs4/doc/</a>  to get the url information, or just use &gt; Regular Expression to get the url.  Our recommendation is that using the Regular Expression and BeautiflSoup both. </p>
+</blockquote>
+<blockquote>
+<p>f.	You may need BFS to get all the related page url from one url.<br>Question: Why do we use BFS to traverse web page (or someone said, build a web spider)?  Can DFS do this job? which is better? </p>
+</blockquote>
+<h5 id="2-Preprocessing-data-from-page-source"><a href="#2-Preprocessing-data-from-page-source" class="headerlink" title="2.	Preprocessing data from page source."></a>2.	Preprocessing data from page source.</h5><blockquote>
+<p>a.	Based on the page source gotten from url. You may need some more preprocessing of the page. </p>
+</blockquote>
+<blockquote>
+<p>b.	the Regular Expression you may need to process the text information.</p>
+</blockquote>
+<blockquote>
+<p>c.	You may need @package networkx, @package matplotlib to visualize data. </p>
+</blockquote>
+<blockquote>
+<p>d.	You should build a dictionary or graph which could represent the connection information of Beijing subway routes. </p>
+</blockquote>
+<blockquote>
+<p>e.	You may need the defaultdict, set data structures to implement this procedure. </p>
+</blockquote>
+<h5 id="3-Build-the-search-agent"><a href="#3-Build-the-search-agent" class="headerlink" title="3. Build the search agent"></a>3. Build the search agent</h5><blockquote>
+<p>Build the search agent based on the graph we build.</p>
+</blockquote>
+<p>for example, when you run: </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; search(&#x27;奥体中心&#x27;, &#x27;天安门&#x27;) </span><br></pre></td></tr></table></figure>
+<p>you need get the result: </p>
+<p>奥体中心-&gt; A -&gt; B -&gt; C -&gt; … -&gt; 天安门</p>
+<h4 id="HTTP协议"><a href="#HTTP协议" class="headerlink" title="HTTP协议"></a>HTTP协议</h4><p>超文本传输协议（HTTP，HyperText Transfer Protocol）是互联网上应用最为广泛的一种网络协议。所有的www文件都必须遵守这个标准。  </p>
+<p>HTTP用于客户端和服务器之间的通信。协议中规定了客户端应该按照什么格式给服务器发送请求，同时也约定了服务端返回的响应结果应该是什么格式。    </p>
+<p>请求访问文本或图像等信息的一端称为客户端，而提供信息响应的一端称为服务器端。 </p>
+<p>客户端告诉服务器请求访问信息的方法：</p>
+<ul>
+<li>Get 获得内容</li>
+<li>Post 提交表单来爬取需要登录才能获得数据的网站</li>
+<li>put 传输文件</li>
+</ul>
+<p>更多参考：<br><a target="_blank" rel="noopener" href="https://www.runoob.com/http/http-status-codes.html">HTTP请求状态</a><br>了解200 404 503</p>
+<ul>
+<li>200 OK      &#x2F;&#x2F;客户端请求成功</li>
+<li>404 Not Found  &#x2F;&#x2F;请求资源不存在，eg：输入了错误的URL</li>
+<li>503 Server Unavailable  &#x2F;&#x2F;服务器当前不能处理客户端的请求，一段时间后可能恢复正常。</li>
+</ul>
+<h4 id="Requests"><a href="#Requests" class="headerlink" title="Requests"></a>Requests</h4><p>纯粹HTML格式的网页通常被称为静态网页，静态网页的数据比较容易获取。<br>在静态网页抓取中，有一个强大的Requests库能够让你轻易地发送HTTP请求。  </p>
+<h4 id="在终端上安装-Requests"><a href="#在终端上安装-Requests" class="headerlink" title="在终端上安装 Requests"></a>在终端上安装 Requests</h4><p>pip install requents</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取响应内容</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="comment"># get（输入你想要抓去的网页地址）</span></span><br><span class="line">r = requests.get(<span class="string">&#x27;https://www.baidu.com/&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;文本编码：（服务器使用的文本编码）&#x27;</span>, r.encoding)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;响应状态码：（200表示成功）&#x27;</span>, r.status_code)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;字符串方式的响应体：（服务器响应的内容）&#x27;</span>, r.text)</span><br></pre></td></tr></table></figure>
+
+<h4 id="拓展知识："><a href="#拓展知识：" class="headerlink" title="拓展知识："></a>拓展知识：</h4><ul>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/23374078">Unicode和UTF-8有什么区别?(盛世唐朝回答)</a></li>
+</ul>
+<h3 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h3><p>正则表达式的思想是你在人群中寻找你的男朋友&#x2F;女朋友，他&#x2F;她在你心里非常有特点。<br>同样，从一堆文本中找到需要的内容，我们可以采用正则表达式。</p>
+<p>正经点说，是以一定的模式来进行字符串的匹配。<br>掌握正则表达式需要非常多的时间，我们可以先入门，在以后的工作中遇到，可更加深入研究。</p>
+<p>使用正则表达式有如下步骤：</p>
+<ul>
+<li>寻找【待找到的信息】特点</li>
+<li>使用符号找到特点</li>
+<li>获得信息</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 请先运行一下、看一下有什么参数？</span></span><br><span class="line"><span class="comment"># 请思考，找到会返回什么？没找到会返回什么？</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="built_in">help</span>(re.<span class="keyword">match</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 请运行之后、思考 match 与 search 的区别?</span></span><br><span class="line"></span><br><span class="line">m = re.search(<span class="string">&#x27;foo&#x27;</span>, <span class="string">&#x27;seafood&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(m)</span><br><span class="line"><span class="built_in">print</span>(m.group())</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;-------------------------&#x27;</span>)</span><br><span class="line"></span><br><span class="line">m = re.<span class="keyword">match</span>(<span class="string">&#x27;foo&#x27;</span>, <span class="string">&#x27;seafood&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(m)</span><br><span class="line"></span><br><span class="line"><span class="comment">#### `search`是搜索字符串中首次出现的位置</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 匹配多个字符串 |</span></span><br><span class="line">m = re.<span class="keyword">match</span>(<span class="string">&#x27;bat|bet|bit&#x27;</span>, <span class="string">&#x27;bat&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(m.group()) <span class="keyword">if</span> m <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span> <span class="keyword">else</span> <span class="built_in">print</span>(<span class="string">&#x27;None&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 匹配任意单个字符 .</span></span><br><span class="line">m = re.<span class="keyword">match</span>(<span class="string">&#x27;.end&#x27;</span>, <span class="string">&#x27;kend&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(m.group()) <span class="keyword">if</span> m <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span> <span class="keyword">else</span> <span class="built_in">print</span>(<span class="string">&#x27;None&#x27;</span>)</span><br><span class="line"></span><br><span class="line">m = re.<span class="keyword">match</span>(<span class="string">&#x27;.end&#x27;</span>, <span class="string">&#x27;end&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(m.group()) <span class="keyword">if</span> m <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span> <span class="keyword">else</span> <span class="built_in">print</span>(<span class="string">&#x27;None&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 字符串集合 []</span></span><br><span class="line">m = re.<span class="keyword">match</span>(<span class="string">&#x27;[cr][23][dp][o2]&#x27;</span>, <span class="string">&#x27;c3p2&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(m.group()) <span class="keyword">if</span> m <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span> <span class="keyword">else</span> <span class="built_in">print</span>(<span class="string">&#x27;None&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># []   与 |是不同的</span></span><br><span class="line">m = re.<span class="keyword">match</span>(<span class="string">&#x27;c3po|r2d2&#x27;</span>, <span class="string">&#x27;c3p2&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(m.group()) <span class="keyword">if</span> m <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span> <span class="keyword">else</span> <span class="built_in">print</span>(<span class="string">&#x27;None&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="给大家提供一个字典，供大家查询～"><a href="#给大家提供一个字典，供大家查询～" class="headerlink" title="给大家提供一个字典，供大家查询～"></a>给大家提供一个字典，供大家查询～</h4><table class="wikitable">
+  <tbody>
+    <tr>
+      <th style="text-align:center;" width="20%">字符</th>
+      <th style="text-align:center;" width="90%">描述</th>
+    </tr>
+    <tr>
+      <th style="text-align:center;">\</th>
+      <td style="text-align:left;"> 将下一个字符标记为一个特殊字符、或一个原义字符、或一个向后引用、或一个八进制转义符。例如，“<code>n</code>”匹配字符“<code>n</code>”。“<code>\n</code>”匹配一个换行符。串行“<code>\\</code>”匹配“<code>\</code>”而“<code>\(</code>”则匹配“<code>(</code>”。</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;">^</th>
+      <td style="text-align:left;">匹配输入字符串的开始位置。如果设置了RegExp对象的Multiline属性，^也匹配“<code>\n</code>”或“<code>\r</code>”之后的位置。</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;"> \* </th>
+      <td style="text-align:left;">匹配前面的子表达式零次或多次。例如，zo\*能匹配“<code>z</code>”以及“<code>zoo</code>”。\* 等价于{0,}。</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;">+</th>
+      <td style="text-align:left;">匹配前面的子表达式一次或多次。例如，“<code>zo+</code>”能匹配“<code>zo</code>”以及“<code>zoo</code>”，但不能匹配“<code>z</code>”。+等价于{1,}。</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;">?</th>
+      <td style="text-align:left;">匹配前面的子表达式零次或一次。例如，“<code>do(es)?</code>”可以匹配“<code>does</code>”或“<code>does</code>”中的“<code>do</code>”。?等价于{0,1}。</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;">{<span style="font-family:Times New Roman; font-style:italic;">n</span>}</th>
+      <td style="text-align:left;"><span style="font-family:Times New Roman; font-style:italic;">n</span>是一个非负整数。匹配确定的<span style="font-family:Times New Roman; font-style:italic;">n</span>次。例如，“<code>o&#123;2&#125;</code>”不能匹配“<code>Bob</code>”中的“<code>o</code>”，但是能匹配“<code>food</code>”中的两个o。</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;">{<span style="font-family:Times New Roman; font-style:italic;">n</span>,}</th>
+      <td style="text-align:left;"><span style="font-family:Times New Roman; font-style:italic;">n</span>是一个非负整数。至少匹配<span style="font-family:Times New Roman; font-style:italic;">n</span>次。例如，“<code>o&#123;2,&#125;</code>”不能匹配“<code>Bob</code>”中的“<code>o</code>”，但能匹配“<code>foooood</code>”中的所有o。“<code>o&#123;1,&#125;</code>”等价于“<code>o+</code>”。“<code>o&#123;0,&#125;</code>”则等价于“<code>o*</code>”。</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;">{<span style="font-family:Times New Roman; font-style:italic;">n</span>,<span style="font-family:Times New Roman; font-style:italic;">m</span>}</th>
+      <td style="text-align:left;"><span style="font-family:Times New Roman; font-style:italic;">m</span>和<span style="font-family:Times New Roman; font-style:italic;">n</span>均为非负整数，其中<span style="font-family:Times New Roman; font-style:italic;">n</span>&lt;=<span style="font-family:Times New Roman; font-style:italic;">m</span>。最少匹配<span style="font-family:Times New Roman; font-style:italic;">n</span>次且最多匹配<span style="font-family:Times New Roman; font-style:italic;">m</span>次。例如，“<code>o&#123;1,3&#125;</code>”将匹配“<code>fooooood</code>”中的前三个o。“<code>o&#123;0,1&#125;</code>”等价于“<code>o?</code>”。请注意在逗号和两个数之间不能有空格。</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;">?</th>
+      <td style="text-align:left;">当该字符紧跟在任何一个其他限制符（*,+,?，{<span style="font-family:Times New Roman; font-style:italic;">n</span>}，{<span style="font-family:Times New Roman; font-style:italic;">n</span>,}，{<span style="font-family:Times New Roman; font-style:italic;">n</span>,<span style="font-family:Times New Roman; font-style:italic;">m</span>}）后面时，匹配模式是非贪婪的。非贪婪模式尽可能少的匹配所搜索的字符串，而默认的贪婪模式则尽可能多的匹配所搜索的字符串。例如，对于字符串“<code>oooo</code>”，“<code>o+?</code>”将匹配单个“<code>o</code>”，而“<code>o+</code>”将匹配所有“<code>o</code>”。</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;">.</th>
+      <td style="text-align:left;">匹配除“<code>\</code><span style="font-family:Times New Roman; font-style:italic;"><code>n</code></span>”之外的任何单个字符。要匹配包括“<code>\</code><span style="font-family:Times New Roman; font-style:italic;"><code>n</code></span>”在内的任何字符，请使用像“<code>(.|\n)</code>”的模式。</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;">(pattern)</th>
+      <td style="text-align:left;">匹配pattern并获取这一匹配。所获取的匹配可以从产生的Matches集合得到，在VBScript中使用SubMatches集合，在JScript中则使用$0…$9属性。要匹配圆括号字符，请使用“<code>\(</code>”或“<code>\)</code>”。</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;">(?:pattern)</th>
+      <td style="text-align:left;">匹配pattern但不获取匹配结果，也就是说这是一个非获取匹配，不进行存储供以后使用。这在使用或字符“<code>(|)</code>”来组合一个模式的各个部分是很有用。例如“<code>industr(?:y|ies)</code>”就是一个比“<code>industry|industries</code>”更简略的表达式。</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;">(?=pattern)</th>
+      <td style="text-align:left;">正向肯定预查，在任何匹配pattern的字符串开始处匹配查找字符串。这是一个非获取匹配，也就是说，该匹配不需要获取供以后使用。例如，“<code>Windows(?=95|98|NT|2000)</code>”能匹配“<code>Windows2000</code>”中的“<code>Windows</code>”，但不能匹配“<code>Windows3.1</code>”中的“<code>Windows</code>”。预查不消耗字符，也就是说，在一个匹配发生后，在最后一次匹配之后立即开始下一次匹配的搜索，而不是从包含预查的字符之后开始。</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;">(?!pattern)</th>
+      <td style="text-align:left;">正向否定预查，在任何不匹配pattern的字符串开始处匹配查找字符串。这是一个非获取匹配，也就是说，该匹配不需要获取供以后使用。例如“<code>Windows(?!95|98|NT|2000)</code>”能匹配“<code>Windows3.1</code>”中的“<code>Windows</code>”，但不能匹配“<code>Windows2000</code>”中的“<code>Windows</code>”。预查不消耗字符，也就是说，在一个匹配发生后，在最后一次匹配之后立即开始下一次匹配的搜索，而不是从包含预查的字符之后开始</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;">(?&lt;=pattern)</th>
+      <td style="text-align:left;">反向肯定预查，与正向肯定预查类拟，只是方向相反。例如，“<code>(?&lt;=95|98|NT|2000)Windows</code>”能匹配“<code>2000Windows</code>”中的“<code>Windows</code>”，但不能匹配“<code>3.1Windows</code>”中的“<code>Windows</code>”。</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;">(?&lt;!pattern)</th>
+      <td style="text-align:left;">反向否定预查，与正向否定预查类拟，只是方向相反。例如“<code>(?&lt;!95|98|NT|2000)Windows</code>”能匹配“<code>3.1Windows</code>”中的“<code>Windows</code>”，但不能匹配“<code>2000Windows</code>”中的“<code>Windows</code>”。</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;">x|y</th>
+      <td style="text-align:left;">匹配x或y。例如，“<code>z|food</code>”能匹配“<code>z</code>”或“<code>food</code>”。“<code>(z|f)ood</code>”则匹配“<code>zood</code>”或“<code>food</code>”。</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;">[xyz]</th>
+      <td style="text-align:left;">字符集合。匹配所包含的任意一个字符。例如，“<code>[abc]</code>”可以匹配“<code>plain</code>”中的“<code>a</code>”。</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;">[^xyz]</th>
+      <td style="text-align:left;">负值字符集合。匹配未包含的任意字符。例如，“<code>[^abc]</code>”可以匹配“<code>plain</code>”中的“<code>p</code>”。</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;">[a-z]</th>
+      <td style="text-align:left;">字符范围。匹配指定范围内的任意字符。例如，“<code>[a-z]</code>”可以匹配“<code>a</code>”到“<code>z</code>”范围内的任意小写字母字符。</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;">[^a-z]</th>
+      <td style="text-align:left;">负值字符范围。匹配任何不在指定范围内的任意字符。例如，“<code>[^a-z]</code>”可以匹配任何不在“<code>a</code>”到“<code>z</code>”范围内的任意字符。</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;">\b</th>
+      <td style="text-align:left;">匹配一个单词边界，也就是指单词和空格间的位置。例如，“<code>er\b</code>”可以匹配“<code>never</code>”中的“<code>er</code>”，但不能匹配“<code>verb</code>”中的“<code>er</code>”。</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;">\B</th>
+      <td style="text-align:left;">匹配非单词边界。“<code>er\B</code>”能匹配“<code>verb</code>”中的“<code>er</code>”，但不能匹配“<code>never</code>”中的“<code>er</code>”。</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;">\cx</th>
+      <td style="text-align:left;">匹配由x指明的控制字符。例如，\cM匹配一个Control-M或回车符。x的值必须为A-Z或a-z之一。否则，将c视为一个原义的“<code>c</code>”字符。</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;">\d</th>
+      <td style="text-align:left;">匹配一个数字字符。等价于[0-9]。</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;">\D</th>
+      <td style="text-align:left;">匹配一个非数字字符。等价于[^0-9]。</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;">\f</th>
+      <td style="text-align:left;">匹配一个换页符。等价于\x0c和\cL。</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;">\n</th>
+      <td style="text-align:left;">匹配一个换行符。等价于\x0a和\cJ。</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;">\r</th>
+      <td style="text-align:left;">匹配一个回车符。等价于\x0d和\cM。</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;">\s</th>
+      <td style="text-align:left;">匹配任何空白字符，包括空格、制表符、换页符等等。等价于[ \f\n\r\t\v]。</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;">\S</th>
+      <td style="text-align:left;">匹配任何非空白字符。等价于[^ \f\n\r\t\v]。</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;">\t</th>
+      <td style="text-align:left;">匹配一个制表符。等价于\x09和\cI。</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;">\v</th>
+      <td style="text-align:left;">匹配一个垂直制表符。等价于\x0b和\cK。</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;">\w</th>
+      <td style="text-align:left;">匹配包括下划线的任何单词字符。等价于“<code>[A-Za-z0-9_]</code>”。</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;">\W</th>
+      <td style="text-align:left;">匹配任何非单词字符。等价于“<code>[^A-Za-z0-9_]</code>”。</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;">\x<span style="font-family:Times New Roman; font-style:italic;">n</span></th>
+      <td style="text-align:left;">匹配<span style="font-family:Times New Roman; font-style:italic;">n</span>，其中<span style="font-family:Times New Roman; font-style:italic;">n</span>为十六进制转义值。十六进制转义值必须为确定的两个数字长。例如，“<code>\x41</code>”匹配“<code>A</code>”。“<code>\x041</code>”则等价于“<code>\x04&amp;1</code>”。正则表达式中可以使用ASCII编码。.</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;">\<span style="font-family:Times New Roman; font-style:italic;">num</span></th>
+      <td style="text-align:left;">匹配<span style="font-family:Times New Roman; font-style:italic;">num</span>，其中<span style="font-family:Times New Roman; font-style:italic;">num</span>是一个正整数。对所获取的匹配的引用。例如，“<code>(.)\1</code>”匹配两个连续的相同字符。</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;">\<span style="font-family:Times New Roman; font-style:italic;">n</span></th>
+      <td style="text-align:left;">标识一个八进制转义值或一个向后引用。如果\<span style="font-family:Times New Roman; font-style:italic;">n</span>之前至少<span style="font-family:Times New Roman; font-style:italic;">n</span>个获取的子表达式，则<span style="font-family:Times New Roman; font-style:italic;">n</span>为向后引用。否则，如果<span style="font-family:Times New Roman; font-style:italic;">n</span>为八进制数字（0-7），则<span style="font-family:Times New Roman; font-style:italic;">n</span>为一个八进制转义值。</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;">\<span style="font-family:Times New Roman; font-style:italic;">nm</span></th>
+      <td style="text-align:left;">标识一个八进制转义值或一个向后引用。如果\<span style="font-family:Times New Roman; font-style:italic;">nm</span>之前至少有<span style="font-family:Times New Roman; font-style:italic;">nm</span>个获得子表达式，则<span style="font-family:Times New Roman; font-style:italic;">nm</span>为向后引用。如果\<span style="font-family:Times New Roman; font-style:italic;">nm</span>之前至少有<span style="font-family:Times New Roman; font-style:italic;">n</span>个获取，则<span style="font-family:Times New Roman; font-style:italic;">n</span>为一个后跟文字<span style="font-family:Times New Roman; font-style:italic;">m</span>的向后引用。如果前面的条件都不满足，若<span style="font-family:Times New Roman; font-style:italic;">n</span>和<span style="font-family:Times New Roman; font-style:italic;">m</span>均为八进制数字（0-7），则\<span style="font-family:Times New Roman; font-style:italic;">nm</span>将匹配八进制转义值<span style="font-family:Times New Roman; font-style:italic;">nm</span>。</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;">\<span style="font-family:Times New Roman; font-style:italic;">nml</span></th>
+      <td style="text-align:left;">如果<span style="font-family:Times New Roman; font-style:italic;">n</span>为八进制数字（0-3），且<span style="font-family:Times New Roman; font-style:italic;">m和l</span>均为八进制数字（0-7），则匹配八进制转义值<span style="font-family:Times New Roman; font-style:italic;">nm</span>l。</td>
+    </tr>
+    <tr>
+      <th style="text-align:center;">\u<span style="font-family:Times New Roman; font-style:italic;">n</span></th>
+      <td style="text-align:left;">匹配<span style="font-family:Times New Roman; font-style:italic;">n</span>，其中<span style="font-family:Times New Roman; font-style:italic;">n</span>是一个用四个十六进制数字表示的Unicode字符。例如，\u00A9匹配版权符号（©）。</td>
+    </tr>
+  </tbody>
+</table>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 匹配电子邮件地址</span></span><br><span class="line">patt = <span class="string">&#x27;\w+@(\w+\.)?\w+\.com&#x27;</span></span><br><span class="line">m = re.<span class="keyword">match</span>(patt, <span class="string">&#x27;nobody@xxx.com&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(m.group()) <span class="keyword">if</span> m <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span> <span class="keyword">else</span> <span class="built_in">print</span>(<span class="string">&#x27;None&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 匹配QQ</span></span><br><span class="line">m = re.search(<span class="string">&#x27;[1-9][0-9]&#123;4,&#125;&#x27;</span>, <span class="string">&#x27;这是我的QQ号781504542,第二个qq号：10054422288&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(m.group()) <span class="keyword">if</span> m <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span> <span class="keyword">else</span> <span class="built_in">print</span>(<span class="string">&#x27;None&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># findall() 是search的升级版，可以找到所有匹配的字符串</span></span><br><span class="line"></span><br><span class="line">m = re.findall(<span class="string">&#x27;[1-9][0-9]&#123;4,&#125;&#x27;</span>, <span class="string">&#x27;这是我的QQ号781504542,第二个qq号：10054422288&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(m) <span class="keyword">if</span> m <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span> <span class="keyword">else</span> <span class="built_in">print</span>(<span class="string">&#x27;None&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>了解了怎么使用，下面进入实现</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># get the data (subway for beijing ,from amap)</span></span><br><span class="line"><span class="comment"># 你需要用到以下的包</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">r = requests.get(<span class="string">&#x27;http://map.amap.com/service/subway?_1469083453978&amp;srhdata=1100_drw_beijing.json&#x27;</span>)</span><br><span class="line">r.text</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_lines_stations_info</span>(<span class="params">text</span>):</span><br><span class="line">    <span class="comment"># Please write your code here</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Traverse the text format data to form the location data structure</span></span><br><span class="line">    <span class="comment"># Dict of all line information: key: line name; value: list of site names</span></span><br><span class="line">    lines_info = &#123;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># A dict of all site information: key: site name; value: site coordinates (x, y)</span></span><br><span class="line">    stations_info = &#123;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(lines_list)):</span><br><span class="line">        <span class="comment"># Several questions you may need to think about, get &quot;Metro line name, station information list, station name, coordinates (x, y), add data to the information dict of the station, add data to the subway line dict&quot;</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">lines_info, stations_info = get_lines_stations_info(r.text)</span><br><span class="line"></span><br><span class="line"><span class="comment"># According to the route information, establish the site adjacency table dict</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_neighbor_info</span>(<span class="params">lines_info</span>):</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Add str2 to the adjacency list of site str1</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">add_neighbor_dict</span>(<span class="params">info, str1, str2</span>):</span><br><span class="line">        <span class="comment"># Please write code here</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">        </span><br><span class="line">    <span class="keyword">return</span> neighbor_info</span><br><span class="line">        </span><br><span class="line">neighbor_info = get_neighbor_info(lines_info)</span><br><span class="line">neighbor_info</span><br><span class="line"></span><br><span class="line"><span class="comment"># Draw subway map</span></span><br><span class="line"><span class="keyword">import</span> networkx <span class="keyword">as</span> nx</span><br><span class="line"><span class="keyword">import</span> matplotlib</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"><span class="comment"># If Chinese characters cannot be displayed, please refer to</span></span><br><span class="line">matplotlib.rcParams[<span class="string">&#x27;font.sans-serif&#x27;</span>] = [<span class="string">&#x27;SimHei&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># matplotlib.rcParams[&#x27;font.family&#x27;]=&#x27;sans-serif&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># You can use recursion to find all paths</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_path_DFS_ALL</span>(<span class="params">lines_info, neighbor_info, from_station, to_station</span>):</span><br><span class="line">    <span class="comment"># Recursive algorithm, essentially depth first</span></span><br><span class="line">    <span class="comment"># Traverse all paths</span></span><br><span class="line">    <span class="comment"># In this case, the coordinate distance between the sites is difficult to transform into a reliable heuristic function, so only a simple BFS algorithm is used</span></span><br><span class="line">    <span class="comment"># Check input site name</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_next_station_DFS_ALL</span>(<span class="params">node, neighbor_info, to_station</span>):</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># You can also use the second algorithm: simple breadth first without heuristic function</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_path_BFS</span>(<span class="params">lines_info, neighbor_info, from_station, to_station</span>):</span><br><span class="line">    <span class="comment"># Search strategy: take the number of stations as the cost (because the ticket price is calculated by station)</span></span><br><span class="line">    <span class="comment"># In this case, the coordinate distance between the sites is difficult to transform into a reliable heuristic function, so only a simple BFS algorithm is used</span></span><br><span class="line">    <span class="comment"># Since the cost of each layer is increased by 1, the cost of each layer is the same, and it does not matter whether it is calculated or not, so it is omitted</span></span><br><span class="line">    <span class="comment"># Check input site name</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># You can also use the third algorithm: heuristic search with path distance as the cost</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_path_Astar</span>(<span class="params">lines_info, neighbor_info, stations_info, from_station, to_station</span>):</span><br><span class="line">    <span class="comment"># Search strategy: the straight-line distance between the stations of the route is accumulated as the cost, and the straight-line distance from the current station to the target is used as the heuristic function</span></span><br><span class="line">    <span class="comment"># Check input site name</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>As much as you can to use the already implemented search agent. You just need to define the <strong>is_goal()</strong>, <strong>get_successor()</strong>, <strong>strategy()</strong> three functions. </p>
+<blockquote>
+<p>a.	Define different policies for transfer system. </p>
+</blockquote>
+<blockquote>
+<p>b.	Such as Shortest Path Priority（路程最短优先）, Minimum Transfer Priority(最少换乘优先), Comprehensive Priority(综合优先)</p>
+</blockquote>
+<blockquote>
+<p>c.	Implement Continuous transfer. Based on the Agent you implemented, please add this feature: Besides the @param start and @param destination two stations, add some more stations, we called @param by_way, it means, our path should from the start and end, but also include the  @param by_way stations. </p>
+</blockquote>
+<p>e.g </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1. Input:  start=A,  destination=B, by_way=[C] </span><br><span class="line">    Output: [A, … .., C, …. B]</span><br><span class="line">2. Input: start=A, destination=B, by_way=[C, D, E]</span><br><span class="line">    Output: [A … C … E … D … B]  </span><br><span class="line">    # based on your policy, the E station could be reached firstly. </span><br></pre></td></tr></table></figure>
+
+<h2 id="The-Answer"><a href="#The-Answer" class="headerlink" title="The Answer"></a>The Answer</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># get the data (subway for beijing ,from amap)</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">r = requests.request(<span class="string">&#x27;GET&#x27;</span>, url = <span class="string">&#x27;http://map.amap.com/service/subway?_1469083453978&amp;srhdata=1100_drw_beijing.json&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_lines_stations_info</span>(<span class="params">text</span>):</span><br><span class="line"></span><br><span class="line">    lines_info = &#123;&#125;</span><br><span class="line">    stations_info = &#123;&#125;</span><br><span class="line"></span><br><span class="line">    pattern = re.<span class="built_in">compile</span>(<span class="string">&#x27;&quot;st&quot;.*?&quot;kn&quot;&#x27;</span>)</span><br><span class="line">    lines_list = pattern.findall(text)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(lines_list)):</span><br><span class="line">        pattern = re.<span class="built_in">compile</span>(<span class="string">&#x27;&quot;ln&quot;:&quot;.*?&quot;&#x27;</span>)</span><br><span class="line">        line_name = pattern.findall(lines_list[i])[<span class="number">0</span>][<span class="number">6</span>:-<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">        pattern = re.<span class="built_in">compile</span>(<span class="string">&#x27;&quot;rs&quot;.*?&quot;sp&quot;&#x27;</span>)</span><br><span class="line">        temp_list = pattern.findall(lines_list[i])</span><br><span class="line">        station_name_list = []</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(temp_list)):</span><br><span class="line"></span><br><span class="line">            pattern = re.<span class="built_in">compile</span>(<span class="string">&#x27;&quot;n&quot;:&quot;.*?&quot;&#x27;</span>)</span><br><span class="line">            station_name = pattern.findall(temp_list[j])[<span class="number">0</span>][<span class="number">5</span>:-<span class="number">1</span>]</span><br><span class="line">            station_name_list.append(station_name)</span><br><span class="line"></span><br><span class="line">            pattern = re.<span class="built_in">compile</span>(<span class="string">&#x27;&quot;sl&quot;:&quot;.*?&quot;&#x27;</span>)</span><br><span class="line">            position = <span class="built_in">tuple</span>(<span class="built_in">map</span>(<span class="built_in">float</span>, pattern.findall(temp_list[j])[<span class="number">0</span>][<span class="number">6</span>:-<span class="number">1</span>].split(<span class="string">&#x27;,&#x27;</span>)))</span><br><span class="line">            </span><br><span class="line">            stations_info[station_name] = position</span><br><span class="line"></span><br><span class="line">        lines_info[line_name]  = station_name_list</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> lines_info, stations_info</span><br><span class="line"></span><br><span class="line">lines_info, stations_info = get_lines_stations_info(r.text)</span><br><span class="line"><span class="comment"># print(stations_info)</span></span><br><span class="line"><span class="comment"># print(lines_info)</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">len</span>(lines_info)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_neighbor_info</span>(<span class="params">lines_info</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">add_neighbor_dict</span>(<span class="params">info, str1, str2</span>):</span><br><span class="line">        list1 = info.get(str1)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> list1:</span><br><span class="line">            list1 = []</span><br><span class="line">        list1.append(str2)</span><br><span class="line">        info[str1] = list1</span><br><span class="line">        <span class="keyword">return</span> info</span><br><span class="line"></span><br><span class="line">    neighbor_info = &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> line_name, station_list <span class="keyword">in</span> lines_info.items():</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(station_list) -<span class="number">1</span>):</span><br><span class="line">            sta1 = station_list[i]</span><br><span class="line">            sta2 = station_list[i+<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">            neighbor_info = add_neighbor_dict(neighbor_info, sta1, sta2)</span><br><span class="line">            neighbor_info = add_neighbor_dict(neighbor_info, sta2, sta1)</span><br><span class="line">    <span class="keyword">return</span> neighbor_info</span><br><span class="line"></span><br><span class="line">neighbor_info = get_neighbor_info(lines_info)</span><br><span class="line"><span class="built_in">print</span>(neighbor_info)</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> networkx <span class="keyword">as</span> nx</span><br><span class="line"><span class="keyword">import</span> matplotlib</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line">matplotlib.rcParams[<span class="string">&#x27;font.sans-serif&#x27;</span>]  = [<span class="string">&#x27;Arial Unicode MS&#x27;</span>]</span><br><span class="line">matplotlib.rcParams[<span class="string">&#x27;font.size&#x27;</span>] = <span class="number">2</span></span><br><span class="line"></span><br><span class="line">plt.figure(figsize = (<span class="number">20</span>, <span class="number">20</span>))</span><br><span class="line">stations_graph = nx.Graph()</span><br><span class="line">stations_graph.add_nodes_from(<span class="built_in">list</span>(stations_info.keys()))</span><br><span class="line">nx.draw(stations_graph, stations_info, with_labels = <span class="literal">True</span>, node_size = <span class="number">5</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">stations_connection_graph = nx.Graph(neighbor_info)</span><br><span class="line">plt.figure(figsize = (<span class="number">30</span>, <span class="number">30</span>))</span><br><span class="line">nx.draw(stations_connection_graph, stations_info, with_labels = <span class="literal">True</span>, node_size = <span class="number">5</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># The first algorithm: recursively find all paths</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_path_DFS_ALL</span>(<span class="params">lines_info, neighbor_info, from_station, to_station</span>):</span><br><span class="line">    <span class="comment"># # Recursive algorithm, essentially depth first</span></span><br><span class="line">    <span class="comment"># Traverse all paths</span></span><br><span class="line">    <span class="comment"># In this case, the coordinate distance between the sites is difficult to transform into a reliable heuristic function, so only a simple BFS algorithm is used</span></span><br><span class="line">    <span class="comment"># Check input site name</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> neighbor_info.get(from_station):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;起始站点“%s”不存在。请正确输入！&#x27;</span>%from_station)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> neighbor_info.get(to_station):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;目的站点“%s”不存在。请正确输入！&#x27;</span>%to_station)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">    path = []</span><br><span class="line">    this_station = from_station</span><br><span class="line">    path.append(this_station)</span><br><span class="line">    neighbors = neighbor_info.get(this_station)</span><br><span class="line">    node = &#123;<span class="string">&#x27;pre_station&#x27;</span>:<span class="string">&#x27;&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;this_station&#x27;</span>:this_station,</span><br><span class="line">            <span class="string">&#x27;neighbors&#x27;</span>:neighbors,</span><br><span class="line">            <span class="string">&#x27;path&#x27;</span>:path&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> get_next_station_DFS_ALL(node, neighbor_info, to_station)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_next_station_DFS_ALL</span>(<span class="params">node, neighbor_info, to_station</span>):</span><br><span class="line">    neighbors = node.get(<span class="string">&#x27;neighbors&#x27;</span>)</span><br><span class="line">    pre_station = node.get(<span class="string">&#x27;this_station&#x27;</span>)</span><br><span class="line">    path = node.get(<span class="string">&#x27;path&#x27;</span>)</span><br><span class="line">    paths = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(neighbors)):</span><br><span class="line">        this_station = neighbors[i]</span><br><span class="line">        <span class="keyword">if</span> (this_station <span class="keyword">in</span> path):</span><br><span class="line">            </span><br><span class="line">            <span class="comment"># If this station is already in the path, it means a loop, and this road is unreachable</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">        <span class="keyword">if</span> neighbors[i] == to_station:</span><br><span class="line">            </span><br><span class="line">            <span class="comment"># Find the end, return to the path</span></span><br><span class="line">            path.append(to_station)</span><br><span class="line">            paths.append(path)</span><br><span class="line">            <span class="keyword">return</span> paths</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            neighbors_ = neighbor_info.get(this_station).copy()</span><br><span class="line">            neighbors_.remove(pre_station)</span><br><span class="line">            path_ = path.copy()</span><br><span class="line">            path_.append(this_station)</span><br><span class="line">            new_node = &#123;<span class="string">&#x27;pre_station&#x27;</span>:pre_station,</span><br><span class="line">                        <span class="string">&#x27;this_station&#x27;</span>:this_station,</span><br><span class="line">                        <span class="string">&#x27;neighbors&#x27;</span>:neighbors_,</span><br><span class="line">                        <span class="string">&#x27;path&#x27;</span>:path_&#125;</span><br><span class="line">            paths_ =  get_next_station_DFS_ALL(new_node, neighbor_info, to_station)</span><br><span class="line">            <span class="keyword">if</span> paths_:</span><br><span class="line">                paths.extend(paths_)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> paths</span><br><span class="line"></span><br><span class="line">paths = get_path_DFS_ALL(lines_info, neighbor_info, <span class="string">&#x27;回龙观&#x27;</span>, <span class="string">&#x27;西二旗&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;共有%d种路径。&#x27;</span>%<span class="built_in">len</span>(paths))</span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> paths:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;此路径总计%d站:&quot;</span>%(<span class="built_in">len</span>(item)-<span class="number">1</span>))</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;-&#x27;</span>.join(item))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># The second algorithm: simple breadth first without heuristic function</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_path_BFS</span>(<span class="params">lines_info, neighbor_info, from_station, to_station</span>):</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Search strategy: take the number of stations as the cost (because the ticket price is calculated by station)</span></span><br><span class="line">    <span class="comment"># In this case, the coordinate distance between the sites is difficult to transform into a reliable heuristic function, so only a simple BFS algorithm is used</span></span><br><span class="line">    <span class="comment"># Since the cost of each layer is increased by 1, the cost of each layer is the same, and it does not matter whether it is calculated or not, so it is omitted</span></span><br><span class="line">    <span class="comment"># Check input site name</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> neighbor_info.get(from_station):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;起始站点“%s”不存在。请正确输入！&#x27;</span>%from_station)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> neighbor_info.get(to_station):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;目的站点“%s”不存在。请正确输入！&#x27;</span>%to_station)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># The search node is a dict, key=site name, value is a list of sites that contain passing</span></span><br><span class="line">    nodes = &#123;&#125;</span><br><span class="line">    nodes[from_station] = [from_station]</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        new_nodes = &#123;&#125;</span><br><span class="line">        <span class="keyword">for</span> (k,v) <span class="keyword">in</span> nodes.items():</span><br><span class="line">            neighbor = neighbor_info.get(k).copy()</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">len</span>(v) &gt;= <span class="number">2</span>):</span><br><span class="line">                </span><br><span class="line">                <span class="comment"># Do not go to the previous stop</span></span><br><span class="line">                pre_station = v[-<span class="number">2</span>]</span><br><span class="line">                neighbor.remove(pre_station)</span><br><span class="line">            <span class="keyword">for</span> station <span class="keyword">in</span> neighbor:</span><br><span class="line">                </span><br><span class="line">                <span class="comment"># Traverse neighbors</span></span><br><span class="line">                <span class="keyword">if</span> station <span class="keyword">in</span> nodes:</span><br><span class="line"></span><br><span class="line">                    <span class="comment"># Skip the nodes that have been searched</span></span><br><span class="line">                    <span class="keyword">continue</span></span><br><span class="line">                path = v.copy()</span><br><span class="line">                path.append(station)</span><br><span class="line">                new_nodes[station] = path</span><br><span class="line">                <span class="keyword">if</span> station == to_station:</span><br><span class="line"></span><br><span class="line">                    <span class="comment"># Find the path, end</span></span><br><span class="line">                    <span class="keyword">return</span> path</span><br><span class="line">        nodes = new_nodes</span><br><span class="line">        </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;未能找到路径&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">paths = get_path_BFS(lines_info, neighbor_info, <span class="string">&#x27;回龙观&#x27;</span>, <span class="string">&#x27;西二旗&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;路径总计%d站。&quot;</span>%(<span class="built_in">len</span>(paths)-<span class="number">1</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;-&quot;</span>.join(paths))</span><br><span class="line"></span><br><span class="line"><span class="comment"># Gaode Navigation is 31 stations, only 1 transfer</span></span><br><span class="line"><span class="comment"># The result of the code is 28 stations, but there are 5 transfers</span></span><br><span class="line"><span class="comment"># Guess Gaode&#x27;s path cost is mainly time</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># The third algorithm: heuristic search with path distance as the cost</span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_path_Astar</span>(<span class="params">lines_info, neighbor_info, stations_info, from_station, to_station</span>):</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Search strategy: the straight-line distance between the stations of the route is accumulated as the cost, and the straight-line distance from the current station to the target is used as the heuristic function</span></span><br><span class="line">    <span class="comment"># Check input site name</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> neighbor_info.get(from_station):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;起始站点“%s”不存在。请正确输入！&#x27;</span>%from_station)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> neighbor_info.get(to_station):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;目的站点“%s”不存在。请正确输入！&#x27;</span>%to_station)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Calculate the straight-line distance from all nodes to the target node, spare</span></span><br><span class="line">    distances = &#123;&#125;</span><br><span class="line">    x,y = stations_info.get(to_station)</span><br><span class="line">    <span class="keyword">for</span> (k,v) <span class="keyword">in</span> stations_info.items():</span><br><span class="line">        x0,y0 = stations_info.get(k)</span><br><span class="line">        l = ((x-x0)**<span class="number">2</span> + (y-y0)**<span class="number">2</span>)**<span class="number">0.5</span></span><br><span class="line">        distances[k] = l</span><br><span class="line">        </span><br><span class="line">    <span class="comment"># Nodes that have been searched, dict</span></span><br><span class="line">    <span class="comment"># key=site name, value is the minimum cost from a known starting point to this site    # 已搜索过的节点，dict</span></span><br><span class="line">    searched = &#123;&#125;</span><br><span class="line">    searched[from_station] = <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># The data structure is pandas dataframe</span></span><br><span class="line">    <span class="comment"># index is the site name</span></span><br><span class="line">    <span class="comment"># g is the path taken, h is the heuristic function value (the current straight-line distance to the target)</span></span><br><span class="line">    nodes = pd.DataFrame([[[from_station], <span class="number">0</span>, <span class="number">0</span>, distances.get(from_station)]],</span><br><span class="line">                         index=[from_station], columns=[<span class="string">&#x27;path&#x27;</span>, <span class="string">&#x27;cost&#x27;</span>, <span class="string">&#x27;g&#x27;</span>, <span class="string">&#x27;h&#x27;</span>]) </span><br><span class="line">    </span><br><span class="line">    count = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="keyword">if</span> count &gt; <span class="number">1000</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        nodes.sort_values(<span class="string">&#x27;cost&#x27;</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">        <span class="keyword">for</span> index, node <span class="keyword">in</span> nodes.iterrows():</span><br><span class="line">            count += <span class="number">1</span></span><br><span class="line">            </span><br><span class="line">            <span class="comment"># Search for the site that is the shortest from the destination among the neighbors</span></span><br><span class="line">            neighbors = neighbor_info.get(index).copy()</span><br><span class="line">            <span class="keyword">if</span> <span class="built_in">len</span>(node[<span class="string">&#x27;path&#x27;</span>]) &gt;= <span class="number">2</span>:</span><br><span class="line">                </span><br><span class="line">                <span class="comment"># Do not search in the reverse direction of this path</span></span><br><span class="line">                neighbors.remove(node[<span class="string">&#x27;path&#x27;</span>][-<span class="number">2</span>])</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(neighbors)):</span><br><span class="line">                count += <span class="number">1</span></span><br><span class="line">                neighbor = neighbors[i]</span><br><span class="line">                g = node[<span class="string">&#x27;g&#x27;</span>] + get_distance(stations_info, index, neighbor)</span><br><span class="line">                h = distances[neighbor]</span><br><span class="line">                cost = g + h</span><br><span class="line">                path = node[<span class="string">&#x27;path&#x27;</span>].copy()</span><br><span class="line">                path.append(neighbor)</span><br><span class="line">                <span class="keyword">if</span> neighbor == to_station:</span><br><span class="line">                    <span class="comment"># Find the goal, end</span></span><br><span class="line">                    <span class="built_in">print</span>(<span class="string">&#x27;共检索%d次。&#x27;</span>%count)</span><br><span class="line">                    <span class="keyword">return</span> path</span><br><span class="line">                <span class="keyword">if</span> neighbor <span class="keyword">in</span> searched:</span><br><span class="line">                    <span class="keyword">if</span> g &gt;= searched[neighbor]:</span><br><span class="line">                        <span class="comment"># Explain that the search path is not optimal, ignore it</span></span><br><span class="line">                        <span class="keyword">continue</span></span><br><span class="line">                    <span class="keyword">else</span>:</span><br><span class="line">                        searched[neighbor] = g</span><br><span class="line">                        <span class="comment"># Modify the node information corresponding to this site</span></span><br><span class="line"><span class="comment">#                         nodes.loc[neighbor, &#x27;path&#x27;] = path # 这行总是报错</span></span><br><span class="line"><span class="comment">#                         nodes.loc[neighbor, &#x27;cost&#x27;] = cost</span></span><br><span class="line"><span class="comment">#                         nodes.loc[neighbor, &#x27;g&#x27;] = g</span></span><br><span class="line"><span class="comment">#                         nodes.loc[neighbor, &#x27;h&#x27;] = h</span></span><br><span class="line">                        <span class="comment"># I don’t know how to modify the list element in df, I can only delete and add new rows</span></span><br><span class="line">                        nodes.drop(neighbor, axis=<span class="number">0</span>, inplace=<span class="literal">True</span>)</span><br><span class="line">                        row = pd.DataFrame([[path, cost, g, h]],</span><br><span class="line">                                       index=[neighbor], columns=[<span class="string">&#x27;path&#x27;</span>, <span class="string">&#x27;cost&#x27;</span>, <span class="string">&#x27;g&#x27;</span>, <span class="string">&#x27;h&#x27;</span>])</span><br><span class="line">                        nodes = nodes.append(row)</span><br><span class="line">                        </span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    searched[neighbor] = g</span><br><span class="line">                    row = pd.DataFrame([[path, cost, g, h]],</span><br><span class="line">                                       index=[neighbor], columns=[<span class="string">&#x27;path&#x27;</span>, <span class="string">&#x27;cost&#x27;</span>, <span class="string">&#x27;g&#x27;</span>, <span class="string">&#x27;h&#x27;</span>])</span><br><span class="line">                    nodes = nodes.append(row)</span><br><span class="line">            <span class="comment"># All neighbors of this site have been searched, delete this node</span></span><br><span class="line">            nodes.drop(index, axis=<span class="number">0</span>, inplace=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># The outer for loop only runs the first row of data, and then re-sort and then calculate</span></span><br><span class="line">        <span class="keyword">continue</span>         </span><br><span class="line">        </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;未能找到路径&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_distance</span>(<span class="params">stations_info, str1, str2</span>):</span><br><span class="line">    x1,y1 = stations_info.get(str1)</span><br><span class="line">    x2,y2 = stations_info.get(str2)</span><br><span class="line">    <span class="keyword">return</span> ((x1-x2)**<span class="number">2</span> + (y1-y2)**<span class="number">2</span>)** <span class="number">0.5</span></span><br><span class="line"></span><br><span class="line">paths = get_path_Astar(lines_info, neighbor_info, stations_info, <span class="string">&#x27;回龙观&#x27;</span>, <span class="string">&#x27;西二旗&#x27;</span>)</span><br><span class="line"><span class="keyword">if</span> paths:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;路径总计%d站。&quot;</span>%(<span class="built_in">len</span>(paths)-<span class="number">1</span>))</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;-&quot;</span>.join(paths))</span><br><span class="line"></span><br><span class="line"><span class="comment"># Gaode Navigation is 31 stations, only 1 transfer</span></span><br><span class="line"><span class="comment"># The code result is 28 stations, which is the same as the result with the number of subway stations as the cost, but the path is different (from the first traversal algorithm, you can see that there are 3 paths for 28 stations to reach the destination)</span></span><br><span class="line"><span class="comment"># Guess Gaode&#x27;s path cost is mainly time</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hivan.me/Assignment/" data-id="clid1n2w000062nj73ffs97vx" data-title="" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/heart/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/Lecture_1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/develop/">develop</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/software/">software</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/">从零开始接触人工智能大模型</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AI/" rel="tag">AI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ChatGPT/" rel="tag">ChatGPT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Chrome/" rel="tag">Chrome</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gmail/" rel="tag">Gmail</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Google/" rel="tag">Google</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Google-Plus/" rel="tag">Google Plus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gplus/" rel="tag">Gplus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mac/" rel="tag">Mac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mail/" rel="tag">Mail</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Model/" rel="tag">Model</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NFC/" rel="tag">NFC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/O2O/" rel="tag">O2O</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PS/" rel="tag">PS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/QQ/" rel="tag">QQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SNS/" rel="tag">SNS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Stable-Diffusion/" rel="tag">Stable Diffusion</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tool/" rel="tag">Tool</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Translate/" rel="tag">Translate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/allove/" rel="tag">allove</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/app/" rel="tag">app</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/avn/" rel="tag">avn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/" rel="tag">blog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bluehost/" rel="tag">bluehost</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/code/" rel="tag">code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/device/" rel="tag">device</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/feed/" rel="tag">feed</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/flickr/" rel="tag">flickr</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/forward/" rel="tag">forward</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gmail/" rel="tag">gmail</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/habari/" rel="tag">habari</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ifttt/" rel="tag">ifttt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/install/" rel="tag">install</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ireader/" rel="tag">ireader</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/istef/" rel="tag">istef</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/location/" rel="tag">location</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/more/" rel="tag">more</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/net/" rel="tag">net</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nitrous/" rel="tag">nitrous</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node/" rel="tag">node</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pageflakes/" rel="tag">pageflakes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/picasaweb/" rel="tag">picasaweb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/plugin/" rel="tag">plugin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reader/" rel="tag">reader</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/research/" rel="tag">research</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/search/" rel="tag">search</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sms/" rel="tag">sms</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/telnet/" rel="tag">telnet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/twitter/" rel="tag">twitter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/url/" rel="tag">url</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/version/" rel="tag">version</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows-8/" rel="tag">windows 8</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wordpress/" rel="tag">wordpress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%96%E7%95%8C%E6%9D%AF/" rel="tag">世界杯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%AE%E5%8D%9A/" rel="tag">微博</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%97%B6%E5%8C%BA/" rel="tag">时区</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A4%BE%E4%BA%A4/" rel="tag">社交</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%8A%B1%E5%84%BF%E5%BC%80%E4%BA%86/" rel="tag">花儿开了</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%A8%E6%83%85/" rel="tag">表情</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%87%E6%BB%A4%E5%99%A8/" rel="tag">过滤器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E5%BA%A6/" rel="tag">进度</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AI/" style="font-size: 20px;">AI</a> <a href="/tags/ChatGPT/" style="font-size: 10px;">ChatGPT</a> <a href="/tags/Chrome/" style="font-size: 10px;">Chrome</a> <a href="/tags/Gmail/" style="font-size: 10px;">Gmail</a> <a href="/tags/Google/" style="font-size: 18px;">Google</a> <a href="/tags/Google-Plus/" style="font-size: 10px;">Google Plus</a> <a href="/tags/Gplus/" style="font-size: 10px;">Gplus</a> <a href="/tags/Mac/" style="font-size: 10px;">Mac</a> <a href="/tags/Mail/" style="font-size: 10px;">Mail</a> <a href="/tags/Model/" style="font-size: 10px;">Model</a> <a href="/tags/NFC/" style="font-size: 10px;">NFC</a> <a href="/tags/O2O/" style="font-size: 10px;">O2O</a> <a href="/tags/PS/" style="font-size: 10px;">PS</a> <a href="/tags/Python/" style="font-size: 16px;">Python</a> <a href="/tags/QQ/" style="font-size: 10px;">QQ</a> <a href="/tags/SNS/" style="font-size: 10px;">SNS</a> <a href="/tags/Stable-Diffusion/" style="font-size: 12px;">Stable Diffusion</a> <a href="/tags/Tool/" style="font-size: 10px;">Tool</a> <a href="/tags/Translate/" style="font-size: 10px;">Translate</a> <a href="/tags/allove/" style="font-size: 10px;">allove</a> <a href="/tags/app/" style="font-size: 10px;">app</a> <a href="/tags/avn/" style="font-size: 10px;">avn</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/bluehost/" style="font-size: 10px;">bluehost</a> <a href="/tags/code/" style="font-size: 10px;">code</a> <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/device/" style="font-size: 10px;">device</a> <a href="/tags/feed/" style="font-size: 10px;">feed</a> <a href="/tags/flickr/" style="font-size: 10px;">flickr</a> <a href="/tags/forward/" style="font-size: 10px;">forward</a> <a href="/tags/gmail/" style="font-size: 10px;">gmail</a> <a href="/tags/habari/" style="font-size: 16px;">habari</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/ifttt/" style="font-size: 12px;">ifttt</a> <a href="/tags/install/" style="font-size: 10px;">install</a> <a href="/tags/ireader/" style="font-size: 10px;">ireader</a> <a href="/tags/istef/" style="font-size: 10px;">istef</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/location/" style="font-size: 10px;">location</a> <a href="/tags/more/" style="font-size: 10px;">more</a> <a href="/tags/net/" style="font-size: 10px;">net</a> <a href="/tags/nitrous/" style="font-size: 10px;">nitrous</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/pageflakes/" style="font-size: 10px;">pageflakes</a> <a href="/tags/picasaweb/" style="font-size: 10px;">picasaweb</a> <a href="/tags/plugin/" style="font-size: 10px;">plugin</a> <a href="/tags/reader/" style="font-size: 10px;">reader</a> <a href="/tags/research/" style="font-size: 10px;">research</a> <a href="/tags/search/" style="font-size: 10px;">search</a> <a href="/tags/sms/" style="font-size: 10px;">sms</a> <a href="/tags/telnet/" style="font-size: 10px;">telnet</a> <a href="/tags/twitter/" style="font-size: 12px;">twitter</a> <a href="/tags/url/" style="font-size: 10px;">url</a> <a href="/tags/version/" style="font-size: 10px;">version</a> <a href="/tags/windows-8/" style="font-size: 10px;">windows 8</a> <a href="/tags/wordpress/" style="font-size: 14px;">wordpress</a> <a href="/tags/%E4%B8%96%E7%95%8C%E6%9D%AF/" style="font-size: 10px;">世界杯</a> <a href="/tags/%E5%BE%AE%E5%8D%9A/" style="font-size: 10px;">微博</a> <a href="/tags/%E6%97%B6%E5%8C%BA/" style="font-size: 10px;">时区</a> <a href="/tags/%E7%A4%BE%E4%BA%A4/" style="font-size: 10px;">社交</a> <a href="/tags/%E8%8A%B1%E5%84%BF%E5%BC%80%E4%BA%86/" style="font-size: 10px;">花儿开了</a> <a href="/tags/%E8%A1%A8%E6%83%85/" style="font-size: 10px;">表情</a> <a href="/tags/%E8%BF%87%E6%BB%A4%E5%99%A8/" style="font-size: 10px;">过滤器</a> <a href="/tags/%E8%BF%9B%E5%BA%A6/" style="font-size: 10px;">进度</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">五月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">四月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">三月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">九月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">八月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">六月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">八月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">三月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">七月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">一月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">十一月 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">十月 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">七月 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">十二月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/04/">四月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/10/">十月 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/02/">二月 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/06/">六月 2008</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/10/">十月 2006</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/09/">九月 2006</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/06/">六月 2006</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/Use-AI-to-write-a-snake-game/">利用AI写一个『贪吃蛇游戏』</a>
+          </li>
+        
+          <li>
+            <a href="/Use-multi-step-prompts-to-ask-AI-to-write-tests-for-you/">13 使用多步提示语让AI帮你写测试</a>
+          </li>
+        
+          <li>
+            <a href="/AI-create-a-excel-plugin/">12 AI帮你写个小插件，轻松处理Excel文件</a>
+          </li>
+        
+          <li>
+            <a href="/Save-costs-with-an-open-source-model/">11 用好开源模型节约成本</a>
+          </li>
+        
+          <li>
+            <a href="/Use-AI-to-index-and-analyze-documents-and-images/">10 利用AI索引并分析文献和图片</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 Hivan Du<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>11 用好开源模型节约成本 | 茶桁.MAMT</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Hi， 大家好，我是茶桁。 直奔主题，我们来谈谈成本这件事。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="11 用好开源模型节约成本">
+<meta property="og:url" content="https://hivan.me/Save-costs-with-an-open-source-model/index.html">
+<meta property="og:site_name" content="茶桁.MAMT">
+<meta property="og:description" content="Hi， 大家好，我是茶桁。 直奔主题，我们来谈谈成本这件事。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://qiniu.hivan.me/picGo/20230601171522.png?imgNote">
+<meta property="og:image" content="http://qiniu.hivan.me/picGo/20230601171529.png?imgNote">
+<meta property="article:published_time" content="2023-05-20T09:14:42.000Z">
+<meta property="article:modified_time" content="2023-06-01T09:23:10.722Z">
+<meta property="article:author" content="Hivan Du">
+<meta property="article:tag" content="AI">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://qiniu.hivan.me/picGo/20230601171522.png?imgNote">
+  
+    <link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">茶桁.MAMT</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">ChaHeng Notes，codding and writting ~</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://hivan.me"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Save-costs-with-an-open-source-model" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/Save-costs-with-an-open-source-model/" class="article-date">
+  <time class="dt-published" datetime="2023-05-20T09:14:42.000Z" itemprop="datePublished">2023-05-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/">从零开始接触人工智能大模型</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      11 用好开源模型节约成本
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>Hi， 大家好，我是茶桁。</p>
+<p>直奔主题，我们来谈谈成本这件事。</p>
+<span id="more"></span>
+
+<p>大家应该都知道，ChatGPT对免费用户是有5美元的API调用额度的，说是这么说，可是那是以前，现在新注册的小伙伴应该都发现自己的API Key根本无法调用API，原因是这个免费额度似乎已经失效了。而我可以直接说，在我从第一节到第10节的课程中所用到的金额，已经超过这个数目了。也就是说，我这10节课API调用成本就已经超过了40元人民币。</p>
+<p>看到这大家大概能理解我这个课程为什么改为付费课程了吧？</p>
+<p>对于 <code>ChatCompletion</code> 的接口来说，为了更好地使用它，我们需要传入更多的上下文信息，以便更准确地进行文本生成。不过要注意的是，实际消耗的 Token 数量可能比我们感觉的要多。此外，除了费用之外，数据安全也是我们需要考虑的一个问题。由于每个国家的数据监管要求不同，不是所有的数据都适合通过 OpenAI 的 API 来处理。因此，我们需要寻找一个除 OpenAI 以外的解决方案。幸运的是，有一些开源的大语言模型可以帮助我们解决这个问题。通过利用这些开源的模型，中小型公司也可以轻松地获得更准确、更安全的文本生成服务。</p>
+<h3 id="在-Colab-中使用-GPU"><a href="#在-Colab-中使用-GPU" class="headerlink" title="在 Colab 中使用 GPU"></a>在 Colab 中使用 GPU</h3><p>在本课中，我们需要使用一些开源模型。但是，并不是所有人的电脑都配备了强劲的 NVIDIA GPU。因此，我建议您使用 Colab 运行相应的笔记本，并注意将运行环境设置为 GPU。</p>
+<p>如下图，选择 <code>代码执行程序-&gt;更改运行时类型</code>,然后在硬件加速器上选择 <code>GPU</code> 就可以了。</p>
+<p><img src="http://qiniu.hivan.me/picGo/20230601171522.png?imgNote" alt="notion image"></p>
+<p><img src="http://qiniu.hivan.me/picGo/20230601171529.png?imgNote" alt="notion image"></p>
+<p>当然，有的小伙伴应该是看到有一个警告：想要使用付费GPU，购买额外的计算单元。 暂时不需要理会它，只要用的多，Colab的GPU是有免费额度的。</p>
+<h3 id="开源伙伴：HuggingfaceEmbedding"><a href="#开源伙伴：HuggingfaceEmbedding" class="headerlink" title="开源伙伴：HuggingfaceEmbedding"></a>开源伙伴：HuggingfaceEmbedding</h3><p>在第四讲中，我们使用了 Google 开源的 T5 模型来比较零样本分类效果。尽管该模型的效果不如 OpenAI 的 API，准确率只有90%，但也算是相当不错的了。这也让我们想到，上一讲中使用的 llama-index 向量搜索部分是否可以使用开源模型的 Embedding 进行替换呢？</p>
+<p>答案是肯定的，llama-index 允许您直接定义一个定制化的 Embedding。我将相关代码放在了下面，您可以参考它进行操作。这种方法不仅可以大大增加文本长度，还可以保持原有的关键思想。</p>
+<p>在继续之前，我们需要安装一下 <code>sentence-transformers</code> 这个库：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda install -c conda-forge sentence-transformers</span><br></pre></td></tr></table></figure>
+
+<p>然后执行如下代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 导入所需库</span></span><br><span class="line"><span class="keyword">import</span> openai, os</span><br><span class="line"><span class="keyword">import</span> faiss</span><br><span class="line"><span class="keyword">from</span> llama_index <span class="keyword">import</span> SimpleDirectoryReader, LangchainEmbedding, ServiceContext, StorageContext, GPTVectorStoreIndex, load_index_from_storage</span><br><span class="line"><span class="keyword">from</span> llama_index.vector_stores.faiss <span class="keyword">import</span> FaissVectorStore</span><br><span class="line"><span class="keyword">from</span> langchain.embeddings.huggingface <span class="keyword">import</span> HuggingFaceEmbeddings</span><br><span class="line"><span class="keyword">from</span> langchain.text_splitter <span class="keyword">import</span> CharacterTextSplitter</span><br><span class="line"><span class="keyword">from</span> llama_index.node_parser <span class="keyword">import</span> SimpleNodeParser</span><br><span class="line"><span class="keyword">from</span> IPython.display <span class="keyword">import</span> Markdown, display</span><br><span class="line"></span><br><span class="line"><span class="comment"># API Key</span></span><br><span class="line">os.environ[<span class="string">&#x27;OPENAI_API_KEY&#x27;</span>] = <span class="string">&#x27;OPENAI_API_KEY&#x27;</span></span><br><span class="line">openai.api_key = <span class="string">&quot;&quot;</span> </span><br><span class="line"></span><br><span class="line">text_splitter = CharacterTextSplitter(separator = <span class="string">&#x27;\n\n&#x27;</span>, chunk_size = <span class="number">100</span>, chunk_overlap = <span class="number">20</span>)</span><br><span class="line"></span><br><span class="line">dimension = <span class="number">768</span></span><br><span class="line">faiss_index = faiss.IndexFlatIP(dimension)</span><br><span class="line"></span><br><span class="line">parser = SimpleNodeParser(text_splitter = text_splitter)</span><br><span class="line">documents = SimpleDirectoryReader(<span class="string">&#x27;./data/faq/&#x27;</span>).load_data()</span><br><span class="line">nodes = parser.get_nodes_from_documents(documents)</span><br><span class="line"></span><br><span class="line">embed_model = LangchainEmbedding(HuggingFaceEmbeddings(</span><br><span class="line">    model_name = <span class="string">&#x27;sentence-transformers/paraphrase-multilingual-mpnet-base-v2&#x27;</span></span><br><span class="line">))</span><br><span class="line"></span><br><span class="line">vector_store = FaissVectorStore(faiss_index = faiss_index)</span><br><span class="line">service_context = ServiceContext.from_defaults(embed_model = embed_model)</span><br><span class="line">index = GPTVectorStoreIndex.from_documents(documents = documents, service_context=service_context)</span><br><span class="line">query_engine = index.as_query_engine()</span><br></pre></td></tr></table></figure>
+
+<p>我们使用了一个面向电商 FAQ 的纯文本文件作为输入。里面包含了预设好的 FAQ 问答对。为了确保我们没有使用 OpenAI 的 API，我们将 openai.api_key 设置为空字符串。然后定义了一个 <code>embeded_model</code>，它封装了 HuggingFaceEmbeddings 类。HuggingFaceEmbeddings 可以下载、加载并计算输入文本的嵌入向量，因为 HuggingFace 为基于 transformers 的模型定义了一个标准，所以你可以使用一套代码来使用所有 transformers 类型的模型。 <code>sentence-transformers</code>是目前效果最好的语义搜索模型，它包括一系列预训练模型，其中 <code>paraphrase-multilingual-mpnet-base-v2</code>  模型支持多语言和将语句和段落转换为向量。由于我们的示例都是中文，所以选择了这个模型。你可以根据实际问题选择适合自己的模型。</p>
+<p>我们使用 Faiss 库作为向量索引库，定义向量维度为 768，与 <code>paraphrase-multilingual-mpnet-base-v2</code> 模型的维度相同。</p>
+<p>对于文档的切分，我们使用 CharacterTextSplitter，并对参数进行了调整。我们使用 “\n\n” 作为分段符， <code>chunk_size</code> 设置为 100， <code>chunk_overlap</code> 设为最大 100。</p>
+<p>Embedding 使用了 3198 个 Token，不过这些 Token 都是通过 sentence_transformers 模型计算的，不需要花费额外成本。完成索引创建后，我们可以使用常见的电商类型 FAQ 问题测试。</p>
+<p>接下来让我们问点问题试试：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">openai.api_key = os.environ.get(<span class="string">&quot;OPENAI_API_KEY&quot;</span>)</span><br><span class="line">response = query_engine.query(<span class="string">&quot;请问你们海南能发货吗？&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(response)</span><br></pre></td></tr></table></figure>
+
+<p>输出的结果为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A: 是的，我们支持海南地区的发货。您可以在下单时选择您的收货地址，我们会根据您的地址信息提供相应的物流服务。</span><br></pre></td></tr></table></figure>
+
+<p>继续第二个问题：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">response = query_engine.query(<span class="string">&quot;你们用那些快递公司送货？&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(response)</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">我们与顺丰速运、圆通速递、申通快递、韵达快递、中通快递、百世快递等多家知名快递公司合作。</span><br></pre></td></tr></table></figure>
+
+<p>第三个问题：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">response = query_engine.query(<span class="string">&quot;你们的退货政策是怎么样的？&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(response)　</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A: 自收到商品之日起<span class="number">7</span>天内，如产品未使用、包装完好，您可以申请退货。某些特殊商品可能不支持退货，请在购买前查看商品详情页面的退货政策。</span><br></pre></td></tr></table></figure>
+
+<p>我们使用 Embedding 模式来查询。通过三个典型问题的测试，AI 的回答都正确，效果不错。</p>
+<h3 id="使用ChatGLM"><a href="#使用ChatGLM" class="headerlink" title="使用ChatGLM"></a>使用ChatGLM</h3><p>通过上面的代码，我们已经完成了生成 Embedding 和利用 Embedding 进行搜索的过程。在实际的问答过程中，我们仍然在使用 OpenAI 的 Completion API。是否有可能将其替换为其他模型呢？我们可以尝试一下来自清华大学的 ChatGLM 语言模型，看看中文的开源语言模型是否具备基本的知识理解和推理能力。为此，我们需要安装一些依赖包。由于 icetk 没有 Conda 的源，因此我们使用 pip 进行安装。当然，在 Conda 的包管理器中也同样可以找到它。</p>
+<blockquote>
+<p>这里大家可能会遇到一些坑，比如，protobuf这个库的版本不兼容，这里有一个矛盾点，就是icetk这个库依赖的是3.19以下的版本，而transformers却需要以上的版本。</p>
+</blockquote>
+<p>遇到上述问题的时候，我们可以这样操作一下：</p>
+<p>先安装最新版本的，然后将其中的builder,py下载下来，再从新安装3.18版本，接着替换builder.py就可以了：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设置本地环境为UTF-8</span></span><br><span class="line"><span class="keyword">import</span> locale</span><br><span class="line">locale.setlocale(locale.LC_ALL, <span class="string">&#x27;en_US.UTF-8&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装最新版本</span></span><br><span class="line">!pip install protobuf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查询路径</span></span><br><span class="line"><span class="keyword">import</span> google.protobuf <span class="keyword">as</span> protobuf</span><br><span class="line"><span class="built_in">print</span>(protobuf.__path__)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 下载文件</span></span><br><span class="line"><span class="keyword">from</span> google.colab <span class="keyword">import</span> files</span><br><span class="line">files.download(<span class="string">&#x27;/usr/local/lib/python3.10/dist-packages/google/protobuf/internal/builder.py&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 卸载并重新安装</span></span><br><span class="line">!pip uninstall protobuf</span><br><span class="line">!pip install protobuf=<span class="number">3.18</span><span class="number">.3</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 上传文件</span></span><br><span class="line">uploadded = files.upload()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 替换文件</span></span><br><span class="line">shutil.move(<span class="string">&#x27;builder.py&#x27;</span>, <span class="string">&#x27;/usr/local/lib/python3.10/dist-packages/google/protobuf/internal/builder.py&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>然后，我们就可以继续了，以下代码我在本地（M1 Mac）跑了一遍，在120分钟之后，仍然还在继续，最后我不得不放弃转而使用Colab了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">!pip install icetk</span><br><span class="line">!pip install cpm_kernels</span><br><span class="line">!pip install transformers</span><br></pre></td></tr></table></figure>
+
+<p>我们可以通过 transformers 加载模型。最大的一个 <a target="_blank" rel="noopener" href="https://github.com/THUDM/GLM-130B">ChatGLM</a> 模型有 1300 亿个参数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> AutoTokenizer, AutoModel</span><br><span class="line">tokenizer = AutoTokenizer.from_pretrained(<span class="string">&quot;THUDM/chatglm-6b-int4&quot;</span>, trust_remote_code=<span class="literal">True</span>)</span><br><span class="line">model = AutoModel.from_pretrained(<span class="string">&quot;THUDM/chatglm-6b-int4&quot;</span>, trust_remote_code=<span class="literal">True</span>).half().cuda()</span><br><span class="line">model = model.<span class="built_in">eval</span>()</span><br></pre></td></tr></table></figure>
+
+<p>为了能够运行这个大型模型，我们选择了一个裁剪后的 60 亿个参数的版本，使用 int-4 量化的方式。我们的模型名字是 chatglm-6b-int4，代表 6B 的参数量。我们希望通过 GPU 进行模型的计算，所以在加载模型的时候调用了.cuda()。加载模型时，我们设置了 trust_remote_code &#x3D; true 参数，以便确认您信任该模型的代码，它不会造成恶意的破坏。如果您想要用 CPU 运行，可以使用下面的代码。</p>
+<blockquote>
+<p>虽然建议使用GPU，但是如果你想用CPU的话，可以把模型加载的代码替换一下：</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model = AutoModel.from_pretrained(<span class="string">&quot;THUDM/chatglm-6b-int4&quot;</span>, trust_remote_code=<span class="literal">True</span>).<span class="built_in">float</span>()</span><br></pre></td></tr></table></figure>
+
+<p>特别是在Mac M1下，你除了使用CPU运行的话，似乎没有其他办法。</p>
+<blockquote>
+<p>写给M1用户</p>
+</blockquote>
+<p>ChatGLM如果想要在M1内运行的话，可能你会遇到如下报错：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Could <span class="keyword">not</span> find module <span class="string">&#x27;nvcuda.dll&#x27;</span> </span><br><span class="line">或者 </span><br><span class="line">RuntimeError: Unknown platform: darwin (MacOS)</span><br></pre></td></tr></table></figure>
+
+<p>如果遇到这种问题的话，可以参看官方文档这里：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/THUDM/ChatGLM-6B/issues/6#issuecomment-1471303336">https://github.com/THUDM/ChatGLM-6B/issues/6#issuecomment-1471303336</a> </p>
+<p>然后我们来测试模型进行回答：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">question = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">自收到商品之日起7天内，如产品未使用、包装完好，您可以申请退货。某些特殊商品可能不支持退货，请在购买前查看商品详情页面的退货政策。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">根据以上信息，请回答下面的问题：</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Q: 你们的退货政策是怎么样的？</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line">response, history = model.chat(tokenizer, question, history=[])</span><br><span class="line"><span class="built_in">print</span>(response)</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">我们的退货政策是在产品未使用、包装完好的情况下，自收到商品之日起<span class="number">7</span>天内可以退货。请注意，某些特殊商品可能不支持退货，在购买前请查看商品详情页面的退货政策，以了解具体情况。</span><br></pre></td></tr></table></figure>
+
+<p>ChatGLM的回答是根据我们提供的上下文来的。如果我们去掉提供的FAQ的内容，它的回答会有所变化。</p>
+<p>下一个问题：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">question = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">Q: 你们的退货政策是怎么样的？</span></span><br><span class="line"><span class="string">A: </span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line">response, history = model.chat(tokenizer, question, history=[])</span><br><span class="line"><span class="built_in">print</span>(response)</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">我们公司的政策是，如果您在购买后的<span class="number">7</span>天内发现我们的产品不符合您的期望，可以申请退货。退货条件如下：</span><br><span class="line"><span class="number">1.</span> 符合退货政策要求的产品；</span><br><span class="line"><span class="number">2.</span> 未使用或损坏的产品；</span><br><span class="line"><span class="number">3.</span> 符合退货地点的要求，即退货地址与购买地址相同；</span><br><span class="line"><span class="number">4.</span> 符合退货流程的要求，即您需要提供有效的退货单并完成退货流程。</span><br><span class="line">如果符合上述退货政策要求，我们将尽快处理您的退货申请，并为您退款。请注意，如果您已经使用了我们的产品，或者产品有损坏或变质等情况，我们将无法为您提供退货服务。</span><br></pre></td></tr></table></figure>
+
+<p>在没有合适的上下文信息时，AI编造了一些本来不存在的要求，例如“退货地址与购买地址相同”。另一个例子是，当我们的上下文只提到可以将物品送到海南地区时，AI能否判断是否支持送到三亚市。</p>
+<p>继续问问题：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">question = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">我们支持全国大部分省份的配送，包括北京、上海、天津、重庆、河北、山西、辽宁、吉林、黑龙江、江苏、浙江、安徽、福建、江西、山东、河南、湖北、湖南、广东、海南、四川、贵州、云南、陕西、甘肃、青海、台湾、内蒙古、广西、西藏、宁夏和新疆.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">根据以上信息，请回答下面的问题：</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Q: 你们能配送到三亚吗？</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line">response, history = model.chat(tokenizer, question, history=[])</span><br><span class="line"><span class="built_in">print</span>(response)</span><br></pre></td></tr></table></figure>
+
+<p>输出结果为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">是的，我们支持全国大部分省份的配送，包括三亚市。</span><br></pre></td></tr></table></figure>
+
+<p>ChatGLM可以配送到三亚。如果想知道它是否可以送到哈尔滨，可以简单地在上下文中排除东三省并询问。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">question = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">我们支持全国大部分省份的配送，包括北京、上海、天津、重庆、河北、山西、江苏、浙江、安徽、福建、江西、山东、河南、湖北、湖南、广东、海南、四川、贵州、云南、陕西、甘肃、青海、台湾、内蒙古、广西、西藏、宁夏和新疆.但是不能配送到东三省</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">根据以上信息，请回答下面的问题：</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Q: 你们能配送到哈尔滨吗？</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line">response, history = model.chat(tokenizer, question, history=[])</span><br><span class="line"><span class="built_in">print</span>(response)</span><br></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">很抱歉，我们目前不能配送到哈尔滨。</span><br></pre></td></tr></table></figure>
+
+<p>ChatGLM 可以回答我们无法发送到哈尔滨的问题，因此我们可以使用 ChatGLM 来处理 FAQ。</p>
+<h3 id="封装LLM"><a href="#封装LLM" class="headerlink" title="封装LLM"></a>封装LLM</h3><p>我们使用原始的 ChatGLM 模型代码，无法直接通过查询来访问 llama-index 获取答案。要实现这一点，我们将其封装为 LLM 类，使我们的索引使用指定的大语言模型即可。您可以查看相应的 <a target="_blank" rel="noopener" href="https://gpt-index.readthedocs.io/en/latest/how_to/customization/custom_llms.html">llama-index 文档。</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> openai, os</span><br><span class="line"><span class="keyword">import</span> faiss</span><br><span class="line"><span class="keyword">from</span> llama_index <span class="keyword">import</span> SimpleDirectoryReader, LangchainEmbedding, ServiceContext,</span><br><span class="line"><span class="keyword">from</span> langchain.embeddings.huggingface <span class="keyword">import</span> HuggingFaceEmbeddings</span><br><span class="line"><span class="keyword">from</span> langchain.text_splitter <span class="keyword">import</span> CharacterTextSplitter</span><br><span class="line"><span class="keyword">from</span> llama_index.node_parser <span class="keyword">import</span> SimpleNodeParser</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> langchain.llms.base <span class="keyword">import</span> LLM</span><br><span class="line"><span class="keyword">from</span> llama_index <span class="keyword">import</span> LLMPredictor</span><br><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> <span class="type">Optional</span>, <span class="type">List</span>, Mapping, <span class="type">Any</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">CustomLLM</span>(<span class="title class_ inherited__">LLM</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">_call</span>(<span class="params">self, prompt: <span class="built_in">str</span>, stop: <span class="type">Optional</span>[<span class="type">List</span>[<span class="built_in">str</span>]] = <span class="literal">None</span></span>) -&gt; <span class="built_in">str</span>:</span><br><span class="line">        response, history = model.chat(tokenizer, prompt, history=[])</span><br><span class="line">        <span class="keyword">return</span> response</span><br><span class="line"></span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">_identifying_params</span>(<span class="params">self</span>) -&gt; Mapping[<span class="built_in">str</span>, <span class="type">Any</span>]:</span><br><span class="line">        <span class="keyword">return</span> &#123;<span class="string">&quot;name_of_model&quot;</span>: <span class="string">&quot;chatglm-6b-int4&quot;</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">_llm_type</span>(<span class="params">self</span>) -&gt; <span class="built_in">str</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;custom&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>我们将 CustomLLM 对象传入 index 构造函数并重新运行问题，以观察其效果。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> langchain.text_splitter <span class="keyword">import</span> SpacyTextSplitter</span><br><span class="line"></span><br><span class="line">llm_predictor = LLMPredictor(llm=CustomLLM())</span><br><span class="line"></span><br><span class="line">text_splitter = CharacterTextSplitter(separator=<span class="string">&quot;\n\n&quot;</span>, chunk_size=<span class="number">100</span>, chunk_overlap=<span class="number">20</span>)</span><br><span class="line">parser = SimpleNodeParser(text_splitter=text_splitter)</span><br><span class="line">documents = SimpleDirectoryReader(<span class="string">&#x27;./data/faq/&#x27;</span>).load_data()</span><br><span class="line">nodes = parser.get_nodes_from_documents(documents)</span><br><span class="line"></span><br><span class="line">embed_model = LangchainEmbedding(HuggingFaceEmbeddings(</span><br><span class="line">    model_name=<span class="string">&quot;sentence-transformers/paraphrase-multilingual-mpnet-base-v2&quot;</span></span><br><span class="line">))</span><br><span class="line">service_context = ServiceContext.from_defaults(embed_model=embed_model, llm_predictor=llm_predictor)</span><br><span class="line"></span><br><span class="line">dimension = <span class="number">768</span></span><br><span class="line">faiss_index = faiss.IndexFlatIP(dimension)</span><br><span class="line">vector_store = FaissVectorStore(faiss_index = faiss_index)</span><br><span class="line">service_context = ServiceContext.from_defaults(embed_model = embed_model)</span><br><span class="line">index = GPTVectorStoreIndex.from_documents(documents = documents, service_context=service_context)</span><br><span class="line">query_engine = index.as_query_engine()</span><br><span class="line">response = index.query(</span><br><span class="line">    <span class="string">&quot;请问你们海南能发货吗？&quot;</span></span><br><span class="line">)</span><br><span class="line"><span class="built_in">print</span>(response)</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">海南能发货。</span><br></pre></td></tr></table></figure>
+
+<p>现在，我们可以直接使用 ChatGLM 的模型进行 FAQ问答。我们的解决方案是使用 paraphrase-multilingual-mpnet-base-v2 模型计算 Embedding 进行语义搜索，然后通过 chatglm-6b-int4 模型来解决问答。这两个模型可以在家用级别的显卡上运行。非常厉害！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://hivan.me/Save-costs-with-an-open-source-model/" data-id="clid1n2wb00252nj7aql9elc9" data-title="11 用好开源模型节约成本" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/" rel="tag">AI</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/AI-create-a-excel-plugin/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          12 AI帮你写个小插件，轻松处理Excel文件
+        
+      </div>
+    </a>
+  
+  
+    <a href="/Use-AI-to-index-and-analyze-documents-and-images/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">10 利用AI索引并分析文献和图片</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/develop/">develop</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/software/">software</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">web</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/">从零开始接触人工智能大模型</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AI/" rel="tag">AI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ChatGPT/" rel="tag">ChatGPT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Chrome/" rel="tag">Chrome</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gmail/" rel="tag">Gmail</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Google/" rel="tag">Google</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Google-Plus/" rel="tag">Google Plus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Gplus/" rel="tag">Gplus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mac/" rel="tag">Mac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mail/" rel="tag">Mail</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Model/" rel="tag">Model</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/NFC/" rel="tag">NFC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/O2O/" rel="tag">O2O</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PS/" rel="tag">PS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/QQ/" rel="tag">QQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SNS/" rel="tag">SNS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Stable-Diffusion/" rel="tag">Stable Diffusion</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tool/" rel="tag">Tool</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Translate/" rel="tag">Translate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/allove/" rel="tag">allove</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/app/" rel="tag">app</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/avn/" rel="tag">avn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/" rel="tag">blog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bluehost/" rel="tag">bluehost</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/code/" rel="tag">code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/device/" rel="tag">device</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/feed/" rel="tag">feed</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/flickr/" rel="tag">flickr</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/forward/" rel="tag">forward</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gmail/" rel="tag">gmail</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/habari/" rel="tag">habari</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ifttt/" rel="tag">ifttt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/install/" rel="tag">install</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ireader/" rel="tag">ireader</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/istef/" rel="tag">istef</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/location/" rel="tag">location</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/more/" rel="tag">more</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/net/" rel="tag">net</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nitrous/" rel="tag">nitrous</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node/" rel="tag">node</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pageflakes/" rel="tag">pageflakes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/picasaweb/" rel="tag">picasaweb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/plugin/" rel="tag">plugin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reader/" rel="tag">reader</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/research/" rel="tag">research</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/search/" rel="tag">search</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sms/" rel="tag">sms</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/telnet/" rel="tag">telnet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/twitter/" rel="tag">twitter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/url/" rel="tag">url</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/version/" rel="tag">version</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows-8/" rel="tag">windows 8</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wordpress/" rel="tag">wordpress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%96%E7%95%8C%E6%9D%AF/" rel="tag">世界杯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BE%AE%E5%8D%9A/" rel="tag">微博</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%97%B6%E5%8C%BA/" rel="tag">时区</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A4%BE%E4%BA%A4/" rel="tag">社交</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%8A%B1%E5%84%BF%E5%BC%80%E4%BA%86/" rel="tag">花儿开了</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A1%A8%E6%83%85/" rel="tag">表情</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%87%E6%BB%A4%E5%99%A8/" rel="tag">过滤器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%9B%E5%BA%A6/" rel="tag">进度</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AI/" style="font-size: 20px;">AI</a> <a href="/tags/ChatGPT/" style="font-size: 10px;">ChatGPT</a> <a href="/tags/Chrome/" style="font-size: 10px;">Chrome</a> <a href="/tags/Gmail/" style="font-size: 10px;">Gmail</a> <a href="/tags/Google/" style="font-size: 18px;">Google</a> <a href="/tags/Google-Plus/" style="font-size: 10px;">Google Plus</a> <a href="/tags/Gplus/" style="font-size: 10px;">Gplus</a> <a href="/tags/Mac/" style="font-size: 10px;">Mac</a> <a href="/tags/Mail/" style="font-size: 10px;">Mail</a> <a href="/tags/Model/" style="font-size: 10px;">Model</a> <a href="/tags/NFC/" style="font-size: 10px;">NFC</a> <a href="/tags/O2O/" style="font-size: 10px;">O2O</a> <a href="/tags/PS/" style="font-size: 10px;">PS</a> <a href="/tags/Python/" style="font-size: 16px;">Python</a> <a href="/tags/QQ/" style="font-size: 10px;">QQ</a> <a href="/tags/SNS/" style="font-size: 10px;">SNS</a> <a href="/tags/Stable-Diffusion/" style="font-size: 12px;">Stable Diffusion</a> <a href="/tags/Tool/" style="font-size: 10px;">Tool</a> <a href="/tags/Translate/" style="font-size: 10px;">Translate</a> <a href="/tags/allove/" style="font-size: 10px;">allove</a> <a href="/tags/app/" style="font-size: 10px;">app</a> <a href="/tags/avn/" style="font-size: 10px;">avn</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/bluehost/" style="font-size: 10px;">bluehost</a> <a href="/tags/code/" style="font-size: 10px;">code</a> <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/device/" style="font-size: 10px;">device</a> <a href="/tags/feed/" style="font-size: 10px;">feed</a> <a href="/tags/flickr/" style="font-size: 10px;">flickr</a> <a href="/tags/forward/" style="font-size: 10px;">forward</a> <a href="/tags/gmail/" style="font-size: 10px;">gmail</a> <a href="/tags/habari/" style="font-size: 16px;">habari</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/ifttt/" style="font-size: 12px;">ifttt</a> <a href="/tags/install/" style="font-size: 10px;">install</a> <a href="/tags/ireader/" style="font-size: 10px;">ireader</a> <a href="/tags/istef/" style="font-size: 10px;">istef</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/location/" style="font-size: 10px;">location</a> <a href="/tags/more/" style="font-size: 10px;">more</a> <a href="/tags/net/" style="font-size: 10px;">net</a> <a href="/tags/nitrous/" style="font-size: 10px;">nitrous</a> <a href="/tags/node/" style="font-size: 10px;">node</a> <a href="/tags/pageflakes/" style="font-size: 10px;">pageflakes</a> <a href="/tags/picasaweb/" style="font-size: 10px;">picasaweb</a> <a href="/tags/plugin/" style="font-size: 10px;">plugin</a> <a href="/tags/reader/" style="font-size: 10px;">reader</a> <a href="/tags/research/" style="font-size: 10px;">research</a> <a href="/tags/search/" style="font-size: 10px;">search</a> <a href="/tags/sms/" style="font-size: 10px;">sms</a> <a href="/tags/telnet/" style="font-size: 10px;">telnet</a> <a href="/tags/twitter/" style="font-size: 12px;">twitter</a> <a href="/tags/url/" style="font-size: 10px;">url</a> <a href="/tags/version/" style="font-size: 10px;">version</a> <a href="/tags/windows-8/" style="font-size: 10px;">windows 8</a> <a href="/tags/wordpress/" style="font-size: 14px;">wordpress</a> <a href="/tags/%E4%B8%96%E7%95%8C%E6%9D%AF/" style="font-size: 10px;">世界杯</a> <a href="/tags/%E5%BE%AE%E5%8D%9A/" style="font-size: 10px;">微博</a> <a href="/tags/%E6%97%B6%E5%8C%BA/" style="font-size: 10px;">时区</a> <a href="/tags/%E7%A4%BE%E4%BA%A4/" style="font-size: 10px;">社交</a> <a href="/tags/%E8%8A%B1%E5%84%BF%E5%BC%80%E4%BA%86/" style="font-size: 10px;">花儿开了</a> <a href="/tags/%E8%A1%A8%E6%83%85/" style="font-size: 10px;">表情</a> <a href="/tags/%E8%BF%87%E6%BB%A4%E5%99%A8/" style="font-size: 10px;">过滤器</a> <a href="/tags/%E8%BF%9B%E5%BA%A6/" style="font-size: 10px;">进度</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">五月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">四月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">三月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">二月 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">三月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">一月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">九月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">八月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">六月 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/12/">十二月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/08/">八月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/03/">三月 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/07/">七月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04/">四月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01/">一月 2012</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/11/">十一月 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10/">十月 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/07/">七月 2011</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12/">十二月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/04/">四月 2010</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/10/">十月 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/02/">二月 2009</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/06/">六月 2008</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/10/">十月 2006</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/09/">九月 2006</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/06/">六月 2006</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/Use-AI-to-write-a-snake-game/">利用AI写一个『贪吃蛇游戏』</a>
+          </li>
+        
+          <li>
+            <a href="/Use-multi-step-prompts-to-ask-AI-to-write-tests-for-you/">13 使用多步提示语让AI帮你写测试</a>
+          </li>
+        
+          <li>
+            <a href="/AI-create-a-excel-plugin/">12 AI帮你写个小插件，轻松处理Excel文件</a>
+          </li>
+        
+          <li>
+            <a href="/Save-costs-with-an-open-source-model/">11 用好开源模型节约成本</a>
+          </li>
+        
+          <li>
+            <a href="/Use-AI-to-index-and-analyze-documents-and-images/">10 利用AI索引并分析文献和图片</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 Hivan Du<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
