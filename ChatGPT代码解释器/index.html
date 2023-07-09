@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>ChatGPT代码解释器：如何为我节省数小时的工作 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="创建一个交互式世界地图，显示国家人口数量，配以简短的句子描述。   img  2023年7月6日，OpenAI宣布Code Interpreter将在接下来的一周内向ChatGPT Plus用户开放。它可能是增强ChatGPT的能力和功能的最佳插件之一。 Code Interpreter可以运行代码，允许上传数据，这样您就可以用它来进行数据清理、分析、可视化等许多其他任务。它就像是您指尖上的数据分"><meta property="og:type" content="blog"><meta property="og:title" content="ChatGPT代码解释器：如何为我节省数小时的工作"><meta property="og:url" content="https://hivan.me/ChatGPT%E4%BB%A3%E7%A0%81%E8%A7%A3%E9%87%8A%E5%99%A8/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="创建一个交互式世界地图，显示国家人口数量，配以简短的句子描述。   img  2023年7月6日，OpenAI宣布Code Interpreter将在接下来的一周内向ChatGPT Plus用户开放。它可能是增强ChatGPT的能力和功能的最佳插件之一。 Code Interpreter可以运行代码，允许上传数据，这样您就可以用它来进行数据清理、分析、可视化等许多其他任务。它就像是您指尖上的数据分"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230710011251.jpeg?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230710011257.png?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230710011324.png?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230710011303.png?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230710011345.png?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230710011400.png?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230710011419.png?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230710011441.png?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230710011502.png?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230710011516.png?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230710011535.png?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230710011549.png?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230704000058.png?imgNote"><meta property="article:published_time" content="2023-07-09T17:22:07.000Z"><meta property="article:modified_time" content="2023-07-09T17:28:54.480Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI,人工智能,代码,大语言模型"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://qiniu.hivan.me/picGo/20230710011251.jpeg?imgNote"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/ChatGPT%E4%BB%A3%E7%A0%81%E8%A7%A3%E9%87%8A%E5%99%A8/"},"headline":"ChatGPT代码解释器：如何为我节省数小时的工作","image":[],"datePublished":"2023-07-09T17:22:07.000Z","dateModified":"2023-07-09T17:28:54.480Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"创建一个交互式世界地图，显示国家人口数量，配以简短的句子描述。   img  2023年7月6日，OpenAI宣布Code Interpreter将在接下来的一周内向ChatGPT Plus用户开放。它可能是增强ChatGPT的能力和功能的最佳插件之一。 Code Interpreter可以运行代码，允许上传数据，这样您就可以用它来进行数据清理、分析、可视化等许多其他任务。它就像是您指尖上的数据分"}</script><link rel="canonical" href="https://hivan.me/ChatGPT%E4%BB%A3%E7%A0%81%E8%A7%A3%E9%87%8A%E5%99%A8/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2023-07-09T17:22:07.000Z" title="7/10/2023, 1:22:07 AM">2023-07-10</time>发表</span></div></div><h1 class="title is-3 is-size-4-mobile">ChatGPT代码解释器：如何为我节省数小时的工作</h1><div class="content"><p><strong>创建一个交互式世界地图，显示国家人口数量，配以简短的句子描述。</strong></p>
+<figure>
+<img src="https://qiniu.hivan.me/picGo/20230710011251.jpeg?imgNote"
+alt="img" />
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>2023年7月6日，OpenAI宣布Code Interpreter将在接下来的一周内向ChatGPT
+Plus用户开放。它可能是增强ChatGPT的能力和功能的最佳插件之一。</p>
+<p>Code
+Interpreter可以运行代码，允许上传数据，这样您就可以用它来进行数据清理、分析、可视化等许多其他任务。它就像是您指尖上的数据分析师。</p>
+<p>听起来很棒吧？接下来我们来看看。</p>
+<p>我在一项任务中使用了它，这项任务可能需要我花费几个小时才能完成。根据您的任务和对Python库的熟悉程度，这项任务甚至可能需要更长时间。</p>
+<p>在使用ChatGPT时，我只需要写几句话并上传两个CSV文件。</p>
+<p>我将逐步介绍整个过程，以及Code
+Interpreter在理解数据、清理和预处理数据以及创建数据可视化方面的印象深刻之处。</p>
+<h2 id="您需要先启用它"><strong>您需要先启用它</strong></h2>
+<p>如果您想在聊天中使用代码解释器，需要先通过设置启用它。</p>
+<figure>
+<img src="https://qiniu.hivan.me/picGo/20230710011257.png?imgNote"
+alt="如何启用代码解释器" />
+<figcaption aria-hidden="true">如何启用代码解释器</figcaption>
+</figure>
+<p>如何启用代码解释器</p>
+<p>开启之后，你在接下来开启新的聊天的时候就可以使用它了。</p>
+<h2 id="来个具体任务">来个具体任务</h2>
+<p>我打算创建一个世界地图可视化，其中点的大小与国家的人口成比例。</p>
+<p>我有两个数据集，一个是国家人口，另一个是以纬度和经度表示的位置。</p>
+<p>您可以轻松地在网上找到这些数据集。如果没有，文末我将提供数据集（以及源代码）。</p>
+<h2 id="让我们继续吧">让我们继续吧</h2>
+<p>由于这是一个简单的任务，我没有花费太多时间在提示工程上。这是我向ChatGPT请求的第一句话：</p>
+<figure>
+<img src="https://qiniu.hivan.me/picGo/20230710011324.png?imgNote"
+alt="img" />
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>你可以在提示窗口左侧使用加号上传数据集。</p>
+<figure>
+<img src="https://qiniu.hivan.me/picGo/20230710011303.png?imgNote"
+alt="使用+号上传数据集" />
+<figcaption aria-hidden="true">使用+号上传数据集</figcaption>
+</figure>
+<p>使用+号上传数据集</p>
+<p>首先要做的是读取数据集，这是显而易见的事情。但这还不够令人印象深刻！</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Code Interpreter 生成的代码</span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将CSV数据加载到pandas DataFrame中</span></span><br><span class="line">population_data = pd.read_csv(<span class="string">&#x27;/mnt/data/country_population_historic.csv&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示 DataFrame 的前几行</span></span><br><span class="line">population_data.head()</span><br></pre></td></tr></table></figure>
+<p>然后，ChatGPT要求提供国家位置：</p>
+<figure>
+<img src="https://qiniu.hivan.me/picGo/20230710011345.png?imgNote"
+alt="img" />
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>由于我已经拥有相关数据了，所以我要做的就只是上传它：</p>
+<figure>
+<img src="https://qiniu.hivan.me/picGo/20230710011400.png?imgNote"
+alt="img" />
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># Code Interpreter 生成的代码</span><br><span class="line"># 加载国家坐标数据</span><br><span class="line">country_coordinates = pd.read_csv(&#x27;/mnt/data/country_coordinates.csv&#x27;)</span><br><span class="line"></span><br><span class="line"># 显示前几行</span><br><span class="line">country_coordinates.head()</span><br></pre></td></tr></table></figure>
+<h2 id="数据清洗和预处理"><strong>数据清洗和预处理</strong></h2>
+<p>读取数据后的下一步是清洗和预处理数据。我相信你已经听过很多次，这一步通常需要最多的时间。</p>
+<p>在创建世界地图可视化之前，有一些问题需要处理。ChatGPT检测到它们并在不到一分钟的时间内提供了解决方案。相当令人印象深刻！</p>
+<figure>
+<img src="https://qiniu.hivan.me/picGo/20230710011419.png?imgNote"
+alt="img" />
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>上面代码段中的代码:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 由代码解释器生成的代码</span></span><br><span class="line"><span class="comment"># 检查数据框中的国家名称是否一致</span></span><br><span class="line">population_countries = <span class="built_in">set</span>(population_data[<span class="string">&#x27;Country Name&#x27;</span>])</span><br><span class="line">coordinates_countries = <span class="built_in">set</span>(country_coordinates[<span class="string">&#x27;name&#x27;</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 人口数据中的国家但不在坐标数据中</span></span><br><span class="line">missing_in_coordinates = population_countries - coordinates_countries</span><br><span class="line"></span><br><span class="line"><span class="comment"># 坐标数据中的国家但人口数据中没有</span></span><br><span class="line">missing_in_population = coordinates_countries - population_countries</span><br></pre></td></tr></table></figure>
+<p>在坐标数据集和人口数据集中都有一些国家缺失。</p>
+<p>ChatGPT在上面的代码片段中做了什么：</p>
+<ul>
+<li>创建了Python集合，包含两个数据集中的国家名称。</li>
+<li>分别比较这些集合，找到它们之间的差异。</li>
+</ul>
+<p>ChatGPT在不到一分钟的时间内解决了这个问题：</p>
+<figure>
+<img src="https://qiniu.hivan.me/picGo/20230710011441.png?imgNote"
+alt="img" />
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>以上片段中的代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"># Code Interpreter 生成的代码</span><br><span class="line"># 将人口数据集中的国家名称映射到坐标数据集中</span><br><span class="line">country_name_mapping = &#123;</span><br><span class="line">    &#x27;Bahamas, The&#x27;: &#x27;Bahamas&#x27;,</span><br><span class="line">    &#x27;Brunei Darussalam&#x27;: &#x27;Brunei&#x27;,</span><br><span class="line">    &#x27;Cabo Verde&#x27;: &#x27;Cape Verde&#x27;,</span><br><span class="line">    &#x27;Congo, Dem. Rep.&#x27;: &#x27;Congo [DRC]&#x27;,</span><br><span class="line">    &#x27;Congo, Rep.&#x27;: &#x27;Congo [Republic]&#x27;,</span><br><span class="line">    &quot;Cote d&#x27;Ivoire&quot;: &quot;Côte d&#x27;Ivoire&quot;,</span><br><span class="line">    &#x27;Czechia&#x27;: &#x27;Czech Republic&#x27;,</span><br><span class="line">    &#x27;Egypt, Arab Rep.&#x27;: &#x27;Egypt&#x27;,</span><br><span class="line">    &#x27;Gambia, The&#x27;: &#x27;Gambia&#x27;,</span><br><span class="line">    &#x27;Hong Kong SAR, China&#x27;: &#x27;Hong Kong&#x27;,</span><br><span class="line">    &#x27;Iran, Islamic Rep.&#x27;: &#x27;Iran&#x27;,</span><br><span class="line">    &quot;Korea, Dem. People&#x27;s Rep.&quot;: &#x27;North Korea&#x27;,</span><br><span class="line">    &#x27;Korea, Rep.&#x27;: &#x27;South Korea&#x27;,</span><br><span class="line">    &#x27;Kyrgyz Republic&#x27;: &#x27;Kyrgyzstan&#x27;,</span><br><span class="line">    &#x27;Lao PDR&#x27;: &#x27;Laos&#x27;,</span><br><span class="line">    &#x27;Macao SAR, China&#x27;: &#x27;Macau&#x27;,</span><br><span class="line">    &#x27;Micronesia, Fed. Sts.&#x27;: &#x27;Micronesia&#x27;,</span><br><span class="line">    &#x27;Myanmar&#x27;: &#x27;Myanmar [Burma]&#x27;,</span><br><span class="line">    &#x27;North Macedonia&#x27;: &#x27;Macedonia [FYROM]&#x27;,</span><br><span class="line">    &#x27;Russian Federation&#x27;: &#x27;Russia&#x27;,</span><br><span class="line">    &#x27;Sao Tome and Principe&#x27;: &#x27;São Tomé and Príncipe&#x27;,</span><br><span class="line">    &#x27;Slovak Republic&#x27;: &#x27;Slovakia&#x27;,</span><br><span class="line">    &#x27;Syrian Arab Republic&#x27;: &#x27;Syria&#x27;,</span><br><span class="line">    &#x27;Turkiye&#x27;: &#x27;Turkey&#x27;,</span><br><span class="line">    &#x27;Venezuela, RB&#x27;: &#x27;Venezuela&#x27;,</span><br><span class="line">    &#x27;Yemen, Rep.&#x27;: &#x27;Yemen&#x27;,</span><br><span class="line">    &#x27;Eswatini&#x27;: &#x27;Swaziland&#x27;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 清理人口数据集</span><br><span class="line">population_data_clean = population_data.replace(&#123;&quot;Country Name&quot;: country_name_mapping&#125;)</span><br><span class="line"></span><br><span class="line"># 删除在坐标数据集中不存在的行</span><br><span class="line">population_data_clean = population_data_clean[population_data_clean[&#x27;Country Name&#x27;].isin(coordinates_countries)]</span><br><span class="line"></span><br><span class="line"># 将人口数据与国家坐标数据合并</span><br><span class="line">merged_data = pd.merge(population_data_clean, country_coordinates, left_on=&#x27;Country Name&#x27;, right_on=&#x27;name&#x27;)</span><br><span class="line"></span><br><span class="line"># 只保留必要的列</span><br><span class="line">merged_data = merged_data[[&#x27;Country Name&#x27;, &#x27;2022&#x27;, &#x27;latitude&#x27;, &#x27;longitude&#x27;]]</span><br><span class="line"></span><br><span class="line"># 重命名列以增加清晰度</span><br><span class="line">merged_data.columns = [&#x27;Country&#x27;, &#x27;Population&#x27;, &#x27;Latitude&#x27;, &#x27;Longitude&#x27;]</span><br><span class="line"></span><br><span class="line">merged_data.head()</span><br></pre></td></tr></table></figure>
+<figure>
+<img src="https://qiniu.hivan.me/picGo/20230710011502.png?imgNote"
+alt="img" />
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>清理和预处理的数据</p>
+<p>现在我们已经有了整洁和清晰的数据格式。这个步骤通常需要很多时间和人工。ChatGPT在大约一分钟内完成了这一步。</p>
+<h2 id="创建可视化">创建可视化</h2>
+<p>ChatGPT首先尝试使用Matplotlib库进行创建。然而，由于没有世界地图图像而失败：</p>
+<figure>
+<img src="https://qiniu.hivan.me/picGo/20230710011516.png?imgNote"
+alt="img" />
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>然后，我只是要求它使用 Plotly，这就是我一开始想到的。</p>
+<figure>
+<img src="https://qiniu.hivan.me/picGo/20230710011535.png?imgNote"
+alt="img" />
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<figure>
+<img src="https://qiniu.hivan.me/picGo/20230710011549.png?imgNote"
+alt="img" />
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>以上代码段中的代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"># 代码由代码解释器生成</span><br><span class="line">import plotly.graph_objects as go</span><br><span class="line"></span><br><span class="line"># 创建散点地理图</span><br><span class="line">fig = go.Figure(data=go.Scattergeo(</span><br><span class="line">    lon = merged_data[&#x27;Longitude&#x27;],</span><br><span class="line">    lat = merged_data[&#x27;Latitude&#x27;],</span><br><span class="line">    text = merged_data[&#x27;Country&#x27;] + &#x27;: &#x27; + merged_data[&#x27;Population&#x27;].astype(str),</span><br><span class="line">    mode = &#x27;markers&#x27;,</span><br><span class="line">    marker = dict(</span><br><span class="line">        size = (merged_data[&#x27;Population&#x27;] / 1000000) ** 0.5,  # Take square root to better visualize differences</span><br><span class="line">        sizemode = &#x27;diameter&#x27;,</span><br><span class="line">        sizeref = 1,</span><br><span class="line">        sizemin = 4,</span><br><span class="line">        color = merged_data[&#x27;Population&#x27;],</span><br><span class="line">        colorscale = &#x27;Viridis&#x27;,</span><br><span class="line">        colorbar_title = &quot;Millions&quot;,</span><br><span class="line">    )</span><br><span class="line">))</span><br><span class="line"></span><br><span class="line"># 更新布局</span><br><span class="line">fig.update_layout(</span><br><span class="line">    title_text = &#x27;2022 World Population&#x27;,</span><br><span class="line">    geo = dict(</span><br><span class="line">        showframe = False,</span><br><span class="line">        showcoastlines = True,</span><br><span class="line">        projection_type = &#x27;equirectangular&#x27;</span><br><span class="line">    )</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">fig.show()</span><br></pre></td></tr></table></figure>
+<p>它不能在浏览器中显示交互式世界地图，但成功编写了生成它的代码。我所要做的就是将代码复制粘贴到Jupyter笔记本中。</p>
+<p>这是最终结果：</p>
+<figure>
+<img
+src="https://www.notion.so/image/https%3A%2F%2Fmiro.medium.com%2Fv2%2Fresize%3Afit%3A700%2F1*muaYWUJQNpEt0Tpm_UaHzw.gif?id=20caa395-3ab2-4b2b-8a15-d6c4fe9a1ebf&amp;table=block&amp;spaceId=9a074068-2ca2-46e6-b231-935d54db43cd&amp;userId=4f93353d-181a-4410-94d6-f9f4b3a98955&amp;cache=v2"
+alt="img" />
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>互动世界地图，显示国家人口</p>
+<h2 id="最后的话"><strong>最后的话</strong></h2>
+<p>我们所做的事情：</p>
+<ul>
+<li>读取数据集</li>
+<li>清洗、预处理和合并它们</li>
+<li>创建互动数据可视化</li>
+</ul>
+<p>我们所要做的只是写两个句子（并告诉 ChatGPT 使用
+Plotly）。我认为这非常令人印象深刻！</p>
+<h2 id="数据">数据</h2>
+<p>本文已经结束。</p>
+<p>文章最后，我将提供数据以及一个jupyter
+notebook内容，和往常一样，数据将付费查看，以获取一些成本。有想要的朋友可以去我公众号内搜索本文购买：</p>
+<figure>
+<img src="https://qiniu.hivan.me/picGo/20230704000058.png?imgNote"
+alt="个人公众号：坍缩的奇点" />
+<figcaption aria-hidden="true">个人公众号：坍缩的奇点</figcaption>
+</figure>
+</div><div class="article-licensing box"><div class="licensing-title"><p>ChatGPT代码解释器：如何为我节省数小时的工作</p><p><a href="https://hivan.me/ChatGPT代码解释器/">https://hivan.me/ChatGPT代码解释器/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2023-07-10</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2023-07-10</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" href="https://afdian.net/item/72907364008511ee904852540025c377" target="_blank" rel="noopener" data-type="afdian"><span class="icon is-small"><i class="fas fa-charging-station"></i></span><span>爱发电</span></a><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://www.buymeacoffee.com/hivandu" target="_blank" rel="noopener" data-type="buymeacoffee"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>送我杯咖啡</span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="paypal" onclick="document.getElementById(&#039;paypal-donate-form&#039;).submit()"><span class="icon is-small"><i class="fab fa-paypal"></i></span><span>Paypal</span></a><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" rel="noopener" id="paypal-donate-form"><input type="hidden" name="cmd" value="_donations"><input type="hidden" name="business" value="doo@hivan.me"><input type="hidden" name="currency_code" value="USD"></form><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/%E4%BD%BF%E7%94%A8Python%E5%BA%93unstructured%E6%8F%AD%E7%A7%98%E6%96%87%E6%9C%AC%E6%95%B0%E6%8D%AE/"><span class="level-item">使用Python库unstructured揭秘文本数据</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/ChatGPT%E4%BB%A3%E7%A0%81%E8%A7%A3%E9%87%8A%E5%99%A8/';
+            this.page.identifier = 'ChatGPT代码解释器/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">147</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">1</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">15</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">20</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-07-09T17:22:07.000Z">2023-07-10</time></p><p class="title"><a href="/ChatGPT%E4%BB%A3%E7%A0%81%E8%A7%A3%E9%87%8A%E5%99%A8/">ChatGPT代码解释器：如何为我节省数小时的工作</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-07-06T18:23:02.000Z">2023-07-07</time></p><p class="title"><a href="/%E4%BD%BF%E7%94%A8Python%E5%BA%93unstructured%E6%8F%AD%E7%A7%98%E6%96%87%E6%9C%AC%E6%95%B0%E6%8D%AE/">使用Python库unstructured揭秘文本数据</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-07-05T14:43:05.000Z">2023-07-05</time></p><p class="title"><a href="/2023%E5%B9%B4%E8%96%AA%E9%85%AC%E6%9C%80%E9%AB%98%E7%9A%84%E7%A7%91%E6%8A%80%E5%B7%A5%E4%BD%9C%E4%B8%AD%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86%E8%B5%AB%E7%84%B6%E5%9C%A8%E5%88%97/">2023年薪酬最高的科技工作中产品经理赫然在列</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-07-03T15:38:49.000Z">2023-07-03</time></p><p class="title"><a href="/%E6%A0%B9%E6%8D%AE%E5%9E%82%E7%9B%B4%E9%9C%80%E6%B1%82%E5%BE%AE%E8%B0%83%E6%A8%A1%E5%9E%8B/">18. 根据垂直需求微调模型</a></p><p class="categories"><a href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/">从零开始接触人工智能大模型</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-06-30T11:48:02.000Z">2023-06-30</time></p><p class="title"><a href="/%E6%88%91%E4%BB%AC%E6%97%A0%E6%B3%95%E9%80%9A%E8%BF%87%E6%94%B9%E9%80%A0%E8%87%AA%E5%B7%B1%E6%91%86%E8%84%B1%E6%B0%94%E5%80%99%E5%8D%B1%E6%9C%BA/">观点：我们无法通过改造自己摆脱气候危机</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2023 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
