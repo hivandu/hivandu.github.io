@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>LLMs的实用介绍 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="在实践中使用LLMs的3个级别 这是关于在实践中使用大型语言模型（LLMs）系列文章的第一篇。在这里，我将介绍LLMs并提出三个使用它们的级别。未来的文章将探讨LLMs的实际方面，例如如何使用OpenAI的公共API、Hugging Face Transformers Python库、如何微调LLMs以及如何从头构建LLMs"><meta property="og:type" content="blog"><meta property="og:title" content="LLMs的实用介绍"><meta property="og:url" content="https://hivan.me/LLMs%E7%9A%84%E5%AE%9E%E7%94%A8%E4%BB%8B%E7%BB%8D/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="在实践中使用LLMs的3个级别 这是关于在实践中使用大型语言模型（LLMs）系列文章的第一篇。在这里，我将介绍LLMs并提出三个使用它们的级别。未来的文章将探讨LLMs的实际方面，例如如何使用OpenAI的公共API、Hugging Face Transformers Python库、如何微调LLMs以及如何从头构建LLMs"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230714153129.jpeg?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230714153550.png?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230714154319.png?imgNote"><meta property="article:published_time" content="2023-07-14T06:30:00.000Z"><meta property="article:modified_time" content="2023-07-14T07:47:01.300Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI,人工智能,代码,大语言模型"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://qiniu.hivan.me/picGo/20230714153129.jpeg?imgNote"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/LLMs%E7%9A%84%E5%AE%9E%E7%94%A8%E4%BB%8B%E7%BB%8D/"},"headline":"LLMs的实用介绍","image":[],"datePublished":"2023-07-14T06:30:00.000Z","dateModified":"2023-07-14T07:47:01.300Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"在实践中使用LLMs的3个级别 这是关于在实践中使用大型语言模型（LLMs）系列文章的第一篇。在这里，我将介绍LLMs并提出三个使用它们的级别。未来的文章将探讨LLMs的实际方面，例如如何使用OpenAI的公共API、Hugging Face Transformers Python库、如何微调LLMs以及如何从头构建LLMs"}</script><link rel="canonical" href="https://hivan.me/LLMs%E7%9A%84%E5%AE%9E%E7%94%A8%E4%BB%8B%E7%BB%8D/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2023-07-14T06:30:00.000Z" title="7/14/2023, 2:30:00 PM">2023-07-14</time>发表</span></div></div><h1 class="title is-3 is-size-4-mobile">LLMs的实用介绍</h1><div class="content"><h3 id="在实践中使用llms的3个级别">在实践中使用LLMs的3个级别</h3>
+<p>这是关于在实践中使用大型语言模型（LLMs）系列文章的第一篇。在这里，我将介绍LLMs并提出三个使用它们的级别。未来的文章将探讨LLMs的实际方面，例如如何使用OpenAI的公共API、Hugging
+Face Transformers Python库、如何微调LLMs以及如何从头构建LLMs</p>
+<span id="more"></span>
+<figure>
+<img src="https://qiniu.hivan.me/picGo/20230714153129.jpeg?imgNote"
+alt="img" />
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<h2 id="什么是llm"><strong>什么是LLM？</strong></h2>
+<p><strong>LLM</strong> 是 <strong>Large Language Model</strong>
+的缩写，是人工智能和机器学习中的最新创新。这种强大的新型人工智能在2022年12月随着
+ChatGPT 的发布而迅速传播开来。</p>
+<p>对于那些生活在人工智能热潮和技术新闻周期之外的人来说，<strong>ChatGPT</strong>
+是运行在名为 GPT-3 的 LLM 上的聊天界面（现在在撰写本文时已升级到 GPT-3.5
+或 GPT-4）。</p>
+<p>如果你使用过 ChatGPT，显然这不是来自 [AOL Instant
+Messenger]（https://en.wikipedia.org/wiki/AIM_(software))
+或你的信用卡客服的传统聊天机器人。</p>
+<p>这个聊天机器人感觉不同。</p>
+<h2 id="什么使得llm大">什么使得LLM“大”？</h2>
+<p>当我听到“大型语言模型”这个术语时，我的第一个问题是，这与“常规”语言模型有何不同？</p>
+<p>语言模型比大型语言模型更通用。就像所有正方形都是矩形，但并非所有矩形都是正方形一样。所有LLM都是语言模型，但不是所有语言模型都是LLM。</p>
+<figure>
+<img src="https://qiniu.hivan.me/picGo/20230714153550.png?imgNote"
+alt="大型语言模型是一种特殊类型的语言模型" />
+<figcaption
+aria-hidden="true">大型语言模型是一种特殊类型的语言模型</figcaption>
+</figure>
+<p>所以LLM是一种特殊的语言模型，<strong>但是什么使它们与众不同呢?</strong></p>
+<p>有<strong>2个关键属性</strong>区分LLMs与其他语言模型。一个是数量上的，另一个则是质量上的。</p>
+<ol type="1">
+<li><strong>数量上</strong>，LLM的区别在于模型中使用的参数数量。目前的LLM大约有<strong>10-1000亿个参数</strong>[1]。</li>
+<li><strong>质量上</strong>，当语言模型变得“大”时，会发生一些非凡的事情。它会展示出所谓的***
+emergent
+properties***例如零-shot学习[1]。这些是当语言模型达到足够大的规模时，似乎突然出现的特性。</li>
+</ol>
+<h2 id="零样本学习"><strong>零样本学习</strong></h2>
+<p>GPT-3（以及其他LLM）的主要创新在于它能够在各种情境下进行<strong>零样本学习</strong>[2]。这意味着ChatGPT可以<strong>执行一个任务，即使它没有被明确训练过</strong>。</p>
+<p>尽管这对我们这些高度进化的人类来说可能不是什么大不了的事情，但是这种零样本学习能力与之前的机器学习范例形成了鲜明对比。</p>
+<p>以前，为了获得良好的性能，模型需要明确地在它所要完成的任务上进行<strong>明确的训练</strong>。这可能需要1k-1M个预标记的训练示例。</p>
+<p>例如，如果你想让计算机进行语言翻译、情感分析和识别语法错误。每个任务都需要一个专门的模型，它需要在大量标记示例的基础上进行训练。然而，现在，<strong>LLM可以在没有明确训练的情况下完成所有这些任务</strong>。</p>
+<h2 id="llm如何工作"><strong>LLM如何工作？</strong></h2>
+<p>训练大多数最先进的LLM所使用的核心任务是<strong>单词预测</strong>。换句话说，给定一序列单词，<strong>下一个单词的概率分布是什么</strong>？</p>
+<p>例如，给定序列<code>Listen to your ____</code>，最有可能的下一个单词可能是：heart，gut，body，parents，grandma等。这可能看起来像下面显示的概率分布。</p>
+<figure>
+<img src="https://qiniu.hivan.me/picGo/20230714154319.png?imgNote"
+alt="Toy 序列中下一个作品的概率分布 Listen to your ____" />
+<figcaption aria-hidden="true">Toy 序列中下一个作品的概率分布
+<code>Listen to your ____</code></figcaption>
+</figure>
+<p>有趣的是，这是许多（非大型）语言模型过去被训练的方式（例如GPT-1）[3]。然而，由于某种原因，当语言模型超过一定大小（例如~10B个参数）时，这些（新生的）能力，例如零-shot学习，开始出现[1]。</p>
+<p>尽管目前还没有明确的答案，解释为什么会发生这种情况（只有推测），但明显LLM是一种强大的技术，具有无数的潜在用例。</p>
+<h2 id="使用llm的3个层次"><strong>使用LLM的3个层次</strong></h2>
+<p>现在我们来看看如何在实践中使用这种强大的技术。虽然有无数的LLM用例，但在这里，我将它们按所需的技术知识和计算资源排序为3个层次。我们从最容易使用的开始。</p>
+<h3 id="一级提示工程"><strong>一级：提示工程</strong></h3>
+<p>使用LLM的第一级别是“提示工程”，我将其定义为“任何使用LLM的开箱即用方式”，即不更改任何模型参数。虽然许多技术倾向的个人似乎对提示工程的想法不屑一顾，但这是实际中使用LLM（在技术和经济上）最可访问的方法。</p>
+<p>有两种主要的提示工程方式： <strong>简单方式</strong> 和
+<strong>较不简单方式</strong>。</p>
+<p><strong>简单方式：ChatGPT（或其他方便的LLM UI）</strong> -
+这种方法的关键好处是方便。像ChatGPT这样的工具提供了一种直观，免费且无代码的使用LLM的方法（没有比这更容易的方法了）。</p>
+<p>然而，方便通常是有代价的。在这种情况下，这种方法有两个主要缺点。第一个是缺乏功能。例如，ChatGPT不容易使用户自定义模型输入参数（例如温度或最大响应长度），这些值调节LLM输出。第二，与ChatGPT
+UI的交互不能轻松地自动化，因此无法应用于大规模使用情况。</p>
+<p>虽然这些缺点可能是某些用例的杀手级应用，但如果我们将提示工程向前推进一步，这两个缺点都可以得到改善。</p>
+<p><strong>较不简单方式：直接与LLM交互</strong> -
+我们可以通过编程接口直接与LLM进行交互来克服ChatGPT的一些缺点。这可以通过公共API（例如OpenAI的API）或在本地运行LLM（使用像Transformers这样的库）来实现。</p>
+<p>虽然这种提示工程方式不太方便（因为它需要编程知识和潜在的API成本），但它提供了一种可定制，灵活和可扩展的使用LLM的方法。本系列文章将讨论付费和免费的方法来进行此类提示工程。</p>
+<p>尽管提示工程（如此定义）可以处理大多数潜在的LLM应用程序，但依赖通用模型可能会导致特定用例的次优性能。对于这些情况，我们可以进入使用LLM的下一个级别。</p>
+<h3 id="等级-2模型微调"><strong>等级 2：模型微调</strong></h3>
+<p>使用 LLM 的第二个等级是<strong>模型微调</strong>，我定义为对现有 LLM
+进行微调以用于特定用例，通过<strong>改变至少一个（内部）模型参数</strong>，即权重和偏差。在此类别中，我还将在此处将迁移学习即使用现有
+LLM 的某些部分来开发另一个模型。</p>
+<p>微调通常包括两个步骤。<strong>步骤 1</strong>：获得预先训练的
+LLM。<strong>步骤
+2</strong>：基于给定的特定任务更新模型参数（通常是数千个）高质量标记的示例。</p>
+<p>模型参数是定义 LLM
+对输入文本的内部表示的。因此，通过针对特定任务调整这些参数，内部表示变得针对微调任务进行了优化（或者至少是这样的想法）。</p>
+<p>这是一种强大的模型开发方法，因为相对<strong>较少的示例</strong>和计算资源<strong>可以产生出色的模型性能</strong>。</p>
+<p>然而，缺点是它需要比提示工程更多的技术专业知识和计算资源。在未来的一篇文章中，我将尝试通过审查微调技术并共享示例
+Python 代码来缓解这种缺点。</p>
+<p>虽然提示工程和模型微调可能可以处理 LLM 应用程序的
+99％，但有时必须走得更远。</p>
+<h3 id="等级-3构建自己的-llm"><strong>等级 3：构建自己的
+LLM</strong></h3>
+<p>在实践中使用 LLM
+的第三种最终方法是<strong>构建自己的</strong>。在模型参数方面，这是您从头开始制定所有模型参数的地方。</p>
+<p>LLM
+主要是其训练数据的产物。因此，对于某些应用程序，可能需要策划自定义的高质量文本语料库进行模型训练，例如医学研究语料库，用于开发临床应用程序。</p>
+<p>这种方法最大的优点是您可以<strong>完全自定义 LLM
+以适用于您的特定用例</strong>。这是终极的灵活性。但是，通常情况下，灵活性的代价是方便性。</p>
+<p>由于<strong>LLM 性能的关键是规模</strong>，因此从头开始构建 LLM
+需要巨大的计算资源和技术专业知识。换句话说，这不会是一个个人周末项目，而是一个完整的团队工作数月甚至数年，预算达到
+7-8F。</p>
+<p>尽管如此，在我未来文章中，我希望探讨从头开始开发 LLM 的流行技术。</p>
+<p><strong>最后让我们来总结一下：</strong></p>
+<p>虽然LLM现在被吹得足够大，但它们是AI领域的一项强大创新。在这里，我提供了有关LLMs是什么以及如何在实践中使用它们的入门指南。日后我希望写一些文章提供初学者指南，帮助大家启动下一个LLM用例。</p>
+<h2 id="资源">资源</h2>
+<p>链接：「<a href="https://hivan.me">个人博客</a>」</p>
+<p>社交：「<a target="_blank" rel="noopener" href="https://twitter.com/hivan">推特</a>」|「<a
+target="_blank" rel="noopener" href="https://weibo.com/hivan">微博</a>」| 「<a
+target="_blank" rel="noopener" href="https://www.linkedin.com/in/hivandu/">领英</a>」|「<a
+target="_blank" rel="noopener" href="https://www.youtube.com/hivandu">油管</a>」</p>
+<p>之后我会出一些AI相关的具体视频教程，目前还未找到合适的平台托管，敬请期待。关注我，我会第一时间通知到家。</p>
+<p>在我的公众号内的文章大部分是免费阅读的（除非有实际成本支出），如果您觉得对您有帮助，可以给我赞赏一下以表支持。</p>
+<h2 id="引用">引用</h2>
+<p>[1] 大型语言模型调查。 <a
+target="_blank" rel="noopener" href="https://arxiv.org/abs/2303.18223">arXiv:2303.18223</a> <strong>[<a
+target="_blank" rel="noopener" href="http://cs.cl/">cs.CL</a>]</strong></p>
+<p>[2] GPT-3论文。 <a
+target="_blank" rel="noopener" href="https://arxiv.org/abs/2005.14165">arXiv:2005.14165</a> <strong>[<a
+target="_blank" rel="noopener" href="http://cs.cl/">cs.CL</a>]</strong></p>
+<p>[3] Radford，A.，&amp;
+Narasimhan，K。（2018）。通过生成式预训练改善语言理解。 （<a
+target="_blank" rel="noopener" href="https://s3-us-west-2.amazonaws.com/openai-assets/research-covers/language-unsupervised/language_understanding_paper.pdf">GPT-1论文</a>）</p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>LLMs的实用介绍</p><p><a href="https://hivan.me/LLMs的实用介绍/">https://hivan.me/LLMs的实用介绍/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2023-07-14</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2023-07-14</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" href="https://afdian.net/item/72907364008511ee904852540025c377" target="_blank" rel="noopener" data-type="afdian"><span class="icon is-small"><i class="fas fa-charging-station"></i></span><span>爱发电</span></a><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://www.buymeacoffee.com/hivandu" target="_blank" rel="noopener" data-type="buymeacoffee"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>送我杯咖啡</span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="paypal" onclick="document.getElementById(&#039;paypal-donate-form&#039;).submit()"><span class="icon is-small"><i class="fab fa-paypal"></i></span><span>Paypal</span></a><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" rel="noopener" id="paypal-donate-form"><input type="hidden" name="cmd" value="_donations"><input type="hidden" name="business" value="doo@hivan.me"><input type="hidden" name="currency_code" value="USD"></form><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/%E5%BF%AB%E9%80%9F%E5%80%BE%E5%90%AC%E5%92%8C%E6%80%BB%E7%BB%93%E9%9F%B3%E9%A2%91%E5%86%85%E5%AE%B9/"><span class="level-item">19. 快速倾听和总结音频内容</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/LLMs%E7%9A%84%E5%AE%9E%E7%94%A8%E4%BB%8B%E7%BB%8D/';
+            this.page.identifier = 'LLMs的实用介绍/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">149</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">1</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">15</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">21</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-07-14T06:30:00.000Z">2023-07-14</time></p><p class="title"><a href="/LLMs%E7%9A%84%E5%AE%9E%E7%94%A8%E4%BB%8B%E7%BB%8D/">LLMs的实用介绍</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-07-10T14:52:54.000Z">2023-07-10</time></p><p class="title"><a href="/%E5%BF%AB%E9%80%9F%E5%80%BE%E5%90%AC%E5%92%8C%E6%80%BB%E7%BB%93%E9%9F%B3%E9%A2%91%E5%86%85%E5%AE%B9/">19. 快速倾听和总结音频内容</a></p><p class="categories"><a href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/">从零开始接触人工智能大模型</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-07-09T17:22:07.000Z">2023-07-10</time></p><p class="title"><a href="/ChatGPT%E4%BB%A3%E7%A0%81%E8%A7%A3%E9%87%8A%E5%99%A8/">ChatGPT代码解释器：如何为我节省数小时的工作</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-07-06T18:23:02.000Z">2023-07-07</time></p><p class="title"><a href="/%E4%BD%BF%E7%94%A8Python%E5%BA%93unstructured%E6%8F%AD%E7%A7%98%E6%96%87%E6%9C%AC%E6%95%B0%E6%8D%AE/">使用Python库unstructured揭秘文本数据</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-07-05T14:43:05.000Z">2023-07-05</time></p><p class="title"><a href="/2023%E5%B9%B4%E8%96%AA%E9%85%AC%E6%9C%80%E9%AB%98%E7%9A%84%E7%A7%91%E6%8A%80%E5%B7%A5%E4%BD%9C%E4%B8%AD%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86%E8%B5%AB%E7%84%B6%E5%9C%A8%E5%88%97/">2023年薪酬最高的科技工作中产品经理赫然在列</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2023 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
