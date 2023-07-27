@@ -6,7 +6,7 @@
   <link href="https://hivan.me/atom.xml" rel="self"/>
   
   <link href="https://hivan.me/"/>
-  <updated>2023-07-27T07:57:49.643Z</updated>
+  <updated>2023-07-27T12:08:04.135Z</updated>
   <id>https://hivan.me/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>AI秘籍预告</title>
+    <title>《AI秘籍》预告</title>
     <link href="https://hivan.me/AI%20Cheats%20Trailer/"/>
     <id>https://hivan.me/AI%20Cheats%20Trailer/</id>
     <published>2023-07-27T06:13:06.000Z</published>
-    <updated>2023-07-27T07:57:49.643Z</updated>
+    <updated>2023-07-27T12:08:04.135Z</updated>
     
     <content type="html"><![CDATA[<p>Hi,大家好，我是茶桁，这里为自己做个广告，目前打算开始写一整个系列《AI秘籍》。</p><span id="more"></span><p>这一段时间内我写过一个系列<ahref="../categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/">《零基础学习大语言模型》</a>（目前还没写完）。</p><p>说实话，这个系列其实原出处并不是我，严谨的说来，有涉嫌擦边“洗稿”的嫌疑，所以最后放弃了收费的想法，仅仅对一些模型，资源以及计算结果进行了补偿性的收费。不过在写这个系列的同时，我开始有了自己的一些想法，打算真正写一个属于自己的系列文章。</p><p>因为我的个人博客并没有付费阅读的功能，所以还在看平台。第一选择自然是我的微信订阅号，有想过发到少数派里，但是并不清楚少数派对我文章的审核会是什么结果，能成为专栏发出来不太有信心。</p><p>说说这个专栏本身，参照我几个自媒体平台的数据来看，Python的基础知识还是更受欢迎一点，我想大概也是更多基础不太好的小伙伴希望能入行吧。所以这次我准备从基础开始写起，总的来说分成以下几个大的篇章：</p><ul><li>第一卷：Python</li><li>第二卷：核心知识</li><li>第三卷：核心能力培养</li><li>第四卷：NLP</li><li>第五卷：BI</li><li>第六卷：CV</li><li>第七卷：扩展 - 数学</li><li>第八卷：扩展 - 英语</li></ul><p>大致的算了一下，可能这个系列会耗费比较长的时间和精力，也希望小伙伴们能多多支持。</p><p>在这里，放上我的公众号订阅方式：</p><figure><img src="https://qiniu.hivan.me/picGo/20230727142457.png?imgNote"alt="欢迎订阅：坍缩的奇点ss" /><figcaption aria-hidden="true">欢迎订阅：坍缩的奇点ss</figcaption></figure><blockquote><p>最后，找到合适的订阅平台之后，本篇内容应该会有更新。</p></blockquote>]]></content>
     
@@ -30,8 +30,6 @@
 大家好，我是茶桁，这里为自己做个广告，目前打算开始写一整个系列《AI秘籍》。&lt;/p&gt;</summary>
     
     
-    
-    <category term="AI秘籍" scheme="https://hivan.me/categories/AI%E7%A7%98%E7%B1%8D/"/>
     
     
     <category term="AI" scheme="https://hivan.me/tags/AI/"/>
