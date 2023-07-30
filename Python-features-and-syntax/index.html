@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>1. Python的特性和语法 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="千里之行始于足下。 大家好，我是茶桁，这里是我们《AI秘籍》的第一节，让我们先从Python来开始好好的打好基础。 第一堂课，我们先从最基础的Python特性开始，当然，还有一些基本语法。 上来就开始讲特性和语法，说明我们将会遗弃惯用的“环境搭建”等更基础的内容，那些内容网上已经很丰富了，一查一大堆，并且相对来说内容都比较独立，所以希望还不太会搭建开发环境的同学可以自己去搜索看看。或者，其实从我这"><meta property="og:type" content="blog"><meta property="og:title" content="1. Python的特性和语法"><meta property="og:url" content="https://hivan.me/Python-features-and-syntax/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="千里之行始于足下。 大家好，我是茶桁，这里是我们《AI秘籍》的第一节，让我们先从Python来开始好好的打好基础。 第一堂课，我们先从最基础的Python特性开始，当然，还有一些基本语法。 上来就开始讲特性和语法，说明我们将会遗弃惯用的“环境搭建”等更基础的内容，那些内容网上已经很丰富了，一查一大堆，并且相对来说内容都比较独立，所以希望还不太会搭建开发环境的同学可以自己去搜索看看。或者，其实从我这"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230727185716.png?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230727202716.png?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230727203234.png?imgNote"><meta property="article:published_time" content="2023-07-29T09:07:28.000Z"><meta property="article:modified_time" content="2023-07-30T09:10:37.067Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="Python"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://qiniu.hivan.me/picGo/20230727185716.png?imgNote"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/Python-features-and-syntax/"},"headline":"1. Python的特性和语法","image":[],"datePublished":"2023-07-29T09:07:28.000Z","dateModified":"2023-07-30T09:10:37.067Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"千里之行始于足下。 大家好，我是茶桁，这里是我们《AI秘籍》的第一节，让我们先从Python来开始好好的打好基础。 第一堂课，我们先从最基础的Python特性开始，当然，还有一些基本语法。 上来就开始讲特性和语法，说明我们将会遗弃惯用的“环境搭建”等更基础的内容，那些内容网上已经很丰富了，一查一大堆，并且相对来说内容都比较独立，所以希望还不太会搭建开发环境的同学可以自己去搜索看看。或者，其实从我这"}</script><link rel="canonical" href="https://hivan.me/Python-features-and-syntax/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2023-07-29T09:07:28.000Z" title="7/29/2023, 5:07:28 PM">2023-07-29</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a><span> / </span><a class="link-muted" href="/categories/AI%E7%A7%98%E7%B1%8D/Python/">Python</a></span></div></div><h1 class="title is-3 is-size-4-mobile">1. Python的特性和语法</h1><div class="content"><p>千里之行始于足下。</p>
+<p>大家好，我是茶桁，这里是我们《AI秘籍》的第一节，让我们先从Python来开始好好的打好基础。</p>
+<p>第一堂课，我们先从最基础的Python特性开始，当然，还有一些基本语法。</p>
+<p>上来就开始讲特性和语法，说明我们将会遗弃惯用的“环境搭建”等更基础的内容，那些内容网上已经很丰富了，一查一大堆，并且相对来说内容都比较独立，所以希望还不太会搭建开发环境的同学可以自己去搜索看看。或者，其实从我这篇<a
+href="../Apple_M1_AI_environment_construction/">《Apple
+M1的AI环境搭建》</a>也能完全搭建起一个完整的Python开发环境。（Windows和Linux的同学就只能在网上搜索一下看看了。）</p>
+<p>总体来说，Python语言的使用率越来越高，它不仅可以用于GUI开发、Web开发，还能进行数据预处理、数据探索性分析（EDA），更是进行数据挖掘、机器学习、深度学习等任务的首选语言。</p>
+<p>基于Python的包也越来越丰富，各种优秀的库层出不穷。根据"Tiobe编程语言排行榜"的最新统计，Python结束了自己攀爬的势头，已经开始长期占据榜首。Python的发展势头让人们看到了它在各个领域都有着广阔的应用前景。</p>
+<figure>
+<img src="https://qiniu.hivan.me/picGo/20230727185716.png?imgNote"
+alt="image-20230727185715840" />
+<figcaption aria-hidden="true">image-20230727185715840</figcaption>
+</figure>
+<p>得益于Python语言的简洁语法和高效开发能力，使得集成系统变得非常方便。</p>
+<p>与此同时，Python相关的就业机会也非常丰富，待遇也相当优渥。</p>
+<p>因此，无论从易用性、就业机会还是薪酬待遇来看，Python都是IT从业者必备的编程语言之一。</p>
+<h2 id="课程说明">课程说明</h2>
+<ol type="1">
+<li>本课程所使用语言为Python3</li>
+<li>本课程将会有一些案例，用于辅助学习和理解知识点。</li>
+<li>基本所有案例均使用Jupyter Notebook做演示</li>
+<li>一些项目会用到软件工程和设计模式的思想。</li>
+<li>本课程无任何文学色彩，重点在于简单通俗易懂。</li>
+</ol>
+<p><strong>接下来，让我们真实开始吧。</strong></p>
+<h2 id="python的两大特性">Python的两大特性</h2>
+<p>一句话总结，就是Python是一门动态的、强类型语言。</p>
+<h3 id="动态语言">动态语言</h3>
+<p>在了解“动态语言”之前，我们先来了解一下“类型检查”。</p>
+<p>类型检查是验证变量或表达式的数据类型是否符合语言规定的类型约束的过程。它用于确保程序在运行时不会出现类型错误，例如将一个字符串与一个整数相加或将一个数字与一个布尔值进行比较。类型检查旨在捕捉潜在的类型不匹配错误，并在编译时或运行时提供相应的警告或错误信息。</p>
+<p>如果类型检查发生在程序运行阶段（运行时），则称为"动态类型语言"（dynamically
+typed languages）。常见的动态语言包括：</p>
+<ul>
+<li>Python</li>
+<li>JavaScript</li>
+<li>Ruby</li>
+<li>PHP</li>
+<li>Lua</li>
+<li>Perl</li>
+<li>Shell脚本</li>
+</ul>
+<p>有动态语言，则必然会有其相对的“静态语言”，常见的“静态类语言”包含：</p>
+<ul>
+<li>C</li>
+<li>C++</li>
+<li>Java</li>
+<li>C#</li>
+<li>Swift</li>
+<li>Kotlin</li>
+<li>Rust</li>
+<li>TypeScript</li>
+</ul>
+<p>当然，这些都只是一部分常见的动态语言和静态类型语言，还有许多其他编程语言也属于这两个类别。在实际开发中，选择使用动态语言还是静态类型语言取决于项目的需求、开发团队的喜好和项目的规模等因素。每种类型的语言都有其独特的特点和适用场景，因此选择合适的语言是非常重要的。</p>
+<h3 id="强类型语言">强类型语言</h3>
+<p>强类型语言（Strongly Typed
+Language）要求在编程过程中严格定义和遵守数据类型规则。在强类型语言中，变量必须明确地声明其数据类型，并且在运行时不能隐式地改变数据类型。这意味着变量在使用之前必须进行类型转换，以确保数据的一致性和安全性。</p>
+<p>在强类型语言中，编译器或解释器会对数据类型进行严格的检查，如果发现不符合类型规则的操作，就会报错并拒绝执行。这样可以防止一些潜在的类型错误，确保程序的稳定性和正确性。</p>
+<p>强类型语言的主要特点包括：</p>
+<ol type="1">
+<li>静态类型检查：在编译时或解释时进行类型检查，检查数据类型是否匹配，避免类型不匹配的错误。</li>
+<li>显式类型转换：在进行类型转换时，必须显式地指定转换的方式，例如强制类型转换。</li>
+<li>不支持隐式类型转换：强类型语言不允许在不明确声明的情况下将一个数据类型隐式地转换为另一个数据类型。</li>
+</ol>
+<p>这么说可能并不直接，我们来拿个示例，我们输入两行代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">5</span></span><br><span class="line">a = a + <span class="string">&#x27;s&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>然后我们会看到程序抛出TypeError异常：</p>
+<figure>
+<img src="https://qiniu.hivan.me/picGo/20230727202716.png?imgNote"
+alt="image-20230727202715960" />
+<figcaption aria-hidden="true">image-20230727202715960</figcaption>
+</figure>
+<p>这个异常意思是不支持<code>int变量</code>和<code>str变量</code>相加。</p>
+<p>常见的强类型语言包括：</p>
+<ul>
+<li>Java</li>
+<li>C++</li>
+<li>C#</li>
+<li>Python</li>
+<li>Swift</li>
+<li>Kotlin</li>
+<li>TypeScript</li>
+<li>Rust</li>
+<li>Pascal</li>
+<li>Ada</li>
+<li>Delphi</li>
+</ul>
+<p>一样的，对应的就是弱类型语言。弱类型语言容易与其他类型混合计算，其代表是JavaScript。（有一说一，我还挺喜欢JS的这个特性的）</p>
+<figure>
+<img src="https://qiniu.hivan.me/picGo/20230727203234.png?imgNote"
+alt="image-20230727203234464" />
+<figcaption aria-hidden="true">image-20230727203234464</figcaption>
+</figure>
+<p>弱类型语言包括：</p>
+<ul>
+<li>JavaScript</li>
+<li>PHP</li>
+<li>Perl</li>
+<li>Ruby</li>
+<li>Tcl</li>
+<li>Bash</li>
+<li>AWK</li>
+<li>MATLAB (在一些操作上可以被视为弱类型)</li>
+</ul>
+<blockquote>
+<p>当然，对于这个划分其实并不是所有人都一致的，有些人还是会把Python归结为弱类型语言，而通常意义上，大家会把C++划分到弱类型。这里我们不去争论，仅仅记住动态/静态、弱类型/强类型的区别就行了。</p>
+</blockquote>
+<h2 id="基本语法">基本语法</h2>
+<p>基本语法里，我们介绍一下Python的命名规则、缩进原则、特殊关键字和特殊运算符四个方面。</p>
+<h3 id="命名规则">命名规则</h3>
+<p>Python的变量命名规则包括以下几条：</p>
+<ol type="1">
+<li>允许包括英文、数字以及下划线（_），不能以数字开头。</li>
+<li>名称区分大小写，例如"myVar"和"myvar"是两个不同的变量。</li>
+<li>以单下划线（_）开头的变量通常用作受保护的变量，表示应该将其视为私有，不建议直接访问。虽然Python没有严格的访问控制，但这是一种约定俗成的做法。</li>
+<li>以双下划线（__）开头和结尾的变量是Python中的特殊标识符，具有特殊的意义，如类的私有成员或专用标识符。</li>
+</ol>
+<p>Python的变量命名习惯一般遵守蛇形命名法（snake case）：</p>
+<ol type="1">
+<li>一般变量命名使用小写字母，多个单词之间用下划线连接，例如：book_id、book_store_count。</li>
+<li>类名首字母大写，如Python内置模块collections.abc中的Iterable类，我们自定义的Book类等。</li>
+<li>类方法名也使用小写字母，多个单词之间用下划线连接，例如：get_store_count()。</li>
+</ol>
+<p>与Java的命名方法不同，Java通常使用驼峰命名法（camel
+case）来命名变量和方法名，其中第一个单词首字母小写，后续单词首字母大写，例如：myVar、getStoreCount()。而Python则更倾向于使用蛇形命名法。这是因为Python社区普遍认可了蛇形命名法，使得代码在风格上更加一致和易读。</p>
+<h3 id="缩进原则">缩进原则</h3>
+<p>Python最具特色的特点之一是使用缩进来表示代码的逻辑层次，而不是像Java和C++中使用{}。Python的缩进层级结构非常重要，它代表着代码的逻辑结构。</p>
+<p>通常情况下，Python的缩进为4个空格字符。例如，在定义一个Book类并重写__add__方法来计算两本书的库存量时，代码如下所示：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Book</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 定义类的参数</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, b_id, b_name, b_store_count</span>):</span><br><span class="line">        self.b_id = b_id</span><br><span class="line">        self.b_name = b_name</span><br><span class="line">        self.b_store_count = b_store_count</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 重写加法操作</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__add__</span>(<span class="params">self, book</span>):</span><br><span class="line">        <span class="keyword">return</span> self.b_store_count + book.b_store_count</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 创建两个Book类的实例</span></span><br><span class="line">python_intro_book = Book(<span class="number">1</span>, <span class="string">&#x27;金瓶梅&#x27;</span>, <span class="number">100</span>)</span><br><span class="line">ml_intro_book = Book(<span class="number">2</span>, <span class="string">&#x27;玉蒲团&#x27;</span>, <span class="number">200</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 求两本书的总销量</span></span><br><span class="line">sales_cnt = python_intro_book + ml_intro_book</span><br><span class="line"><span class="built_in">print</span>(sales_cnt) </span><br></pre></td></tr></table></figure>
+<p>上述代码定义了一个Book类，包括初始化方法<code>__init__</code>和重写的加法操作<code>__add__</code>。通过这种缩进结构，我们可以清晰地看到代码的层次结构和逻辑。</p>
+<p>在Python编码中，缩进格式、行间空行数、变量和等号之间的空格等都遵循PEP8（Python
+Enhancement Proposal
+8）规范。可以使用<code>autopep8</code>包来自动实现PEP8规范，保持代码的规范和易读性。</p>
+<h3 id="特殊关键字">特殊关键字</h3>
+<p>Python有35个关键字，这些关键字具有特殊的含义，不能用于自定义变量名，否则会引起语法错误。以下是Python的关键字列表：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="literal">False</span>      <span class="keyword">await</span>      <span class="keyword">else</span>       <span class="keyword">import</span>     <span class="keyword">pass</span></span><br><span class="line"><span class="literal">None</span>       <span class="keyword">break</span>      <span class="keyword">except</span>     <span class="keyword">in</span>         <span class="keyword">raise</span></span><br><span class="line"><span class="literal">True</span>       <span class="keyword">class</span>      <span class="title class_">finally</span>    <span class="keyword">is</span>         <span class="keyword">return</span></span><br><span class="line"><span class="keyword">and</span>        <span class="keyword">continue</span>   <span class="keyword">for</span>        <span class="keyword">lambda</span>     <span class="keyword">try</span></span><br><span class="line"><span class="keyword">as</span>         <span class="keyword">def</span>        <span class="title function_">from</span>       <span class="keyword">nonlocal</span>   <span class="keyword">while</span></span><br><span class="line"><span class="keyword">assert</span>     <span class="keyword">del</span>        <span class="keyword">global</span>     <span class="keyword">not</span>        <span class="keyword">with</span></span><br><span class="line"><span class="keyword">async</span>      <span class="keyword">elif</span>       <span class="keyword">if</span>         <span class="keyword">or</span>         <span class="keyword">yield</span></span><br></pre></td></tr></table></figure>
+<p>这些关键字在Python编程中扮演着重要的角色。其中，<code>True</code>和<code>False</code>用于表示布尔值的真和假，类似于Java中的<code>true</code>和<code>false</code>；<code>None</code>表示空值，类似于Java中的<code>null</code>；Python使用<code>not</code>表示逻辑反操作，而Java使用<code>!</code>；Python使用<code>and</code>表示两个条件同时满足，Java使用<code>&amp;&amp;</code>；Python使用<code>or</code>表示两个条件满足其一，Java使用<code>||</code>；Python使用<code>elif</code>，而Java使用<code>else if</code>。</p>
+<p>还有一些比较特殊的关键字，例如：</p>
+<ul>
+<li><code>del</code>用于删除可迭代对象中的某个元素；</li>
+<li><code>def</code>用于定义函数；</li>
+<li>带有<code>yield</code>的关键字用于定义生成器（generator）函数；</li>
+<li><code>global</code>和<code>nonlocal</code>是在Python函数式编程的闭包场景中使用的。</li>
+</ul>
+<p><code>pass</code>关键字用于占位，当你在定义函数或类时暂时不想添加具体的实现时，可以使用<code>pass</code>关键字。</p>
+<p>这些关键字的具体用法将在后续文章中更详细地介绍。在此，先对它们有一个整体的认识即可。</p>
+<h3 id="特殊运算符">特殊运算符</h3>
+<p>Python的运算符包括：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">+       -       *       **      /       //      %      @</span><br><span class="line">&lt;&lt;      &gt;&gt;      &amp;       |       ^       ~       :=</span><br><span class="line">&lt;       &gt;       &lt;=      &gt;=      ==      !=</span><br></pre></td></tr></table></figure>
+<p>大部分运算符在其他编程语言中也是常见的，不过这里重点介绍三个比较特殊的运算符：<code>//</code>、<code>**</code>和<code>:=</code>。</p>
+<p><code>//</code>运算符用于两个数值相除并向下取整，类似于Python的<code>math.floor()</code>功能：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="number">5</span> // <span class="number">2</span>)   <span class="comment"># 输出: 2</span></span><br><span class="line"><span class="built_in">print</span>(<span class="number">5</span> // <span class="number">4.5</span>) <span class="comment"># 输出: 1.0</span></span><br></pre></td></tr></table></figure>
+<p><code>**</code>运算符用于进行幂运算：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="number">2</span> ** <span class="number">3</span>) <span class="comment"># 输出: 8</span></span><br></pre></td></tr></table></figure>
+<p><code>:=</code>运算符是在Python
+3.8版本中引入的，被形象地称为“海象运算符”。它可以在表达式中同时为变量赋值和比较：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">n = <span class="built_in">len</span>(a)</span><br><span class="line"><span class="keyword">if</span> n &gt; <span class="number">10</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;n&#125;</span>大于10&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>可以用“海象运算符”简化为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (n := <span class="built_in">len</span>(a)) &gt; <span class="number">10</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;n&#125;</span>大于10&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>Python的比较运算符还支持链式比较，使得编码更加方便：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">i = <span class="number">3</span></span><br><span class="line"><span class="built_in">print</span>(<span class="number">1</span> &lt; i &lt; <span class="number">3</span>)  <span class="comment"># 输出: False</span></span><br><span class="line"><span class="built_in">print</span>(<span class="number">1</span> &lt; i &lt;= <span class="number">3</span>) <span class="comment"># 输出: True</span></span><br></pre></td></tr></table></figure>
+<p>此外，运算符<code>@</code>用于装饰器功能，本专栏会深入解释它的本质，并提供相关案例，帮助你学会使用装饰器。</p>
+<h2 id="总结">总结</h2>
+<p>在本文中，我们一起学习了Python这门功能强大的编程语言。Python的两大特性是动态语言和强类型语言。</p>
+<p>动态语言意味着在运行时执行类型检查，而不是在编译时。这使得Python更加灵活和易于使用，允许我们在代码中动态创建和修改变量。Python的动态特性使其成为进行数据预处理、数据探索性分析、数据挖掘、机器学习和深度学习等任务的首选语言。</p>
+<p>另一方面，强类型语言意味着变量的类型在声明时就已经确定，并且不能进行隐式类型转换。这确保了代码的稳定性和安全性，帮助我们避免一些常见的错误。</p>
+<p>在Python的基本语法方面，我们学习了变量命名规则，缩进原则，特殊关键字和特殊运算符。Python的命名规则允许使用英文、数字和下划线，但不能以数字开头，并且区分大小写。特殊关键字包括Python的35个关键字，如if、else、for、while等等，它们有着特定的含义和用途。特殊运算符中，//用于整数除法，**用于幂运算，:=是在Python
+3.8版本中引入的“海象运算符”，使得在表达式中同时为变量赋值和比较变得更加方便。</p>
+<p>通过学习Python的特性和基本语法，我们已经具备了编写简单到复杂的程序的基础知识。Python的易用性、丰富的库和社区支持，使其成为一个优秀的编程语言，适用于各种应用场景。无论是初学者还是有经验的开发者，Python都是一个值得深入学习和探索的语言。</p>
+<p>希望本文能够为读者提供了一个对Python的初步认识，并激发了你继续学习和研究的兴趣。在接下来的学习过程中，我们可以更深入地了解Python的各种功能和应用领域，并用Python来解决更复杂的问题。</p>
+<p>好了，我是茶桁，咱们下节见。</p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>1. Python的特性和语法</p><p><a href="https://hivan.me/Python-features-and-syntax/">https://hivan.me/Python-features-and-syntax/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2023-07-29</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2023-07-30</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/Python/">Python</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" href="https://afdian.net/item/72907364008511ee904852540025c377" target="_blank" rel="noopener" data-type="afdian"><span class="icon is-small"><i class="fas fa-charging-station"></i></span><span>爱发电</span></a><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://www.buymeacoffee.com/hivandu" target="_blank" rel="noopener" data-type="buymeacoffee"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>送我杯咖啡</span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="paypal" onclick="document.getElementById(&#039;paypal-donate-form&#039;).submit()"><span class="icon is-small"><i class="fab fa-paypal"></i></span><span>Paypal</span></a><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" rel="noopener" id="paypal-donate-form"><input type="hidden" name="cmd" value="_donations"><input type="hidden" name="business" value="doo@hivan.me"><input type="hidden" name="currency_code" value="USD"></form><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/AI-cheats-information/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">新专辑《AI秘籍》，你所感兴趣的一切</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/AI%20Cheats%20Trailer/"><span class="level-item">《AI秘籍》预告</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/Python-features-and-syntax/';
+            this.page.identifier = 'Python-features-and-syntax/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">157</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">3</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">20</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI秘籍</span></span><span class="level-end"><span class="level-item tag">2</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">22</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-07-30T09:06:11.000Z">2023-07-30</time></p><p class="title"><a href="/Introduction-to-Python-scripting/">2. 初识Python脚本</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/Python/">Python</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-07-29T11:22:20.000Z">2023-07-29</time></p><p class="title"><a href="/AI-cheats-information/">新专辑《AI秘籍》，你所感兴趣的一切</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-07-29T09:07:28.000Z">2023-07-29</time></p><p class="title"><a href="/Python-features-and-syntax/">1. Python的特性和语法</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/Python/">Python</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-07-27T06:13:06.000Z">2023-07-27</time></p><p class="title"><a href="/AI%20Cheats%20Trailer/">《AI秘籍》预告</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-07-27T03:30:11.000Z">2023-07-27</time></p><p class="title"><a href="/Artificial-Neural-Network/">人工神经网络</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2023 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
