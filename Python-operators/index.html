@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>Python operators - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="Hi, 大家好，我是茶桁。 在之前两节课中，我们熟悉了Python的特性和语法，并且了解了一些Python的数据结构和类型。那么在本节课，我们需要开始学习Python的运算符以及流程控制。"><meta property="og:type" content="blog"><meta property="og:title" content="Python operators"><meta property="og:url" content="https://hivan.me/Python-operators/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="Hi, 大家好，我是茶桁。 在之前两节课中，我们熟悉了Python的特性和语法，并且了解了一些Python的数据结构和类型。那么在本节课，我们需要开始学习Python的运算符以及流程控制。"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://hivan.me/img/og_image.png"><meta property="article:published_time" content="2023-07-30T10:10:12.000Z"><meta property="article:modified_time" content="2023-07-31T05:24:03.295Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="Python"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://hivan.me/img/og_image.png"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/Python-operators/"},"headline":"Python operators","image":["https://hivan.me/img/og_image.png"],"datePublished":"2023-07-30T10:10:12.000Z","dateModified":"2023-07-31T05:24:03.295Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"Hi, 大家好，我是茶桁。 在之前两节课中，我们熟悉了Python的特性和语法，并且了解了一些Python的数据结构和类型。那么在本节课，我们需要开始学习Python的运算符以及流程控制。"}</script><link rel="canonical" href="https://hivan.me/Python-operators/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>Python operators - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="Hi，大家好。我是茶桁。 前两节我们学习了基本的Python特性和语法，并且认识了一些基本的Python脚本。今天，我们来学习一下Python的运算符，而我们选择的版本为Python3。"><meta property="og:type" content="blog"><meta property="og:title" content="Python operators"><meta property="og:url" content="https://hivan.me/Python-operators/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="Hi，大家好。我是茶桁。 前两节我们学习了基本的Python特性和语法，并且认识了一些基本的Python脚本。今天，我们来学习一下Python的运算符，而我们选择的版本为Python3。"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://hivan.me/img/og_image.png"><meta property="article:published_time" content="2023-07-30T10:10:12.000Z"><meta property="article:modified_time" content="2023-07-31T15:13:50.079Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="Python"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://hivan.me/img/og_image.png"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/Python-operators/"},"headline":"Python operators","image":["https://hivan.me/img/og_image.png"],"datePublished":"2023-07-30T10:10:12.000Z","dateModified":"2023-07-31T15:13:50.079Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"Hi，大家好。我是茶桁。 前两节我们学习了基本的Python特性和语法，并且认识了一些基本的Python脚本。今天，我们来学习一下Python的运算符，而我们选择的版本为Python3。"}</script><link rel="canonical" href="https://hivan.me/Python-operators/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
   (function () {
       function switchTab() {
           if (!location.hash) {
@@ -30,9 +30,455 @@
       window.addEventListener('hashchange', switchTab, false);
   })();
   </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
-</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2023-07-30T10:10:12.000Z" title="7/30/2023, 6:10:12 PM">2023-07-30</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a><span> / </span><a class="link-muted" href="/categories/AI%E7%A7%98%E7%B1%8D/Python/">Python</a></span></div></div><h1 class="title is-3 is-size-4-mobile">Python operators</h1><div class="content"><p>Hi, 大家好，我是茶桁。</p>
-<p>在之前两节课中，我们熟悉了Python的特性和语法，并且了解了一些Python的数据结构和类型。那么在本节课，我们需要开始学习Python的运算符以及流程控制。</p>
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2023-07-30T10:10:12.000Z" title="7/30/2023, 6:10:12 PM">2023-07-30</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a><span> / </span><a class="link-muted" href="/categories/AI%E7%A7%98%E7%B1%8D/Python/">Python</a></span></div></div><h1 class="title is-3 is-size-4-mobile">Python operators</h1><div class="content"><p>Hi，大家好。我是茶桁。</p>
+<p>前两节我们学习了基本的Python特性和语法，并且认识了一些基本的Python脚本。今天，我们来学习一下Python的运算符，而我们选择的版本为Python3。</p>
 <span id="more"></span>
+<h2 id="什么是运算符">什么是运算符</h2>
+<p>为了能让我们的学习顺利进行下去，首先我们需要先弄明白：什么是<strong>运算符</strong>。</p>
+<p>这里举一个简单的栗子：<span class="math inline">\(4 + 5 = 9\)</span>,
+在这个简单的数学计算栗子中，4和5倍称为操作数，<code>+</code>就被成为是运算符,
+最后9就是它的运算结果。</p>
+<p>到这里，我们对于运算符应该有了一个基本的认知，那么Python语言都支持哪些运算符呢？如下列表：</p>
+<ul>
+<li>算术运算符</li>
+<li>比较（关系）运算符</li>
+<li>赋值运算符</li>
+<li>逻辑运算符</li>
+<li>位运算符</li>
+<li>成员运算符</li>
+<li>身份运算符</li>
+<li>运算符优先级</li>
+</ul>
+<p>接下来，就让我们来一个个的学习Python的运算符</p>
+<h2 id="算术运算符">算术运算符</h2>
+<table>
+<colgroup>
+<col style="width: 7%" />
+<col style="width: 60%" />
+<col style="width: 32%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">运算符</th>
+<th style="text-align: left;">描述</th>
+<th style="text-align: left;">实例</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">+</td>
+<td style="text-align: left;">加 - 两个对象相加</td>
+<td style="text-align: left;">a + b 输出结果 31</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">减 - 得到负数或是一个数减去另一个数</td>
+<td style="text-align: left;">a - b 输出结果 -11</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">*</td>
+<td style="text-align: left;">乘 -
+两个数相乘或是返回一个被重复若干次的字符串</td>
+<td style="text-align: left;">a * b 输出结果 210</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">/</td>
+<td style="text-align: left;">除 - x 除以 y</td>
+<td style="text-align: left;">b / a 输出结果 2.1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">%</td>
+<td style="text-align: left;">取模 - 返回除法的余数</td>
+<td style="text-align: left;">b % a 输出结果 1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">**</td>
+<td style="text-align: left;">幂 - 返回x的y次幂</td>
+<td style="text-align: left;">a**b 为10的21次方</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">//</td>
+<td style="text-align: left;">取整除 - 向下取接近除数的整数</td>
+<td
+style="text-align: left;"><code>&gt;&gt;&gt; 9//2 4 &gt;&gt;&gt; -9//2 -5</code></td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 算术运算符</span></span><br><span class="line">a = <span class="number">10</span></span><br><span class="line">b = <span class="number">21</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;a+b=&quot;</span>, a+b)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;a-b=&quot;</span>, a-b)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;a*b=&quot;</span>, a*b)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;b/a=&quot;</span>, b/a)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;b%a=&quot;</span>, b%a)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;a**b=&quot;</span>, a**b)</span><br><span class="line"><span class="built_in">print</span>(<span class="number">9</span>//<span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(-<span class="number">9</span>//<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">a+b= 31</span><br><span class="line">a-b= -11</span><br><span class="line">a*b= 210</span><br><span class="line">b/a= 2.1</span><br><span class="line">b%a= 1</span><br><span class="line">a**b= 1000000000000000000000</span><br><span class="line">4</span><br><span class="line">-5</span><br></pre></td></tr></table></figure>
+<h2 id="比较运算符">比较运算符</h2>
+<table>
+<colgroup>
+<col style="width: 6%" />
+<col style="width: 68%" />
+<col style="width: 24%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">运算符</th>
+<th style="text-align: left;">描述</th>
+<th style="text-align: left;">实例</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">==</td>
+<td style="text-align: left;">等于 - 比较对象是否相等</td>
+<td style="text-align: left;">(a == b) 返回 False。</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">!=</td>
+<td style="text-align: left;">不等于 - 比较两个对象是否不相等</td>
+<td style="text-align: left;">(a != b) 返回 True。</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">&gt;</td>
+<td style="text-align: left;">大于 - 返回x是否大于y</td>
+<td style="text-align: left;">(a &gt; b) 返回 False。</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">&lt;</td>
+<td style="text-align: left;">小于 -
+返回x是否小于y。所有比较运算符返回1表示真，返回0表示假。这分别与特殊的变量True和False等价。注意，这些变量名的大写。</td>
+<td style="text-align: left;">(a &lt; b) 返回 True。</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">&gt;=</td>
+<td style="text-align: left;">大于等于 - 返回x是否大于等于y。</td>
+<td style="text-align: left;">(a &gt;= b) 返回 False。</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">&lt;=</td>
+<td style="text-align: left;">小于等于 - 返回x是否小于等于y。</td>
+<td style="text-align: left;">(a &lt;= b) 返回 True。</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 比较运算符</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;a==b:&quot;</span>, a==b)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;a!=b:&quot;</span>, a!=b)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;a&gt;b:&quot;</span>, a&gt;b)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;a&lt;b:&quot;</span>, a&lt;b)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;a&gt;=b:&quot;</span>, a&gt;=b)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;a&lt;=b:&quot;</span>, a&lt;=b)</span><br></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">a==b: False</span><br><span class="line">a!=b: True</span><br><span class="line">a&gt;b: False</span><br><span class="line">a&lt;b: True</span><br><span class="line">a&gt;=b: False</span><br><span class="line">a&lt;=b: True</span><br></pre></td></tr></table></figure>
+<h2 id="赋值运算符">赋值运算符</h2>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">运算符</th>
+<th style="text-align: left;">描述</th>
+<th style="text-align: left;">实例</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">=</td>
+<td style="text-align: left;">简单的赋值运算符</td>
+<td style="text-align: left;">c = a + b 将 a + b 的运算结果赋值为 c</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">+=</td>
+<td style="text-align: left;">加法赋值运算符</td>
+<td style="text-align: left;">c += a 等效于 c = c + a</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">-=</td>
+<td style="text-align: left;">减法赋值运算符</td>
+<td style="text-align: left;">c -= a 等效于 c = c - a</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">*=</td>
+<td style="text-align: left;">乘法赋值运算符</td>
+<td style="text-align: left;">c <em>= a 等效于 c = c </em> a</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">/=</td>
+<td style="text-align: left;">除法赋值运算符</td>
+<td style="text-align: left;">c /= a 等效于 c = c / a</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">%=</td>
+<td style="text-align: left;">取模赋值运算符</td>
+<td style="text-align: left;">c %= a 等效于 c = c % a</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">**=</td>
+<td style="text-align: left;">幂赋值运算符</td>
+<td style="text-align: left;">c <strong>= a 等效于 c = c </strong>
+a</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">//=</td>
+<td style="text-align: left;">取整除赋值运算符</td>
+<td style="text-align: left;">c //= a 等效于 c = c // a</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 赋值运算符</span></span><br><span class="line">c = a+b</span><br><span class="line"><span class="built_in">print</span>(c)</span><br><span class="line">c+=a</span><br><span class="line"><span class="built_in">print</span>(c)</span><br><span class="line">c-=a</span><br><span class="line"><span class="built_in">print</span>(c)</span><br><span class="line">c*=a</span><br><span class="line"><span class="built_in">print</span>(c)</span><br><span class="line">c/=a</span><br><span class="line"><span class="built_in">print</span>(c)</span><br><span class="line">c%=a</span><br><span class="line"><span class="built_in">print</span>(c)</span><br><span class="line">c=a</span><br><span class="line"><span class="built_in">print</span>(c)</span><br><span class="line">c//=a</span><br><span class="line"><span class="built_in">print</span>(c)</span><br></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">31</span><br><span class="line">41</span><br><span class="line">31</span><br><span class="line">310</span><br><span class="line">31.0</span><br><span class="line">1.0</span><br><span class="line">10</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+<h2 id="位运算符">位运算符</h2>
+<p>按位运算符是把数字看作二进制来进行计算的。<code>bin()</code>函数可以把数字转为二进制。</p>
+<p>Python中的按位运算法则如下：</p>
+<p>下表中变量 a 为 60，b 为 13二进制格式如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">a = 0011 <span class="number">1100</span></span><br><span class="line"></span><br><span class="line">b = <span class="number">0000</span> <span class="number">1101</span></span><br><span class="line"></span><br><span class="line">-----------------</span><br><span class="line"></span><br><span class="line">a&amp;b = <span class="number">0000</span> <span class="number">1100</span></span><br><span class="line"></span><br><span class="line">a|b = 0011 <span class="number">1101</span></span><br><span class="line"></span><br><span class="line">a^b = 0011 0001</span><br><span class="line"></span><br><span class="line">~a  = <span class="number">1100</span> 0011</span><br></pre></td></tr></table></figure>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 4%" />
+<col style="width: 47%" />
+<col style="width: 47%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">运算符</th>
+<th style="text-align: left;">描述</th>
+<th style="text-align: left;">实例</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">&amp;</td>
+<td
+style="text-align: left;">按位与运算符：参与运算的两个值,如果两个相应位都为1,则该位的结果为1,否则为0</td>
+<td style="text-align: left;">(a &amp; b) 输出结果 12 ，二进制解释：
+0000 1100</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">|</td>
+<td
+style="text-align: left;">按位或运算符：只要对应的二个二进位有一个为1时，结果位就为1。</td>
+<td style="text-align: left;">(a | b) 输出结果 61 ，二进制解释： 0011
+1101</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">^</td>
+<td
+style="text-align: left;">按位异或运算符：当两对应的二进位相异时，结果为1</td>
+<td style="text-align: left;">(a ^ b) 输出结果 49 ，二进制解释： 0011
+0001</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">~</td>
+<td
+style="text-align: left;">按位取反运算符：对数据的每个二进制位取反,即把1变为0,把0变为1。<strong>~x</strong>
+类似于 <strong>-x-1</strong></td>
+<td style="text-align: left;">(~a ) 输出结果 -61 ，二进制解释： 1100
+0011， 在一个有符号二进制数的补码形式。</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">&lt;&lt;</td>
+<td
+style="text-align: left;">左移动运算符：运算数的各二进位全部左移若干位，由"&lt;&lt;"右边的数指定移动的位数，高位丢弃，低位补0。</td>
+<td style="text-align: left;">a &lt;&lt; 2 输出结果 240 ，二进制解释：
+1111 0000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">&gt;&gt;</td>
+<td
+style="text-align: left;">右移动运算符：把"&gt;&gt;"左边的运算数的各二进位全部右移若干位，"&gt;&gt;"右边的数指定移动的位数</td>
+<td style="text-align: left;">a &gt;&gt; 2 输出结果 15 ，二进制解释：
+0000 1111</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 位运算符</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">bin</span>(<span class="number">20</span>))</span><br><span class="line">a = <span class="number">60</span></span><br><span class="line">b = <span class="number">13</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;a = &quot;</span>, <span class="built_in">bin</span>(a), <span class="string">&quot;, b = &quot;</span>, <span class="built_in">bin</span>(b))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;a&amp;b =&quot;</span>,<span class="built_in">bin</span>(a&amp;b))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;a|b =&quot;</span>,<span class="built_in">bin</span>(a|b))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;a^b =&quot;</span>,<span class="built_in">bin</span>(a^b))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;~a =&quot;</span>,<span class="built_in">bin</span>(~a))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;a&lt;&lt;2 = &quot;</span>,<span class="built_in">bin</span>(a&lt;&lt;<span class="number">2</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;a&gt;&gt;2 = &quot;</span>,<span class="built_in">bin</span>(a&gt;&gt;<span class="number">2</span>))</span><br></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">0b10100</span><br><span class="line">a =  0b111100 , b =  0b1101</span><br><span class="line">a&amp;b = 0b1100</span><br><span class="line">a|b = 0b111101</span><br><span class="line">a^b = 0b110001</span><br><span class="line">~a = -0b111101</span><br><span class="line">a&lt;&lt;2 =  0b11110000</span><br><span class="line">a&gt;&gt;2 =  0b1111</span><br></pre></td></tr></table></figure>
+<h2 id="逻辑运算符">逻辑运算符</h2>
+<p>Python语言支持逻辑运算符，以下假设变量 a 为 10, b为 20:</p>
+<table>
+<colgroup>
+<col style="width: 6%" />
+<col style="width: 10%" />
+<col style="width: 60%" />
+<col style="width: 23%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">运算符</th>
+<th style="text-align: left;">逻辑表达式</th>
+<th style="text-align: left;">描述</th>
+<th style="text-align: left;">实例</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">and</td>
+<td style="text-align: left;">x and y</td>
+<td style="text-align: left;">布尔"与" - 如果 x 为 False，x and y 返回
+False，否则它返回 y 的计算值。</td>
+<td style="text-align: left;">(a and b) 返回 20。</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">or</td>
+<td style="text-align: left;">x or y</td>
+<td style="text-align: left;">布尔"或" - 如果 x 是 True，它返回 x
+的值，否则它返回 y 的计算值。</td>
+<td style="text-align: left;">(a or b) 返回 10。</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">not</td>
+<td style="text-align: left;">not x</td>
+<td style="text-align: left;">布尔"非" - 如果 x 为 True，返回 False
+。如果 x 为 False，它返回 True。</td>
+<td style="text-align: left;">not(a and b) 返回 False</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 逻辑运算符</span></span><br><span class="line">a = <span class="number">10</span></span><br><span class="line">b = <span class="number">20</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;a and b = &quot;</span>, a <span class="keyword">and</span> b)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;a or b = &quot;</span>, a <span class="keyword">or</span> b)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;not(a and b) = &quot;</span>, <span class="keyword">not</span>(a <span class="keyword">and</span> b))</span><br></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a and b =  20</span><br><span class="line">a or b =  10</span><br><span class="line">not(a and b) =  False</span><br></pre></td></tr></table></figure>
+<h2 id="python成员运算符">Python成员运算符</h2>
+<p>除了以上的一些运算符之外，Python还支持成员运算符，测试实例中包含了一系列的成员，包括字符串，列表或元组。</p>
+<table>
+<colgroup>
+<col style="width: 5%" />
+<col style="width: 50%" />
+<col style="width: 44%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">运算符</th>
+<th style="text-align: left;">描述</th>
+<th style="text-align: left;">实例</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">in</td>
+<td style="text-align: left;">如果在指定的序列中找到值返回
+True，否则返回 False。</td>
+<td style="text-align: left;">x 在 y 序列中 , 如果 x 在 y 序列中返回
+True。</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">not in</td>
+<td style="text-align: left;">如果在指定的序列中没有找到值返回
+True，否则返回 False。</td>
+<td style="text-align: left;">x 不在 y 序列中 , 如果 x 不在 y 序列中返回
+True。</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 成员运算符</span></span><br><span class="line">x = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>]</span><br><span class="line">y = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>]</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;x in y :&quot;</span>, x <span class="keyword">in</span> y)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;x not in y :&quot;</span>, x <span class="keyword">not</span> <span class="keyword">in</span> y)</span><br></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x in y : False</span><br><span class="line">x not in y : True</span><br></pre></td></tr></table></figure>
+<h2 id="身份运算符">身份运算符</h2>
+<p>身份运算符用于比较两个对象的存储单元</p>
+<table>
+<colgroup>
+<col style="width: 5%" />
+<col style="width: 39%" />
+<col style="width: 55%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">运算符</th>
+<th style="text-align: left;">描述</th>
+<th style="text-align: left;">实例</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">is</td>
+<td style="text-align: left;">is
+是判断两个标识符是不是引用自一个对象</td>
+<td style="text-align: left;"><strong>x is y</strong>, 类似
+<strong>id(x) == id(y)</strong> , 如果引用的是同一个对象则返回
+True，否则返回 False</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">is not</td>
+<td style="text-align: left;">is not
+是判断两个标识符是不是引用自不同对象</td>
+<td style="text-align: left;"><strong>x is not y</strong> ， 类似
+<strong>id(a) != id(b)</strong>。如果引用的不是同一个对象则返回结果
+True，否则返回 False。</td>
+</tr>
+</tbody>
+</table>
+<p><strong>注：</strong> <a
+target="_blank" rel="noopener" href="https://www.runoob.com/python/python-func-id.html">id()</a>
+函数用于获取对象内存地址。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 身份运算符</span></span><br><span class="line">x = <span class="number">10</span></span><br><span class="line">y = x</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;x is y:&quot;</span>, x <span class="keyword">is</span> y)</span><br><span class="line"></span><br><span class="line">x = <span class="number">10</span></span><br><span class="line">y = <span class="number">10</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;x is y:&quot;</span>, x <span class="keyword">is</span> y)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;id(x) == id(y)&quot;</span>, <span class="built_in">id</span>(x) == <span class="built_in">id</span>(y))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;x is not y:&quot;</span>, x <span class="keyword">is</span> <span class="keyword">not</span> y)</span><br><span class="line"><span class="built_in">id</span>(x)</span><br></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">x is y: True</span><br><span class="line">x is y: True</span><br><span class="line">id(x) == id(y) True</span><br><span class="line">x is not y: False</span><br><span class="line"></span><br><span class="line">4312793616</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>is 与 == 区别：</p>
+<p>is 用于判断两个变量引用对象是否为同一个， ==
+用于判断引用变量的值是否相等。</p>
+</blockquote>
+<h2 id="运算符优先级">运算符优先级</h2>
+<p>以下表格列出了从最高到最低优先级的所有运算符：</p>
+<table>
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 69%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">运算符</th>
+<th style="text-align: left;">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">**</td>
+<td style="text-align: left;">指数 (最高优先级)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">~ + -</td>
+<td style="text-align: left;">按位翻转, 一元加号和减号
+(最后两个的方法名为 +@ 和 -@)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">* / % //</td>
+<td style="text-align: left;">乘，除，取模和取整除</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">+ -</td>
+<td style="text-align: left;">加法减法</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">&gt;&gt; &lt;&lt;</td>
+<td style="text-align: left;">右移，左移运算符</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">&amp;</td>
+<td style="text-align: left;">位 'AND'</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">^ |</td>
+<td style="text-align: left;">位运算符</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">&lt;= &lt; &gt; &gt;=</td>
+<td style="text-align: left;">比较运算符</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">== !=</td>
+<td style="text-align: left;">等于运算符</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">= %= /= //= -= += *= **=</td>
+<td style="text-align: left;">赋值运算符</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">is is not</td>
+<td style="text-align: left;">身份运算符</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">in not in</td>
+<td style="text-align: left;">成员运算符</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">not and or</td>
+<td style="text-align: left;">逻辑运算符</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>注意：Pyhton3 已不支持 &lt;&gt; 运算符，可以使用 != 代替</p>
+</blockquote>
+<p>本教程相关代码<a
+target="_blank" rel="noopener" href="https://github.com/hivandu/AI_Cheats">可在此查看</a></p>
 <p>​</p>
 </div><div class="article-licensing box"><div class="licensing-title"><p>Python operators</p><p><a href="https://hivan.me/Python-operators/">https://hivan.me/Python-operators/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2023-07-30</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2023-07-31</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/Python/">Python</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" href="https://afdian.net/item/72907364008511ee904852540025c377" target="_blank" rel="noopener" data-type="afdian"><span class="icon is-small"><i class="fas fa-charging-station"></i></span><span>爱发电</span></a><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://www.buymeacoffee.com/hivandu" target="_blank" rel="noopener" data-type="buymeacoffee"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>送我杯咖啡</span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="paypal" onclick="document.getElementById(&#039;paypal-donate-form&#039;).submit()"><span class="icon is-small"><i class="fab fa-paypal"></i></span><span>Paypal</span></a><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" rel="noopener" id="paypal-donate-form"><input type="hidden" name="cmd" value="_donations"><input type="hidden" name="business" value="doo@hivan.me"><input type="hidden" name="currency_code" value="USD"></form><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/Digital-human-broadcasting/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">21. 尝试制作你自己的数字人进行播报</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/Introduction-to-Python-scripting/"><span class="level-item">2. 初识Python脚本</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
             this.page.url = 'https://hivan.me/Python-operators/';
