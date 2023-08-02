@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>卡尔曼滤波器的非数学介绍 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="如果你想查看的话，本文的代码可以在我的Github上查看。  卡尔曼滤波器非常巧妙。如果你从未听说过卡尔曼滤波器，那么一种非常直观（也可以说是还原）的思考方式就是将其视为一个漏斗，在这里你可以从多个嘈杂的信息源中获取信息，并将其浓缩为一个更精确的统计数据。"><meta property="og:type" content="blog"><meta property="og:title" content="卡尔曼滤波器的非数学介绍"><meta property="og:url" content="https://hivan.me/2023_8_3_Kalman/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="如果你想查看的话，本文的代码可以在我的Github上查看。  卡尔曼滤波器非常巧妙。如果你从未听说过卡尔曼滤波器，那么一种非常直观（也可以说是还原）的思考方式就是将其视为一个漏斗，在这里你可以从多个嘈杂的信息源中获取信息，并将其浓缩为一个更精确的统计数据。"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230803010908.png?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230803011007.png?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230803011011.png?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230803011016.png?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230803011025.png?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230803011027.png?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230803011030.png?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230803011033.png?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230803011036.png?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230803011039.png?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230803011041.png?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230803011044.png?imgNote"><meta property="article:published_time" content="2023-08-02T11:23:14.000Z"><meta property="article:modified_time" content="2023-08-02T17:20:14.450Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="Python"><meta property="article:tag" content="Math"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://qiniu.hivan.me/picGo/20230803010908.png?imgNote"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/2023_8_3_Kalman/"},"headline":"卡尔曼滤波器的非数学介绍","image":[],"datePublished":"2023-08-02T11:23:14.000Z","dateModified":"2023-08-02T17:20:14.450Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"如果你想查看的话，本文的代码可以在我的Github上查看。  卡尔曼滤波器非常巧妙。如果你从未听说过卡尔曼滤波器，那么一种非常直观（也可以说是还原）的思考方式就是将其视为一个漏斗，在这里你可以从多个嘈杂的信息源中获取信息，并将其浓缩为一个更精确的统计数据。"}</script><link rel="canonical" href="https://hivan.me/2023_8_3_Kalman/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2023-08-02T11:23:14.000Z" title="8/2/2023, 7:23:14 PM">2023-08-02</time>发表</span></div></div><h1 class="title is-3 is-size-4-mobile">卡尔曼滤波器的非数学介绍</h1><div class="content"><blockquote>
+<p>如果你想查看的话，本文的代码可以在我的<a
+target="_blank" rel="noopener" href="https://github.com/hivandu/AI_Cheats/blob/main/Python/Kalman.ipynb">Github</a>上查看。</p>
+</blockquote>
+<p>卡尔曼滤波器非常巧妙。如果你从未听说过卡尔曼滤波器，那么一种非常直观（也可以说是还原）的思考方式就是将其视为一个漏斗，在这里你可以从多个嘈杂的信息源中获取信息，并将其浓缩为一个更精确的统计数据。</p>
+<span id="more"></span>
+<p>如果这一切听起来含糊不清，请不要担心。稍后，我们将把这句话剥离成一个更容易理解的例子，希望能进一步加深我们的直觉。要研究和推理卡尔曼滤波器，没有比数学更好的工具了。但同样，卡尔曼滤波器的基础数学具有挑战性，包含线性代数、概率论和微积分等内容。因此，并非所有人都能轻松掌握。这篇文章的目的就是希望为你提供一个易于理解的直观印象，或许能促使你自己深入研究这个问题。现在，让我们开始吧，同时牢记这一点："以下内容仅提供直觉，可能并不完整"。</p>
+<p>让我们先问一句："为什么卡尔曼滤波器是必要的？对于这个问题，一个简单而又故意模糊的答案是：现实生活并不完美。请看这个激励性的例子：想象一艘船在一个维度上行驶，从港口出发（x=0）并行驶一段距离。这艘船的发动机被设定为为船提供一个恒定的速度，例如
+10 米/秒。</p>
+<figure>
+<img src="https://qiniu.hivan.me/picGo/20230803010908.png?imgNote"
+alt="img" />
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>我们首先要问的问题是，在离开港口 2
+秒钟后，船到底在哪里？很自然，你会说船离港口的距离是
+2<em>10=20m，因为毕竟距离 = 速度 </em>
+时间。在理想世界里，这的确是正确的，根本不需要卡尔曼滤波器。但在现实世界中，情况绝非如此简单。首先，可能没有足够的发动机能够产生足够的力，使每个时间点的速度始终保持在
+10 米/秒。当然，你可能会在某些时候获得 10.00001 的速度，或在其他时候获得
+9.99999 m/s 或介于两者之间的某个数字，但正如所说，99.99%
+的完美终究还是不完美。其次，即使你说你确实拥有这样一个完美的发动机，但当你施加一个精确测量的力时，你也不可能获得预期的完美速度。波浪运动可能会让你的船稍微慢一点，或者风可能会让它加速，或者谁也不知道什么东西会以什么方式对它产生影响。</p>
+<blockquote>
+<p>因此，仅仅通过测量你想要的位置，你永远无法确定你的船在哪里。</p>
+</blockquote>
+<p>那么，我们是否注定永远无法真正知道自己的位置呢？不尽然！这就是传感器的用武之地。想象一下，你，水手，随身携带一个全球定位系统。这样，GPS
+就能精确地告诉您在任何给定时刻的位置！事实上，你现在甚至不需要船的速度，因为无论船如何行驶，你的全球定位系统都能准确地告诉你所在的位置。问题解决了吗？就像我说的，不完全是。在现实中，传感器经常会出现错误，而且不可靠。也就是说，它们确实能告诉你你在哪里，但测量结果可能并不精确。因此，您的
+GPS 可能会告诉您，3 秒钟后您距离港口 29.998 米或 30.002
+米，甚至是距离港口 100
+米，但这种可能性极低。此外，您也无法确保传感器永远不会出现故障。以 GPS
+传感器为例。一旦你发现自己身处没有卫星覆盖的地区，它就会失灵。事实上，如果有一个传感器能保证永远不会离线，并能以任意的精确度测量出你想知道的信息，那就根本不需要卡尔曼滤波器了。</p>
+<p>有了这些，我们现在就可以回答为什么需要卡尔曼滤波器了。而答案与我们之前已经确定的并没有什么不同。卡尔曼滤波器是一个漏斗，它能接收两个或更多不完美、不可靠的信息源，并对你想知道的信息做出更准确的估计。在这个例子中，卡尔曼滤波器会把你在任何时间的速度估计值和
+GPS
+估计值（如果有的话）作为输入，然后给出比这两个信息加起来更准确的估计值！事实上，如果你有更多的信息来源，比如雷达或声纳，甚至是你目前在水中看到的鱼的种类，理论上你可以将这些测量结果结合起来，从而对你的位置做出更准确的估计。</p>
+<figure>
+<img src="https://qiniu.hivan.me/picGo/20230803011007.png?imgNote"
+alt="img" />
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>因此，现在的问题是，如果不使用这样的数学知识（摘自维基百科），我们如何理解卡尔曼滤波器的作用和原理？</p>
+<figure>
+<img src="https://qiniu.hivan.me/picGo/20230803011011.png?imgNote"
+alt="img" />
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>首先，我们假设船上没有一名乘客，而是有一千名乘客，每个人都有自己的
+GPS
+设备。现在，每位乘客都可以通过以下方式进行基于速度的估算，从而估算出自己的位置（进而估算出船的位置）：</p>
+<figure>
+<img src="https://qiniu.hivan.me/picGo/20230803011016.png?imgNote"
+alt="img" />
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">from random import gauss</span><br><span class="line">def new_position(last):</span><br><span class="line"> velocity = 10</span><br><span class="line"> wind = gauss(0, 2)</span><br><span class="line"> wave = gauss(0, 0.1)</span><br><span class="line"> return last + velocity + wind + wave</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注：有关高斯函数的可选但更完整的解释，请参阅下面的附录。目前，只需说明它会产生一个随机数（正数/负数），其顺序由第二个参数指示即可。</p>
+</blockquote>
+<p>从本质上讲，这 1000
+名乘客中的每一个人都是这样做的：取上一次已知的位置（在现在之前的时间），加上速度，并且知道风和水波会轻微地改变航向，再加上一些随机的估计波动。现在，如果这些乘客真的有估算风速和水速的好方法，他们就会使用它。但因为他们没有，所以只能用随机数来估计影响。实际上，现实生活中也是如此。我们不可能测量所有的东西，所以我们只能用一些简单的方法来估计它们，就像我们上面用平均值（0）和偏差参数（0.1
+和 2）所做的那样。</p>
+<p>现在我们进入卡尔曼滤波法的第二阶段，即测量。在这一阶段，所有乘客都知道，由于风噪和水噪的影响，他们对自己的状态（所处位置）只有不完全的了解，因此，他们会利用自己的传感器来改善自己的状态：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">def sensor(t):</span><br><span class="line"> if t == 3:</span><br><span class="line"> # oops, passing through a thunderstorm. GPS fluctuating!</span><br><span class="line"> sensor_noise = gauss(5, 10)</span><br><span class="line"> elif t == 6:</span><br><span class="line"> # uh-oh, satellite unavailable!</span><br><span class="line"> sensor_noise = gauss(-5, 10)</span><br><span class="line"> else:</span><br><span class="line"> sensor_noise = gauss(0, 1)</span><br><span class="line"> return true_position[t] + sensor_noise</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>请记住，传感器是一种不精确的设备，也就是说，它们返回的统计数据大多是正确的，在本例中就是变量
+true_position，但它们本身也有噪声，我们再次使用高斯函数随机生成的数字来模拟这种噪声。此外，我们在这里还模拟了传感器的不稳定性，即在某些情况下（t=3
+和
+t=6），由于某些因素传感器基本上是不可用的，而这些因素并非完全不可想象。因此，每位乘客在使用传感器时，实际上都会得到不同的测量结果。</p>
+<p>想象一下，这艘船现在离开港口，每秒行驶这些距离：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">true_position = [0, 9, 19.2, 28, 38.1, 48.5, 57.2, 66.2,</span><br><span class="line">                 77.5, 85, 95.2]</span><br></pre></td></tr></table></figure>
+<p>也就是说，船从港口出发（x=0），第一秒行驶 9 米，第二秒行驶 10.2
+米，最后到达 19.2
+米，以此类推。现在，乘客们的任务是利用他们所掌握的嘈杂且不可靠的测量数据，尽可能准确地预测出每一秒的不同位置。</p>
+<p>因此，在时间 t = 1 时，乘客可以通过上述函数得到这些读数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># 如果 t=0 时的新位置为 0，则 t=1 时的新位置为 0new_position(0) =&gt; 9.37 (error -0.37)# t = 1s 时的传感器读数sensor(1) =&gt; 8.98                (error +0.02)</span><br></pre></td></tr></table></figure>
+<p>所有乘客都是如此。现在的问题是，真相到底是什么？是我们的牛顿物理知识更可靠，还是
+GPS 传感器更可靠？在这种特殊情况下，由于我们已经知道船的真实位置距离
+true_position 变量 9
+米，答案可能是显而易见的，但情况并非总是如此。在这种情况下，为了将这两个独立的统计数据结合起来，我们实际上采用了一种非常简单的方法：取两者的平均值！在上面的例子中，我们可以得出以下结果</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">combined =&gt; (9.37+8.98)/2 =&gt; 9.17         (error -0.17)</span><br></pre></td></tr></table></figure>
+<p>请注意，在这个例子中，综合统计量的误差比单独的速度估计值要小，但比传感器估计值要差。但问题是，我们实际上可以做得比取平均值更好。考虑一下这样的情况：你知道你的传感器实际上是最先进的，而且非常可靠。这实际上意味着你应该更倾向于传感器的数据，而不是速度更新的数据。实际上，您可以通过使用加权平均值来做到这一点。请看这段代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">def combine(A, B, trustA, trustB):</span><br><span class="line"> total_trust = trustA + trustB</span><br><span class="line"> return (A * trustA + B * trustB) / total_trust</span><br></pre></td></tr></table></figure>
+<p>这就综合了 A 和 B
+来源的两个数字，但也考虑到了您对这些来源的信任程度。因此，如果您将其称为</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">combine(9.37, 8.98, 10, 1) =&gt; 9.33         (error -0.33)</span><br><span class="line">combine(9.37, 8.98, 1, 10) =&gt; 9.01         (error -0.01)</span><br></pre></td></tr></table></figure>
+<p>在第一次调用中，您对源 A（速度）的信任度远高于源 B（传感器），即 10
+比 1，因此得到的答案更倾向于源 A，即更接近
+9.37。这种基于信任的加权平均法是卡尔曼滤波器的核心，也是它的数据组合能力所在。</p>
+<p>但现在，我们遇到了一个新问题。哪个来源更可信，或者如何计算可信度？是应该优先考虑速度呢？还是应该优先考虑
+GPS
+测量结果？决定这一点的是偏差或方差指标。想想看，什么更值得信赖？是波动剧烈的信息源还是没有波动的信息源？试想一下，你收听
+10 个气象广播电台，其中 4 个告诉你会下雨，6
+个告诉你会是晴天。现在想象一下，你登录 10 个天气网站，其中 9
+个告诉你会下雨，1
+个告诉你会是晴天。哪个消息来源更可靠？你倾向于相信大多数气象广播电台告诉你的（晴天）？还是你倾向于相信天气网站告诉你的（下雨）？理性的做法是更倾向于网站的结论，因为许多网站的结论都是一致的，即它们的方差较小，而气象广播电台，至少在这个例子中，它们的结论似乎波动很大，所以也许不应该太相信。</p>
+<p>这样，完整的更新步骤就变成了这样：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">from statistics import variance</span><br><span class="line"></span><br><span class="line"># Find updated positions per passenger at t seconds</span><br><span class="line">def update(t, last):</span><br><span class="line"> velocity_updates = []</span><br><span class="line"> sensor_updates = []</span><br><span class="line"></span><br><span class="line"> for p in range(1000): # for each passenger</span><br><span class="line"> # new velocity update based on last known position</span><br><span class="line"> # for the passenger</span><br><span class="line"> velocity_updates.append(new_position(last[p]))</span><br><span class="line"> sensor_updates.append(sensor(t))</span><br><span class="line"> </span><br><span class="line"> # Calculate trust metrics for velocity and sensor measurements</span><br><span class="line"> # Remember that as fluctuation increases, trust decreases</span><br><span class="line"> # And vice-versa</span><br><span class="line"> fluctuation_velocity = variance(velocity_updates)</span><br><span class="line"> fluctuation_sensor = variance(sensor_updates)</span><br><span class="line"></span><br><span class="line"> # calculate trust</span><br><span class="line"> trust_velocity = 1/fluctuation_velocity</span><br><span class="line"> trust_sensor = 1/fluctuation_sensor</span><br><span class="line"></span><br><span class="line"> # combine these together for each passenger</span><br><span class="line"> combined = []</span><br><span class="line"> for p in range(1000):</span><br><span class="line"> combined.append(combine(A = velocity_updates[p],</span><br><span class="line"> B = sensor_updates[p],</span><br><span class="line"> trustA = trust_velocity,</span><br><span class="line"> trustB = trust_sensor))</span><br><span class="line"> # Sensor updates &amp; velocity updates returned for plotting purposes</span><br><span class="line"> return sensor_updates, velocity_updates, combined</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注：有关方差函数的更多信息，请参阅附录。现在，只需将其视为数字列表波动的度量。</p>
+</blockquote>
+<p>这段代码相对简单。对于每位乘客，它都会进行基于速度的噪声测量和基于传感器的噪声测量。根据所有乘客的这些测量结果，计算出每个测量结果的信任度指标，作为方差的倒数（因为方差增加，信任度降低），然后调用包含相关信任度参数的组合方法。值得注意的是，这里的每位乘客都在为自己进行位置更新。在这些单个更新结束后，可以根据所有乘客位置的平均值推断出船只本身的实际位置。</p>
+<p>我们使用以下代码来连接上述整个代码。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"># We&#x27;ll do a final plot using this list</span><br><span class="line">plot_data = []</span><br><span class="line"></span><br><span class="line">def update_plot(t, sensor, velocity, combined_position):</span><br><span class="line"> # add true position at this time</span><br><span class="line"> plot_data.append(&#123;&#x27;passenger&#x27;: &#x27;true&#x27;, &#x27;type&#x27;: &#x27;true&#x27;, &#x27;time&#x27;: t,</span><br><span class="line"> &#x27;position&#x27;: true_position[t]&#125;)</span><br><span class="line"> # for each passengers</span><br><span class="line"> for p in range(1000):</span><br><span class="line"> plot_data.append(&#123;&#x27;passenger&#x27;: p, &#x27;type&#x27;: &#x27;sensor&#x27;, &#x27;time&#x27;: t,</span><br><span class="line"> &#x27;position&#x27;: sensor[p]&#125;)</span><br><span class="line"> plot_data.append(&#123;&#x27;passenger&#x27;: p, &#x27;type&#x27;: &#x27;velocity&#x27;, &#x27;time&#x27;: t,</span><br><span class="line"> &#x27;position&#x27;: velocity[p]&#125;)</span><br><span class="line"> plot_data.append(&#123;&#x27;passenger&#x27;: p, &#x27;type&#x27;: &#x27;combined&#x27;, &#x27;time&#x27;: t,</span><br><span class="line"> &#x27;position&#x27;: combined_position[p]&#125;)</span><br><span class="line"></span><br><span class="line">update_plot(0, [0]*1000, [0]*1000, [0]*1000)</span><br><span class="line">estimated_positions = [0]*1000 # all estimates start from 0</span><br><span class="line">for t in range(1, 10): # ten seconds</span><br><span class="line"> _sensor, _velocity, estimated_positions = update(t, estimated_positions)</span><br><span class="line"> update_plot(t, _sensor, _velocity, estimated_positions)</span><br></pre></td></tr></table></figure>
+<p>update_plot
+函数只是做一些基本的簿记工作，以存储用于绘图的瞬时统计数据。这里的主要迭代只是最底层的
+for
+循环，它使用乘客当前的最佳估计值，在任何给定时间持续更新位置估计值。除此以外，代码基本上不言自明。</p>
+<p>使用 seaborn 库绘制的结果如下：</p>
+<figure>
+<img src="https://qiniu.hivan.me/picGo/20230803011025.png?imgNote"
+alt="img" />
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>由于目前的比例尺，这有点难以解析。让我们放大这两个区域，特别是 t=0.75
+至 t=1，即传感器正常工作时，以及 t=2 至 t=4 出现故障时。</p>
+<figure>
+<img src="https://qiniu.hivan.me/picGo/20230803011027.png?imgNote"
+alt="img" />
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<figure>
+<img src="https://qiniu.hivan.me/picGo/20230803011030.png?imgNote"
+alt="img" />
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<blockquote>
+<p>注：包络线指的是不确定性。线中的包络线越宽，我们对数字的不确定性就越大。</p>
+</blockquote>
+<p>在第一种情况下，正如您所看到的，所有 1000
+名乘客的综合位置估计值比单独的速度估计值要好（绿色），虽然在第一种情况下，我们的估计值确实比我们的传感器读数要差，但在第二种情况下，我们的估计值实际上比单独的故障传感器读数要好得多！这是因为卡尔曼滤波器会自动调整不可预见的波动造成的剧烈变化，并始终为我们提供合理可靠的指标。如下图所示，一旦我们的传感器恢复正常（t=4
+到
+t=5），卡尔曼滤波器就会再次偏向于传感器（由于传感器读数和真实值重叠太多，所以有点难看）。</p>
+<figure>
+<img src="https://qiniu.hivan.me/picGo/20230803011033.png?imgNote"
+alt="img" />
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>我相信你至少对卡尔曼滤波器的工作原理有了一些直观的了解。卡尔曼滤波器的实际理论基础同样引人入胜，如果你的工作需要，我鼓励你继续深入研究。与此同时，我希望这篇文章能证明，代码作为一种形式语言，能在多大程度上帮助人们对那些乍看之下令人生畏的概念产生直觉。我也希望能够通过简单的代码，向大家传授一些我认为很有吸引力的话题的更多见解。</p>
+<h3 id="高斯函数"><strong>高斯函数</strong></h3>
+<p>这里唯一需要知道的特殊函数是正态分布函数，即 gauss(0, 0.1) 和
+gauss(0,2)。简单地说，它给你一个随机数，这个数通常在 0
+附近（技术上正确的说法是以 0 为中心），而得到离 0
+更远的数的几率由第二个参数控制，即 2 和 0.1。</p>
+<p>因此，如果调用 gauss(0,0.1)，得到
+0.06、-0.07、-0.06、0.02、-0.23、-0.06、0.09
+等数字的可能性较大，顺序不分先后。</p>
+<p>而如果调用 gauss(0,2)，则更有可能得到
+1.05、1.03、-1.06、0.32、1.29、-0.40、-1.72 等数字，同样不分先后。</p>
+<p>直观地说，第二个参数也叫标准偏差，控制着测量值的波动程度。在上面的代码中，这意味着您通常会认为风的偏差过大（大风天？请注意下面直方图中偏差=2
+和偏差=0.1 所产生的数字的频率（特别注意 x
+轴）。虽然数字的范围有很大不同，但这两个直方图的形状看起来差不多。这种钟形分布被称为高斯分布、正态分布或钟形曲线分布，在自然界中经常出现。</p>
+<figure>
+<img src="https://qiniu.hivan.me/picGo/20230803011036.png?imgNote"
+alt="img" />
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<figure>
+<img src="https://qiniu.hivan.me/picGo/20230803011039.png?imgNote"
+alt="img" />
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<h3 id="方差"><strong>方差</strong></h3>
+<p>方差是衡量一致性的标准。也就是说，如果一致性好，方差就小，反之亦然。在上图中，由于
+x
+轴实际上是自动调整的，所以你无法完全看到方差。如果我们在相同的坐标轴限制内绘制上图中的直方图，就会得到如下结果：</p>
+<figure>
+<img src="https://qiniu.hivan.me/picGo/20230803011041.png?imgNote"
+alt="img" />
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<figure>
+<img src="https://qiniu.hivan.me/picGo/20230803011044.png?imgNote"
+alt="img" />
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>注意到第一张图片有多宽了吗？这是因为其中的数字变化很大。也就是说，你会发现其中有很多
+-2、2、0 和一些 4、-4。但在第二幅图中，你会发现很多 0、0.1、-0.1
+等，但你会发现-2、2
+等的数量会少很多。正确地说，第一个分布的方差（准确地说是
+4）大于第二个分布的方差（0.01）。有关方差的更多信息，请上网查阅。</p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>卡尔曼滤波器的非数学介绍</p><p><a href="https://hivan.me/2023_8_3_Kalman/">https://hivan.me/2023_8_3_Kalman/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2023-08-02</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2023-08-03</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/Python/">Python</a><a class="link-muted mr-2" rel="tag" href="/tags/Math/">Math</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" href="https://afdian.net/item/72907364008511ee904852540025c377" target="_blank" rel="noopener" data-type="afdian"><span class="icon is-small"><i class="fas fa-charging-station"></i></span><span>爱发电</span></a><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://www.buymeacoffee.com/hivandu" target="_blank" rel="noopener" data-type="buymeacoffee"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>送我杯咖啡</span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="paypal" onclick="document.getElementById(&#039;paypal-donate-form&#039;).submit()"><span class="icon is-small"><i class="fab fa-paypal"></i></span><span>Paypal</span></a><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" rel="noopener" id="paypal-donate-form"><input type="hidden" name="cmd" value="_donations"><input type="hidden" name="business" value="doo@hivan.me"><input type="hidden" name="currency_code" value="USD"></form><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/Modular-programming/"><span class="level-item">5. 模块化编程</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/2023_8_3_Kalman/';
+            this.page.identifier = '2023_8_3_Kalman/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">162</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">3</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">21</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI秘籍</span></span><span class="level-end"><span class="level-item tag">5</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-08-02T11:23:14.000Z">2023-08-02</time></p><p class="title"><a href="/2023_8_3_Kalman/">卡尔曼滤波器的非数学介绍</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-08-01T15:43:14.000Z">2023-08-01</time></p><p class="title"><a href="/Modular-programming/">5. 模块化编程</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/Python/">Python</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-08-01T08:15:43.000Z">2023-08-01</time></p><p class="title"><a href="/Python-process-control/">4. Python的流程控制</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/Python/">Python</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-07-31T10:10:12.000Z">2023-07-31</time></p><p class="title"><a href="/Python-operators/">3. Python3 运算符</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/Python/">Python</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-07-30T11:40:07.000Z">2023-07-30</time></p><p class="title"><a href="/Digital-human-broadcasting/">21. 尝试制作你自己的数字人进行播报</a></p><p class="categories"><a href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/">从零开始接触人工智能大模型</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2023 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
