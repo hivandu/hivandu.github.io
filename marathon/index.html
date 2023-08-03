@@ -32,7 +32,7 @@
   </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
 </head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-09-23T03:33:29.000Z" title="9/23/2021, 11:33:29 AM">2021-09-23</time>发表</span></div></div><h1 class="title is-3 is-size-4-mobile">「马拉松跑步数据</h1><div class="content"><p>先引入数据,准备进行分析</p>
 <span id="more"></span>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 引入数据</span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line">data = pd.read_csv(<span class="string">&#x27;~/data/cbcpv/marathon/marathon.csv&#x27;</span>)</span><br><span class="line">data.sample(<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 引入数据</span><br><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br>data = pd.read_csv(<span class="hljs-string">&#x27;~/data/cbcpv/marathon/marathon.csv&#x27;</span>)<br>data.sample(<span class="hljs-number">5</span>)<br></code></pre></td></tr></table></figure>
 <p><strong>OUT:</strong></p>
 <table>
 <thead>
@@ -90,21 +90,33 @@
 <li>final，全程所用时间，即最终成绩</li>
 </ul>
 <p>自然,要先了解下数据的具体情况</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">data.info()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出结果</span></span><br><span class="line">&lt;<span class="keyword">class</span> <span class="string">&#x27;pandas.core.frame.DataFrame&#x27;</span>&gt;</span><br><span class="line">RangeIndex: <span class="number">37250</span> entries, <span class="number">0</span> to <span class="number">37249</span></span><br><span class="line">Data columns (total <span class="number">4</span> columns):</span><br><span class="line"> <span class="comment">#   Column  Non-Null Count  Dtype </span></span><br><span class="line">---  ------  --------------  ----- </span><br><span class="line"> <span class="number">0</span>   age     <span class="number">37250</span> non-null  int64 </span><br><span class="line"> <span class="number">1</span>   gender  <span class="number">37250</span> non-null  <span class="built_in">object</span></span><br><span class="line"> <span class="number">2</span>   split   <span class="number">37250</span> non-null  <span class="built_in">object</span></span><br><span class="line"> <span class="number">3</span>   final   <span class="number">37250</span> non-null  <span class="built_in">object</span></span><br><span class="line">dtypes: int64(<span class="number">1</span>), <span class="built_in">object</span>(<span class="number">3</span>)</span><br><span class="line">memory usage: <span class="number">1.1</span>+ MB</span><br></pre></td></tr></table></figure>
-<p>可以看到并没缺失值, 不过<code>split</code>和<code>final</code>特征中的数据不实数字类型, 用字符串表示了所用时间长度, 所以我们需要进行转化:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">convert_time</span>(<span class="params">s</span>):</span><br><span class="line">    h,m,s=<span class="built_in">map</span>(<span class="built_in">int</span>, s.split(<span class="string">&#x27;:&#x27;</span>))</span><br><span class="line">    <span class="keyword">return</span> datetime.timedelta(hours=h, minutes=m, seconds=s)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python">data.info()<br><br><span class="hljs-comment"># 输出结果</span><br>&lt;<span class="hljs-keyword">class</span> <span class="hljs-string">&#x27;pandas.core.frame.DataFrame&#x27;</span>&gt;<br>RangeIndex: <span class="hljs-number">37250</span> entries, <span class="hljs-number">0</span> to <span class="hljs-number">37249</span><br>Data columns (total <span class="hljs-number">4</span> columns):<br> <span class="hljs-comment">#   Column  Non-Null Count  Dtype </span><br>---  ------  --------------  ----- <br> <span class="hljs-number">0</span>   age     <span class="hljs-number">37250</span> non-null  int64 <br> <span class="hljs-number">1</span>   gender  <span class="hljs-number">37250</span> non-null  <span class="hljs-built_in">object</span><br> <span class="hljs-number">2</span>   split   <span class="hljs-number">37250</span> non-null  <span class="hljs-built_in">object</span><br> <span class="hljs-number">3</span>   final   <span class="hljs-number">37250</span> non-null  <span class="hljs-built_in">object</span><br>dtypes: int64(<span class="hljs-number">1</span>), <span class="hljs-built_in">object</span>(<span class="hljs-number">3</span>)<br>memory usage: <span class="hljs-number">1.1</span>+ MB<br></code></pre></td></tr></table></figure>
+<p>可以看到并没缺失值,
+不过<code>split</code>和<code>final</code>特征中的数据不实数字类型,
+用字符串表示了所用时间长度, 所以我们需要进行转化:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> datetime<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">convert_time</span>(<span class="hljs-params">s</span>):<br>    h,m,s=<span class="hljs-built_in">map</span>(<span class="hljs-built_in">int</span>, s.split(<span class="hljs-string">&#x27;:&#x27;</span>))<br>    <span class="hljs-keyword">return</span> datetime.timedelta(hours=h, minutes=m, seconds=s)<br></code></pre></td></tr></table></figure>
 <p>使用完成的方法进行数据转换,我们从新读取一下数据:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">df=pd.read_csv(</span><br><span class="line">    <span class="string">&#x27;~/data/cbcpv/marathon/marathon.csv&#x27;</span>,</span><br><span class="line">    converters=&#123;</span><br><span class="line">        <span class="string">&#x27;split&#x27;</span>: convert_time,</span><br><span class="line">        <span class="string">&#x27;final&#x27;</span>: convert_time</span><br><span class="line">    &#125;</span><br><span class="line">)</span><br><span class="line">df.dtypes</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出结果</span></span><br><span class="line">age                 int64</span><br><span class="line">gender             <span class="built_in">object</span></span><br><span class="line">split     timedelta64[ns]</span><br><span class="line">final     timedelta64[ns]</span><br><span class="line">dtype: <span class="built_in">object</span></span><br></pre></td></tr></table></figure>
-<p>这次数据已经转换为<code>timedelta64</code>类型, 下面我们就要转化时间为整数, 一般的做法都是秒或者毫秒数:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">d = datetime.timedelta(hours=<span class="number">1</span>, minutes=<span class="number">0</span>, seconds=<span class="number">0</span>)</span><br><span class="line">df2 = pd.DataFrame(&#123;<span class="string">&#x27;time&#x27;</span>:[d]&#125;)</span><br><span class="line">df2.astype(<span class="built_in">int</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出结果</span></span><br><span class="line">             time</span><br><span class="line"><span class="number">0</span>    <span class="number">3600000000000</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python">df=pd.read_csv(<br>    <span class="hljs-string">&#x27;~/data/cbcpv/marathon/marathon.csv&#x27;</span>,<br>    converters=&#123;<br>        <span class="hljs-string">&#x27;split&#x27;</span>: convert_time,<br>        <span class="hljs-string">&#x27;final&#x27;</span>: convert_time<br>    &#125;<br>)<br>df.dtypes<br><br><span class="hljs-comment"># 输出结果</span><br>age                 int64<br>gender             <span class="hljs-built_in">object</span><br>split     timedelta64[ns]<br>final     timedelta64[ns]<br>dtype: <span class="hljs-built_in">object</span><br></code></pre></td></tr></table></figure>
+<p>这次数据已经转换为<code>timedelta64</code>类型,
+下面我们就要转化时间为整数, 一般的做法都是秒或者毫秒数:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">d = datetime.timedelta(hours=<span class="hljs-number">1</span>, minutes=<span class="hljs-number">0</span>, seconds=<span class="hljs-number">0</span>)<br>df2 = pd.DataFrame(&#123;<span class="hljs-string">&#x27;time&#x27;</span>:[d]&#125;)<br>df2.astype(<span class="hljs-built_in">int</span>)<br><br><span class="hljs-comment"># 输出结果</span><br>             time<br><span class="hljs-number">0</span>    <span class="hljs-number">3600000000000</span><br></code></pre></td></tr></table></figure>
 <p>我们看到的输出结果,是“纳秒“(ns)单位:</p>
 <p><span class="math display">\[1s=10^9ns\]</span></p>
 <p>我们还需要转化为秒:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">d=datetime.timedelta(hours=<span class="number">1</span>, minutes=<span class="number">0</span>, seconds=<span class="number">0</span>)</span><br><span class="line">df2=pd.DataFrame(&#123;<span class="string">&#x27;time&#x27;</span>:[d]&#125;)</span><br><span class="line">df2.astype(<span class="built_in">int</span>) * <span class="number">1e-9</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># out</span></span><br><span class="line">       time</span><br><span class="line"><span class="number">0</span>    <span class="number">3600.0</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">d=datetime.timedelta(hours=<span class="hljs-number">1</span>, minutes=<span class="hljs-number">0</span>, seconds=<span class="hljs-number">0</span>)<br>df2=pd.DataFrame(&#123;<span class="hljs-string">&#x27;time&#x27;</span>:[d]&#125;)<br>df2.astype(<span class="hljs-built_in">int</span>) * <span class="hljs-number">1e-9</span><br><br><span class="hljs-comment"># out</span><br>       time<br><span class="hljs-number">0</span>    <span class="hljs-number">3600.0</span><br></code></pre></td></tr></table></figure>
 <p>然后我们要讲<code>split</code>和<code>final</code>两个特征的数据进行转化</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">df[<span class="string">&#x27;split_sec&#x27;</span>]=df[<span class="string">&#x27;split&#x27;</span>].astype(<span class="built_in">int</span>) * <span class="number">1e-9</span></span><br><span class="line">df[<span class="string">&#x27;final_sec&#x27;</span>]=df[<span class="string">&#x27;final&#x27;</span>].astype(<span class="built_in">int</span>) * <span class="number">1e-9</span></span><br><span class="line">df.sample(<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">df[<span class="hljs-string">&#x27;split_sec&#x27;</span>]=df[<span class="hljs-string">&#x27;split&#x27;</span>].astype(<span class="hljs-built_in">int</span>) * <span class="hljs-number">1e-9</span><br>df[<span class="hljs-string">&#x27;final_sec&#x27;</span>]=df[<span class="hljs-string">&#x27;final&#x27;</span>].astype(<span class="hljs-built_in">int</span>) * <span class="hljs-number">1e-9</span><br>df.sample(<span class="hljs-number">5</span>)<br></code></pre></td></tr></table></figure>
 <p><strong>OUT:</strong></p>
 <table>
+<colgroup>
+<col style="width: 7%" />
+<col style="width: 5%" />
+<col style="width: 8%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 13%" />
+<col style="width: 13%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: right;"></th>
@@ -164,10 +176,11 @@
 </tr>
 </tbody>
 </table>
-<p>现在多了两个特征<code>split_sec</code>和<code>final_sec</code>, 都是以秒为单位的浮点数.</p>
+<p>现在多了两个特征<code>split_sec</code>和<code>final_sec</code>,
+都是以秒为单位的浮点数.</p>
 <h2 id="描述统计">描述统计</h2>
 <p>先了解数据:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df.describe()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df.describe()<br></code></pre></td></tr></table></figure>
 <p><strong>OUT:</strong></p>
 <table>
 <colgroup>
@@ -200,16 +213,20 @@
 <tr class="even">
 <td style="text-align: right;">mean</td>
 <td style="text-align: right;">40.697369</td>
-<td style="text-align: right;"><code>0 days 02:03:54.425664429</code></td>
-<td style="text-align: right;"><code>0 days 04:48:09.303597315</code></td>
+<td
+style="text-align: right;"><code>0 days 02:03:54.425664429</code></td>
+<td
+style="text-align: right;"><code>0 days 04:48:09.303597315</code></td>
 <td style="text-align: right;">7434.425664</td>
 <td>17289.303597</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">std</td>
 <td style="text-align: right;">10.220043</td>
-<td style="text-align: right;"><code>0 days 00:22:55.093889674</code></td>
-<td style="text-align: right;"><code>0 days 01:03:32.145345151</code></td>
+<td
+style="text-align: right;"><code>0 days 00:22:55.093889674</code></td>
+<td
+style="text-align: right;"><code>0 days 01:03:32.145345151</code></td>
 <td style="text-align: right;">1375.093890</td>
 <td>3812.145345</td>
 </tr>
@@ -256,39 +273,51 @@
 </tbody>
 </table>
 <p>居然年龄上最大的数据是86, 让我们看看特征的数据分布:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">%matplotlib inline</span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line">ax=sns.boxplot(x=df[<span class="string">&#x27;age&#x27;</span>])</span><br></pre></td></tr></table></figure>
-<figure>
-<img src="https://qiniu.hivan.me/picGo/20210923215638.png?imgNote" alt="image-20210923215638259" /><figcaption aria-hidden="true">image-20210923215638259</figcaption>
-</figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">%matplotlib inline<br><span class="hljs-keyword">import</span> seaborn <span class="hljs-keyword">as</span> sns<br>ax=sns.boxplot(x=df[<span class="hljs-string">&#x27;age&#x27;</span>])<br></code></pre></td></tr></table></figure>
+<p><img src="https://qiniu.hivan.me/picGo/20210923215638.png?imgNote"
+alt="image-20210923215638259" /></p>
 <p>这个箱线图反应了, 数据里确实有一些“离群值”.</p>
 <h2 id="数据分布">数据分布</h2>
-<p>研究下数据分布, 看看<code>split_sec</code>和<code>final_sec</code></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sns.displot(df[<span class="string">&#x27;split_sec&#x27;</span>])</span><br></pre></td></tr></table></figure>
-<figure>
-<img src="https://qiniu.hivan.me/picGo/20210923215655.png?imgNote" alt="image-20210923215655517" /><figcaption aria-hidden="true">image-20210923215655517</figcaption>
-</figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sns.displot(df[<span class="string">&#x27;final_sec&#x27;</span>])</span><br></pre></td></tr></table></figure>
-<figure>
-<img src="https://qiniu.hivan.me/picGo/20210923215712.png?imgNote" alt="image-20210923215712676" /><figcaption aria-hidden="true">image-20210923215712676</figcaption>
-</figure>
-<p>整体看来,两个特征下的数据都符合正态分布, 但是<code>final_sec</code>的分布图比较胖.</p>
+<p>研究下数据分布,
+看看<code>split_sec</code>和<code>final_sec</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">sns.displot(df[<span class="hljs-string">&#x27;split_sec&#x27;</span>])<br></code></pre></td></tr></table></figure>
+<p><img src="https://qiniu.hivan.me/picGo/20210923215655.png?imgNote"
+alt="image-20210923215655517" /></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">sns.displot(df[<span class="hljs-string">&#x27;final_sec&#x27;</span>])<br></code></pre></td></tr></table></figure>
+<p><img src="https://qiniu.hivan.me/picGo/20210923215712.png?imgNote"
+alt="image-20210923215712676" /></p>
+<p>整体看来,两个特征下的数据都符合正态分布,
+但是<code>final_sec</code>的分布图比较胖.</p>
 <p>这次我们把<code>gender</code>这个分类特征添加进来:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sns.violinplot(x=<span class="string">&#x27;gender&#x27;</span>, y=<span class="string">&#x27;final_sec&#x27;</span>, data=df)</span><br></pre></td></tr></table></figure>
-<figure>
-<img src="https://qiniu.hivan.me/picGo/20210923215730.png?imgNote" alt="image-20210923215729962" /><figcaption aria-hidden="true">image-20210923215729962</figcaption>
-</figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">sns.violinplot(x=<span class="hljs-string">&#x27;gender&#x27;</span>, y=<span class="hljs-string">&#x27;final_sec&#x27;</span>, data=df)<br></code></pre></td></tr></table></figure>
+<p><img src="https://qiniu.hivan.me/picGo/20210923215730.png?imgNote"
+alt="image-20210923215729962" /></p>
 <p>这些看到, 男性运动员在总体上还是比女性运动员要快一些.</p>
 <h2 id="寻找优秀的原因">寻找优秀的原因</h2>
-<p>跑马拉松或者了解这项运动的人都清楚, 运动员很关注整个赛程中前后半程的时间比较,好的选手是后半程用时和前半程近似. 因此, 我们来研究下, 这些运动员前后半程用时情况.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">g=sns.jointplot(<span class="string">&#x27;split_sec&#x27;</span>, <span class="string">&#x27;final_sec&#x27;</span>, data=df, kind=<span class="string">&#x27;hex&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制一条直线, 作为参考</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">g.ax_joint.plot(np.linspace(<span class="number">4000</span>, <span class="number">16000</span>), np.linspace(<span class="number">8000</span>, <span class="number">32000</span>), <span class="string">&#x27;:k&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<figure>
-<img src="https://qiniu.hivan.me/picGo/20210923215745.png?imgNote" alt="image-20210923215745469" /><figcaption aria-hidden="true">image-20210923215745469</figcaption>
-</figure>
-<p>横坐标是<code>splict_sec</code>特征, 即半程用时. 纵轴表示<code>final_sec</code>特征, 全程用时. 途中可以看出, 的确是越优秀的运动员,前半程用时越接近全程用时的一半, 甚至还有少数后半程跑的更快的.</p>
+<p>跑马拉松或者了解这项运动的人都清楚,
+运动员很关注整个赛程中前后半程的时间比较,好的选手是后半程用时和前半程近似.
+因此, 我们来研究下, 这些运动员前后半程用时情况.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">g=sns.jointplot(<span class="hljs-string">&#x27;split_sec&#x27;</span>, <span class="hljs-string">&#x27;final_sec&#x27;</span>, data=df, kind=<span class="hljs-string">&#x27;hex&#x27;</span>)<br><br><span class="hljs-comment"># 绘制一条直线, 作为参考</span><br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br>g.ax_joint.plot(np.linspace(<span class="hljs-number">4000</span>, <span class="hljs-number">16000</span>), np.linspace(<span class="hljs-number">8000</span>, <span class="hljs-number">32000</span>), <span class="hljs-string">&#x27;:k&#x27;</span>)<br></code></pre></td></tr></table></figure>
+<p><img src="https://qiniu.hivan.me/picGo/20210923215745.png?imgNote"
+alt="image-20210923215745469" /></p>
+<p>横坐标是<code>splict_sec</code>特征, 即半程用时.
+纵轴表示<code>final_sec</code>特征, 全程用时. 途中可以看出,
+的确是越优秀的运动员,前半程用时越接近全程用时的一半,
+甚至还有少数后半程跑的更快的.</p>
 <p>我们做个计算来深入研究下:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">df[<span class="string">&#x27;split_frac&#x27;</span>]=<span class="number">1</span>-<span class="number">2</span>*df[<span class="string">&#x27;split_sec&#x27;</span>]/df[<span class="string">&#x27;final_sec&#x27;</span>]</span><br><span class="line">df.sample(<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">df[<span class="hljs-string">&#x27;split_frac&#x27;</span>]=<span class="hljs-number">1</span>-<span class="hljs-number">2</span>*df[<span class="hljs-string">&#x27;split_sec&#x27;</span>]/df[<span class="hljs-string">&#x27;final_sec&#x27;</span>]<br>df.sample(<span class="hljs-number">5</span>)<br></code></pre></td></tr></table></figure>
 <p><strong>OUT:</strong></p>
 <table>
+<colgroup>
+<col style="width: 6%" />
+<col style="width: 5%" />
+<col style="width: 7%" />
+<col style="width: 22%" />
+<col style="width: 22%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 12%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: right;"></th>
@@ -355,29 +384,27 @@
 </tbody>
 </table>
 <p>用直方图再增加一个参考线来看看<code>split_frac</code>特征中的数据分布:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">sns.displot(df[<span class="string">&#x27;split_frac&#x27;</span>], kde=<span class="literal">False</span>)</span><br><span class="line"><span class="comment"># 垂直于 x 轴的直线，0 表示 x 轴位置</span></span><br><span class="line">plt.axvline(<span class="number">0</span>, color=<span class="string">&#x27;k&#x27;</span>, linestyle=<span class="string">&#x27;--&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<figure>
-<img src="https://qiniu.hivan.me/picGo/20210923215830.png?imgNote" alt="image-20210923215830370" /><figcaption aria-hidden="true">image-20210923215830370</figcaption>
-</figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br>sns.displot(df[<span class="hljs-string">&#x27;split_frac&#x27;</span>], kde=<span class="hljs-literal">False</span>)<br><span class="hljs-comment"># 垂直于 x 轴的直线，0 表示 x 轴位置</span><br>plt.axvline(<span class="hljs-number">0</span>, color=<span class="hljs-string">&#x27;k&#x27;</span>, linestyle=<span class="hljs-string">&#x27;--&#x27;</span>)<br></code></pre></td></tr></table></figure>
+<p><img src="https://qiniu.hivan.me/picGo/20210923215830.png?imgNote"
+alt="image-20210923215830370" /></p>
 <p>从这张图中, 更清晰的看到全体参赛者的运动安排.</p>
 <p>再来探究下不同特征之间的关系:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sns.pairplot(</span><br><span class="line">    data=df,</span><br><span class="line">    <span class="built_in">vars</span>=[<span class="string">&#x27;age&#x27;</span>,<span class="string">&#x27;split_sec&#x27;</span>,<span class="string">&#x27;final_sec&#x27;</span>,<span class="string">&#x27;split_frac&#x27;</span>],</span><br><span class="line">    hue=<span class="string">&#x27;gender&#x27;</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-<figure>
-<img src="https://qiniu.hivan.me/picGo/20210923215848.png?imgNote" alt="image-20210923215848042" /><figcaption aria-hidden="true">image-20210923215848042</figcaption>
-</figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">sns.pairplot(<br>    data=df,<br>    <span class="hljs-built_in">vars</span>=[<span class="hljs-string">&#x27;age&#x27;</span>,<span class="hljs-string">&#x27;split_sec&#x27;</span>,<span class="hljs-string">&#x27;final_sec&#x27;</span>,<span class="hljs-string">&#x27;split_frac&#x27;</span>],<br>    hue=<span class="hljs-string">&#x27;gender&#x27;</span><br>)<br></code></pre></td></tr></table></figure>
+<p><img src="https://qiniu.hivan.me/picGo/20210923215848.png?imgNote"
+alt="image-20210923215848042" /></p>
 <p>让我们来看下80岁选手的数量:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(df.age&gt;=<span class="number">80</span>).<span class="built_in">sum</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment"># OUT</span></span><br><span class="line"><span class="number">15</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">(df.age&gt;=<span class="hljs-number">80</span>).<span class="hljs-built_in">sum</span>()<br><br><span class="hljs-comment"># OUT</span><br><span class="hljs-number">15</span><br></code></pre></td></tr></table></figure>
 <p>下面, 我们划分下年龄段,看看各年龄段的成绩分布:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">df[<span class="string">&#x27;age_dec&#x27;</span>]=df[<span class="string">&#x27;age&#x27;</span>].<span class="built_in">map</span>(<span class="keyword">lambda</span> age: <span class="number">10</span>*(age//<span class="number">10</span>))</span><br><span class="line">sns.violinplot(</span><br><span class="line">    x=<span class="string">&#x27;age_dec&#x27;</span>, </span><br><span class="line">    y=<span class="string">&#x27;split_frac&#x27;</span>, </span><br><span class="line">    hue=<span class="string">&#x27;gender&#x27;</span>, </span><br><span class="line">    data=df, </span><br><span class="line">    split=<span class="literal">True</span>, </span><br><span class="line">    inner=<span class="string">&#x27;quartile&#x27;</span>, </span><br><span class="line">    palette=[<span class="string">&#x27;lightblue&#x27;</span>, <span class="string">&#x27;lightpink&#x27;</span>]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-<figure>
-<img src="https://qiniu.hivan.me/picGo/20210923215931.png?imgNote" alt="image-20210923215931464" /><figcaption aria-hidden="true">image-20210923215931464</figcaption>
-</figure>
-<p>看这张图, 我们发现,不同性别的运动员的<code>split_frac</code>特征数据分布中, 年龄越大,前后端的时间分布比相对集中.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python">df[<span class="hljs-string">&#x27;age_dec&#x27;</span>]=df[<span class="hljs-string">&#x27;age&#x27;</span>].<span class="hljs-built_in">map</span>(<span class="hljs-keyword">lambda</span> age: <span class="hljs-number">10</span>*(age//<span class="hljs-number">10</span>))<br>sns.violinplot(<br>    x=<span class="hljs-string">&#x27;age_dec&#x27;</span>, <br>    y=<span class="hljs-string">&#x27;split_frac&#x27;</span>, <br>    hue=<span class="hljs-string">&#x27;gender&#x27;</span>, <br>    data=df, <br>    split=<span class="hljs-literal">True</span>, <br>    inner=<span class="hljs-string">&#x27;quartile&#x27;</span>, <br>    palette=[<span class="hljs-string">&#x27;lightblue&#x27;</span>, <span class="hljs-string">&#x27;lightpink&#x27;</span>]<br>)<br></code></pre></td></tr></table></figure>
+<p><img src="https://qiniu.hivan.me/picGo/20210923215931.png?imgNote"
+alt="image-20210923215931464" /></p>
+<p>看这张图,
+我们发现,不同性别的运动员的<code>split_frac</code>特征数据分布中,
+年龄越大,前后端的时间分布比相对集中.</p>
 <p>再看看全程用时分布比较:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sns.violinplot(</span><br><span class="line">    x=<span class="string">&#x27;age_dec&#x27;</span>,</span><br><span class="line">    y=<span class="string">&#x27;final_sec&#x27;</span>,</span><br><span class="line">    hue=<span class="string">&#x27;gender&#x27;</span>,</span><br><span class="line">    data=df,</span><br><span class="line">    split=<span class="literal">True</span>,</span><br><span class="line">    inner=<span class="string">&#x27;quartile&#x27;</span>,</span><br><span class="line">    palette=[<span class="string">&#x27;lightblue&#x27;</span>, <span class="string">&#x27;lightpink&#x27;</span>]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-<figure>
-<img src="https://qiniu.hivan.me/picGo/20210923215947.png?imgNote" alt="image-20210923215947281" /><figcaption aria-hidden="true">image-20210923215947281</figcaption>
-</figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python">sns.violinplot(<br>    x=<span class="hljs-string">&#x27;age_dec&#x27;</span>,<br>    y=<span class="hljs-string">&#x27;final_sec&#x27;</span>,<br>    hue=<span class="hljs-string">&#x27;gender&#x27;</span>,<br>    data=df,<br>    split=<span class="hljs-literal">True</span>,<br>    inner=<span class="hljs-string">&#x27;quartile&#x27;</span>,<br>    palette=[<span class="hljs-string">&#x27;lightblue&#x27;</span>, <span class="hljs-string">&#x27;lightpink&#x27;</span>]<br>)<br></code></pre></td></tr></table></figure>
+<p><img src="https://qiniu.hivan.me/picGo/20210923215947.png?imgNote"
+alt="image-20210923215947281" /></p>
 <p>从30岁往后, 明显年纪越大,用时越长.</p>
 </div><div class="article-licensing box"><div class="licensing-title"><p>「马拉松跑步数据</p><p><a href="https://hivan.me/marathon/">https://hivan.me/marathon/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2021-09-23</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2023-06-02</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/Python/">Python</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" href="https://afdian.net/item/72907364008511ee904852540025c377" target="_blank" rel="noopener" data-type="afdian"><span class="icon is-small"><i class="fas fa-charging-station"></i></span><span>爱发电</span></a><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://www.buymeacoffee.com/hivandu" target="_blank" rel="noopener" data-type="buymeacoffee"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>送我杯咖啡</span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="paypal" onclick="document.getElementById(&#039;paypal-donate-form&#039;).submit()"><span class="icon is-small"><i class="fab fa-paypal"></i></span><span>Paypal</span></a><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" rel="noopener" id="paypal-donate-form"><input type="hidden" name="cmd" value="_donations"><input type="hidden" name="business" value="doo@hivan.me"><input type="hidden" name="currency_code" value="USD"></form><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/Titanic/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">「泰坦尼克」生存预测</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/elements_by_plotnine/"><span class="level-item">使用Plotnine制作元素周期表</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
             this.page.url = 'https://hivan.me/marathon/';

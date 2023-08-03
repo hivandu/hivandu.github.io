@@ -77,32 +77,26 @@ Google”就会启动各自平台的助手——这就是与音频相关的机�
 包。这是一个处理音频数据非常有用的包。我将生成一个梅尔光谱图，让您了解它们的外观。您可以在网上找到<a
 target="_blank" rel="noopener" href="https://librosa.org/doc/latest/index.html">librosa 文档。</a></p>
 <p>首先，通过从终端运行以下命令来安装 librosa 库：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install librosa</span><br></pre></td></tr></table></figure>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmake">pip <span class="hljs-keyword">install</span> librosa<br></code></pre></td></tr></table></figure>
 <p>然后，在您的笔记本中，您必须像这样简单地导入它：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> librosa</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Python"><span class="hljs-keyword">import</span> librosa<br></code></pre></td></tr></table></figure>
 <p>我们将使用与库捆绑在一起的一些数据来探索该库的一些基本功能。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">array, sampling_rate = librosa.load(librosa.ex(<span class="string">&quot;trumpet&quot;</span>))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Python">array, sampling_rate = librosa.load(librosa.ex(<span class="hljs-string">&quot;trumpet&quot;</span>))<br></code></pre></td></tr></table></figure>
 <p>我们可以看到<strong>librosa.load()</strong>方法返回一个音频数组以及喇叭声音的采样率。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> librosa.display</span><br><span class="line"></span><br><span class="line">plt.figure().set_figwidth(<span class="number">12</span>)</span><br><span class="line">librosa.display.waveshow(array, sr=sampling_rate)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs Python"><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><span class="hljs-keyword">import</span> librosa.display<br><br>plt.figure().set_figwidth(<span class="hljs-number">12</span>)<br>librosa.display.waveshow(array, sr=sampling_rate)<br></code></pre></td></tr></table></figure>
 <p>这会将音频数据值绘制成如下图：</p>
-<figure>
-<img src="https://qiniu.hivan.me/picGo/20230715150518.webp?imgNote"
-alt="”" />
-<figcaption aria-hidden="true">”</figcaption>
-</figure>
+<p><img src="https://qiniu.hivan.me/picGo/20230715150518.webp?imgNote"
+alt="”" /></p>
 <p>在 X 轴上，我们看到时间，在 Y
 轴上，我们看到剪辑的幅度。通过以下方式收听：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> IPython.display <span class="keyword">import</span> Audio <span class="keyword">as</span> aud</span><br><span class="line"></span><br><span class="line">aud(array, rate=<span class="number">16_000</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> IPython.display <span class="hljs-keyword">import</span> Audio <span class="hljs-keyword">as</span> aud<br><br>aud(array, rate=<span class="hljs-number">16_000</span>)<br></code></pre></td></tr></table></figure>
 <p>您可以在我为此博文创建的<a
 target="_blank" rel="noopener" href="https://colab.research.google.com/drive/1iU57okU8Ti0_p1XoinHaExygJE-QDsxv?usp=sharing">Colab
 笔记本</a>中聆听声音。</p>
 <p>使用 librosa 直接绘制梅尔谱图。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">S = librosa.feature.melspectrogram(y=array, sr=sampling_rate,</span><br><span class="line"></span><br><span class="line">					  n_mels=<span class="number">128</span>, fmax=<span class="number">8_000</span>)</span><br><span class="line"></span><br><span class="line">S_dB = librosa.power_to_db(S, ref=np.<span class="built_in">max</span>)</span><br><span class="line"></span><br><span class="line">plt.figure().set_figwidth(<span class="number">12</span>)</span><br><span class="line"></span><br><span class="line">librosa.display.specshow(S_dB, x_axis=<span class="string">&quot;time&quot;</span>,</span><br><span class="line"></span><br><span class="line">			     y_axis=<span class="string">&quot;mel&quot;</span>, sr=sampling_rate,</span><br><span class="line"></span><br><span class="line">			     fmax=<span class="number">8000</span>)</span><br><span class="line"></span><br><span class="line">plt.colorbar()</span><br></pre></td></tr></table></figure>
-<figure>
-<img src="https://qiniu.hivan.me/picGo/20230715150548.webp?imgNote"
-alt="”" />
-<figcaption aria-hidden="true">”</figcaption>
-</figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs Python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><br>S = librosa.feature.melspectrogram(y=array, sr=sampling_rate,<br><br>					  n_mels=<span class="hljs-number">128</span>, fmax=<span class="hljs-number">8_000</span>)<br><br>S_dB = librosa.power_to_db(S, ref=np.<span class="hljs-built_in">max</span>)<br><br>plt.figure().set_figwidth(<span class="hljs-number">12</span>)<br><br>librosa.display.specshow(S_dB, x_axis=<span class="hljs-string">&quot;time&quot;</span>,<br><br>			     y_axis=<span class="hljs-string">&quot;mel&quot;</span>, sr=sampling_rate,<br><br>			     fmax=<span class="hljs-number">8000</span>)<br><br>plt.colorbar()<br></code></pre></td></tr></table></figure>
+<p><img src="https://qiniu.hivan.me/picGo/20230715150548.webp?imgNote"
+alt="”" /></p>
 <p>我们使用梅尔谱图而不是其他表示形式，因为它比其他表示形式包含更多的信息——一条曲线中的频率和幅度。您可以访问有关
 Analytics Vidhya 的这篇精彩文章，了解有关频谱图的更多信息。</p>
 <p>这正是 Transformer 之前的音频 ML
@@ -113,35 +107,29 @@ Need》论文中介绍的那样，注意力机制成功地解决了与语言相�
 <p>音频的情况也是如此。仅存储特定时间间隔的值；这些功能足以听歌、看电影以及通过电话或互联网与我们自己交流。</p>
 <p>变压器也处理这些数据。</p>
 <p>就像NLP（自然语言处理）一样，我们可以根据不同的需求使用不同架构的Transformer。我们将使用编码器-解码器架构来完成我们的任务。</p>
-<figure>
-<img src="https://qiniu.hivan.me/picGo/20230715150555.webp?imgNote"
-alt="”" />
-<figcaption aria-hidden="true">”</figcaption>
-</figure>
+<p><img src="https://qiniu.hivan.me/picGo/20230715150555.webp?imgNote"
+alt="”" /></p>
 <p>如前所述，我们将在每个流程步骤中使用 Huggingface 库。您可以导航到
 Huggingface 数据集中心来查看音频数据集。我们将在这里计算的数据集是 MINDS
 数据集。它是来自不同语言的说话者的语音数据的数据集。数据集中的所有示例都带有完整注释。</p>
 <p>让我们加载数据集并对其进行一些探索。</p>
 <p>首先，安装 Huggingface 数据集库。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install datasets</span><br></pre></td></tr></table></figure>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmake">pip <span class="hljs-keyword">install</span> datasets<br></code></pre></td></tr></table></figure>
 <p>pip install
 确保我们下载的<strong>数据集</strong>库增加了对音频相关功能的支持。</p>
 <p>然后我们探索 MINDS 数据集。我强烈建议您浏览数据集的<a
 target="_blank" rel="noopener" href="https://huggingface.co/datasets/PolyAI/minds14">Huggingface
 页面</a>并阅读数据集卡。</p>
-<figure>
-<img src="https://qiniu.hivan.me/picGo/20230715151652.png?imgNote"
-alt="image-20230715151652853" />
-<figcaption aria-hidden="true">image-20230715151652853</figcaption>
-</figure>
+<p><img src="https://qiniu.hivan.me/picGo/20230715151652.png?imgNote"
+alt="image-20230715151652853" /></p>
 <p>在 Huggingface
 数据集页面上，您可以看到数据集具有非常相关的信息，例如任务、可用语言和使用数据集的许可证。</p>
 <p>现在我们将加载数据并了解更多信息。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> datasets <span class="keyword">import</span> load_dataset, Audio</span><br><span class="line"></span><br><span class="line">minds = load_dataset(<span class="string">&quot;PolyAI/minds14&quot;</span>, name=<span class="string">&quot;en-AU&quot;</span>,</span><br><span class="line">                     split=<span class="string">&quot;train&quot;</span>)</span><br><span class="line"></span><br><span class="line">minds = minds.cast_column(<span class="string">&quot;audio&quot;</span>, Audio(sampling_rate=<span class="number">16_000</span>))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs Python"><span class="hljs-keyword">from</span> datasets <span class="hljs-keyword">import</span> load_dataset, Audio<br><br>minds = load_dataset(<span class="hljs-string">&quot;PolyAI/minds14&quot;</span>, name=<span class="hljs-string">&quot;en-AU&quot;</span>,<br>                     split=<span class="hljs-string">&quot;train&quot;</span>)<br><br>minds = minds.cast_column(<span class="hljs-string">&quot;audio&quot;</span>, Audio(sampling_rate=<span class="hljs-number">16_000</span>))<br></code></pre></td></tr></table></figure>
 <p>请注意数据集的加载方式。名字在前，我们只对澳大利亚口音英语感兴趣，我们只对训练分组感兴趣。</p>
 <p>在输入训练或推理任务之前，我们希望所有音频数据具有相同的采样率。这是通过代码中的“Audio”方法完成的。</p>
 <p>我们可以研究个别例子，如下所示：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">example = minds[<span class="number">0</span>]</span><br><span class="line">example</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs Python">example = minds[<span class="hljs-number">0</span>]<br>example<br></code></pre></td></tr></table></figure>
 <p><em>{‘path’:
 ‘/root/.cache/huggingface/datasets/downloads/extracted/a19fbc5032eacf25eab0097832db7b7f022b42104fbad6bd5765527704a428b9/en-AU~PAY_BILL/response_4.wav’,‘audio’:
 {‘path’:
@@ -156,7 +144,7 @@ assist’,‘intent_class’: 13,</em></p>
 <p>这很容易理解。它是一个带有级别的 Python
 字典。我们已经存储了路径和采样率。查看字典中的<strong>转录键。</strong>当我们对自动语音识别感兴趣时，它包含标签。<code>[“audio”][“aray”]</code>包含我们将用于训练或推断的音频数据。</p>
 <p>我们可以轻松收听任何我们想要的音频示例。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> IPython.display <span class="keyword">import</span> Audio <span class="keyword">as</span> aud</span><br><span class="line"></span><br><span class="line">aud(example[<span class="string">&quot;audio&quot;</span>][<span class="string">&quot;array&quot;</span>], rate=<span class="number">16_000</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs Python"><span class="hljs-keyword">from</span> IPython.display <span class="hljs-keyword">import</span> Audio <span class="hljs-keyword">as</span> aud<br><br>aud(example[<span class="hljs-string">&quot;audio&quot;</span>][<span class="hljs-string">&quot;array&quot;</span>], rate=<span class="hljs-number">16_000</span>)<br></code></pre></td></tr></table></figure>
 <p><a
 target="_blank" rel="noopener" href="https://colab.research.google.com/drive/1iU57okU8Ti0_p1XoinHaExygJE-QDsxv?usp=sharing">您可以在Colab
 Notebook</a>中收听音频。</p>
@@ -164,11 +152,8 @@ Notebook</a>中收听音频。</p>
 <p>Huggingface hub
 有许多模型，可用于各种任务，如文本生成、摘要、情感分析、图像分类等。我们可以根据我们想要的任务对中心中的模型进行排序。我们的用例是语音到文本，我们将探索专门为此任务设计的模型。</p>
 <p>为此，您应该导航到https://huggingface.co/models，然后在左侧边栏上单击您想要的任务。在这里，您可以找到可以立即使用的模型，或者找到一个很好的候选模型来微调您的特定任务。</p>
-<figure>
-<img src="https://qiniu.hivan.me/picGo/20230715151434.png?imgNote"
-alt="image-20230715151434564" />
-<figcaption aria-hidden="true">image-20230715151434564</figcaption>
-</figure>
+<p><img src="https://qiniu.hivan.me/picGo/20230715151434.png?imgNote"
+alt="image-20230715151434564" /></p>
 <p>在上图中，我已经选择了自动语音识别作为任务，并且我得到了右侧列出的所有相关模型。</p>
 <p>注意不同的预训练模型。像 wav2vec2
 这样的一种架构可以有许多针对特定数据集进行微调的模型。</p>
@@ -180,11 +165,11 @@ target="_blank" rel="noopener" href="https://huggingface.co/facebook/wav2vec2-ba
 <p>之前，我们找到了任务所需的模型，现在我们将其与上一节中看到的 Pipeline
 方法一起使用。</p>
 <p>首先，安装 Huggingface 变压器库。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install transformers</span><br></pre></td></tr></table></figure>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmake">pip <span class="hljs-keyword">install</span> transformers<br></code></pre></td></tr></table></figure>
 <p>然后，导入 Pipeline 类并选择任务和模型。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> pipeline</span><br><span class="line"></span><br><span class="line">asr = pipeline(<span class="string">&quot;automatic-speech-recognition&quot;</span>,</span><br><span class="line"></span><br><span class="line">			   model=<span class="string">&quot;facebook/wav2vec2-base-960h&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(asr(example[<span class="string">&quot;audio&quot;</span>][<span class="string">&quot;example&quot;</span>])) <span class="comment"># example is one example from the dataset</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> pipeline<br><br>asr = pipeline(<span class="hljs-string">&quot;automatic-speech-recognition&quot;</span>,<br><br>			   model=<span class="hljs-string">&quot;facebook/wav2vec2-base-960h&quot;</span>)<br><br><span class="hljs-built_in">print</span>(asr(example[<span class="hljs-string">&quot;audio&quot;</span>][<span class="hljs-string">&quot;example&quot;</span>])) <span class="hljs-comment"># example is one example from the dataset</span><br></code></pre></td></tr></table></figure>
 <p>输出是：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#x27;text&#x27;: &#x27;I WOULD LIKE TO PAY MY ELECTRICITY BILL USING MY CAD CAN YOU PLEASE ASSIST&#x27;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs delphi"><span class="hljs-comment">&#123;&#x27;text&#x27;: &#x27;I WOULD LIKE TO PAY MY ELECTRICITY BILL USING MY CAD CAN YOU PLEASE ASSIST&#x27;&#125;</span><br></code></pre></td></tr></table></figure>
 <p>您可以看到这与我们上面看到的注释非常匹配。</p>
 <p>这样，您就可以从任何其他示例中得到推论。</p>
 <p>在本指南中，我介绍了音频数据处理和探索的基础知识以及音频机器学习的基础知识。在简要讨论用于音频机器学习的

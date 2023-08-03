@@ -35,7 +35,8 @@
 本文来自<a target="_blank" rel="noopener" href="http://www.zengrong.net/wp-trackback.php?p=109">zengrong</a>
 </p>
 <p>
-这应该是比较老的话题了，请参阅<a target="_blank" rel="noopener" href="http://dark.supercn.net/index.php/81/">Smilies in WP (wp中的表情)</a>
+这应该是比较老的话题了，请参阅<a target="_blank" rel="noopener" href="http://dark.supercn.net/index.php/81/">Smilies
+in WP (wp中的表情)</a>
 </p>
 <p>
 WordPress自带了二十多个表情符号:
@@ -45,22 +46,34 @@ WordPress自带了二十多个表情符号:
 </p>
 <span id="more"></span>
 <p>
-<br />方法也并不麻烦，首先下载<a target="_blank" rel="noopener" href="http://www.alexking.org/blog/2004/01/24/wp-grins-clickable-smilies-hack/"> WP-Grins</a>这个插件，按正常方式安装。由于此插件并不是针对2.0开发，因此要先修改一下。找到wp-grins.php中的下面这句（大约在34行）
+<br />方法也并不麻烦，首先下载<a target="_blank" rel="noopener" href="http://www.alexking.org/blog/2004/01/24/wp-grins-clickable-smilies-hack/">
+WP-Grins</a>这个插件，按正常方式安装。由于此插件并不是针对2.0开发，因此要先修改一下。找到wp-grins.php中的下面这句（大约在34行）
 </p>
 <blockquote>
 <p>
-<span class="math inline">\(grins .= &#39;&amp;lt;img src=&amp;quot;&#39;.get_settings(&#39;siteurl&#39;).&#39;/wp-images/smilies/&#39;.\)</span>grin.'" alt="'.<span class="math inline">\(tag.&#39;&amp;quot; onclick=&amp;quot;grin(\&#39;&#39;.\)</span>tag.'');"/&gt; ';
+<span class="math inline">\(grins .= &#39;&amp;lt;img
+src=&amp;quot;&#39;.get_settings(&#39;siteurl&#39;).&#39;/wp-images/smilies/&#39;.\)</span>grin.'"
+alt="'.<span class="math inline">\(tag.&#39;&amp;quot;
+onclick=&amp;quot;grin(\&#39;&#39;.\)</span>tag.'');"/&gt; ';
 </p>
 </blockquote>
 <p>
-将其中的“/wp-images/smilies/” <br />修改为“/wp-includes/images/smilies/”。
+将其中的“/wp-images/smilies/”
+<br />修改为“/wp-includes/images/smilies/”。
 </p>
 <p>
-安装后在插件管理器中激活它，然后编辑“/wp-admin/admin-functions.php”文件，搜索“ edToolbar();”，大约在1079行，找到下面这句
+安装后在插件管理器中激活它，然后编辑“/wp-admin/admin-functions.php”文件，搜索“
+edToolbar();”，大约在1079行，找到下面这句
 </p>
 <blockquote>
 <p>
-if (!strstr($_SERVER['HTTP_USER_AGENT'], 'Safari')) <br />echo ' <br />&lt;div id="quicktags"&gt; <br />&lt;script src="../wp-includes/js/quicktags.js" <br />type="text/javascript"&gt;&lt;/script&gt; <br />&lt;script type="text/javascript"&gt;if ( typeof tinyMCE == <br />"undefined" || tinyMCE.configs.length &lt; 1 ) edToolbar();&lt;/script&gt; <br />&lt;/div&gt; <br />';
+if (!strstr($_SERVER['HTTP_USER_AGENT'], 'Safari')) <br />echo '
+<br />&lt;div id="quicktags"&gt; <br />&lt;script
+src="../wp-includes/js/quicktags.js"
+<br />type="text/javascript"&gt;&lt;/script&gt; <br />&lt;script
+type="text/javascript"&gt;if ( typeof tinyMCE == <br />"undefined" ||
+tinyMCE.configs.length &lt; 1 ) edToolbar();&lt;/script&gt;
+<br />&lt;/div&gt; <br />';
 </p>
 </blockquote>
 <p>
@@ -68,7 +81,8 @@ if (!strstr($_SERVER['HTTP_USER_AGENT'], 'Safari')) <br />echo ' <br />&lt;div i
 </p>
 <blockquote>
 <p>
-if (function_exists("wp_grins")) { echo ""; wp_grins(); }    //zrong added
+if (function_exists("wp_grins")) { echo ""; wp_grins(); }    //zrong
+added
 </p>
 </blockquote>
 <p>
@@ -79,7 +93,9 @@ if (function_exists("wp_grins")) { echo ""; wp_grins(); }    //zrong added
 </p>
 <blockquote>
 <p>
-&lt;p&gt; <br />&lt;textarea class="textform" name="comment" id="comment" cols="100%"rows="10" tabindex="4"&gt;&lt;/textarea&gt; <br />&lt;/p&gt;
+&lt;p&gt; <br />&lt;textarea class="textform" name="comment"
+id="comment" cols="100%"rows="10" tabindex="4"&gt;&lt;/textarea&gt;
+<br />&lt;/p&gt;
 </p>
 </blockquote>
 <p>

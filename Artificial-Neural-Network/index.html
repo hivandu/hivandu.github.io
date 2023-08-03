@@ -38,29 +38,20 @@
 <ul>
 <li>它是在计算机上构建的大脑模拟。</li>
 </ul>
-<figure>
-<img src="https://qiniu.hivan.me/picGo/20230727113127.jpeg?imgNote"
-alt="神经网络结构" />
-<figcaption aria-hidden="true">神经网络结构</figcaption>
-</figure>
+<p><img src="https://qiniu.hivan.me/picGo/20230727113127.jpeg?imgNote"
+alt="神经网络结构" /></p>
 <p>神经网络，无论是生物的还是人工的，都由大量的简单单元和神经元组成，它们相互接收和传输信号。</p>
 <p>它由细胞体和连接神经元的导线组成。</p>
-<figure>
-<img src="https://qiniu.hivan.me/picGo/20230727113152.jpeg?imgNote"
-alt="神经结构" />
-<figcaption aria-hidden="true">神经结构</figcaption>
-</figure>
+<p><img src="https://qiniu.hivan.me/picGo/20230727113152.jpeg?imgNote"
+alt="神经结构" /></p>
 <p>用生物学语言来说 ：</p>
 <ul>
 <li>为神经元提供输入的电线称为树突。</li>
 <li>在某些情况下，神经元会向另一个神经元发送信号，这些向外发送信号的导线被称为轴突。</li>
 <li>轴突可能与一个或多个树突相连，这种交叉点称为突触。</li>
 </ul>
-<figure>
-<img src="https://qiniu.hivan.me/picGo/20230727113215.jpeg?imgNote"
-alt="生物神经网络结构" />
-<figcaption aria-hidden="true">生物神经网络结构</figcaption>
-</figure>
+<p><img src="https://qiniu.hivan.me/picGo/20230727113215.jpeg?imgNote"
+alt="生物神经网络结构" /></p>
 <p>这个过程会随着我们的成长而不断调整，这种 "调整
 "被称为记忆或学习。</p>
 <h2 id="什么是深度学习">什么是深度学习？</h2>
@@ -82,12 +73,8 @@ alt="生物神经网络结构" />
 <li><p>ANN
 由许多神经元组成，可以同时处理信息。这意味着，我们可以同时处理大量数据，从而提高了效率。</p></li>
 <li><p>神经元可以同时存储（就像内存一样）和处理信息，因此从存储器中检索数据不会有任何延迟，因而速度很快。</p>
-<figure>
-<img src="https://qiniu.hivan.me/picGo/20230727113344.jpeg?imgNote"
-alt="神经元 -&gt; 简单处理单元，也可以存储" />
-<figcaption aria-hidden="true">神经元 -&gt;
-简单处理单元，也可以存储</figcaption>
-</figure></li>
+<p><img src="https://qiniu.hivan.me/picGo/20230727113344.jpeg?imgNote"
+alt="神经元 -&gt; 简单处理单元，也可以存储" /></p></li>
 </ul>
 <p>是的，ANN 可以快速处理信息，但很难应用于
 "传统计算机"（单机处理），因为它一次只能完成一项任务。这就是 GPU
@@ -100,11 +87,8 @@ Unit）的缩写，它可以进行并行处理，而不是像传统计算机那�
 <h2 id="但是什么是权重">但是，什么是权重？</h2>
 <p>权重就像可调节的旋钮，决定着每个输入对最终输出的影响程度。</p>
 <p>例如，为了找到适当的平衡（数据），我们要给输入值加上适当的权重。</p>
-<figure>
-<img src="https://qiniu.hivan.me/picGo/20230727113429.jpeg?imgNote"
-alt="img" />
-<figcaption aria-hidden="true">img</figcaption>
-</figure>
+<p><img src="https://qiniu.hivan.me/picGo/20230727113429.jpeg?imgNote"
+alt="img" /></p>
 <p>因此，通过将每个输入值（神经元）与权重相乘并相加，我们就能实现
 "线性组合"。</p>
 <h2 id="线性组合公式">线性组合公式 ：</h2>
@@ -116,11 +100,8 @@ alt="img" />
 <p>计算公式：</p>
 <p>线性组合 = [截距 + Weight 1 × Input 1 + Weight 2 × Input 2 + Weight 3
 × Input 3 + Weight 4 × Input 4］</p>
-<figure>
-<img src="https://qiniu.hivan.me/picGo/20230727113525.jpeg?imgNote"
-alt="线性组合" />
-<figcaption aria-hidden="true">线性组合</figcaption>
-</figure>
+<p><img src="https://qiniu.hivan.me/picGo/20230727113525.jpeg?imgNote"
+alt="线性组合" /></p>
 <p><strong>问：请考虑以下表达式</strong></p>
 <p>10.0 + 5.4 × 8 + (-10.2) × 5 + (-0.1) × 22 + 101.4 × (-5) + 0.0 × 2 +
 12.0 × (-3) = -543.0</p>
@@ -134,38 +115,26 @@ alt="线性组合" />
 <ul>
 <li>为图像识别、自然语言处理等进行预测。</li>
 </ul>
-<figure>
-<img
+<p><img
 src="https://miro.medium.com/v2/resize:fit:700/1*VENgyOk30RPJ_BsN2tl84Q.jpeg"
-alt="将线性组合应用于激活函数" />
-<figcaption aria-hidden="true">将线性组合应用于激活函数</figcaption>
-</figure>
+alt="将线性组合应用于激活函数" /></p>
 <h2 id="激活函数示例">激活函数示例 ：</h2>
 <p>激活函数的一些示例如下</p>
 <ul>
 <li>识别函数：什么也不做，只输出线性组合（与线性回归相同，不提供任何新信息，因此很少使用）</li>
 </ul>
-<figure>
-<img src="https://qiniu.hivan.me/picGo/20230727114528.jpeg?imgNote"
-alt="确定功能" />
-<figcaption aria-hidden="true">确定功能</figcaption>
-</figure>
+<p><img src="https://qiniu.hivan.me/picGo/20230727114528.jpeg?imgNote"
+alt="确定功能" /></p>
 <ul>
 <li>步进功能：如果线性组合值大于 0，则通过信号，否则什么也不做</li>
 </ul>
-<figure>
-<img src="https://qiniu.hivan.me/picGo/20230727114550.jpeg?imgNote"
-alt="步进功能" />
-<figcaption aria-hidden="true">步进功能</figcaption>
-</figure>
+<p><img src="https://qiniu.hivan.me/picGo/20230727114550.jpeg?imgNote"
+alt="步进功能" /></p>
 <ul>
 <li>Sigmoid 函数：阶跃函数的 "软 "版本</li>
 </ul>
-<figure>
-<img src="https://qiniu.hivan.me/picGo/20230727114613.jpeg?imgNote"
-alt="Sigmoid 函数" />
-<figcaption aria-hidden="true">Sigmoid 函数</figcaption>
-</figure>
+<p><img src="https://qiniu.hivan.me/picGo/20230727114613.jpeg?imgNote"
+alt="Sigmoid 函数" /></p>
 <p>通过线性组合激活函数实现的神经元输出用于预测或决策。</p>
 <h2
 id="感知器--人工神经网络ann之母">"感知器--人工神经网络（ANN）之母"：</h2>
@@ -182,18 +151,12 @@ id="现在让我们回到神经网络的构建上来">"现在，让我们回到�
 <li>隐藏层：接收输入层的输出，并将自己的输出传递给下一层。</li>
 <li>输出层：产生网络的最终结果。例如，用于人脸识别的人的概率值。</li>
 </ul>
-<figure>
-<img src="https://qiniu.hivan.me/picGo/20230727114708.jpeg?imgNote"
-alt="网络架构" />
-<figcaption aria-hidden="true">网络架构</figcaption>
-</figure>
+<p><img src="https://qiniu.hivan.me/picGo/20230727114708.jpeg?imgNote"
+alt="网络架构" /></p>
 <p>为了在这些层中进行线性组合，我们应该能够找到合适的权重。</p>
 <h2 id="反向传播---找到合适的权重">反向传播 - 找到合适的权重 ：</h2>
-<figure>
-<img src="https://qiniu.hivan.me/picGo/20230727114735.jpeg?imgNote"
-alt="反向传播" />
-<figcaption aria-hidden="true">反向传播</figcaption>
-</figure>
+<p><img src="https://qiniu.hivan.me/picGo/20230727114735.jpeg?imgNote"
+alt="反向传播" /></p>
 <ul>
 <li>在过去（20 世纪 80
 年代之前），人们曾使用过感知器算法，但寻找权重需要花费大量时间。</li>
@@ -203,46 +166,28 @@ alt="反向传播" />
 <h2
 id="建立分类器对图像显示的是-x-还是-o-进行分类">建立分类器，对图像显示的是
 "X "还是 "O "进行分类</h2>
-<figure>
-<img src="https://qiniu.hivan.me/picGo/20230727114821.jpeg?imgNote"
-alt="X &amp; O 图像" />
-<figcaption aria-hidden="true">X &amp; O 图像</figcaption>
-</figure>
+<p><img src="https://qiniu.hivan.me/picGo/20230727114821.jpeg?imgNote"
+alt="X &amp; O 图像" /></p>
 <p>这里是一个 5 × 5 的网格，因此每幅图像由 25 个像素组成。阴影像素为
 1，其他空白像素为 0。</p>
-<figure>
-<img src="https://qiniu.hivan.me/picGo/20230727114834.jpeg?imgNote"
-alt="X" />
-<figcaption aria-hidden="true">X</figcaption>
-</figure>
-<figure>
-<img src="https://qiniu.hivan.me/picGo/20230727114843.jpeg?imgNote"
-alt="O" />
-<figcaption aria-hidden="true">O</figcaption>
-</figure>
+<p><img src="https://qiniu.hivan.me/picGo/20230727114834.jpeg?imgNote"
+alt="X" /></p>
+<p><img src="https://qiniu.hivan.me/picGo/20230727114843.jpeg?imgNote"
+alt="O" /></p>
 <p>现在，我们应该应用权重，其中在中心位置，权重假设为-1，而在近中心像素位置，权重假设为
 1：</p>
-<figure>
-<img src="https://qiniu.hivan.me/picGo/20230727114910.jpeg?imgNote"
-alt="权重" />
-<figcaption aria-hidden="true">权重</figcaption>
-</figure>
+<p><img src="https://qiniu.hivan.me/picGo/20230727114910.jpeg?imgNote"
+alt="权重" /></p>
 <p>因此，在这里，如果线性组合为负数，即激活度为零，则为
 "X"；如果为正数，则为 "O"。</p>
 <p><strong>对第一幅图像进行线性组合 ：</strong></p>
-<figure>
-<img src="https://qiniu.hivan.me/picGo/20230727114943.jpeg?imgNote"
-alt="负线性组合/零激活" />
-<figcaption aria-hidden="true">负线性组合/零激活</figcaption>
-</figure>
+<p><img src="https://qiniu.hivan.me/picGo/20230727114943.jpeg?imgNote"
+alt="负线性组合/零激活" /></p>
 <p><strong>(忽略 0 值权重，得到） -&gt; 1 × -1 = -1</strong></p>
 <p>因此，我们得到 "X”</p>
 <p><strong>对第二幅图像进行线性组合：</strong></p>
-<figure>
-<img src="https://qiniu.hivan.me/picGo/20230727115027.jpeg?imgNote"
-alt="正线性组合/正激活" />
-<figcaption aria-hidden="true">正线性组合/正激活</figcaption>
-</figure>
+<p><img src="https://qiniu.hivan.me/picGo/20230727115027.jpeg?imgNote"
+alt="正线性组合/正激活" /></p>
 <p><strong>(忽略 0 值权重，我们得到） -&gt; 1 × 1 + 1 × 1 + 1 × 1 + 1 ×
 1 = 4</strong> 因此我们得到 "O"</p>
 <p>到目前为止，我们已经了解了 -&gt;
@@ -259,11 +204,8 @@ alt="正线性组合/正激活" />
 </ul>
 <p>如果我们想使用传统方法检测图像或识别图像，它将使用图像中的像素位置来检测物体。因此，我们必须有一张相似的图像才能做到这一点，但对于卷积神经网络来说，这并非必要。</p>
 <p>例如，我们有一张位于图像中心的停车标志的训练图像，然后我们会得到一张测试图像，该图像的右上角有一个停车标志。由于训练图像和测试图像的像素值和位置不同，因此无法使用感知器进行检测。不过，通过使用卷积神经网络，它可以成功检测出图像中任何位置的停车标志。</p>
-<figure>
-<img src="https://qiniu.hivan.me/picGo/20230727115124.jpeg?imgNote"
-alt="停车标志" />
-<figcaption aria-hidden="true">停车标志</figcaption>
-</figure>
+<p><img src="https://qiniu.hivan.me/picGo/20230727115124.jpeg?imgNote"
+alt="停车标志" /></p>
 <h2 id="生成式人工智能generative-ai">生成式人工智能（Generative
 AI）：</h2>
 <p>生成式人工智能是人工智能的一种，可以生成文本、图像、音频和合成数据等各种类型的内容。</p>
@@ -275,11 +217,8 @@ AI）：</h2>
 </ul>
 <p><strong>判别模型用于通过标注数据的训练进行分类或预测。</strong></p>
 <p><strong>生成模型用于生成新数据，如预测序列中的下一个单词。</strong></p>
-<figure>
-<img src="https://qiniu.hivan.me/picGo/20230727115157.jpeg?imgNote"
-alt="DM（直接法）和 GM（生成法）" />
-<figcaption aria-hidden="true">DM（直接法）和 GM（生成法）</figcaption>
-</figure>
+<p><img src="https://qiniu.hivan.me/picGo/20230727115157.jpeg?imgNote"
+alt="DM（直接法）和 GM（生成法）" /></p>
 <h2 id="生成对抗网络gan">生成对抗网络（GAN）：</h2>
 <p>其原理是让两个神经网络相互竞争。</p>
 <ul>
@@ -287,11 +226,8 @@ alt="DM（直接法）和 GM（生成法）" />
 <li>另一个网络将对生成的图像和训练图像进行分类。</li>
 </ul>
 <p>这样做是为了生成逼真的图像。</p>
-<figure>
-<img src="https://qiniu.hivan.me/picGo/20230727115234.jpeg?imgNote"
-alt="伪造名人图像" />
-<figcaption aria-hidden="true">伪造名人图像</figcaption>
-</figure>
+<p><img src="https://qiniu.hivan.me/picGo/20230727115234.jpeg?imgNote"
+alt="伪造名人图像" /></p>
 <p><strong>上述图像由英伟达公司开发的 GAN 生成。</strong></p>
 <p>将人工智能应用于现实问题比解决谜题和游戏更具挑战性。在现实世界的场景中，可能出现的状态数量之多令人目不暇接，使得穷举式搜索或巧妙的启发式方法无法奏效。此外，由于我们无法控制的因素，行动的结果并不总是可以预测的，这就引入了随机性。为了解决这些复杂问题，我们需要将不确定性和概率的概念纳入算法，同时利用先进的神经网络，使我们能够有效地解决现实世界中的人工智能问题。</p>
 <p>康康康康恐龙康。最后，你已经掌握了基本的神经网络和高级神经网络的基本知识。</p>

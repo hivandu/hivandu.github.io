@@ -45,33 +45,21 @@
 <p>了开始学习本课程，您需要先注册一个可以使用 OpenAI 的 API
 的账号。您可以通过注册入口进行注册。目前，OpenAI
 尚未向中国大陆和香港地区开放，因此您需要自己寻找适当的解决方案进行注册。如果您有更好的解决方案，也欢迎在评论区分享。</p>
-<figure>
-<img src="https://qiniu.hivan.me/picGo/20230731151024.png?imgNote"
-alt="20230601162842" />
-<figcaption aria-hidden="true">20230601162842</figcaption>
-</figure>
+<p><img src="https://qiniu.hivan.me/picGo/20230731151024.png?imgNote"
+alt="20230601162842" /></p>
 <p>注册账号后，您需要点击右上角的账号，然后进入 "View API Keys" 页面管理
 API Keys。</p>
-<figure>
-<img src="https://qiniu.hivan.me/picGo/20230731151040.png?imgNote"
-alt="20230601162846" />
-<figcaption aria-hidden="true">20230601162846</figcaption>
-</figure>
+<p><img src="https://qiniu.hivan.me/picGo/20230731151040.png?imgNote"
+alt="20230601162846" /></p>
 <p>您可以点击下方的 "+Create new secret key" 来创建一个新的 API
 Key。</p>
-<figure>
-<img src="https://qiniu.hivan.me/picGo/20230731151100.png?imgNote"
-alt="img" />
-<figcaption aria-hidden="true">img</figcaption>
-</figure>
+<p><img src="https://qiniu.hivan.me/picGo/20230731151100.png?imgNote"
+alt="img" /></p>
 <p>您需要将此 API Key 存储在一个安全的位置，因为在后续的 OpenAI
 接口调用中，需要使用此 API Key。</p>
-<figure>
-<img
+<p><img
 src="https://hivan.me/Enter-the-door-of-AI-learn-to-communicate-with-it/20230601163125.png"
-alt="img" />
-<figcaption aria-hidden="true">img</figcaption>
-</figure>
+alt="img" /></p>
 <p>储存API Key留用这方便，我使用的是1Password，开了家庭版，很好用。</p>
 <p><img src="https://qiniu.hivan.me/picGo/20230601163133.png" /></p>
 <p>目前，OpenAI 为所有免费注册的用户提供了 5 美元（原来是 18
@@ -82,17 +70,11 @@ API，则需要考虑升级到付费账户。</p>
 Plus是两个支付系统，所以Plus并不等同于API
 配额，你需要绑定一张信用卡用于支付你的使用量。</p>
 <h4 id="未绑卡">未绑卡</h4>
-<figure>
-<img src="https://qiniu.hivan.me/picGo/20230731151352.png?imgNote"
-alt="img" />
-<figcaption aria-hidden="true">img</figcaption>
-</figure>
+<p><img src="https://qiniu.hivan.me/picGo/20230731151352.png?imgNote"
+alt="img" /></p>
 <h4 id="已绑卡">已绑卡</h4>
-<figure>
-<img src="https://qiniu.hivan.me/picGo/20230731151350.png?imgNote"
-alt="img" />
-<figcaption aria-hidden="true">img</figcaption>
-</figure>
+<p><img src="https://qiniu.hivan.me/picGo/20230731151350.png?imgNote"
+alt="img" /></p>
 <p>关于绑卡这个事，可以自己在网上搜索看，办法总比问题多。不要找我，虽然我有渠道，但是我的渠道很贵，到时候说我骗人钱我可说不清楚。</p>
 <h2 id="搭建环境">搭建环境</h2>
 <p>既然是开发API应用，那必然是需要开发环境的。如果你自己会，那就最好不过了，如果不是太熟悉，可以参考一下我这篇文章：</p>
@@ -100,31 +82,25 @@ alt="img" />
 <p>基本上，我们现在需要的是3.10
 的Python环境，还有Conda（我习惯用这个），然后在本地安装好Jupyter lab,
 如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">conda create --name gpt python=3.10</span><br><span class="line">conda activate gpt</span><br><span class="line">conda install -c conda-forge jupyterlab ipywidgets openai</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">conda create --name gpt python=3.10<br>conda activate gpt<br>conda install -c conda-forge jupyterlab ipywidgets openai<br></code></pre></td></tr></table></figure>
 <p>这一段命令的意思是创建一个名为 <code>gpt</code>的python
 3.10的开发环境，然后切换到这个环境里，再安装必要的包。</p>
 <p>在后面的使用过程中，当然你可以选择jupyter notebook,
 也可以和我一样，使用VSCode。</p>
-<figure>
-<img
+<p><img
 src="https://hivan.me/Enter-the-door-of-AI-learn-to-communicate-with-it/20230601163152.png"
-alt="img" />
-<figcaption aria-hidden="true">img</figcaption>
-</figure>
+alt="img" /></p>
 <p>当然，你也可以选择Colab，其实这也是一个Jupyterlab，如果你不想本地搭建环境，那就直接使用Colab吧，不过注意一点，需要科学上网。就算你本地有环境，我还是建议你有些事后使用Colab，能用到一些免费的GPU资源，我的M1没有好的显卡支持，很多时候还是需要上Colab。</p>
-<figure>
-<img
+<p><img
 src="https://hivan.me/Enter-the-door-of-AI-learn-to-communicate-with-it/20230601163156.png"
-alt="img" />
-<figcaption aria-hidden="true">img</figcaption>
-</figure>
+alt="img" /></p>
 <p>使用时候，记得要安装openAI的库，并且设置自己的API Key：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">!pip install openai</span><br><span class="line">%<span class="built_in">env</span> OPENAI_API_KEY=<span class="string">&quot;这里输入你的API Key&quot;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">!pip install openai<br>%<span class="hljs-built_in">env</span> OPENAI_API_KEY=<span class="hljs-string">&quot;这里输入你的API Key&quot;</span><br></code></pre></td></tr></table></figure>
 <h3 id="测试一下">测试一下</h3>
 <p>让我们现在开始依次写完这段代码，虽然截图内已经有了，但是还是让我们一步步来执行起来，这一段代码，并不是出自我之手，而且直接借鉴的徐文浩的代码：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> openai</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设定API Key和模型</span></span><br><span class="line">openai.api_key = <span class="string">&quot;输入你自己的代码&quot;</span></span><br><span class="line">COMPLETION_MODEL = <span class="string">&quot;text-davinci-003&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设定关键词和描述</span></span><br><span class="line">prompt = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">Consideration proudct : 工厂现货PVC充气青蛙夜市地摊热卖充气玩具发光蛙儿童水上玩具</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">1. Compose human readale product title used on Amazon in english within 20 words.</span></span><br><span class="line"><span class="string">2. Write 5 selling points for the products in Amazon.</span></span><br><span class="line"><span class="string">3. Evaluate a price range for this product in U.S.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Output the result in json format with three properties called title, selling_points and price_range</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 写一个调用方法</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_response</span>(<span class="params">prompt</span>):</span><br><span class="line">    completions = openai.Completion.create (</span><br><span class="line">        engine=COMPLETION_MODEL,</span><br><span class="line">        prompt=prompt,</span><br><span class="line">        max_tokens=<span class="number">512</span>,</span><br><span class="line">        n=<span class="number">1</span>,</span><br><span class="line">        stop=<span class="literal">None</span>,</span><br><span class="line">        temperature=<span class="number">0.0</span>,        </span><br><span class="line">    )</span><br><span class="line">    message = completions.choices[<span class="number">0</span>].text</span><br><span class="line">    <span class="keyword">return</span> message</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调用方法并打印最终结果</span></span><br><span class="line"><span class="built_in">print</span>(get_response(prompt))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> openai<br><span class="hljs-keyword">import</span> json<br><br><span class="hljs-comment"># 设定API Key和模型</span><br>openai.api_key = <span class="hljs-string">&quot;输入你自己的代码&quot;</span><br>COMPLETION_MODEL = <span class="hljs-string">&quot;text-davinci-003&quot;</span><br><br><span class="hljs-comment"># 设定关键词和描述</span><br>prompt = <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">Consideration proudct : 工厂现货PVC充气青蛙夜市地摊热卖充气玩具发光蛙儿童水上玩具</span><br><span class="hljs-string"></span><br><span class="hljs-string">1. Compose human readale product title used on Amazon in english within 20 words.</span><br><span class="hljs-string">2. Write 5 selling points for the products in Amazon.</span><br><span class="hljs-string">3. Evaluate a price range for this product in U.S.</span><br><span class="hljs-string"></span><br><span class="hljs-string">Output the result in json format with three properties called title, selling_points and price_range</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br><br><span class="hljs-comment"># 写一个调用方法</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_response</span>(<span class="hljs-params">prompt</span>):<br>    completions = openai.Completion.create (<br>        engine=COMPLETION_MODEL,<br>        prompt=prompt,<br>        max_tokens=<span class="hljs-number">512</span>,<br>        n=<span class="hljs-number">1</span>,<br>        stop=<span class="hljs-literal">None</span>,<br>        temperature=<span class="hljs-number">0.0</span>,        <br>    )<br>    message = completions.choices[<span class="hljs-number">0</span>].text<br>    <span class="hljs-keyword">return</span> message<br><br><span class="hljs-comment"># 调用方法并打印最终结果</span><br><span class="hljs-built_in">print</span>(get_response(prompt))<br></code></pre></td></tr></table></figure>
 <p>然后我们就可以看到返回了：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;title&quot;</span>: <span class="string">&quot;Glow-in-the-Dark Inflatable PVC Frog Night Market Hot Selling Water Toy for Kids&quot;</span>,</span><br><span class="line">    <span class="string">&quot;selling_points&quot;</span>: [</span><br><span class="line">        <span class="string">&quot;Made of durable PVC material&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Glow-in-the-dark design for night play&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Inflatable design for easy storage and transport&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Perfect for water play and outdoor activities&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Great gift for kids&quot;</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="string">&quot;price_range&quot;</span>: <span class="string">&quot;$10 - $20&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python">&#123;<br>    <span class="hljs-string">&quot;title&quot;</span>: <span class="hljs-string">&quot;Glow-in-the-Dark Inflatable PVC Frog Night Market Hot Selling Water Toy for Kids&quot;</span>,<br>    <span class="hljs-string">&quot;selling_points&quot;</span>: [<br>        <span class="hljs-string">&quot;Made of durable PVC material&quot;</span>,<br>        <span class="hljs-string">&quot;Glow-in-the-dark design for night play&quot;</span>,<br>        <span class="hljs-string">&quot;Inflatable design for easy storage and transport&quot;</span>,<br>        <span class="hljs-string">&quot;Perfect for water play and outdoor activities&quot;</span>,<br>        <span class="hljs-string">&quot;Great gift for kids&quot;</span><br>    ],<br>    <span class="hljs-string">&quot;price_range&quot;</span>: <span class="hljs-string">&quot;$10 - $20&quot;</span><br>&#125;<br></code></pre></td></tr></table></figure>
 <p>这段代码里面，我们调用了 OpenAI 的 Completion
 接口，然后向它提了一个需求，也就是为一个我在 1688
 上找到的中文商品名称做三件事情。</p>
@@ -153,9 +129,9 @@ AI 推理出来的，原来的中文标题里并没有这样的信息。</p>
 个卖点放在了一个数组里，方便你后续只选取其中的几个来用。返回的结果是
 JSON，这样方便了我们进一步利用返回结果。比如，我们就可以把这个结果解析之后存储到数据库里，然后展现给商品运营人员。</p>
 <p>接下来，我们再看一个其他的例子：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">prompt = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">Man Utd must win trophies, says Ten Hag ahead of League Cup final</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">请将上面这句话的人名提取出来，并用json的方式展示出来</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(get_response(prompt))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">prompt = <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">Man Utd must win trophies, says Ten Hag ahead of League Cup final</span><br><span class="hljs-string"></span><br><span class="hljs-string">请将上面这句话的人名提取出来，并用json的方式展示出来</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br><br><span class="hljs-built_in">print</span>(get_response(prompt))<br></code></pre></td></tr></table></figure>
 <p>得到输出结果：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;names&quot;</span>: [<span class="string">&quot;Ten Hag&quot;</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">&#123;<br>  <span class="hljs-string">&quot;names&quot;</span>: [<span class="hljs-string">&quot;Ten Hag&quot;</span>]<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>看出AI干了什么吗？其实从中文中你能知道我需要AI做什么，而他完完全全输出了我想要的。</p>
 <p>我们这里的两个例子，其实对应着很多不同的问题，其中就包括机器翻译、文本生成、知识推理、命名实体识别等等。在传统的机器学习领域，对于其中任何一个问题，都可能需要一个独立的机器学习模型。就算把这些模型都免费提供给你，把这些独立的机器学习模型组合到一起实现上面的效果，还需要海量的工程研发工作。没有一个数十人的团队，工作量根本看不到头。然而，OpenAI
 通过一个包含 1750
