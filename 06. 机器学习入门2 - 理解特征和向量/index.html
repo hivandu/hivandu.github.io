@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>06. 机器学习入门 2 - 理解特征和向量 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="[TOC]  Hi, 你好。我是茶桁。"><meta property="og:type" content="blog"><meta property="og:title" content="06. 机器学习入门 2 - 理解特征和向量"><meta property="og:url" content="https://hivan.me/06.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A82%20-%20%E7%90%86%E8%A7%A3%E7%89%B9%E5%BE%81%E5%92%8C%E5%90%91%E9%87%8F/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="[TOC]  Hi, 你好。我是茶桁。"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2023-10-06T23:30:00.000Z"><meta property="article:modified_time" content="2023-11-16T06:35:51.711Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/06.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A82%20-%20%E7%90%86%E8%A7%A3%E7%89%B9%E5%BE%81%E5%92%8C%E5%90%91%E9%87%8F/"},"headline":"06. 机器学习入门 2 - 理解特征和向量","image":[],"datePublished":"2023-10-06T23:30:00.000Z","dateModified":"2023-11-16T06:35:51.711Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"[TOC]  Hi, 你好。我是茶桁。"}</script><link rel="canonical" href="https://hivan.me/06.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A82%20-%20%E7%90%86%E8%A7%A3%E7%89%B9%E5%BE%81%E5%92%8C%E5%90%91%E9%87%8F/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2023-10-06T23:30:00.000Z" title="10/7/2023, 7:30:00 AM">2023-10-07</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a><span> / </span><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></span></div></div><h1 class="title is-3 is-size-4-mobile">06. 机器学习入门 2 - 理解特征和向量</h1><div class="content"><p>[TOC]</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231007182127.png"
+alt="茶桁的 AI 秘籍 06" /></p>
+<p>Hi, 你好。我是茶桁。</p>
+<span id="more"></span>
+<p>上一节课，咱们用一个案例引入了机器学习的话题，并跟大家讲了一下「动态规划」。</p>
+<p>那这节课，我们要真正进入机器学习。</p>
+<h2 id="机器学习初探">机器学习初探</h2>
+<p>在正式开始之前，我们来想这样一个问题：我为什么要先讲解「动态规划」，然后再引入机器学习呢？</p>
+<p>原因其实是这样：曾经有一度时间，差不多一九七几年开始，大概有三十四年，动态规划其实可以变成图和树的问题。计算机科学里，图和树其实是占主流的，人们去解决图像的分割，图像的分类，文本的识别，文本的分类问题，有很大一部分都会将其优化为图和树的问题去解决。包括上两节课中我们提到的李开复去解决语音识别的问题，也是拆分成语言树。</p>
+<p>为什么要优化成图和树来解决呢？因为这个技术在当时非常的成熟。但是，因为有了图和树，那么依照我们上一节的分析，树会继续向下细分成更小的树，也就是会形成子图。</p>
+<p>所以，人们就会发现，当我们将问题优化成图和树之后，再使用动态规划，就能让问题加速解决。也就是像我们上节课中所讲的一样。有时候，甚至不用动态规划都无法解决。</p>
+<p>可是动态规划是有局限的，当问题过度复杂的时候，使用动态规划也开始解决不了了。</p>
+<p>这个问题的一个非常经典的案例是一九九几年的时候，当时电子邮件开始兴起，也就催生了一个非常重要的产业，就是垃圾邮件。因为垃圾邮件成本很低，只要有一个服务器，然后不断的发送就可以了。</p>
+<p>比如邮件内容可以写：</p>
+<blockquote>
+<p>因为你经常上网，我获得了你的一些账户密码，我已经将你的一些见不得人的浏览记录都记录下来了，需要你在三天之内，向某个账户转多少多少钱，否则我将公布你的所有记录。</p>
+</blockquote>
+<p>我知道，你们肯定会有人觉得：这么弱智的诈骗邮件都能得逞啊？但其实是能得逞的，垃圾邮件不像诈骗电话，还需要人拨。当然，我知道现在诈骗电话都不需要人值守了，只要有一个电脑连上电话服务，然后
+AI 会自动打电话，通过 AI
+合成语音就可以。但是当时那个年代可没有这个，发邮件相对就简单很多，只需要有一个服务器在那不断的发送就行了。</p>
+<p>家在之前的数学课中应该都学过概率了。这里也就涉及到了一个概率问题，我发
+10000
+个邮件，哪怕只有一个人会上钩，那我也会挣钱。所以当时发送垃圾邮件是一个很大的产业。</p>
+<p>既然有人为这个东西所困扰，就会有人想着用通过正当的方式去挣钱。当时网易的
+163，还有美国最早的各种邮箱比如 Hotmail
+等等，都提供了一个功能是付费提供拦截垃圾邮件的功能。</p>
+<p>当时垃圾邮件可以多到整个互联网上收到的 99.8%
+的邮件都是垃圾邮件。如果不花钱，基本上都用不了邮箱，因为邮箱地址也是可以随机生成的。</p>
+<p>结果像什么 163，还有 Hotmail
+等等，要去攻克垃圾邮件，而垃圾邮件要去绕开他们的防锁，要能诈骗到钱。就进行了这样的反复的斗争。</p>
+<p>那这个时候的程序员是怎么做的呢？很简单，他们用的想法也是一样，就是要分析文字，分析语法，把它变成文字树，语法树，变成文本关系。</p>
+<p>我们想想，垃圾邮件规律是不是基本上找不到？只要找到一种规律它马上可以变。就算找到了一种规律，把它写成代码了，但是做垃圾邮件的人很快就可以攻克。</p>
+<p>当时人们就很头疼，完全没有办法。用这种分析的方法，用类似于动态规划等的分析方法解决不了。</p>
+<p>当时哈佛大学有一个老师用了一种方法，叫做基于统计的文本：贝叶斯分析方法，来判断一个邮件是不是垃圾邮件。</p>
+<p>他说，不要人工去定规则，不要人工去分析，去找规则。假如在这里找到 2
+万个垃圾邮件，然后现在来了一条新的邮件，我不知道内容，但是可以根据以前这
+2
+万个垃圾邮件，根据它里边的这个文本的内容，文字，看一下之前的垃圾邮件里出现的次数到底是多少，就可以进行贝叶斯分类。</p>
+<p>也就是说，里面的单词分别在垃圾邮件里出现了多少次，出现次数多不多等等。这个时候就可以给他一个概率，比方说是垃圾邮件的概率是
+0.7，非垃圾邮件的概率是 0.3，那就可以判定是垃圾邮件。</p>
+<p>在以前，人们都是写一个方法来判断是或不是，而现在则是变成了一种概率。</p>
+<p>结果人们就发现这样非常好做，这样做其实也做不到 100% 正确。虽然做不到
+100% 正确，但是可以做一个比较高的准确度，可以拦截大部分垃圾邮件。</p>
+<p>而且它可以自动更新，只要把这个程序放这，不断的有垃圾邮件进来，样本库越来越多，接下来再收到新的邮件，就能够知道这个是不是垃圾邮件了。</p>
+<p>当时大家还会融入统计分析方法，后来人们就发现根据原来的这些信息提炼出一些数据，让机器自动或半自动的提炼出一些信息，然后去预测新问题。这个过程就特别像小孩学习的时候，你给他很多知识他自己去学，学完之后去解决没有见过的问题。</p>
+<p>这种解决问题的方法，后来就叫做机器学习。我们就把解决这种问题的整个方法就叫做机器学习。</p>
+<p>之前的这一些内容，也就是咱们机器学习产生的背景。</p>
+<h2 id="特征和向量">特征和向量</h2>
+<p>对于整个世界上的所有东西来说，都是可以被量化的。在管理学上有一个东西叫做
+<code>if one thing cannot be measure， it cannot be managed</code>。就是一个事情如果不能被量化，它就不能被管理。</p>
+<p>在科学上其实也有一个，笛卡尔当年就说过，如果一个东西不能被量化，那么它就不能被分析。</p>
+<p>比方说一个人，要衡量这个人，要刻画这个人的特点，你可以给出特点。例如说身高一米
+73，月收入 18000。假如我们用 0 和 1 来表示，到底是男还是女，200910
+表示的可能是住址编码，28 可能是年龄。</p>
+<p>这个时候我们就会得到一个东西，如果我们把一位男士的信息抽象成这样一个向量。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231007181836.jpg" /></p>
+<p>假如有另外一个向量，这个向量我们把叫做 man2。如果 man2 和 man
+的向量的距离是接近的，我们就知道其实它里边的数值是接近的。因为它的向量的计算值比较小，意味着每一个对应的两个数字之间比较小。</p>
+<p>所以当我们把一个一个的对象能够量化，变成一个向量之后，我们就能够知道哪些向量之间是相似的，哪些对象之间是相似的。</p>
+<p>除此之外，不仅是人，还可以把邮件也处理一下。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231007181837.jpg" /></p>
+<p>假如说一封邮件里面包含了 213 个字符，包含了 1 个关键字，标题长度为
+27，0 个抄送地址。那么邮件也是可以向量化，各种东西都可以被向量化。</p>
+<p>向量化之后就可以有一个什么样的结果呢？假如存在一种函数： <span
+class="math display">\[
+\begin{align*}
+f_1 \begin{pmatrix}
+\overrightarrow {man}  = [
+\\ \\ 1.75 \\ \\ 18000 \\ \\ 1 \\ \\ 200910 \\ \\ 28 \\ \\
+]
+\end{pmatrix}
+\end{align*}
+\]</span></p>
+<p>我们来看上面这个式子，这一串数字代表的是我们现实生活中的一个对象。这个函数现在我们虽然不知道它是啥，但是我们知道输入一个向量给到一个函数，这个函数可以产生出不同的东西。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231007142100.png"
+alt="image-20231007142100435" /></p>
+<p>假如这个函数返回 0.75，或者是
+1.38，负一点几等等。只要是个连续的数字，属于
+R。这个函数就是一个回归函数，Regression。</p>
+<p>一个函数，它返回出来的只有 +1 和 -1，或者只有 0 和 1
+两种结果。我们就把它叫做二分类。</p>
+<p>如果返回 3 个值，这三个值加起来等于
+1，每一个表示的是某个东西的概率，那我们把这个叫做多分类。</p>
+<p>分类函数和回归函数是机器学习里边最典型的两个函数。</p>
+<p>分类函数大家好理解，它给出来的结果表示的是类别的概率。例如说是 1
+就表示可能是 a 类别，-1 可能是 b 类别。</p>
+<p>0.2、0.7、0.1 表示三类，第二类的概率最大。</p>
+<p>Regression，回归是什么意思呢？</p>
+<p>回归这个词当年其实是一个生物学概念，一个遗传学概念。指的是生物的下一代的特征会更偏向于群体的平均值。</p>
+<p>比方说姚明两米多，一个正常人的身高是 1 米
+75，那么姚明的儿子的身高大概率会向着 1 米 75
+这个方向变，而不会变得更高。也就是说姚明的儿子大概率会比姚明低。一个人个子特别矮，他儿子大概率呢会比爸爸高。这个就叫做回归现象。</p>
+<p>与此同时，其实在我们的整个职业发展中也有这样的情况。假如说一个人特别优秀，大概率他儿子不会像他那么优秀，生物学上把这个遗传线叫做回归。</p>
+<p>后来呢生物学家、包括心理学家就发现回归其实本质上是我们的平均值，整体趋势的平均值。所以当时统计学家也用了这个词，他们把群体趋势就叫做
+Regression，就叫做回归。</p>
+<p>后来在机器学习里，所谓的群体趋势其实就是，假设我们现在有这么多点：</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231007125558.svg" /></p>
+<p>现在这个群体的趋势假设是这样，我们拟合了一个函数
+f(x)（红色直线）。那么我们输入一个 f(x)
+输入到这条直线里面，就可以得到一个实数的输出，这样的过程就叫做
+Regression。</p>
+<p>当我们输入一个数字的时候，不仅可能会输出概率，可能还会输出一连串东西。</p>
+<p>例如我们现在是一个决策问题，输入了一个情况到一个函数里面，要预测接下来我们该怎么办。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231007142408.png"
+alt="image-20231007142408435" /></p>
+<p>我们输入了行动 1、行动 2、行动 3、行动 4...，我们把这种学习问题叫做
+sequence，就是序列问题。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231007142918.png"
+alt="image-20231007142917934" /></p>
+<p>比如输入的是 1、2、3、4 这四个人的信息，输出是
+3、2、4、1，给这四个人排了个序。这种排了个序的事情我们就把它叫做
+rank，尤其是在推荐系统，在搜索引擎里面用的非常非常多。同理，输入一个
+Email 其实也可以做这样的事情。</p>
+<p>那我们一起来想一下，假设我们有一个 f(x)，f(x)
+具体怎么实现先不管。假设存在一个 f(x), 如果我们要让 f(x) 执行一个
+Regression 的任务，可以想一下，这个 f(x) 可以是在什么场景下。 <span
+class="math display">\[
+\begin{align*}
+f(x) \begin{pmatrix}
+\overrightarrow {email}  = [
+\\ \\ 213 \\ \\  1 \\ \\ 27 \\ \\ 0 \\ \\
+]
+\end{pmatrix}
+\end{align*}
+\]</span></p>
+<p>举个例子，比方说要让 f(x) 执行一个 rank
+任务，它的场景是这里有十封未读邮件，要排个序。要输出哪些邮件最紧急，然后去回复。这就是一个
+rank 的场景。</p>
+<p>再举一个例子，如果这个 f(x)
+要执行的任务是一个多分类任务，可以是在什么场景下。就是邮件分组对吧？所以我们可以看到，只要我们可以把一个一个对象表示成向量，当我们有一个函数的时候，就可以执行各种各样的任务了。</p>
+<p>那我现在问，如果这个 f(x) 要做 Regression，可能是哪个场景呢？</p>
+<p>机器学习其实就是反反复复的在做这么一件事情，就是让机器半自动的得到这个
+f。注意是半自动，它并不能全自动。</p>
+<p>在求解 f 的过程中，我们需要输入一个
+x，真正的值是多少是有标准答案的。f 算的对还是错，是有标准答案的。</p>
+<p>比方说贝叶斯、SBM、决策树、神经网络，这些其实都是一种
+f。里边这些关键参数是机器自动获得的，但是到底这个函数类型是什么，是概率式、还是
+if else 的，还是神经网络，这种形式得人来定。</p>
+<p>f
+有标准答案，是有对错的。我们把这种有对错的求解函数的方法叫做监督学习。</p>
+<p>为什么有对错就要监督学习呢？就是在整个学习过程中，也就是整个获得 f
+的过程中，我们会不断的监督他，看他学对了还是学错了。如果学对了就给他沿着正确的方向继续走，如果学错了就要换一个方向。这就叫监督学习。</p>
+<p>除了监督学习之外，还有一种机器学习的方法，是让机器自动去归类。 <span
+class="math display">\[
+\begin{align*}
+\overrightarrow {man01} \qquad \overrightarrow {man02} \qquad
+\overrightarrow {man03} \qquad \overrightarrow {man04} \\
+\overrightarrow {man05} \qquad \overrightarrow {man06} \qquad
+\overrightarrow {man07} \qquad \overrightarrow {man08} \\
+\overrightarrow {man09} \qquad \overrightarrow {man10} \qquad
+\overrightarrow {man11} \qquad \overrightarrow {man12} \\
+\overrightarrow {man13} \qquad \overrightarrow {man14} \qquad
+\overrightarrow {man15} \qquad \overrightarrow {man16} \\
+\end{align*}
+\]</span></p>
+<p>假如有很多人，我们希望机器能自动的把这些人根据某些特征自动的进行一个分类。在这个过程中，其实是没有标准答案的，是机器根据这些向量自动分类的。我们把这种学习方式叫做非监督学习，也叫做聚类。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231007151705.png"
+alt="image-20231007151705074" /></p>
+<p>非监督学习的难点就是我们不太好衡量，到底是不是对的，还是错的。万一这个分类不是我们需要的分法，就只能改变参数让它再分一遍了。</p>
+<p>所以，非监督学习不好量化，它的结果只能作为参考，没有标准答案。</p>
+<h2 id="机器学习的通用框架">机器学习的通用框架</h2>
+<p>不管是做什么机器学习，不管是在小公司还是大公司，还是在航空航天局。不管是在哪里，我们都有一个通用的方法。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231007155314.png"
+alt="未命名" /></p>
+<p>首先，observed data,
+会有一些观察到的数据。观察到的数据之后我们就要进行一件叫做特征提取的事情。特征提取就是把我们观察到的这些数据变成一个一个向量。</p>
+<p>观察到的是路边上的一个一个的人，我们要把这一个一个的人变成一条一条的向量。变成向量之后就要进行所谓的学习。这个学习就是需要根据原来的向量，在人的指导下去优化一些函数，得到一些函数的参数。</p>
+<p>然后这个函数要能预测新的没有见过的，也就是 New Data
+部分，是没有见过的一些新数据，要能得到结果，图中就是得到
+y。这是我们整个学习的过程，整个机器学习基本上都是这样的一套流程。</p>
+<p>那什么叫做监督学习呢？监督学习就是在学习的这个过程中，每次为了获得
+f，会输入一对一对的 x 和 y。y
+就指的是我们在训练的时候，我们已知的这些数据的 x 以及对应的值。</p>
+<p>通过这些大量对应的值，机器自动去总结规律，抽象规律得到 f。</p>
+<p>监督学习就是在学习的时候我们会给到机器 x 和 y, y 就指的是这个 x
+对应的值。而非监督学习就不提供这些东西。</p>
+<p>非监督学习只提供 x，经过 x 之间的向量的距离近不近等等，自动的去获得 x
+的分类。</p>
+<h2 id="梯度下降">梯度下降</h2>
+<p>在这个求解 f
+的过程中，监督学习的时候有一个非常非常重要的方法叫做「梯度下降」。</p>
+<p>梯度下降是一个非常重要的点，之后的课程中咱们会讲到。</p>
+<p>假如我们有一组 k 和 b，输入一个 x 可以得到一个 y。假如就是 kx+b =
+y，我们现在其实是想求一组 k 和一组 b，能够使得我们输入任意的 x
+的时候得到的值都任意的和 y 接近。</p>
+<p>还是拿上边这个函数来讲，比如 f(x) = kx + b, 我们现在想求一组 k 和一组
+b，让它和 y 的值越接近越好。我们怎么来评价它越接近越好呢？写一个函数
+<span class="math inline">\(\sum [(kx+b)-y]^2\)</span>，这个我们把它叫做
+loss 函数：<span class="math inline">\(loss =\sum [(kx+b)-y]^2\)</span>
+，表示这个值如果越大我们信息差的越多，这个值越小就表示我们信息保留的越好，丢失的越少。</p>
+<p>其实原理就是要获得一组 k 和 b，然后使得 loss 取最小值。为了求得一组 k
+和 b，让这组 k 和 b
+能够使我们的函数最接近于我们真实的值，可以给他一个随机值，然后让 loss
+去给 k 求偏导。</p>
+<p>如果此时此刻求出来的偏导是大于 0 的，就是随着 k 的减小，loss
+值要减小。如果 loss 对 k 的偏导小于 0，意味着随着 k 的增大，loss
+要减小。</p>
+<p>那新获得的 k 就等于原来的 k 加上 loss 给 k 求偏导的相反数。 <span
+class="math display">\[
+k_{2} = k_{1} + (-1) \frac{\partial loss}{\partial k} \times \propto
+\]</span></p>
+<p>当然我们最后乘上了一个系数，这个系数必须是一个很小的数字，比如说是
+0.001。这个系数的作用是什么遇到的一些函数，偏导特别大，但是此时我们其实已经很接近那个最优点了，可是偏导特别的垂直。那在这里就要加一个很小的系数控制一下。</p>
+<p>这里要说一下，这个部分不能死记公式，没什么所谓的公式，都是一些比较基础的数学知识。这也就是为什么我之前花那么久来写数学基础的原因。</p>
+<p>另外就是，在数学基础之上，要拿出你的笔和纸，当然平板也可以，要多画画，然后你就懂了。如果这个东西不多动笔，觉得要背下来，劝你趁早别干这行了，也别学了，可以去做个文职的工作，就天天背书就可以了。现在学的这些东西一定是要内化的，一定要拿着笔多练，多敲代码。</p>
+<p>与此类似的，b 也可以做这样的运算，<span class="math inline">\(b_{2} =
+b_{1} + (-1) \frac{\partial loss}{\partial b} \times
+\propto\)</span>。这样，经过我们不断地输入 x 和
+y，就能够慢慢地找到一组最优的 k 和 b
+了。这个，就是梯度下降所做的事情。</p>
+<p>接下来，咱们就演示一下梯度下降的意义。</p>
+<p>我们现在有一个 loss 函数，这个函数会返回一个运算结果如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">loss</span>(<span class="hljs-params">k</span>):<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">3</span> * (k ** <span class="hljs-number">2</span>) + <span class="hljs-number">7</span> * k - <span class="hljs-number">10</span><br></code></pre></td></tr></table></figure>
+<p>现在对于 k 的偏导，我们把 2 放下来，那就是 6*k，再加上 7:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">partial</span>(<span class="hljs-params">k</span>):<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">6</span> * k + <span class="hljs-number">7</span><br></code></pre></td></tr></table></figure>
+<p>这个就是它的偏导。</p>
+<p>现在给他随机出一个值，为了让数据更明显，我们将范围定在 (-10, 10)
+之间。顺便给一个很小的系数<code>alpha</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> random<br>k = random.randint(-<span class="hljs-number">10</span>, <span class="hljs-number">10</span>)<br>alpha = 1e - <span class="hljs-number">3</span> <span class="hljs-comment"># 0.001</span><br></code></pre></td></tr></table></figure>
+<p>接着，我们来做循环。之前咱们分析过整个式子，直接将其写出来就可以了，最后是打印出
+k 和 loss(k)：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">k = k + (-<span class="hljs-number">1</span>) * partial(k) * alpha<br><span class="hljs-built_in">print</span>(k, loss(k))<br></code></pre></td></tr></table></figure>
+<p>将这一段代码扔到循环里，为了更明显，我们让它循环 100
+次，完整代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> random<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">loss</span>(<span class="hljs-params">k</span>):<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">3</span> * (k ** <span class="hljs-number">2</span>) + <span class="hljs-number">7</span> * k - <span class="hljs-number">10</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">partial</span>(<span class="hljs-params">k</span>):<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">6</span> * k + <span class="hljs-number">7</span><br><br>k = random.randint(-<span class="hljs-number">10</span>,<span class="hljs-number">10</span>)<br>alpha = <span class="hljs-number">1e-3</span> <span class="hljs-comment"># 0.001</span><br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">100</span>):<br>    k = k + (-<span class="hljs-number">1</span>) * partial(k) * alpha<br>    <span class="hljs-built_in">print</span>(k, loss(k))<br><br>---<br>-<span class="hljs-number">9.947</span> <span class="hljs-number">217.19942699999993</span><br>-<span class="hljs-number">9.894317999999998</span> <span class="hljs-number">214.43236005537193</span><br>-<span class="hljs-number">9.841952091999998</span> <span class="hljs-number">211.69839829966944</span><br>-<span class="hljs-number">9.789900379447998</span> <span class="hljs-number">208.99714566241215</span><br>...<br>-<span class="hljs-number">6.064345358065952</span> <span class="hljs-number">57.87843635922653</span><br>-<span class="hljs-number">6.034959285917557</span> <span class="hljs-number">57.01748574662477</span><br>-<span class="hljs-number">6.005749530202052</span> <span class="hljs-number">56.16683554715212</span><br></code></pre></td></tr></table></figure>
+<p>我们可以看到它的值一直在下降，虽然不能直接求解出最好的那个 k
+是什么，但是通过梯度下降这样的方法，一步一步的慢慢的就找到了这个函数的最小值。</p>
+<p>当我们把循环次数再次提升到 100000 的时候，我们来看看最后的结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">100000</span>):<br>    k = k + (-<span class="hljs-number">1</span>) * partial(k) * alpha<br>    <span class="hljs-built_in">print</span>(k, loss(k))<br><br>---<br>...<br>-<span class="hljs-number">1.1666666666666852</span> -<span class="hljs-number">14.083333333333332</span><br>-<span class="hljs-number">1.1666666666666852</span> -<span class="hljs-number">14.083333333333332</span><br>-<span class="hljs-number">1.1666666666666852</span> -<span class="hljs-number">14.083333333333332</span><br></code></pre></td></tr></table></figure>
+<p>最后几次打印出的结果基本趋于一致了，k 的值就是
+-1.1666，那数学里边我们学过，这个二次函数最优值应该是<code>-b/2a</code>，应该是<code>-7/6</code>，我们计算一下看看：</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231007174350.png"
+alt="image-20231007174350309" /></p>
+<p>可以看到，和我们梯度下降所求的值很接近，几乎一致。</p>
+<p>这个例子说明通过靠梯度下降，是能够找到一个变量让这个函数取得最小值。</p>
+<p>既然咱们刚才面对这个问题能直接能计算出来它的值是-b/2a = -1.16666...,
+为什么要用梯度下降的方法来得到这个不精确的值呢？</p>
+<p>我们的这个例子是一个简单函数，可是当函数很复杂的时候，很多复杂的函数我们是求解不出来的。</p>
+<p>好，到这里就是我们这节课的内容。下节课就是我们机器学习入门的最后一节课，我们来谈谈
+K-means。</p>
+<hr />
+<p>关注「坍缩的奇点」，第一时间获取更多免费 AI 教程。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/扫码_搜索联合传播样式-白色版.png"
+alt="坍缩的奇点" /></p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>06. 机器学习入门 2 - 理解特征和向量</p><p><a href="https://hivan.me/06. 机器学习入门2 - 理解特征和向量/">https://hivan.me/06. 机器学习入门2 - 理解特征和向量/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2023-10-07</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2023-11-16</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" href="https://afdian.net/item/72907364008511ee904852540025c377" target="_blank" rel="noopener" data-type="afdian"><span class="icon is-small"><i class="fas fa-charging-station"></i></span><span>爱发电</span></a><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://www.buymeacoffee.com/hivandu" target="_blank" rel="noopener" data-type="buymeacoffee"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>送我杯咖啡</span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="paypal" onclick="document.getElementById(&#039;paypal-donate-form&#039;).submit()"><span class="icon is-small"><i class="fab fa-paypal"></i></span><span>Paypal</span></a><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" rel="noopener" id="paypal-donate-form"><input type="hidden" name="cmd" value="_donations"><input type="hidden" name="business" value="doo@hivan.me"><input type="hidden" name="currency_code" value="USD"></form><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/07.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A83%20-%20%E4%BA%86%E8%A7%A3K-means/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">07. 机器学习入门 3 - 了解 K-means</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/05.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%20-%20%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/"><span class="level-item">05. 机器学习入门 - 动态规划</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/06.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A82%20-%20%E7%90%86%E8%A7%A3%E7%89%B9%E5%BE%81%E5%92%8C%E5%90%91%E9%87%8F/';
+            this.page.identifier = '06. 机器学习入门2 - 理解特征和向量/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">192</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">7</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">22</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI 秘籍</span></span><span class="level-end"><span class="level-item tag">20</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">20</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI秘籍</span></span><span class="level-end"><span class="level-item tag">30</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">27</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-11-15T23:30:00.000Z">2023-11-16</time></p><p class="title"><a href="/21.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%20-%20%E6%8B%93%E6%9C%B4%E6%8E%92%E5%BA%8F%E7%9A%84%E5%8E%9F%E7%90%86%E5%92%8C%E5%AE%9E%E7%8E%B0/">21. 深度学习 - 拓朴排序的原理和实现</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-11-12T23:30:00.000Z">2023-11-13</time></p><p class="title"><a href="/20.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%20-%20%E5%A4%9A%E5%B1%82%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">20. 深度学习 - 多层神经网络</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-11-09T23:30:00.000Z">2023-11-10</time></p><p class="title"><a href="/19.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%20-%20%E7%94%A8%E5%87%BD%E6%95%B0%E8%A7%A3%E5%86%B3%E9%97%AE%E9%A2%98/">19. 深度学习 - 用函数解决问题</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-11-07T23:30:00.000Z">2023-11-08</time></p><p class="title"><a href="/18.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%20-%20%E4%BB%8E%E9%9B%B6%E7%90%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">18. 深度学习 - 从零理解神经网络</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-11-04T23:30:00.000Z">2023-11-05</time></p><p class="title"><a href="/17.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20-%20%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97/">17. 机器学习 - 随机森林</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2023 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>04. 人工智能核心基础 - 导论（3） - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="[TOC]  Hi，你好。我是茶桁。"><meta property="og:type" content="blog"><meta property="og:title" content="04. 人工智能核心基础 - 导论（3）"><meta property="og:url" content="https://hivan.me/04.%20%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%A0%B8%E5%BF%83%E5%9F%BA%E7%A1%80%20-%20%E5%AF%BC%E8%AE%BA3/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="[TOC]  Hi，你好。我是茶桁。"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://hivan.me/04.%20%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%A0%B8%E5%BF%83%E5%9F%BA%E7%A1%80%20-%20%E5%AF%BC%E8%AE%BA3/media/16959431870762.jpg"><meta property="og:image" content="https://hivan.me/04.%20%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%A0%B8%E5%BF%83%E5%9F%BA%E7%A1%80%20-%20%E5%AF%BC%E8%AE%BA3/media/%E6%88%AA%E5%B1%8F2023-09-29%2007.47.57-1.png"><meta property="article:published_time" content="2023-09-29T11:30:00.000Z"><meta property="article:modified_time" content="2023-11-16T06:36:09.987Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://hivan.me/04.%20%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%A0%B8%E5%BF%83%E5%9F%BA%E7%A1%80%20-%20%E5%AF%BC%E8%AE%BA3/media/16959431870762.jpg"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/04.%20%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%A0%B8%E5%BF%83%E5%9F%BA%E7%A1%80%20-%20%E5%AF%BC%E8%AE%BA3/"},"headline":"04. 人工智能核心基础 - 导论（3）","image":["https://hivan.me/04.%20%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%A0%B8%E5%BF%83%E5%9F%BA%E7%A1%80%20-%20%E5%AF%BC%E8%AE%BA3/media/16959431870762.jpg","https://hivan.me/04.%20%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%A0%B8%E5%BF%83%E5%9F%BA%E7%A1%80%20-%20%E5%AF%BC%E8%AE%BA3/media/%E6%88%AA%E5%B1%8F2023-09-29%2007.47.57-1.png"],"datePublished":"2023-09-29T11:30:00.000Z","dateModified":"2023-11-16T06:36:09.987Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"[TOC]  Hi，你好。我是茶桁。"}</script><link rel="canonical" href="https://hivan.me/04.%20%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%A0%B8%E5%BF%83%E5%9F%BA%E7%A1%80%20-%20%E5%AF%BC%E8%AE%BA3/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2023-09-29T11:30:00.000Z" title="9/29/2023, 7:30:00 PM">2023-09-29</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a><span> / </span><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></span></div></div><h1 class="title is-3 is-size-4-mobile">04. 人工智能核心基础 - 导论（3）</h1><div class="content"><p>[TOC]</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20230929071346.png"
+alt="茶桁的 AI 秘籍 02" /></p>
+<p>Hi，你好。我是茶桁。</p>
+<span id="more"></span>
+<p>基于上一节课咱们的整体强度有点大，而且咱们马上也要进入高强度内容了，那么这一篇咱们就稍微水一篇吧。来聊聊天，讲讲学习人工智能的一些事项。</p>
+<h2 id="人工智能和其他学科的关系">人工智能和其他学科的关系</h2>
+<p>经常有同学会问我：人工智能和其他学科有什么关系？有什么区别？</p>
+<p>有人说人工智能就是博弈论、梯度下降，人工智能就是贝叶斯。</p>
+<p>这都不对，大家要这样想：人工智能是我们刚刚说的解决各种各样的问题的一个研究课题。你可以把它想象成研究课题，这些数学方法，统计学方法是我们来解决这个问题所用到的方法。</p>
+<p>千万不要把自己变成一个数学系的人，数学是你的工具。搞人工智能的人，绝对不是一个纯数学家。</p>
+<p><img src="media/16959431870762.jpg" /></p>
+<p>比方说贝叶斯定理，其实在一七几几年就提出来了，以前一直被广泛应用于概率学。再比如最小二乘法，也是很早之前就提出来，最早用在天文学上；一阶逻辑是被用在逻辑学中；最大似然也是被用在统计学中；我们的神经网络最早是在神经科学中提出来的；MiniMax
+game，解决下棋问题的时候经常会用到的一个方法，其实最早是经济学里面的一个问题，博弈论用到的问题。</p>
+<p>梯度下降最早叫做 optimization
+research，是运筹学里面的一个内容，也就是我上一节课中讲到的 search
+方法。最早是起源于算法与数据结构；</p>
+<p>之后还有强化学习，它其实是指的迭代，是控制论当中的东西。</p>
+<p>所以你看到这些就应该知道，人工智能与其他学科一个很大的区别，它是博采众长，为了解决问题，可以使用各种各样的方法。</p>
+<p>AI
+是融汇了各个学科用来解决某种问题的一个学科。所以不要把它局限在某个东西，不管是啥只要能搞定问题都可以。只要能像人一样，要解决的问题能解决就可以。</p>
+<h2 id="为什么学习人工智能">为什么学习人工智能</h2>
+<p>给大家讲了这么多人工智能是什么，还讲了两个很典型的案例，我来讲一下为什么要学习人工智能。之后的课程中可以感受一下，这就和小马过河一样，代码其实不难，你会发现代码其实都挺短的，一二十行、二三十行。发现困难的时候正好是你能力提升的时候。</p>
+<p>特斯拉、iPhone、抖音、淘宝这些的成功其实都是因为我们处在一个数字智能时代。这个数字智能时代所有东西几乎都要变成数字化的东西，大家要做的时候希望能够自动化的去处理这些东西，AI
+就会因此而生。</p>
+<p>人工智能是一种力量，是一种能够使用这种数据能源的力量。</p>
+<p>现在有很多很多的数据，你要把这些数据解决，人工智能就是这样的一个力量来解决他们。而且我们还能够实现职业的可持续成长，从薪资待遇上、发展的瓶颈上都会好过其他的场景。</p>
+<p>比方说做传统的开发岗位可能会面临 35
+岁下岗，人工智能这个行业整体上就要好很多。</p>
+<h2 id="怎么学好人工智能">怎么学好人工智能？</h2>
+<p>怎么样去学好 AI 呢？</p>
+<p>上一节课中，咱们演示两段代码，讲了两个问题，有没有觉得好难？咱们的整个课程内容量其实很大，尤其是到咱们之后的课程。</p>
+<p>要学好人工智能，首先你要知道 AI
+它之所以工资高一定不简单，但是既然有那么多人都在做，也就证明它一定是能学会的。所以你不要觉得它会特别难，但也不要看成好像听一听就可以会了。</p>
+<p>看我课程的这些同学们，我要郑重的说一下，不要指望在地铁上啊什么的碎片时间看看就可以学会了，这必须是不可能的。我一直想跟大家说，碎片化时间是绝对学不好的，不管是什么东西，你背单词可能还行，但是如果是一个系统性很强的学科，想要碎片化时间学习，这几乎是在害自己。</p>
+<p><img src="media/%E6%88%AA%E5%B1%8F2023-09-29%2007.47.57-1.png"
+alt="截屏 2023-09-29 07.47.57-1" /></p>
+<p>人工智能永远是一个高级职位，第一个点就是要有心力，要相信你能学好，能学会。</p>
+<p>第二点，编程能力一定要强，有很多时候其实理论很简单，但是你就是实现不出来。编程能力一定要多多练习。</p>
+<p>第三点是数学能力，我们很多问题其实都是要抽象成数学问题，但和数学的区别是我们还要把这个数学问题变成计算机能运行的，这个就更难了。</p>
+<p>这也就是为什么我前面要花 2 个月的时间来写两篇专题，一篇<a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3035995870421073928&amp;scene=173&amp;from_msgid=2648748632&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">Python
+基础</a>，一篇<a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3074770001140400130&amp;from_itemidx=1&amp;from_msgid=2648749285#wechat_redirect">数学基础</a>，都是为了让大家能提高基础能力，应付之后的课程。</p>
+<p>还有第四点，建模能力，你要把你见到的新问题变成你学过的模型。建模能力其实是这个行业中非常重要一个能力，是你需要不断的去练习的能力。</p>
+<p>再有就是交流能力，为什么说这个重要，作为一个算法工程师，和做 Java，做
+Web 前端开发的区别是什么？算法工程师永远做不到 100% 正确，永远会有一些
+bad case，永远会有一些做的不好的地方。</p>
+<p>这个时候如何去沟通让别人知道，这件事情暂时只能做成这样，或者如果我们要做的更好需要哪些数据，需要哪些支持。这些都是需要交流能力的。</p>
+<p>建模能力是接下来课程会教给大家的，遇到一个问题我都会讲。那我的这个课程和其他课程最大的区别，就是很多课程都是告诉大家这有个方法你把它记住，而我是给大家讲为什么提出来这样的方法。</p>
+<p>我把思考过程告诉大家之后，建模能力就会逐步提升。建模能力就是把看到的问题变成解决方法的一个能力。</p>
+<p>再接下来第五点，我们的质疑能力。大家要学好，一定要有质疑能力。就是你现在看到的所有论文，你记住都有可能是错的。也不说都有可能绝对是错的，但肯定在某些场景下是不能运行的，结果很糟糕。</p>
+<p>一定要知道这一点，知道这一点之后才能去提出新的方法，才能不断的前进。</p>
+<p>以上这几种能力非常重要。</p>
+<p>学习过程中，肯定会遇到各种各样的问题，当你遇到问题的时候，该怎么办呢？</p>
+<p>如果遇到相关的名词术语、方程、公式或者代码看不懂的时候该怎么办呢？</p>
+<p>不要放弃继续，也不要立马找人问，更不要怀疑自己。你应该去
+Google，维基百科等高质量的搜索引擎去搜索，自己学会去查找相关的问题解决方法。这里我要着重说一下，当然可以借助
+ChatGPT
+等人工智能，不过不要过分依赖，别想都没想，还没思考就赶紧去问，有的时候
+GPT
+给你的答案不一定准确，而因为你没有去思考过，可能就这样全盘接收了，那就走上歧路了。</p>
+<p>那如果感到代码困难，做不出来，也是，不要轻易放弃和怀疑自己，要想尽一切办法，比如去
+Stack Overflow, Github 等等上找找相似的问题代码。</p>
+<p>那当然有感到困难的就有觉得过于简单的，觉得简单也不要放弃继续往后学，你可以跳过，不过终归还是有内容是你期望了解的。</p>
+<p>那我现在这门课程和市面上大部分的人工智能都不相同，那些课程实际上就是跟风，将一些已经通用的解决方案整合一下打包给你，卖你个几千几万的。主打的就是一个信息差。而我现在给大家讲的，是思维，是基础，是如何去理解人工智能，属于底层建设。</p>
+<p>AI
+的岗位动不动四五十万、五六十万年薪。那其实面向的也是工程师级别，而直接拿到解决方案去凑数的人，终究最后还是会被机器淘汰。</p>
+<p>先把能力练起来，不要让自己很被动。我要给大家编撰的这门课程，首先收获是能力，就是常见的人工智能问题自己能够提出解决方案，并且自己写代码实现。</p>
+<p>第二，潜力。新出现的人工智能模型能够理解，而且能够自学最先进的模型与代码，这是潜力。</p>
+<p>按照我的理解，如果大家学到这门课程，应该会是你最后一次付费的 AI
+课程，我期望达到这样的水平。</p>
+<p>你以后不要去再去学习这些了，已经具备了继续学习的潜力，这门课程可以培养出来至少符合年薪
+25 万及以上公司的 ASM 岗位要求。</p>
+<p>在这个过程中，大家其实增强了适应性，能够在这个变化的世界中更加的适应。</p>
+<p>如果你有前面这些能力的话，记得要多多使用你自己的 Github
+账号，如果你没有一定要注册一个。课程上的练习代码，作业全部都同步上去。</p>
+<p>第二个，用你的
+Linkedin，打造你的个人主页，把你的项目能力写上去。不要在 58
+同城上工作，到 Linkedin
+上寻找机会，基本上都是那种比较高级的职位。国内外这些大厂，都在上面去找人。</p>
+<p>另外，你自己要能够在你的生活中，公司中，自己的实验室环境中找到能解决的项目。自己解决了之后，那么你下次要转行，换工作的时候别人这些项目就能给你加很多分。</p>
+<h2 id="一些问题">一些问题</h2>
+<p>最后呢，给大家留下一些思考题。</p>
+<ul>
+<li>你学习这门课的目的是什么？希望达到什么结果？</li>
+<li>你达到的期望结果，有什么需要克服的苦难/劣势？</li>
+<li>你达到的期望结果，有什么可以发挥的长处/优势？</li>
+<li>你认为课程有什么地方可以改进？</li>
+</ul>
+<p>再思考下下面几个问题： -
+人工智能、机器学习和深度之间有什么关系和异同？ -
+人工智能和数学、算法与数据结构有什么关系？ - 你能给出 5
+个人工智能实例，这些实例是使用了哪种方法论、范式吗？ -
+你能复现出我们上一节课上的代码实例吗？</p>
+<p>好，那我们本节课就到这里了，也到了假期了。大家好好休息，放个长假，之后，咱们下一节课要开始加强强度了。</p>
+<hr />
+<p>关注「坍缩的奇点」，第一时间获取更多免费 AI 教程。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/扫码_搜索联合传播样式-白色版.png"
+alt="坍缩的奇点" /></p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>04. 人工智能核心基础 - 导论（3）</p><p><a href="https://hivan.me/04. 人工智能核心基础 - 导论3/">https://hivan.me/04. 人工智能核心基础 - 导论3/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2023-09-29</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2023-11-16</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" href="https://afdian.net/item/72907364008511ee904852540025c377" target="_blank" rel="noopener" data-type="afdian"><span class="icon is-small"><i class="fas fa-charging-station"></i></span><span>爱发电</span></a><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://www.buymeacoffee.com/hivandu" target="_blank" rel="noopener" data-type="buymeacoffee"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>送我杯咖啡</span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="paypal" onclick="document.getElementById(&#039;paypal-donate-form&#039;).submit()"><span class="icon is-small"><i class="fab fa-paypal"></i></span><span>Paypal</span></a><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" rel="noopener" id="paypal-donate-form"><input type="hidden" name="cmd" value="_donations"><input type="hidden" name="business" value="doo@hivan.me"><input type="hidden" name="currency_code" value="USD"></form><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/05.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%20-%20%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">05. 机器学习入门 - 动态规划</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/03.%20%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%A0%B8%E5%BF%83%E5%9F%BA%E7%A1%80%20-%20%E5%AF%BC%E8%AE%BA2/"><span class="level-item">03. 人工智能核心基础 - 导论（2）</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/04.%20%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%A0%B8%E5%BF%83%E5%9F%BA%E7%A1%80%20-%20%E5%AF%BC%E8%AE%BA3/';
+            this.page.identifier = '04. 人工智能核心基础 - 导论3/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">192</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">7</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">22</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI 秘籍</span></span><span class="level-end"><span class="level-item tag">20</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">20</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI秘籍</span></span><span class="level-end"><span class="level-item tag">30</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">27</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-11-15T23:30:00.000Z">2023-11-16</time></p><p class="title"><a href="/21.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%20-%20%E6%8B%93%E6%9C%B4%E6%8E%92%E5%BA%8F%E7%9A%84%E5%8E%9F%E7%90%86%E5%92%8C%E5%AE%9E%E7%8E%B0/">21. 深度学习 - 拓朴排序的原理和实现</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-11-12T23:30:00.000Z">2023-11-13</time></p><p class="title"><a href="/20.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%20-%20%E5%A4%9A%E5%B1%82%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">20. 深度学习 - 多层神经网络</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-11-09T23:30:00.000Z">2023-11-10</time></p><p class="title"><a href="/19.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%20-%20%E7%94%A8%E5%87%BD%E6%95%B0%E8%A7%A3%E5%86%B3%E9%97%AE%E9%A2%98/">19. 深度学习 - 用函数解决问题</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-11-07T23:30:00.000Z">2023-11-08</time></p><p class="title"><a href="/18.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%20-%20%E4%BB%8E%E9%9B%B6%E7%90%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">18. 深度学习 - 从零理解神经网络</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-11-04T23:30:00.000Z">2023-11-05</time></p><p class="title"><a href="/17.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20-%20%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97/">17. 机器学习 - 随机森林</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2023 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

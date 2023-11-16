@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>17. 机器学习 - 随机森林 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="[TOC]  Hi，你好。我是茶桁。 我们之前那一节课讲了决策树，说了决策树的优点，也说了其缺点。"><meta property="og:type" content="blog"><meta property="og:title" content="17. 机器学习 - 随机森林"><meta property="og:url" content="https://hivan.me/17.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20-%20%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="[TOC]  Hi，你好。我是茶桁。 我们之前那一节课讲了决策树，说了决策树的优点，也说了其缺点。"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2023-11-04T23:30:00.000Z"><meta property="article:modified_time" content="2023-11-16T06:33:42.995Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/17.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20-%20%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97/"},"headline":"17. 机器学习 - 随机森林","image":[],"datePublished":"2023-11-04T23:30:00.000Z","dateModified":"2023-11-16T06:33:42.995Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"[TOC]  Hi，你好。我是茶桁。 我们之前那一节课讲了决策树，说了决策树的优点，也说了其缺点。"}</script><link rel="canonical" href="https://hivan.me/17.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20-%20%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2023-11-04T23:30:00.000Z" title="11/5/2023, 7:30:00 AM">2023-11-05</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a><span> / </span><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></span></div></div><h1 class="title is-3 is-size-4-mobile">17. 机器学习 - 随机森林</h1><div class="content"><p>[TOC]</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231028224427.png"
+alt="茶桁的 AI 秘籍 核心基础 17" /></p>
+<p>Hi，你好。我是茶桁。</p>
+<p>我们之前那一节课讲了决策树，说了决策树的优点，也说了其缺点。</p>
+<span id="more"></span>
+<p>决策树实现起来比较简单，解释解释性也比较强。但是它唯一的问题就是不能拟合比较复杂的关系。</p>
+<p>后来人们为了解决这个问题，让其能够拟合更加复杂的情况，提出来了一种模型，这种模型就叫做随机森林。</p>
+<h2 id="随机森林">随机森林</h2>
+<p>随机森林之所以叫随机森林，是因为它是由多棵树组成。它结合了决策树和随机性的概念，用于解决分类和回归问题，随机森林由多个决策树组成，每棵树都是随机构建的。</p>
+<p>随机森林其核心组成部分是决策树，为了提高模型的性能和泛化能力，所以引入了两种主要形式的随机性。</p>
+<p>第一种就是随机选择样本，对于每棵决策树的构建，随机森林从训练数据中随机抽取一部分样本（有放回地抽样），这称为自助采样（Bootstrap
+Sampling）。这就使得每棵树都在不同的样本子集上进行训练，增加了模型的多样性。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231028224333.png"
+alt="Alt text" /></p>
+<p>第二种是随机选择特征，在每个节点上，随机森林只考虑特征的一个子集来进行分割决策，而不是考虑所有特征。这确保了每棵树的分裂过程是不同的，增加了多样性。</p>
+<p>对于分类问题，随机森林中的每棵决策树都会对输入数据进行分类，那对于回归问题，就会变成是每棵决策树都会对输入数据进行预测了。最后的预测结果是通过对所有树的投票或平均值来获得的。这种集成方法可以减小过拟合奉先，提高模型的稳定性和泛化能力。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231028224334.png"
+alt="Alt text" /></p>
+<ol type="1">
+<li>使用随机森林来预测。</li>
+<li>在预测之前呢，我们使用 Out-Of-Bagging 样本来评估我们的模型。这个
+bagging 就是袋子，就是我们从袋子里随机取东西去衡量。</li>
+<li>使用评估结果，我们可以选择合适的变量数。</li>
+</ol>
+<p>随机森林的原理其实很简单，是一个非常简单但是非常好用的一个方法。基本上，除了深度学习之外，也是企业用的最多的方法之一。咱们在这里就来演示一下随机森林的作用以及效果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> sklearn.datasets <span class="hljs-keyword">import</span> load_iris<br>iris = load_iris()<br><br>x = iris.data<br>y = iris.target<br><span class="hljs-built_in">print</span>(x, y)<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231028224335.png"
+alt="Alt text" /></p>
+<p>这个是我们用 sklearn
+里面鸢尾花分类的数据做个简单例子，快速的展现一下它的效果。我们将数据拿到以后，x
+是鸢尾花的四个维度，四个维度对应了它的一个类别。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> sklearn.tree <span class="hljs-keyword">import</span> DecisionTreeClassifier<br><br>tree_clf = DecisionTreeClassifier()<br>tree_clf.fit(x, y)<br><br>tree_clf.feature_importances_<br><br>---<br>array([<span class="hljs-number">0.02666667</span>, <span class="hljs-number">0.</span>        , <span class="hljs-number">0.05072262</span>, <span class="hljs-number">0.92261071</span>])<br></code></pre></td></tr></table></figure>
+<p>我们 fit 完之后就可以看到，这四个 feature 中，最终要的是第四个
+feature。然后是第三个，第二个根本就没用。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> sklearn.model_selection <span class="hljs-keyword">import</span> train_test_split<br><br>train_x, test_x,train_y, test_y = train_test_split(x, y, test_size=<span class="hljs-number">0.3</span>, random_state=<span class="hljs-number">0</span>)<br><br>tree_clf = DecisionTreeClassifier()<br>tree_clf.fit(train_x, train_y)<br><br><span class="hljs-built_in">print</span>(tree_clf.score(train_x, train_y))<br><span class="hljs-built_in">print</span>(tree_clf.score(test_x, test_y))<br><br>---<br><span class="hljs-number">1.0</span><br><span class="hljs-number">0.9777777777777777</span><br></code></pre></td></tr></table></figure>
+<p>看结果我们其实可以看到，这个拟合度有点太高了。我们换个数据再来看，还是之前的课程中我们用到的
+Boston
+房价的数据，不过因为这个是一个回归问题，所以我们需要用回归预测的方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> sklearn.tree <span class="hljs-keyword">import</span> DecisionTreeRegressor<br><span class="hljs-keyword">from</span> sklearn.datasets <span class="hljs-keyword">import</span> fetch_openml<br>dataset = fetch_openml(name=<span class="hljs-string">&#x27;boston&#x27;</span>, version=<span class="hljs-number">1</span>, as_frame=<span class="hljs-literal">True</span>, return_X_y=<span class="hljs-literal">False</span>, parser=<span class="hljs-string">&#x27;pandas&#x27;</span>)<br><br>data = dataset[<span class="hljs-string">&#x27;data&#x27;</span>]<br>target = dataset[<span class="hljs-string">&#x27;target&#x27;</span>]<br><br>x_train, x_test, y_train, y_test = train_test_split(data, target, test_size=<span class="hljs-number">0.2</span>)<br><br>tree_reg = DecisionTreeRegressor()<br>tree_reg.fit(x_train, y_train)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;whole dataset train acc: &#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(tree_reg.score(x_train, y_train)))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;whole dataset test acc: &#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(tree_reg.score(x_test, y_test)))<br><br>---<br>whole dataset train acc: <span class="hljs-number">1.0</span><br>whole dataset test acc: <span class="hljs-number">0.6606392933985246</span><br></code></pre></td></tr></table></figure>
+<p>现在我们来看，它的 train 上的 score 准确度是 1.0，在 test 上是
+0.81，这个是全数据量测试的情况。</p>
+<p>然后我们来定义一个函数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">random_forest</span>(<span class="hljs-params">x_train, y_train, x_test, y_test, drop_n=<span class="hljs-number">4</span></span>):<br>    <br>    features_random = np.random.choice(<span class="hljs-built_in">list</span>(x_train.columns), size=<span class="hljs-built_in">len</span>(x_train.columns)-drop_n)<br><br>    x_sample = x_train[features_random]<br>    y_sample = y_train<br><br>    reg = DecisionTreeRegressor()<br>    reg.fit(x_sample, y_sample)<br><br>    score_train = reg.score(x_sample, y_sample)<br>    score_test = reg.score(x_test[features_random], y_test)<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;sub sample :: train score: &#123;&#125;, test score: &#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(score_train, score_test))<br><br>    y_predicated = reg.predict(x_test[features_random])<br><br>    <span class="hljs-keyword">return</span> y_predicated<br></code></pre></td></tr></table></figure>
+<p>咱们随机的从<code>data</code>里面取一些数据，之后我们来看一下单个树的结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python">with_feature_names = pd.DataFrame(data)<br>with_feature_names.columns = dataset[<span class="hljs-string">&#x27;feature_names&#x27;</span>]<br><br>x_train, x_test, y_train, y_test = train_test_split(with_feature_names, target, test_size=<span class="hljs-number">0.3</span>, random_state=<span class="hljs-number">0</span>)<br><br>random_forest(x_train, y_train, x_test, y_test, <span class="hljs-number">4</span>)<br><br>---<br>sub sample :: train score: <span class="hljs-number">1.0</span>, test score: <span class="hljs-number">0.5171643497313849</span><br></code></pre></td></tr></table></figure>
+<p>单个的结果显然是要比整个的数据量要差。那么咱们现在看一下最终的结果，把它变成一个森林：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python">tree_num = <span class="hljs-number">4</span><br>predicates = []<br><span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(tree_num):<br>    predicated, score = random_forest(x_train, y_train, x_test, y_test)<br>    predicates.append((predicated))<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;the mean result is: &#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(np.mean(predicates), axis=<span class="hljs-number">0</span>))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;the score of forest is: &#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(r2_score(y_test, np.mean(predicates, axis=<span class="hljs-number">0</span>))))<br><br>---<br>the mean result <span class="hljs-keyword">is</span>: <span class="hljs-number">21.614144736842107</span><br>the score of forest <span class="hljs-keyword">is</span>: <span class="hljs-number">0.7194989474162439</span><br></code></pre></td></tr></table></figure>
+<p>从一开始到现在完整的打印结果为：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">whole</span> dataset train acc: <span class="hljs-number">1</span>.<span class="hljs-number">0</span><br><span class="hljs-attribute">whole</span> dataset test acc: <span class="hljs-number">0</span>.<span class="hljs-number">6606392933985246</span><br><br><span class="hljs-attribute">ssub</span> sample :: train score: <span class="hljs-number">1</span>.<span class="hljs-number">0</span>, test score: <span class="hljs-number">0</span>.<span class="hljs-number">5885292814825753</span><br><span class="hljs-attribute">sub</span> sample :: train score: <span class="hljs-number">1</span>.<span class="hljs-number">0</span>, test score: <span class="hljs-number">0</span>.<span class="hljs-number">559086368163823</span><br><span class="hljs-attribute">sub</span> sample :: train score: <span class="hljs-number">1</span>.<span class="hljs-number">0</span>, test score: <span class="hljs-number">0</span>.<span class="hljs-number">6119989116140754</span><br><span class="hljs-attribute">sub</span> sample :: train score: <span class="hljs-number">1</span>.<span class="hljs-number">0</span>, test score: <span class="hljs-number">0</span>.<span class="hljs-number">21831688326567122</span><br><br><span class="hljs-attribute">the</span> mean result is: <span class="hljs-number">21</span>.<span class="hljs-number">614144736842107</span><br><span class="hljs-attribute">the</span> score of forest is: <span class="hljs-number">0</span>.<span class="hljs-number">7194989474162439</span><br></code></pre></td></tr></table></figure>
+<p>这是个很典型的例子，使用全量的数据集，它的结果最终的在 test 集上是
+0.66，然后基本上每个的结都比它要差一些。但当我们用了森林的值做了平均之后，这个值就变得更好了。</p>
+<p>当然其实这个值并不是每次都是如此，在我们进行计算的时候，因为数据什么的都是随机的，偶尔也会出现取均值之后变的更差的情况。不过大部分时候，都会更好一些。</p>
+<p>我们现在再将结果稍微改一改：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">random_forest</span>(<span class="hljs-params">x_train, y_train, x_test, y_test, drop_n=<span class="hljs-number">4</span></span>):<br>    ...<br><br>    <span class="hljs-keyword">return</span> y_predicated, score_test<br><br>tree_num = <span class="hljs-number">4</span><br>predicates = []<br><span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(tree_num):<br>    predicated, score = random_forest(x_train, y_train, x_test, y_test)<br>    predicates.append((predicated, score))<br><br>predicates_value = [v <span class="hljs-keyword">for</span> v, s <span class="hljs-keyword">in</span> predicates]<br>forest_scores = [s <span class="hljs-keyword">for</span> v, s <span class="hljs-keyword">in</span> predicates]<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;the score of forest is: &#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(r2_score(y_test, np.mean(predicates_value, axis=<span class="hljs-number">0</span>))))<br><br>weights = np.array(forest_scores) / np.<span class="hljs-built_in">sum</span>(forest_scores)<br>score_weights = np.zeros_like(np.mean(predicates_value, axis=<span class="hljs-number">0</span>))<br><br><span class="hljs-keyword">for</span> i, v <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(predicates_value):<br>    score_weights += v * weights[i]<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;the score of weighted forest is: &#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(r2_score(y_test, score_weights)))<br><br>---<br>the score of forest <span class="hljs-keyword">is</span>: <span class="hljs-number">0.7049603534192553</span><br>the score of weighted forest <span class="hljs-keyword">is</span>: <span class="hljs-number">0.7204901503020483</span><br></code></pre></td></tr></table></figure>
+<p>后面这段代码呢，其实就是人们发现用了随机森林之后，效果明显要好了，那一些人就想如果在知道每一次的<code>test_score</code>之后，能不能给<code>test_score</code>比较高的值加一个比较大的权重。</p>
+<p>也就是说，当我知道<code>test_score</code>比较好，那在最后做决策的时候给它加的权重大一些。</p>
+<p>最后我们打印了常规状态下森林的结果和加权之后的结果。加权之后的结果又变得好了一些。</p>
+<h2 id="adaboost">Adaboost</h2>
+<p>然后人们沿着这个思路，就做了一件事情，就是 Adaboost(Adaptive
+Boosting)：</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231028224336.png"
+alt="Alt text" /></p>
+<p>Adaboost 就是在随机森林的权重思路上做了一个优化，它的示意图也是有多个
+weak classifier, 然后最后有一个 Weighted Voter,
+这是一个权重的投票，这个就和我们上面加权的那部分代码非常的类似。只不过它在这里做了个细化：</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231028224337.png"
+alt="Alt text" /></p>
+<p>我们来注意看最后一个公式：</p>
+<p><span class="math display">\[
+H(x) = sign(\sum_{t=1}^T\alpha_th_t(x))
+\]</span></p>
+<p>公式里的<span
+class="math inline">\(\alpha_t\)</span>就是它的权重，最终的 H(x)
+就是很多<span class="math inline">\(\alpha_t \cdot
+h_t(x)\)</span>加在一起的结果。这里的这个<span
+class="math inline">\(\alpha_t\)</span>就是每一次小的数的权重：<code>v * weights[i]</code>。这个权重就不是像咱们刚才代码里那样根据<code>score</code>的大小简单的做个加权。</p>
+<p>我们看上图中间又一个<span
+class="math inline">\(\alpha_t\)</span>的公式：</p>
+<p><span class="math display">\[
+\begin{align*}
+\alpha_t = \frac{1}{2}ln(\frac{1-\varepsilon_t}{\varepsilon_t})
+\end{align*}
+\]</span></p>
+<p>然后我们再往上倒腾，<span
+class="math inline">\(\varepsilon_t\)</span>是当你预测出来这个值和实际值错的越多，越趋近于
+1。如果完全没有错，一个错都没有的情况下，那么<span
+class="math inline">\(\varepsilon_t=0\)</span>。</p>
+<p><span class="math display">\[
+\begin{align*}
+\varepsilon_t = Pr_{i\sim D_t}[h_t(x_i)\ne y_i]
+\end{align*}
+\]</span></p>
+<p>如果<span class="math inline">\(\varepsilon_t =
+1\)</span>的话，那就是<span
+class="math inline">\(\frac{1-\varepsilon_t}{\varepsilon_t}\)</span>就是：<code>1-1/1=0</code>。ln0
+等于什么呢？它等于负的无穷大，那么<span
+class="math inline">\(\alpha_t\)</span>等于就没有。如果<span
+class="math inline">\(\varepsilon_t = 0\)</span>，<span
+class="math inline">\(ln(\frac{1-\varepsilon_t}{\varepsilon_t})\)</span>就是无穷大。</p>
+<p>也就是说，随着<span
+class="math inline">\(\varepsilon_t\)</span>越大，那<span
+class="math inline">\(\alpha_t\)</span>会越大，随着<span
+class="math inline">\(\varepsilon_t\)</span>越小，<span
+class="math inline">\(\alpha_t\)</span>也会越小。而且在这个地方是呈指数变化的，就是误差会对<span
+class="math inline">\(\alpha_t\)</span>的变化影响的很大。</p>
+<p>除了用指数的东西来做，它还有一个很重要的特性，这个特性才在我们整个
+Adaboost 里非常重要：</p>
+<p><span class="math display">\[
+D_{t+1}(i) = \frac{D_t(i)exp(-\alpha_ty_ih_t(x_i))}{Z_t}
+\]</span></p>
+<p>我们先来看<span
+class="math inline">\(y_ih_t(x_i)\)</span>这部分，假设 ht(xi)=1，yi
+预测对了等于 1，yi 预测错了等于 -1。那如果预测错了，这整个部分都等于
+-1，如果预测对了，这里就是 1。</p>
+<p>前面有一个负号： <span
+class="math inline">\(-\alpha_ty_ih_t(x_i)\)</span>，那肯定是要变号的。也就是说，如果预测错了，那么这一串东西应该是正的，如果预测对了这一串东西应该是负的。</p>
+<p>前面是什么，是<span class="math inline">\(D_{t+1}(i)\)</span>,
+这里其实就是第 i 个训练元素在<span
+class="math inline">\(D_{t+1}\)</span>被取到的概率。那么我们最前面有表示<span
+class="math inline">\(D_1(i) =
+\frac{1}{m}\)</span>，也就是说，所有元素被取到的概率都是一样的，是平均的。那第二次的概率就是：<span
+class="math inline">\(D_1(i)\cdot exp(...)\)</span>, exp 就是 e
+的多少次方。</p>
+<p>那我们现在知道，如果预测对了，这里是 -1，预测错了这里是 1,
+都要再乘以<span
+class="math inline">\(\alpha_t\)</span>。那么如果预测对了，这里是<span
+class="math inline">\(-\alpha_t\)</span>，那 exp 这里就是小于 1
+的。那如果预测错了呢，exp 就是大于 1 的。</p>
+<p>如果 exp 大于 1，那么<span
+class="math inline">\(D_{t+1}(i)\)</span>概率就会被<span
+class="math inline">\(D_t(i)\)</span>的概率要更大，反之就会更小。</p>
+<p>这个就是我们 Ada 的含义，Ada 就是
+Adaptive，就是动态调整的意思。也就是通过这种方法实现的。</p>
+<p>如果此时此刻<span
+class="math inline">\(x_i\)</span>算对了，那下一次就更不容易被取到，如果算错了，那下一次训练就会更有可能被取到。</p>
+<p>觉得绕的小伙伴去理解这样一个例子：如果你是个学生去做卷子，那么你作对的题还会反复去做吗？肯定是不会的题才会反复刷，刷到自己会为止。</p>
+<h2 id="gradient-boosting">Gradient Boosting</h2>
+<p>除了 Adaboost 之外，后来人们又提出来了一个新的方法：Gradient
+Boosting。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231028224338.png"
+alt="Alt text" /></p>
+<p>Gradient Boosting 和 Adaboost 的核心原理很像：</p>
+<p><span class="math display">\[
+loss(p, q) = -\sum_{i\in output classes}p(x)logq(x)
+\]</span></p>
+<p>Gradient Boosting
+主要用于解决回归和分类问题。它基于决策树（通常是浅层决策树）构建模型，通过迭代改进预测的准确性。</p>
+<p>其最核心的就是梯度提升，是一种集成学习方法。将多个弱预测模型，也就是决策树组合在一起，以提高整体性能。每个决策树在不同的数据子集上训练，然后进行组合以生成最终的预测。其核心原理就是通过迭代优化损失函数来构建模型。</p>
+<p>在每一步中，模型的更新方向就是损失函数的负梯度。假设我们有一个损失函数
+L(y, f(x))，其中 y 是真实标签，f(x)
+是当前模型的预测，梯度提升的目标是找到一个新的模型 h(x), 使得损失函数
+L(y, f(x) + h(x)) 最小化。</p>
+<p>梯度提升使用负梯度方向的决策树 h(x)
+来拟合当前模型的残差，因此可以通过以下方式迭代更新模型：</p>
+<p><span class="math display">\[
+f(x) = f(x) + learning\_rate \cdot h(x) \\
+\]</span></p>
+<p>也就是说，它其实要变成这样一个式子：</p>
+<p><span class="math display">\[
+Boosted Ensemble = First Tree + \eta \cdot Second Tree \\
+loss(Boosted Ensemble) &lt; loss(First Tree)
+\]</span></p>
+<p>也就是说，我们第二波的 h_t(x)，也就是 h_2(x)，前面乘以一个<span
+class="math inline">\(\eta\)</span>，这个<span
+class="math inline">\(\eta\)</span>是等于 Learning Rate 的，然后 h_2(x)
+加上 h_1(x) 最后得到的结果，要比 h_1(x) 的 loss 值更小。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231028224339.png"
+alt="Alt text" /></p>
+<p>那么我们现在要做的就是改变<span
+class="math inline">\(\eta\)</span>的权重，这个东西的权重就是和之前我们在随机森林里调整权重不同。</p>
+<p>一开始，梯度提升初始化一个简单的模型，通常是一个常数，用来拟合目标变量的平均值。</p>
+<p>对于每一个训练样本，计算模型的梯度。这表示模型对于每个样本的预测误差。</p>
+<p>使用新的决策树来拟合梯度的负梯度，也就是模型的残差。这意味着构建一个决策树，其目标是减小之前模型的误差。</p>
+<p>将新构建的决策树与之前的模型相加，以形成一个新的模型。这个过程重复进行多次，每次都会减小误差。</p>
+<p>重复 2 到 4
+步，直到满足某个停止条件，理入达到最大迭代次数或误差足够小。</p>
+<p>最终模型是所有决策树的组合，可以用来进行预测。</p>
+<p>那我们之前谈到的<span class="math inline">\(\eta\)</span>，也就是
+learning_rate，其实就是学习率，用于控制每次更新的幅度。</p>
+<p>数学上，梯度提升通过迭代不断减小损失函数来逼近最优模型，这是一种梯度下降的优化方法，因此它的核心原理与梯度下降算法是密切相关的。</p>
+<p>Grading Boost 和 AdaBoost 的整个区别不大，它们都是属于 Ensemble
+Learning，中文翻译是合唱团。</p>
+<p>这个 Ensemble Learning
+我们可以取很多个分类、回归，然后我们把它做好之后给它求一个平均值。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231028224340.png"
+alt="Alt text" /></p>
+<p>比如这样，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> sklearn.ensemble <span class="hljs-keyword">import</span> RandomForestClassifier<br><span class="hljs-keyword">from</span> sklearn.ensemble <span class="hljs-keyword">import</span> VotingClassifier<br><span class="hljs-keyword">from</span> sklearn.linear_model <span class="hljs-keyword">import</span> LogisticRegression<br><span class="hljs-keyword">from</span> sklearn.svm <span class="hljs-keyword">import</span> SVC<br><br>log_clf = LogisticRegression()<br>rnd_clf = RandomForestClassifier()<br>svm_clf = SVC()<br><br>voting_clf = VotingClassifier(<br>    estimators = [(<span class="hljs-string">&#x27;lr&#x27;</span>, log_clf),(<span class="hljs-string">&#x27;rf&#x27;</span>, rnd_clf),(<span class="hljs-string">&#x27;svc&#x27;</span>, svm_clf)], voting=<span class="hljs-string">&#x27;hard&#x27;</span>)<br><br>voting_clf.fit(x_train, y_train)<br>...<br><br></code></pre></td></tr></table></figure>
+<p>在 sklearn 的 ensemble 中本身就有一个 VotingClassifier，也有
+RandomForestClassifier，我们可以直接用几个分类器可以实现。</p>
+<p>AdaBoost 和 Gradient Boost 也是属于一个典型的 ensemble Learning。</p>
+<p>那还有两个比较重要的东西，一个叫做 Xgboost，一个叫做
+LightBGM，这两个是 Grading Boost
+的升级版。它们被广泛的使用于机器挖掘，推荐系统等等。</p>
+<p>当然这两块内容就不放在「核心基础」里讲了，将会在后面讲到 BI
+专业课的时候专门的去讲，这两个是很重要的点。</p>
+<p>那本节课讲完之后呢，咱们核心基础的部分，关于机器学习就跨过一个小阶段了。下一节课开始，我们要讲「深度学习」了。属于向前要跨一大步。</p>
+<p>好，那咱们经典机器学习模型到今天就讲完了。各位看文章的小伙伴，自己去把这个课程再好好巩固一下，咱们下节课开始，就进入深度学习了。</p>
+<hr />
+<p>关注「坍缩的奇点」，第一时间获取更多免费 AI 教程。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/扫码_搜索联合传播样式-白色版.png"
+alt="坍缩的奇点" /></p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>17. 机器学习 - 随机森林</p><p><a href="https://hivan.me/17. 机器学习 - 随机森林/">https://hivan.me/17. 机器学习 - 随机森林/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2023-11-05</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2023-11-16</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" href="https://afdian.net/item/72907364008511ee904852540025c377" target="_blank" rel="noopener" data-type="afdian"><span class="icon is-small"><i class="fas fa-charging-station"></i></span><span>爱发电</span></a><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://www.buymeacoffee.com/hivandu" target="_blank" rel="noopener" data-type="buymeacoffee"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>送我杯咖啡</span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="paypal" onclick="document.getElementById(&#039;paypal-donate-form&#039;).submit()"><span class="icon is-small"><i class="fab fa-paypal"></i></span><span>Paypal</span></a><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" rel="noopener" id="paypal-donate-form"><input type="hidden" name="cmd" value="_donations"><input type="hidden" name="business" value="doo@hivan.me"><input type="hidden" name="currency_code" value="USD"></form><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/18.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%20-%20%E4%BB%8E%E9%9B%B6%E7%90%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">18. 深度学习 - 从零理解神经网络</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/16.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20-%20%E5%86%B3%E7%AD%96%E6%A0%91/"><span class="level-item">16. 机器学习 - 决策树</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/17.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20-%20%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97/';
+            this.page.identifier = '17. 机器学习 - 随机森林/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">192</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">7</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">22</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI 秘籍</span></span><span class="level-end"><span class="level-item tag">20</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">20</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI秘籍</span></span><span class="level-end"><span class="level-item tag">30</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">27</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-11-15T23:30:00.000Z">2023-11-16</time></p><p class="title"><a href="/21.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%20-%20%E6%8B%93%E6%9C%B4%E6%8E%92%E5%BA%8F%E7%9A%84%E5%8E%9F%E7%90%86%E5%92%8C%E5%AE%9E%E7%8E%B0/">21. 深度学习 - 拓朴排序的原理和实现</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-11-12T23:30:00.000Z">2023-11-13</time></p><p class="title"><a href="/20.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%20-%20%E5%A4%9A%E5%B1%82%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">20. 深度学习 - 多层神经网络</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-11-09T23:30:00.000Z">2023-11-10</time></p><p class="title"><a href="/19.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%20-%20%E7%94%A8%E5%87%BD%E6%95%B0%E8%A7%A3%E5%86%B3%E9%97%AE%E9%A2%98/">19. 深度学习 - 用函数解决问题</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-11-07T23:30:00.000Z">2023-11-08</time></p><p class="title"><a href="/18.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%20-%20%E4%BB%8E%E9%9B%B6%E7%90%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">18. 深度学习 - 从零理解神经网络</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-11-04T23:30:00.000Z">2023-11-05</time></p><p class="title"><a href="/17.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20-%20%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97/">17. 机器学习 - 随机森林</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2023 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
