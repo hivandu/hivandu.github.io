@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>07. 机器学习入门 3 - 了解 K-means - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="Hi，你好。我是茶桁。"><meta property="og:type" content="blog"><meta property="og:title" content="07. 机器学习入门 3 - 了解 K-means"><meta property="og:url" content="https://hivan.me/07.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A83%20-%20%E4%BA%86%E8%A7%A3K-means/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="Hi，你好。我是茶桁。"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2023-10-08T23:30:00.000Z"><meta property="article:modified_time" content="2023-11-25T04:41:13.706Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/07.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A83%20-%20%E4%BA%86%E8%A7%A3K-means/"},"headline":"07. 机器学习入门 3 - 了解 K-means","image":[],"datePublished":"2023-10-08T23:30:00.000Z","dateModified":"2023-11-25T04:41:13.706Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"Hi，你好。我是茶桁。"}</script><link rel="canonical" href="https://hivan.me/07.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A83%20-%20%E4%BA%86%E8%A7%A3K-means/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2023-10-08T23:30:00.000Z" title="10/9/2023, 7:30:00 AM">2023-10-09</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a><span> / </span><a class="link-muted" href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></span></div></div><h1 class="title is-3 is-size-4-mobile">07. 机器学习入门 3 - 了解 K-means</h1><div class="content"><p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231008152724.png" /></p>
+<p>Hi，你好。我是茶桁。</p>
+<span id="more"></span>
+<p>我们在机器学习入门已经学习了两节课，分别接触了动态规划，机器学习的背景，特征向量以及梯度下降。</p>
+<p>本节课，我们在深入的学习一点其他的知识，我们来看看 K-means.</p>
+<p>当然，在本节课我们也只是浅尝即止，关于这些内容，后面我们还有更详细的内容等着我们去深入学习。</p>
+<h2 id="淘宝的商品问题">淘宝的商品问题</h2>
+<p>上节课的最后，我们学习的内容是梯度下降，在这里不得不再次强调一下，梯度下降是咱们以后非常非常重要的一个内容。</p>
+<p>那关于今天要讲的 K-means
+呢，我们还是按照惯例，用一个问题来引入。这个问题也是一个实际问题，并非乱举例。</p>
+<p>在淘宝国际上经常会有一些人，基本是境外人员，会从国外出售违禁商品，国家是不许卖的，这些东西会被要求全部下架。</p>
+<p>这些人就有一个很聪明的方法，他会更换物品的名字。</p>
+<p>比方枪支又叫狗子，或者叫什么野狗。赌博账号叫米科，毒品账号可以叫野狼等等。</p>
+<p>我们把这些话称为黑话、黑词。我们在明处、他们在暗处。整个淘宝假设现在就只知道十几个、二十几个人黑话，想屏蔽他们就很难屏蔽。</p>
+<p>有人就说，我们可以像拦截垃圾邮件一样，我们可以去做记忆训练。</p>
+<p>但是这个时候就有一个情况，你做那个垃圾邮件的时候会发现有很多很多的垃圾邮件可以供你训练，但是在互联网上，这种暗语可能有几千上万，但是在整个淘宝里边，他特别的少，比例特别低，其次经常还会变。也就是我们经常会说到的时效性。</p>
+<p>后来人们想了一个这样的方法：</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231007230945.png"
+alt="未命名 -1" /></p>
+<p>第一步选取部分淘宝的商品描述，第二步将文本向量化，也就是把一个一个的文本给它变成一个一个向量。接下来对文本进行聚类。</p>
+<p>之前我们说过，聚类其实没有标准答案。我们就让它聚三类、聚四类、聚五类，可以规定聚多少类。把非常非常多的向量，距离接近的这些向量归为一类。所以对应出来把文本向量化之后，就是把文本接近的词归为同样一类。</p>
+<p>然后我们按照已知的暗语定位商品的类别，获得该商品下词汇频率远高于正常词汇分布的单词。</p>
+<p>比如我们知道“野狗”这个单词是一个黑词，首先让在淘宝里的这些商品进行自由分类，让文本相似的聚集到一块，然后我们看一下包含了”野狗“这个单词这个商品的那一大类里边哪些单词出现的频率比正常情况下出现的高。</p>
+<p>就是说，如果这个人爱说黑话，那么他所说的别的话也更有可能是黑话。</p>
+<p>假如说有一些街头帮派的人，他们爱说一些你听不懂的话，那么你听到了一句这样的话就找到了这样的这个人。把这一类人找到，再每天去监听一下他们说了什么话，他们说的有些话的频率其实比正常情况人群说的高，大概率就是黑话。</p>
+<p>看这个过程，其实对应了我们上一节说说的，机器学习的基本框架。有观察的部分，有提取特征的部分，还有让机器进行聚类，让他去学习的过程。</p>
+<p>这个时候我们又发现，让机器自动去聚类之后我们并没有用那个最终求解出来的
+f。也就是我们并没有让它去预测新数据，是用老数据，然后让老数据去给它聚类，并没有让这个东西去预测新数据。</p>
+<p>其实我说两个非常重要的工程经验。</p>
+<p>第一个工程经验是，所谓算法工程师并不是说他记住了多少算法，而是他要能把一个实际问题抽象成一个算法问题。</p>
+<p>就比方说淘宝的这个问题，如果没人告诉你的话，你并不知道他是一个聚类问题。另外一些人，就能想到可以用聚类这个方法去解决。这个其实才是最重要的。</p>
+<p>我有很多同学，记住了很多但是不会应用，这就不行。</p>
+<p>第二个重要的点是在真正的工作中，我们的机器学习方法很多时候是作为整个项目的一部分，单靠机器学习很难解决完整项目。</p>
+<p>整个项目它可能很长，有十多步，其中有几步用到了机器学习。而且用到的还是机器学习的中间的一些部分。</p>
+<p>假如我们现在选 10
+万个淘宝的商品，对他进行了聚类。其实按照标准的机器学习过程，聚类完成之后得再学些新的商品，让现在这个模型对这些新的去进行分类。</p>
+<p>但是我们没有进行这一步，我们把这 10
+万给它分完类，自动聚完类之后就停了，就进行下面的工作了。这就说明机器学习这个完整的步骤完全可以只使用其中的某几个部分，而不是一定要把这个全程跑完。</p>
+<p>这就是要做一个算法工程师很重要的点。</p>
+<h2 id="k-means">K-means</h2>
+<p>接下来，来看第一个机器学习算法问题。我们把第一个机器学习问题叫做
+K-means。</p>
+<p>如果给出了很多个点，给出了很多个向量。我们拿比较方便看的二维向量举例。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231007232522.png"
+alt="image-20231007232522070" /></p>
+<p>K-means
+原理很简单，假如有这么些数据。虽然我不知道最终的分类的结果是什么样的，但是可以告诉你我想把这些数据分成几类。</p>
+<p>假如现在我要把这个数据分成三类，那么就随机产生 3 个点。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231007232701.png"
+alt="image-20231007232701026" /></p>
+<p>第一步是随机产生 k 个点。</p>
+<p>第二步，判断其余待分类的点，离我们随机的 K
+点哪一个更近一点。每一个待分类点一定能找到一个离的更近的 k 点。</p>
+<p>然后把每一个分类的里面点再重新求一下它的中间值。</p>
+<p>求得了新的中间值之后，把这个新的中间值再做为刚才的 k
+点，让里边的所有的点去选择到底离哪个 k 最近。</p>
+<p>然后再产生一轮新的 k，当一轮新的 k 和上一轮的 k
+的距离很接近的时候，我们就说找到了，这个中心点基本上就不变了。我们把这个方法叫做
+K-means。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231007233608.png"
+alt="image-20231007233608095" /></p>
+<p>这个 means 就是平均值的意思，首先有 k
+个点，然后把这个图像里面的所有的点分配到这 k 个点，找到离 k
+个点里面最近的。然后把这些隶属于每个 k
+点最近的点求平均值，也就是求他的中心点。</p>
+<p>求完中心点，这个中心点又变成了新的 k 值。同样的我们再执行，找离 k
+最近的那些点，再求平均值。</p>
+<p>这样一轮一轮的，把 k 点这样求出来之后，当上一次的 k 和这一次的 k
+不怎么变的时候，我们就找到了它的中心值，就把它聚类起来。我们就把它叫做
+K-means。</p>
+<p>以上是 K-means
+的原理，接下来，咱们来看一个实际的案例。比如说，咱们想这样一个场景，我们给中国建几个能源中心，给咱们中国的省会设置能源中心。</p>
+<p>OK，我们来看一下，那首先呢，我们需要一组数据。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">coordination_source = <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">&#123;name:&#x27;兰州&#x27;, geoCoord:[103.73, 36.03]&#125;,</span><br><span class="hljs-string">...</span><br><span class="hljs-string">&#123;name:&#x27;澳门&#x27;, geoCoord:[113.54, 22.19]&#125;</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>完整数据请查看我源代码<code>Core foundations/07.ipynb</code>，为了篇幅我这里就不放完整的了。</p>
+</blockquote>
+<p>这组数据就是每个省的城市和坐标，我们用正则表达式把这个城市里的名字和数字地址全部找出来。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> re<br><span class="hljs-comment"># 创建变量保存</span><br>city_location = &#123;<br>    <span class="hljs-string">&#x27;香港&#x27;</span>: (<span class="hljs-number">114.17</span>, <span class="hljs-number">22.28</span>)<br>&#125;<br><br>test_string = <span class="hljs-string">&quot;&#123;name:&#x27;兰州&#x27;, geoCoord:[103.73, 36.03]&#125;,&quot;</span><br><br>pattern = re.<span class="hljs-built_in">compile</span>(<span class="hljs-string">r&quot;name:&#x27;(\w+)&#x27;,\s+geoCoord:\[(\d+.\d+),\s(\d+.\d+)\]&quot;</span>)<br><br><span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> test_string.split(<span class="hljs-string">&#x27;\n&#x27;</span>):<br>    city_info = pattern.findall(line)<br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> city_info: <span class="hljs-keyword">continue</span><br>    <br>    <span class="hljs-comment"># following: we find the city info</span><br>    <br>    city, long, lat = city_info[<span class="hljs-number">0</span>]<br>    <br>    long, lat = <span class="hljs-built_in">float</span>(long), <span class="hljs-built_in">float</span>(lat)<br>    <br>    city_location[city] = (long, lat)<br><br>city_location<br><br>---<br>&#123;<span class="hljs-string">&#x27;香港&#x27;</span>: (<span class="hljs-number">114.17</span>, <span class="hljs-number">22.28</span>), <span class="hljs-string">&#x27;兰州&#x27;</span>: (<span class="hljs-number">103.73</span>, <span class="hljs-number">36.03</span>)&#125;<br></code></pre></td></tr></table></figure>
+<p>测试字段证明我们这一段正则生效了，现在可以将内容替换成我们之前写的数据变量：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> test_string.split(<span class="hljs-string">&#x27;\n&#x27;</span>):<br>    ...<br><br>city_location<br><br>---<br>&#123;<span class="hljs-string">&#x27;香港&#x27;</span>: (<span class="hljs-number">114.17</span>, <span class="hljs-number">22.28</span>),<br>...<br> <span class="hljs-string">&#x27;澳门&#x27;</span>: (<span class="hljs-number">113.54</span>, <span class="hljs-number">22.19</span>)&#125;<br></code></pre></td></tr></table></figure>
+<p>找出来之后，就可以求距离了。但是我们需要注意一下，就是城市之间是有一个球面距离，就是在球面同样都是那个纬度，东经
+60 度和东经 45
+度，在北纬的这个位置不一样的时候距离差的是挺大的。最极限的时候在两极是
+0，最宽的是在赤道上，就会很大。所以有一个专门求经纬度距离的式子，就是经纬度在实际中球面距离的一个式子。</p>
+<p>除此之外，还有一些距离公式，比方说余弦距离 (Cosine
+Distance)、欧几里德距离 (Euclidean Distance)、曼哈顿距离 (Manhattan
+distance or Manhattan length):</p>
+<p><strong>余弦距离</strong> <span class="math display">\[
+cos(p,q) = \frac{x\times y}{|x|\times|y|} =
+\frac{\sum_{i=1}^{n}x_iy_i}{\sqrt{\sum_{i=1}^nx_i^2}\sqrt{\sum_{i=1}^ny_i^2}},
+\]</span></p>
+<p><strong>欧几里德距离</strong> <span class="math display">\[
+\begin{align*}
+2 维空间中：&amp; \\
+d(p,q) &amp; = \sqrt{(p_1 - q_1)^2 + (p_2 - q_2)^2} \\ \\
+n 维空间中：&amp; \\
+d(p,q) &amp; = \sqrt{\sum_{i-1}^n(p_i-q_i)^2}  \\ &amp;  = \sqrt{(p_1 -
+q_1)^2 + (p_2 - q_2)^2+...+(p_n - q_n)^2}
+\end{align*}
+\]</span></p>
+<p><strong>曼哈顿距离</strong> <span class="math display">\[
+\begin{align*}
+d(p,q) = |p_1-q_1| + |p_2 - q_2|
+\end{align*}
+\]</span></p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231008133954.png"
+alt="image-20231008133949057" /></p>
+<p>上图中红线代表曼哈顿距离，绿色代表欧氏距离，也就是直线距离，而蓝色和黄色代表等价的曼哈顿距离。曼哈顿距离——两点在南北方向上的距离加上在东西方向上的距离。</p>
+<p>这些都是不同的求距离的方法。就之前给大家说过，我们可以把对象变成向量，向量要求解距离方法不仅仅只有一种。就像这里，咱们将会使用地理上的球面距离：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> math<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">geo_distance</span>(<span class="hljs-params">origin, destination</span>):<br>    lon1, lat1 = origin<br>    lon2, lat2 = destination<br>    radius = <span class="hljs-number">6371</span>  <span class="hljs-comment"># km</span><br><br>    dlat = math.radians(lat2 - lat1)<br>    dlon = math.radians(lon2 - lon1)<br>    a = (math.sin(dlat / <span class="hljs-number">2</span>) * math.sin(dlat / <span class="hljs-number">2</span>) +<br>         math.cos(math.radians(lat1)) * math.cos(math.radians(lat2)) *<br>         math.sin(dlon / <span class="hljs-number">2</span>) * math.sin(dlon / <span class="hljs-number">2</span>))<br>    c = <span class="hljs-number">2</span> * math.atan2(math.sqrt(a), math.sqrt(<span class="hljs-number">1</span> - a))<br>    d = radius * c<br><br>    <span class="hljs-keyword">return</span> d<br></code></pre></td></tr></table></figure>
+<p>这里，咱们涉及到了几个参数，一个是<code>origin</code>,
+一个是<code>destination</code>，我们是要求这两个参数的距离。都是经度、纬度，类型为<code>tuple of float</code>。然后我们返回一个<code>float</code>。</p>
+<p>比如慕尼黑到柏林的例子：</p>
+<figure class="highlight python-repl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python-repl"><span class="hljs-meta prompt_">&gt;&gt;&gt;</span> <span class="language-python">origin = (<span class="hljs-number">48.1372</span>, <span class="hljs-number">11.5756</span>)  <span class="hljs-comment"># Munich</span></span><br><span class="hljs-meta prompt_">&gt;&gt;&gt;</span> <span class="language-python">destination = (<span class="hljs-number">52.5186</span>, <span class="hljs-number">13.4083</span>)  <span class="hljs-comment"># Berlin</span></span><br><span class="hljs-meta prompt_">&gt;&gt;&gt;</span> <span class="language-python"><span class="hljs-built_in">round</span>(distance(origin, destination), <span class="hljs-number">1</span>)</span><br>504.2<br></code></pre></td></tr></table></figure>
+<p><code>city_location</code>就是每一个城市的位置，我们就可以通过第三方库<code>networkx</code>画出来。</p>
+<p>不过这里我们需要注意一点，就是如果是现实中文，我们还需要做一项工作，否则会出现乱码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 正常显示中文</span><br><span class="hljs-keyword">from</span> pylab <span class="hljs-keyword">import</span> mpl<br><br>mpl.rcParams[<span class="hljs-string">&#x27;font.sans-serif&#x27;</span>] = [<span class="hljs-string">&#x27;SimHei&#x27;</span>] <span class="hljs-comment"># 默认字体</span><br>mpl.rcParams[<span class="hljs-string">&#x27;axes.unicode_minus&#x27;</span>] = <span class="hljs-literal">False</span> <span class="hljs-comment"># 解决保存图像负号&#x27;-&#x27;显示为方块的问题</span><br></code></pre></td></tr></table></figure>
+<p>然后我们来将图画出来：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> networkx <span class="hljs-keyword">as</span> nx<br><br>%matplotlib inline<br><br>city_graph = nx.Graph()<br>city_graph.add_nodes_from(<span class="hljs-built_in">list</span>(city_location.keys()))<br>nx.draw(city_graph, city_location, with_labels=<span class="hljs-literal">True</span>, node_size=<span class="hljs-number">30</span>)<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231008141458.png"
+alt="image-20231008141458372" /></p>
+<p>看，一个“公鸡”的骨架是不是就出现在图上了？</p>
+<p>接下来，咱们就需要实现 K-means 的部分了。</p>
+<p>我们需要将经纬度分别放在 x,y 里面：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">all_x = []<br>all_y = []<br><br><span class="hljs-keyword">for</span> _, location <span class="hljs-keyword">in</span> city_location.items():<br>    x, y = location<br>    all_x.append(x)<br>    all_y.append(y)<br></code></pre></td></tr></table></figure>
+<p>然后我们随机找了 k 个 center:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_random_center</span>(<span class="hljs-params">all_x, all_y</span>):<br>    r_x = random.uniform(<span class="hljs-built_in">min</span>(all_x), <span class="hljs-built_in">max</span>(all_x))<br>    r_y = random.uniform(<span class="hljs-built_in">min</span>(all_y), <span class="hljs-built_in">max</span>(all_y))<br>    <br>    <span class="hljs-keyword">return</span> r_x, r_y<br><br>get_random_center(all_x, all_y)<br><br>K = <span class="hljs-number">5</span><br>centers = &#123;<span class="hljs-string">&#x27;&#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(i+<span class="hljs-number">1</span>): get_random_center(all_x, all_y) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(K)&#125;<br></code></pre></td></tr></table></figure>
+<p><code>all_x</code>和<code>all_y</code>是刚刚所有的这些城市的经纬度，让这些城市的经纬度来和每个
+k 去求距离，现在是让所有的 x,y 去一个一个和 k 去做对比，找到离它最近的
+k。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">closet_points = defaultdict(<span class="hljs-built_in">list</span>)<br><br><span class="hljs-keyword">for</span> x, y, <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(all_x, all_y):<br>    closet_c, closet_dis = <span class="hljs-built_in">min</span>([(k, geo_distance((x, y), centers[k])) <span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> centers], key=<span class="hljs-keyword">lambda</span> t: t[<span class="hljs-number">1</span>])    <br>    <br>    closet_points[closet_c].append([x, y])<br></code></pre></td></tr></table></figure>
+<p>找到了 k 之后，我们在所有的图上找到了离 k 最近的这些点，然后再求一个
+means，在离 k 最近的这些点中求出新的平均值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">iterate_once</span>(<span class="hljs-params">centers, closet_points, threshold=<span class="hljs-number">5</span></span>):<br>    have_changed = <span class="hljs-literal">False</span><br>    <br>    <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> closet_points:<br>        former_center = centers[c]<br><br>        neighbors = closet_points[c]<br><br>        neighbors_center = np.mean(neighbors, axis=<span class="hljs-number">0</span>)<br><br>        <span class="hljs-keyword">if</span> geo_distance(neighbors_center, former_center) &gt; threshold:<br>            centers[c] = neighbors_center<br>            have_changed = <span class="hljs-literal">True</span><br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-keyword">pass</span> <span class="hljs-comment">## keep former center</span><br>        <br>    <span class="hljs-keyword">return</span> centers, have_changed<br></code></pre></td></tr></table></figure>
+<p>如果新的中心点和原有的中心点距离大于一个阈值，就把这个 central
+改成新的值，否则就不改变它。</p>
+<p>然后不断的去监测它，不断的去根据已知的这个 k 来求解。离每个 k
+最近的这些点，找到这些最近的点，就求解出来新的 means 的
+center，就是平均的 center。当我们发现这个 center
+没有改变的时候就停了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">kmeans</span>(<span class="hljs-params">Xs, k, threshold=<span class="hljs-number">5</span></span>):<br>    all_x = Xs[:, <span class="hljs-number">0</span>]<br>    all_y = Xs[:, <span class="hljs-number">1</span>]<br>    <br>    K = k<br>    <br>    centers = &#123;<span class="hljs-string">&#x27;&#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(i+<span class="hljs-number">1</span>): get_random_center(all_x, all_y) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(K)&#125;<br>    <br>    changed = <span class="hljs-literal">True</span><br>    <br>    <span class="hljs-keyword">while</span> changed:<br>        closet_points = defaultdict(<span class="hljs-built_in">list</span>)<br><br>        <span class="hljs-keyword">for</span> x, y, <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(all_x, all_y):<br>            closet_c, closet_dis = <span class="hljs-built_in">min</span>([(k, geo_distance((x, y), centers[k])) <span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> centers], key=<span class="hljs-keyword">lambda</span> t: t[<span class="hljs-number">1</span>])    <br>            closet_points[closet_c].append([x, y])   <br>            <br>        centers, changed = iterate_once(centers, closet_points, threshold)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;iteration&#x27;</span>)<br><br>    <span class="hljs-keyword">return</span> centers<br></code></pre></td></tr></table></figure>
+<p>然后我们就可以得出来我们的 K-means 迭代出来的情况：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python">kmeans(np.array(<span class="hljs-built_in">list</span>(city_location.values())), k=<span class="hljs-number">5</span>, threshold=<span class="hljs-number">5</span>)<br><br>---<br>iteration<br>iteration<br>iteration<br>iteration<br>iteration<br>iteration<br><br>&#123;<span class="hljs-string">&#x27;1&#x27;</span>: array([<span class="hljs-number">118.14307692</span>,  <span class="hljs-number">37.97923077</span>]),<br> <span class="hljs-string">&#x27;2&#x27;</span>: array([<span class="hljs-number">115.528</span>,  <span class="hljs-number">25.643</span>]),<br> <span class="hljs-string">&#x27;3&#x27;</span>: array([<span class="hljs-number">106.22</span>      ,  <span class="hljs-number">28.16333333</span>]),<br> <span class="hljs-string">&#x27;4&#x27;</span>: array([<span class="hljs-number">99.518</span>, <span class="hljs-number">38.86</span> ]),<br> <span class="hljs-string">&#x27;5&#x27;</span>: array([<span class="hljs-number">91.11</span>, <span class="hljs-number">29.97</span>])&#125;<br></code></pre></td></tr></table></figure>
+<p>我们可以将这些点画出图来，得到五个能源中心的地点：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">plt.scatter(all_x, all_y)<br>plt.scatter(*<span class="hljs-built_in">zip</span>(*centers.values()))<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231008143742.png"
+alt="image-20231008143742811" /></p>
+<p>在内蒙有一个，东南沿海有一个，重庆有一个，西藏有一个。</p>
+<p>感觉咱们这个迭代的次数应该是还不够，如果迭代次数再多一些，能源站应该会放到珠三角这个地方。</p>
+<p>这段代码再运行的时间长一点，几个能源中心基本上它会自然而然的变到京津冀江浙沪，还有珠三角和成都重庆这些地方，可能还会有一个在嘉峪关和乌鲁木齐这个地方。</p>
+<p>咱们会发现国家的经济中心的形成，其实是有很强的地理关系，非常的神奇。</p>
+<p>我们这段代码是咱们从头到尾的把原理实现了一遍，其实是我们手写的一个
+K-means。这样的话，大家就对这个原理就了解多了。当你以后要用到它或者要用它一部分的时候才能知道它的用途。</p>
+<p>其实 K-means
+也是有一个最大的缺点的，就是最终计算出来的结果会受到初始选取中心的影响。当然，除此之外还有一个缺点，就是它的计算时间复杂度比较高。</p>
+<p>尤其是当每次图形越变化越大的时候，就是越斜越细长就会有越受影响，可以设定一个同样的
+random seed。</p>
+<p>这个代码，大家之后一定要自己去敲，去运行。这样就会更加彻底，比绝大多数人更加理解。本节课的相关代码可以去课程仓库中去找，课程的相关问题可以留言提问（不负责免费解答其他无关问题）。</p>
+<p>好，那我们机器学习的入门部分，也就随着本节课结束了。下节课开始的很长一段时间之内，咱们可以慢慢的来消化机器学习的相关知识点。</p>
+<hr />
+<p>关注「坍缩的奇点」，第一时间获取更多免费 AI 教程。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/扫码_搜索联合传播样式-白色版.png"
+alt="坍缩的奇点" /></p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>07. 机器学习入门 3 - 了解 K-means</p><p><a href="https://hivan.me/07. 机器学习入门3 - 了解K-means/">https://hivan.me/07. 机器学习入门3 - 了解K-means/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2023-10-09</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2023-11-25</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" href="https://afdian.net/item/72907364008511ee904852540025c377" target="_blank" rel="noopener" data-type="afdian"><span class="icon is-small"><i class="fas fa-charging-station"></i></span><span>爱发电</span></a><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://www.buymeacoffee.com/hivandu" target="_blank" rel="noopener" data-type="buymeacoffee"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>送我杯咖啡</span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="paypal" onclick="document.getElementById(&#039;paypal-donate-form&#039;).submit()"><span class="icon is-small"><i class="fab fa-paypal"></i></span><span>Paypal</span></a><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" rel="noopener" id="paypal-donate-form"><input type="hidden" name="cmd" value="_donations"><input type="hidden" name="business" value="doo@hivan.me"><input type="hidden" name="currency_code" value="USD"></form><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/08.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%20%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">08. 机器学习 - 线性回归</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/06.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A82%20-%20%E7%90%86%E8%A7%A3%E7%89%B9%E5%BE%81%E5%92%8C%E5%90%91%E9%87%8F/"><span class="level-item">06. 机器学习入门 2 - 理解特征和向量</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/07.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A83%20-%20%E4%BA%86%E8%A7%A3K-means/';
+            this.page.identifier = '07. 机器学习入门3 - 了解K-means/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">200</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">5</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">22</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI秘籍</span></span><span class="level-end"><span class="level-item tag">58</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">27</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">29</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-12T23:30:00.000Z">2023-12-13</time></p><p class="title"><a href="/29.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E5%8D%B7%E7%A7%AF%E7%9A%84%E5%8E%9F%E7%90%86/">29. 深度学习进阶 - 卷积的原理</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-09T23:30:00.000Z">2023-12-10</time></p><p class="title"><a href="/28.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20LSTM/">28. 深度学习进阶 - LSTM</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-05T23:30:00.000Z">2023-12-06</time></p><p class="title"><a href="/27.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E4%B8%BA%E4%BB%80%E4%B9%88RNN/">27. 深度学习进阶 - 为什么RNN</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-01T23:30:00.000Z">2023-12-02</time></p><p class="title"><a href="/26.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/">26. 深度学习进阶 - 深度学习的优化方法</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-11-28T23:30:00.000Z">2023-11-29</time></p><p class="title"><a href="/25.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E6%9D%83%E9%87%8D%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%8C%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1%E5%92%8C%E6%A2%AF%E5%BA%A6%E7%88%86%E7%82%B8/">25. 深度学习进阶 - 权重初始化，梯度消失和梯度爆炸</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2023 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

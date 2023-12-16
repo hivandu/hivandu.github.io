@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>03. 人工智能核心基础 - 导论（2） - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="[TOC]  Hi，你好。我是茶桁。"><meta property="og:type" content="blog"><meta property="og:title" content="03. 人工智能核心基础 - 导论（2）"><meta property="og:url" content="https://hivan.me/03.%20%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%A0%B8%E5%BF%83%E5%9F%BA%E7%A1%80%20-%20%E5%AF%BC%E8%AE%BA2/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="[TOC]  Hi，你好。我是茶桁。"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2023-09-28T23:30:00.000Z"><meta property="article:modified_time" content="2023-11-25T04:41:01.200Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/03.%20%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%A0%B8%E5%BF%83%E5%9F%BA%E7%A1%80%20-%20%E5%AF%BC%E8%AE%BA2/"},"headline":"03. 人工智能核心基础 - 导论（2）","image":[],"datePublished":"2023-09-28T23:30:00.000Z","dateModified":"2023-11-25T04:41:01.200Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"[TOC]  Hi，你好。我是茶桁。"}</script><link rel="canonical" href="https://hivan.me/03.%20%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%A0%B8%E5%BF%83%E5%9F%BA%E7%A1%80%20-%20%E5%AF%BC%E8%AE%BA2/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2023-09-28T23:30:00.000Z" title="9/29/2023, 7:30:00 AM">2023-09-29</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a><span> / </span><a class="link-muted" href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></span></div></div><h1 class="title is-3 is-size-4-mobile">03. 人工智能核心基础 - 导论（2）</h1><div class="content"><p>[TOC]</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20230929052420.png"
+alt="茶桁的 AI 秘籍 02" /></p>
+<p>Hi，你好。我是茶桁。</p>
+<span id="more"></span>
+<p>上一章中，我们谈论了人工智能在时间维度上的不同时间不同的侧重点，这只是一个片面的方面。当然除此之外，我们还要从其他方向来认识人工智能，才能更加的全面。</p>
+<p>那下面，我们就分别从方法论，问题范式和研究对象来分别认识一下人工智能，看看有没有什么不一样的心得。</p>
+<h2 id="从方法论上来讲">从方法论上来讲</h2>
+<p>接下来大家来讲从方法论上来看待人工智能。</p>
+<p>方法论就是一件问题其实用不同的方法都可以解决，一件问题用不同的方法都可以解决。同样的一个问题，不同的人说的是不一样的。</p>
+<p>在整个人工智能的历史上，此起彼伏的一直有两种方法在做：一种叫做基于统计的，一种叫做基于逻辑分析的。</p>
+<blockquote>
+<p>Statistical vs Logic analysis</p>
+</blockquote>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20230929052258.jpg" /></p>
+<p>上节课给大家举的李开复的那个例子，当时人们是希望通过语法树，希望能够写程序去分析语法术来解决，结果发现越做越难。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20230929052259.jpg" /></p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20230929052300.jpg" /></p>
+<p>后来人们就把它变成了基于统计去做，统计就简单了，只要我数一下出现的频率就可以了。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20230929052301.jpg" /></p>
+<p>这就是这两个学派，现在是统计学派占优势。</p>
+<p>从 1990 年开始到现在，基本上是统计学派占优势。我们之后要学习的，从第
+5 节课开始，基本上学习的最主流的 80%-90% 的内容都是基于统计的方法。</p>
+<p>但是逻辑的分析方法依然存在，而且如果你以后要做 NLP
+自然语言处理，或者做计算机视觉等等，都会遇到这种逻辑类。</p>
+<p>待会咱们会来出一道题，我们一起来动手去完成它。就是我们怎么样来生成一个句子。</p>
+<p>逻辑和统计的区别非常大，我们如何让计算机生成语言。这个问题其实是当时要做图灵测试非常非常重要的一个能力。包括现在做什么小爱机器人，大家可以拿这个电话去打你最近的海底捞，你会发现海底捞现在基本上
+100% 都是机器人在回答了。</p>
+<p>那么现在我们摆出来了一个问题，就是机器怎么生成语言？</p>
+<p>今天就跟大家来讲解，这是一个非常古老人工智能方法。但是是一个非常非常具有代表性的，大家可以通过他来看到人工智能的多样性。</p>
+<p>我们可能之后学习的时候，从第 5
+课学的都是基于统计的方法，但是我们今天要给大家说的是，历史上有很多种方法非常有用。最近虽然不是占主流，但是大家在需要的时候一定要想起它，它能解决你很多很重要的问题。</p>
+<p>而且在这个过程中为什么我们提出来了这些新的深度学习方法，也能知道到底哪些东西是解决不了的。</p>
+<p>OK，我们现在来看一下这个问题：计算机如何能够生成像人类一样的语言。</p>
+<p>当时人们想了很多种方法，有很多人知道，现在用什么 LSTM，GPT-4
+等等去做。</p>
+<p>它们来做语言生成很好，但是我们来跟大家看看当年人们是怎么样解决这个问题的，曾经一度非常重要的一种方法。</p>
+<p>有人他定义了一个东西，比方说我们现在知道了一个<code>grammar</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">grammar = <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">句子 = 主 谓 宾</span><br><span class="hljs-string">谓 = 吃 | 喝 | 玩</span><br><span class="hljs-string">宾 = 皮球 | 桃子</span><br><span class="hljs-string">主 = 你 | 我 | 他</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br></code></pre></td></tr></table></figure>
+<p>假设我们现在有一个东西叫做「句子」，大家都知道这个句子是主、谓、宾生成的，主语、谓语、宾语。</p>
+<p>然后我们这个谓语就是动词，比方说<code>吃|喝|玩</code>,宾语比如说<code>皮球|桃子</code>，然后主语就是<code>你|我|他</code>。</p>
+<p>曾经有一段时间，人们为了解决这个问题，写了这样的东西。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> random<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">generate_verb</span>():<br>    <span class="hljs-keyword">return</span> random.choice(<span class="hljs-string">&#x27;吃 | 喝 | 玩|&#x27;</span>.split(<span class="hljs-string">&#x27;|&#x27;</span>))<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">生成宾语</span>():<br>    <span class="hljs-keyword">return</span> random.choice(<span class="hljs-string">&#x27;皮球 | 桃子&#x27;</span>.split(<span class="hljs-string">&#x27;|&#x27;</span>))<br><br><span class="hljs-built_in">print</span>(生成宾语()+generate_verb())<br><br>---<br>桃子玩<br></code></pre></td></tr></table></figure>
+<p>大家看，这是非常非常原始，非常非常古老的一种写法。当时人们想利用模板解决问题，最简单的方法。但是人们发现一个问题，就是假如说我们这里的谓语动词有个变化，比如说我们要再加一个动词，或者我们要在这里的宾语再加一个东西：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">grammar = <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">句子 = 主 谓 宾</span><br><span class="hljs-string">谓 = 吃 | 喝 | 玩 | 打</span><br><span class="hljs-string">宾 = 皮球 | 桃子 | 饺子</span><br><span class="hljs-string">主 = 你 | 我 | 他 | 她</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br></code></pre></td></tr></table></figure>
+<p>这样的话，就意味着我们每修改一下这个语法，是不是原代码也要操作？</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> random<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">generate_verb</span>():<br>    <span class="hljs-keyword">return</span> random.choice(<span class="hljs-string">&#x27;吃 | 喝 | 玩 | 打&#x27;</span>.split(<span class="hljs-string">&#x27;|&#x27;</span>))<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">生成宾语</span>():<br>    <span class="hljs-keyword">return</span> random.choice(<span class="hljs-string">&#x27;皮球 | 桃子 | 饺子&#x27;</span>.split(<span class="hljs-string">&#x27;|&#x27;</span>))<br><br><span class="hljs-built_in">print</span>(generate_verb()+生成宾语())<br><br>---<br>吃饺子<br></code></pre></td></tr></table></figure>
+<p>如果这样的话，代码整合起来就很复杂。而且我们有可能还要说别的话，例如我们在这里的说一个招待，招待的场景就等于打招呼。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">grammar2 = <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">招待 = 打招呼 玩 活动 吗？</span><br><span class="hljs-string">打招呼 = 你好 | 您好 | 好久不见</span><br><span class="hljs-string">玩 = 需要玩 | 喜欢玩 | 想玩</span><br><span class="hljs-string">活动 = 骑马 | 打球 | 喝茶</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br></code></pre></td></tr></table></figure>
+<p>你看，我们如果还有另外的一个句子，想把它生成这样的话，意味着又得重新再写一套程序。才能解决
+grammar2 的这个问题。</p>
+<p>这个东西看起来很简单，但其实它会越来越难。如果说我们现在有个
+grammar2，又要再重新写很多句子。</p>
+<p>这个时候最古老的一批程序员们就希望：“我能不能不要每次都改写代码，每次代码都不要改了？你给我不同的输入我能接受，代码不经过改动、就能解决这个问题。”</p>
+<p>这个思想其实是我们站在程序员视角，程序员思考的人工智能其实是最接近这种想法。</p>
+<p>假如说把一张图片要做到识别率 99% 那是很简单的，要把两张图片做到 90%
+也是很简单的，专门写一个程序就行。但是怎么样做到每次改了图片之后，还能做到
+99% 呢？这是我们需要讨论问题。这个朴素的想法一直延伸到现在。</p>
+<p>怎么解决这个问题呢？这个时候就需要抽象了。怎么抽象呢？</p>
+<p>我们现在把它变成一行一行：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> grammar.split(<span class="hljs-string">&#x27;\n&#x27;</span>):<br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> line.strip(): <span class="hljs-keyword">continue</span><br>    <span class="hljs-built_in">print</span>(line)<br><br>---<br>句子 = 主 谓 宾<br>谓 = 吃 | 喝 | 玩<br>宾 = 皮球 | 桃子<br>主 = 你 | 我 | 他<br></code></pre></td></tr></table></figure>
+<p>然后再留一个 grammar，我们把它变成一个表达式：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python">grammar_gen = <span class="hljs-built_in">dict</span>()<br><br><span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> grammar.split(<span class="hljs-string">&#x27;\n&#x27;</span>):<br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> line.strip(): <span class="hljs-keyword">continue</span><br>    <span class="hljs-built_in">print</span>(line)<br><br>    stmt, expr = line.split(<span class="hljs-string">&#x27;=&#x27;</span>)<br>    grammar_gen[stmt] = expr<br><br><span class="hljs-built_in">print</span>(grammar_gen)<br><br>---<br>句子 = 主 谓 宾<br>谓 = 吃 | 喝 | 玩<br>宾 = 皮球 | 桃子<br>主 = 你 | 我 | 他<br>&#123;<span class="hljs-string">&#x27;句子 &#x27;</span>: <span class="hljs-string">&#x27; 主 谓 宾&#x27;</span>, <span class="hljs-string">&#x27;谓 &#x27;</span>: <span class="hljs-string">&#x27; 吃 | 喝 | 玩&#x27;</span>, <span class="hljs-string">&#x27;宾 &#x27;</span>: <span class="hljs-string">&#x27; 皮球 | 桃子&#x27;</span>, <span class="hljs-string">&#x27;主 &#x27;</span>: <span class="hljs-string">&#x27; 你 | 我 | 他&#x27;</span>&#125;<br></code></pre></td></tr></table></figure>
+<p>就是 statement，期望表达的东西，和 expression。</p>
+<p>首先我们把每个 grammar 变成了一个
+Dictionary，那么如果能够有一种东西通过 Dictionary
+来生成的话，它是不是就可以输入不同的 grammar street 形式。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs python">grammar_gen = <span class="hljs-built_in">dict</span>()<br><br><span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> grammar.split(<span class="hljs-string">&#x27;\n&#x27;</span>):<br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> line.strip(): <span class="hljs-keyword">continue</span><br>    <span class="hljs-built_in">print</span>(line)<br><br>    stmt, expr = line.split(<span class="hljs-string">&#x27;=&#x27;</span>)<br><br>    expressions = expr.split(<span class="hljs-string">&#x27;|&#x27;</span>)<br>    grammar_gen[stmt.strip()] = [e.strip() <span class="hljs-keyword">for</span> e <span class="hljs-keyword">in</span> expressions]<br><br><span class="hljs-built_in">print</span>(grammar_gen)<br><br>---<br>句子 = 主 谓 宾<br>谓 = 吃 | 喝 | 玩<br>宾 = 皮球 | 桃子<br>主 = 你 | 我 | 他<br>&#123;<span class="hljs-string">&#x27;句子&#x27;</span>: [<span class="hljs-string">&#x27;主 谓 宾&#x27;</span>], <span class="hljs-string">&#x27;谓&#x27;</span>: [<span class="hljs-string">&#x27;吃&#x27;</span>, <span class="hljs-string">&#x27;喝&#x27;</span>, <span class="hljs-string">&#x27;玩&#x27;</span>], <span class="hljs-string">&#x27;宾&#x27;</span>: [<span class="hljs-string">&#x27;皮球&#x27;</span>, <span class="hljs-string">&#x27;桃子&#x27;</span>], <span class="hljs-string">&#x27;主&#x27;</span>: [<span class="hljs-string">&#x27;你&#x27;</span>, <span class="hljs-string">&#x27;我&#x27;</span>, <span class="hljs-string">&#x27;他&#x27;</span>]&#125;<br></code></pre></td></tr></table></figure>
+<p>谓语后面跟的是一个 list, 宾语也是这样。</p>
+<p>现在来写一个很有趣的一个代码。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">generate_sentence</span>(<span class="hljs-params">gram, target=<span class="hljs-string">&#x27;句子&#x27;</span></span>):<br>    <span class="hljs-keyword">if</span> target <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> gram: <span class="hljs-keyword">return</span> target<br><br>    exp = random.choice(gram[target])<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;&#x27;</span>.join([generate_sentence(gram, e) <span class="hljs-keyword">for</span> e <span class="hljs-keyword">in</span> exp.split()])<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;generated: \n&#x27;</span>+generate_sentence(grammar_gen))<br><br>---<br>generated: <br>我吃桃子<br></code></pre></td></tr></table></figure>
+<p>我们来看一下这段代码，如果我们现在要根据这样的一个 Dictionary
+来生成句子，怎么来生成句子呢？这是一个当年很经典的一个程序。</p>
+<p>如果我们的一个 target 它在 grammar 的 key
+里边，那么我们就证明现在需要去扩展，如果他不在我们的 key
+里边，我们就说他不需要扩展，直接返回就可以了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">if</span> target <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> garm: <span class="hljs-keyword">return</span> target<br></code></pre></td></tr></table></figure>
+<p>如果他在这个 key
+里边我们怎么扩展呢？比方说我们在这里收一个句子，它等于主谓宾，先要扩展主语，再扩展谓语，再扩展宾语。</p>
+<p>扩展它的时候，就需要随机去选择一个去扩展的表达式。选择这个表达式之后，按照空格分割生成很多个小的表达式，再把这个小的表达式再次进行生成。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">generate_sentence(gram, e) <span class="hljs-keyword">for</span> e <span class="hljs-keyword">in</span> exp.split()<br></code></pre></td></tr></table></figure>
+<p><code>generate_sentence(grammar_gen)</code>就会生成一句话，当然是随机的，这次我们生成的是：“我吃桃子”。</p>
+<p>那么这样的好处是什么？</p>
+<p>我们现在来封装一个方法<code>get_grammar</code>, 将之前对 grammar
+的处理封装进去，然后我们再修改下<code>generate_sentence</code>方法，之后再打印的时候，我们可以尝试将之前定义的
+grammar2
+代入进去，只不过我们需要将之前写的<code>招待</code>修改为<code>句子</code>,
+因为我们判断 target 是<code>句子</code>，完整代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs python"><br>grammar = <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">句子 = 主 谓 宾</span><br><span class="hljs-string">谓 = 吃 | 喝 | 玩</span><br><span class="hljs-string">宾 = 皮球 | 桃子</span><br><span class="hljs-string">主 = 你 | 我 | 他</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br><br>grammar2 = <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">句子 = 打招呼 玩 活动 吗？</span><br><span class="hljs-string">打招呼 = 你好 | 您好 | 好久不见</span><br><span class="hljs-string">玩 = 需要玩 | 喜欢玩 | 想玩</span><br><span class="hljs-string">活动 = 骑马 | 打球 | 喝茶</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_grammar</span>(<span class="hljs-params">grammar_string</span>):<br>    grammar_gen = <span class="hljs-built_in">dict</span>()<br><br>    <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> grammar_string.split(<span class="hljs-string">&#x27;\n&#x27;</span>):<br>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> line.strip(): <span class="hljs-keyword">continue</span><br>        <br>        stmt, expr = line.split(<span class="hljs-string">&#x27;=&#x27;</span>)<br><br>        expressions = expr.split(<span class="hljs-string">&#x27;|&#x27;</span>)<br>        grammar_gen[stmt.strip()] = [e.strip() <span class="hljs-keyword">for</span> e <span class="hljs-keyword">in</span> expressions]<br>    <br>    <span class="hljs-keyword">return</span> grammar_gen<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">generate_sentence</span>(<span class="hljs-params">gram, target=<span class="hljs-string">&#x27;句子&#x27;</span></span>):<br>    <span class="hljs-keyword">if</span> target <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> gram: <span class="hljs-keyword">return</span> target<br><br>    exp = random.choice(gram[target])<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;&#x27;</span>.join([generate_sentence(gram, e) <span class="hljs-keyword">for</span> e <span class="hljs-keyword">in</span> exp.split()])<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;generated: \n&#x27;</span>+generate_sentence(get_grammar(grammar)))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;generated: \n&#x27;</span>+generate_sentence(get_grammar(grammar2)))<br>---<br>generated: <br>你吃桃子<br>generated: <br>你好需要玩骑马吗？<br></code></pre></td></tr></table></figure>
+<p>在这里就可以做到，写了一个 grammar,
+打印结果为「你吃桃子」，接下来变成
+grammar2，打印出来就是「你好需要玩骑马吗？」</p>
+<p>是不是很有意思？我们做到改变了输入，程序没有改，他能接受新的输入，都是随机的。</p>
+<p>这就是站在程序员视角，当时研究人工智能 AI
+最渴望的就是不需要改变程序了。</p>
+<p>下面我们再修改一下 grammar,
+给他加上复合句子，起名为<code>句子</code>，将之前的<code>句子</code>修改为
+Single 句子，简写为<code>s_句子</code></p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">grammar</span> = <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">句子 = s_句子 , 连词 句子 | s_句子</span><br><span class="hljs-string">连词 = 而且 | 但是 | 不过</span><br><span class="hljs-string">s_句子 = 主语 谓语 宾语</span><br><span class="hljs-string">主语 = 你| 我 | 他 </span><br><span class="hljs-string">谓语 = 吃| 玩 </span><br><span class="hljs-string">宾语 = 桃子| 皮球</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br></code></pre></td></tr></table></figure>
+<p>这样修改之后，大家觉得会发生什么事情呢？我们还是使用之前的代码，代码不变，然后我们可以得到：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-meta">---</span><br><span class="hljs-attr">generated:</span> <br><span class="hljs-string">你吃桃子,不过你吃皮球,不过你玩桃子,但是你吃皮球,但是他玩皮球,而且他玩皮球</span><br><span class="hljs-attr">generated:</span> <br><span class="hljs-string">您好喜欢玩打球吗？</span><br></code></pre></td></tr></table></figure>
+<p>他可以产生更加长、更加复杂的句子。</p>
+<p>如果我们再加一个判断句子概率的东西，就能够生成更像句子的句子了。</p>
+<p>就是之前讲的，李开复在一九八几年探索出来的一种东西，能够去判断一个句子出现的概率。那么当这个程序出现很多句子的时候，我们就能做个判断，给他做个排序、做个打分，就能够知道哪个句子的概率最大了。</p>
+<p>这个程序厉害的点不在于它采用了什么非常高科技的方法，而是在这个时候提出来的一种思想，这个思想就是问题的输入变化了，但是我们的代码希望不要变，我们的程序不希望变。这个是这个程序最主要的一个特点。</p>
+<p>以后咱们整个课程上，机器学习等等代码，其实都是冲着这一个目标去的。</p>
+<p>当时基于这个规则的程序其实也没有那么好写。大家看一下上面这段程序，其实看起来好像很短，但是一个人如果想靠自己的脑力思考出来这样的程序，你会发现并不简单。</p>
+<p>这段代码当然不是我原创的，如果你想原创的去解决这个问题其实很复杂。就这也是为什么后来通过这种逻辑分析规则方法没有再进行下去的原因，因为它太复杂了。</p>
+<p>这是咱们的第一个案例，目的是希望大家知道 AI
+写程序的目的是什么，也希望大家知道有一种方法，只不过最近几年他不太火了，但是曾经产生过很多很重要的方法。</p>
+<p>刚刚给大家讲过基于统计的方法，我们判断一句话的概率，会把它变成一组词的概率去统计，也可以变成一个数形的东西。</p>
+<p>那么大家现在想想，基于统计和基于逻辑推理这两种方法，他们有什么特点？有什么优缺点呢？</p>
+<p>统计永远达不到 100% 的准确，基于逻辑的灵活性差、代码很复杂。</p>
+<h2 id="从问题范式上来讲">从问题范式上来讲</h2>
+<p>好，接下来呢，我们再从另外一个问题的角度来分析一下：从问题范式上。</p>
+<p>什么叫做问题范式？</p>
+<p>方法论，就是准备用什么东西去解决它，到底用统计，还是用分析的方法去解决它。</p>
+<p>所谓的问题范式就是
+Paradigm，其实和方法论类似。只不过它又把问题分成了不同的类型。</p>
+<p>第一种类型叫做 Relax based。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20230929052302.jpg" /></p>
+<p>解决起来对于人类来说很轻松，比方说这张图里，公交车在哪。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20230929052303.jpg" /></p>
+<p>我们一眼就指出来了对不对？或者问左边亮的是红灯还是绿灯？我们一眼就看出来了。</p>
+<p>大家一定要清楚一个概念，准则就是人觉得越简单的问题，对于计算机来说越复杂。让计算机去判断这个地方的车在哪里，这个地方的红灯到底表示什么意思，其实是很复杂的一个事情。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20230929052304.jpg" /></p>
+<p>这张图里，哪边是狗，哪边是猫，对我们人类来说是 So easy
+的一个问题。那这种问题，就叫做 Relax based。</p>
+<p>还有一类情况叫做 State based。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20230929052305.jpg" /></p>
+<p>在这局对局中，假如你是红方，你该怎么走？</p>
+<p>这个问题我们要思考的时候，和前面就会发现不一样了。前面是看一眼就能懂，而这个你得经过思考，思考你现在在什么状态，走了之后会怎么样。在脑子里面要思考一系列问题。</p>
+<p>现在 AI 主要解决的问题是第一种问题，是 Relax based。后面这种 State
+based 问题解决的不多，但是其实是现在迫切急需解决的问题。AlphaGo
+其实解决了一部分，但是它也是需要大量的算力，大量的训练样本。</p>
+<p>再比如，从齐齐哈尔到鄂尔多斯这两个地方我开车怎么去。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20230929052306.jpg" /></p>
+<p>你要看到地图也不能一下子就知道，也得一个一个点去看。这种问题就是一个典型的我们需要考虑现在在什么情况，做了之后，下一个状态会是什么情况的问题。</p>
+<p>再下一种情况叫做优化模型。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20230929052307.jpg" /></p>
+<p>什么叫优化模型？比方说一个工厂就这么多时间这么多人力，我怎么样让这个工厂现在产出最大的金额，在一个固定的范围之内，固定的约束条件之下要得到一个最优质的答案。</p>
+<p>这也是一种很典型的 AI
+问题，给一个复杂函数，怎么样找到这个函数的最优点？这也是一类情况。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20230929052308.jpg" /></p>
+<p>美团外卖的小哥，怎么样能够让他最快的接到单子，怎么样给他策划一个线路，让他最快的能够送达，这就是属于这样的一个问题。</p>
+<p>除此之外，还有一类情况叫做纯推理问题。</p>
+<p>这个其实也是人们一直在期望解决，但是现在解决的情况也不好。</p>
+<p>比方说，下过雨天地面就会湿，那么现在我告诉你地面湿了，问你下过雨没。机器就应该自动知道下过雨。</p>
+<p>这个问题现在难点是难在，首先人类社会中有大量的场景需要这个，在医学上、在法律上、保险上。但是用机器学习的方法现在不好做，效果很差。人们各种探索做的也不太好。</p>
+<p>斯坦福大学为了掩饰这个问题写了一个简单程序，但是也只能解决非常非常基础的问题。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20230929052309.jpg" />
+<img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20230929052310.jpg" /></p>
+<p>注释：此截图来自于地址：https://stanford-cs221.github.io/autumn2020/assignments/logic/index.html</p>
+<p>在这些问题的类型里边，Relax based model 是现在 AI
+解决的最多的，图像分类识别。接下来就是优化问题，应用的也比较多。State
+based model
+会用到一些，比如说滴滴打车，其实我们常用的就有高德导航。最难的是逻辑推理，逻辑推理的问题很难做。</p>
+<p>接下来，讲解一下什么叫做 State based
+model。出这么一道问题，一道很典型的智力题。很多人不太理解我们 State
+besed model 是解决什么问题，我们先来做一道智力题。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20230929052311.jpg" /></p>
+<p>现在有两个杯子，左边的杯子是 90 毫升，右边的杯子是 40 毫升的。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20230929052312.jpg" /></p>
+<p>现在这边有个水池，水池有个水龙头可以接水。现在我问个问题，如何得到 50
+毫升的水？</p>
+<p>很简单对吧？拿 90 的杯子去给它装满，然后我们再不断的倒水，把 90 往 40
+里倒， 40 的倒满之后，90 里剩下的就是 50。</p>
+<p>那我再问一下，如何得到 60 毫升的水？或者我们问，通过这样的方法能得到
+60 毫升的水吗？</p>
+<p>这个问题是不是看着就很难？那能不能得到 65？能不能得到 70？能不能得到
+30 呢？</p>
+<p>或者，现在告诉你大杯子是 60，小杯子是 40，我们能不能得到 70
+的水呢？假设我们这里有 5 个杯子，一个杯子是 3，一个杯子是 7，一个杯子是
+13，一个杯子是 17，然后还有一个杯子是 25，我们如何得到 18？</p>
+<p>是不是很奇怪？想问解决这个问题有什么意义？这个问题其实代表了很多所谓的需要推理的智力题。就是今天要跟大家说的，是一种通用的方法。</p>
+<p>那么我们再思考一下，我们再变个问题。假如说两边中间有条河，有有五个人，现在是晚上，有一个手电筒，要把这五个人从左边全部运到右边。现在想让计算机告诉我们一次过。</p>
+<p>我们标好 ABCDE，第一次把 a 和 b 过去，然后呢 a 再过来，再把 c
+接回去等等。让计算机解决这样的问题。</p>
+<p>再来一个经典的问题，传教士和食人族。就是有一群传教士带了一群食人族的人，他们要过一条小河，左边和右边必须满足一种情况，传教士的人数必须大于等于食人族的人数，否则食人族就会把传教士给吃了，船上也是。</p>
+<p>传教士的人数在岸边和船上都大于等于食人族的人数，要不然就会被吃了。那问你，如果现在给你
+n 个食人族 m 个传教士，你怎么样制定一个策略把它移过去？</p>
+<p>现在的问题是，我们要让计算机来解决这两个问题。这种问题就是典型的
+State based model。</p>
+<p>这几个问题，看起来都有类似的过程。都是我们现在在一个情况下，要达到另外的一个情况下，我怎么样到达？我们现在要知道的是它的路径是什么。就这几个问题，共同点都是要知道路径是什么。</p>
+<p>那我们来分析一下，怎么解决这个问题。</p>
+<p>如果大家想到一个数学方法来解决这非常的好，但是我想告诉大家，我们现在是学习人工智能的课程，以后遇到这种的问题的思考方向一定是你要想一种办法让机器自动能解决。就是你要想的是机器自动解决这个问题的方法，而不是我们要花心思去找到这个答案。</p>
+<p>这个是你和一个参加奥数的学生的区别，我们要让机器自动解决这个问题，这是咱们学习这个的工作。</p>
+<p>我们来看看咱们怎么样解决这个问题。</p>
+<p>这个问题抽象一下就是我们在一种状态 a 下，要达到另外一种状态
+b。我们期望能解决问题现在最简单的就是，首先我们需要用一种方法来表示状态，如果是两杯水的问题，可以用一个二元数组
+(B1, B2) 来表示现在这个状态。</p>
+<p>假如说我们这里是 (0,0), 要变到 (x,6) 或者 (6, x)。</p>
+<p>这个就和下棋，走地图一摸一样。如果从 a
+这一步开始能够知道下一步有哪些状态，然后在下一步我们又知道再下一步有哪些状态。我们继续这样扩展下去，机器就可以找到一点。如果我们让机器去把这个图做个遍历，就能从
+a 点找到 b 点。</p>
+<p>倒水问题和下棋、地图，以及我们做决策都很类似。都是有一个状态
+之后，要看到接下来的状态是哪些，再接下来之后再去思考一步一步的。</p>
+<p>现在来看一下，如果对于任意的一个状态 (x,y)
+我们已知，已知这两个杯子的大小是 (X,Y)，对于任意一个状态
+(x,y)。它会有哪些状态呢？</p>
+<p>第一个状态可能是 (0, y)，也就是 x 清零。</p>
+<p>第二个状态可以是 (x,0)。</p>
+<p>也就是就是我从 (X,Y) 可以到 (0,y) 和 (x,0) 这两种状态。</p>
+<p>第三种还可以把 X 灌满，就是 (X,y)。</p>
+<p>第四种可以把 y 灌满，就是 (x,Y).</p>
+<p>那第一种就是把 x 清空了，第二种就是把 y 清空了，第三种是把 x
+灌满，第四种是把 y 灌满。</p>
+<p>除了这几个状态之外，还有那些状态我们没有说？我们没说互相倒水的情况。</p>
+<p>那第五个状态就是 (0, x+y)，也就是将 x 的水倒入 y
+中。不知道大家发觉没有，这第五个状态有个坑，把 x 倒给 y，能这样做是因为
+x+y 是小于等于 Y 才可以。如果不是的，这里其实就变成了 (x+y-Y, y)。</p>
+<p>同理第六个状态是我们把 y 倒给 x，也就是 (x+y,0)，需要 x+y &lt;=
+x，如果不是的，这里把 X 倒满了，y 的状态就应该是 x+y-X，那就变成 (X,
+x+y-X)。</p>
+<p>每一个状态就和走象棋很像，每个象棋后边都有一个状态。坐车也是一样，每到一站下一步有不同的路线。</p>
+<p>在这里，其实就是每个状态会接 6
+个状态。然后让机器自动去找一遍就可以了。</p>
+<p>那咱们来解决一下这个问题，把它实现一下。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">successors</span>(<span class="hljs-params">x, y, X, Y</span>):<br>    <span class="hljs-keyword">return</span>&#123;<br>        (x, <span class="hljs-number">0</span>): <span class="hljs-string">&#x27;倒空 y&#x27;</span>, <br>        (<span class="hljs-number">0</span>, y): <span class="hljs-string">&#x27;倒空 x&#x27;</span>,<br>        (x, Y): <span class="hljs-string">&#x27;装满 y&#x27;</span>, <br>        (X, y): <span class="hljs-string">&#x27;装满 x&#x27;</span>,<br>        (<span class="hljs-number">0</span>, x+y) <span class="hljs-keyword">if</span> x+y &lt;= Y <span class="hljs-keyword">else</span> (x+y-Y, Y): <span class="hljs-string">&#x27;x =&gt; y&#x27;</span>,<br>        (x+y, <span class="hljs-number">0</span>) <span class="hljs-keyword">if</span> x+y &lt;= X <span class="hljs-keyword">else</span> (X, x+y-x): <span class="hljs-string">&#x27;y =&gt; x&#x27;</span>,<br>    &#125;<br><br><span class="hljs-built_in">print</span>(successors(<span class="hljs-number">30</span>,<span class="hljs-number">40</span>,<span class="hljs-number">90</span>,<span class="hljs-number">40</span>))<br><br>---<br>&#123;(<span class="hljs-number">30</span>, <span class="hljs-number">0</span>): <span class="hljs-string">&#x27;倒空 y&#x27;</span>, (<span class="hljs-number">0</span>, <span class="hljs-number">40</span>): <span class="hljs-string">&#x27;倒空 x&#x27;</span>, (<span class="hljs-number">30</span>, <span class="hljs-number">40</span>): <span class="hljs-string">&#x27;x =&gt; y&#x27;</span>, (<span class="hljs-number">90</span>, <span class="hljs-number">40</span>): <span class="hljs-string">&#x27;装满 x&#x27;</span>, (<span class="hljs-number">70</span>, <span class="hljs-number">0</span>): <span class="hljs-string">&#x27;y =&gt; x&#x27;</span>&#125;<br></code></pre></td></tr></table></figure>
+<p>这样，我们就写出了返回状态的一个方法。其中 x,y 是当前杯子的状态，X，Y
+是我们已知的杯子状态，也就是最大可装多少水。</p>
+<p>然后我们将当前的 x，y 设置为
+(30,40)，然后我们就可以输出在这种情况下会有怎样的一些状态。</p>
+<p>我们就能够找到它的解法了，就能够找到它的答案了。也知道我们需要写一个程序搜索。</p>
+<p>我们来看一下这个问题的输入，输入分别是<code>capacity1</code>，<code>capacity2</code>，表示两个杯子的容量。然后还有期望得到的目标<code>goal</code>,
+以及它初始状态时候的值<code>start</code>,
+如果不专门的声明，就给他默认成是 0。</p>
+<p>如果目标已经在初始状态了，那我们就把这个初始状态返回就行了，这是最简单的一种状态。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">if</span> goal <span class="hljs-keyword">in</span> start: <span class="hljs-keyword">return</span> [start]<br></code></pre></td></tr></table></figure>
+<p>如果这个目标没有在初始状态下，我们在定义一个
+set，这个是表示我们所有探测过的点。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">explored = <span class="hljs-built_in">set</span>()<br></code></pre></td></tr></table></figure>
+<p>然后，我们还有一个 paths，这个 paths
+就是我们现在已经观测到的所有的点，已经观测到的所有路线。现在有一个 start
+状态，然后要去给他扩展很多路径。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">paths = [[<span class="hljs-string">&#x27;init&#x27;</span>, start]]<br></code></pre></td></tr></table></figure>
+<p>现在就定义一个变量 paths，这个 paths
+就是指各种各样的路径，但现在只有一条路，现在只知道一个初始节点，这个初始节点就是我们的
+start。</p>
+<p>那么有了这个之后，我们发现还有路径需要去扩展，咱们现在就取出来这个路径，在这些所有的路线里面取出来一条路。</p>
+<p>这条路最后的状态就是这条路的末端，表示的是此时此刻的状态</p>
+<p>大家想象一下这个探索的过程，这个路假如已经探索了很多次了，采取了最前面这条路，这条路里面的
+-1 就是现在的这个状态。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">while</span> paths:<br>    path = paths.pop(<span class="hljs-number">0</span>)<br>    (x, y) = path[-<span class="hljs-number">1</span>][-<span class="hljs-number">1</span>]<br></code></pre></td></tr></table></figure>
+<p>x 和 y
+现在是把最末端的状态拿出来了。这个时候，我们刚刚写的函数就有用了：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">for</span> state, action <span class="hljs-keyword">in</span> successors(x, y, capacity1, capacity2).items():<br>    <span class="hljs-keyword">pass</span><br></code></pre></td></tr></table></figure>
+<p>我们有了此时此刻的 (x,y), 还知道这个杯子的
+capacity，这段代码就让我们知道最末端的 (x, y) 接下来的状态了。</p>
+<p>那么，如果<code>state</code>在<code>explored</code>中，这个点我们已经探索过了，那么就<code>continue</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">if</span> state <span class="hljs-keyword">in</span> explored: <span class="hljs-keyword">continue</span><br></code></pre></td></tr></table></figure>
+<p>如果不这样做，则可能造成前面探索过的点包含下一步的状态中，就会造成形成一个环，从而无限循环。所以我们要把每一个探索过的点加到<code>explored</code>里边。这样我们才可以不兜圈子。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">explored.add((x,y))<br></code></pre></td></tr></table></figure>
+<p>如果它在 explored
+里边我们就跳过这个循环。它不在这个里边，我们就先定义一个新的 path:
+<code>new_path</code>，这个新的 path 就等于之前的老的 path 再加上
+action。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">new_path = path + [(action, state)]<br></code></pre></td></tr></table></figure>
+<p>这个 action 和 state，就是我们刚刚写的那个求接下来的这个 action 和
+state。</p>
+<p>那现在，如果我们的目标在 state
+里边，我们就把现在这个<code>new_path</code>给它返回出来。如果不在，那这个
+paths 里边，探索路线里面，就再给它加上一个现在的这个路线。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">if</span> goal <span class="hljs-keyword">in</span> state:<br>    <span class="hljs-keyword">return</span> new_path<br><span class="hljs-keyword">else</span>:<br>    paths.append(new_path)<br></code></pre></td></tr></table></figure>
+<p>最后返回一个空，就说没有这个路径。</p>
+<p>这个问题乍一看要用计算机编程的方法去解决会觉得比较复杂，但是我们写完整个也就这么多：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">search_solution</span>(<span class="hljs-params">capacity1, capacity2, goal, start=(<span class="hljs-params"><span class="hljs-number">0</span>,<span class="hljs-number">0</span></span>)</span>):<br>    <span class="hljs-keyword">if</span> goal <span class="hljs-keyword">in</span> start: <span class="hljs-keyword">return</span> [start]<br><br>    explored = <span class="hljs-built_in">set</span>()<br>    paths = [[(<span class="hljs-string">&#x27;init&#x27;</span>, start)]]<br><br>    <span class="hljs-keyword">while</span> paths:<br>        path = paths.pop(<span class="hljs-number">0</span>)<br>        (x, y)  = path[-<span class="hljs-number">1</span>][-<span class="hljs-number">1</span>]<br><br>        <span class="hljs-keyword">for</span> (state, action) <span class="hljs-keyword">in</span> successors(x, y, capacity1, capacity2).items():<br><br>            <span class="hljs-keyword">if</span> state <span class="hljs-keyword">in</span> explored: <span class="hljs-keyword">continue</span><br><br>            new_path = path + [(action, state)]<br><br>            <span class="hljs-keyword">if</span> goal <span class="hljs-keyword">in</span> state:<br>                <span class="hljs-keyword">return</span> new_path<br>            <span class="hljs-keyword">else</span>:<br>                paths.append(new_path)<br><br>            explored.add(state)<br>    <span class="hljs-keyword">return</span> []<br></code></pre></td></tr></table></figure>
+<p>下面呢，我们来求解一下。假如我们定义两个杯子，第一个杯子是
+9，第二个杯子是 4，我们的目标刚开始是 5，start
+是空的。来看看我们该怎么解决：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    <span class="hljs-built_in">print</span>(search_solution(<span class="hljs-number">9</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>))<br><br>---<br>[(<span class="hljs-string">&#x27;init&#x27;</span>, (<span class="hljs-number">0</span>, <span class="hljs-number">0</span>)), (<span class="hljs-string">&#x27;装满 x&#x27;</span>, (<span class="hljs-number">9</span>, <span class="hljs-number">0</span>)), (<span class="hljs-string">&#x27;x =&gt; y&#x27;</span>, (<span class="hljs-number">5</span>, <span class="hljs-number">4</span>))]<br></code></pre></td></tr></table></figure>
+<p>我们来修改一下这一段代码，让其看着跟清晰一点，我们将步骤和结果分别取出来并且进行打印：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python">solutin = search_solution(<span class="hljs-number">9</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>)<br><br><span class="hljs-keyword">for</span> i, s <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(solution):<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;step:&#123;&#125;,&#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(i,s))<br><br>---<br>step:<span class="hljs-number">0</span>,(<span class="hljs-string">&#x27;init&#x27;</span>, (<span class="hljs-number">0</span>, <span class="hljs-number">0</span>))<br>step:<span class="hljs-number">1</span>,(<span class="hljs-string">&#x27;装满 x&#x27;</span>, (<span class="hljs-number">9</span>, <span class="hljs-number">0</span>))<br>step:<span class="hljs-number">2</span>,(<span class="hljs-string">&#x27;x =&gt; y&#x27;</span>, (<span class="hljs-number">5</span>, <span class="hljs-number">4</span>))<br></code></pre></td></tr></table></figure>
+<p>step0 刚开始是 (0,0)，然后第一步装满 x，第二步把 x 倒给 y，把 y
+装满。因为我们知道 y 是 4，所以就可以得到容量是 5 的水。</p>
+<p>那我们现在再来看一下，如果我们现在把这个问题再换一下，我们还是一样
+(9,4)，假如求解是
+6，如果无解的话会返回一个空，不过最终我们还是得到了解，虽然步骤比较多。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python">solution = search_solution(<span class="hljs-number">9</span>, <span class="hljs-number">4</span>, <span class="hljs-number">6</span>)<br><br>---<br>step:<span class="hljs-number">0</span>,(<span class="hljs-string">&#x27;init&#x27;</span>, (<span class="hljs-number">0</span>, <span class="hljs-number">0</span>))<br>step:<span class="hljs-number">1</span>,(<span class="hljs-string">&#x27;装满 x&#x27;</span>, (<span class="hljs-number">9</span>, <span class="hljs-number">0</span>))<br>step:<span class="hljs-number">2</span>,(<span class="hljs-string">&#x27;x =&gt; y&#x27;</span>, (<span class="hljs-number">5</span>, <span class="hljs-number">4</span>))<br>step:<span class="hljs-number">3</span>,(<span class="hljs-string">&#x27;倒空 y&#x27;</span>, (<span class="hljs-number">5</span>, <span class="hljs-number">0</span>))<br>step:<span class="hljs-number">4</span>,(<span class="hljs-string">&#x27;x =&gt; y&#x27;</span>, (<span class="hljs-number">1</span>, <span class="hljs-number">4</span>))<br>step:<span class="hljs-number">5</span>,(<span class="hljs-string">&#x27;倒空 y&#x27;</span>, (<span class="hljs-number">1</span>, <span class="hljs-number">0</span>))<br>step:<span class="hljs-number">6</span>,(<span class="hljs-string">&#x27;x =&gt; y&#x27;</span>, (<span class="hljs-number">0</span>, <span class="hljs-number">1</span>))<br>step:<span class="hljs-number">7</span>,(<span class="hljs-string">&#x27;装满 x&#x27;</span>, (<span class="hljs-number">9</span>, <span class="hljs-number">1</span>))<br>step:<span class="hljs-number">8</span>,(<span class="hljs-string">&#x27;x =&gt; y&#x27;</span>, (<span class="hljs-number">6</span>, <span class="hljs-number">4</span>))<br></code></pre></td></tr></table></figure>
+<p>那我们每次要求一个新解，都需要重新定义一遍<code>solution</code>，这样十分不方便，那我们现在就需要将其修改成一个函数，方便我们随意传入不同的值：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_solution</span>(<span class="hljs-params">c1, c2, goal, start=(<span class="hljs-params"><span class="hljs-number">0</span>, <span class="hljs-number">0</span></span>)</span>):<br>    solution = search_solution(c1, c2, goal, start)<br><br>    <span class="hljs-keyword">for</span> i, s <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(solution):<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;step:&#123;&#125;,&#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(i,s))<br></code></pre></td></tr></table></figure>
+<p>接着，我们如果求一个<code>.5</code>，就返回一个空。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">get_solution(<span class="hljs-number">9</span>, <span class="hljs-number">4</span>, <span class="hljs-number">6.5</span>)<br></code></pre></td></tr></table></figure>
+<p>返回空的就就是没有路径。</p>
+<p>我们再回过头看看刚才的求解 (9, 4, 6),
+这个时候已经能够解决这个问题了。它不是经过了复杂的数学运算得出来的，是自己找到的结果。那完整的代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">successors</span>(<span class="hljs-params">x, y, X, Y</span>):<br>    <span class="hljs-keyword">return</span>&#123;<br>        (x, <span class="hljs-number">0</span>): <span class="hljs-string">&#x27;倒空 y&#x27;</span>, <br>        (<span class="hljs-number">0</span>, y): <span class="hljs-string">&#x27;倒空 x&#x27;</span>,<br>        (x, Y): <span class="hljs-string">&#x27;装满 y&#x27;</span>, <br>        (X, y): <span class="hljs-string">&#x27;装满 x&#x27;</span>,<br>        (<span class="hljs-number">0</span>, x+y) <span class="hljs-keyword">if</span> x+y &lt;= Y <span class="hljs-keyword">else</span> (x+y-Y, Y): <span class="hljs-string">&#x27;x =&gt; y&#x27;</span>,<br>        (x+y, <span class="hljs-number">0</span>) <span class="hljs-keyword">if</span> x+y &lt;= X <span class="hljs-keyword">else</span> (X, x+y-x): <span class="hljs-string">&#x27;y =&gt; x&#x27;</span>,<br>    &#125;<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">search_solution</span>(<span class="hljs-params">capacity1, capacity2, goal, start=(<span class="hljs-params"><span class="hljs-number">0</span>,<span class="hljs-number">0</span></span>)</span>):<br>    <span class="hljs-keyword">if</span> goal <span class="hljs-keyword">in</span> start: <span class="hljs-keyword">return</span> [start]<br><br>    explored = <span class="hljs-built_in">set</span>()<br>    paths = [[(<span class="hljs-string">&#x27;init&#x27;</span>, start)]]<br><br>    <span class="hljs-keyword">while</span> paths:<br>        path = paths.pop(<span class="hljs-number">0</span>)<br>        (x, y)  = path[-<span class="hljs-number">1</span>][-<span class="hljs-number">1</span>]<br><br>        <span class="hljs-keyword">for</span> (state, action) <span class="hljs-keyword">in</span> successors(x, y, capacity1, capacity2).items():<br><br>            <span class="hljs-keyword">if</span> state <span class="hljs-keyword">in</span> explored: <span class="hljs-keyword">continue</span><br><br>            new_path = path + [(action, state)]<br><br>            <span class="hljs-keyword">if</span> goal <span class="hljs-keyword">in</span> state:<br>                <span class="hljs-keyword">return</span> new_path<br>            <span class="hljs-keyword">else</span>:<br>                paths.append(new_path)<br><br>            explored.add(state)<br>    <span class="hljs-keyword">return</span> []<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_solution</span>(<span class="hljs-params">c1, c2, goal, start=(<span class="hljs-params"><span class="hljs-number">0</span>, <span class="hljs-number">0</span></span>)</span>):<br>    solution = search_solution(c1, c2, goal, start)<br><br>    <span class="hljs-keyword">for</span> i, s <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(solution):<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;step:&#123;&#125;,&#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(i,s))<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    get_solution(<span class="hljs-number">9</span>, <span class="hljs-number">4</span>, <span class="hljs-number">6.5</span>)<br>    <br></code></pre></td></tr></table></figure>
+<p>就这段代码，虽然并不长，但是难度稍微有点大，你们在看完之后最好是多敲几遍。</p>
+<p>这就是人们当时讨论 AI
+程序的作用，人们不希望每次都自己去解决，希望能够让程序解决。</p>
+<p>我们来试试 7：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs python">get_solution(<span class="hljs-number">9</span>, <span class="hljs-number">4</span>, <span class="hljs-number">7</span>)<br><br>---<br>step:<span class="hljs-number">0</span>,(<span class="hljs-string">&#x27;init&#x27;</span>, (<span class="hljs-number">0</span>, <span class="hljs-number">0</span>))<br>step:<span class="hljs-number">1</span>,(<span class="hljs-string">&#x27;装满 x&#x27;</span>, (<span class="hljs-number">9</span>, <span class="hljs-number">0</span>))<br>step:<span class="hljs-number">2</span>,(<span class="hljs-string">&#x27;x =&gt; y&#x27;</span>, (<span class="hljs-number">5</span>, <span class="hljs-number">4</span>))<br>step:<span class="hljs-number">3</span>,(<span class="hljs-string">&#x27;倒空 y&#x27;</span>, (<span class="hljs-number">5</span>, <span class="hljs-number">0</span>))<br>step:<span class="hljs-number">4</span>,(<span class="hljs-string">&#x27;x =&gt; y&#x27;</span>, (<span class="hljs-number">1</span>, <span class="hljs-number">4</span>))<br>step:<span class="hljs-number">5</span>,(<span class="hljs-string">&#x27;倒空 y&#x27;</span>, (<span class="hljs-number">1</span>, <span class="hljs-number">0</span>))<br>step:<span class="hljs-number">6</span>,(<span class="hljs-string">&#x27;x =&gt; y&#x27;</span>, (<span class="hljs-number">0</span>, <span class="hljs-number">1</span>))<br>step:<span class="hljs-number">7</span>,(<span class="hljs-string">&#x27;装满 x&#x27;</span>, (<span class="hljs-number">9</span>, <span class="hljs-number">1</span>))<br>step:<span class="hljs-number">8</span>,(<span class="hljs-string">&#x27;x =&gt; y&#x27;</span>, (<span class="hljs-number">6</span>, <span class="hljs-number">4</span>))<br>step:<span class="hljs-number">9</span>,(<span class="hljs-string">&#x27;倒空 y&#x27;</span>, (<span class="hljs-number">6</span>, <span class="hljs-number">0</span>))<br>step:<span class="hljs-number">10</span>,(<span class="hljs-string">&#x27;x =&gt; y&#x27;</span>, (<span class="hljs-number">2</span>, <span class="hljs-number">4</span>))<br>step:<span class="hljs-number">11</span>,(<span class="hljs-string">&#x27;倒空 y&#x27;</span>, (<span class="hljs-number">2</span>, <span class="hljs-number">0</span>))<br>step:<span class="hljs-number">12</span>,(<span class="hljs-string">&#x27;x =&gt; y&#x27;</span>, (<span class="hljs-number">0</span>, <span class="hljs-number">2</span>))<br>step:<span class="hljs-number">13</span>,(<span class="hljs-string">&#x27;装满 x&#x27;</span>, (<span class="hljs-number">9</span>, <span class="hljs-number">2</span>))<br>step:<span class="hljs-number">14</span>,(<span class="hljs-string">&#x27;x =&gt; y&#x27;</span>, (<span class="hljs-number">7</span>, <span class="hljs-number">4</span>))<br></code></pre></td></tr></table></figure>
+<p>7 也是可以的，给一个 9 的杯子和一个 4 的杯子，要得到 7
+升水也是可以的。只不过过程比较复杂，那如果现在给你人工来解，你觉得 7
+你可以吗？</p>
+<p>假如要让你的最短路径优先，你可以在<code>paths.append(new_path)</code>这里做一些优化，就是减枝、排序等等。</p>
+<p><code>7</code>这个问题乍一看感觉是不行的，完不成。但是这倒腾来倒腾去竟然可以，好神奇对不对？</p>
+<p>回头我给大家说一个比较容易误解的地方：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">(x, y)  = path[-<span class="hljs-number">1</span>][-<span class="hljs-number">1</span>]<br></code></pre></td></tr></table></figure>
+<p>就这段代码解释一下，这个<code>[-1]</code>是你找到一条路径的最后一个节点，并不是值为
+-1,
+因为我们最后一个节点存了两个东西，一个是他的<code>action</code>，一个是他的状态。所以这个就是他最后那个节点的状态。</p>
+<p>这个问题的特点在于咱们从始至终都没有去写数学方程或者找规律，然后求解，而是让程序自动解决的。</p>
+<p>同样问题，像刚才传教士和食人族过河，还有那个手电筒、下棋的问题。其实你会发现都是类似的问题。</p>
+<h2 id="从研究对象来讲">从研究对象来讲</h2>
+<p>接着，我们再从最后一个维度上来区分一下人工智能的这个问题，它有什么区别。</p>
+<p>从他研究的对象上来看，首先，会有一群人在研究我们怎么样能够创建解决 AI
+的问题和方法，就是研究如何创建能够解决 AI 问题的方法与模型。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20230929052313.jpg" />
+<img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20230929052314.jpg" /></p>
+<p>有一部分人是创造模型和方法的人，但还有一些是研究如何使用这些模型和方法的人。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20230929052315.jpg" /></p>
+<p>那以上两者，这些人都是 AI
+工作者。有些同学可能是发明算法的，有些同学可能是使用算法的。</p>
+<p>因为用现有的方法去解决问题，其实也是很难的一个事情。</p>
+<p>好，那么本节课就到这里，这节课还是有一些难度的，希望大家能好好的消化一边，课内代码多敲几遍去理解。</p>
+<p>下节课就没这么难了，也就吹吹牛逼聊聊天就过了。不过大家要做好准备，下一节课是咱们最后一节轻松的课程了，之后的课程将会...
+大家做好心理准备吧。</p>
+<p>好，我是茶桁，咱们下节课见。</p>
+<hr />
+<p>关注「坍缩的奇点」，第一时间获取更多免费 AI 教程。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/扫码_搜索联合传播样式-白色版.png"
+alt="坍缩的奇点" /></p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>03. 人工智能核心基础 - 导论（2）</p><p><a href="https://hivan.me/03. 人工智能核心基础 - 导论2/">https://hivan.me/03. 人工智能核心基础 - 导论2/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2023-09-29</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2023-11-25</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" href="https://afdian.net/item/72907364008511ee904852540025c377" target="_blank" rel="noopener" data-type="afdian"><span class="icon is-small"><i class="fas fa-charging-station"></i></span><span>爱发电</span></a><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://www.buymeacoffee.com/hivandu" target="_blank" rel="noopener" data-type="buymeacoffee"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>送我杯咖啡</span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="paypal" onclick="document.getElementById(&#039;paypal-donate-form&#039;).submit()"><span class="icon is-small"><i class="fab fa-paypal"></i></span><span>Paypal</span></a><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" rel="noopener" id="paypal-donate-form"><input type="hidden" name="cmd" value="_donations"><input type="hidden" name="business" value="doo@hivan.me"><input type="hidden" name="currency_code" value="USD"></form><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/04.%20%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%A0%B8%E5%BF%83%E5%9F%BA%E7%A1%80%20-%20%E5%AF%BC%E8%AE%BA3/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">04. 人工智能核心基础 - 导论（3）</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/ai-core-competence-outline/"><span class="level-item">AI核心能力基础 - 规划和概要</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/03.%20%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%A0%B8%E5%BF%83%E5%9F%BA%E7%A1%80%20-%20%E5%AF%BC%E8%AE%BA2/';
+            this.page.identifier = '03. 人工智能核心基础 - 导论2/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">200</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">5</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">22</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI秘籍</span></span><span class="level-end"><span class="level-item tag">58</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">27</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">29</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-12T23:30:00.000Z">2023-12-13</time></p><p class="title"><a href="/29.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E5%8D%B7%E7%A7%AF%E7%9A%84%E5%8E%9F%E7%90%86/">29. 深度学习进阶 - 卷积的原理</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-09T23:30:00.000Z">2023-12-10</time></p><p class="title"><a href="/28.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20LSTM/">28. 深度学习进阶 - LSTM</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-05T23:30:00.000Z">2023-12-06</time></p><p class="title"><a href="/27.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E4%B8%BA%E4%BB%80%E4%B9%88RNN/">27. 深度学习进阶 - 为什么RNN</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-01T23:30:00.000Z">2023-12-02</time></p><p class="title"><a href="/26.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/">26. 深度学习进阶 - 深度学习的优化方法</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-11-28T23:30:00.000Z">2023-11-29</time></p><p class="title"><a href="/25.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E6%9D%83%E9%87%8D%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%8C%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1%E5%92%8C%E6%A2%AF%E5%BA%A6%E7%88%86%E7%82%B8/">25. 深度学习进阶 - 权重初始化，梯度消失和梯度爆炸</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2023 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

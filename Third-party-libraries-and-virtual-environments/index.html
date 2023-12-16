@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>19. 第三方库的管理和虚拟环境 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="Hi， 大家好。我是茶桁。"><meta property="og:type" content="blog"><meta property="og:title" content="19. 第三方库的管理和虚拟环境"><meta property="og:url" content="https://hivan.me/Third-party-libraries-and-virtual-environments/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="Hi， 大家好。我是茶桁。"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2023-08-15T03:48:45.000Z"><meta property="article:modified_time" content="2023-11-25T12:03:32.814Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="Python"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/Third-party-libraries-and-virtual-environments/"},"headline":"19. 第三方库的管理和虚拟环境","image":[],"datePublished":"2023-08-15T03:48:45.000Z","dateModified":"2023-11-25T12:03:32.814Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"Hi， 大家好。我是茶桁。"}</script><link rel="canonical" href="https://hivan.me/Third-party-libraries-and-virtual-environments/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2023-08-15T03:48:45.000Z" title="8/15/2023, 11:48:45 AM">2023-08-15</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a><span> / </span><a class="link-muted" href="/categories/AI%E7%A7%98%E7%B1%8D/Python/">Python</a></span></div></div><h1 class="title is-3 is-size-4-mobile">19. 第三方库的管理和虚拟环境</h1><div class="content"><p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202311252003515.png" /></p>
+<p>Hi， 大家好。我是茶桁。</p>
+<span id="more"></span>
+<p>在我们之前的课程中，讲解了数据，函数，类，模块以及包。这些基本上已经构成了Python的全部了。</p>
+<p>那么，我们在学习Python的包之后，有没有思考过，既然Python有内置模块，我们也可以自己写一些模块来使用，那一定有很多第三方写过相应的模块来供我们使用。那么，这些包该如何去找，找到以后如何使用和管理呢？今天，就让我们来看看这个问题。</p>
+<h2 id="第三方库的管理">第三方库的管理</h2>
+<p>现在很多编程语言都有第三方库的提供，比如<code>Ruby</code>,
+<code>Node</code>等。而Python的生态也是发展的最好的之一。Python中比较牛逼的地方就是由大量的第三方库提供给你使用。生态的蓬勃发展也是Python广为流行的最大的原因之一。</p>
+<p>Python的第三方库的管理网站：<code>https://pypi.org/</code>。</p>
+<h3 id="如何安装第三方库">如何安装第三方库？</h3>
+<p><code>pip</code>就是Python得包管理工具，解决了包直接的依赖关系，可以方便的管理第三方库（包）。类似于<code>PHP</code>中的<code>Composer</code>,
+或者<code>Nodejs</code>中的<code>npm</code>,
+又或者<code>Mac</code>中的<code>Homebrew</code>。</p>
+<p>我们可以使用<code>pip install 包名（库名）</code>来进行安装。而如果是有多个Python环境的情况下，可能需要使用<code>pip3</code>。比如说，我们要安装<code>pymysql</code>这个库：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pip install pymysql<br></code></pre></td></tr></table></figure>
+<p>在安装命令过程中，有的时候我们可能对版本会有一定的要求，并不是越新的版本越好。这个时候，我们也可以安装指定版本的包</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pip install 包名==版本<br></code></pre></td></tr></table></figure>
+<p>现在包都已经安装到本地了，可是因为安装的内容太多，我们可能有的时候会忘记自己以前是否安装过这个包。为了避免重复再装一次，我们可以搜索一下看看：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pip show 包名<br></code></pre></td></tr></table></figure>
+<p>这样，这个包的所有信息就会打印出来供我们查看：</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202311252003516.png" /></p>
+<p>当然，我们也有类似于想要查看本地安装的所有包的需求：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pip list<br></code></pre></td></tr></table></figure>
+<p>这样，我们就可以把本地说安装的包名以及版本都列出来进行查看：</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202311252003517.png" /></p>
+<p>这些呢，就是我们在包管理经常用到的一些命令。</p>
+<p>等等，大家在执行安装的时候，一定会遇到安装特别缓慢的情况。多数时候可能是因为我们所在的环境因为各种原因连接不上官方的源服务器。</p>
+<p>不过别着急，我们可以切换到镜像源上，找一个速度快的来下载安装。</p>
+<p>目前国内的安装源有以下几个可供选择：</p>
+<ul>
+<li>阿里云 http://mirrors.aliyun.com/pypi/simple/</li>
+<li>中国科技大学 https://pypi.mirrors.ustc.edu.cn/simple/</li>
+<li>豆瓣(douban) http://pypi.douban.com/simple/</li>
+<li>清华大学 https://pypi.tuna.tsinghua.edu.cn/simple/</li>
+<li>中国科学技术大学 http://pypi.mirrors.ustc.edu.cn/simple/</li>
+</ul>
+<p>修改源的方式也很简单，包括了「临时修改」和「永久修改」两种。</p>
+<p>临时修改，顾名思义，就是我们有的时候临时需要切换到其他源上进行下载了。</p>
+<p>我们可以使用<code>pip</code>的时候在后面加上<code>-i</code>参数，指定pip源：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pip install scrapy -i https://pypi.tuna.tsinghua.edu.cn/simple/ <br></code></pre></td></tr></table></figure>
+<p>多数情况下，我还是习惯于将源永久修改为一个速度较快的镜像上，也懒得每次都输入长传的命令。那么永久修改的方式稍微复杂点，我们分系统来看：</p>
+<p>在Linux中，我们找到<code>pip.conf</code>这个文件，一般来说，它的位置应该是<code>~/.pip/pip.conf</code>，如果没有的话，那就创建一个，然后写入如下内容：</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">[<span class="hljs-keyword">global</span>]<br>timeout = <span class="hljs-number">6000</span><br><span class="hljs-keyword">index</span>-url = https://pypi.tuna.tsinghua.edu.cn/simple<br><span class="hljs-keyword">trusted</span>-host = pypi.tuna.tsinghua.edu.cn<br></code></pre></td></tr></table></figure>
+<p>在Windows内原理也是一样的，不同的是路径和文件有所不同。</p>
+<p>我们在<code>user</code>目录中创建一个<code>pip</code>目录，如：<code>C:\Users\du\pip</code>,
+然后在PIP目录下新建一个<code>pip.ini</code>文件，然后写入内容：</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">[<span class="hljs-keyword">global</span>]<br>timeout = <span class="hljs-number">6000</span><br><span class="hljs-keyword">index</span>-url = https://pypi.tuna.tsinghua.edu.cn/simple<br><span class="hljs-keyword">trusted</span>-host = pypi.tuna.tsinghua.edu.cn<br></code></pre></td></tr></table></figure>
+<p>这样，我们在之后安装第三方库的时候就会发现，速度快多了。</p>
+<h2 id="虚拟环境">虚拟环境</h2>
+<p>虚拟环境呢，就是在当前的系统环境中，去配置另外一个Python得运行环境。我们理论上是可以创建多个不同的虚拟环境的，Python得虚拟环境相互独立，互相之间不会影响。</p>
+<p>那么虚拟环境下呢，具有以下一些特点：</p>
+<ul>
+<li>虚拟环境中可以在没有权限的情况下安装新的库（Linux系统中可能会出现的问题）</li>
+<li>不同的应用可以使用不同的库或不同的版本。</li>
+<li>虚拟环境中的库升级也不影响其它环境</li>
+<li>虚拟环境可以作为一个项目的专有环境。在需要部署时，一键导出项目的所需要的包</li>
+</ul>
+<h3 id="默认方式">默认方式</h3>
+<p>Python本身就支持创建和管理虚拟环境。可以使用以下方式进行创建：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">python -m venv 虚拟环境名<br></code></pre></td></tr></table></figure>
+<p>创建完成后，我们可以使用下面的方式进入虚拟环境，激活虚拟环境</p>
+<p><strong>Linux</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 使用source命令去执行v1/bin/目录下的activate</span><br>localhost:code yc$ <span class="hljs-built_in">source</span> v1/bin/activate<br></code></pre></td></tr></table></figure>
+<p><strong>Windows</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># Windows系统需要进入v1/Scripts/这个目录</span><br><span class="hljs-built_in">cd</span> v1/Scripts/<br><span class="hljs-comment"># 运行activate.bat文件</span><br>activate.bat<br>(v1) F:\code<br></code></pre></td></tr></table></figure>
+<p>在这之后，我们现在就处于某一个虚拟环境中了，可以执行安装等操作：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">pip install pymysql<br><br>pip show pymysql<br></code></pre></td></tr></table></figure>
+<p>那么如果我的某一个环境被我给搞乱了，我也找不到原因，还不如重新安装来的快。这会儿我们可能就想要退出并删除这个虚拟环境：</p>
+<p>如果想要退出虚拟环境，在Linux中，我们可以输入下面这个命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 退出虚拟环境</span><br><br><span class="hljs-comment"># Linux</span><br>deactivate<br></code></pre></td></tr></table></figure>
+<p>那如果是Windows中呢就比较简单了，直接<code>Ctrl+C</code>就好了。</p>
+<p>在退出之后，我们直接删除虚拟环境的文件夹，就搞定了。</p>
+<p>以上是我们不想要当前虚拟环境的情况下，那也有一种可能是我们需要更换电脑等原因，但是我想带着我的环境一起迁移，这该怎么办？</p>
+<p>这也好办，我们可以到处当前环境所有安装过的包：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 查看所有安装的包</span><br>pip list<br>```<br>package					version<br>------------------------<br>Numpy						1.3.1<br>........<br><br><br><span class="hljs-comment"># 导出所有包到文件</span><br>pip freeze &gt; ./requirements.txt<br></code></pre></td></tr></table></figure>
+<p>然后在下一个环境中，我们直接执行安装文件内所有包就可以了：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pip install -r requirements.txt<br></code></pre></td></tr></table></figure>
+<h3 id="conda">Conda</h3>
+<p>虽然Python中已经有了包管理的方法，但是还是不得不说，有时候第三方提供的方案确实香。</p>
+<p>目前，我现在都是使用<code>conda</code>(Andaconda)来管理我本地的虚拟环境。其使用也是非常的简单了，我们可以去其官网上（<a
+target="_blank" rel="noopener" href="https://www.anaconda.com/">https://www.anaconda.com/</a>）下载并安装对应自己系统的版本。</p>
+<p>安装完成后，Conda就会创建一个默认的<code>base</code>环境，我们之前一直使用的<code>Jupyter Notebook</code>也一并是安装在环境中的。</p>
+<p>那么在Conda中，我们经常会用的命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 安装包</span><br>conda install 包名称<br><br><span class="hljs-comment"># 安全方式安装包</span><br>conda install -c conda-forge 包名称<br><br><span class="hljs-comment"># 创建环境</span><br>conda create --name 环境名 python=3.10 <span class="hljs-comment">#最后是输入当前环境要用的Python版本</span><br><br><span class="hljs-comment"># 切换（激活）环境</span><br>conda activate 环境名<br><br><span class="hljs-comment"># 查看环境列表</span><br>conda info --<span class="hljs-built_in">env</span><br><br><span class="hljs-comment"># 删除某个环境</span><br>conda remove --name 环境名 --all<br></code></pre></td></tr></table></figure>
+<p>对比下来，<code>conda</code>真的是非常的方便。推荐大家使用。</p>
+<p>那么，今天的课程就到这里结束了。我知道，今天的课程似乎显的特别的少。em....不是似乎，是确实。</p>
+<p>原因在于这一部分必须拿出一个章节来介绍一下，否则大家平时在使用的过程中万一将自己的默认环境搞乱了，但是又不知道该怎么办，确实挺烦人的。所以我专门拿一节出来，将环境的问题好好的跟大家介绍下，顺便也是告诉大家，不管你做什么实验和操作，尽量新建一个环境来操作。这样，即便你把当前环境搞的乱七八糟无法恢复，删了就好了。</p>
+<p>好，那我们这节课到这里也就结束了，咱们下节课讲讲如何处理异常。</p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>19. 第三方库的管理和虚拟环境</p><p><a href="https://hivan.me/Third-party-libraries-and-virtual-environments/">https://hivan.me/Third-party-libraries-and-virtual-environments/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2023-08-15</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2023-11-25</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/Python/">Python</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" href="https://afdian.net/item/72907364008511ee904852540025c377" target="_blank" rel="noopener" data-type="afdian"><span class="icon is-small"><i class="fas fa-charging-station"></i></span><span>爱发电</span></a><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://www.buymeacoffee.com/hivandu" target="_blank" rel="noopener" data-type="buymeacoffee"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>送我杯咖啡</span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="paypal" onclick="document.getElementById(&#039;paypal-donate-form&#039;).submit()"><span class="icon is-small"><i class="fab fa-paypal"></i></span><span>Paypal</span></a><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" rel="noopener" id="paypal-donate-form"><input type="hidden" name="cmd" value="_donations"><input type="hidden" name="business" value="doo@hivan.me"><input type="hidden" name="currency_code" value="USD"></form><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/Get-the-exception/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">20. 异常处理</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/Modules-and-packages/"><span class="level-item">18. Python中的模块与包</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/Third-party-libraries-and-virtual-environments/';
+            this.page.identifier = 'Third-party-libraries-and-virtual-environments/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">200</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">5</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">22</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI秘籍</span></span><span class="level-end"><span class="level-item tag">58</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">27</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">29</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-12T23:30:00.000Z">2023-12-13</time></p><p class="title"><a href="/29.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E5%8D%B7%E7%A7%AF%E7%9A%84%E5%8E%9F%E7%90%86/">29. 深度学习进阶 - 卷积的原理</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-09T23:30:00.000Z">2023-12-10</time></p><p class="title"><a href="/28.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20LSTM/">28. 深度学习进阶 - LSTM</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-05T23:30:00.000Z">2023-12-06</time></p><p class="title"><a href="/27.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E4%B8%BA%E4%BB%80%E4%B9%88RNN/">27. 深度学习进阶 - 为什么RNN</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-01T23:30:00.000Z">2023-12-02</time></p><p class="title"><a href="/26.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/">26. 深度学习进阶 - 深度学习的优化方法</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-11-28T23:30:00.000Z">2023-11-29</time></p><p class="title"><a href="/25.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E6%9D%83%E9%87%8D%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%8C%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1%E5%92%8C%E6%A2%AF%E5%BA%A6%E7%88%86%E7%82%B8/">25. 深度学习进阶 - 权重初始化，梯度消失和梯度爆炸</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2023 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

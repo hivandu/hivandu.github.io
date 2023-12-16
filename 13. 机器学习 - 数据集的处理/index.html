@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>13. 机器学习 - 数据集的处理 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="[TOC]  Hi，你好。我是茶桁。 上一节课，咱们讲解了『拟合』，了解了什么是过拟合，什么是欠拟合。也说过，如果大家以后在工作中做的就是机器学习的相关事情，那么欠拟合和过拟合就会一直陪伴着你，这两者是相互冲突的。"><meta property="og:type" content="blog"><meta property="og:title" content="13. 机器学习 - 数据集的处理"><meta property="og:url" content="https://hivan.me/13.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20-%20%E6%95%B0%E6%8D%AE%E9%9B%86%E7%9A%84%E5%A4%84%E7%90%86/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="[TOC]  Hi，你好。我是茶桁。 上一节课，咱们讲解了『拟合』，了解了什么是过拟合，什么是欠拟合。也说过，如果大家以后在工作中做的就是机器学习的相关事情，那么欠拟合和过拟合就会一直陪伴着你，这两者是相互冲突的。"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2023-10-24T23:30:00.000Z"><meta property="article:modified_time" content="2023-11-25T04:40:54.093Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/13.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20-%20%E6%95%B0%E6%8D%AE%E9%9B%86%E7%9A%84%E5%A4%84%E7%90%86/"},"headline":"13. 机器学习 - 数据集的处理","image":[],"datePublished":"2023-10-24T23:30:00.000Z","dateModified":"2023-11-25T04:40:54.093Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"[TOC]  Hi，你好。我是茶桁。 上一节课，咱们讲解了『拟合』，了解了什么是过拟合，什么是欠拟合。也说过，如果大家以后在工作中做的就是机器学习的相关事情，那么欠拟合和过拟合就会一直陪伴着你，这两者是相互冲突的。"}</script><link rel="canonical" href="https://hivan.me/13.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20-%20%E6%95%B0%E6%8D%AE%E9%9B%86%E7%9A%84%E5%A4%84%E7%90%86/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2023-10-24T23:30:00.000Z" title="10/25/2023, 7:30:00 AM">2023-10-25</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a><span> / </span><a class="link-muted" href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></span></div></div><h1 class="title is-3 is-size-4-mobile">13. 机器学习 - 数据集的处理</h1><div class="content"><p>[TOC]</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231021195926.png"
+alt="茶桁的 AI 秘籍 核心基础 13" /></p>
+<p>Hi，你好。我是茶桁。</p>
+<p>上一节课，咱们讲解了『拟合』，了解了什么是过拟合，什么是欠拟合。也说过，如果大家以后在工作中做的就是机器学习的相关事情，那么欠拟合和过拟合就会一直陪伴着你，这两者是相互冲突的。</p>
+<span id="more"></span>
+<p>现在，让我们一起来思考一个问题：<code>overfitting</code>，过拟合产生的原因是什么？</p>
+<p>如果这是在模型层面的话，参数过多还是过少？如果从数据层面来看，是过多还是过少呢？</p>
+<p>好，我们来揭晓答案。如果模型层面思考，那是就是参数过多。如果从数据层面来看，那是数据过少。</p>
+<p>现在我们需要理解一件事情，这两个事情其实是一回事，数据量多和模型复杂其实是一回事。它背后的原因就是因为任何一个
+f(x)
+如果有很多的参数，拟合的时候随着这个参数数量越多，那么我们所需要的训练数据集也要增多。也就是说当模型非常复杂，参数特别多，只要数据量特别大，那就不算多。就说现有的数据量对于参数不够，训练力度不够。</p>
+<p>这就好比是有一个天才的孩子，脑子极其聪明，就跟茶桁一样。哎，这个孩子呢智商极其高，但是他想事情想的特别的复杂，结果他现在见到的事情都是太过于简单的东西。那么就不能把他的这个潜力发挥出来。</p>
+<p>好，我们接着下一个问题：如何判断一件事情有没有发生过拟合或者欠拟合呢？</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231021195927.jpeg"
+alt="Alt text" /></p>
+<p>我们看这张图，假如这是一个 2 分类问题，咱们训练时候结果的准确度是 0.7
+左右。那么大家想一下，这个是过拟合还是欠拟合呢？</p>
+<p>如果模型训练的时候效果还不错，快接近于 1
+了，达到了百分之九十几。但是实际上用 validation
+数据集去测的时候发现准确度下到百分之八十几，或者百分之七十几，总之就是比在训练的时候那个效果要差。这个就叫作过拟合。</p>
+<p>咱们上节课给大家说的就是这个问题，机器学习的整个流程最终的目的不是为了把
+loss 函数降到最低，我们要关心的是像
+recall，precition，这种信息才是最关键的。</p>
+<h2 id="training-data-split">Training data split</h2>
+<p>接下来，咱么要再讲几个机器学习里面极其重要的几个概念，第一个是数据集的切分
+(Training data split)。第二个是
+Normalization。第三个，Standardized。</p>
+<p>其实上节课，咱们已经说过了数据集的切分问题。数据集切分最主要的原因是因为我们经常会遇见过拟合的情况，为了避免我们把所有的数据拿来不断的做
+training, 然后在使用的时候效果变得不好，那我们不如自己找一些数据出来做
+test sets，为了可以反复多次的去检验效果好不好，就增加了一个 validation
+sets。</p>
+<p>在真实环境下我们是怎么去做这样一件事呢？我们来简单的演示下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> sklearn.model_selection <span class="hljs-keyword">import</span> train_test_split<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><br>sample_data = np.random.random(size(<span class="hljs-number">100</span>, <span class="hljs-number">5</span>))<br><br>train, test = train_test_split(sample_data, train_size=<span class="hljs-number">0.8</span>)<br>train<br><br>---<br>array([[<span class="hljs-number">1.55582066e-01</span>, <span class="hljs-number">8.19437761e-01</span>, <span class="hljs-number">3.54628257e-02</span>, <span class="hljs-number">5.53248385e-01</span>,<br>        <span class="hljs-number">4.23785508e-01</span>],<br>...<br>       [<span class="hljs-number">7.24889349e-01</span>, <span class="hljs-number">1.23458057e-01</span>, <span class="hljs-number">9.74101303e-01</span>, <span class="hljs-number">1.72605427e-01</span>,<br>        <span class="hljs-number">6.59164912e-01</span>]])<br></code></pre></td></tr></table></figure>
+<p>非常的简单，我们来看，<code>sklearn</code>里自带了这种分割方法。我们随机了
+100 行 5
+列的数据，然后使用<code>train_test_split</code>将其分割成<code>train</code>和<code>test</code>两份，在后面的参数内设置了百分位。</p>
+<p>这样，这个数据就做了一个拆分。值得注意的是，给大家教一个小技巧，这是第一种方法：split。其实不只是
+sklearn，pytorch 和 keras 也都有 split 方法。</p>
+<p>但是我们去看一下源码会发现，这个 split 方法是没有
+validation，它的输出只有 train 和 test 两部分。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231021195928.png"
+alt="Alt text" /></p>
+<p>为了解决这个问题，我们可以用一个简单的方法。这次我们使用 Numpy。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python">indices = np.random.choice(<span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(sample_data)), size=<span class="hljs-built_in">int</span>(<span class="hljs-number">0.8</span>*(<span class="hljs-built_in">len</span>(sample_data))), replace=<span class="hljs-literal">True</span>)<br><br>indices<br><br>---<br>array([<span class="hljs-number">39</span>, <span class="hljs-number">65</span>,  <span class="hljs-number">5</span>, <span class="hljs-number">13</span>, <span class="hljs-number">69</span>,  <span class="hljs-number">8</span>, <span class="hljs-number">49</span>,  <span class="hljs-number">2</span>, <span class="hljs-number">16</span>, <span class="hljs-number">16</span>, <span class="hljs-number">28</span>, <span class="hljs-number">28</span>, <span class="hljs-number">99</span>, <span class="hljs-number">13</span>, <span class="hljs-number">64</span>, <span class="hljs-number">76</span>, <span class="hljs-number">55</span>,<br>       <span class="hljs-number">96</span>, <span class="hljs-number">12</span>, <span class="hljs-number">87</span>, <span class="hljs-number">81</span>, <span class="hljs-number">55</span>, <span class="hljs-number">96</span>, <span class="hljs-number">54</span>, <span class="hljs-number">94</span>, <span class="hljs-number">15</span>, <span class="hljs-number">44</span>, <span class="hljs-number">23</span>, <span class="hljs-number">17</span>, <span class="hljs-number">76</span>, <span class="hljs-number">98</span>, <span class="hljs-number">84</span>, <span class="hljs-number">21</span>, <span class="hljs-number">50</span>,<br>       <span class="hljs-number">62</span>, <span class="hljs-number">58</span>, <span class="hljs-number">21</span>, <span class="hljs-number">95</span>, <span class="hljs-number">22</span>,  <span class="hljs-number">3</span>,  <span class="hljs-number">6</span>, <span class="hljs-number">35</span>, <span class="hljs-number">93</span>, <span class="hljs-number">34</span>, <span class="hljs-number">68</span>, <span class="hljs-number">49</span>, <span class="hljs-number">29</span>, <span class="hljs-number">81</span>, <span class="hljs-number">58</span>, <span class="hljs-number">45</span>, <span class="hljs-number">95</span>,<br>       <span class="hljs-number">26</span>, <span class="hljs-number">21</span>, <span class="hljs-number">97</span>, <span class="hljs-number">43</span>, <span class="hljs-number">30</span>, <span class="hljs-number">40</span>, <span class="hljs-number">52</span>, <span class="hljs-number">93</span>, <span class="hljs-number">34</span>, <span class="hljs-number">17</span>, <span class="hljs-number">71</span>, <span class="hljs-number">76</span>, <span class="hljs-number">38</span>, <span class="hljs-number">92</span>, <span class="hljs-number">62</span>, <span class="hljs-number">21</span>, <span class="hljs-number">98</span>,<br>       <span class="hljs-number">56</span>, <span class="hljs-number">28</span>, <span class="hljs-number">54</span>, <span class="hljs-number">39</span>, <span class="hljs-number">15</span>, <span class="hljs-number">17</span>, <span class="hljs-number">62</span>, <span class="hljs-number">81</span>, <span class="hljs-number">61</span>,  <span class="hljs-number">4</span>, <span class="hljs-number">51</span>, <span class="hljs-number">71</span>])<br></code></pre></td></tr></table></figure>
+<p>这里我们等于是把它的整体的顺序打乱，后面的 replace
+就是可以重复的去取。这样我们就随机的取了一些下标。</p>
+<p>这是一个比较简单的方法，那么我们为什么要设置<code>replace=True</code>呢？当数量特别大的时候，多取几个少取几个其实不是很影响，另外
+replace
+的话，他内部的那个随机的算法其实是不一样的，速度会快的多。以后如果遇到类似的事情，你也可以去用这个方法去做它。</p>
+<h2 id="normalization">Normalization</h2>
+<p>除了这个以外，做机器学习的时候，要做数值的归一化 (Normalization)
+和标准化 (Standardized) 这样一个动作。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231021195929.png"
+alt="Alt text" /></p>
+<p>我们这么做的目的是什么呢？假设我们现在有多个特征的数据集，不过我们注意到一点，就是这些特征值跨越的范围是无法进行比较的。</p>
+<p>比如，一个特征在 1 和 10 之间变化，但是另外一个实在 1 和 1000
+之间变化。如果我们忽略了这一点而直接进行建模，模型分配给这些特征的权重将会受到严重影响，模型最终会为较大的变量分配较高的权重。</p>
+<p>现在要解决这个问题，将这些特征置于相同或者至少是可比较的范围内，那就需要对数据做一个数据归一化。</p>
+<p>归一化的目标是讲数据缩放到特定范围内，一般来说是[0,1]或者[-1,1]之间。这有助于消除不同特征之间的尺度差异，确保它们对模型的权重贡献大致相等。</p>
+<p>数据归一化对于每个特征
+x，归一化后的值<code>Xnormalized</code>计算如下：</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231021195930.png"
+alt="Alt text" /></p>
+<p>其中 min 是特征的最小值，max
+是特征的最大值。这个操作确保了数据的最小值映射到 0，最大值映射到 1.</p>
+<p>在数据预处理过程中，首先计算每个特征的最小值和最大值，然后使用上述公式对数据进行归一化。这通常通过一次遍历数据来实现。</p>
+<p>在进行归一化的时候，我们所使用的那个公式会有一个缺点，就是它并不能很好的去处理异常值。比方说，如果有
+0 到 40 之间的 99 个值，其中一个值为 100，则这 99 个值讲全部转换为 0 到
+0.4 之间的值。这些数据和以前一样被压缩！下图就是个示例：</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231021195931.png"
+alt="Alt text" /></p>
+<p>这些数据在进行归一化之后，解决的是 y 轴上堆集的问题，但是 x
+轴上的问题依然存在，就像途中橙色点那个异常值：</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231021195932.png"
+alt="Alt text" /></p>
+<p>关于这个知识点，我们来看一个极其简单的例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">some_large_number = [<span class="hljs-number">23421421</span>,<span class="hljs-number">42155151</span>,<span class="hljs-number">25531238</span>,<span class="hljs-number">21826139</span>, <span class="hljs-number">32189732</span>, <span class="hljs-number">32103721</span>]<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">normalize</span>(<span class="hljs-params">x</span>):<br>    <span class="hljs-keyword">return</span> (x - np.<span class="hljs-built_in">min</span>(x)) / (np.<span class="hljs-built_in">max</span>(x) - np.<span class="hljs-built_in">min</span>(x))<br>ic(normalize(np.array(some_large_number)))<br><br>---<br>array([<span class="hljs-number">0.07847317</span>, <span class="hljs-number">1.</span>, <span class="hljs-number">0.18225672</span>, <span class="hljs-number">0.</span>, <span class="hljs-number">0.50979325</span>, <span class="hljs-number">0.5055623</span> ])<br></code></pre></td></tr></table></figure>
+<p>我手动定义了 6
+个比较大的数字，在进行处理之后我们看到了，都变成了一些特别小的数字。</p>
+<p>同样的，对于特别小的数字，它一样可以进行处理：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">some_small_number = [<span class="hljs-number">0.00000231213</span>,  <span class="hljs-number">0.0005600321</span>, <span class="hljs-number">0.0000041412892</span>, <span class="hljs-number">0.000987890576</span>, <span class="hljs-number">0.0000578921764</span>]<br>ic(normalize(np.array(some_small_number)))<br><br>--- <br>array([<span class="hljs-number">0.</span>, <span class="hljs-number">0.56588085</span>, <span class="hljs-number">0.00185592</span>, <span class="hljs-number">1.</span>, <span class="hljs-number">0.05639333</span>])<br></code></pre></td></tr></table></figure>
+<h2 id="standardized">Standardized</h2>
+<p>那么还有就是标准化，对于标准化，其目标是讲数据转化为均值为
+0，标准差为 1
+的分布，也就是标准正态分布。这有助于处理偏斜分布的数据，并确保数据的均值和方差在模型中起到合适的作用。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231021195933.png"
+alt="Alt text" /></p>
+<p>那对于每一个特征 x，标准化的值<code>z</code>计算如下：</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231021195934.png"
+alt="Alt text" /></p>
+<p><span class="math inline">\(\mu\)</span>是特征的均值，<span
+class="math inline">\(\sigma\)</span>是特征的标准差。这个操作使数据的均值为
+0，标准差为 1。</p>
+<p>在数据预处理的过程中，首先计算每个特征的均值和标准差，然后使用上述公式对数据进行标准化处理。标准化后的数据具有均值
+0 和标准差 1，这有助于模型更好的理解和捕捉数据之间的关系。</p>
+<p>无论是归一化还是标准化，其实依据来源都是基于线性代数的变化理论，这确保了归一化和标准化后的数据分布具有特定的属性，这些属性对于机器学习算法的表现非常有帮助。</p>
+<p>我们来看一个标准化的例子，为了让大家更为明显的了解其意义，我做了一些非常大的数据，但是每一个都不相同。这些数据有一个特点，就是相对于数值本身的大小来说，几个数值之间的差距可以说是非常微小的：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python">some_dense_number = [<span class="hljs-number">47238941</span>, <span class="hljs-number">47238946</span>, <span class="hljs-number">47238951</span>, <span class="hljs-number">47238931</span>, <span class="hljs-number">47238949</span>, <span class="hljs-number">47238936</span>]<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">standarlize</span>(<span class="hljs-params">x</span>):<br>    <span class="hljs-keyword">return</span> (x - np.mean(x))/ np.std(x)<br><br>ic(standarlize(np.array(some_dense_number)))<br><br>---<br>array([-<span class="hljs-number">0.18752289</span>,  <span class="hljs-number">0.51568795</span>,  <span class="hljs-number">1.2188988</span> , -<span class="hljs-number">1.59394459</span>,  <span class="hljs-number">0.93761446</span>, -<span class="hljs-number">0.89073374</span>])<br></code></pre></td></tr></table></figure>
+<p>我们定义的数据实际上是非常密集，但是使用 standarlize
+公式之后，就变得比较的分散，比较的均匀了。这个情况还是很多的。</p>
+<h2 id="one-hot">ONE-HOT</h2>
+<p>在讲完 training data split, normalization, Standardized
+之后，我们来看下面一点：ONE-HOT。</p>
+<p>为什么要用
+ONE-HOT？我们都直到，咱们计算机里其实都是数字，包括视频，图片，声音，文字等其实都是数字。</p>
+<p>数字和数字其实是不一样的。比如，有一群人分成了<code>4</code>组：</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231021195935.png"
+alt="Alt text" /></p>
+<p>然后有一个女生的 GPA 是<code>4</code>:</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231021195936.png"
+alt="Alt text" /></p>
+<p>那么分组的<code>4</code>和 GPA
+的<code>4</code>有什么区别？最明显的一个区别就是，分组的<code>4</code>只是一个组名，那么假如和<code>1</code>组交换组名并没有太大的关系，但是
+GPA 的这个<code>4</code>如何和<code>1</code>交换一下，那就从 4 分变成 1
+分了，那这两个是不能相互变换的。本质上，其区别就是一个可比一个不可比。</p>
+<p>我们也就发现了，数字其实是有区别的。这个世界中，数字其实可以分成两类：</p>
+<p>第一类叫作
+Categorical，叫作分类数据，也被称为离散数据或名义数据。它们之间不能被比较，也不能被排序，这些数字也仅仅是表示一个和另外一个不一样。就我们刚才讲人群分为
+1、2、3、4 组，其实分成 A、B、C、D 组也是一样的，只是表示区别。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231021195937.png"
+alt="Alt text" /></p>
+<p>第二类是
+Numerical，数值数据，也被称为连续数据。这个是可以比较的，也可以进行排序。这种数据包括可以用来进行数学运算的实数值。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231021195938.png"
+alt="Alt text" /></p>
+<p>Numerical 还可以进一步分为整数和浮点数。</p>
+<p>知道了这一点之后，那我们以后遇到类似的情况不要随便的做加减乘除。</p>
+<p>那我们有了 Categorical 和 Numerical
+这两种类型之后，会对我们有一些什么比较重要的影响？</p>
+<p>如果现在有一个函数，这个函数输入一个 x 向量，它输出就是分为一个
+Categorical 和 numerical。</p>
+<p>输出是 0-1 这样一个数字，是一个典型的逻辑回归。</p>
+<p>假如有一个人在北京，年龄
+27，性别男，月入一万二。然后还有一个人，生活在安徽，年龄
+28，性别女，月入 8,000。第三个住在上海，年龄
+28，性别男，月入一万三。</p>
+<ol type="1">
+<li>北京，27, 12000</li>
+<li>安徽，28, 8000</li>
+<li>上海，28, 13000</li>
+</ol>
+<p>我们注意这三组数据，如果现在做一个向量表证。</p>
+<p>关于地域，我们常常使用的方法包括邮编排序，或者使用拼音排序。假如这里我们就使用拼音首字母来进行排序，安徽假如是
+1，北京是 2，上海是 27。</p>
+<p>我们的数据进行向量化可能就会变成下面这样：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 1. 北京</span><br>vec(<span class="hljs-number">2</span>, <span class="hljs-number">27</span>, <span class="hljs-number">12000</span>)<br><span class="hljs-comment"># 2. 安徽</span><br>vec(<span class="hljs-number">1</span>, <span class="hljs-number">28</span>, <span class="hljs-number">8000</span>)<br><span class="hljs-comment"># 3. 上海</span><br>vec(<span class="hljs-number">27</span>, <span class="hljs-number">28</span>, <span class="hljs-number">13000</span>)<br></code></pre></td></tr></table></figure>
+<p>然后我们定义一个函数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">f</span>(<span class="hljs-params">x</span>):<br>    <span class="hljs-keyword">return</span> (<span class="hljs-number">0</span>, <span class="hljs-number">1</span>)<br></code></pre></td></tr></table></figure>
+<p>非常简单一个函数，返回表示对某一样东西买还是不买。</p>
+<p>函数的实现过程就是类似于<code>wi * xi + b</code>这种形式。</p>
+<p>我们观察向量发现，就向量值而言，北京这个人和安徽这个人之间的向量差比北京和上海这两人之间的向量差还要小。</p>
+<p><span class="math display">\[
+|v_1 - v_2| &lt; |v_1 - v_3|
+\]</span></p>
+<p>我们假如说经过函数<code>f(x)</code>之后，输出的结果分别为 Y1, Y2,
+Y3。因为 v1 和 v2 离的更近，就会有一个结果，Y1 和 Y2
+的结果其实会更相似。但是其实呢，这种结果完全不对。这样乱比其实会出问题，会让程序出错。</p>
+<p>我们现在知道，这其实是一个 Categorical 的问题。为了解决 Categorical
+的这种问题，我把 Categorical 改成这样：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">北京: [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>]<br>安徽: [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>]<br>上海: [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>]<br></code></pre></td></tr></table></figure>
+<p>改成这样之后这个向量就变成了这样：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 1. 北京</span><br>vec(<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">27</span>, <span class="hljs-number">12000</span>)<br><span class="hljs-comment"># 2. 安徽</span><br>vec(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">28</span>, <span class="hljs-number">8000</span>)<br><span class="hljs-comment"># 3. 上海</span><br>vec(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">28</span>, <span class="hljs-number">13000</span>)<br></code></pre></td></tr></table></figure>
+<p>向量变成这样之后，就解决了我们刚刚说的那个问题。不会导致因为分类过于相似让北京和安徽向量相似度大于北京和上海的相似度。</p>
+<p>对于这样一个向量，三组数据中改变的那个值向量值就都为<span
+class="math inline">\(\sqrt 2\)</span>，这一种方式就被称为 ONE-HOT。</p>
+<p>那这种方式也是存在问题的，目前我们只去考虑三个城市。可是当存在成百上千个城市的时候，比如说
+Google 地图等等这些应用。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231021195939.png"
+alt="Alt text" /></p>
+<p>当城市越来越多的时候，那它的维度就会变得很高：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">Beijing     = [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, ..., <span class="hljs-number">0</span>]<br>Shanghai    = [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, ..., <span class="hljs-number">0</span>]<br>Chengdu     = [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, ..., <span class="hljs-number">0</span>]<br>Shenzhen    = [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, ..., <span class="hljs-number">0</span>]<br>...<br></code></pre></td></tr></table></figure>
+<p>我们想想一下，这样得有多少个地址？可能空间会极其的大，你这样的话数字光存起来得上亿个存储单元。</p>
+<p>ONE-HOT 就有这样的问题：</p>
+<ol type="1">
+<li>耗费空间</li>
+<li>数据量大，更新起来，效率极低</li>
+<li>遗漏了很多重要新息</li>
+</ol>
+<p>就比如，我们再增加几个人如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">- 重庆 <span class="hljs-number">27</span> <span class="hljs-number">9000</span><br>- 成都 <span class="hljs-number">26</span> <span class="hljs-number">8500</span><br>- 呼和浩特 <span class="hljs-number">26</span> <span class="hljs-number">8500</span><br></code></pre></td></tr></table></figure>
+<p>在这三个城市中，我们脑子里其实就直到，重庆和成都是非常接近的。但是在
+ONE-HOT 里是体现不出来，其向量值依然是根号 2。</p>
+<p>为了解决这些问题，人们就用到了更先进的一种方法：embedding，
+叫作嵌入。</p>
+<p>嵌入就是把东西放在固定的位置，这个就是嵌入的意思。在这里，就我们空间中如果有几个实体
+NTT1 NTT2 NTT3，我们把这些实体放到这个空间中，要达到一个结果就是如果实体
+1 和实体 2 的相似度小于实体 1 和实体 3
+的相似度，这个相似度我们可以自己来定义，比如成都和重庆的生活方式，再比如重庆和北京都是直辖市。</p>
+<p>在这个问题场景下，我们期望达到的结果是如果这两个实体相似那么他们在空间中的距离也接近。</p>
+<p>如何实现 Embedding,
+这本身是一个研究领域，是现在非监督学习，表证学习里面非常重要的一个研究领域，属于比较高级的一个知识点。</p>
+<p>第二就是如果之后咱们学
+NLP，那么一定会讲到这个，因为要把文本单词进行嵌入，到时候会学到。如果是学推荐系统的，大家也会学什么
+Graph embedding，基于图的用户行为。</p>
+<p>那之后咱们学习 NLP，其基础就是
+Embedding。关于这个问题，我们其实目前了解到这里就行了。再往下延展下去，又是一个专门的研究话题。延展后的这个问题解决方案，在我们后面的课程中会等着大家去学习。</p>
+<p>我们再来看看 ONE-HOT 的实际展示：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs python">array = [<span class="hljs-string">&#x27;北京&#x27;</span>,<span class="hljs-string">&#x27;上海&#x27;</span>,<span class="hljs-string">&#x27;广州&#x27;</span>,<span class="hljs-string">&#x27;宁夏&#x27;</span>,<span class="hljs-string">&#x27;成都&#x27;</span>,<span class="hljs-string">&#x27;上海&#x27;</span>,<span class="hljs-string">&#x27;北京&#x27;</span>]<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">one_hot</span>(<span class="hljs-params">elements</span>):<br>    pure = <span class="hljs-built_in">list</span>(<span class="hljs-built_in">set</span>(elements))<br>    <br>    vectors = []<br><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> elements:<br>        vec = [<span class="hljs-number">0</span>] * <span class="hljs-built_in">len</span>(pure)<br>        vec[pure.index(i)] = <span class="hljs-number">1</span><br>        vectors.append(vec)<br><br>    <span class="hljs-keyword">return</span> vectors<br>ic(one_hot(array))<br><br>---<br>one_hot(array): [[<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>],<br>                [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>],<br>                [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>],<br>                [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>],<br>                [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>],<br>                [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>],<br>                [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>]]<br></code></pre></td></tr></table></figure>
+<p>其实 ONE-HOT
+非常简单，但是基本上很多面试官都喜欢问这个问题。这个问题主要就是一个可以考察一下你的
+Python 编程能力，其次他可以去问一下你 one hot
+的作用是什么，再者还可以往后问你 one hot
+有什么缺点，怎么解决等等。一个问题就可以问你半个小时。</p>
+<h2 id="补充softmax-和-cross-entropy">补充：SOFTMAX 和
+CROSS-ENTROPY</h2>
+<p>好，在本节课最后，我们来做一个前面课程的补充，在今天才想起来，有一个相关的点遗漏了没有讲到。</p>
+<p>之前我们讲过逻辑回归的 loss 函数：</p>
+<p>假如 y=1，loss 可以等于-log(yhat), 如果 y 等于 0，loss
+就可以写成-log(1-yhat)。两个合并后就组成了最终的 loss 函数：</p>
+<p><span class="math display">\[
+loss = -(ylog\hat y + (1-y)log(1- \hat y))
+\]</span></p>
+<p>那么，这个是解决二分类的，结果才不是 0 就是
+1。现在的问题就是如果我们要解决多分类的问题怎么办。</p>
+<p>如果要解决多分类的话，需要把 x 变成一种能预测多分类的东西。那最终
+yhat 可以表示成 <span class="math inline">\(\hat y = (0.25, 0.20,
+0.75)\)</span>。</p>
+<p>也就是，现在要表示三个类别，那我们可以用三个小数来表示。这个向量经过各种计算，如果能够变成一个三维的向量，然后再去优化里边的参数就可以做到。</p>
+<p>那这也就代表的是类别 1、类别 2、类别 3 的概率。ytrue 就可以写成 yhat
+的形式，就变成 (1, 0, 0)。</p>
+<p>就是我们给定一个<span class="math inline">\(\vec x\)</span>, 它实际的
+y 是 (1, 0, 0)，那么 yhat 就是估计值等于 0.25、0.20 和
+0.75。然后对比一下两组数据之间的差别，这样我们就可以优化其中的形成参数
+(w, b)。</p>
+<p>通过不断优化，就可以计算到更接近于 (1, 0, 0) 这样的值。</p>
+<p>首先就是怎么样把 x 向量变成 3 维的。</p>
+<p>这个其实不难，如果 x 是 10 维的，1<em>10。那么给他再乘以一个 10</em>3
+的矩阵，它最后就会变成一个 1 行乘 3 列的矩阵。</p>
+<p>那么现在假如说现在有这样一个 x:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">x = [<span class="hljs-number">1231</span>, <span class="hljs-number">12314</span>, <span class="hljs-number">4341</span>, <span class="hljs-number">1542</span>, <span class="hljs-number">4123</span>, <span class="hljs-number">4512</span>, <span class="hljs-number">3213</span>, <span class="hljs-number">1241</span>, <span class="hljs-number">1231</span>, <span class="hljs-number">6842</span>]<br></code></pre></td></tr></table></figure>
+<p>然后我们来做这样一件事：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">x = np.array(normalize(x))<br>weights = np.random.random(size=(<span class="hljs-number">10</span>, <span class="hljs-number">3</span>))<br>np.dot(x, weights)<br><br>---<br>array([<span class="hljs-number">0.86907231</span>, <span class="hljs-number">1.32234548</span>, <span class="hljs-number">0.88170994</span>])<br></code></pre></td></tr></table></figure>
+<p>这样，我们就生成了一个维度是 3
+的一串数字。在机器学习里面，我们把这个叫做算子：logits。</p>
+<p>现在我们将一个 10 维的 x 变成了一个 3 维的
+logit，下一步我们就要考虑，怎么将这个 logit 变成一个概率分布呢？</p>
+<p>我们就要用到一个和逻辑函数特别像的一个函数，Softmax：</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231021195940.png"
+alt="Alt text" /></p>
+<p>我把它写出来：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python">logits = np.dot(x, weights)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">softmax</span>(<span class="hljs-params">x</span>):<br>    <span class="hljs-keyword">return</span> np.exp(x) / np.<span class="hljs-built_in">sum</span>(np.exp(x))<br><br>ic(softmax(logits))<br><br>---<br>array([<span class="hljs-number">0.27884889</span>, <span class="hljs-number">0.43875588</span>, <span class="hljs-number">0.28239524</span>])<br></code></pre></td></tr></table></figure>
+<p>这样，我们输入的是 logits，输入到 Softmax，输出的就是概率了。</p>
+<p>输出成概率之后，我们定义一个依然和逻辑函数很像的一个函数，叫做
+Cross-entropy。</p>
+<p>我们刚才使用 softmax 输出的数组就是概率，也就是估算的 yhat。这个
+Cross-entropy 的 loss 就是：</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231021195941.png"
+alt="Alt text" /></p>
+<p>求得 loss，然后再对 x 求偏导，就可以通过梯度下降让输入的 x
+得到和真正的 y 相近的 yhat。</p>
+<p>那我们将 cross-entropy 也写一下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">cross_entropy</span>(<span class="hljs-params">yhat, y</span>):<br>    <span class="hljs-keyword">return</span> -np.<span class="hljs-built_in">sum</span>(y_i * np.log(yhat_i) <span class="hljs-keyword">for</span> y_i, yhat_i <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(y, yhat))<br></code></pre></td></tr></table></figure>
+<p>现在我们需要一组真正的
+y，也就是真实值，和我们预测房价时所使用的真实值是一样的东西，只是现在我们的
+y 的维度不太一样：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">y = [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>]<br></code></pre></td></tr></table></figure>
+<p>接着我们使用<code>cross_entropy</code>将我们之前使用 softmax
+计算的概率分布和真实的 y 放进去：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">ic(cross_entropy(softmax(logits),y))<br><br>---<br><span class="hljs-number">1.040664959870481</span><br></code></pre></td></tr></table></figure>
+<p>这个时候我们就得到了一个 loss 值。</p>
+<p>我们现在去给 weights 求偏导。然后通过不断的迭代，就能找到一组 wi，和
+x 进行点乘就能够生成和 y 接近的值。</p>
+<p>以上这些就是 softmax 和 cross-entropy 的作用。</p>
+<p>cross-centropy 就是用来衡量产生的 yhat 和 y
+之间的相似程度差距的。Softmax
+是把任意的一组数字变成概率分布，然后这个概率分布就可以送到 loss
+函数里面和实际上的 y 进行对比。</p>
+<p>Softmax 有这么几个特性，它的结果是一个典型的概率分布。还有就是
+Softmax 中有 e 的 n 次方，可以把 Max 变得更大。除了把 Max
+变得更大，还保留原来小的数字。</p>
+<p>理论上完全可以找别的函数代替，计算机里边很多东西，只要好用就行。这就是放大特征，正是面对多分类任务的一个做法。</p>
+<p>Softmax
+在实现的时候有个坑稍微要注意一下，在实现的时候我们多加一句：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">softmax</span>(<span class="hljs-params">x</span>):<br>    x = np.array(x)<br>    x -= np.<span class="hljs-built_in">max</span>(x) <span class="hljs-comment"># 多加这么两句</span><br>    <span class="hljs-keyword">return</span> np.exp(x) / np.<span class="hljs-built_in">sum</span>(np.exp(x))<br><br>ic(softmax(logits))<br></code></pre></td></tr></table></figure>
+<p>首先，如果 x 的输入是一个 array
+就不用管了，但是如果不是，我们就要强制转换一下。</p>
+<p>下一句代码是因为 e 的 x
+次方可能非常的大，但是我们计算机的存储是有限的，最大只能表示 2^63
+的数字，再大就表示不了了。所以我们就需要这样一段代码来处理一下，让最后结果的数字不要那么大。</p>
+<p>好，那这一节课的内容到这里也就结束了。</p>
+<hr />
+<p>关注「坍缩的奇点」，第一时间获取更多免费 AI 教程。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/扫码_搜索联合传播样式-白色版.png"
+alt="坍缩的奇点" /></p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>13. 机器学习 - 数据集的处理</p><p><a href="https://hivan.me/13. 机器学习 - 数据集的处理/">https://hivan.me/13. 机器学习 - 数据集的处理/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2023-10-25</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2023-11-25</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" href="https://afdian.net/item/72907364008511ee904852540025c377" target="_blank" rel="noopener" data-type="afdian"><span class="icon is-small"><i class="fas fa-charging-station"></i></span><span>爱发电</span></a><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://www.buymeacoffee.com/hivandu" target="_blank" rel="noopener" data-type="buymeacoffee"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>送我杯咖啡</span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="paypal" onclick="document.getElementById(&#039;paypal-donate-form&#039;).submit()"><span class="icon is-small"><i class="fab fa-paypal"></i></span><span>Paypal</span></a><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" rel="noopener" id="paypal-donate-form"><input type="hidden" name="cmd" value="_donations"><input type="hidden" name="business" value="doo@hivan.me"><input type="hidden" name="currency_code" value="USD"></form><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/mount-apfs-on-mac/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">Mac上挂载APFS移动硬盘</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/12.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20-%20%E6%8B%9F%E5%90%88/"><span class="level-item">12. 机器学习 - 拟合</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/13.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20-%20%E6%95%B0%E6%8D%AE%E9%9B%86%E7%9A%84%E5%A4%84%E7%90%86/';
+            this.page.identifier = '13. 机器学习 - 数据集的处理/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">200</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">5</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">22</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI秘籍</span></span><span class="level-end"><span class="level-item tag">58</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">27</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">29</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-12T23:30:00.000Z">2023-12-13</time></p><p class="title"><a href="/29.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E5%8D%B7%E7%A7%AF%E7%9A%84%E5%8E%9F%E7%90%86/">29. 深度学习进阶 - 卷积的原理</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-09T23:30:00.000Z">2023-12-10</time></p><p class="title"><a href="/28.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20LSTM/">28. 深度学习进阶 - LSTM</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-05T23:30:00.000Z">2023-12-06</time></p><p class="title"><a href="/27.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E4%B8%BA%E4%BB%80%E4%B9%88RNN/">27. 深度学习进阶 - 为什么RNN</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-01T23:30:00.000Z">2023-12-02</time></p><p class="title"><a href="/26.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/">26. 深度学习进阶 - 深度学习的优化方法</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-11-28T23:30:00.000Z">2023-11-29</time></p><p class="title"><a href="/25.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E6%9D%83%E9%87%8D%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%8C%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1%E5%92%8C%E6%A2%AF%E5%BA%A6%E7%88%86%E7%82%B8/">25. 深度学习进阶 - 权重初始化，梯度消失和梯度爆炸</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2023 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

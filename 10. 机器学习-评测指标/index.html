@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>10. 机器学习 - 评测指标 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="Hi，你好。我是茶桁。 之前的课程中，我们学习了两个最重要的回归方法，一个线性回归，一个逻辑回归。也讲解了为什么学习机器学习要从逻辑回归和线性回归讲起。因为我们在解决问题的时候，有限选择简单的假设，越复杂的模型出错的概率也就越高。"><meta property="og:type" content="blog"><meta property="og:title" content="10. 机器学习 - 评测指标"><meta property="og:url" content="https://hivan.me/10.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E8%AF%84%E6%B5%8B%E6%8C%87%E6%A0%87/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="Hi，你好。我是茶桁。 之前的课程中，我们学习了两个最重要的回归方法，一个线性回归，一个逻辑回归。也讲解了为什么学习机器学习要从逻辑回归和线性回归讲起。因为我们在解决问题的时候，有限选择简单的假设，越复杂的模型出错的概率也就越高。"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2023-10-17T23:30:00.000Z"><meta property="article:modified_time" content="2023-11-25T04:41:24.500Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/10.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E8%AF%84%E6%B5%8B%E6%8C%87%E6%A0%87/"},"headline":"10. 机器学习 - 评测指标","image":[],"datePublished":"2023-10-17T23:30:00.000Z","dateModified":"2023-11-25T04:41:24.500Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"Hi，你好。我是茶桁。 之前的课程中，我们学习了两个最重要的回归方法，一个线性回归，一个逻辑回归。也讲解了为什么学习机器学习要从逻辑回归和线性回归讲起。因为我们在解决问题的时候，有限选择简单的假设，越复杂的模型出错的概率也就越高。"}</script><link rel="canonical" href="https://hivan.me/10.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E8%AF%84%E6%B5%8B%E6%8C%87%E6%A0%87/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2023-10-17T23:30:00.000Z" title="10/18/2023, 7:30:00 AM">2023-10-18</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a><span> / </span><a class="link-muted" href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></span></div></div><h1 class="title is-3 is-size-4-mobile">10. 机器学习 - 评测指标</h1><div class="content"><p>Hi，你好。我是茶桁。</p>
+<p>之前的课程中，我们学习了两个最重要的回归方法，一个线性回归，一个逻辑回归。也讲解了为什么学习机器学习要从逻辑回归和线性回归讲起。因为我们在解决问题的时候，有限选择简单的假设，越复杂的模型出错的概率也就越高。</p>
+<span id="more"></span>
+<p>本节课中，我们要继续我们未完成的内容。</p>
+<p>还记得，咱们上一节课中最后所说的吗？在完成了基本回归之后，该如何去判断一个模型的好坏，以及如何调整和优化。</p>
+<p>好，我们开始本节课程。</p>
+<h2 id="pickle">PICKLE</h2>
+<p>本节课中，会重点的给大家做一件事，叫「评测指标」。</p>
+<p>在这之前，我们发现了一个麻烦事。就是我们现在需要去观测我们的分类结果，我们不得不再去执行一遍我们之前的训练程序，拿到最后的分类结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">RM:<span class="hljs-number">6.38</span>, LSTAT:<span class="hljs-number">24.08</span>, EXPENSIVE:<span class="hljs-number">0</span>, Predicated:<span class="hljs-number">0</span><br>...<br>RM:<span class="hljs-number">6.319</span>, LSTAT:<span class="hljs-number">11.1</span>, EXPENSIVE:<span class="hljs-number">1</span>, Predicated:<span class="hljs-number">0</span><br></code></pre></td></tr></table></figure>
+<p>这很麻烦，训练结果每次要使用的时候都需要运行一次，这样非常的麻烦。现在我想要把这个
+model
+不要每一次都训练一下，而是要把它做一个保存，下次用的时候不需要从头到尾再训练一次。</p>
+<p>现在现在，可以给他做一个
+persistence，做一个留存。现在就是要做这么一件事情。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pickle<br><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;logistic_regression.model&#x27;</span>, <span class="hljs-string">&#x27;wb&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>    pickle.dump(model, f)<br><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;w.model&#x27;</span>, <span class="hljs-string">&#x27;wb&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>    pickle.dump(w, f)<br><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;b.model&#x27;</span>, <span class="hljs-string">&#x27;wb&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>    pickle.dump(b, f)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;pickle finished&#x27;</span>)<br><br>---<br>pickle finished<br></code></pre></td></tr></table></figure>
+<p>并且最后我得到了三个文件，分别是<code>logistic_regression.model</code>,
+<code>w.model</code>以及<code>b.model</code>。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231017042848.png"
+alt="image-20231016020658120" /></p>
+<p>现在就可以把训练完成的 model 做保存了。之后我们用 Pytorch, tenserflow
+之类的做，它都有这样的功能。</p>
+<p>到这一步之后，我们上一节上所写的代码就可以暂时不用了。不过为了整个代码的完整性，我仍然将其又在本节课的<code>10.ipynb</code>内些了一遍。</p>
+<p>那么，我们要用的时候怎么办呢？如果要用这个对象的时候，将我们之前对文件操作的代码拿过来，然后将其中的<code>wb</code>参数改成<code>rb</code>，然后再将二进制文件读取一遍：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;logistic_regression.model&#x27;</span>, <span class="hljs-string">&#x27;rb&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>    model_r = pickle.load(f)<br><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;w.model&#x27;</span>, <span class="hljs-string">&#x27;rb&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>    w_r = pickle.load(f)<br><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;b.model&#x27;</span>, <span class="hljs-string">&#x27;rb&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>    b_r = pickle.load(f)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;pickle read finished&#x27;</span>)<br></code></pre></td></tr></table></figure>
+<p><code>rb</code>的意思是<code>read binary</code>，也就是读取二进制文件。然后，为了在测试的时候避免混乱，让我接下来所使用的文件使用的是我重新读取的模型而不是之前训练时生成的的，我将重新读取的这几个文件命名为<code>model_r</code>，<code>w_r</code>,<code>b_r</code>。</p>
+<p>那再之后，虽然不用重新训练了，但是数据还是要读取一遍的，并且，按照训练数据的规则重新整理好，都完善了之后，就可以开搞进行分类了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><span class="hljs-keyword">from</span> sklearn.datasets <span class="hljs-keyword">import</span> fetch_openml<br><br>dataset = fetch_openml(name=<span class="hljs-string">&#x27;boston&#x27;</span>, version=<span class="hljs-number">1</span>, as_frame=<span class="hljs-literal">True</span>, return_X_y=<span class="hljs-literal">False</span>, parser=<span class="hljs-string">&#x27;pandas&#x27;</span>)<br><br>data = dataset[<span class="hljs-string">&#x27;data&#x27;</span>]<br>target = dataset[<span class="hljs-string">&#x27;target&#x27;</span>]<br><br>dataframe = pd.DataFrame(data)<br><br>rm = dataframe[<span class="hljs-string">&#x27;RM&#x27;</span>]<br>lstat = dataframe[<span class="hljs-string">&#x27;LSTAT&#x27;</span>]<br>dataframe[<span class="hljs-string">&#x27;price&#x27;</span>] = dataset[<span class="hljs-string">&#x27;target&#x27;</span>]<br><br>greater_then_most = np.percentile(dataframe[<span class="hljs-string">&#x27;price&#x27;</span>], <span class="hljs-number">66</span>)<br>dataframe[<span class="hljs-string">&#x27;expensive&#x27;</span>] = dataframe[<span class="hljs-string">&#x27;price&#x27;</span>].apply(<span class="hljs-keyword">lambda</span> p: <span class="hljs-built_in">int</span>(p &gt; greater_then_most))<br><br><br>expensive = dataframe[<span class="hljs-string">&#x27;expensive&#x27;</span>]<br>random_test_indices = np.random.choice(<span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(rm)), size=<span class="hljs-number">100</span>)<br>decision_boundary = <span class="hljs-number">0.5</span><br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> random_test_indices:<br>    x1, x2, y = rm[i], lstat[i], expensive[i]<br>    predicate = model_r(np.array([x1, x2]), w_r, b_r)<br>    predicate_label = <span class="hljs-built_in">int</span>(predicate &gt; decision_boundary)<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;RM:&#123;&#125;, LSTAT:&#123;&#125;, EXPENSIVE:&#123;&#125;, Predicated:&#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(x1, x2, y, predicate_label))<br></code></pre></td></tr></table></figure>
+<h2 id="评测指标">评测指标</h2>
+<p>好，解决了模型的重复使用之后，我们再回到课程中继续。</p>
+<p>很多人在学习过程中，会觉得「评测指标」是一个没有那么有趣的事情。比方说，咱们学模型，学算法，就可以去写程序，可以运行，写出来的时候会感觉还蛮酷的。但是评测指标呢，很多同学就觉得不是那么有趣。</p>
+<p>其实，我想告诉大家，评测指标是一个非常重要的东西。好比完成任何一个任务，不管你现在是完成普通的编程任务，还是要完成一个公司的市场行为、运营行为。一般来说，越复杂的任务，只要把评价指标，评价方式做对，这个任务基本上就已经完成了一半了。</p>
+<p>对于我们来说，工作的时候要知道，对于一个机器学习任务，能找到正确的评测指标，这个机器学习任务就已经成功一半了。</p>
+<p>首先，来看一个问题：Losses 持续下降，到底是意味着什么呢？</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br>%matplotlib inline<br>plt.plot(losses)<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231017042849.png"
+alt="image-20231016230405058" /></p>
+<p>loss
+持续下降意味着误差越来越小？方向是对的？测试值更加接近真实值？更精确的说法是，它在逼近最优解，但是效果是不是特别好，还不知道。</p>
+<p>接下来这个问题是一个比较复杂的问题，是一个难点：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">-np.<span class="hljs-built_in">sum</span>(y * np.log(yhat) + (<span class="hljs-number">1</span> - y) * np.log(<span class="hljs-number">1</span> - yhat))<br></code></pre></td></tr></table></figure>
+<p>这段代码是我们写的 loss 函数，我们现在来假设有一组数据：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">true_label = np.array([<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>]) <span class="hljs-comment"># 二分类</span><br></code></pre></td></tr></table></figure>
+<p>再假设有一个模型，在执行的时候，它会知道咱们做的是一个二分类问题，那么结果就是不是
+1，就是
+0。这个时候模型有可能偷懒，那给到的数据就会是随机的，好吧，开个玩笑，其实就只是因为数据不足造成给到的数据过于随机：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">predicate_1 = np.array([<span class="hljs-number">0.8</span>, <span class="hljs-number">0.7</span>, <span class="hljs-number">0.8</span>, <span class="hljs-number">0.3</span>, <span class="hljs-number">0.8</span>])<br></code></pre></td></tr></table></figure>
+<p>然后我们执行算法来拿到结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">test_lose</span>(<span class="hljs-params">y, yhat</span>):<br>    <span class="hljs-keyword">return</span> -np.<span class="hljs-built_in">sum</span>(y * np.log(yhat) + (<span class="hljs-number">1</span> - y) * np.log(<span class="hljs-number">1</span> - yhat))<br>test_lose(true_label, predicate_1)<br><br>---<br><span class="hljs-number">2.2300784022072975</span><br></code></pre></td></tr></table></figure>
+<p>现在我们拿到的值为
+2.23，不过要记得，咱们这只是一个假设值。那这个时候引入我们刚才谈到的
+loss 的曲线，loss 是持续下降的，当它下降到最低的值的时候依然比这个 2.23
+还要高，那就说明这个模型都还没有随机猜测的准确度高。</p>
+<p>这个情况其实是经常会遇到的一个问题，你会看到你的的模型一直在下降，下降的非常好，但是一做实际测试的时候效果就特别差。</p>
+<p>再换个说法就是，这个模型跑的时候，瞎猜的值都有 2.23 的准确，但是 loss
+虽然一只在下降，一只下降到了 3。虽然 loss
+看起来在下降，但是这整个结果都不是太好。</p>
+<p>瞎猜的时候的准确度，loss 值，我们称为这个模型的
+Baseline。你的值最起码要比这个好。</p>
+<p>所以就如之前所的，loss
+持续下降意味着模型在向着最优的方向在寻找，但并不意味着结果就会很好，因为有可能连瞎猜都不如。</p>
+<p>好，以上是第一点，我们接着来看第二点。</p>
+<p>loss 一直在下降，但是我们现在想知道的是有多少个 label
+预测对了。先建立两个变量来分别存储数据：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python">true_labels, predicated_labels = [], []<br><br>...<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> random_test_indices:<br>    ...<br><br>    true_labels.append(y)<br>    predicated_labels.append(predicate_label)<br></code></pre></td></tr></table></figure>
+<p>然后分别获得了两组数据，一个是<code>true_labels</code>，一个是<code>predicated_labels</code>。有了这两组数据之后，我们来定义一个<code>accuracy</code>，这个是预测的值和相似的值一共有多少个是一样的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">accuracy</span>(<span class="hljs-params">ytrues, ylabels</span>):<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">sum</span>(<span class="hljs-number">1</span> <span class="hljs-keyword">for</span> yt, y1 <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(ytrues, ylabels) <span class="hljs-keyword">if</span> yt == y1) / <span class="hljs-built_in">len</span>(ytrues)<br><br>accuracy(true_labels, precicated_labels)<br><br>---<br><span class="hljs-number">0.89</span><br></code></pre></td></tr></table></figure>
+<p>0.89, 就是说有 89% 的 label 都是猜对了。</p>
+<p>最早的时候其实只有这一个标记，但这个标记很容易出错。</p>
+<p>假设有一个警察局，要在 100 个人里边判断谁是犯罪分子。现在我们知道有 3
+个是犯罪分子，然后警察说这 100
+个人全部都是犯罪分子。那么现在准确度有多少？</p>
+<p>然后又有一个警察站出来说，这 100
+个人都不是犯罪分子，那他的准确度又是多少？</p>
+<p>我们现在让第一个警察是 a，第二个警察是 b。</p>
+<p>警察 b 有 97
+个标签都说对了，这会给人一种错觉，好像他预测的很准确的。但是其实，a 和 b
+两个人都判断的不准确。那我们这个时候就需要引出一个定义：Precision。</p>
+<p>precision 也是准确度的意思，和 accuracy 不同点是，accuracy
+的对比是对比目标和现有值是否匹配，匹配的就算正确。而 precision
+除了看是否匹配之外，还要目标值，也就是 positive。</p>
+<p>这里举个例子说明一下，比如我们去检测是否有新冠病毒，那么目标是为了检测出有新馆病毒的人，那么呈阳性的人就是我们的
+positive，那么我们 precision
+除了预测出有新冠和没有新冠的人之外，有新冠的人也需要一一对应上，也就是
+positive 要正确。</p>
+<p>如果是写代码的话，也就是将之前的 accuracy
+拿过来改改就可以直接用了：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">precision</span>(<span class="hljs-params">ytrues, yhats</span>):<br>    <span class="hljs-comment"># 预测标签是 1 的里面，正确的比例是多少</span><br><br>    positives_pred = [y <span class="hljs-keyword">for</span> y <span class="hljs-keyword">in</span> yhats <span class="hljs-keyword">if</span> y == <span class="hljs-number">1</span>]<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">sum</span>(<span class="hljs-number">1</span> <span class="hljs-keyword">for</span> yt, y <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(ytrues, yhats) <span class="hljs-keyword">if</span> yt == y <span class="hljs-keyword">and</span> y == <span class="hljs-number">1</span>) / <span class="hljs-built_in">len</span>(positives_pred)<br><br>precision(true_labels, predicated_labels)<br><br>---<br><span class="hljs-number">0.8333333333333334</span><br></code></pre></td></tr></table></figure>
+<p>先将预测为
+1，也就是预测呈阳性的目标放到<code>positives_pred</code>中，再来检测一下在这些预测出来的目标中，预测对的有多少。</p>
+<p>除此之外之外，还有一个值叫做<code>recall</code>，它的意思是在实际的<code>positive</code>里，有多少比例被找到了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">recall</span>(<span class="hljs-params">ytrues, yhats</span>):<br>    <br>    true_positive = [y <span class="hljs-keyword">for</span> y <span class="hljs-keyword">in</span> ytrues <span class="hljs-keyword">if</span> y == <span class="hljs-number">1</span>]     <br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">sum</span>(<span class="hljs-number">1</span> <span class="hljs-keyword">for</span> yt, y <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(ytrues, yhats) <span class="hljs-keyword">if</span> yt == y <span class="hljs-keyword">and</span> yt == <span class="hljs-number">1</span>) / <span class="hljs-built_in">len</span>(true_positive)<br><br>recall(true_labels, predicated_labels)<br><br>---<br><span class="hljs-number">0.8064516129032258</span><br></code></pre></td></tr></table></figure>
+<p>好，我们再来复盘一下这三个值，一个是<code>accuracy</code>,
+一个是<code>precision</code>，一个是<code>recall</code>。</p>
+<p><code>accuracy</code>就是预测值和实际值有多少是一样的。但是有可能会在实际场景都不是很均衡。</p>
+<p><code>precision</code>是拿到预测后的目标值，然后拿这些目标的实际值去比较看有多大比例是一样的。</p>
+<p><code>recall</code>是先拿到实际的目标值，然后拿目标预测值比较看有多大比例是一样的。</p>
+<p>根据我们之前说的警察抓坏人的那个假设，我们现在来做一个测试，假设我们现在好人有
+90 个，坏人有 10 个。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">people = [<span class="hljs-number">0</span>] * <span class="hljs-number">90</span> + [<span class="hljs-number">1</span>] * <span class="hljs-number">10</span><br><span class="hljs-keyword">import</span> random<br>random.shuffle(people)<br></code></pre></td></tr></table></figure>
+<p>现在警察 a
+来了，就判断说：全部都是好人，把他们全部都放了吧。这样的话，它的
+accuracy 是多少呢？accuracy 就是预测的，只要是实际值的那个 label
+就行。我们来看看：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">a = [<span class="hljs-number">0</span>] * <span class="hljs-number">100</span><br>accuracy(people, a)<br><br>---<br><span class="hljs-number">0.9</span><br></code></pre></td></tr></table></figure>
+<p>我们看这个准确度就会很高，这个也能理解，因为警察 a 将这 100 个人中的
+90 个好人全部判断准确了对吧？</p>
+<p>让我们来看看其他两个：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python">precision(people, a)<br><br>---<br>ZeroDivisionError: division by zero<br><br>======<br>recall(people, a)<br><br>---<br><span class="hljs-number">0</span><br></code></pre></td></tr></table></figure>
+<p>precision 警告我们分母为 0，报错了。那分母为什么为 0 呢？因为 a
+说了，所有都是好人，那么预测的目标值，也就是分母上的坏人就为 0。</p>
+<p>而 recall 呢，结果为 0。这是因为分母上的坏人实际值虽然为
+10，但是预测的目标值，也就是分子上为 0。那结果肯定是为 0。</p>
+<p>本来 a 的 accuracy 是
+0.9，别人还以为准确度很高，结果一个坏人都没抓住。这肯定不行。</p>
+<p>那 b 的情况又如何呢？之前说过，b 说所有的都是坏人，统统抓起来。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python">b = [<span class="hljs-number">1</span>] * <span class="hljs-number">100</span><br>accuracy(people, b)<br><br>---<br><span class="hljs-number">0.1</span><br><br>========<br>precision(people, b)<br><br>---<br><span class="hljs-number">0.1</span><br><br>=========<br>recall(people, b)<br><br>---<br><span class="hljs-number">1.0</span><br></code></pre></td></tr></table></figure>
+<p>虽然<code>accuracy</code>和<code>precision</code>都不高，但是似乎目标都被找出来了。颇有一种「宁可错杀
+1000，不可放过一个」的感觉。</p>
+<p>那以上这些，就是为什么要有这 3 个非常重要的指标的原因。</p>
+<p>好，那下一节课中，我们要来看看关于<code>precition</code>和<code>recall</code>的一个矩阵，这个矩阵呢，将会是我们工作中分析结果常用的。</p>
+<p><span class="math display">\[
+\begin{align*}
+Precision &amp; = \frac{tp}{ tp + fp} \\
+Recall &amp; = \frac{tp}{tp + fn}
+\end{align*}
+\]</span></p>
+<hr />
+<p>关注「坍缩的奇点」，第一时间获取更多免费 AI 教程。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/扫码_搜索联合传播样式-白色版.png"
+alt="坍缩的奇点" /></p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>10. 机器学习 - 评测指标</p><p><a href="https://hivan.me/10. 机器学习-评测指标/">https://hivan.me/10. 机器学习-评测指标/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2023-10-18</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2023-11-25</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" href="https://afdian.net/item/72907364008511ee904852540025c377" target="_blank" rel="noopener" data-type="afdian"><span class="icon is-small"><i class="fas fa-charging-station"></i></span><span>爱发电</span></a><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://www.buymeacoffee.com/hivandu" target="_blank" rel="noopener" data-type="buymeacoffee"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>送我杯咖啡</span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="paypal" onclick="document.getElementById(&#039;paypal-donate-form&#039;).submit()"><span class="icon is-small"><i class="fab fa-paypal"></i></span><span>Paypal</span></a><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" rel="noopener" id="paypal-donate-form"><input type="hidden" name="cmd" value="_donations"><input type="hidden" name="business" value="doo@hivan.me"><input type="hidden" name="currency_code" value="USD"></form><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/11.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20-%20%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%872/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">11. 机器学习 - 评价指标 2</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/Python-change-file-names-in-batches/"><span class="level-item">Python 批量修改文件名</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/10.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E8%AF%84%E6%B5%8B%E6%8C%87%E6%A0%87/';
+            this.page.identifier = '10. 机器学习-评测指标/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">200</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">5</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">22</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI秘籍</span></span><span class="level-end"><span class="level-item tag">58</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">27</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">29</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-12T23:30:00.000Z">2023-12-13</time></p><p class="title"><a href="/29.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E5%8D%B7%E7%A7%AF%E7%9A%84%E5%8E%9F%E7%90%86/">29. 深度学习进阶 - 卷积的原理</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-09T23:30:00.000Z">2023-12-10</time></p><p class="title"><a href="/28.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20LSTM/">28. 深度学习进阶 - LSTM</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-05T23:30:00.000Z">2023-12-06</time></p><p class="title"><a href="/27.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E4%B8%BA%E4%BB%80%E4%B9%88RNN/">27. 深度学习进阶 - 为什么RNN</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-01T23:30:00.000Z">2023-12-02</time></p><p class="title"><a href="/26.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/">26. 深度学习进阶 - 深度学习的优化方法</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-11-28T23:30:00.000Z">2023-11-29</time></p><p class="title"><a href="/25.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E6%9D%83%E9%87%8D%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%8C%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1%E5%92%8C%E6%A2%AF%E5%BA%A6%E7%88%86%E7%82%B8/">25. 深度学习进阶 - 权重初始化，梯度消失和梯度爆炸</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2023 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

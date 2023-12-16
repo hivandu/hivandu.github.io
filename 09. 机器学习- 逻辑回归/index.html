@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>09. 机器学习 - 逻辑回归 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="[TOC]  Hi，你好。我是茶桁。 上一节课，在结尾的时候咱们预约了这节课一开始对上一节课的内容进行一个回顾，并且预告了这节课内容主要是「逻辑回归」，那我们现在就开始吧。"><meta property="og:type" content="blog"><meta property="og:title" content="09. 机器学习 - 逻辑回归"><meta property="og:url" content="https://hivan.me/09.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%20%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="[TOC]  Hi，你好。我是茶桁。 上一节课，在结尾的时候咱们预约了这节课一开始对上一节课的内容进行一个回顾，并且预告了这节课内容主要是「逻辑回归」，那我们现在就开始吧。"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2023-10-14T23:30:00.000Z"><meta property="article:modified_time" content="2023-11-25T04:41:20.546Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/09.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%20%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/"},"headline":"09. 机器学习 - 逻辑回归","image":[],"datePublished":"2023-10-14T23:30:00.000Z","dateModified":"2023-11-25T04:41:20.546Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"[TOC]  Hi，你好。我是茶桁。 上一节课，在结尾的时候咱们预约了这节课一开始对上一节课的内容进行一个回顾，并且预告了这节课内容主要是「逻辑回归」，那我们现在就开始吧。"}</script><link rel="canonical" href="https://hivan.me/09.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%20%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2023-10-14T23:30:00.000Z" title="10/15/2023, 7:30:00 AM">2023-10-15</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a><span> / </span><a class="link-muted" href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></span></div></div><h1 class="title is-3 is-size-4-mobile">09. 机器学习 - 逻辑回归</h1><div class="content"><p>[TOC]</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231013145642.png"
+alt="茶桁的 AI 秘籍 09" /></p>
+<p>Hi，你好。我是茶桁。</p>
+<p>上一节课，在结尾的时候咱们预约了这节课一开始对上一节课的内容进行一个回顾，并且预告了这节课内容主要是「逻辑回归」，那我们现在就开始吧。</p>
+<span id="more"></span>
+<h2 id="线性回归回顾">线性回归回顾</h2>
+<p>在上一节课中，我们定义了 model，loss 函数以及求导函数。最后我们用 for
+循环来完成了求导过程。本节课一开始，咱们先来对上一节课的代码做一次优化，优化后的代码也会上传到课程代码仓库内。</p>
+<blockquote>
+<p>此部分代码依然在 08.ipynb 中。</p>
+</blockquote>
+<p>首先，我们将之前的 model
+重新更名为<code>linear</code>，以便知道我们这个函数是要做什么的。接着，我们把
+for 循环内对 w 和 b 的偏导封装为一个函数，便于我们之后调用：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">optimize</span>(<span class="hljs-params">w, b, x, y, yhat, pw, pb, learning_rate</span>):<br>    w = w + -<span class="hljs-number">1</span> * pw(x, y, yhat) * learning_rate<br>    b = b + -<span class="hljs-number">1</span> * pb(x, y, yhat) * learning_rate<br><br>    <span class="hljs-keyword">return</span> w, b<br></code></pre></td></tr></table></figure>
+<p>然后我们将整个 for 循环封装一下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">train</span>(<span class="hljs-params">model_to_be_train, target, loss, pw, pb</span>):<br>    w = np.random.random_sample(size = (<span class="hljs-number">1</span>, <span class="hljs-number">2</span>))<span class="hljs-comment"># w normal</span><br>    b = np.random.random()<br>    learning_rate = <span class="hljs-number">1e-5</span><br>    epoch = <span class="hljs-number">200</span><br><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(epoch):<br>        <span class="hljs-keyword">for</span> batch <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(rm)):<br>            <span class="hljs-comment"># batch trainning</span><br>            index = random.choice(<span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(rm)))<br>            rm_x, lstat_x = rm[index], lstat[index]<br>            x = np.array([rm_x, lstat_x])<br>            y = target[index]<br><br>            yhat = model_to_be_train(x, w, b)<br>            loss_v = loss(yhat, y)<br><br>            batch_loss.append(loss_v)<br><br>            w, b = optimize(w, b, x, y, yhat, pw, pb, learning_rate)<br><br>            <span class="hljs-keyword">if</span> batch % <span class="hljs-number">100</span> == <span class="hljs-number">0</span>:<br>                <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Epoch: &#123;&#125; Batch: &#123;&#125;, loss: &#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(i, batch, loss_v))<br><br><br>    <span class="hljs-keyword">return</span> model_to_be_train, w, b<br></code></pre></td></tr></table></figure>
+<p>在最后呢，我们可以在调用函数之前，导入所需第三方库，然后将之前的数据处理在执行函数前获取并处理一遍：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><span class="hljs-keyword">import</span> random<br><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">from</span> sklearn.datasets <span class="hljs-keyword">import</span> fetch_openml<br>dataset = fetch_openml(name=<span class="hljs-string">&#x27;boston&#x27;</span>, version=<span class="hljs-number">1</span>, as_frame=<span class="hljs-literal">True</span>, return_X_y=<span class="hljs-literal">False</span>, parser=<span class="hljs-string">&#x27;pandas&#x27;</span>)<br><br>data = dataset[<span class="hljs-string">&#x27;data&#x27;</span>]<br>target = dataset[<span class="hljs-string">&#x27;target&#x27;</span>]<br>columns = dataset[<span class="hljs-string">&#x27;feature_names&#x27;</span>]<br>dataframe = pd.DataFrame(data)<br>dataframe[<span class="hljs-string">&#x27;price&#x27;</span>]  = target<br><br>rm = dataframe[<span class="hljs-string">&#x27;RM&#x27;</span>]<br>lstat = dataframe[<span class="hljs-string">&#x27;LSTAT&#x27;</span>]<br><br>model, w, b = train(linear, target, loss, partial_w, partial_b)<br></code></pre></td></tr></table></figure>
+<p>为什么我们每次都要随机取一个数字呢？</p>
+<p>你也可以把所有的 x 全部输入进去，所有的 y
+全部输入进去。但是实际上在整个场景下，比方说我们有很多的训练数据，每个训练数据都有一个
+x，有一个 y。</p>
+<p>loss 函数本来写的是 i 属于所有的 N，y_i 减去 yhat_i
+的平方。但是现在如果把所有的 x 和所有的 y
+在真实的场景下输入进去的话，假设现在 x 有 100 万个或者 200
+万个，输入进去之后整个求解过程可能 loss
+函数这个程序加载都加载不出来，会非常非常慢。</p>
+<p>所以在实际的工作中，假如说 i 属于 D:<span
+class="math inline">\(\sum_{i \in D}\)</span>，D 就是 distribution
+的意思，就是随机取一些数据，然后再把随机取的一些数据求解。这样的话每一次就可以保证它可以运行。</p>
+<p>但是这样的一个区别是什么？</p>
+<p>每次把所有的 x 和 y 都输入进去，这种梯度下降方式中 loss
+下降是一个很顺滑的样子，这个叫做 BGD。</p>
+<p>还有一种情况就是咱们课上用的这种剃度下降方式，每次随机取了一个随机值，叫随机剃度下降，就随机取一个数字做梯度下降，简称
+SGD。这个 loss 下降就会上下波动很厉害。如我们上面展示的图。</p>
+<p>再下来呢还有一种，它是取这两者之间，每次不是取一个，是取了多个。我们把这个叫做
+MBGD。</p>
+<p>这是三种梯度下降方式。在实际的工作中 SGD
+用的最多，因为可以快速的进行梯度下降学习。</p>
+<p>我们可以将代码修改一下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python">batch_size = <span class="hljs-number">10</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(epoch):<br>    ...<br>    <span class="hljs-keyword">for</span> batch <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(rm) // batch_size):<br>        indices = np.random.choice(<span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(rm)))<br>        rm_x, lstat_x = rm[indices], lstat[indices]<br>        x = np.array([rm_x, lstat_x])<br>        y = target[indices]<br>        ...<br></code></pre></td></tr></table></figure>
+<p>关于这一部分内容，这里仅仅是提一下，在后面的课程中，我们还会更详细的来讲解。</p>
+<p>我们在循环中，将原来的次数 50 替换成了<code>epoch</code>,
+<code>epoch</code>在机械学习里边指的是运行了整整一遍。</p>
+<p>在第二个循环内，里面是 rm
+个东西，每次都是随机取，我们随机取了多少次呢？取了 rm
+个。也就是说平均每个样本会被取样一次。</p>
+<p>这就是数据量大的好处，当数据量很大的时候，有个别的点没有取到或者说有个别的点取了多次其实对最终的效果是不影响的。</p>
+<p>也就是说因为数量很大，所以一两次的变化，一两个数值取的少了或者取的多了，其实不是非常影响。</p>
+<p>我们把每次<code>epoch</code>的 batch 打出来，我们来看一下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">train</span>(<span class="hljs-params">...</span>):<br>    ...<br>    losses = []<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(epoch):<br>        batch_loss = []<br>        <span class="hljs-keyword">for</span> batch <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(rm)):<br>            ...<br>            batch_loss.append(loss_v)<br>            ...<br>        <br>        losses.append(np.mean(batch_loss))<br>    <br>    <span class="hljs-keyword">return</span> model_to_be_train, w, b, losses<br><br>model, w, b, losses = train(linear, target, loss, partial_w, partial_b)<br>plt.plot(losses)<br>plt.show()<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231013145643.png"
+alt="image-20231012120642561" /></p>
+<p>那如果是上面我们更改的代码，使用了<code>batch_size</code>控制之后，图形就完全不一样。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231013145644.png"
+alt="image-20231012141443971" /></p>
+<p>可以看到，这个 loss 下降还是挺明显的。</p>
+<p>这个时候，我们假设知道一组的 rm 等于 19,lstat 等于
+7。而此时其实已经有了 w 和 b，求到最终的 w 和
+b，就能够有一个预测值了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">predicate = model(np.array([<span class="hljs-number">19</span>, <span class="hljs-number">7</span>]), w, b)<br><span class="hljs-built_in">print</span>(predicate)<br><br>---<br>Epoch: <span class="hljs-number">0</span> Batch: <span class="hljs-number">0</span>, loss: <span class="hljs-number">46.17245060319155</span><br>...<br>Epoch: <span class="hljs-number">199</span> Batch: <span class="hljs-number">0</span>, loss: <span class="hljs-number">0.2053457975383563</span><br></code></pre></td></tr></table></figure>
+<p>我们在这个实例中，只用了两个最显著的特征，如果把 x
+的维度变多一些，其实就会更加接近了。</p>
+<p>好，这个线性回归的过程，其中包括线性函数的定义，为什么要用线性函数，loss
+函数的意义，梯度下降的意义就都讲完了。</p>
+<p>这个内容是我从斯坦福大学的参考书上弄过来的。</p>
+<p>除了定义一个这样一个平方值的 loss，可以定一个绝对值
+loss，都是一样的，都可以实现找到最优值。</p>
+<p>只不过这个二次方的这个 loss 对于结果，它的惩罚会更大一些。</p>
+<p>经过这一段代码的洗礼，对于之前的那个数学式子应该能看的更明白一些了。</p>
+<h2 id="逻辑回归">逻辑回归</h2>
+<p>我们讲完了线性回归，下面再跟大家来讲一下逻辑回归。</p>
+<p>逻辑回归是什么？假如还是如上那个问题，前面代码都没变。当然，库需要再导入一遍：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> random<br><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">from</span> sklearn.datasets <span class="hljs-keyword">import</span> fetch_openml<br><br>dataset = fetch_openml(name=<span class="hljs-string">&#x27;boston&#x27;</span>, version=<span class="hljs-number">1</span>, as_frame=<span class="hljs-literal">True</span>, return_X_y=<span class="hljs-literal">False</span>, parser=<span class="hljs-string">&#x27;pandas&#x27;</span>)<br></code></pre></td></tr></table></figure>
+<p>现在咱们要变一个问题场景，我们先打印一下<code>np.percentile()</code>，这是要求百分位，比方说我们填入一下<code>target</code>，其实我们数据预处理的时候知道，就是<code>dataframe['price']</code>:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(np.percentile(target, <span class="hljs-number">66</span>))<br></code></pre></td></tr></table></figure>
+<p>我们写入一个<code>target</code>,
+其实就是<code>price</code>，然后我们在后面写了一个
+66，也就是说，我们将这里所有的
+price，也就是房价，做了一次排序，然后，我取从 0 到 100 中的第 66%
+个位置的数值，就是大于 2/3 的房价。同样的，如果我这里填了一个
+50，那么就是取最中间的那个值。</p>
+<p>输出的结果为 23.53, 是 23 万美金。还是比较便宜，23 万美金折合 100
+多万。</p>
+<p>好，现在我们来做一个判断：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">greater_then_most = np.percentile(target, <span class="hljs-number">66</span>)<br>dataframe[<span class="hljs-string">&#x27;expensive&#x27;</span>] = dataframe[<span class="hljs-string">&#x27;price&#x27;</span>].apply(<span class="hljs-keyword">lambda</span> p: <span class="hljs-built_in">int</span>(p &gt; greater_then_most))<br><br><span class="hljs-built_in">print</span>(dataframe[:<span class="hljs-number">20</span>])<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231013145645.png"
+alt="image-20231012161144568" /></p>
+<p>我们定义了一个<code>expensive</code>，在 dataframe
+中加入了这个特征。这个特征在房价大于 2/3 房价的时候 int 为 1，否则为
+0。</p>
+<p>做了这样一件事之后，就是问这个房子是不是贵房子，如果是
+1，就是贵房子，0 就不是贵房子。根据我们添加的特征来进行判断。</p>
+<p>那接着呢，问题发生了改变。我们不知道这个房子的<code>price</code>，现在需要进行预测这个房子是不是属于一个高档小区。在预测中，假如是
+1，就表示是高档小区，0
+就表示不是高档小区。现在要根据它的一些特征来猜测它是不是高档小区。</p>
+<p>我们刚刚其实已经知道，所谓的高档小区其实是和价格有一定关系的。</p>
+<p>假如说现在咱们有一个问题要求解，现在要有一个模型能够预测它到底是 1
+还是
+0，或者我们要预测是开心还是难过，咱们现在只要做一件事情就可以，就是把我们期望目标标成
+1，把另外那个相对的目标标成 0。</p>
+<p>如果我们能够拟合一个函数，这个函数的输出要么是 1，要么是
+0，我们让这个模型的值越接近于实际的值就可以了。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231013145646.png"
+alt="image-20231012163700062" /></p>
+<p>比方说刚刚回顾完的线性回归，给定的 (x, y) 里边，y
+这个值它是一个实数。如果现在变成了 0、1。比方说 1 就是 happy，0 就是
+sad。或者还是用咱们之前定义的：1 就是 expensive，0 就是 not
+expensive。</p>
+<p>把 1 和 0 认为是概率，如果是概率的话，1 就是 100% 是，0 就 100%
+不是。</p>
+<p>那么咱们之前的 model 输出的是实数R, 这次需要的 model 就是输出的是
+0~1。这个模型的任务就变成了如果 x 给定的是 1，那么 model
+输出最后要尽可能的接近 1。</p>
+<p>怎么样才能让我们的 model 输出是 0 到 1
+之间呢？有一个方法，一个函数叫做 logistic 函数，logistic function: <span
+class="math display">\[
+\begin{align*}
+J(\theta)=-\sum_i(y^{(i)}log(h_{\theta}(x^{(i)}))+(1-y^{(i)})log(1-h_{\theta}(x^{(i)})))
+\end{align*}
+\]</span></p>
+<p>这个函数其实在复杂系统里面是一个很重要的函数，人们其实是期望获得一种导数，数学家们研究的是这个：y’
+= y(1-y), 就是 y 的导数等于 y 乘以
+1-y。研究完了之后发现有一种函数就满足这个特征： <span
+class="math display">\[
+\begin{align*}
+f(x) = \frac{1}{1+e^{-x}}
+\end{align*}
+\]</span></p>
+<p>这个函数的值画出来，就是这个样子：</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231013145647.png"
+alt="image-20231012173054474" /></p>
+<p>值全部是从 0 到 1 之间，中间与 y 轴交点为 0.5。</p>
+<p>给大家讲一下这个原理，逻辑函数原本是想研究
+y’=y(1-y)，求解出来有这样一个函数满足这样的特征：f(x) =
+1/1+e^{-x}。那我们这里需要注意一下，这个特征以后会有大用。把它的图形画出来呢，就是如上图这样的一种函数，这个函数值就是在
+0～1 之间。</p>
+<p>为什么我们要用逻辑函数来做概率预测呢？首先第一个原因就是因为它的值本身输出就是
+0～1
+之间，天然的适合做概率这块，第二，他还处处可导，逻辑函数它是处处可导的。</p>
+<p>所以我们就可以用这个函数来进行分类，可以把原来的模型 f(x)=wx+b,
+这整个模型写成： <span class="math display">\[
+\begin{align*}
+f(x) = \frac{1}{1+e^{-(wx+b)}}
+\end{align*}
+\]</span></p>
+<p>原来的 f(x) 拟合的是等于 wx+b, 现在把这个 f(x)
+变成如上式的样子。这个输出的就变成 0-1 了，就能够让它的值在 0 到 1
+之间变换。</p>
+<p>这就是为什么我们把这种方法叫做逻辑回归的原因。就是它是在回归曲线上加了一个逻辑函数，所以我们称其为逻辑回归。</p>
+<p>加上逻辑函数虽然输出的值是 0～1 之间，但其实是在做分类。越接近于 1
+就越近于一类，越近于 0 就越近于另一类。逻辑回归本质上就是在做分类。</p>
+<p>接着，咱们来上代码给大家详细的讲解一遍。</p>
+<p>其实我们整个代码和之前实现的线性回归非常的像，唯一的区别是我们需要一个叫做
+sigmoid 的函数，也就是逻辑函数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">sigmoid</span>(<span class="hljs-params">x</span>):<br>  <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>/(<span class="hljs-number">1</span>+np.exp(-x))<br></code></pre></td></tr></table></figure>
+<p>我们来把这个函数画出来看看是什么样的：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">plt.plot(sigmoid(np.linspace(-<span class="hljs-number">10</span>, <span class="hljs-number">10</span>)))<br>plt.show()<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231013145648.png"
+alt="image-20231012184251402" /></p>
+<p>其实，机器学习是个很简单的问题。机器学习其实是计算机里面最简单的几个部分，哪些比这更复杂呢？第一个、编译器原理，还有程序设计语言与自动机，还有计算机图形学，复杂系统，还有计算复杂性，操作系统。其实这些都比
+深度学习复杂的多。</p>
+<p>为什么我们现在深度学习用的多，就是因为深度学习简单。所以我说这些题外话是想告诉大家，在学习这个的时候不要有什么顾虑和负担，放松一点，放开膀子撸起袖子干就完了。</p>
+<p>好，我们现在把 model 写出来：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">model</span>(<span class="hljs-params">x, w, b</span>):<br>    <span class="hljs-keyword">return</span> sigmoid(np.dot(x, w.T) + b)<br></code></pre></td></tr></table></figure>
+<p>那么来看，我们现在如果要预测，给一个 rm 和 lstat 输入进去，一个 RM 和
+LSTAT 的值输入进去。</p>
+<p>我们先来看一下真实的值是怎样的：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python">rm = dataframe[<span class="hljs-string">&#x27;RM&#x27;</span>]<br>lstat = dataframe[<span class="hljs-string">&#x27;LSTAT&#x27;</span>]<br>target = dataframe[<span class="hljs-string">&#x27;expensive&#x27;</span>]<br>epoch = <span class="hljs-number">200</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(epoch):<br>    <span class="hljs-keyword">for</span> b <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(rm)):<br>        index = random.choice(<span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(rm)))<br><br>        x = np.array([rm[index], lstat[index]])<br>        y = target[index]<br><br>        <span class="hljs-built_in">print</span>(x, y)<br></code></pre></td></tr></table></figure>
+<p>这个呢就是我们在训练时候每个给的数据，每次给他给一组数据，然后给它的这个值到底是
+0 还是 1。我们期望的是求解一组 (w,b)，能够让它输入 x 的时候也能得到 0
+或者 1。就它真实的时候是 0，期望的是这一组输入进去之后，根据 (w,b)
+运行完了之后也是 0。这个就是我们的目标。</p>
+<p>假如已经获得线性回归了，然后要通过线性回归加一些东西想实现 0 和 1
+的分类。之前我们在线性回归那里是不是先定义了一个 loss 函数？把 loss
+函数定义清楚之后再对 loss 求偏导就可以了。那这里也是一样，需要定义
+loss，只要把 loss 定义出来之后给 loss
+求偏导就可以了，和之前一模一样。</p>
+<p>现在的问题就转变成，咱们怎么求 loss 呢？</p>
+<p>我们的目标给定如果是 0 那么 yhat 也要是 0。y 是 1 的时候 yhat 也得是
+1。如果 y 等于 1 的情况下，yhat 等于 0，就意味着错的很厉害啊。相对的，y
+等于 1，yhat 等于 0 也同样是错的很厉害。</p>
+<p>那么，如果 y 等于 1 的时候，yhat 等于 0.9, 错的就比较少。yhat 等于 1
+的时候，错误就是 0，也就是没错误。</p>
+<p>那么我们就可以写-log(yhat),
+把这个写出来就是这样一个函数：当它越接近于 0 的时候，loss
+值会接近于无穷大，当它接近于 1 的时候，loss 会接近于 0。</p>
+<p>当 y 等于 1 的时候，loss 可以等于-log(yhat)。如果 y 等于 0，lose
+值就越接近于无穷大。这个时候 loss 就可以写成-log(1-yhat)。</p>
+<p>那么现在这里就出现一个问题，也是通常面试时候的一个高频题：为什么在逻辑回归里，loss
+函数不直接写成 1-yhat？</p>
+<p>就是，如果 y 等于 1 的情况下，loss 函数不直接写成 1-y, 当 y 等于 0
+的时候，loss 不直接写成 y。</p>
+<p>因为这样会导致这条线呈现出一个直线，所有的偏导结果都是一致没有发生变化。</p>
+<p>就好比有一个孩子考试成绩特别差，假如现在的目标是等于
+1，他的成绩特别特别差，0.001。现在的这个梯度还是比较小，他考特别好的时候这个梯度还是一样。</p>
+<p>但是我们知道，梯度代表了接下来的变化方向和力度。这个就是我们为什么要用这个的原因。</p>
+<p>当然，其实还有一些概率上的解释，这里就不继续延展着讲了。</p>
+<p>对于上面讲的，当 y=1 和 y=0 的两个不同的 loss
+函数，可以做一个归纳，写成一个 loss 函数：</p>
+<p><span class="math display">\[
+loss = - (ylog\hat y + (1-y) log(1-\hat y))
+\]</span></p>
+<p>为什么能够变成这样呢？我们来分析一下，如果 y=0 的时候，那 ylog(yhat)
+就等于 0，也就是说仅剩下 (1-y)log(1-yhat)，反过来，当 y=1
+的时候，等式后面部分就等于 0，仅剩下 ylog(yhat)。</p>
+<p>那下面，我们就来完成代码来实现：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">loss</span>(<span class="hljs-params">yhat, y</span>):<br>    <span class="hljs-keyword">return</span> -np.<span class="hljs-built_in">sum</span>(y*np.log(yhat) + (<span class="hljs-number">1</span>-y)*np.log(<span class="hljs-number">1</span>-yhat))<br></code></pre></td></tr></table></figure>
+<p>lose 函数求解出来之后，对于 (w,b) 怎么求偏导呢？</p>
+<p>那么其实式子就可以变成： <span class="math display">\[
+\begin{align*}
+&amp; -(ylog \sigma (wx+b) + (1-y)log \sigma (1-(wx+b))) \\
+&amp; -(ylog \sigma (w_1x_1+w_2x_2+b) + (1-y)log \sigma
+(1-(w_1x_1+w_2x_2+b)))
+\end{align*}
+\]</span> 那么对其求偏导，一系列推导完成后就可以变成： <span
+class="math display">\[
+\begin{align*}
+\frac{\partial loss}{\partial w_i} &amp; = \sum(\hat y - y) x_i
+\end{align*}
+\]</span> 我们来完成其函数代码，和线性部分一样，包含对 w 和 b
+求导两部分：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">partial_w</span>(<span class="hljs-params">x, y, yhat</span>):<br>    <span class="hljs-keyword">return</span> np.array([np.<span class="hljs-built_in">sum</span>((yhat-y) * x[<span class="hljs-number">0</span>]), np.<span class="hljs-built_in">sum</span>((yhat-y) * x[<span class="hljs-number">1</span>])])<br>  <br><span class="hljs-keyword">def</span> <span class="hljs-title function_">partial_b</span>(<span class="hljs-params">x, y, yhat</span>):<br>    <span class="hljs-keyword">return</span> np.<span class="hljs-built_in">sum</span>((yhat - y))<br></code></pre></td></tr></table></figure>
+<p>那接下来我们干嘛？上节课的内容还有印象吗？接下来我们要给 w,b
+随机值对吧？</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">w = w = np.random.random_sample((<span class="hljs-number">1</span>,<span class="hljs-number">2</span>))<br>b = np.random.random()<br></code></pre></td></tr></table></figure>
+<p>接着我们修改上面实现过的对真实值的实现代码，删掉我们曾经打印的
+(x,y)，然后利用我们实现的 loss 函数和偏导函数来计算预测值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs python">rm = dataframe[<span class="hljs-string">&#x27;RM&#x27;</span>]<br>lstat = dataframe[<span class="hljs-string">&#x27;LSTAT&#x27;</span>]<br>target = dataframe[<span class="hljs-string">&#x27;expensive&#x27;</span>]<br><br>learning_rate = <span class="hljs-number">1e-5</span><br>epoch = <span class="hljs-number">200</span><br>losses = []<br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(epoch):<br>    batch_loss = []<br>    <span class="hljs-keyword">for</span> batch <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(rm)):<br>        index = random.choice(<span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(rm)))<br><br>        x = np.array([rm[index], lstat[index]])<br>        y = target[index]<br>        <br>        <span class="hljs-comment"># print(x, y)</span><br><br>        yhat = model(x, w, b)<br>        loss_v = loss(yhat, y)<br><br>        w = w + -<span class="hljs-number">1</span> * partial_w(x, y, yhat) * learning_rate<br>        b = b + -<span class="hljs-number">1</span> * partial_b(x, y, yhat) * learning_rate<br><br>        <span class="hljs-keyword">if</span> batch % <span class="hljs-number">100</span> == <span class="hljs-number">0</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Epoch: &#123;&#125;, Batch: &#123;&#125;, loss:&#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(i, batch, loss_v))<br>    losses.append(np.mean(batch_loss))<br></code></pre></td></tr></table></figure>
+<p>执行完之后，我们可以看到 loss 在慢慢的变小。</p>
+<p>现在我们在数据中随机取一些数据，比如说我们去 100
+个吧，用于去预测，检验我们的模型：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python">random_test_indices = np.random.choice(<span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(rm)), size=<span class="hljs-number">100</span>)<br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> random_test_indices:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;RM:&#123;&#125;, STAT:&#123;&#125;, TARGET:&#123;&#125;, PRE:&#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(rm[i], lstat[i], target[i], model(np.array([rm[i], lstat[i]]), w, b)))<br>    <br>---<br>RM:<span class="hljs-number">6.425</span>, STAT:<span class="hljs-number">12.03</span>, TARGET:<span class="hljs-number">0</span>, PRE:[<span class="hljs-number">0.15662289</span>]<br>...<br>RM:<span class="hljs-number">5.0</span>, STAT:<span class="hljs-number">31.99</span>, TARGET:<span class="hljs-number">0</span>, PRE:[<span class="hljs-number">4.87033539e-06</span>]<br>...<br>RM:<span class="hljs-number">8.247</span>, STAT:<span class="hljs-number">3.95</span>, TARGET:<span class="hljs-number">1</span>, PRE:[<span class="hljs-number">0.9623407</span>]<br>...<br>RM:<span class="hljs-number">7.686</span>, STAT:<span class="hljs-number">3.92</span>, TARGET:<span class="hljs-number">1</span>, PRE:[<span class="hljs-number">0.95077171</span>]<br><br></code></pre></td></tr></table></figure>
+<p>我随机展示了一些数据，我们从这里能看到，预测值内有的值偏向
+0，有的值甚至比 1 还要大。对比前面的 TARGET
+真实值来看，预测的大部分还是准确的。</p>
+<p>不过这个时候还是有问题，我们做这个预测的初衷是为了要做分类，也就是到底是
+0 还是 1，那 PRE
+值到底是什么，怎么分类呢？咱们就要牵扯到一个东西：<code>dicision boundary</code>。</p>
+<p>也就是决策的边界，咱们假定为
+0.5，让我们拿到的预测值去和这个边界值做对比，大于它的就是 1，小于的就是
+0:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">dicision_boundary = <span class="hljs-number">0.5</span><br>predicate_label = <span class="hljs-built_in">int</span>(predicate &gt; decision_boundary)<br></code></pre></td></tr></table></figure>
+<p>有了这个之后，我们需要更改下我们之前的代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python">random_test_indices = np.random.choice(<span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(rm)), size=<span class="hljs-number">100</span>)<br>decision_boundary = <span class="hljs-number">0.5</span><br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> random_test_indices:<br>    x1, x2, y = rm[i], lstat[i], target[i]<br>    predicate = model(np.array([x1, x2]), w, b)<br>    predicate_label = <span class="hljs-built_in">int</span>(predicate &gt; decision_boundary)<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;RM:&#123;&#125;, LSTAT:&#123;&#125;, EXPENSIVE:&#123;&#125;, Predicated:&#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(x1, x2, y, predicate_label))<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231013145649.png"
+alt="image-20231013142817740" /></p>
+<p>更改完之后我们执行，和真实值进行对比，我们发现整个预测的还算事准确。当然也有部分预测错误的。</p>
+<p>现在这个模型能够预测出来了，根据两个值能够预测出来它到底属于一个高档房子，还是不属于一个高档房子。但是我们会发现其实还有算错的地方。那么现在要问，如何衡量模型的好坏？以下就是我们要继续研究的问题：</p>
+<ol type="1">
+<li>accuracy 准确度</li>
+<li>precision 精确度</li>
+<li>recall 召回率</li>
+<li>f1, f2 score</li>
+<li>AUC-ROC 曲线</li>
+</ol>
+<p>这些就是我们用于衡量模型的一些指标，通过这个，我们要引出一个非常重要的概念，就是过拟合和欠拟合
+(over-fitting and
+under-fitting)。我们可以说，整个机器学习的过程，就是在不断的进行过拟合和欠拟合的调整。<strong>那么这些呢，就是我们下面课程的内容了。</strong></p>
+<p>目前来讲，我们学习了监督学习里面最重要的线性回归和逻辑回归，接下来什么我们要去学的
+LSTM，CNN 等等，其实都是为了提高这个准确度所要做的事情。</p>
+<p>也就是，现在我们发现虽然模型还是稍微有一些错误，这个时候就需要一起来再研究一下如何衡量模型的好坏。只有知道了如何衡量模型的好坏，才知道怎么样去调整它，怎么去优化它。</p>
+<p>好，那下节课记得不见不散。</p>
+<hr />
+<p>关注「坍缩的奇点」，第一时间获取更多免费 AI 教程。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/扫码_搜索联合传播样式-白色版.png"
+alt="坍缩的奇点" /></p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>09. 机器学习 - 逻辑回归</p><p><a href="https://hivan.me/09. 机器学习- 逻辑回归/">https://hivan.me/09. 机器学习- 逻辑回归/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2023-10-15</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2023-11-25</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" href="https://afdian.net/item/72907364008511ee904852540025c377" target="_blank" rel="noopener" data-type="afdian"><span class="icon is-small"><i class="fas fa-charging-station"></i></span><span>爱发电</span></a><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://www.buymeacoffee.com/hivandu" target="_blank" rel="noopener" data-type="buymeacoffee"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>送我杯咖啡</span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="paypal" onclick="document.getElementById(&#039;paypal-donate-form&#039;).submit()"><span class="icon is-small"><i class="fab fa-paypal"></i></span><span>Paypal</span></a><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" rel="noopener" id="paypal-donate-form"><input type="hidden" name="cmd" value="_donations"><input type="hidden" name="business" value="doo@hivan.me"><input type="hidden" name="currency_code" value="USD"></form><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/Python-change-file-names-in-batches/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">Python 批量修改文件名</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/08.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%20%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/"><span class="level-item">08. 机器学习 - 线性回归</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/09.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%20%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/';
+            this.page.identifier = '09. 机器学习- 逻辑回归/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">200</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">5</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">22</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI秘籍</span></span><span class="level-end"><span class="level-item tag">58</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">27</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">29</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-12T23:30:00.000Z">2023-12-13</time></p><p class="title"><a href="/29.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E5%8D%B7%E7%A7%AF%E7%9A%84%E5%8E%9F%E7%90%86/">29. 深度学习进阶 - 卷积的原理</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-09T23:30:00.000Z">2023-12-10</time></p><p class="title"><a href="/28.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20LSTM/">28. 深度学习进阶 - LSTM</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-05T23:30:00.000Z">2023-12-06</time></p><p class="title"><a href="/27.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E4%B8%BA%E4%BB%80%E4%B9%88RNN/">27. 深度学习进阶 - 为什么RNN</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-01T23:30:00.000Z">2023-12-02</time></p><p class="title"><a href="/26.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/">26. 深度学习进阶 - 深度学习的优化方法</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-11-28T23:30:00.000Z">2023-11-29</time></p><p class="title"><a href="/25.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E6%9D%83%E9%87%8D%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%8C%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1%E5%92%8C%E6%A2%AF%E5%BA%A6%E7%88%86%E7%82%B8/">25. 深度学习进阶 - 权重初始化，梯度消失和梯度爆炸</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2023 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

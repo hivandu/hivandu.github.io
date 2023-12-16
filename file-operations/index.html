@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>13. Python的文件操作 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="Hi，大家好。我是茶桁。"><meta property="og:type" content="blog"><meta property="og:title" content="13. Python的文件操作"><meta property="og:url" content="https://hivan.me/file-operations/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="Hi，大家好。我是茶桁。"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230809125900.png?imgNote"><meta property="article:published_time" content="2023-08-08T13:26:16.000Z"><meta property="article:modified_time" content="2023-11-25T11:53:03.437Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="Python"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://qiniu.hivan.me/picGo/20230809125900.png?imgNote"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/file-operations/"},"headline":"13. Python的文件操作","image":[],"datePublished":"2023-08-08T13:26:16.000Z","dateModified":"2023-11-25T11:53:03.437Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"Hi，大家好。我是茶桁。"}</script><link rel="canonical" href="https://hivan.me/file-operations/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2023-08-08T13:26:16.000Z" title="8/8/2023, 9:26:16 PM">2023-08-08</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a><span> / </span><a class="link-muted" href="/categories/AI%E7%A7%98%E7%B1%8D/Python/">Python</a></span></div></div><h1 class="title is-3 is-size-4-mobile">13. Python的文件操作</h1><div class="content"><p><img src="https://qiniu.hivan.me/picGo/20230809125900.png?imgNote"
+alt="茶桁的AI秘籍" /></p>
+<p>Hi，大家好。我是茶桁。</p>
+<span id="more"></span>
+<p>在之前的几节课程中，我们学习了Python的数据类型。和市面上大多数的Python教程不同的是，我先为大家介绍完函数之后才开始介绍数据类型，其中原因就是很多数据类型的方法及理解都需要先搞懂函数的基本语法。</p>
+<p>在结束了Python数据类型学习之后，我们今天开始进入一个新的篇章。今天，让我们来详细了解一下在Python中如何去进行文件操作。</p>
+<p>我们大家都使用过智能手机，电脑，iPad等电子产品。那我们肯定有打开文件的经验，比如说打开一个Word、Excel文档。最基础的操作实际上就两步，分别是1.
+打开文件， 2. 关闭文件。</p>
+<p>我们要理解的一点是，文件都是放在存储设备中的，这才是我们能打开它的基础。那我们在存储设备中对文件进行打开之后进行的读写操作，实际上就是文件<code>I/O</code>。</p>
+<p>什么是<code>I/O</code>?<code>I</code>代表<code>Input</code>(输入)，<code>O</code>代表<code>Output</code>（输出）。当你打开一个文件的时候，就算你没有对文件进行更改，也依然已经有了<code>I/O</code>操作，毕竟文件只有读取之后，才能显示到你的屏幕上。</p>
+<p>那么文件读写到底分了几步呢？让我们引用一下宋丹丹的经典小品中的一段：</p>
+<blockquote>
+<p>问，把大象装进冰箱分几步？</p>
+</blockquote>
+<p>我们就不在这里进行分步讨论了，因为流程步骤实际上是一模一样的：</p>
+<ol type="1">
+<li>打开文件<code>open()</code> ： 打开冰箱。</li>
+<li>读取文件<code>read()</code>/ 写入内容<code>write()</code>：
+把大象装进冰箱。</li>
+<li>关闭文件<code>close()</code>： 关闭冰箱。</li>
+</ol>
+<p>可以说，你在你的设备上做的任何操作都逃不开这几步，区别无非就是你有没有写入内容，从哪里打开的，读取的文件是什么类型的。</p>
+<p>那么复杂一点的，就是当你打开一个App的时候，这个App执行某项操作的时候去互联网上的服务器找相应的文件然后到本地之后打开，读取。我们不讨论在打开文件之前的一系列例如下载（这个下载动作有时是主动的，有时是被动的）操作，就只说到本地之后读取文件并展示，就一定包含这三步。</p>
+<p>理解到这，可以了。我们接着正式来学习Python如何对文件进行操作。</p>
+<h2 id="文件操作">文件操作</h2>
+<h3 id="open"><code>open()</code></h3>
+<p><code>open</code>函数就是用于最初的打开文件的动作，其基本格式为：<code>open(文件路径, 打开方式, [字符集])</code>，
+完整的格式为：<code>open(file, mode='r', buffering=None, encoding=None, errors=None, newline=None, closefd=True)</code></p>
+<p>在大部分时候，我们使用基本格式就足够了。</p>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc">&#x27;&#x27;&#x27;<br>打开文件 open()<br><span class="hljs-code">    参数1: 文件路径</span><br><span class="hljs-code">    参数2: 打开的方式</span><br><span class="hljs-code">    参数3: 字符集</span><br>&#x27;&#x27;&#x27;<br></code></pre></td></tr></table></figure>
+<p>路径，也就是<code>url</code>是一种统一资源定位符。其中包括<strong>相对路径</strong>和<strong>绝对路径</strong>。</p>
+<p><strong>相对路径</strong>，比如说我们被路人问路，我们就说：这条街往前，前面十字路口就是交道口，然后左转，再走100米左右就到了。</p>
+<p><strong>绝对路径</strong>，
+这个就非常好理解了，北京市西城区鼓楼东大街28号，特别准确了对吧？</p>
+<p>这两个路径的描述呢，其实指向的是一个地方。只是一个是针对人所在的位置来告知你怎么走，另外一个是从最上层给到你一个绝对的地址。而电脑里的相对路径和绝对路径也基本就是这么个意思。</p>
+<p><strong>我们来看相对路径</strong>，主要是使用<code>./</code>和<code>../</code>来进行描述，这两个都有一个共同点，就是以当前文件为准。也就是当前文件向我们问路，我们站在当前文件的地方告诉它该怎么走去到达自己的目的地。</p>
+<p>举例,
+假设我们现在正在编辑<code>index.py</code>这个文件，也就是说，向我们问路的文件是<code>index.py</code>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python">- project<br>	| - index.py<br>	|	- test.txt<br>  | img<br>    |	- person.jpg <br>    | - dog.jpg<br>    | - cat.jpg<br>- data<br>	| - person.csv<br></code></pre></td></tr></table></figure>
+<p>这样一个路径关系中：</p>
+<ol type="1">
+<li>当我们需要去访问<code>person.jpg</code>并打开的话，那就是<code>index.py</code>同目录下的<code>img</code>目录里面去寻找<code>person.jpg</code>，
+那我们相对路径的写法为<code>./img/person.jpg</code>。</li>
+<li>当我们要去找<code>person.csv</code>的时候，由于这个csv是存在于上一层目录的同级目录<code>data</code>内，那我们需要向上去寻找，就是<code>../data/person.csv</code>。</li>
+</ol>
+<p>这就是<code>./</code>和<code>../</code>的区别，一个是当前目录同级内去寻找，一个是向上一级的目录内去寻找。那如果文件存储于上两层目录中呢？那就向上翻两层呗：<code>../../</code>这样，多层的时候，依次类推。</p>
+<p>相对路径介绍完了，<strong>我们来看看绝对路径</strong>。</p>
+<p>绝对路径的前提是必须找到根目录。在<code>windows</code>中我们其实都熟悉一个东西就是盘符。比如说<code>C:\</code>，不严谨的说，盘符就算是绝对路径的根目录了。那为什么说不严谨的说呢？因为我们输入文件路径的时候可以输入：<code>C:\data\person.csv</code>这样去寻找。但是，盘符之上其实是整个硬盘，我们只是将硬盘虚拟成了不同的盘符用于划分空间而已。</p>
+<p>在<code>Mac</code>或者<code>Linux</code>中，就是以整个硬盘为准去寻找文件的。比如说<code>/Users/xx/Downloads</code>，就是我们的下载目录。</p>
+<p>那我们如果想要打开文件，这两种方式其实都可以，一般来说，为了代码能够适应环境变化，我们都会选择使用相对路径。</p>
+<p>说完文件路径，让我们来说说打开方式，我先介绍一个模式，后面咱们再慢慢讲：</p>
+<p><strong><code>w</code>模式： write， 写入</strong></p>
+<p>如果文件不存在，创建这个文件；
+如果文件存在，则打开这个文件，并且清空文件内容。文件打开后，文件的指针在文件的最前面。什么是指针呢？
+可以这么理解，当我们打开一个word文档的时候，我们的光标是不是都在这个文档的最上面？这个光标的位置，就是指针的位置。</p>
+<h3 id="write"><code>write()</code></h3>
+<p><code>write()</code>是用于对文件写入内容来使用的，格式为:<code>文件对象.write(内容)</code></p>
+<h3 id="close"><code>close()</code></h3>
+<p>格式为: <code>文件对象.close()</code> , 可以关闭打开的文件。</p>
+<p>我们需要注意一点，我们在对文件进行操作的时候，一定记得操作完要关闭它。否则，这个文件就会一直存在于内存地址中。</p>
+<p>下面，让我们看看在Python中如何打开操作一个文件的。</p>
+<blockquote>
+<p>以下所有的操作演示都会在../Python/13.ipynb中进行编写，所以我们的操作路径都会以这个文件为准。</p>
+</blockquote>
+<p>让我们现在当前文件的中创建一个文件夹<code>data</code>，然后在其中放入一个文件<code>13-1.txt</code>，我们说要做的事情，就是打开这个文件，然后将我们之前写的内容复制一部分写入到这个<code>txt</code>文件中去，路径关系如下图：</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202311251951293.png" /></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 打开13-1 并且写入内容</span><br>fp = <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;./data/13-1.txt&#x27;</span>, <span class="hljs-string">&#x27;w&#x27;</span>)<br><span class="hljs-built_in">print</span>(fp, <span class="hljs-built_in">type</span>(fp))<br>fp.write(<span class="hljs-string">&#x27;相对路径: 比如说我们被路人问路，我们就说：这条街往前，前面十字路口就是交道口，然后左转，再走100米左右就到了。\n 绝对路径: 这个就非常好理解了，北京市西城区鼓楼东大街28号，特别准确了对吧？&#x27;</span>)<br>fp.close()<br><br>---<br>&lt;_io.TextIOWrapper name=<span class="hljs-string">&#x27;./data/13-1.txt&#x27;</span> mode=<span class="hljs-string">&#x27;w&#x27;</span> encoding=<span class="hljs-string">&#x27;UTF-8&#x27;</span>&gt; &lt;<span class="hljs-keyword">class</span> <span class="hljs-string">&#x27;_io.TextIOWrapper&#x27;</span>&gt;<br></code></pre></td></tr></table></figure>
+<p>打印区打印的内容，实际上是我们<code>print</code>函数执行的结果，可以看到，我们打印<code>fp</code>这个变量的时候，显示的是<code>&lt;_io.TextIOWrapper name='./data/13-1.txt' mode='w' encoding='UTF-8'&gt;</code>,
+其类型是<code>&lt;class '_io.TextIOWrapper'&gt;</code>。</p>
+<p>这些先放在一边，让我们看看文件到底写入没有：</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202311251951294.png" /></p>
+<p>写入是写入了，可是这是什么鬼？</p>
+<p>啊，差点忘了，整个<code>open()</code>方法内后面还有一个参数<code>encoding=</code>，
+这个参数是告诉我们这个文件以什么字符集去打开。默认的就是<code>UTF-8</code>，显然，我们保存的这个文件并不是，所以最终导致了乱码。</p>
+<p>让我们修改一下代码，在<code>open()</code>内添加一下<code>encoding</code>，其他不变:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">fp = <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;./data/13-1.txt&#x27;</span>, <span class="hljs-string">&#x27;w&#x27;</span>, encoding=<span class="hljs-string">&#x27;GBK&#x27;</span>)<br>...<br><br>---<br>&lt;_io.TextIOWrapper name=<span class="hljs-string">&#x27;./data/13-1.txt&#x27;</span> mode=<span class="hljs-string">&#x27;w&#x27;</span> encoding=<span class="hljs-string">&#x27;GBK&#x27;</span>&gt; &lt;<span class="hljs-keyword">class</span> <span class="hljs-string">&#x27;_io.TextIOWrapper&#x27;</span>&gt;<br></code></pre></td></tr></table></figure>
+<p>可以看到，打印出来的<code>fp</code>最后的<code>encoding</code>值已经发生了变化。让我们再去看看文件如何了：</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202311251951295.png" /></p>
+<p>果然没问题，内容能够正确显示而不会乱码了，我们注意到下方文件字符集确实为<code>GBK</code>。</p>
+<blockquote>
+<p>关于<code>字符集编码</code>的问题这里有疑问的，自己回过头再去把我之前讲的课程好好翻腾一下，复习一下。</p>
+</blockquote>
+<p>整段代码中，我们引用了刚才介绍的三个文件操作的函数：
+<code>open()</code>, <code>write()</code>, <code>close()</code>。</p>
+<p>在简单了解了文件的操作步骤之后，我们接下来再继续看文件操作中另外一个比较重要的函数:
+<code>read()</code>。</p>
+<h3 id="read"><code>read()</code></h3>
+<p>在对文件进行操作的时候，一定要记得流程一定是打开<code>open</code>在最前面，<code>close</code>关闭在最后面。至于中间你是要读取，写入还是别的什么操作，那都不违反文件操作的整个流程。</p>
+<p>所以在下面一段代码里，我们可以尝试把之前的<code>write()</code>替换为<code>read()</code>，顺便可以学一下如何在代码中看看我们刚修改过的文件：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python">fp = <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;./data/13-1.txt&#x27;</span>, <span class="hljs-string">&#x27;r&#x27;</span>, encoding=<span class="hljs-string">&#x27;GBK&#x27;</span>)<br>res = fp.read()<br>fp.close()<br><br><span class="hljs-built_in">print</span>(res)<br><br>---<br>相对路径: 比如说我们被路人问路，我们就说：这条街往前，前面十字路口就是交道口，然后左转，再走<span class="hljs-number">100</span>米左右就到了。<br>绝对路径: 这个就非常好理解了，北京市西城区鼓楼东大街<span class="hljs-number">28</span>号，特别准确了对吧？<br></code></pre></td></tr></table></figure>
+<p>可以看到，我们讲刚才写入的内容在打印区完整的打印了出来。</p>
+<p>不知道小伙伴们有没有注意到，在使用<code>open()</code>函数的时候，其中的第二个参数「打开方式」这次发生了变化，改成了<code>‘r’</code>，
+这中打开模式就是专门用于读取文件的，它在打开文件的时候，不会想<code>‘w’</code>的打开方式一样清空文件。</p>
+<p>比如，我们讲之前的代码中换一下打开方式来试试：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs Python">fp = <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;./data/13-1.txt&#x27;</span>, <span class="hljs-string">&#x27;w&#x27;</span>, encoding=<span class="hljs-string">&#x27;GBK&#x27;</span>)<br>res = fp.read()<br>fp.close()<br><br><span class="hljs-built_in">print</span>(res)<br><br>---<br>UnsupportedOperation: <span class="hljs-keyword">not</span> readable<br></code></pre></td></tr></table></figure>
+<p>报错了，提示不可读。</p>
+<p>我们再去直接打开<code>13-1.txt</code>的时候可以看到。文件内空空如也，之前写入的内容全都被清空了。</p>
+<p>到这里为止，大家了解了文件操作的四个基本操作函数，在这里我可以教大家一个文件操作中的一些高级技巧，比如，我们可以使用<code>with...as...</code>来进行操作：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">with open(文件路径, 打开模式) as 变量:</span><br><span class="hljs-string">		变量.操作()</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br></code></pre></td></tr></table></figure>
+<p>让我们直接来看示例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;./data/13-1.txt&#x27;</span>, <span class="hljs-string">&#x27;r+&#x27;</span>, encoding=<span class="hljs-string">&#x27;GBK&#x27;</span>) <span class="hljs-keyword">as</span> fp:<br>    res = fp.read()<br>    <span class="hljs-built_in">print</span>(res)<br>    <br>---<br>相对路径: 比如说我们被路人问路，我们就说：这条街往前，前面十字路口就是交道口，然后左转，再走<span class="hljs-number">100</span>米左右就到了。<br>绝对路径: 这个就非常好理解了，北京市西城区鼓楼东大街<span class="hljs-number">28</span>号，特别准确了对吧？<br></code></pre></td></tr></table></figure>
+<p>这样，我们也就直接完成了之前读取的操作。</p>
+<p><code>read</code>函数内是有参数的：<code>read(count)</code>，
+接收的值为整型，这里是描述当前我要读取几个字节长度：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;./data/13-1.txt&#x27;</span>, <span class="hljs-string">&#x27;r&#x27;</span>, encoding=<span class="hljs-string">&#x27;GBK&#x27;</span>) <span class="hljs-keyword">as</span> fp:<br>    res = fp.read(<span class="hljs-number">5</span>)<br>    <span class="hljs-built_in">print</span>(res)<br>    <br>---<br>相对路径:<br></code></pre></td></tr></table></figure>
+<p>有的小伙伴看到我写到这可能就有疑问了，我为什么没有写<code>close()</code>函数，那是不是说，现在这个文件都还一直存在内容地址中。</p>
+<p>其实并不是如此。在使用<code>with...as...</code>这个方式去打开一个文件的之后，在整个代码结束的时候会自动对当前打开的文件一遍执行<code>close()</code>函数。</p>
+<p>好，让我接着继续：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;./data/13-1.txt&#x27;</span>, <span class="hljs-string">&#x27;r+&#x27;</span>, encoding=<span class="hljs-string">&#x27;GBK&#x27;</span>) <span class="hljs-keyword">as</span> fp:<br>    res = fp.read()<br>    <span class="hljs-built_in">print</span>(res)<br>    fp.write(res)<br><br>---<br>相对路径: 比如说我们被路人问路，我们就说：这条街往前，前面十字路口就是交道口，然后左转，再走<span class="hljs-number">100</span>米左右就到了。<br>绝对路径: 这个就非常好理解了，北京市西城区鼓楼东大街<span class="hljs-number">28</span>号，特别准确了对吧？<br></code></pre></td></tr></table></figure>
+<p>打印区并未发生变化，原因就是我们的写入操作是在<code>print</code>之后进行的，我们直接打开文件来看看：</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202311251951296.png" /></p>
+<p>可以看到，内容确实被写入文件中了。注意我打标记的地方，并没有换行对吧，也就是说，我们在做写入的时候，指针是标记在这个位置的，然后继续往后写入。</p>
+<p>另外整个代码中需要注意的就是打开模式了，我们之前已经用过的打开模式有<code>‘w’和``'r'</code>，
+现在我们用了<code>‘r+’</code>的模式，那么<code>r+</code>呢就是既可以读，也可以写入。并且，不会一开始就清空文件的内容。</p>
+<p>对应<code>‘w’</code>的清空模式，就是<code>‘w+’</code>,
+虽然<code>‘w+’</code>也是可读可写的模式，但是它和<code>‘w’</code>的模式一致，打开文件的时候直接清空整个文件的内容。</p>
+<p>除了这四个模式之外，还有<code>'a'</code>和‘<code>'a+’</code>模式，是追加写的模式，这种模式的特点是打开文件的时候，指针是放在文件最末尾的。所以这种模式使用<code>read()</code>的时候，是读不到任何内容的。</p>
+<p>以为到这里就结束了吗？太单纯了，整个文件操作的打开模式中，还有一个<code>‘x+’</code>的模式，这种模式我们可以称它为异或，什么意思呢？就是这种模式只会新建文件来执行后续操作，否则就会报错：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;./data/13-1.txt&#x27;</span>, <span class="hljs-string">&#x27;x+&#x27;</span>, encoding=<span class="hljs-string">&#x27;GBK&#x27;</span>) <span class="hljs-keyword">as</span> fp:<br>    <span class="hljs-built_in">print</span>(fp.read())<br>    <br>---<br>FileExistsError: [Errno <span class="hljs-number">17</span>] File exists: <span class="hljs-string">&#x27;./data/13-1.txt&#x27;</span><br></code></pre></td></tr></table></figure>
+<p>提示文件错误：文件存在。</p>
+<p>如果我们操作的是一个本来不存在的文件，才可以正常的往下进行：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;./data/13-x+.txt&#x27;</span>, <span class="hljs-string">&#x27;x+&#x27;</span>, encoding=<span class="hljs-string">&#x27;UTF-8&#x27;</span>) <span class="hljs-keyword">as</span> fp:<br>    res = fp.read()<br>    <span class="hljs-built_in">print</span>(res)<br>    fp.write(<span class="hljs-string">&#x27;这里是&quot;x+&quot;模式下新加入的内容。&#x27;</span>)<br><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;./data/13-x+.txt&#x27;</span>, <span class="hljs-string">&#x27;r+&#x27;</span>, encoding=<span class="hljs-string">&#x27;UTF-8&#x27;</span>) <span class="hljs-keyword">as</span> fp:<br>    res = fp.read()<br>    <span class="hljs-built_in">print</span>(res)<br>    <br>---<br>这里是<span class="hljs-string">&quot;x+&quot;</span>模式下新加入的内容。<br></code></pre></td></tr></table></figure>
+<p>我们在用<code>‘x+’</code>模式打开一个文件的时候，它已经新建了这个文件，我们可以看到读取之后并未读取到任何内容，因为这个文件内还是空的。在进行写入操作之后，我们在下面再一次读取这个文件，可以看到内容已经被写入了。</p>
+<h3 id="详谈打开模式">详谈「打开模式」</h3>
+<p>其实<code>mode</code>这个参数并不只是我们演示的这么点内容，<code>mode</code>这个参数是接收两种值的，一个是刚才我们一直在讲的<code>读写模式</code>,
+而另外一个则是<code>文件格式</code>：</p>
+<p><strong>读写模式</strong>：</p>
+<p>读写模式的参数主要有四种， 分别是<code>r</code>,
+<code>w</code>,<code>a</code>以及一个特殊<code>+</code>，
+其中<code>r</code>, <code>w</code>,
+<code>a</code>决定了当前文件默认是只读还是只写，还有就是指针位置。<code>+</code>是和前面三个结合使用的，无法单独使用，其主要作用是使的文件读写兼备。</p>
+<p><strong>文件格式</strong>：</p>
+<p>文件格式主要是以两种格式为准，一种是普通的文本文件，一种是二进制格式文件。不要以为二进制格式没什么大不了，我们一般谈到非文本文件都属于二进制格式文件，比如：图片。</p>
+<p>这两个格式控制字符一个是<code>t</code>:
+以文本格式打开文件（默认值）， 一个是<code>b</code>:
+以二进制格式打开文件。</p>
+<p>一般来说，我们大部分时候都不会单独使用某一个参数吗，而是结合着一起使用。比如：</p>
+<p><code>r+</code>，
+打开一个文件用于读写，文件存在就打开，文件不存在则报错。指针在文件头。这种模式要注意，因为指针在文件头，所以新写入的内容会在原内容之前。</p>
+<p><code>w+</code>,
+打开一个文件用于读写，文件存在就打开，并且会清空所有内容后进入编辑模式，如果文件不存在则会创建一个新文件。虽然指针也在文件头，但是因为它霸道的清空属性，所以也不存在新写入的内容会在原内容之前了。</p>
+<p><code>a+</code>，
+以追加的模式打开一个文件用于读写，如果文件存在就打开，如果文件不存在，则会创建一个新文件用于读写。这种模式下和<code>w+</code>不同的地方在于它会将指针放在文件末尾，写入的时候是从文件尾部开始写。并且，它没那么霸道，要清空原内容才可以。</p>
+<p>其他的模式就是在打开文件格式和读写模式的组合，一般我们不写是因为大部分时候我们操作的都是文本文件进行操作，而如果我们需要用二进制格式打开文件的时候，就不能使用默认的<code>t</code>而是<code>b</code>了，一般我们会是这样进行组合：<code>rb</code>,
+<code>rb+</code>, <code>wb</code>, <code>wb+</code>, <code>ab</code>,
+<code>ab+</code>。</p>
+<p>当然，最后就是我们刚才用到的<code>x+</code>，
+其实它也是一种组合形式，原本应该是<code>x</code>,
+这种模式是在Python3中新添加的，它在文件不存在的时候它会创建一个新文件用于写入。如果这个文件存在，就会报错。</p>
+<p>那么有了<code>x</code>这个参数之后，我们以前为了避免误操作覆盖原文件，那么我们会先去判断一个文件是否存在，然后再去执行后续的写入操作。可是使用<code>x</code>就没那么麻烦了，可以直接操作写入，反正文件如果存在会返回错误。</p>
+<h3 id="关于指针位置">关于指针位置</h3>
+<p>那么我们在使用了<code>r+</code>之后，有没有什么办法可以让我们不在原内容之前写入内容而是从后开始写呢？</p>
+<p>答案是有办法，也就是调整指针位置，调整完毕之后再进行写入操作就可以了。</p>
+<p>调整指针的方法为<code>seek(offset[, whence])</code>。我们来看一个对比：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 创建一个新文件</span><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;./data/13-2.txt&#x27;</span>, <span class="hljs-string">&#x27;w&#x27;</span>, encoding=<span class="hljs-string">&#x27;UTF-8&#x27;</span>) <span class="hljs-keyword">as</span> fp:<br>    fp.write(<span class="hljs-string">&#x27;1. Hello Python.\n2. Hello C++. \n3. Hello Ruby.&#x27;</span>)<br><br><span class="hljs-comment"># 正常状态下</span><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;./data/13-2.txt&#x27;</span>, <span class="hljs-string">&#x27;r&#x27;</span>, encoding=<span class="hljs-string">&#x27;UTF-8&#x27;</span>) <span class="hljs-keyword">as</span> fp:<br>    <span class="hljs-built_in">print</span>(fp.readline())<br>    <span class="hljs-built_in">print</span>(fp.readline())<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;--------------&#x27;</span>)<br><br><span class="hljs-comment"># 设置指针重新偏移到头部</span><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;./data/13-2.txt&#x27;</span>, <span class="hljs-string">&#x27;r&#x27;</span>, encoding=<span class="hljs-string">&#x27;UTF-8&#x27;</span>) <span class="hljs-keyword">as</span> fp:<br>    <span class="hljs-built_in">print</span>(fp.readline())<br>    fp.seek(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>)<br>    <span class="hljs-built_in">print</span>(fp.readline())<br><br>---<br><span class="hljs-number">1.</span> Hello Python.<br><br><span class="hljs-number">2.</span> Hello C++. <br><br>------------<br><span class="hljs-number">1.</span> Hello Python.<br><br><span class="hljs-number">1.</span> Hello Python.<br></code></pre></td></tr></table></figure>
+<p>在最开始，我们重新创建了一个文件，然后写了三行文字。分别是：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-number">1.</span> Hello Python.<br><span class="hljs-number">2.</span> Hello C++. <br><span class="hljs-number">3.</span> Hello Ruby.<br></code></pre></td></tr></table></figure>
+<p>然后我们开始用不同的方法进行读取，每次仅读取一行。</p>
+<p>正常状态下，<code>readline()</code>这个方法是顺序往下执行的，第一次执行的时候读取的是第一行，第二次执行的时候就是读取的第二行。这种方式是不是感觉有些熟悉，像不像迭代器？</p>
+<p>回过头来，我们再来看两次执行的结果，不同的是，第二次我在两个<code>readline()</code>方法中间加入了一段<code>fp.seek(0,0)</code>来将指针再次调整到头部，别着急，我们一会讲为什么这样写，先来看看结果。</p>
+<p>因为有了<code>fp.seek(0,0)</code>的存在，第二次执行和第一次完全不同。第一段内容被读取了两次。这就是<code>seek()</code>的作用，讲指针又调整到了文件头部。</p>
+<p>现在，让我们来说说<code>seek()</code>内参数的含义，完整的写法是：<code>seek(offset[, whence])</code>，其中<code>offset</code>是偏移量，而<code>whence</code>是从哪开始。<code>whence</code>就只有三个值，
+<code>0, 1, 2</code>，
+0就表示是从头部开始偏移，1就表示从当前位置开始偏移，2就代表从文件末尾开始偏移。而我们写的<code>(0,0)</code>意思就是从文件头部开始偏移，偏移量为0。</p>
+<p>再来看一段代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 设置指针重新偏移到头部</span><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;./data/13-2.txt&#x27;</span>, <span class="hljs-string">&#x27;r+&#x27;</span>, encoding=<span class="hljs-string">&#x27;UTF-8&#x27;</span>) <span class="hljs-keyword">as</span> fp:<br>    fp.seek(<span class="hljs-number">0</span>, <span class="hljs-number">2</span>)<br>    fp.write(<span class="hljs-string">&#x27;这里是使用r+添加到末尾的内容&#x27;</span>)<br><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;./data/13-2.txt&#x27;</span>, <span class="hljs-string">&#x27;r&#x27;</span>, encoding=<span class="hljs-string">&#x27;UTF-8&#x27;</span>) <span class="hljs-keyword">as</span> fp:<br>    <span class="hljs-built_in">print</span>(fp.read())<br>    <br>---<br><span class="hljs-number">1.</span> Hello Python.<br><span class="hljs-number">2.</span> Hello C++. <br><span class="hljs-number">3.</span> Hello Ruby.这里是使用r+添加到末尾的内容<br></code></pre></td></tr></table></figure>
+<p>通过前面的学习我们知道，<code>r+</code>在打开文件之后，指针是放在头部的，但是我们这里用<code>seek(0,2)</code>将指针调整到了最末尾，并且写入了一段文字。</p>
+<p>学到这里，文件的基本操作也就差不多学完了，让我们来分别总结一下：</p>
+<h2 id="相关函数">相关函数</h2>
+<ul>
+<li><p><code>open()</code>, 打开文件,
+格式：<code>open(file_name [, access_mode][, buffering])</code></p></li>
+<li><p><code>read()</code>, 读取内容，
+格式：<code>fileObject.read([count])</code></p></li>
+</ul>
+<p>不设置<code>count</code>是从当前位置读取到文件末尾，设置<code>count</code>这是读取指定长度的字符。</p>
+<ul>
+<li><code>readline()</code>, 读取一行</li>
+</ul>
+<p>不设置<code>count</code>是从当前位置读取到这一行末尾，设置<code>count</code>这是读取这一行中指定长度的字符。</p>
+<ul>
+<li><code>readlines()</code>, 读取所有行</li>
+</ul>
+<p>不设置参数是表示读取所有汗，每一行作为一个参数，返回了一个列表。设置<code>count</code>是按照行进行读取，可以设置读取的字节数，设置的字节数不足一行按一行来读取。</p>
+<ul>
+<li><code>write()</code>，写入内容,
+格式：<code>fileObject.write(string)</code></li>
+<li><code>writelines()</code>, 写入容器类型数据：</li>
+</ul>
+<p>写入容器类数据的时候要注意，这个容器类数据必须是可更新的类型。</p>
+<ul>
+<li><code>seek()</code>, 设置文件指针的偏移, 格式:
+<code>seek(offset[, whence])</code></li>
+<li><code>close()</code>， 关闭文件</li>
+</ul>
+<p>当然，除了这几个之外，文件还有很多其他的函数，但是目前我们用这些进行读写操作就足够了。</p>
+<h2 id="打开模式图">打开模式（图）</h2>
+<p>关于打开模式，
+我之前写的那些内容看懂理解了，其实也就不需要现在这两张图了，可是我担心的是有些小伙伴理解不了，那有了下面的图，至少操作的时候可以参考：</p>
+<table>
+<colgroup>
+<col style="width: 6%" />
+<col style="width: 93%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">模式</th>
+<th style="text-align: left;">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">t</td>
+<td style="text-align: left;">文本模式 (默认)。</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">x</td>
+<td
+style="text-align: left;">写模式，新建一个文件，如果该文件已存在则会报错。</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">b</td>
+<td style="text-align: left;">二进制模式。</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">+</td>
+<td style="text-align: left;">打开一个文件进行更新(可读可写)。</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">U</td>
+<td style="text-align: left;">通用换行模式（不推荐）。</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">r</td>
+<td
+style="text-align: left;">以只读方式打开文件。文件的指针将会放在文件的开头。这是默认模式。</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">rb</td>
+<td
+style="text-align: left;">以二进制格式打开一个文件用于只读。文件指针将会放在文件的开头。这是默认模式。一般用于非文本文件如图片等。</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">r+</td>
+<td
+style="text-align: left;">打开一个文件用于读写。文件指针将会放在文件的开头。</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">rb+</td>
+<td
+style="text-align: left;">以二进制格式打开一个文件用于读写。文件指针将会放在文件的开头。一般用于非文本文件如图片等。</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">w</td>
+<td
+style="text-align: left;">打开一个文件只用于写入。如果该文件已存在则打开文件，并从开头开始编辑，即原有内容会被删除。如果该文件不存在，创建新文件。</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">wb</td>
+<td
+style="text-align: left;">以二进制格式打开一个文件只用于写入。如果该文件已存在则打开文件，并从开头开始编辑，即原有内容会被删除。如果该文件不存在，创建新文件。一般用于非文本文件如图片等。</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">w+</td>
+<td
+style="text-align: left;">打开一个文件用于读写。如果该文件已存在则打开文件，并从开头开始编辑，即原有内容会被删除。如果该文件不存在，创建新文件。</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">wb+</td>
+<td
+style="text-align: left;">以二进制格式打开一个文件用于读写。如果该文件已存在则打开文件，并从开头开始编辑，即原有内容会被删除。如果该文件不存在，创建新文件。一般用于非文本文件如图片等。</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">a</td>
+<td
+style="text-align: left;">打开一个文件用于追加。如果该文件已存在，文件指针将会放在文件的结尾。也就是说，新的内容将会被写入到已有内容之后。如果该文件不存在，创建新文件进行写入。</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ab</td>
+<td
+style="text-align: left;">以二进制格式打开一个文件用于追加。如果该文件已存在，文件指针将会放在文件的结尾。也就是说，新的内容将会被写入到已有内容之后。如果该文件不存在，创建新文件进行写入。</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">a+</td>
+<td
+style="text-align: left;">打开一个文件用于读写。如果该文件已存在，文件指针将会放在文件的结尾。文件打开时会是追加模式。如果该文件不存在，创建新文件用于读写。</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ab+</td>
+<td
+style="text-align: left;">以二进制格式打开一个文件用于追加。如果该文件已存在，文件指针将会放在文件的结尾。如果该文件不存在，创建新文件用于读写。</td>
+</tr>
+</tbody>
+</table>
+<p>总结一下最常用的六种模式：</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">模式</th>
+<th style="text-align: center;">r</th>
+<th style="text-align: center;">r+</th>
+<th style="text-align: center;">w</th>
+<th style="text-align: center;">w+</th>
+<th style="text-align: center;">a</th>
+<th style="text-align: center;">a+</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">读</td>
+<td style="text-align: center;">✓</td>
+<td style="text-align: center;">✓</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">✓</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">✓</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">写</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">✓</td>
+<td style="text-align: center;">✓</td>
+<td style="text-align: center;">✓</td>
+<td style="text-align: center;">✓</td>
+<td style="text-align: center;">✓</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">创建</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">✓</td>
+<td style="text-align: center;">✓</td>
+<td style="text-align: center;">✓</td>
+<td style="text-align: center;">✓</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">覆盖</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">✓</td>
+<td style="text-align: center;">✓</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">指针在开始</td>
+<td style="text-align: center;">✓</td>
+<td style="text-align: center;">✓</td>
+<td style="text-align: center;">✓</td>
+<td style="text-align: center;">✓</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">指针在结尾</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">✓</td>
+<td style="text-align: center;">✓</td>
+</tr>
+</tbody>
+</table>
+<p>下面这张经典的流程图可以告诉你在什么时候需要用什么：</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202311251951297.png" /></p>
+<h2 id="结尾与预告">结尾与预告</h2>
+<p>文件的基本操作就介绍到这里了，大家下课之后记得要去多多的熟悉和练习。</p>
+<p>那么下一节课呢，我们会根据我们这之前所讲的所有内容，尝试做一个小<code>demo</code>，
+实现一个简单的注册和登录功能。</p>
+<p>这里先介绍一下这个<code>demo</code>:</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs markdown">实现功能：<br><span class="hljs-bullet">1.</span> 用户输入用户名和密码以及确认密码<br><span class="hljs-bullet">2.</span> 用户名不能重复<br><span class="hljs-bullet">3.</span> 两次密码要一致<br><span class="hljs-bullet">4.</span> 用户用已经注册的账户登录<br><span class="hljs-bullet">5.</span> 密码如果错误3次，锁定，无法再登录。<br></code></pre></td></tr></table></figure>
+<p>好了，小伙伴们，咱们下节课再见。</p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>13. Python的文件操作</p><p><a href="https://hivan.me/file-operations/">https://hivan.me/file-operations/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2023-08-08</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2023-11-25</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/Python/">Python</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" href="https://afdian.net/item/72907364008511ee904852540025c377" target="_blank" rel="noopener" data-type="afdian"><span class="icon is-small"><i class="fas fa-charging-station"></i></span><span>爱发电</span></a><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://www.buymeacoffee.com/hivandu" target="_blank" rel="noopener" data-type="buymeacoffee"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>送我杯咖啡</span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="paypal" onclick="document.getElementById(&#039;paypal-donate-form&#039;).submit()"><span class="icon is-small"><i class="fab fa-paypal"></i></span><span>Paypal</span></a><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" rel="noopener" id="paypal-donate-form"><input type="hidden" name="cmd" value="_donations"><input type="hidden" name="business" value="doo@hivan.me"><input type="hidden" name="currency_code" value="USD"></form><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/Exercise-register-system/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">14. 练习：登录注册系统</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/Detailed-of-set/"><span class="level-item">12. 数据类型 - 集合详解</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/file-operations/';
+            this.page.identifier = 'file-operations/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">200</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">5</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">22</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI秘籍</span></span><span class="level-end"><span class="level-item tag">58</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">27</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">29</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-12T23:30:00.000Z">2023-12-13</time></p><p class="title"><a href="/29.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E5%8D%B7%E7%A7%AF%E7%9A%84%E5%8E%9F%E7%90%86/">29. 深度学习进阶 - 卷积的原理</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-09T23:30:00.000Z">2023-12-10</time></p><p class="title"><a href="/28.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20LSTM/">28. 深度学习进阶 - LSTM</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-05T23:30:00.000Z">2023-12-06</time></p><p class="title"><a href="/27.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E4%B8%BA%E4%BB%80%E4%B9%88RNN/">27. 深度学习进阶 - 为什么RNN</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-01T23:30:00.000Z">2023-12-02</time></p><p class="title"><a href="/26.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/">26. 深度学习进阶 - 深度学习的优化方法</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-11-28T23:30:00.000Z">2023-11-29</time></p><p class="title"><a href="/25.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E6%9D%83%E9%87%8D%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%8C%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1%E5%92%8C%E6%A2%AF%E5%BA%A6%E7%88%86%E7%82%B8/">25. 深度学习进阶 - 权重初始化，梯度消失和梯度爆炸</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2023 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
