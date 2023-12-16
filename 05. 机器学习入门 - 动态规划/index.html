@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>05. 机器学习入门 - 动态规划 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="[TOC]  Hi, 你好。我是茶桁。"><meta property="og:type" content="blog"><meta property="og:title" content="05. 机器学习入门 - 动态规划"><meta property="og:url" content="https://hivan.me/05.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%20-%20%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="[TOC]  Hi, 你好。我是茶桁。"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2023-10-02T23:30:00.000Z"><meta property="article:modified_time" content="2023-11-25T04:41:07.354Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/05.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%20-%20%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/"},"headline":"05. 机器学习入门 - 动态规划","image":[],"datePublished":"2023-10-02T23:30:00.000Z","dateModified":"2023-11-25T04:41:07.354Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"[TOC]  Hi, 你好。我是茶桁。"}</script><link rel="canonical" href="https://hivan.me/05.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%20-%20%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2023-10-02T23:30:00.000Z" title="10/3/2023, 7:30:00 AM">2023-10-03</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a><span> / </span><a class="link-muted" href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></span></div></div><h1 class="title is-3 is-size-4-mobile">05. 机器学习入门 - 动态规划</h1><div class="content"><p>[TOC]</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231002232516.png"
+alt="茶桁的 AI 秘籍 05" /></p>
+<p>Hi, 你好。我是茶桁。</p>
+<span id="more"></span>
+<p>咱们之前的课程就给大家讲了什么是人工智能，也说了每个人的定义都不太一样。关于人工智能的不同观点和方法，其实是一个很复杂的领域，我们无法用一个或者两个概念确定什么是人工智能，无法具体化。</p>
+<p>我也是要给大家讲两个重要的概念，要成为一个良好的 AI
+工作者，需要了解两个概念，一个是什么是优化问题，第二个呢就是什么是继续学习。</p>
+<p>这一节开始，我们要开始进入机器学习的入门，这一部分只是机器学习的初级部分，我将其分成了三个部分，分别是：</p>
+<ol type="1">
+<li>如何衡量向量的相似性（metric for tensor)</li>
+<li>k-means 算法进行聚类</li>
+<li>线性回归与梯度下降</li>
+</ol>
+<p>但是整体课程的排程并不是严格按照这三个部分来排的，所以大家能看到，我本篇课程的标题也并不是「如何衡量向量的相似性（metric
+for
+tensor)」。以上三个部分仅仅是我们当前这一部分会讲到的内容，但是也是拆散了放入课程中的。</p>
+<h2 id="从一个案例开始">从一个案例开始</h2>
+<p>那这节课最初，让我们从一个实际案例来引入，开始我们的深度学习初级之旅。</p>
+<p>那要给大家讲的第一个问题，我们叫做 optimization,
+也叫做优化问题。那这里，我们拿一个实际的项目来。</p>
+<p>我们所在的城市，可能很多人会经常看到运钞车。这个运钞车其实也是银行花钱雇的，运钞车其实也不是银行的。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231002232542.jpg" /></p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231002232543.jpg" /></p>
+<p>每次要使用运钞车的时候是需需要花钱，还比较贵。这样就会带来一个结果，专门有人来策划运钞车的运行路径。为什么要策划计划运钞车的运行路径呢？因为如果我们有一台
+ATM 机，ATM 机满了，那么面对的一个问题就是别人存不进去钱了，</p>
+<p>另外很重要一点是，如果一个 ATM
+机满了而且没有把钱取出来，那这个钱就相当于是浪费了。加入一个 ATM
+机能存一百万，那晚拿出来一天、两天，对银行来说损失就比较大。</p>
+<p>还有一种情况就是这个 ATM
+机空了，那客户去取钱的时候也取不到钱，也就起不到 ATM 机的作用。而银行对
+ATM 机所在地的房租也就相当于白费了。</p>
+<p>试想一下，如果同时有两张卡，一张农行卡，一张工行的卡，在农行准备想取钱的时候取不出来，就到工行去取了。而每次农行都取不出来，那之后就用工行用的多了。</p>
+<p>在这样的情况下，一个城市有很多个点，就需要有很多个运钞车。</p>
+<p>比方说在城市中有很多个 ATM 机的站点，现在我们有 k 个运钞车。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231002232544.jpg" /></p>
+<p>我们要策划一条线路，这个线路要使得所有的车，每个车每个点只走一遍，还要回到他出发的地方，而且这
+k 个车运行的时间加起来是最小的。</p>
+<p>那怎么样计划出这样一条路径呢？就这是一个非常典型的优化问题。对于此类的问题其实还有很多很相似的。</p>
+<p>比如对于一家公司而言，手里的钱是有限的。如何把这些金额分配到不同的项目组中；</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231002232545.jpg" /></p>
+<p>另外一个比方就是，对于一个公司来说如何选取合理的仓库的存货点，还有哪些仓库放哪些商品，能够让运输的车辆花的时间最少，能快速的去把这货物运输到不同的地方；这种物流问题是我最喜欢的问题之一。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231002232546.jpg" /></p>
+<p>或者我们制造一部手机，我们能花的钱就这么多，那怎么样能够在我们可以花的这个金额的范围内，如何选取最合理的元器件成本，让我们的手机达到最大的利润；</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231002232547.jpg" /></p>
+<p>有很多约束条件，很多约束我们做决策的东西，总量不能大于多少。比方电的成本，水的成本等等，都要满足一定的关系才可以。这种东西我们就把它叫做约束条件。</p>
+<p>要解决在约束条件下达成目标的这个问题，我们就把它叫做优化问题。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231002232548.jpg" /></p>
+<p>优化问题就是，我们可能会有不少的函数，这些函数去限定了之间的一种关系，也就是函数之间可能会有一些约束条件。比如图中的
+g_i(x)。</p>
+<p>假设我们要造很多仓库，仓库加起来所花费的成本是什么样的，花费的人力是什么样的。</p>
+<p>最后要优化出来一个最小值就是我们的最小花费，或者所需要最少的时间。这种问题其实广泛存在于我们各个地方。</p>
+<p>你点外卖每天在地图上做一个地图的规划，公司里做一笔投资，其实都是使用了类似这样的东西。</p>
+<h2 id="动态规划">动态规划</h2>
+<p>我们要解决优化问题，其实有比较多的方法，今天来介绍最著名的一种，也是可以说是最重要的一种，动态规划的思想。</p>
+<p>动态规划是一个什么样的情况？以这个问题引入一下。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231002232549.jpg" /></p>
+<p>想象一下有这么一个工厂，这个工厂是卖木头的，长度是一米的木头卖一块钱，长度
+2 米的卖 5 块钱。</p>
+<p>那么所以除非拿了一个一米的木头，否则不会有一个人像傻子一样说：把这个两米的木头截成两段。</p>
+<p>图中我们可以看到，3 米的就卖 8 块等等，到后面 10 米的卖 30，11 米的卖
+33。</p>
+<p>那么现在你拿到了一个长度为 8 的一个木头，那你想想这个 8
+米的木头是该直接卖，还是它切分掉去卖。切分掉去卖的话，如果用 1 和
+7，加起来就是 18 块钱， 2 和 6 加起来就 22 块钱了，比 8
+是不是就多了？</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231002232550.jpg" /></p>
+<p>给你任意的一个长度 n，然后我们要得出来这个 n
+到底该怎么切分能够使得价格最大。怎么样能够让卖出去的价格最大。</p>
+<p>思考一下咱们怎么解决这个问题。计算机有一个很很简单的方法，就是计算机有一个非常好的优点就是它可以做穷举。你可以让他去找什么，让他把所有东西全部都运行一遍就可以了。这是计算机的一个好处。</p>
+<p>我们来思考一下咱们怎么样能够解决这个问题呢？</p>
+<p>我们现在输入了一个长度是 n 的一个木头。它可以变成 n 和
+0，就是不切分。可以变成 1 和 n-1, 变成 2 和
+n-2。一直截断到多少呢？可以变成 n-n/2。</p>
+<p>(0,n),(1, n-1),(2, n-2)...(n-n/2, n-n/2)</p>
+<p>在这个情况下，它分成 1 和 n-1, n-1 也面临了类似的问题。n-1
+是你直接返回 n-1 呢，还是变成 (1, n-2)，变成 (2, n-3)。对于
+2，其实也有也会面临这样一个问题，是返回 2 呢，还是 (2-1,
+2-1)。如果我们要遍历的话，遍历的就应该是一个树。把这个树里面所有情况都找一遍，然后返回那个最大值就可以了。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231001204248.png"
+alt="image-20231001204247909" /></p>
+<p>我们可以把所有的情况循环一遍，那我们现在来实现一下，你会发现其实一点也不难。</p>
+<p>让我们来先定义一下所有的价格：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">prices = [<span class="hljs-number">1</span>, <span class="hljs-number">5</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>, <span class="hljs-number">10</span>, <span class="hljs-number">17</span>, <span class="hljs-number">17</span>, <span class="hljs-number">20</span>, <span class="hljs-number">24</span>, <span class="hljs-number">30</span> , <span class="hljs-number">33</span>]<br></code></pre></td></tr></table></figure>
+<p>我们要知道它的每一个商品直接的价钱，就是
+complete，我们来定义一个<code>complete_price</code>,</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">complete_price = &#123; i+<span class="hljs-number">1</span>: p <span class="hljs-keyword">for</span> i, p <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(prices)&#125;<br><span class="hljs-built_in">print</span>(complete_price[<span class="hljs-number">9</span>])<br><br>---<br><span class="hljs-number">24</span><br></code></pre></td></tr></table></figure>
+<p>那如果这个时候是 30，就会出问题。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(complete_price[<span class="hljs-number">30</span>])<br><br>---<br>KeyError: <span class="hljs-number">30</span><br></code></pre></td></tr></table></figure>
+<p>遇到这种问题的时候不要非要去判断这个在不在里边，可以直接用<code>detaultdict</code>,
+它是是一个带有默认值的
+Dictionary，如果这个值不存在的话，给它赋予一个默认值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> collections <span class="hljs-keyword">import</span> defaultdict<br><br>complete_price = defaultdict(<span class="hljs-built_in">int</span>)<br><br><span class="hljs-keyword">for</span> i, p <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(prices): complete_price[i+<span class="hljs-number">1</span>] = p<br><br><span class="hljs-built_in">print</span>(complete_price[<span class="hljs-number">9</span>])<br><span class="hljs-built_in">print</span>(complete_price[<span class="hljs-number">30</span>])<br></code></pre></td></tr></table></figure>
+<p>这个时候如果是 30,
+它就有一个结果了。现在有了这样的一个基础数据，我们假如要写一个
+revenue,revenue 就是营收，输入长度是 n。</p>
+<p>现在做一个很简单的方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">r</span>(<span class="hljs-params">n</span>):<br>    candidates = [complete_price[n]]<br></code></pre></td></tr></table></figure>
+<p>candidates 等于价钱完全不切割是多少钱。然后我们写一个 for 循环：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, n):<br>    <span class="hljs-keyword">pass</span><br></code></pre></td></tr></table></figure>
+<p>接下来我们做个拆分，拆分左边就等于 i, right 就等于 n-i:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">left = i<br>right = n-i<br></code></pre></td></tr></table></figure>
+<p>这个时候整体的价格就等于<code>complete_price[left]</code>,
+再加完整的右边，<code>complete_price[right]</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">total_r = complete_price[left] + complete_price[right]<br></code></pre></td></tr></table></figure>
+<p>这里其实是有问题的，如果我们在这里假设 n 现在是 100, 假设运行到 i 是
+50, 那么<code>complete_price[50]</code> 其实是一个没有值的，值是 0。</p>
+<p>就是数据里没有 50
+的长度的价格，所以这个左边和右边其实是需要变成一个递归问题。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">total_r = r(left) + r(right)<br>candidates.append(total_r)<br></code></pre></td></tr></table></figure>
+<p>现在写法写的稍微巧妙一些，这个就是我们刚才所说的遍历一遍，把所有的情况给拿出来，找到最大的返回出来。目前为止这个方法完整的代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">r</span>(<span class="hljs-params">n</span>):<br>    candidates = [complete_price[n]]<br><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, n):<br>        left = i<br>        right = n-i<br><br>        total_r = r(left) + r(right)<br>        candidates.append(total_r)<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">max</span>(candidates)<br><br></code></pre></td></tr></table></figure>
+<p>这个时候我们来调用一下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(r(<span class="hljs-number">8</span>))<br><br>---<br><span class="hljs-number">22</span><br></code></pre></td></tr></table></figure>
+<p>这个 22 是怎么来的呢？我们来看一下上面这段代码，首先 8 进方法之后，第
+2 行告诉我们 8
+完全不切割的话是多少，并赋值给<code>candidates</code>。</p>
+<p>紧接着把它变成了 1 和 7，2 和 6，3 和 5，4 和 4 这样的问题。</p>
+<p>假如到 6 的时候，又会去求一下这个 6。右边是要变成 6，那么 6
+最大应该是多少。</p>
+<p>这个代码其实可以写成更加 Python
+化的方式，我先写一遍上面的，是希望能让大家知道这个代码是怎么来的，现在让我们来用
+Python 的方式来解决：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 优化为 Python 向</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">r</span>(<span class="hljs-params">n</span>):<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">max</span>([complete_price[n]] + [r(i) + r(n-i) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, n)])<br><br><span class="hljs-built_in">print</span>(r(<span class="hljs-number">8</span>))<br><br>---<br><span class="hljs-number">22</span><br></code></pre></td></tr></table></figure>
+<p>也就是，以上方法里定义的内容，完全可以压缩成一句话解决。你们可以仔细的研究一下这两段的相同点和差别。</p>
+<p>现在的问题就是我们缺了一个记录他中间分割步骤的内容，这个也简单，我们稍微改变一下代码，将
+return 改为赋值，然后给他加一个分割方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">candidates = [(complete_price[n], (n, <span class="hljs-number">0</span>))] + [(r(i) + r(n-i), (i, n-i)) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, n)]<br></code></pre></td></tr></table></figure>
+<p>其中我们添加了 (n, 0), 还有 (i,n-i)。</p>
+<p>然后我们还要给他加上最优值：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">optimal_price, split = <span class="hljs-built_in">max</span>(candidates)<br></code></pre></td></tr></table></figure>
+<p>如果这其中你要是看不出逻辑过程，那你需要一些更多的练习。好好的再去回去看看我之前写的
+AI 秘籍中的 Python 基础教程篇。</p>
+<p>对于熟练的 Python
+的工程师来说，应该熟悉这种方式才对。第一次咱们实现的方法，其实是 C 和
+Java 的一种方法。如果是 Python 的话，你需要熟悉
+Python，直接会写成这个样子。</p>
+<p>我们定义了一个<code>candidates</code>,
+后面将风格方式定义进去并赋值给它。</p>
+<p>然后我们使用<code>optimal_price</code>来接收它的最优价格。</p>
+<p>接着，我们添加一个<code>solution</code>变量，<code>solution</code>是
+n 的时候就找到了它的分割过程。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 在方法外定义一个 solution</span><br>solution = &#123;&#125;<br><br><span class="hljs-comment"># 在方法内赋值 solution[n]</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">r</span>(<span class="hljs-params">n</span>):<br>    ...<br>    solution[n]  = split<br></code></pre></td></tr></table></figure>
+<p>最后，我们还是将最优价格给返回出去。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">return</span> optimal_price<br></code></pre></td></tr></table></figure>
+<p>来看一下<code>solution[8]</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(solution[<span class="hljs-number">8</span>])<br><br>---<br>(<span class="hljs-number">6</span>, <span class="hljs-number">2</span>)<br></code></pre></td></tr></table></figure>
+<p>我们如果在这里 debug 一下这个 solution，运行完之后 solution
+如下：</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231002232551.jpg" /></p>
+<p>是 8 的情况下变成 6 和 2，现在就要看一下 6 的时候怎么切分？6
+的时候变成 6 和 0。</p>
+<p>好，现在我们来看一个更复杂的问题，我们将它变成 33, 33
+你会发现他运行的时间很久。刚刚我们运行 8，或者我们重新运行 9
+的时候，速度都还可以，很快就能得到结果。但是运行 33
+的时候就会非常的缓慢。知道这是为什么吗？</p>
+<p>在这段代码中，现在有一个 n，n 接下来会拆分成了 n-1
+个问题，其实是要进行 n-1 个循环。那每个 n-1
+的循环里面又有两个调用了这个运算。所以在整个计算的次数的复杂性，对于一个
+n 来说，它整个的运行时间应该是：2 * (n-1) * 2 * (n-2) * ... = 2^n *
+n!，就等于 2 的 n 次方再乘上 n 的阶乘。</p>
+<p>这样的话，结果就是它的运行时间会非常非常的久。那我们就需要对代码进行优化了。</p>
+<p>如果现在仔细分析一下的话，会发现之所以运行的慢，问题在于很多重复的值其实被重复运算了。同样是
+n-3 这个事，不仅在 n-1
+向下分支中会计算一次，在其他的分支也会再计算很多次。有很多的值是被重复运算了。</p>
+<p>为了解决重复运算的问题，我们可以做一个非常简单的方法。既然很多计算是重复的，那我定义一个变量去记录这些曾经计算过的，再遇到的时候就不要去计算不就完了：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python">cache = &#123;&#125;<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">r</span>(<span class="hljs-params">n</span>):<br>    <span class="hljs-keyword">if</span> n <span class="hljs-keyword">in</span> cache: <span class="hljs-keyword">return</span> cache[n]<br>    ...<br>    cache[n]  = optimal_price<br><br>    <span class="hljs-keyword">return</span> optimal_price<br><br><span class="hljs-built_in">print</span>(r(<span class="hljs-number">33</span>))<br><br>---<br><span class="hljs-number">99</span><br></code></pre></td></tr></table></figure>
+<p>如果 n 在 cache 里面，直接<code>return cache[n]</code>,
+如果它不在里边的话就往下继续运行，每次求完解的之后，我们让<code>cache[n]</code>等于<code>optimal_price</code>。这样就简单多了。</p>
+<p>我们最后求了一下 33，瞬间就得到了 99 的答案。</p>
+<p>这个 cache
+其实是很简单的一个东西，但是它其实是很重要的一种思想。在一九二几年、三几年的时候，当时有一个数学家叫
+Richard Bellman。Bellman
+发现在整个数学计算中有相当的一类问题，都牵扯到了一个相似的问题：<code>over-lapping sub-problem</code>，就是子问题的重复。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231002232552.jpg" /></p>
+<p>Bellman
+就提出来了一种方法，他就说我们解决这种问题其实有一个很简单的方法，用一张表格，不断地记录不断地查表，就是不断地写表查表。</p>
+<p>就把值和结果都一一对应的写入表中，我们发现问题的时候，在这个表里面重新查一遍，看一下有没有这个值，存不存在。</p>
+<p>当时 Bellman 把这种方法叫做
+Dynamic，不断地、持续地、变化的、动态的。programming
+在我们现在意思是编程，在一九二几、一九三几年的时候，是指把东西写到表格里以及从表格里面拿出来。</p>
+<p>那为什么后来演化成编程的意思，因为早些时候，冯诺伊曼当年制作的那个机器写的是纸带，就是给你一个一个的纸带，这个纸带每一行会打八个洞，就是当时冯诺伊曼最早的计算机。这
+8
+个洞里边有一些是透光的，有一些是不透光的，其实就是一条一条计算机命令。</p>
+<p>这其实也是一个写表读表的过程，后来 programming 就有了编程的意思。但是
+Bellman 当年提出来的这个意思，Dandep programming
+就是不断地写表和查表。它针对的是所有一切有这个<code>over-lapping sub-problem</code>的问题，都可以用这种简单的方法，可以大幅度的减少计算性。</p>
+<p>在很多地方学动态规划的时候，很多书上教动态规划的时候往往是直接给一个解法。不知道您有没有看过那些算法的书，在动态规划里往往会有一个表，这个表格很重要。</p>
+<p>如果不用动态规划的话，这个问题也是能解决的。世界上几乎所有的这种优化问题不用动态规划都是可以解决的。但是理论上是要给你一个运算能力无限强，存储空间无限大的计算设备。</p>
+<p>显然不太可能，所以我们就需要这样写到一个表格里边，记一个记录表格。这个就是我们动态规划的核心思想。</p>
+<p>关于「动态规划的详解」之后有机会我去专门写个算法的相关课程，在这里就把动态规划的核心思想给大家介绍了。</p>
+<p>我们现在来继续看代码，刚才我们算了一下 33 这个值，得到了
+99。但现在我们知道了能卖多少钱，但是我们还不知道到底怎么个拆分法。</p>
+<p>要拆分的话我们就要把这个<code>solution</code>给它 parse
+一下，再继续定义一个方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">parse_solution</span>(<span class="hljs-params">n, cut_solution</span>):<br>    left, right = cut_solution[n]<br><br>    <span class="hljs-keyword">if</span> left == <span class="hljs-number">0</span> <span class="hljs-keyword">or</span> right == <span class="hljs-number">0</span>: <span class="hljs-keyword">return</span> [left+right, ]<br><br>    <span class="hljs-keyword">else</span>:<br>        <span class="hljs-keyword">return</span> parse_solution(left, cut_solution) + parse_solution(right, cut_solution)<br><br><span class="hljs-built_in">print</span>(r(<span class="hljs-number">18</span>))<br><span class="hljs-built_in">print</span>(parse_solution(<span class="hljs-number">18</span>, solution))<br><br>---<br><span class="hljs-number">52</span><br>[<span class="hljs-number">10</span>, <span class="hljs-number">6</span>, <span class="hljs-number">2</span>]<br></code></pre></td></tr></table></figure>
+<p>我们看一下 left 和 right，将分割分别传进来，那如果 left 和 right 是 0
+的话，比如 10，写成 (10, 0)，其实意思就是 10 就不用切分了，直接返回 left
+和 right 就可以了。</p>
+<p>那如果说它里边不是 0，假如说是 37，切分 17 和 20，我们就要知道 17
+该怎么分，20 该怎么分。所以就返回：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">return</span> parse_solution(left, cut_solution) + parse_solution(right, cut_solution)<br></code></pre></td></tr></table></figure>
+<p>最后我们看到了 18 的切分结果，就被切分成[10, 6, 2]。</p>
+<p>具体的切割过程也可以获得。</p>
+<p>在 Python
+里边呢这个是一个非常非常经典的动态规划问题。经过一个比较简单的方法，把重复问题给解决了。</p>
+<p>再跟大家普及一个知识，在 Python
+里面有一个好处就是它把很多常见的功能其实都已经想到，做了切分了。</p>
+<p>比方说 Python 自带的库里面就有一个 functools,
+它有一个<code>lru_cache</code>，就是 least recent used,
+最近最少使用。</p>
+<p>我们如果在直接写一个 cache，它会存在一个问题。当 n 特别大的时候，那么
+cache 的 size 也会变得特别的大。这个时候我们就需要一种机制，来让 cache
+保留最需要保留的东西，保留那些最重要的东西，不要把所有的信息全部弄进去。</p>
+<p>这个<code>lru_cache</code>帮我们实现了这个功能，它会把最近最少使用过的这些值删去，cache
+的这个 size 会保持在一个比较固定的范围内。</p>
+<p>这个函数是一个装饰器，小伙伴们是否还记得我在 Python
+课程中介绍过装饰器以及其使用？</p>
+<p>我们来使用一下这个装饰器：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">@lru_cache(<span class="hljs-params">maxsize=<span class="hljs-number">2</span>**<span class="hljs-number">10</span></span>)</span><br></code></pre></td></tr></table></figure>
+<p>这里定义了一下 maxsize 等于 2 的 10 次方，就是最多可以存 2 的 10
+次方个值。</p>
+<p>那这里和我们方法里的这一段内容其实是一摸一样：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">if</span> n <span class="hljs-keyword">in</span> cache: <span class="hljs-keyword">return</span> cache[n]<br>...<br>cache[n] = optimal_price<br></code></pre></td></tr></table></figure>
+<p>当我们调用这个函数的时候，如果函数的参数曾经被计算过，那么就直接返回这个值。如果没有被计算过，就计算一遍，再把这个值写下来。</p>
+<p>那我们使用了这个装饰器之后，我们对 cache
+的使用的这两句代码就可以删掉了。</p>
+<p><code>lru_cache</code>的作用都懂了吧？以后遇到一个程序很慢的时候，就可以用它来做优化。</p>
+<p>那其实今天这节课程把这个函数看懂，几乎所有的动态规划的问题的主体思路就都懂了。因为所有的动态规划的问题都包含了以下几个问题：</p>
+<ol type="1">
+<li>识别子问题 sub-problems dividing</li>
+<li>识别子问题中的重叠特点 over-lapping sub-problem</li>
+<li>存储子问题的答案 cache sub-solutions</li>
+<li>合并问题答案 combine solutions</li>
+<li>解析答案 parse solutions</li>
+</ol>
+<p>这是所有的动态规划的特点，当你发现一个问题可以被分解成子问题，而且子问题有重复的时候，就可以用这种方法去优化它。</p>
+<p>以后大家面试，大概率会遇到这种问题。只要按照这个方法来思考的话问题基本上就不大了。</p>
+<p>但是动态规划其实也是有一个极限，曾经有一段时间人们以为动态规划可以解决很多问题，几乎可以解决所有常见的问题。但是后来人们发现，当限制条件特别多，或者问题已经复杂到非常难的去识别此问题了。可能它是包含了子问题的关系，但是因为这个问题太复杂了，所以我们没办法去把它分割出来，我们没有办法去识别它。</p>
+<p>动态规划是一种思维方法，一种思维类型。比方计算机里面的图论问题，并不是只能把它变成图论问题，不用图论完全可以解决，但是不太好弄。</p>
+<p>所以，动态规划其实也有它的局限性，人们为了解决更多问题就提出了更多的方法，其中一种方法就叫做机器学习。</p>
+<p>好，我们下节课，就好好的来讲讲机器学习。本节课的最后，我将之前咱们写的那段代码完整版贴在这里：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> collections <span class="hljs-keyword">import</span> defaultdict<br><span class="hljs-keyword">from</span> functools <span class="hljs-keyword">import</span> lru_cache<br><br>prices = [<span class="hljs-number">1</span>, <span class="hljs-number">5</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>, <span class="hljs-number">10</span>, <span class="hljs-number">17</span>, <span class="hljs-number">17</span>, <span class="hljs-number">20</span>, <span class="hljs-number">24</span>, <span class="hljs-number">30</span> , <span class="hljs-number">33</span>]<br>complete_price = defaultdict(<span class="hljs-built_in">int</span>)<br><br><span class="hljs-keyword">for</span> i, p <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(prices): complete_price[i+<span class="hljs-number">1</span>] = p<br><br>solution = &#123;&#125;<br>cache = &#123;&#125;<br><br><span class="hljs-meta">@lru_cache(<span class="hljs-params">maxsize=<span class="hljs-number">2</span>**<span class="hljs-number">10</span></span>)</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">r</span>(<span class="hljs-params">n</span>):<br><br>    candidates = [(complete_price[n], (n, <span class="hljs-number">0</span>))] + [(r(i) + r(n-i), (i, n-i)) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, n)]<br>    optimal_price, split = <span class="hljs-built_in">max</span>(candidates)<br><br>    solution[n] = split<br>    <span class="hljs-keyword">return</span> optimal_price<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">parse_solution</span>(<span class="hljs-params">n, cut_solution</span>):<br>    left, right = cut_solution[n]<br><br>    <span class="hljs-keyword">if</span> left == <span class="hljs-number">0</span> <span class="hljs-keyword">or</span> right == <span class="hljs-number">0</span>: <span class="hljs-keyword">return</span> [left+right, ]<br><br>    <span class="hljs-keyword">else</span>:<br>        <span class="hljs-keyword">return</span> parse_solution(left, cut_solution) + parse_solution(right, cut_solution)<br><br><span class="hljs-built_in">print</span>(r(<span class="hljs-number">18</span>))<br><span class="hljs-built_in">print</span>(parse_solution(<span class="hljs-number">18</span>, solution))<br></code></pre></td></tr></table></figure>
+<hr />
+<p>关注「坍缩的奇点」，第一时间获取更多免费 AI 教程。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/扫码_搜索联合传播样式-白色版.png"
+alt="坍缩的奇点" /></p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>05. 机器学习入门 - 动态规划</p><p><a href="https://hivan.me/05. 机器学习入门 - 动态规划/">https://hivan.me/05. 机器学习入门 - 动态规划/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2023-10-03</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2023-11-25</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" href="/null" target="_blank" rel="noopener" data-type="afdian"><span class="icon is-small"><i class="fas fa-charging-station"></i></span><span>爱发电</span></a><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="/null" target="_blank" rel="noopener" data-type="buymeacoffee"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>送我杯咖啡</span></a><a class="button donate" href="/null" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="paypal" onclick="document.getElementById(&#039;paypal-donate-form&#039;).submit()"><span class="icon is-small"><i class="fab fa-paypal"></i></span><span>Paypal</span></a><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" rel="noopener" id="paypal-donate-form"><input type="hidden" name="cmd" value="_donations"><input type="hidden" name="business" value="doo@hivan.me"><input type="hidden" name="currency_code" value="USD"></form><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/06.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A82%20-%20%E7%90%86%E8%A7%A3%E7%89%B9%E5%BE%81%E5%92%8C%E5%90%91%E9%87%8F/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">06. 机器学习入门 2 - 理解特征和向量</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/04.%20%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%A0%B8%E5%BF%83%E5%9F%BA%E7%A1%80%20-%20%E5%AF%BC%E8%AE%BA3/"><span class="level-item">04. 人工智能核心基础 - 导论（3）</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/05.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%20-%20%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/';
+            this.page.identifier = '05. 机器学习入门 - 动态规划/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">200</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">5</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">22</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI秘籍</span></span><span class="level-end"><span class="level-item tag">58</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">27</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">29</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-12T23:30:00.000Z">2023-12-13</time></p><p class="title"><a href="/29.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E5%8D%B7%E7%A7%AF%E7%9A%84%E5%8E%9F%E7%90%86/">29. 深度学习进阶 - 卷积的原理</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-09T23:30:00.000Z">2023-12-10</time></p><p class="title"><a href="/28.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20LSTM/">28. 深度学习进阶 - LSTM</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-05T23:30:00.000Z">2023-12-06</time></p><p class="title"><a href="/27.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E4%B8%BA%E4%BB%80%E4%B9%88RNN/">27. 深度学习进阶 - 为什么RNN</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-01T23:30:00.000Z">2023-12-02</time></p><p class="title"><a href="/26.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/">26. 深度学习进阶 - 深度学习的优化方法</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-11-28T23:30:00.000Z">2023-11-29</time></p><p class="title"><a href="/25.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E6%9D%83%E9%87%8D%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%8C%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1%E5%92%8C%E6%A2%AF%E5%BA%A6%E7%88%86%E7%82%B8/">25. 深度学习进阶 - 权重初始化，梯度消失和梯度爆炸</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2023 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>人工神经网络 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="神经元、如何构建网络、高级神经网络 人工神经网络是人工智能（AI）中重要而有趣的一部分。"><meta property="og:type" content="blog"><meta property="og:title" content="人工神经网络"><meta property="og:url" content="https://hivan.me/Artificial-Neural-Network/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="神经元、如何构建网络、高级神经网络 人工神经网络是人工智能（AI）中重要而有趣的一部分。"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230727113127.jpeg?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230727113152.jpeg?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230727113215.jpeg?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230727113344.jpeg?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230727113429.jpeg?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230727113525.jpeg?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230727114528.jpeg?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230727114550.jpeg?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230727114613.jpeg?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230727114708.jpeg?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230727114735.jpeg?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230727114821.jpeg?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230727114834.jpeg?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230727114843.jpeg?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230727114910.jpeg?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230727114943.jpeg?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230727115027.jpeg?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230727115124.jpeg?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230727115157.jpeg?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230727115234.jpeg?imgNote"><meta property="article:published_time" content="2023-07-27T03:30:11.000Z"><meta property="article:modified_time" content="2023-07-27T04:01:44.217Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="article:tag" content="Neural Network"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://qiniu.hivan.me/picGo/20230727113127.jpeg?imgNote"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/Artificial-Neural-Network/"},"headline":"人工神经网络","image":[],"datePublished":"2023-07-27T03:30:11.000Z","dateModified":"2023-07-27T04:01:44.217Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"神经元、如何构建网络、高级神经网络 人工神经网络是人工智能（AI）中重要而有趣的一部分。"}</script><link rel="canonical" href="https://hivan.me/Artificial-Neural-Network/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2023-07-27T03:30:11.000Z" title="7/27/2023, 11:30:11 AM">2023-07-27</time>发表</span></div></div><h1 class="title is-3 is-size-4-mobile">人工神经网络</h1><div class="content"><p>神经元、如何构建网络、高级神经网络</p>
+<p>人工神经网络是人工智能（AI）中重要而有趣的一部分。</p>
+<span id="more"></span>
+<h2 id="什么是神经网络">什么是神经网络？</h2>
+<p>神经网络是对大脑神经过程的复制。</p>
+<ul>
+<li>它是在计算机上构建的大脑模拟。</li>
+</ul>
+<p><img src="https://qiniu.hivan.me/picGo/20230727113127.jpeg?imgNote"
+alt="神经网络结构" /></p>
+<p>神经网络，无论是生物的还是人工的，都由大量的简单单元和神经元组成，它们相互接收和传输信号。</p>
+<p>它由细胞体和连接神经元的导线组成。</p>
+<p><img src="https://qiniu.hivan.me/picGo/20230727113152.jpeg?imgNote"
+alt="神经结构" /></p>
+<p>用生物学语言来说 ：</p>
+<ul>
+<li>为神经元提供输入的电线称为树突。</li>
+<li>在某些情况下，神经元会向另一个神经元发送信号，这些向外发送信号的导线被称为轴突。</li>
+<li>轴突可能与一个或多个树突相连，这种交叉点称为突触。</li>
+</ul>
+<p><img src="https://qiniu.hivan.me/picGo/20230727113215.jpeg?imgNote"
+alt="生物神经网络结构" /></p>
+<p>这个过程会随着我们的成长而不断调整，这种 "调整
+"被称为记忆或学习。</p>
+<h2 id="什么是深度学习">什么是深度学习？</h2>
+<p>深度学习是一种机器学习技术，由相互连接的多层简单处理单元组成。</p>
+<p>它的灵感来源于大脑处理视觉信息的方式。</p>
+<h2 id="为什么要开发人工神经网络">为什么要开发人工神经网络？</h2>
+<p>开发人工神经网络（ANN）的原因之一是为了帮助神经科学（研究大脑和神经系统）。</p>
+<ul>
+<li>人们相信，通过绘制人脑图谱，我们可以了解意识和智力背后的秘密。</li>
+<li>我们已经能够识别异常功能，并帮助大脑避免异常功能。</li>
+<li>例如--解决老年痴呆症、因受伤造成的损伤和发育障碍。</li>
+</ul>
+<p>开发人工神经网络（ANN）的另一个原因是为了建立更好的人工智能和机器学习技术。</p>
+<ul>
+<li>因为，大脑是一个极其复杂的信息处理系统。</li>
+</ul>
+<h2 id="人工神经网络的特点">人工神经网络的特点 ：</h2>
+<ul>
+<li><p>ANN
+由许多神经元组成，可以同时处理信息。这意味着，我们可以同时处理大量数据，从而提高了效率。</p></li>
+<li><p>神经元可以同时存储（就像内存一样）和处理信息，因此从存储器中检索数据不会有任何延迟，因而速度很快。</p>
+<p><img src="https://qiniu.hivan.me/picGo/20230727113344.jpeg?imgNote"
+alt="神经元 -&gt; 简单处理单元，也可以存储" /></p></li>
+</ul>
+<p>是的，ANN 可以快速处理信息，但很难应用于
+"传统计算机"（单机处理），因为它一次只能完成一项任务。这就是 GPU
+的用武之地。</p>
+<h2 id="听说过-gpu-吗">听说过 GPU 吗？</h2>
+<p>GPU 是图形处理单元（Graphical Processing
+Unit）的缩写，它可以进行并行处理，而不是像传统计算机那样进行单一处理。因此，神经网络可以快速完成工作或处理信息。</p>
+<h2 id="构建神经网络">构建神经网络 ：</h2>
+<p>权重在神经网络中扮演着重要角色，它通过控制每个输入，让网络从这些数据中学习，从而做出准确的预测。</p>
+<h2 id="但是什么是权重">但是，什么是权重？</h2>
+<p>权重就像可调节的旋钮，决定着每个输入对最终输出的影响程度。</p>
+<p>例如，为了找到适当的平衡（数据），我们要给输入值加上适当的权重。</p>
+<p><img src="https://qiniu.hivan.me/picGo/20230727113429.jpeg?imgNote"
+alt="img" /></p>
+<p>因此，通过将每个输入值（神经元）与权重相乘并相加，我们就能实现
+"线性组合"。</p>
+<h2 id="线性组合公式">线性组合公式 ：</h2>
+<p>考虑到我们有 4 个输入，因此我们也需要 4
+个权重来平衡它，而且还会有一个额外的固定值，称为截距（偏差）。</p>
+<ul>
+<li>截距值是一个偏置值，用作基准值，这样即使输入值为零，网络也能做出预测。</li>
+</ul>
+<p>计算公式：</p>
+<p>线性组合 = [截距 + Weight 1 × Input 1 + Weight 2 × Input 2 + Weight 3
+× Input 3 + Weight 4 × Input 4］</p>
+<p><img src="https://qiniu.hivan.me/picGo/20230727113525.jpeg?imgNote"
+alt="线性组合" /></p>
+<p><strong>问：请考虑以下表达式</strong></p>
+<p>10.0 + 5.4 × 8 + (-10.2) × 5 + (-0.1) × 22 + 101.4 × (-5) + 0.0 × 2 +
+12.0 × (-3) = -543.0</p>
+<p><strong>(i) 表达式中的截距（偏差）项是什么？</strong></p>
+<p>"10.0 "是截距（偏差）数，因为它没有乘以任何变量。</p>
+<p><strong>(ii) 这里的输入是什么？</strong></p>
+<p>"8,5,22,-5,2,-3 "是输入值，因为它是乘法中的第二个数字。</p>
+<p>实现线性组合后，再将其传递给 "激活函数"。</p>
+<h2 id="激活功能">激活功能：</h2>
+<p>激活函数就像一个开关，它决定信号是否应该通过，使神经网络能够有效地学习和解决不同的问题。</p>
+<ul>
+<li>为图像识别、自然语言处理等进行预测。</li>
+</ul>
+<p><img
+src="https://miro.medium.com/v2/resize:fit:700/1*VENgyOk30RPJ_BsN2tl84Q.jpeg"
+alt="将线性组合应用于激活函数" /></p>
+<h2 id="激活函数示例">激活函数示例 ：</h2>
+<p>激活函数的一些示例如下</p>
+<ul>
+<li>识别函数：什么也不做，只输出线性组合（与线性回归相同，不提供任何新信息，因此很少使用）</li>
+</ul>
+<p><img src="https://qiniu.hivan.me/picGo/20230727114528.jpeg?imgNote"
+alt="确定功能" /></p>
+<ul>
+<li>步进功能：如果线性组合值大于 0，则通过信号，否则什么也不做</li>
+</ul>
+<p><img src="https://qiniu.hivan.me/picGo/20230727114550.jpeg?imgNote"
+alt="步进功能" /></p>
+<ul>
+<li>Sigmoid 函数：阶跃函数的 "软 "版本</li>
+</ul>
+<p><img src="https://qiniu.hivan.me/picGo/20230727114613.jpeg?imgNote"
+alt="Sigmoid 函数" /></p>
+<p>通过线性组合激活函数实现的神经元输出用于预测或决策。</p>
+<h2
+id="感知器--人工神经网络ann之母">"感知器--人工神经网络（ANN）之母"：</h2>
+<p>Perceptron 是一种使用阶跃激活函数的简单神经元模型。</p>
+<ul>
+<li>它被用作二元分类任务中的简单分类器。</li>
+<li>由于它是第一个正式的神经网络模型，因此被称为 "ANN 之母"。</li>
+</ul>
+<h2
+id="现在让我们回到神经网络的构建上来">"现在，让我们回到神经网络的构建上来。</h2>
+<p>网络架构由层级组成，例如 ：</p>
+<ul>
+<li>输入层：由作为输入数据的神经元组成。例如，用于图像识别的图像像素值。</li>
+<li>隐藏层：接收输入层的输出，并将自己的输出传递给下一层。</li>
+<li>输出层：产生网络的最终结果。例如，用于人脸识别的人的概率值。</li>
+</ul>
+<p><img src="https://qiniu.hivan.me/picGo/20230727114708.jpeg?imgNote"
+alt="网络架构" /></p>
+<p>为了在这些层中进行线性组合，我们应该能够找到合适的权重。</p>
+<h2 id="反向传播---找到合适的权重">反向传播 - 找到合适的权重 ：</h2>
+<p><img src="https://qiniu.hivan.me/picGo/20230727114735.jpeg?imgNote"
+alt="反向传播" /></p>
+<ul>
+<li>在过去（20 世纪 80
+年代之前），人们曾使用过感知器算法，但寻找权重需要花费大量时间。</li>
+<li>因此，人们引入了反向传播算法。它通过层层递进和递退来确定合适的权重，从而做出准确的预测。</li>
+</ul>
+<p>现在，让我们举个例子，来识别图像。</p>
+<h2
+id="建立分类器对图像显示的是-x-还是-o-进行分类">建立分类器，对图像显示的是
+"X "还是 "O "进行分类</h2>
+<p><img src="https://qiniu.hivan.me/picGo/20230727114821.jpeg?imgNote"
+alt="X &amp; O 图像" /></p>
+<p>这里是一个 5 × 5 的网格，因此每幅图像由 25 个像素组成。阴影像素为
+1，其他空白像素为 0。</p>
+<p><img src="https://qiniu.hivan.me/picGo/20230727114834.jpeg?imgNote"
+alt="X" /></p>
+<p><img src="https://qiniu.hivan.me/picGo/20230727114843.jpeg?imgNote"
+alt="O" /></p>
+<p>现在，我们应该应用权重，其中在中心位置，权重假设为-1，而在近中心像素位置，权重假设为
+1：</p>
+<p><img src="https://qiniu.hivan.me/picGo/20230727114910.jpeg?imgNote"
+alt="权重" /></p>
+<p>因此，在这里，如果线性组合为负数，即激活度为零，则为
+"X"；如果为正数，则为 "O"。</p>
+<p><strong>对第一幅图像进行线性组合 ：</strong></p>
+<p><img src="https://qiniu.hivan.me/picGo/20230727114943.jpeg?imgNote"
+alt="负线性组合/零激活" /></p>
+<p><strong>(忽略 0 值权重，得到） -&gt; 1 × -1 = -1</strong></p>
+<p>因此，我们得到 "X”</p>
+<p><strong>对第二幅图像进行线性组合：</strong></p>
+<p><img src="https://qiniu.hivan.me/picGo/20230727115027.jpeg?imgNote"
+alt="正线性组合/正激活" /></p>
+<p><strong>(忽略 0 值权重，我们得到） -&gt; 1 × 1 + 1 × 1 + 1 × 1 + 1 ×
+1 = 4</strong> 因此我们得到 "O"</p>
+<p>到目前为止，我们已经了解了 -&gt;
+多层网络（超过一层的神经网络）、非线性函数（阶跃激活函数和 Sigmoid
+激活函数）、学习规则（如反向传播）。</p>
+<p>让我们进入高级神经网络。</p>
+<h2 id="卷积神经网络">卷积神经网络 ：</h2>
+<p>使用感知器或线性回归可以进行图像处理，但由于需要大量权值，而且无法有效检测图像特征，因此效果和效率都不高。</p>
+<p>因此，为了解决这些局限性，人们引入了卷积神经网络。</p>
+<ul>
+<li>CNN
+或卷积神经网络由卷积层组成，可以自动学习和提取图像特征，如颜色、图案、边缘等。</li>
+<li>例如，CNN 可用于动物检测、标志检测等。</li>
+</ul>
+<p>如果我们想使用传统方法检测图像或识别图像，它将使用图像中的像素位置来检测物体。因此，我们必须有一张相似的图像才能做到这一点，但对于卷积神经网络来说，这并非必要。</p>
+<p>例如，我们有一张位于图像中心的停车标志的训练图像，然后我们会得到一张测试图像，该图像的右上角有一个停车标志。由于训练图像和测试图像的像素值和位置不同，因此无法使用感知器进行检测。不过，通过使用卷积神经网络，它可以成功检测出图像中任何位置的停车标志。</p>
+<p><img src="https://qiniu.hivan.me/picGo/20230727115124.jpeg?imgNote"
+alt="停车标志" /></p>
+<h2 id="生成式人工智能generative-ai">生成式人工智能（Generative
+AI）：</h2>
+<p>生成式人工智能是人工智能的一种，可以生成文本、图像、音频和合成数据等各种类型的内容。</p>
+<p>它可以是.....：</p>
+<ul>
+<li>监督学习法</li>
+<li>无监督学习法</li>
+<li>半监督学习法</li>
+</ul>
+<p><strong>判别模型用于通过标注数据的训练进行分类或预测。</strong></p>
+<p><strong>生成模型用于生成新数据，如预测序列中的下一个单词。</strong></p>
+<p><img src="https://qiniu.hivan.me/picGo/20230727115157.jpeg?imgNote"
+alt="DM（直接法）和 GM（生成法）" /></p>
+<h2 id="生成对抗网络gan">生成对抗网络（GAN）：</h2>
+<p>其原理是让两个神经网络相互竞争。</p>
+<ul>
+<li>一个网络将生成与训练数据类似的图像。</li>
+<li>另一个网络将对生成的图像和训练图像进行分类。</li>
+</ul>
+<p>这样做是为了生成逼真的图像。</p>
+<p><img src="https://qiniu.hivan.me/picGo/20230727115234.jpeg?imgNote"
+alt="伪造名人图像" /></p>
+<p><strong>上述图像由英伟达公司开发的 GAN 生成。</strong></p>
+<p>将人工智能应用于现实问题比解决谜题和游戏更具挑战性。在现实世界的场景中，可能出现的状态数量之多令人目不暇接，使得穷举式搜索或巧妙的启发式方法无法奏效。此外，由于我们无法控制的因素，行动的结果并不总是可以预测的，这就引入了随机性。为了解决这些复杂问题，我们需要将不确定性和概率的概念纳入算法，同时利用先进的神经网络，使我们能够有效地解决现实世界中的人工智能问题。</p>
+<p>康康康康恐龙康。最后，你已经掌握了基本的神经网络和高级神经网络的基本知识。</p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>人工神经网络</p><p><a href="https://hivan.me/Artificial-Neural-Network/">https://hivan.me/Artificial-Neural-Network/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2023-07-27</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2023-07-27</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a><a class="link-muted mr-2" rel="tag" href="/tags/Neural-Network/">Neural Network</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" href="/null" target="_blank" rel="noopener" data-type="afdian"><span class="icon is-small"><i class="fas fa-charging-station"></i></span><span>爱发电</span></a><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="/null" target="_blank" rel="noopener" data-type="buymeacoffee"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>送我杯咖啡</span></a><a class="button donate" href="/null" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="paypal" onclick="document.getElementById(&#039;paypal-donate-form&#039;).submit()"><span class="icon is-small"><i class="fab fa-paypal"></i></span><span>Paypal</span></a><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" rel="noopener" id="paypal-donate-form"><input type="hidden" name="cmd" value="_donations"><input type="hidden" name="business" value="doo@hivan.me"><input type="hidden" name="currency_code" value="USD"></form><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/AI%20Cheats%20Trailer/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">《AI秘籍》预告</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/%E5%B0%9D%E8%AF%95%E8%AE%A9%E6%9C%BA%E5%99%A8%E6%8B%A5%E6%9C%89%E5%A3%B0%E9%9F%B3/"><span class="level-item">20. 尝试让机器拥有声音</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/Artificial-Neural-Network/';
+            this.page.identifier = 'Artificial-Neural-Network/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">200</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">5</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">22</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI秘籍</span></span><span class="level-end"><span class="level-item tag">58</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">27</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">29</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-12T23:30:00.000Z">2023-12-13</time></p><p class="title"><a href="/29.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E5%8D%B7%E7%A7%AF%E7%9A%84%E5%8E%9F%E7%90%86/">29. 深度学习进阶 - 卷积的原理</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-09T23:30:00.000Z">2023-12-10</time></p><p class="title"><a href="/28.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20LSTM/">28. 深度学习进阶 - LSTM</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-05T23:30:00.000Z">2023-12-06</time></p><p class="title"><a href="/27.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E4%B8%BA%E4%BB%80%E4%B9%88RNN/">27. 深度学习进阶 - 为什么RNN</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-01T23:30:00.000Z">2023-12-02</time></p><p class="title"><a href="/26.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/">26. 深度学习进阶 - 深度学习的优化方法</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-11-28T23:30:00.000Z">2023-11-29</time></p><p class="title"><a href="/25.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E6%9D%83%E9%87%8D%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%8C%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1%E5%92%8C%E6%A2%AF%E5%BA%A6%E7%88%86%E7%82%B8/">25. 深度学习进阶 - 权重初始化，梯度消失和梯度爆炸</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2023 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

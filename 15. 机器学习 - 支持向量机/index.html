@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>15. 机器学习 - 支持向量机 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="Hi, 你好。我是茶桁。"><meta property="og:type" content="blog"><meta property="og:title" content="15. 机器学习 - 支持向量机"><meta property="og:url" content="https://hivan.me/15.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20-%20%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="Hi, 你好。我是茶桁。"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2023-10-29T23:30:00.000Z"><meta property="article:modified_time" content="2023-11-25T04:40:47.462Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/15.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20-%20%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/"},"headline":"15. 机器学习 - 支持向量机","image":[],"datePublished":"2023-10-29T23:30:00.000Z","dateModified":"2023-11-25T04:40:47.462Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"Hi, 你好。我是茶桁。"}</script><link rel="canonical" href="https://hivan.me/15.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20-%20%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2023-10-29T23:30:00.000Z" title="10/30/2023, 7:30:00 AM">2023-10-30</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a><span> / </span><a class="link-muted" href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></span></div></div><h1 class="title is-3 is-size-4-mobile">15. 机器学习 - 支持向量机</h1><div class="content"><p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231026233247.png"
+alt="茶桁的 AI 秘籍 核心能力基础 15" /></p>
+<p>Hi, 你好。我是茶桁。</p>
+<span id="more"></span>
+<h2 id="逻辑回归预测心脏病">逻辑回归预测心脏病</h2>
+<p>在本节课开始呢，我给大家一份逻辑回归的练习，利用下面这个数据集做了一次逻辑回归预测心脏病的练习。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231026232831.png"
+alt="Alt text" /></p>
+<p>本次练习的代码在「茶桁的 AI 秘籍」在 Github
+上的代码库内，数据集的获取在文末。这样做是因为我的数据集都是和百度盘同步的，很多数据集过大了，所以也就不传
+Github 了。而且，我直接获取盘内同步数据也更方便。</p>
+<p><strong>还有一个原因，有些数据集可能以后会收费获取。</strong></p>
+<p>好，让我们进入今天的正课。</p>
+<p>因为未来几节课的内容比较多。「核心基础」的这部分内容已经超出我原本的预计，咱们「核心基础」的部分刚刚过半，可是已经写到
+15 节了，本来这部分内容我是想在 21
+节左右结束的，所以，我们还是要压缩一下内容了。</p>
+<p>这节课咱们还是继续讲解经典的机器学习。</p>
+<h2 id="支持向量机">支持向量机</h2>
+<p>接下来，要讲解一个非常有趣的方法：支持向量机。</p>
+<p>支持向量机的原理其实可以很复杂，但它是一个很经典的思想方法。咱们就把它的核心思想讲明白就行了。其实我们平时在工作中用的也比较少。但是面试中有一些老一代的面试官会比较喜欢问这个问题。</p>
+<p>支持向量机的核心思想，假如我们有两堆数据，希望找一根线去把它做分类，那么咱们找哪一根线呢？</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231026232832.png"
+alt="Alt text" /></p>
+<p>上图中，我们假设黑色的那根线定义为
+l，把离这根线最近的点，也就是直线距离最小的点，找到两个这样的点定义为
+P1、P2。</p>
+<p>现在我们是希望离这个 l 最近的点，假如说是
+d1,d2，那么我们希望这两个距离加起来最大：max|d1+d2|。</p>
+<p>现在再定义蓝色的线为直线 b，那直线 b 做分类就比直线 l
+要好。为什么直线 b 就比是直线 l 好呢？因为直线 b 离 d1,d2
+普遍都比较远。</p>
+<p>现在这里的演示是一个二维平面中用一根线来分割，如果是在多维空间中，SVM
+的目标就是找到一个最佳的超平面来最大化间隔，同时确保正确分类样本。</p>
+<p>假设我们有一组训练样本，每个样本用特征向量 x 表示，并且标记为正类别
++1 或负类别 -1。</p>
+<p>我们可以表示为以下凸优化问题：</p>
+<p><span class="math display">\[
+\begin{align*}
+min_{w, b}\frac{1}{2}||w||^2
+\end{align*}
+\]</span></p>
+<p>其中对所有样本</p>
+<p><span class="math display">\[
+y_i(w \cdot x_i+b) \ge 1
+\]</span></p>
+<p>w 是超平面的法向量，b 是截距项，yi 是样本 xi 的标签，也就是 +1 或者
+-1。</p>
+<p>为了解决这个优化问题，我们引入拉格朗日乘子<span
+class="math inline">\(a_i\)</span>来得到拉格朗日函数：</p>
+<p><span class="math display">\[
+L(w,b,a) = \frac{1}{2}||w||^2 - \sum_{i=1}^Na_i[y_i(w\cdot x_i +b) - 1]
+\]</span></p>
+<p>然后我们要最小化拉格朗日函数，首先对 w 和 b 求偏导数，令它们等于
+0，然后代入拉格朗日乘子条件：</p>
+<p><span class="math display">\[
+a_i[y_i(w\cdot x_i + b)-1] = 0
+\]</span></p>
+<p>然后我们就可以得到如下这个式子</p>
+<p><span class="math display">\[
+w = \sum_{i=1}^Na_iy_ix_i \\
+sum_{i=1}^N a_iy_i = 0
+\]</span></p>
+<p>使用某种优化算法（例如，SMO 算法），求解拉格朗日乘子<span
+class="math inline">\(a_i\)</span>。我们就可以使用求解得到的<span
+class="math inline">\(a_i\)</span>计算超平面参数 w 和 b。</p>
+<p>对于新样本 x，使用超平面<span class="math inline">\(w\cdot x +
+b\)</span>的符号来预测其类别。</p>
+<p>那我们讲了这么半天，都是一个支持向量机的数学演示过程，下面我们来看看具体的代码实现。</p>
+<p>我们先来生成两组数据，这两组数据咱们让他距离更大：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br>label_a = np.random.normal(<span class="hljs-number">6</span>, <span class="hljs-number">2</span>, size=(<span class="hljs-number">50</span>, <span class="hljs-number">2</span>))<br>label_b = np.random.normal(-<span class="hljs-number">6</span>, <span class="hljs-number">2</span>, size=(<span class="hljs-number">50</span>, <span class="hljs-number">2</span>))<br></code></pre></td></tr></table></figure>
+<p>我们现在来观察以下生成的这些点：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br>plt.scatter(*<span class="hljs-built_in">zip</span>(*label_a))<br>plt.scatter(*<span class="hljs-built_in">zip</span>(*label_b))<br><br>plt.show()<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231026232833.png"
+alt="Alt text" /></p>
+<p>然后我们继续：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">label_a_x = label_a[:, <span class="hljs-number">0</span>]<br>label_b_x = label_b[:, <span class="hljs-number">0</span>]<br></code></pre></td></tr></table></figure>
+<p>我们就将这两组数据的第一列分别取出来了。</p>
+<p>接着我们随机的定义一些 w 和 b</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">100</span>):<br>    w, b = (np.random.random(size=(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>)) * <span class="hljs-number">10</span> - <span class="hljs-number">5</span>)[<span class="hljs-number">0</span>]<br></code></pre></td></tr></table></figure>
+<p>然后我们按照之前讲的数学演示来定义一个函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">f</span>(<span class="hljs-params">x</span>):<br>    <span class="hljs-keyword">return</span> w*x+b<br></code></pre></td></tr></table></figure>
+<p>然后我们之前从数学演示里已经知道，<span
+class="math inline">\(y_i(w\cdot x+b) \ge 1\)</span>,
+而我们也知道这个说的是距离，也就是说，同样的$y_i(wx+b) $。</p>
+<p>也就是说，我们要让函数 f 小于等于 -1，并且大于等于
+1。当然，为了保证其被分到两边，我们将函数的最大值定义为小于等于
+-1，将函数的最小值定义为大于等于 1。这样就保证 (-1,1)
+之间是不存在任何函数值：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">np.<span class="hljs-built_in">max</span>(f(label_a_x, w, b)) &lt;= -<span class="hljs-number">1</span> <span class="hljs-keyword">and</span> np.<span class="hljs-built_in">min</span>(f(label_b_x, w, b)) &gt;= <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+<p>只有同时满足这两个条件的值，我们才会留下来进行保存。我们可以定义一个变量将其保存</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">w_and_b = []<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">100</span>):<br>    w, b = (np.random.random(size=(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>)) * <span class="hljs-number">10</span> - <span class="hljs-number">5</span>)[<span class="hljs-number">0</span>]<br>    <span class="hljs-keyword">if</span> np.<span class="hljs-built_in">min</span>(f(label_a_x, w, b)) &gt;= -<span class="hljs-number">1</span> <span class="hljs-keyword">and</span> np.<span class="hljs-built_in">min</span>(f(label_b_x, w, b)) &gt;= <span class="hljs-number">1</span>:<br>        w_and_b.append((w, b))<br></code></pre></td></tr></table></figure>
+<p>在得到这些 w,b 之后，我们将这些 w,b 连起来进行画图：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">for</span> w, b <span class="hljs-keyword">in</span> w_and_b:<br>    x = np.concatenate((label_a_x, label_b_x))<br>    plt.plot(x, f(x, w, b))<br><br>plt.show()<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231026232834.png"
+alt="Alt text" /></p>
+<p>这样，我们就拟合出来了很多的曲线。这些个曲线到底哪一个是最好的那一个呢？</p>
+<p>现在根据刚刚得到的那个结论，现在所有的<span
+class="math inline">\(y_i(w\cdot x_i + b)\)</span>,
+那么现在其实就是<span class="math inline">\(margin =
+\frac{2}{||w||}\)</span>。</p>
+<p>那我们现在就找这个 w 最小的这个值就可以了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">w, b = <span class="hljs-built_in">min</span>(w_and_b, key = <span class="hljs-keyword">lambda</span> w_b: w_b[<span class="hljs-number">0</span>])<br>all_x = np.concatenate((label_a_x, label_b_x))<br>plt.plot(all_x, f(all_x, w, b), <span class="hljs-string">&#x27;r-o&#x27;</span>)<br><br>plt.show()<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231026232835.png"
+alt="Alt text" /></p>
+<p>现在我们就可以看到那个最优的直线了，就是众多红色的点连接起来的那根线。</p>
+<p>当然，最后代码执行顺序和讲解顺序有一些不一样，为了避免数据每次重新生成造成的差别，所以最开始是生成数据，之后是定义函数、过滤参数以及生成图像。</p>
+<p>这个就是支持向量机的原理，我们找到离它所有的点的一个距离，让它这个边距最大，最后得到一个简化结果。</p>
+<h2 id="核函数">核函数</h2>
+<p>然后我们再来看另外一个点：「核函数」：</p>
+<p>核函数是支持向量机里面非常重要的一个东西。</p>
+<p>如果支持向量机只要数据是线性可分的，那么我们一定能够找到它的分割线。但是在实际的现实生活中有很多点并不是线性可分的。</p>
+<p>举个例子，我们来画一张图：</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231026232836.jpeg"
+alt="Alt text" /></p>
+<p>就比如图中的这种数据，是无论如何用一条直线无法分割的，不管怎么画，都无法把蓝色和红色的点分割开。</p>
+<p>就像我们下面这张图：</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231026232837.png"
+alt="Alt text" /></p>
+<p>但是，我们我们可以做这样一件事情，假设我们在一个坐标轴上拥有 8
+个点，A、B、C、D 为一组，a,b,c,d 为一组。如下图：</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231026232838.jpeg"
+alt="Alt text" /></p>
+<p>分别为 A(-1,1), B(1,1), C(1, -1), D(-1,-1)；a(-0.5, 0.5), b(0.5,
+0.5), c(0.5, -0.5), d(-0.5, -0.5)。</p>
+<p>现在我们 ABCD 和 abcd 是无法用一根直线来分割的，然后我们令：</p>
+<p><span class="math display">\[
+\begin{align*}
+f(x) =&gt; \begin{Bmatrix} x^2 \\ y^2 \end{Bmatrix}
+\end{align*}
+\]</span></p>
+<p>那在这种情况下，八个点分别就变成了 A(1, 1),B(1, 1),C(1, 1),D(1,
+1)，a(0.25, 0.25),b(0.25, 0.25),c(0.25, 0.25),d(0.25, 0.25)。</p>
+<p>那这样的情况下，我们就完全可以用一根直线去分割了：</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231026232839.jpeg"
+alt="Alt text" /></p>
+<p>那现在找到这根线是 w2 =
+wx+b，那我们遇到新数据应用到这个函数里边，再应用到这个线里面做分割就可以了。我们把原本线性不可分的东西，变成线性可分的。那么这个就是核函数神奇的地方。</p>
+<p>支持向量机通过某非线性变换 φ(x)
+，将输入空间映射到高维特征空间。特征空间的维数可能非常高。如果支持向量机的求解只用到内积运算，而在低维输入空间又存在某个函数
+K(x, x′) ，它恰好等于在高维空间中这个内积，即 K(x, x′) =φ(x)⋅φ(x') ;
+。那么支持向量机就不用计算复杂的非线性变换，而由这个函数 K(x, x′)
+直接得到非线性变换的内积，使大大简化了计算。我们就将这种函数函数 K(x,
+x′) 称为核函数。</p>
+<p><span class="math display">\[
+\varphi (x) = \begin{bmatrix} x \\ x^2 \\ x^3 \end{bmatrix}
+\]</span></p>
+<p>那其实，就类似的事情，已经有人总结了一些相应的公式来使用：</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231026232840.png"
+alt="Alt text" /></p>
+<p>这些是一些常见的核函数。</p>
+<p>一般在使用的时候调用它就可以，如果在用 SVM
+的时候，它会有一个参数。可以自己定义一个核函数，但一般不自己定义，调用现有的就够了。</p>
+<p>SVM
+其实也有弊端，当数据量很复杂的时候，现有的核函数就没有作用了。因为它会失效，所以我们需要很多的人工分析，整个效率很低。</p>
+<p>但是在整个机器学习的发展史上，它曾经有非常重要的一段历史。有一段时间它的论文量非常的多，做科研的非常爱做
+SVM，不是因为快速，是因为可以提出来各种各样的 Kerno 函数。</p>
+<p>假如有一组数据不好分割，但是你提出了一种新的核函数，这个函数量可以比较复杂啊
+然后提升了分割率，提高了效果。</p>
+<p>但是这种方法其实曾经一度让机器学习非常不受人待见，在学术圈非常不受人待见。搞机器学习的人就是每天就是发论文，说我的曲线比你的曲线强，这就是他们干的事。</p>
+<p>所以 10
+年左右，做机器学习、做人工智能的人都不说自己是做机器学习，做人工智能的。都换个名字，说做文本挖掘等等。</p>
+<p>SVM
+因为要做各种升维，当数据量比较大的时候，计算量非常的复杂，计算需求量非常的大。</p>
+<p>但是 SVM 它有个好处，就是它比较直观，还有就是 SVM
+对于不平衡的数据比较有用。</p>
+<p>好，这节课我们就讲到这里，下一节课我们来看「决策树」。</p>
+<hr />
+<p>关注「坍缩的奇点」，第一时间获取更多免费 AI 教程。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/扫码_搜索联合传播样式-白色版.png"
+alt="坍缩的奇点" /></p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>15. 机器学习 - 支持向量机</p><p><a href="https://hivan.me/15. 机器学习 - 支持向量机/">https://hivan.me/15. 机器学习 - 支持向量机/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2023-10-30</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2023-11-25</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" href="/null" target="_blank" rel="noopener" data-type="afdian"><span class="icon is-small"><i class="fas fa-charging-station"></i></span><span>爱发电</span></a><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="/null" target="_blank" rel="noopener" data-type="buymeacoffee"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>送我杯咖啡</span></a><a class="button donate" href="/null" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="paypal" onclick="document.getElementById(&#039;paypal-donate-form&#039;).submit()"><span class="icon is-small"><i class="fab fa-paypal"></i></span><span>Paypal</span></a><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" rel="noopener" id="paypal-donate-form"><input type="hidden" name="cmd" value="_donations"><input type="hidden" name="business" value="doo@hivan.me"><input type="hidden" name="currency_code" value="USD"></form><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/16.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20-%20%E5%86%B3%E7%AD%96%E6%A0%91/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">16. 机器学习 - 决策树</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/14.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20-%20KNN%20-%20%E8%B4%9D%E5%8F%B6%E6%96%AF/"><span class="level-item">14. 机器学习 - KNN &amp; 贝叶斯</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/15.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20-%20%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/';
+            this.page.identifier = '15. 机器学习 - 支持向量机/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">200</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">5</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">22</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI秘籍</span></span><span class="level-end"><span class="level-item tag">58</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">27</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">29</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-12T23:30:00.000Z">2023-12-13</time></p><p class="title"><a href="/29.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E5%8D%B7%E7%A7%AF%E7%9A%84%E5%8E%9F%E7%90%86/">29. 深度学习进阶 - 卷积的原理</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-09T23:30:00.000Z">2023-12-10</time></p><p class="title"><a href="/28.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20LSTM/">28. 深度学习进阶 - LSTM</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-05T23:30:00.000Z">2023-12-06</time></p><p class="title"><a href="/27.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E4%B8%BA%E4%BB%80%E4%B9%88RNN/">27. 深度学习进阶 - 为什么RNN</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-01T23:30:00.000Z">2023-12-02</time></p><p class="title"><a href="/26.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/">26. 深度学习进阶 - 深度学习的优化方法</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-11-28T23:30:00.000Z">2023-11-29</time></p><p class="title"><a href="/25.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E6%9D%83%E9%87%8D%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%8C%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1%E5%92%8C%E6%A2%AF%E5%BA%A6%E7%88%86%E7%82%B8/">25. 深度学习进阶 - 权重初始化，梯度消失和梯度爆炸</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2023 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

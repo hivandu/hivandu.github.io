@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>25. 深度学习进阶 - 权重初始化，梯度消失和梯度爆炸 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="Hi，你好。我是茶桁。"><meta property="og:type" content="blog"><meta property="og:title" content="25. 深度学习进阶 - 权重初始化，梯度消失和梯度爆炸"><meta property="og:url" content="https://hivan.me/25.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E6%9D%83%E9%87%8D%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%8C%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1%E5%92%8C%E6%A2%AF%E5%BA%A6%E7%88%86%E7%82%B8/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="Hi，你好。我是茶桁。"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2023-11-28T23:30:00.000Z"><meta property="article:modified_time" content="2023-11-29T06:18:47.001Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/25.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E6%9D%83%E9%87%8D%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%8C%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1%E5%92%8C%E6%A2%AF%E5%BA%A6%E7%88%86%E7%82%B8/"},"headline":"25. 深度学习进阶 - 权重初始化，梯度消失和梯度爆炸","image":[],"datePublished":"2023-11-28T23:30:00.000Z","dateModified":"2023-11-29T06:18:47.001Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"Hi，你好。我是茶桁。"}</script><link rel="canonical" href="https://hivan.me/25.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E6%9D%83%E9%87%8D%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%8C%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1%E5%92%8C%E6%A2%AF%E5%BA%A6%E7%88%86%E7%82%B8/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2023-11-28T23:30:00.000Z" title="11/29/2023, 7:30:00 AM">2023-11-29</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a><span> / </span><a class="link-muted" href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></span></div></div><h1 class="title is-3 is-size-4-mobile">25. 深度学习进阶 - 权重初始化，梯度消失和梯度爆炸</h1><div class="content"><p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/202311031851045.png"
+alt="Alt text" /></p>
+<p>Hi，你好。我是茶桁。</p>
+<span id="more"></span>
+<p>咱们这节课会讲到权重初始化、梯度消失和梯度爆炸。咱们先来看看权重初始化的内容。</p>
+<h2 id="权重初始化">权重初始化</h2>
+<p>机器学习在我们使用的过程中的初始值非常的重要。就比如最简单的<code>wx+b</code>，现在要拟合成一个yhat，w如果初始的过大或者初始的过小其实都会比较有影响。</p>
+<p>假设举个极端情况，就是w拟合的时候刚刚就拟合到了离x很近的地方，我们想象一下，这个时候是不是学习起来就会很快？所以对于深度学习模型权重的初始化是一个非常重要的事情，甚至有人就说把初始化做好了，其实绝大部分事情就已经解决了。</p>
+<p>那么我们怎么样获得一个比较好的初始化的值？首先有这么几个原则</p>
+<ul>
+<li>我们的权重值不能设置为0。</li>
+<li>尽量将权重变成一个随机化的正态分布。而且有更大的X输入，那我们的权重就应该更小。</li>
+</ul>
+<p><span class="math display">\[
+\begin{align*}
+loss &amp; = \sum(\hat y - y_i)^2 \\
+&amp; = \sum(\sum w_ix_i - y_i)^2
+\end{align*}
+\]</span></p>
+<p>我们看上面的式子，yhat就是w_i*x_i,
+这个时候x_i可能是几百万，也可能是几百。我们w_i取值在(-n,
+n)之间，那当x_i维度特别大的时候，那yhat值算出来的也就会特别大。所以，x_i的维度特别大的时候，我们期望w_i值稍微小一些，否则加出来的yhat可能就会特别大，那最后求出来的loss也会特别大。</p>
+<p>如果loss值特别大，可能就会得到一个非常的梯度。那我们知道，学习的梯度特别大的话，就会发生比较大的震荡。</p>
+<p>所以有一个原则，就是当x的dimension很大的时候,
+我们期望的它的权重越小。</p>
+<p>那后来就有人提出来了一个比较重要的初始化方法，Xavier初始化。这个方法特别适用于sigmoid激活函数或反正切tanh激活函数，它会根据前一层和当前层的神经元数量来选择初始化的范围，以确保权重不会过大或过小。
+<span class="math display">\[
+\begin{align*}
+均值为0和标准差的正态分布: \sigma &amp; =
+\sqrt{\frac{2}{n_{inputs}+n_{outputs}}} \\
+-r和+r之间的均匀分布：r &amp; = \sqrt{\frac{6}{n_{inputs}+n_{outputs}}}
+\end{align*}
+\]</span></p>
+<p>然后W的均匀分布就会是这样： <span class="math display">\[
+W \sim U \Bigg \vert -\frac{\sqrt 6}{\sqrt{n_j + n_{j+1}}}, \frac{\sqrt
+6}{\sqrt{n_j + n_{j+1}}}
+\]</span></p>
+<p>这个是一个比较有名的初始化方法，如果要做函数的初始化的话，PyTorch在init里面有一个方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">torch.nn.init.xavier_uniform_(tensor, gain=<span class="hljs-number">1.0</span>)<br></code></pre></td></tr></table></figure>
+<p>比如，我们看这样例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">w = torch.empty(<span class="hljs-number">3</span>, <span class="hljs-number">5</span>)<br>nn.init.xavier_uniform_(w, gain=nn.calculate_gain(<span class="hljs-string">&#x27;relu&#x27;</span>))<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>注意:
+init方法里还有其他的一些方法，大家可以查阅PyTorch的相关文档：https://pytorch.org/docs/stable/nn.init.html</p>
+</blockquote>
+<h2 id="梯度消失与梯度爆炸">梯度消失与梯度爆炸</h2>
+<p>当我们的模型层数特别多的时候</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/202311031849640.png"
+alt="Alt text" /></p>
+<p>就比如我们上节课用到的Sequential，我们可以在里面写如非常多的一个函数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python">model = nn.Sequential(<br>    nn.Linear(in_features=<span class="hljs-number">10</span>, out_features=<span class="hljs-number">5</span>).double(),<br>    nn.Sigmoid(),<br>    nn.Linear(in_features=<span class="hljs-number">5</span>, out_features=<span class="hljs-number">8</span>).double(),<br>    nn.Sigmoid(),<br>    nn.Linear(in_features=<span class="hljs-number">8</span>, out_features=<span class="hljs-number">8</span>).double(),<br>    nn.Sigmoid(),<br>    ...<br>    nn.Linear(in_features=<span class="hljs-number">8</span>, out_features=<span class="hljs-number">8</span>).double(),<br>    nn.Softmax(),<br>)<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/202311031849642.png"
+alt="Alt text" /></p>
+<p>这样，在做偏导的时候我们其中几个值特别小，那两个一乘就会乘出来一个特别特别小的数字。最后可能会导致一个结果，<span
+class="math inline">\(\frac{\partial loss}{\partial
+wi}\)</span>的值就会极小，它的更新就会特别的慢。我们把这种东西就叫做梯度消失，也有人叫梯度弥散。</p>
+<p>以Sigmoid函数为例，其导数为</p>
+<p><span class="math display">\[
+\begin{align*}
+\sigma &#39;(x) = \sigma(x)(1-\sigma(x))
+\end{align*}
+\]</span></p>
+<p>在x趋近正无穷或者负无穷时，导数接近0。当这种小梯度在多层网络中相乘的时候，梯度会迅速减小，导致梯度消失。</p>
+<p>除此之外还有一种情况叫梯度爆炸，剃度爆炸类似，当模型的层很多的时候，如果其中某两个值很大，例如两个10<sup>2，当这两个乘起来就会变成10</sup>4。乘下来整个loss很大，又会产生一个结果，我们来看这样一个场景：</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/202311031849643.png"
+alt="Alt text" /></p>
+<p>假如说对于上图中这个函数来说，横轴为x,
+竖轴为loss，对于这个xi来说，这个地方<span
+class="math inline">\(\frac{\partial loss}{\partial
+xi}\)</span>已经是一个特别大的数字了。</p>
+<p>假设咱们举个极端的情况（<strong>忽略图中竖轴上的数字</strong>），我们现在loss等于x^4：<span
+class="math inline">\(loss=x^4\)</span>，然后现在<span
+class="math inline">\(\frac{\partial loss}{\partial
+x^4}\)</span>就等于<span
+class="math inline">\(4x^3\)</span>，我们假设x在A点，当x=10的时候，那<span
+class="math inline">\(4\times x^3 = 4000\)</span>，
+那我们计算新的xi，就是<span class="math inline">\(x_i = x_i - \alpha
+\cdot \frac{\partial loss}{\partial
+x_i}\)</span>，现在给alpha一个比较小的数，我们假设是0.1，那式子就变成<span
+class="math inline">\(10 - 0.1 \times 4000\)</span>，结果就是-390。</p>
+<p>我们把它变到-390之后，本来我们本来做梯度下降更新完，xi期望的是loss要下降，但是我们结合图像来看，xi=-390的时候，loss就变得极其的巨大了，然后我们在继续，(-390)^4，
+这个loss就已经爆炸了。</p>
+<p>再继续的时候，会发现会在极值上跳来跳去，loss就无法进行收敛了。所以我们也要拒绝这种情况的发生。</p>
+<p>那梯度消失和梯度爆炸这两个问题该如何解决呢？我们来看第一种解决方法：
+<code>Batch normalization</code>，批量归一化。</p>
+<p>那这个方法的核心思想是对神经网络的每一层的输入进行归一化，使其具有零均值和单位方差。</p>
+<p>那么首先，对于每个mini-batch中的输入数据，计算均值和方差。<span
+class="math inline">\(B = \{x_1...m\}\)</span>; 要学习的参数: <span
+class="math inline">\(\gamma,\beta\)</span>。</p>
+<p><span class="math display">\[
+\begin{align*}
+\mu_B &amp; = \frac{1}{m}\sum^m_{i=1}x_i \\
+\sigma ^2_B &amp; = \frac{1}{m}\sum_{i=1}^m(x_i-\mu_B)^2 \\
+&amp; \mu 为均值mean， \sigma为方差
+\end{align*}
+\]</span></p>
+<p>这里和咱们之前讲x做normalization的时候其实是特别相似，基本上就是一件事。</p>
+<p>然后我们使用均值和方差对输入进行归一化，使得其零均值和单位方差，即将输入标准化为xhat。</p>
+<p><span class="math display">\[
+\begin{align*}
+\hat x_i = \frac{x_i - \mu_B}{\sqrt{\sigma ^2_B + \varepsilon}}
+\end{align*}
+\]</span></p>
+<p>接着我们对归一化后的输入应用缩放和平移操作，以允许网络学习最佳的变换。</p>
+<p><span class="math display">\[
+\begin{align*}
+y_i = \gamma \hat x_i + \beta \equiv BN_{\gamma,\beta}(x_i)
+\end{align*}
+\]</span></p>
+<p>输出为<span class="math inline">\(\{y_i =
+BN_{\gamma,\beta}(x_i)\}\)</span>。</p>
+<p>最后将缩放和平移后的数据传递给激活函数进行非线性变换。</p>
+<p>它会输入一个小批量的x值，</p>
+<p>经过反复的梯度下降，会得到一个gamma和beta，能够知道在这一步x要怎么样进行缩放，在缩放之前会经历刚开始的时候那个normalization一样，把把过小值会变大，把过大值会变小。</p>
+<p>我们在之前的课程中演示过，没看过和忘掉的同学可以往前翻看一下。</p>
+<p>然后在经过这两个可学习的参数进行一个变化，这样它可以做到在每一层x变化不会极度的增大或者极度的缩小，可以让我们的权值保持的比较稳定。</p>
+<p>那除了Batch normalization之外，还有一个方法叫Gradient clipping，
+它是可以直接将过大的梯度值变小。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/202311031849644.png"
+alt="Alt text" /></p>
+<p>它其实很简单，也叫做梯度减脂。</p>
+<p>如果我们求解出来<span class="math inline">\(\frac{\partial
+loss}{\partial
+w_i}\)</span>很大，假设原来等于400，我们定义了一个100，那超过100的部分，就全部设置成100。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">train_loss.backward()<br>pt.nn.units.clip_grad_value_(model.parameters(), <span class="hljs-number">100</span>)<br>optimizer.step()<br></code></pre></td></tr></table></figure>
+<p>简单粗暴。那其实梯度爆炸还是比较容易解决的，比较复杂的其实是梯度消失的问题。</p>
+<p>梯度爆炸为什么比较容易解决？梯度爆炸起码是有导数的，只要把这个导数给它放的特别小就行了，有导数起码保证wi可以更新。</p>
+<p>假设alpha，我们的learning_rate等于0.01，乘上一个100，可以保证每次可以有个变化。但是每次这个梯度特别小，假如都快接近于0了，那么1e-10,
+就算乘上100倍，最后还是一个特别小的数字。所以相较而言，梯度爆炸就更好解决一些，方法更粗暴一些。</p>
+<p>补充一个知识点，这个虽然现在已经用不到了，但是对我们的理解还是有帮助的。方法比较古老。</p>
+<p>就是当我们发现梯度有问题的时候，
+大概在10年前，那个时候神经网络的模块也不太丰富，很多新出的model，做神经网络的人，一些导数，传播什么的都需要自己写，就我们前几节课写那个神经网络框架的时候做的事。</p>
+<p>有的时候导数写错了，就有一种方法叫做gradient checking，梯度检查。</p>
+<p>这个使用场景非常的少，当你自己发明了一个新的模块，加到这个模型里面的时候会遇到。</p>
+<p>其实很简单，就是把最终的<span class="math inline">\(\frac{\partial
+loss}{\partial
+w_i}\)</span>，求解出来的偏导总是不收敛，可能是这个偏导有问题，那么有可能求导的函数写错了。</p>
+<p>那在这个时候就可以做个简单的变化：</p>
+<p><span class="math display">\[
+\begin{align*}
+\frac{\partial loss(\theta+\varepsilon)-\partial loss(\theta -
+\varepsilon)}{2\varepsilon}
+\end{align*}
+\]</span></p>
+<p>这其中<span class="math inline">\(\partial loss(\theta +
+\varepsilon)\)</span>和<span class="math inline">\(\partial loss(\theta
+- \varepsilon)\)</span>是在参数<span
+class="math inline">\(\theta\)</span>,
+其实也就是我们的wi上添加和减去微小扰动theta后的损失函数值。</p>
+<p>然后我们计算数值梯度和反向传播计算得到的梯度之间的差异。通常这是通过计算它们之间的差异来完成，然后将其与一个小的阈值，比如1e-7进行比较。如果差异非常小（小于阈值），则可以认为梯度计算是正确的，否则可能就需要从新写一下偏导函数了。</p>
+<p>这个比较难，但不是一个重点，当且仅当自己要发明一个模型的时候。</p>
+<p>那接下来我们来看一下关于Learning_rate和Early Stopping的问题。</p>
+<p>理论上，如果深度学习效果不好，那么我们可以将learning
+rate调小，可以让所有模型效果变得更好，它可以让所有的loss下降。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/202311031849645.png"
+alt="Alt text" /></p>
+<p>但是如果你的learning
+rate变得特别小，假如说是1e-9，那这样的结果就是w的变化会非常的慢，训练时间就变得很长。为了解决这个问题，就有一些比较简单的方法。</p>
+<p>第一个，我们可以把learning
+rate和loss设置成一个相关的函数，例如说loss越小的时候，Learning
+rate越小，或者随着epoch的增大，loss越小。这个就叫learning
+rate的decay。</p>
+<p>将learning
+rate或者训练次数和loss设置成一个相关的函数，那么越到后面效果越好的时候，learning
+rate就会越小。</p>
+<p>还有，我们可能会发现loss连续k次不下降，那我们就可以提前结束训练过程，这个就是Early
+Stopping。</p>
+<p>也就是当你发现loss连续k次不下降，或者甚至于在上升，那么这个时候，就可以将最优的这个值给它记录下来。</p>
+<p>咱们可能会经常出现的情况就是值在那里震荡，本来呢已经快接近于最优点了，可是震荡了几次之后，还可能震荡出去了，loss变大了。或者就一直在这个震荡里边出不去，这个时候多学习也没有用，所以就可以早点停止，这个就是Early
+Stopping，中文有人称呼它为早停方法。</p>
+<p>好，下节课，咱们要讲一个重点，也是一个难点。就是咱们做机器学习的时候，不同的优化方法。</p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>25. 深度学习进阶 - 权重初始化，梯度消失和梯度爆炸</p><p><a href="https://hivan.me/25. 深度学习进阶 - 权重初始化，梯度消失和梯度爆炸/">https://hivan.me/25. 深度学习进阶 - 权重初始化，梯度消失和梯度爆炸/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2023-11-29</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2023-11-29</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" href="/null" target="_blank" rel="noopener" data-type="afdian"><span class="icon is-small"><i class="fas fa-charging-station"></i></span><span>爱发电</span></a><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="/null" target="_blank" rel="noopener" data-type="buymeacoffee"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>送我杯咖啡</span></a><a class="button donate" href="/null" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="paypal" onclick="document.getElementById(&#039;paypal-donate-form&#039;).submit()"><span class="icon is-small"><i class="fab fa-paypal"></i></span><span>Paypal</span></a><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" rel="noopener" id="paypal-donate-form"><input type="hidden" name="cmd" value="_donations"><input type="hidden" name="business" value="doo@hivan.me"><input type="hidden" name="currency_code" value="USD"></form><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/26.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">26. 深度学习进阶 - 深度学习的优化方法</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/24.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E7%9F%A9%E9%98%B5%E8%BF%90%E7%AE%97%E7%9A%84%E7%BB%B4%E5%BA%A6%E5%92%8C%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0/"><span class="level-item">24. 深度学习进阶 - 矩阵运算的维度和激活函数</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/25.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E6%9D%83%E9%87%8D%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%8C%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1%E5%92%8C%E6%A2%AF%E5%BA%A6%E7%88%86%E7%82%B8/';
+            this.page.identifier = '25. 深度学习进阶 - 权重初始化，梯度消失和梯度爆炸/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">200</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">5</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">22</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI秘籍</span></span><span class="level-end"><span class="level-item tag">58</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">27</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">29</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-12T23:30:00.000Z">2023-12-13</time></p><p class="title"><a href="/29.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E5%8D%B7%E7%A7%AF%E7%9A%84%E5%8E%9F%E7%90%86/">29. 深度学习进阶 - 卷积的原理</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-09T23:30:00.000Z">2023-12-10</time></p><p class="title"><a href="/28.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20LSTM/">28. 深度学习进阶 - LSTM</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-05T23:30:00.000Z">2023-12-06</time></p><p class="title"><a href="/27.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E4%B8%BA%E4%BB%80%E4%B9%88RNN/">27. 深度学习进阶 - 为什么RNN</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-01T23:30:00.000Z">2023-12-02</time></p><p class="title"><a href="/26.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/">26. 深度学习进阶 - 深度学习的优化方法</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-11-28T23:30:00.000Z">2023-11-29</time></p><p class="title"><a href="/25.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E6%9D%83%E9%87%8D%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%8C%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1%E5%92%8C%E6%A2%AF%E5%BA%A6%E7%88%86%E7%82%B8/">25. 深度学习进阶 - 权重初始化，梯度消失和梯度爆炸</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2023 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

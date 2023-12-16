@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>12. 机器学习 - 拟合 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="Hi, 你好。我是茶桁。 这一节课一开始我们要说一个非常重要的概念：拟合。"><meta property="og:type" content="blog"><meta property="og:title" content="12. 机器学习 - 拟合"><meta property="og:url" content="https://hivan.me/12.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20-%20%E6%8B%9F%E5%90%88/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="Hi, 你好。我是茶桁。 这一节课一开始我们要说一个非常重要的概念：拟合。"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2023-10-22T23:30:00.000Z"><meta property="article:modified_time" content="2023-11-25T04:40:57.697Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/12.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20-%20%E6%8B%9F%E5%90%88/"},"headline":"12. 机器学习 - 拟合","image":[],"datePublished":"2023-10-22T23:30:00.000Z","dateModified":"2023-11-25T04:40:57.697Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"Hi, 你好。我是茶桁。 这一节课一开始我们要说一个非常重要的概念：拟合。"}</script><link rel="canonical" href="https://hivan.me/12.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20-%20%E6%8B%9F%E5%90%88/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2023-10-22T23:30:00.000Z" title="10/23/2023, 7:30:00 AM">2023-10-23</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a><span> / </span><a class="link-muted" href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></span></div></div><h1 class="title is-3 is-size-4-mobile">12. 机器学习 - 拟合</h1><div class="content"><p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231020021148.png"
+alt="茶桁的 AI 秘籍 核心基础 12" /></p>
+<p>Hi, 你好。我是茶桁。</p>
+<p>这一节课一开始我们要说一个非常重要的概念：拟合。</p>
+<span id="more"></span>
+<h2 id="拟合">拟合</h2>
+<p>相信只要你关注机器学习，那么多少在某些场合下都会听到拟合这个概念。</p>
+<p>什么叫做拟合，什么叫做过拟合或者欠拟合呢？</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231020021056.png"
+alt="Alt text" /></p>
+<p>假如有一个模型，这个模型在训练数据的时候效果很好，体现在 loss
+很小，或者说 precision 很高，accuracy
+也比较好，但是在实际情况下，用到没有见过的数据的时候，效果就很差，那么这个就过拟合了。</p>
+<p>在这个过程中，要主一的是仅当数据 label 比较均衡的时候，才有必要使用
+acc.</p>
+<p>我们来看三条曲线：</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231020021057.png"
+alt="Alt text" /></p>
+<p>第一个图是比较合理的参数模型，第二个图就是过拟合的参数模型。</p>
+<p>因为对数据过度拟合，当有新的点出现的时候，函数的趋势和新的点并不匹配。那过度拟合就会对于未来的点就预测不对了。为了在训练的时候效果很好，在见过的数据里效果特别好，结果在新的未见过的数据里，效果就很差。</p>
+<p>第三个图就是欠拟合的状态。训练的时候这个效果就不好，整个接近程度就不高。</p>
+<p>比较好的场景就是第一张图的拟合状态，其形成了一个合理的参数模型。在训练的时候拟合也没有那么高，实际中的结果会发现结果也没那么差。这其实也就暗合了我们前几节课里所讲的[奥卡姆剃刀原理].</p>
+<p>过拟合和欠拟合这两个概念，在我们平时的工作中会是每天都要一直取解决的问题。遇到一个问题，训练的时候效果很差这个欠拟合，经过了很多调试结果发现效果还不错，结果在实际问题中发现效果很差，这个就是过拟合。</p>
+<p>这两件事情其实它是互相冲突的，这个可以通过 loss 来判断，也可以通过
+percision 来判断，只不过在计算新问题的时候，不存在 lose
+函数这回事儿。就是当你把模型已经训练完了，去用真实数据做测试了，那个时候是不存在
+loss 函数的。</p>
+<p>在整个机器学习的发展历程中，我们一直在不断的做的事情就是怎么样提高欠拟合的准确度，同时降低过拟合。</p>
+<p>影响过拟合和欠拟合原因有很多，既和数据有关系，也和模型有关系。但是在这个过程中有一点大家需要注意。所有的机器学习任务里边，在我们收集数据的时候，有一个很重要的问题就是异常值对过拟合和欠拟合影响会很大。</p>
+<h2 id="outliner">OUTLINER</h2>
+<p>有一本书就叫《Outliner》(异类), 大家有空可以去看一下。</p>
+<p>outliner 为什么会对我们整个值影响很大呢？</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231020021058.png"
+alt="Alt text" /></p>
+<p>咱们来看这个图，本来正常的线性走向应该是右边这张图。可是因为存在异常值的情况，所以导致线性偏向左边这张图的情况。可是在我们的数据中，这种极端的异常值属于少数，并且因为数值偏差过大，就导致整体趋势的偏斜。</p>
+<p>那么我们怎么样去判断异常值呢？为了把模型做好，从一开始收集数据以及清洗数据的时候就要把那些异常值给它去掉。</p>
+<p>所谓异常值是没有一个标准定义的，但是在数学上会有一个比较常见的去除方法，就是利用百分位，常见的方法就是按百分位来解决数值型问题。</p>
+<p>numpy 里有一个<code>persontile</code>，它接受一个
+array，和一个浮点值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">np.percentile(np.array([]), number)<br></code></pre></td></tr></table></figure>
+<p>那这个 percentile 是干嘛的呢？比如下面这张图：</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231020021059.png"
+alt="Alt text" /></p>
+<p>把所人从左到右排排队，比方说第 80 分位，就是第 80%
+的是那一个。而我们如果是要处理数据的话，会让这些人按数值大小来排队，比如按身高，那就是最矮的在最左边。</p>
+<p>一般统计学上常见的几个数字，一个是 0.5，还有 0.25 和 0.75。</p>
+<p>比如我们之前的 lstat 数据，我们来找一下其中的异常值：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br>np.where(np.array(lstat) &lt; np.percentile(np.array(lstat), <span class="hljs-number">0.25</span>) / <span class="hljs-number">1.5</span>)<br><br>---<br>(array([], dtype=int64),)<br></code></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">np.where(np.array(lstat) &gt; np.percentile(np.array(lstat), <span class="hljs-number">0.75</span>) * <span class="hljs-number">2.5</span>)<br><br>---<br>(array([  <span class="hljs-number">1</span>,   <span class="hljs-number">6</span>,   <span class="hljs-number">7</span>,   <span class="hljs-number">8</span>,   <span class="hljs-number">9</span>,  <span class="hljs-number">10</span>,  <span class="hljs-number">11</span>,  <span class="hljs-number">12</span>,  <span class="hljs-number">13</span>,  <span class="hljs-number">14</span>,  ...<br><span class="hljs-number">500</span>, <span class="hljs-number">501</span>, <span class="hljs-number">502</span>, <span class="hljs-number">505</span>]))<br></code></pre></td></tr></table></figure>
+<p>在寻找极大值的时候，我们找到了一堆的数字。如果当异常值比较多的时候，很难把它们定义成异常值。我们总结异常值规律的时候，其实它的和周围的信状它很不一样。</p>
+<h2 id="bias-and-variance">BIAS AND VARIANCE</h2>
+<p>好，再接下来我们来一起看看 BIAS 和 VARIANCE。</p>
+<p>在整个机器学习过程中，我们持续的有一个问题就是它的过拟合和欠拟合一直在互相
+PK。那么不管是欠拟合比较严重还是过拟合比较严重，这都是问题。但这两种问题在统计学里有两个名字。</p>
+<blockquote>
+<p>The bias is an error from erroneous assumptions in the learning
+algorithm. High bias can cause an algorithm to miss the relevant
+relations between feature and target outputs. (underfitting);</p>
+</blockquote>
+<p>我们把欠拟合这种问题叫做偏见，BIAS 叫做偏见。</p>
+<p>假如说对于一个人来说，你对一件事情的判断判断错了，有
+BIAS，就是有偏见。这个就是你的脑子对这件事情的抽象程度不够，脑子的判断模型就错了。所以效果就不好。</p>
+<p>就比方说分明是一个二次函数，你硬是要拿直线去怼出来，那你怎么怼？这就叫
+BIAS。</p>
+<p>而 VARIANCE 是什么呢？它指的是你的那个变化太大。</p>
+<blockquote>
+<p>The variance is an error from sensitivity to small fluctuations in
+the training set. High variance can cause an algorithm to model the
+random noise in the training data, rather than the intended outputs
+(overfitting).</p>
+</blockquote>
+<p>也就是说，这个训练集对未来比较敏感，实际的值稍微有一点不一样就会产生很差的结果。高
+VARIANCE 最后会导致模型产生的结果都很随机，效果很差。</p>
+<p>产生 VARIANCE 的背后有一个很重要的特性，就是模型复杂度。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231020021100.png"
+alt="Alt text" /></p>
+<p>随着模型越来越复杂，它的 BIAS 会越来越低，就是模型越来越复杂。</p>
+<p>就比方下面这个图中的模型：</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231020021101.png"
+alt="Alt text" /></p>
+<p>右边的这个曲线就是用了一个很复杂的模型，它的 BIAS 就会很低，BIAS
+低的时候它的 VARIANCE 就会变大。</p>
+<p>因为模型复杂，所以之后问题稍微变化了，这个模型就会产生出来变化比较大的输出值。而模型越简单，BIAS
+就会越高，对于未来也会变化没有那么大。</p>
+<p>这是一个非常重要的一个 Dilemma，是一个两难问题，进退两难的一个问题叫
+Dilemma。</p>
+<p>这两类错误背后其实都是和我们的模型复杂程度有关。</p>
+<p>那么讲到这里我们就可以来谈谈，BIAS 和
+VARIANCE，过拟合和欠拟合背后的原因有哪些。</p>
+<table>
+<thead>
+<tr class="header">
+<th>过拟合 overfitting</th>
+<th>欠拟合 Underfitting</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>训练数据占总体数据过少</td>
+<td>训练数据占总体数据过多</td>
+</tr>
+<tr class="even">
+<td>模型过于复杂</td>
+<td>模型过于简单</td>
+</tr>
+<tr class="odd">
+<td>采样过于不均衡</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>没有正则化...</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>模型过于简单可能会产生欠拟合情况，模型过于复杂呢有可能会产生一个过拟合的情况。如果产生了过拟合，还有一个很重要的特点就是有可能模型采样非常不均衡。</p>
+<p>模型复杂不复杂，单不简单，采样均衡不均衡。其实背后都有一个重点叫做『训练数据占总体数据的比例』，就是训练数据是不是够多。</p>
+<p>所谓的采样均衡不均衡，异常值的出现最终都指向的是一个问题，就是我们的训练数据不够多。</p>
+<p>为什么训练数据不够多会引起模型过于复杂之类的情况呢？在整个机器学习里是个非常重要的概念，叫做维度灾难。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231020021102.png"
+alt="Alt text" /></p>
+<p>我们举例来说明下，就比如，在一个平面坐标轴上有几百个点，我们用两点去确定了一根直线，但是这根直线并不能代表这几百个点确定的走向，我们需要去确定更多的点来调整这根线。</p>
+<p>但是如果是三维轴上，我们为了去确定一个平面，就需要更多的点，比二维轴上确定直线的点多的多。为了能更加精确地确定一个平面，需要更多的数据才行。</p>
+<p>在机器学习中算是一个经验，当机器学习的维度每增加一个，那么所需要的样本量基本上要增加一个数量级。</p>
+<p>举个例子，假如班上有一个老师，这个老师要预测同学能不能考上重点大学。假如现在是高一，还没有开始考试，他预测这个同学有这么几个情况：</p>
+<ul>
+<li>第一个情况是这个同学做作业的情况；</li>
+<li>第二个情况是这个孩子每天上课时回答问题的活跃程度</li>
+</ul>
+<p>假如是这两个点，如果他靠这两个 features
+来预测这个孩子能不能考上大学，准确度能够做到不错，假如到百分之八九十，他需要
+50 个学生能够预测。</p>
+<p>那么现在又加一个 features，这个 features
+还是和前两个值不相关的，又加了一个孩子的家庭收入情况。那么它得变成上百个学生数据才能预测对。因为每增加一个
+features，在这个世界中就会增加很多不确定的情况。</p>
+<p>所以模型之所以过于复杂，其实背后本质上还是数据量太少。</p>
+<p>就在我们今天大数据的情况下，模型其实进步的并没有非常大，但是数据量变大之后，整个的效果就好多了。在机器学习里有一个点就是算法再好，模型再好，抵不过不过数据量大。</p>
+<p>真正工作、学习的时候，一定要想办法提前检测出来过拟合、欠拟合的情况。为了提前检测出这些，有一个很简单的方法。</p>
+<p>假如现在给了许多的训练数据，不要把这训练数据全部拿上做完。而是选一部分，拿其中的一部分数据做训练，比方
+80%。然后，剩下 20% 不给模型去看，然后把模型拿到这 20%
+上去看一下结果。这样，我们就可以测试出结果。这就叫做训练集和数据集。</p>
+<p>为什么要有训练集和测试集呢？有一个非常极端的情况，如果不做训练集和数据集想获得好的结果，直接把所有
+label 对应的值记下来，也就是小时候我们背诵古诗散文。</p>
+<p>你的模型只会阅读并背诵全文，那想想训练的时候，acc、precision、recall
+等评测指标就非常高，但是效果就很差，过拟合的情况就会很严重。</p>
+<p>在实际的工作中，除了<code>train_set</code>和<code>test_set</code>，还有一个值叫<code>validation_set</code>。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231020021103.png"
+alt="Alt text" /></p>
+<p>早些年的时候，做测试数据集只会分成训练集和测试集。然后在训练集上去训练，完事在测试集上去测试。但是人们发现一个情况，比方说在测试集上训练完了之后，在测试集上发现效果不太好，过拟合有点严重，于是分析
+test 数据哪里做错了，找到错误之后修改代码或者修改数据。</p>
+<p>就好比一个同学做题的时候有十套卷子，他做完 8
+套，留了两套。再做这两套之后发现哪里不太对，然后反反复复去观察后面这两套，也就是我们的
+test
+数据。这个时候其实是在做针对性的调整，在有针对性的解决问题，整体的能力并没有提升。</p>
+<p>为了解决这个问题，在实际的工作中我们会把数据集分成三个数据集。</p>
+<p>训练数据集不断的去训练，然后结果给到 validation set
+这样一个小数据集里。我们去观察 validation 的结果，再去调整，当
+validation
+的结果很不错的时候我们拿一套完全没做过的题来检验。这个完全没见过的题就是我们
+test set 了。</p>
+<p>当 test set
+用过之后，如果考试成绩太差，那只能把数据集打乱，再重新取一份新的 test
+数据了。因为这个时候如果再去有针对性的调整模型结果，那其实是在手动过拟合了。</p>
+<p>在这个过程中，假设一共有 100 个数据，test 里有 20 个，validation 有
+10 个，train 里有 70
+个。为了尽可能多的把所有的数据都用上，把它的效率都发挥上，有一个很简单的操作：cross
+validation，也叫做交叉验证。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231020021104.png"
+alt="Alt text" /></p>
+<p>如图，假如我把数据分成很多份，我让其中一部分做 validation
+数据集，下一次训练的时候，我再让另外一部分做 validation 数据集。</p>
+<p>再回过头来看我们之前见过的机器学习的通用框架，这几节课学习了评价指标之后，我们就应该知道，在这个背后多了一个
+acc 和 precision，我们要持续的去观测它的结果。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231020021105.png"
+alt="Alt text" /></p>
+<p>在这个过程中有了数据，然后定义一个𝜃，这个𝜃就是我们的参数。然后根据
+loss function，gradient descent 不断优化这个参数。结果并不是要一个低的
+loss 参数，是期望有一个好的 acc 和
+precision。这个是在之前的基础上完善的整个学习过程。</p>
+<p>好，下节课呢，咱们来看看 FEATURE SCALING，特征缩放。</p>
+<hr />
+<p>关注「坍缩的奇点」，第一时间获取更多免费 AI 教程。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/扫码_搜索联合传播样式-白色版.png"
+alt="坍缩的奇点" /></p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>12. 机器学习 - 拟合</p><p><a href="https://hivan.me/12. 机器学习 - 拟合/">https://hivan.me/12. 机器学习 - 拟合/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2023-10-23</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2023-11-25</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" href="/null" target="_blank" rel="noopener" data-type="afdian"><span class="icon is-small"><i class="fas fa-charging-station"></i></span><span>爱发电</span></a><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="/null" target="_blank" rel="noopener" data-type="buymeacoffee"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>送我杯咖啡</span></a><a class="button donate" href="/null" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="paypal" onclick="document.getElementById(&#039;paypal-donate-form&#039;).submit()"><span class="icon is-small"><i class="fab fa-paypal"></i></span><span>Paypal</span></a><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" rel="noopener" id="paypal-donate-form"><input type="hidden" name="cmd" value="_donations"><input type="hidden" name="business" value="doo@hivan.me"><input type="hidden" name="currency_code" value="USD"></form><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/13.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20-%20%E6%95%B0%E6%8D%AE%E9%9B%86%E7%9A%84%E5%A4%84%E7%90%86/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">13. 机器学习 - 数据集的处理</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/11.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20-%20%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%872/"><span class="level-item">11. 机器学习 - 评价指标 2</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/12.%20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20-%20%E6%8B%9F%E5%90%88/';
+            this.page.identifier = '12. 机器学习 - 拟合/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">200</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">5</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">22</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI秘籍</span></span><span class="level-end"><span class="level-item tag">58</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">27</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">29</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-12T23:30:00.000Z">2023-12-13</time></p><p class="title"><a href="/29.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E5%8D%B7%E7%A7%AF%E7%9A%84%E5%8E%9F%E7%90%86/">29. 深度学习进阶 - 卷积的原理</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-09T23:30:00.000Z">2023-12-10</time></p><p class="title"><a href="/28.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20LSTM/">28. 深度学习进阶 - LSTM</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-05T23:30:00.000Z">2023-12-06</time></p><p class="title"><a href="/27.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E4%B8%BA%E4%BB%80%E4%B9%88RNN/">27. 深度学习进阶 - 为什么RNN</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-01T23:30:00.000Z">2023-12-02</time></p><p class="title"><a href="/26.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/">26. 深度学习进阶 - 深度学习的优化方法</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-11-28T23:30:00.000Z">2023-11-29</time></p><p class="title"><a href="/25.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E6%9D%83%E9%87%8D%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%8C%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1%E5%92%8C%E6%A2%AF%E5%BA%A6%E7%88%86%E7%82%B8/">25. 深度学习进阶 - 权重初始化，梯度消失和梯度爆炸</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2023 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>13. 微积分 - 牛顿 - 莱布尼兹公式、泰勒展开 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="[TOC]"><meta property="og:type" content="blog"><meta property="og:title" content="13. 微积分 - 牛顿 - 莱布尼兹公式、泰勒展开"><meta property="og:url" content="https://hivan.me/calculus-8/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="[TOC]"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2023-09-04T09:20:55.000Z"><meta property="article:modified_time" content="2023-11-25T04:39:16.684Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="Math"><meta property="article:tag" content="微积分"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/calculus-8/"},"headline":"13. 微积分 - 牛顿 - 莱布尼兹公式、泰勒展开","image":[],"datePublished":"2023-09-04T09:20:55.000Z","dateModified":"2023-11-25T04:39:16.684Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"[TOC]"}</script><link rel="canonical" href="https://hivan.me/calculus-8/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2023-09-04T09:20:55.000Z" title="9/4/2023, 5:20:55 PM">2023-09-04</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a><span> / </span><a class="link-muted" href="/categories/AI%E7%A7%98%E7%B1%8D/Math/">Math</a></span></div></div><h1 class="title is-3 is-size-4-mobile">13. 微积分 - 牛顿 - 莱布尼兹公式、泰勒展开</h1><div class="content"><p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20230904190800.png"
+alt="茶桁的 AI 秘籍 Math - 13" /></p>
+<p>[TOC]</p>
+<span id="more"></span>
+<p>Hi，大家好。我是茶桁。</p>
+<p>上一节课中，我们留了一个小尾巴，就是我让大家注意了一下这个式子：
+<span class="math display">\[
+\begin{align*}
+x^2\vert _{x=6}-x^2 \vert _{x=1}=6^2 - 1^2 = 35
+\end{align*}
+\]</span> 这段含义就是<span class="math inline">\(x^2\)</span>(在<span
+class="math inline">\(x\)</span>等于 6 的时候) 减去<span
+class="math inline">\(x^2\)</span>(当<span
+class="math inline">\(x\)</span>等于 1 的时候)。它的结果就是 6 的平方减
+1 的平方，它也等于 35，好神奇。那难道说这<span
+class="math inline">\(x^2\)</span>和<span
+class="math inline">\(2x\)</span>之间有什么关联吗？或者说我们把<span
+class="math inline">\(\int_a^b2xdx\)</span>的积分写成<span
+class="math inline">\(x^2\vert_{x=b}-x^2 \vert_{x=a}\)</span>?,
+难道这两者是相等的吗？</p>
+<p>在这里引出了微积分里面的非常重要的一个定理了：<strong>牛顿 -
+莱布尼兹公式</strong>。</p>
+<h2 id="牛顿---莱布尼兹公式">牛顿 - 莱布尼兹公式</h2>
+<p><strong>牛顿 -
+莱布尼兹公式</strong>，我们通过一个运动学的问题去说，它表述了怎么样的一个场景呢？</p>
+<p>首先，物体的初速度大小是 0，它做一个匀加速直线运动，其加速度是<span
+class="math inline">\(2m/sec^2\)</span>, 那么它的位移时间方程 s
+就应该是<span class="math inline">\(s=\frac{1}{2}at^2 =
+t^2\)</span>，我们物理课上学过的对吧？如果有不清楚的同学大家可以自己搜索一下，很好理解。我们把
+a 的数值给它带入之后，它就等于 t 平方。</p>
+<p>然后我们还可以考虑，不是做匀加速吗，那速度和时间的方程它应该就是：
+<span class="math display">\[
+\begin{align*}
+v = (s)&#39; = 2t
+\end{align*}
+\]</span> 我们打个比方，比如说我初速都是
+0，一直做匀加速，每过一秒我的速度就增加 2。所以它的函数方程就应该是
+2t。其实也就相当于对位移求导。就可以得到速度方程，是我们物理学上面的一个常识。</p>
+<p>我们先看一下这两个图像：</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20230904115319.png"
+alt="图片" /></p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20230904115338.png"
+alt="图片来自 2 微积分，第 42 页 -1" /></p>
+<p>上面一张图是我们位移时间方程的图像，下面是速度时间的函数图像。分别是<span
+class="math inline">\(s=t^2\)</span>以及<span
+class="math inline">\(v=2t\)</span>。</p>
+<p>我们再来看一下这两个图所对应的几何意义。比如说我从 0 秒一直到 5
+秒，上面位移时间图像里面它代表什么意义呢？0
+秒的时候在原点，距原点的距离为 0，在 5 秒的时候就应该在如图的位置，<span
+class="math inline">\(5^2\)</span>, 应该是 25 米：</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20230904131050.png"
+alt="image-20230904131049948" /></p>
+<p>我从 0 秒到 5
+秒总共走了多远是不是就是直接拿纵坐标直接减就行了？25-0，那不就是 25
+嘛。</p>
+<p>同样的问题再放在速度时间方程上面来看。横坐标是时间 t，纵坐标是速度
+v，我们知道速度乘以时间就是等于路程，或者说等于位移。函数曲线和<span
+class="math inline">\(x\)</span>轴围成的面积几何意义就是位移。如果我们想通过速度时间图像去求解从
+0 秒到 5 秒总共走了多远的话，求 0 秒到 5 秒形成的三角形的面积就行。</p>
+<p>我们已经知道面积代表着<span class="math inline">\(v \times
+t\)</span>,不管是矩形还是三角形，两个数值乘在一起代表的物理含义就是位移。所以对于速度图像而言，我们求它从
+0 秒到 5 秒走过的路程就是把从原点出发，一直到 5
+秒，围成的这么一个三角形的面积求出来。如图：</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20230904131921.png"
+alt="image-20230904131921247" /></p>
+<p>三角形对应的面积就是我们在这 5 秒内走过的位移。</p>
+<p>那按照几何意义来说的话，面积怎么求呢？边长分别是 5 和
+10，所以面积等于<span class="math inline">\(\frac{1}{2} \times 5 \times
+10\)</span>, 等于
+25。和我们用位移时间函数所求到的结果是一模一样的，唯一的区别就是在位移图像里面它是直接纵坐标结束值和初始值相减，在速度图像里面是求面积。</p>
+<p>那我们就发现了一个非常神奇的事实：当我们对速度函数求积分的时候，其实就是求被积函的原函数。</p>
+<p>其实就是对速度函数做了一个反向求导，从位移到速度它是一个求导过程。从速度到位移我们暂且把它叫做反向求导，就是回到里面逆向求导一下，得到函数之后再减去相应的纵坐标值就可以了。</p>
+<p>牛顿 -
+莱布尼兹公式非常非常的重要。因为它告诉了我们对于积分的形式我们应该怎么样去求解，我们来看一下定积分公式：
+<span class="math display">\[
+\begin{align*}
+\int_a^b f(x)dx = F(x) \vert_a^b = F(b) - F(a)
+\end{align*}
+\]</span></p>
+<p>如果我们要求积分的话，只需要找出<span
+class="math inline">\(f(x)\)</span>对应的原函数，然后把它在 a 点和 b
+点的值求出来相减，就可以得到<span class="math inline">\(f(x)\)</span>从
+a 到 b 之间积分的值。</p>
+<p>这是非常重要的一个事情，因为它被发现之前呢其实人类是不知道怎么样处理。虽然我知道<span
+class="math inline">\(\int_a^b\)</span>的意义，知道怎么求导，但是关键我不知道怎么积。正是因为公式的发明，我们才知道，原来求它原函数就行了。</p>
+<p>原函数的意思就是说，比如这里<span
+class="math inline">\(f(x)\)</span>是<span
+class="math inline">\(2x\)</span>的话，那它的原函数是什么样的函数求导得到了<span
+class="math inline">\(2x\)</span>呢？就是<span
+class="math inline">\(x^2\)</span>。</p>
+<p>所以我们可以看到积分其实是分成两种，一种称为「定积分」一种称为「不定积分」。定积分有具体的积分上下界以及具体的函数值相减，对应的这么一个结果。而不定积分只需要求出一个原函数就可以了。不定积分公式如下：
+<span class="math display">\[
+\begin{align*}
+\int f(x)dx = F(x) + C
+\end{align*}
+\]</span> 不管是定积分还是不定积分，核心都是逆向求导，找出原函数。</p>
+<p>细心的小伙伴会注意到，在不定积分这里求出来原函数还加了一个常数<span
+class="math inline">\(C\)</span>。为什么要加<span
+class="math inline">\(C\)</span>呢？难道说<span
+class="math inline">\(f(x) = 2x\)</span>, <span
+class="math inline">\(F(x)\)</span>是<span
+class="math inline">\(x^2\)</span>, 又或者是<span
+class="math inline">\(x^2 +
+1\)</span>都行吗？我们可以尝试求导试一下，确实是这样没错。这其实是一个之前课程中教过的问题，就是常数求导等于多少？等于
+0 对吗？这项没有了不会体现在这里。</p>
+<p>所以我们反向求导的时候会给它加上一个常数<span
+class="math inline">\(C\)</span>，表示它的原函数不是只有一个，是有无穷多个，根据<span
+class="math inline">\(C\)</span>来做区别，但是核心的<span
+class="math inline">\(F(x)\)</span>这一部分是一样的。</p>
+<p>很多小伙伴求不定积分，反向求导的时候把<span
+class="math inline">\(F(x)\)</span>求出来就万事大吉了，忘了加一个常数<span
+class="math inline">\(C\)</span>。也有的不太会加，其实就直接写上<span
+class="math inline">\(+C\)</span>就行。因为你也并不知道常数是什么，<span
+class="math inline">\(C\)</span>可以代表任何常数。不能就光写一个<span
+class="math inline">\(F(x)\)</span>。</p>
+<p>在我们定积分和不定积分的两个公司中， <span
+class="math inline">\(F(x)\)</span>是<span
+class="math inline">\(f(x)\)</span>的原函数， <span
+class="math inline">\(C\)</span>为常数， <span class="math inline">\(a,
+b\)</span>是积分区间。</p>
+<p>我们来看一个例子：</p>
+<p>求积分<span class="math inline">\(\int_1^6(x^3 + 3x^2+cos
+x)dx\)</span>的值。</p>
+<p>我们从 1 到 6
+积的积分，这被积函数看着似乎很复杂的样子，如果我们不知道牛顿 -
+莱布尼兹公式的话就束手无策，但是因为这两位大神特别给力，所以现在呢，我们只需要找出这个被积函数的原函数是什么：
+<span class="math display">\[
+\begin{align*}
+F(x) = \frac{1}{4}x^4 + x^3 + sinx
+\end{align*}
+\]</span></p>
+<p>大家可能一开始会比较习惯了求导，但是反向求导或者说求原函数的过程可能还得有一个适应的过程，多练几遍其实就熟悉了。</p>
+<p>打比方说， <span class="math inline">\(x^3\)</span>,
+我们想一下，三次方之前肯定是四次方，四次方要求导拿下来肯定会有一个数字
+4, 那在被积函数里数字 4 没有了，所以原函数肯定是有一个常数 1/4,
+当求导的时候，拿下来的 4 和 1/4 抵消了，所以在被积函数里系数才是
+1，求出来导数是<span class="math inline">\(x^3\)</span>。</p>
+<p>当前我们举的这个例子还是比较去好判断它的原函数，有一些函数的原函数比较难去判断，会比较复杂。还有一点，就是我们要知道，这是被积函数的<strong>一个原函数</strong>是这样子，因为被积函数原函数有无穷多个，只要加上一个常数<span
+class="math inline">\(C\)</span>,
+就无穷多个。我在这里我只是写出这么一个，就是常数为 0 的情况。 <span
+class="math display">\[
+\begin{align*}
+&amp; \therefore \int_1^6(x^3 + 3x^2+cosx)dx = F(x)\vert_1^6 \\
+&amp; = (\frac{1}{4}\times 6^4 + 6^3 +sin6) - (\frac{1}{4} \times 1^4 +
+1^3 + sin1) \\
+&amp; \cong 1510.84
+\end{align*}
+\]</span></p>
+<p>所以呢积分值就对应着原函数在 1 和 6
+处，这两个点的取值的一个差。算了一下，近似值呢是<code>1510.84</code>，是一个无限小数。</p>
+<p>这里还有一个地方要给大家说明一下，大家看到<span
+class="math inline">\(sin6\)</span>, 还有后面的<span
+class="math inline">\(sin1\)</span>, 并不是代表着 6
+度，它并不是代表着我们平时理解的角度。我们可以注意到无论是 6 还是
+1，右上角都没有代表读书人的小圆圈，因为它本身就不是角度，代表的是弧度。</p>
+<p>弧度和角度怎么样去换算呢？就是<span
+class="math inline">\(2\pi\)</span>, <span
+class="math inline">\(2\pi\)</span>等于 360 度，<span
+class="math inline">\(\pi\)</span>就等于 180 度，换算的话，<span
+class="math inline">\(1弧度=180 / \pi 度，1 度=\pi / 180
+弧度\)</span>。大家这里可以了解一下。</p>
+<h2 id="牛顿---莱布尼兹公式的意义">牛顿 - 莱布尼兹公式的意义</h2>
+<p>那牛顿 - 莱布尼兹公式对于我们有什么样的意义呢？</p>
+<p>首先，他提供了求积分问题的一个非常有效的办法，我们可以通过方向求导得出被积函数的原函数；并且将复杂的积分运算转化为简单的加减运算。</p>
+<p>为什么说积分运算是一个非常复杂的运算，就是因为如果我们没有牛顿 -
+莱布尼兹公式的话，如果要去计算积分唯一的办法只有一开始说的，通过画无限多个矩形去逼近它，积分这一种方式去做。而划分的过程就太复杂，这跟你划分的多精细还有关。而且关键最后得到结果还不是一个很准确的值，只是一个近似值，永远只是一个近似值，你永远达不到它积分的值。而公式将复杂的积分运算化解成了简单的这种加减运算。</p>
+<p>第二个，它架起了微分学和积分学之间的一个桥梁。历史上其实微分学和积分学一开始是独立发展的。那个时候科学家是不知道这两个东西是有联系的，并没有意识到一个正向一个反向过来。自从牛顿
+- 莱布尼兹公式提出之后，微分学和积分学才被称为了微积分。</p>
+<p>正因为上面的这些重要性，牛顿 -
+莱布尼兹公式也被称为了微积分基本定理。这是一个很高的荣誉，整个微积分的基本定理。</p>
+<p>接下来，再给大家一个小知识点：</p>
+<p>我们考虑，一个直恒为正的函数，也就是不存在图像在<span
+class="math inline">\(x\)</span>轴下方出现负面积的情况。</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20230904153345.png"
+alt="image-20230904153344918" /></p>
+<p>比如上图这样，函数值恒为正。如果是函数的话，考虑它的几何意义是什么。就是函数图像以及<span
+class="math inline">\(x\)</span>轴所围成的面积，通过积分求出来的就是面积。</p>
+<p>那问题来了，我们通过积分运算求出来的值是它和 x
+轴围成的面积的准确值，还是说它是一个极度逼近的一个近似值？准确值什么意思，就是面积被求出来了，一点点都不差，正好是这么多。而极度逼近的近似值就是可以无限的逼近，误差非常非常小，但是还是不相等，还是有一点点误差。</p>
+<p>函数是连续的，就考虑连续的函数。</p>
+<p>其实答案是准确值。</p>
+<p>为什么我在这里提出这么一个问题？因为我还记得上高中的时候，发现我周围的同学很多人以为是一个极度逼近的近似值，而不是一个准确值。就跟那个极限的概念一样，很多人觉得它是一个无限逼近但永远达不到的这么一个过程。</p>
+<p>积分求出来的，就是一个准确值。它面积是多少，通过积分求出来就是多少，大家这点要记住。</p>
+<h2 id="泰勒展开">泰勒展开</h2>
+<p>接着，是我们微积分里最后一部分：泰勒展开。是不是看到这里大家都舒一口气？万里长征终于来到最后一站了，当然了还是会有些公式。</p>
+<p>首先，我们通过微积分基本定理可知下面的式子： <span
+class="math display">\[
+\begin{align*}
+f(x) - f(a)  = \int_a^xf&#39;(t_1)dt_1 \implies f(x) = f(a) +
+\int_a^xf&#39;(t_1)dt_1
+\end{align*}
+\]</span> 这里被积函数用<span
+class="math inline">\(f’(x)\)</span>表示了，原函数用<span
+class="math inline">\(f(x)\)</span>表示。然后我们稍微做一下变形，就能得到<span
+class="math inline">\(f(x) = f(a) +
+\int_a^xf&#39;(t_1)dt_1\)</span>。</p>
+<p>然后我们再对<span
+class="math inline">\(f’(t_1)\)</span>做同样的处理，就是<span
+class="math inline">\(f’(t_1)\)</span>是关于<span
+class="math inline">\(t_1\)</span>的一个函数，导函数它也是一个函数，就像我们之前说过的，导数可以求很多阶，只要你
+n 阶可导的话，你一直可以求到 n
+阶导数。所以求了一次导之后，它仍然可能是一个量的函数。</p>
+<p>我们再做同样的处理： <span class="math display">\[
+\begin{align*}
+f(x) = f(a) + \int_a^xf&#39;(a)dt_1 + \int_a^x \int_a^{t_1}
+f&#39;&#39;(t_2)dt_2dt_1
+\end{align*}
+\]</span></p>
+<p>就是把上一个式子中结果里的<span
+class="math inline">\(f’(t_1)\)</span>看作成它所在式子中最前方的<span
+class="math inline">\(f(x)\)</span>，其实做的就是这么一个事情。如果大家式子觉得看着脑壳疼可以不用去看。我就告诉你，就是把<span
+class="math inline">\(f&#39;(t_1)\)</span>看作了<span
+class="math inline">\(f(x)\)</span>一样，然后套用一下$f(x) - f(a) =
+_a^xf'(t_1)dt_1 $这个式子去做。</p>
+<p>头晕了吗？别急，往下看，往下看你就会更晕了，接着，我们在对上面得到的式子中的<span
+class="math inline">\(f&#39;&#39;(t_2)\)</span>继续做同样的处理： <span
+class="math display">\[
+\begin{align*}
+&amp; f(x) \\ &amp; = f(a)+\int_a^xf&#39;(a)dt_1 + \int_a^x \int_a^{t_1}
+f&#39;&#39;(a)dt_2dt_1+\int_a^x\int_a^{t_1}\int_a^{t_2}f&#39;&#39;&#39;(t_3)dt_1dt_2dt_3
+\end{align*}
+\]</span></p>
+<p>这里呢，其实就是吧<span
+class="math inline">\(f&#39;&#39;(t_2)\)</span>同样看作<span
+class="math inline">\(f(x)\)</span>，然后得到结果，就是这么一大长串。双重积分、三重积分；你想要几成都可以，看你自己乐意。</p>
+<p>那我们做这些有啥意义呢？别急，接着往下看。</p>
+<p>首先，我们先来看一下形式，先别管这后面这一项，后面一项它是跟<span
+class="math inline">\(t_3\)</span>有关的，<span
+class="math inline">\(t_3\)</span>是一个自变量，它不是一个常数。</p>
+<p>我们来看一下前面，<span
+class="math inline">\(f(a)\)</span>是一个常数了，<span
+class="math inline">\(f’(a)\)</span>是一个常数了，<span
+class="math inline">\(f&#39;&#39;(a)\)</span>是一个常数了。那不就是<span
+class="math inline">\(f(x) =
+a\)</span>处函数值、一阶导数、二阶导数，不都是常数吗？所以<span
+class="math inline">\(f(a), f&#39;(a),
+f&#39;&#39;(a)\)</span>这三个均为常数，我们可以得到什么？直接对它做积分：
+<span class="math display">\[
+\begin{align*}
+\int_a^xf&#39;(a)dt_1 = \frac{f&#39;(a)}{1}(x-a)
+\end{align*}
+\]</span></p>
+<p>这里，可以把<span class="math inline">\(f’(a)\)</span>用<span
+class="math inline">\(C\)</span>来代替，但我们还是先给它保留一下:<span
+class="math inline">\(\frac{f&#39;(a)}{1}\)</span>。</p>
+<p>我们可以这么看，先别管<span
+class="math inline">\(f&#39;(a)\)</span>，把这项给拿掉，就看做它系数是
+1，就是积分 a 到<span class="math inline">\(x\)</span>, 乘上
+1，然后乘上<span class="math inline">\(dt_1\)</span>。</p>
+<p>什么东西求出来它的导数是 1 呢？不就是<span class="math inline">\(f(x)
+= x\)</span>，<span class="math inline">\(t_1 = x\)</span>的时候、<span
+class="math inline">\(t_1 =
+a\)</span>的时候，它两相减乘出来的结果，再乘上常数<span
+class="math inline">\(f’(a)\)</span>，在这里它除以 1
+是我人为加的。如果计算的话，不会有除以 1
+这一步，那我为什么要人为加这么一个呢？我们接着往下看： <span
+class="math display">\[
+\begin{align*}
+\int_a^x\int_a^{t_1}f&#39;&#39;(a)dt_2dt_1 &amp; = \int_a^x
+\frac{f&#39;&#39;(a)}{1}(t_1 - a)dt_1 \\
+&amp; = \frac{f&#39;&#39;(a)}{1 \times 2}(x-a)^2
+\end{align*}
+\]</span></p>
+<p>求二重积分怎么求？我们从里到外一步一步的求，我们先看这部分：<span
+class="math inline">\(\int_a^{t_1}f&#39;&#39;(a)dt_2\)</span>，不然两个一块看你绝对脑壳疼，而且也反应不过来。</p>
+<p>这一部分求积分不就和上方的式子类似吗，求出来结果就是<span
+class="math inline">\(\frac{f&#39;&#39;(a)}{1}(t_1 - a)\)</span>,
+和上面类似，只不过就是表现形式上面，符号上面有一些差别。</p>
+<p>当我们做完了这些之后，我们再来求这部分：<span
+class="math inline">\(\int_a^x \frac{f&#39;&#39;(a)}{1}(t_1 -
+a)dt_1\)</span>,
+双重积分我们就一层一层来，别想一口吃个胖子，一下子就把两层积分全给做了。那这个时候，<span
+class="math inline">\(\frac{f&#39;&#39;(a)}{1}\)</span>是一个常数，然后<span
+class="math inline">\(t_1\)</span>是自变量的一次，<span
+class="math inline">\(a\)</span>是一个常数。所以我们求出来最终结果。<span
+class="math inline">\(t_1-a\)</span>这部分的原函数，写成<span
+class="math inline">\(\frac{1}{2}t_1^2 -
+at_1\)</span>。再往里面带，当它等于 a 的时候什么值，当<span
+class="math inline">\(t_1\)</span>等于<span
+class="math inline">\(x\)</span>的时候什么值。</p>
+<p>注意，这里的<span class="math inline">\(x\)</span>
+它就不再是我们惯常表示的那个自变量了，这里<span
+class="math inline">\(x\)</span>我们可以把它当成一个常数。</p>
+<p>通过我们牛顿 - 莱布尼兹公式可以算出来双重积分求出来结果:<span
+class="math inline">\(\frac{f&#39;&#39;(a)}{1 \times
+2}(x-a)^2\)</span>。</p>
+<p>然后我们接下来再来看一下，我们一直这样做下去会怎样。</p>
+<p>我们一直做下去，那他四重积分又出来了，之后是五重、六重，一直到 n
+重都能出来。在 n
+重之前的这些积分，不管多少重，它这里面都是一个常数。所以我们在这里就可以得到：
+<span class="math display">\[
+\begin{align*}
+&amp; f(x) \\
+&amp; = f(a) + \frac{f&#39;(a)}{1!}(x-a) +
+\frac{f&#39;&#39;(a)}{2!}(x-a)^2+...+\frac{f^{(n)}(a)}{n!}(x-a)^n+R_n(x)
+\end{align*}
+\]</span></p>
+<p>只要我们一直做下去，就会发现<span
+class="math inline">\(f(x)\)</span>可以表示成这种形式。它在某一点的函数值，这一点的一阶导、二阶导、三阶导，都乘上一个多项式，一直到<span
+class="math inline">\(n\)</span>次的多项式，然后再除以 n 的阶乘。</p>
+<p>阶乘是什么意思大家都应该知道吧？我们拿 5 举例，5 的阶乘就是<span
+class="math inline">\(1\times 2 \times 3 \times 4 \times
+5\)</span>，多少的阶乘就是从 1
+一直乘到多少个数。阶层的增长率其实是超过指数函数的，它的增长速度是远超过指数函数的，阶乘是一个很可怕的数。</p>
+<p>当然，在数学上面如果你要表示非常大的数，可以用高德纳数来表示，这里就不展开说了。</p>
+<p>最后，我们还拖了一个小尾巴，<span
+class="math inline">\(R_n(x)\)</span>为什么没有写了，如果它写的话它是套了
+n 重积分的一个形式。</p>
+<p>这里我们就把函数用这种形式来表示，那形式有什么意义？其意义非常大，我们一个一个来看：</p>
+<p><strong>不管是什么样形式的函数，都可以通过多项式函数来拟合</strong>。多项式函数：易于计算，可以快速获得结果。</p>
+<p>比如<span class="math inline">\(cosx\)</span>，当<span
+class="math inline">\(x\)</span>为 30 度，45 度，90
+度的时候，我们都可以进行计算。但是当 x 为 37 度，38.89
+度，二分之派，你还能算出来吗？人和机器都不行。算这些函数都是通过「泰勒展开」来计算的。把他们化成这种形式：就是我们上面最终的<span
+class="math inline">\(f(x)\)</span>得到的形式去计算的，通过计算多项式函数来做。</p>
+<p>所以大家不要以为计算机啊很牛逼，其实它在智能程度远逊于人类，它只能做一些非常简单的二进式的加减法，什么<code>0+1、1+0、1*1</code>这种东西。但是它可以通过把复杂函数转换成多项式，通过强大的算力快速的告诉我们结果，计算机就是这样去计算。</p>
+<p>包括大家在中学的时候应该用过一个中学数学用表，在上面会看到不同的函数，在<span
+class="math inline">\(x\)</span>等于几的时候都会有一个近似值。那时候是不是很好奇值咋算的，我那时候就好奇过。那时候我反正是想不明白这东西怎么算。后来查资料就发现是通过泰勒展开算出来的，就是通过这种方式。</p>
+<p><strong>那么所有的复杂函数都是用泰勒展开转换成多项式函数计算的。</strong></p>
+<p><strong>泰勒展开也是有一个适用范围的</strong>。我们举一个例子：<span
+class="math inline">\(\frac{1}{1-x} = 1+x+x^2+x^3+o(x^3)\)</span></p>
+<p>这个函数，不是对任意的<span
+class="math inline">\(x\)</span>都成立，比如如果我<span
+class="math inline">\(x\)</span>等于 10
+的话，左边是一个负数了，但是你看右边是一个非常大的一个正数，这根本是不可能的。这还引发过数学史上非常有名的一个悖论。所以泰勒展开它是有一个适用范围的。对于上面这个例子而言，它的适用范围就是
+1，它的收敛半径就是 1。</p>
+<p>有一种泰勒展开比较特殊，就是你令多重积分里这些<strong>a 等于 0
+的时候，这种泰勒展开被称为麦克劳林展开</strong>。</p>
+<p>我们来看一个例子，来看一下它到底是否像说的那么厉害。</p>
+<p>例：求函数<span class="math inline">\(f(x) = e^x\)</span>在<span
+class="math inline">\(x=1\)</span>时的值。</p>
+<p>当我们拿到这个函数的时候，感觉都没办法去做，e
+的值都不知道。其实就是让我们求 e 的值。</p>
+<p>由函数的麦克劳林展开式，我们可以得到： <span class="math display">\[
+\begin{align*}
+f(x) = e^x \cong 1 + \frac{1}{1!}x^1 + \frac{1}{2!}x^2 + \frac{1}{3!}x^3
++\frac{1}{4!}x^4 + \frac{1}{5!}x^5
+\end{align*}
+\]</span> 我们这里就先精确到<span class="math inline">\(x\)</span>的 5
+次方。</p>
+<p>我们最终得到结果： <span class="math display">\[
+\begin{align*}
+f(1) = e^x &amp; \cong 1 + \frac{1}{1!}x^1 + \frac{1}{2!}x^2 +
+\frac{1}{3!}x^3 +\frac{1}{4!}x^4 + \frac{1}{5!}x^5 \\
+&amp; = 2.7167
+\end{align*}
+\]</span></p>
+<p>通过查表，e 的值是多少？是<span class="math inline">\(e^1 = e =
+2.71828...\)</span>,
+一直循环下去。我们会发现仅仅是通过简单的四则运算，再加上简单的乘方运算，乘方当然也可以转化为乘法运算。就计算出了一个非常复杂函数的值，泰勒展开的威力可见一般。</p>
+<p>我们在计算机去处理的时候，其实它没有我们聪明，人做不到事情它也做不到，只能转换成这些多项式然后去计算。靠的是它强大的算力，可能把小数点的位数给精确到多少位多少位，再交给我们去查，仅此而已。</p>
+<p>那我们如何理解泰勒展开？其实泰勒展开是可以用一系列的多项式函数来拟合任意一个函数，它拟合的道理是什么？我们看下面的图：</p>
+<p><img
+src="https://raw.githubusercontent.com/hivandu/notes/main/img/20230904180649.png"
+alt="image-20230904180649384" /></p>
+<p>比如红色的线代表了我们要拟合的函数，锯齿状的绿色曲线代表了我们拟合的效果。泰勒展开就是想用一个函数模拟另外一个。模拟不仅仅代表着在某些点的坐标，或者说函数值相同；更代表了在这些点的一阶变化率相同，二阶变化率一直到
+n 阶变化率都相同。</p>
+<p>也就是两个函数如果非常接近了，非常趋于相同了。那应该说不光在某些点函数值相同，在这些点的各阶的变化率对应的情况也相同。</p>
+<p>就像两个赛车在比赛一样，不是哪些位置他们俩的速度相同，还得比他们在哪些位置的加速度是否也相同，这样他们运动曲线才是一样的。也就是说，如果两个函数<span
+class="math inline">\(f(x)\)</span>和<span
+class="math inline">\(g(x)\)</span>相同，那么： <span
+class="math display">\[
+\begin{align*}
+&amp; f(x) = g(x) \\
+&amp; f&#39;(x) = g&#39;(x) \\
+&amp; f&#39;&#39;(x) = g&#39;&#39;(x) \\
+&amp; ... \\
+&amp; f^{(n)}(x) = g^{(n)}(x) \\
+&amp; 各阶的变化情况相同
+\end{align*}
+\]</span></p>
+<h2 id="结束语">结束语</h2>
+<p>以泰勒展开为结束点，我们今天的课程到这里也就结束了。微积分相关的内容到这里就全部讲完了，当然，我所讲的这些内容，在熟悉之后应付人工智能是能应付了，但是远远不是微积分的所有内容，并且讲的也并不细致，所以不要将我所讲的这些内容当作正规的数学教材。如果您是为了去理解和学习数学，那么就当作我给你开了一个窗，入门的话，还需要正规的数学教材去系统的好好学一下。</p>
+<p>对于只是希望进入人工智能大门的小伙伴，要记得我一开始所说的，微积分这部分内容体系虽然很庞大，但是最核心的还是导数和链式法则。当然在神经网络里面导数大多数情况是以偏导数的形式存在。我们用梯度下降算法去优化神经网络。</p>
+<p>那么，这一段时间大家辛苦了。可以先好好休息一下，下节课估计会晚一点放出来，我先去好好的备下课。下节课开始，我们来学习线性代数的相关内容。还记得我规划的相关目录吗？我再把线性代数部分贴出来大家看看：</p>
+<p><strong>线性代数：</strong></p>
+<ul>
+<li>线性方程组</li>
+<li>行列式与克拉默法则</li>
+<li>矩阵及其运算</li>
+<li>神经网络中的矩阵/向量</li>
+<li>矩阵的性质</li>
+<li>矩阵与线性变换</li>
+<li>线性变换的几何意义</li>
+<li>特征值与特征向量</li>
+<li>NumPy 中矩阵的操作</li>
+</ul>
+<p>当然，最后还是需要根据内容多少来确定一篇文章内包含多少。</p>
+<p>好，我是茶桁，咱们下节课再见。</p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>13. 微积分 - 牛顿 - 莱布尼兹公式、泰勒展开</p><p><a href="https://hivan.me/calculus-8/">https://hivan.me/calculus-8/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2023-09-04</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2023-11-25</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/Math/">Math</a><a class="link-muted mr-2" rel="tag" href="/tags/%E5%BE%AE%E7%A7%AF%E5%88%86/">微积分</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" href="/null" target="_blank" rel="noopener" data-type="afdian"><span class="icon is-small"><i class="fas fa-charging-station"></i></span><span>爱发电</span></a><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="/null" target="_blank" rel="noopener" data-type="buymeacoffee"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>送我杯咖啡</span></a><a class="button donate" href="/null" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="paypal" onclick="document.getElementById(&#039;paypal-donate-form&#039;).submit()"><span class="icon is-small"><i class="fab fa-paypal"></i></span><span>Paypal</span></a><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" rel="noopener" id="paypal-donate-form"><input type="hidden" name="cmd" value="_donations"><input type="hidden" name="business" value="doo@hivan.me"><input type="hidden" name="currency_code" value="USD"></form><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/02.%20%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%A0%B8%E5%BF%83%E5%9F%BA%E7%A1%80%20-%20%E5%AF%BC%E8%AE%BA1/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">02. 人工智能核心基础 - 导论（1）</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/1-Introduction-to-Mathematics-Overview/"><span class="level-item">1. 数学导论 - 概述</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/calculus-8/';
+            this.page.identifier = 'calculus-8/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">200</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">5</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">22</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI秘籍</span></span><span class="level-end"><span class="level-item tag">58</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">27</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">29</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-12T23:30:00.000Z">2023-12-13</time></p><p class="title"><a href="/29.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E5%8D%B7%E7%A7%AF%E7%9A%84%E5%8E%9F%E7%90%86/">29. 深度学习进阶 - 卷积的原理</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-09T23:30:00.000Z">2023-12-10</time></p><p class="title"><a href="/28.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20LSTM/">28. 深度学习进阶 - LSTM</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-05T23:30:00.000Z">2023-12-06</time></p><p class="title"><a href="/27.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E4%B8%BA%E4%BB%80%E4%B9%88RNN/">27. 深度学习进阶 - 为什么RNN</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-01T23:30:00.000Z">2023-12-02</time></p><p class="title"><a href="/26.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/">26. 深度学习进阶 - 深度学习的优化方法</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-11-28T23:30:00.000Z">2023-11-29</time></p><p class="title"><a href="/25.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E6%9D%83%E9%87%8D%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%8C%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1%E5%92%8C%E6%A2%AF%E5%BA%A6%E7%88%86%E7%82%B8/">25. 深度学习进阶 - 权重初始化，梯度消失和梯度爆炸</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2023 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

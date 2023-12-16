@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>使用 Transformers 进行语音转文本的完整入门指南 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="我与音频数据打交道的次数比我意识到的要多得多。"><meta property="og:type" content="blog"><meta property="og:title" content="使用 Transformers 进行语音转文本的完整入门指南"><meta property="og:url" content="https://hivan.me/%E4%BD%BF%E7%94%A8Transformers%E8%BF%9B%E8%A1%8C%E8%AF%AD%E9%9F%B3%E8%BD%AC%E6%96%87%E6%9C%AC/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="我与音频数据打交道的次数比我意识到的要多得多。"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230715150518.webp?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230715150548.webp?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230715150555.webp?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230715151652.png?imgNote"><meta property="og:image" content="https://qiniu.hivan.me/picGo/20230715151434.png?imgNote"><meta property="article:published_time" content="2023-07-15T07:18:39.000Z"><meta property="article:modified_time" content="2023-07-15T07:26:59.688Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://qiniu.hivan.me/picGo/20230715150518.webp?imgNote"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/%E4%BD%BF%E7%94%A8Transformers%E8%BF%9B%E8%A1%8C%E8%AF%AD%E9%9F%B3%E8%BD%AC%E6%96%87%E6%9C%AC/"},"headline":"使用 Transformers 进行语音转文本的完整入门指南","image":[],"datePublished":"2023-07-15T07:18:39.000Z","dateModified":"2023-07-15T07:26:59.688Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"我与音频数据打交道的次数比我意识到的要多得多。"}</script><link rel="canonical" href="https://hivan.me/%E4%BD%BF%E7%94%A8Transformers%E8%BF%9B%E8%A1%8C%E8%AF%AD%E9%9F%B3%E8%BD%AC%E6%96%87%E6%9C%AC/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2023-07-15T07:18:39.000Z" title="7/15/2023, 3:18:39 PM">2023-07-15</time>发表</span></div></div><h1 class="title is-3 is-size-4-mobile">使用 Transformers 进行语音转文本的完整入门指南</h1><div class="content"><p>我与音频数据打交道的次数比我意识到的要多得多。</p>
+<span id="more"></span>
+<p>世界上充满了音频数据和亟待解决的相关问题。我们可以使用机器学习来解决其中的许多问题。您可能对用于训练机器学习模型的图像、文本和表格数据以及用于解决这些领域问题的机器学习并不陌生。随着Transformer架构的出现，解决音频相关问题的准确性大大高于之前已知的方法。我们将学习音频ML的基础知识，使用变压器将语音转换为文本，并学习使用Huggingface库通过机器学习解决音频相关问题。</p>
+<ul>
+<li>了解音频机器学习的基础知识并获得相关背景知识。</li>
+<li>了解如何为机器学习收集、存储和处理音频数据。</li>
+<li>了解一项常见且有价值的任务：使用机器学习将语音转换为文本。</li>
+<li>了解如何使用Huggingface工具和库来完成音频任务--从寻找数据集到训练模型，并使用它们利用Huggingface
+Python库通过机器学习解决音频问题。</li>
+</ul>
+<p>本文作为<a
+href="https://hivan.me/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/">AI系列文章</a>的附加部分，但是并不放入系列之内，以保证其整体性。</p>
+<hr />
+<p>自 2010 年代初期深度学习革命发生以来，AlexNet
+在识别物体方面超越了人类的专业知识，Transformer
+架构可能是自那时以来最大的突破。Transformers
+使以前无法解决的任务成为可能，并简化了许多问题的解决方案。虽然它最初的目的是为了在自然语言翻译中获得更好的结果，但很快它不仅被应用于自然语言处理中的其他任务，而且还被跨领域应用——ViT或视觉变压器用于解决与图像相关的任务，决策变压器用于决策强化学习代理中的制作，最近一篇名为
+MagViT 的论文演示了 Transformer 在各种视频相关任务中的使用。</p>
+<p>这一切都始于现在著名的论文《Attention is All You
+Need》，该论文介绍了导致Transformers
+诞生的注意力机制。本文并不假设您已经了解 Transformers
+架构的内部工作原理。</p>
+<p>尽管在公共领域和普通开发人员领域，ChatGPT 和 GitHub Copilot
+是非常著名的名字，但深度学习已经在许多领域的许多实际用例中使用——视觉、强化学习、自然语言处理等。</p>
+<p>近年来，我们了解了许多其他用例，例如药物发现和蛋白质折叠。音频是深度学习尚未完全解决的迷人领域之一；从某种意义上说，Imagenet
+数据集中的图像分类是通过卷积神经网络解决的。</p>
+<ul>
+<li>我假设您有使用 Python
+的经验。基本的Python知识是必要的。您应该了解库及其常见用法。</li>
+<li>我还假设您了解机器学习和深度学习的基础知识。</li>
+<li>不需要具备Transformers 知识，但会有所帮助。</li>
+</ul>
+<p><strong>关于音频数据的注意事项：该平台不支持插入音频，因此我创建了一个包含所有代码和音频数据的
+Colab 笔记本。你可以在这里找到它。在Google
+Colaboratory中启动它，您可以从笔记本上播放浏览器中的所有音频。</strong></p>
+<p>您可能已经见过音频 ML 的实际应用。说“Hi, Siri”或“Okay,
+Google”就会启动各自平台的助手——这就是与音频相关的机器学习的实际应用。这种特殊的应用被称为“关键字检测”。</p>
+<p>但在这个领域中，使用 Transformer
+很有可能解决许多问题。但是，在开始使用 Transformer
+之前，让我快速告诉您在 Transformer 之前如何解决与音频相关的任务。</p>
+<p>在《Transformers
+》出现之前，音频数据通常被转换为梅尔谱图——描述手头音频剪辑的图像，并将其视为一幅图像并输入卷积神经网络进行训练。在推理过程中，音频样本首先被转换为梅尔谱图表示，CNN
+架构将基于此进行推理。</p>
+<p>现在我将快速向您介绍“librosa”Python
+包。这是一个处理音频数据非常有用的包。我将生成一个梅尔光谱图，让您了解它们的外观。您可以在网上找到<a
+target="_blank" rel="noopener" href="https://librosa.org/doc/latest/index.html">librosa 文档。</a></p>
+<p>首先，通过从终端运行以下命令来安装 librosa 库：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmake">pip <span class="hljs-keyword">install</span> librosa<br></code></pre></td></tr></table></figure>
+<p>然后，在您的笔记本中，您必须像这样简单地导入它：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Python"><span class="hljs-keyword">import</span> librosa<br></code></pre></td></tr></table></figure>
+<p>我们将使用与库捆绑在一起的一些数据来探索该库的一些基本功能。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs Python">array, sampling_rate = librosa.load(librosa.ex(<span class="hljs-string">&quot;trumpet&quot;</span>))<br></code></pre></td></tr></table></figure>
+<p>我们可以看到<strong>librosa.load()</strong>方法返回一个音频数组以及喇叭声音的采样率。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs Python"><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><span class="hljs-keyword">import</span> librosa.display<br><br>plt.figure().set_figwidth(<span class="hljs-number">12</span>)<br>librosa.display.waveshow(array, sr=sampling_rate)<br></code></pre></td></tr></table></figure>
+<p>这会将音频数据值绘制成如下图：</p>
+<p><img src="https://qiniu.hivan.me/picGo/20230715150518.webp?imgNote"
+alt="”" /></p>
+<p>在 X 轴上，我们看到时间，在 Y
+轴上，我们看到剪辑的幅度。通过以下方式收听：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> IPython.display <span class="hljs-keyword">import</span> Audio <span class="hljs-keyword">as</span> aud<br><br>aud(array, rate=<span class="hljs-number">16_000</span>)<br></code></pre></td></tr></table></figure>
+<p>您可以在我为此博文创建的<a
+target="_blank" rel="noopener" href="https://colab.research.google.com/drive/1iU57okU8Ti0_p1XoinHaExygJE-QDsxv?usp=sharing">Colab
+笔记本</a>中聆听声音。</p>
+<p>使用 librosa 直接绘制梅尔谱图。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs Python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><br>S = librosa.feature.melspectrogram(y=array, sr=sampling_rate,<br><br>					  n_mels=<span class="hljs-number">128</span>, fmax=<span class="hljs-number">8_000</span>)<br><br>S_dB = librosa.power_to_db(S, ref=np.<span class="hljs-built_in">max</span>)<br><br>plt.figure().set_figwidth(<span class="hljs-number">12</span>)<br><br>librosa.display.specshow(S_dB, x_axis=<span class="hljs-string">&quot;time&quot;</span>,<br><br>			     y_axis=<span class="hljs-string">&quot;mel&quot;</span>, sr=sampling_rate,<br><br>			     fmax=<span class="hljs-number">8000</span>)<br><br>plt.colorbar()<br></code></pre></td></tr></table></figure>
+<p><img src="https://qiniu.hivan.me/picGo/20230715150548.webp?imgNote"
+alt="”" /></p>
+<p>我们使用梅尔谱图而不是其他表示形式，因为它比其他表示形式包含更多的信息——一条曲线中的频率和幅度。您可以访问有关
+Analytics Vidhya 的这篇精彩文章，了解有关频谱图的更多信息。</p>
+<p>这正是 Transformer 之前的音频 ML
+中的大量输入数据的样子，用于训练卷积神经网络。</p>
+<p>正如《Attention is All You
+Need》论文中介绍的那样，注意力机制成功地解决了与语言相关的任务，因为从高层次来看，注意力头在预测下一个序列时决定序列的哪一部分比其他部分更值得关注令牌。</p>
+<p>现在，音频是序列数据的一个非常合适的例子。音频自然是由自然界或我们的语音器官（例如人类语音或动物声音）的振动产生的连续信号。但计算机既不能处理也不能存储连续数据。所有数据都是离散存储的。</p>
+<p>音频的情况也是如此。仅存储特定时间间隔的值；这些功能足以听歌、看电影以及通过电话或互联网与我们自己交流。</p>
+<p>变压器也处理这些数据。</p>
+<p>就像NLP（自然语言处理）一样，我们可以根据不同的需求使用不同架构的Transformer。我们将使用编码器-解码器架构来完成我们的任务。</p>
+<p><img src="https://qiniu.hivan.me/picGo/20230715150555.webp?imgNote"
+alt="”" /></p>
+<p>如前所述，我们将在每个流程步骤中使用 Huggingface 库。您可以导航到
+Huggingface 数据集中心来查看音频数据集。我们将在这里计算的数据集是 MINDS
+数据集。它是来自不同语言的说话者的语音数据的数据集。数据集中的所有示例都带有完整注释。</p>
+<p>让我们加载数据集并对其进行一些探索。</p>
+<p>首先，安装 Huggingface 数据集库。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmake">pip <span class="hljs-keyword">install</span> datasets<br></code></pre></td></tr></table></figure>
+<p>pip install
+确保我们下载的<strong>数据集</strong>库增加了对音频相关功能的支持。</p>
+<p>然后我们探索 MINDS 数据集。我强烈建议您浏览数据集的<a
+target="_blank" rel="noopener" href="https://huggingface.co/datasets/PolyAI/minds14">Huggingface
+页面</a>并阅读数据集卡。</p>
+<p><img src="https://qiniu.hivan.me/picGo/20230715151652.png?imgNote"
+alt="image-20230715151652853" /></p>
+<p>在 Huggingface
+数据集页面上，您可以看到数据集具有非常相关的信息，例如任务、可用语言和使用数据集的许可证。</p>
+<p>现在我们将加载数据并了解更多信息。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs Python"><span class="hljs-keyword">from</span> datasets <span class="hljs-keyword">import</span> load_dataset, Audio<br><br>minds = load_dataset(<span class="hljs-string">&quot;PolyAI/minds14&quot;</span>, name=<span class="hljs-string">&quot;en-AU&quot;</span>,<br>                     split=<span class="hljs-string">&quot;train&quot;</span>)<br><br>minds = minds.cast_column(<span class="hljs-string">&quot;audio&quot;</span>, Audio(sampling_rate=<span class="hljs-number">16_000</span>))<br></code></pre></td></tr></table></figure>
+<p>请注意数据集的加载方式。名字在前，我们只对澳大利亚口音英语感兴趣，我们只对训练分组感兴趣。</p>
+<p>在输入训练或推理任务之前，我们希望所有音频数据具有相同的采样率。这是通过代码中的“Audio”方法完成的。</p>
+<p>我们可以研究个别例子，如下所示：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs Python">example = minds[<span class="hljs-number">0</span>]<br>example<br></code></pre></td></tr></table></figure>
+<p><em>{‘path’:
+‘/root/.cache/huggingface/datasets/downloads/extracted/a19fbc5032eacf25eab0097832db7b7f022b42104fbad6bd5765527704a428b9/en-AU~PAY_BILL/response_4.wav’,‘audio’:
+{‘path’:
+‘/root/.cache/huggingface/datasets/downloads/extracted/a19fbc5032eacf25eab0097832db7b7f022b42104fbad6bd5765527704a428b9/en-AU~PAY_BILL/response_4.wav’,‘array’:
+array([2.36119668e-05, 1.92324660e-04, 2.19284790e-04, …,9.40907281e-04,
+1.16613181e-03, 7.20883254e-04]),‘sampling_rate’:
+16000},‘transcription’: ‘I would like to pay my electricity bill using
+my card can you please assist’,‘english_transcription’: ‘I would like to
+pay my electricity bill using my card can you please
+assist’,‘intent_class’: 13,</em></p>
+<p>‘lang_id’: 2}</p>
+<p>这很容易理解。它是一个带有级别的 Python
+字典。我们已经存储了路径和采样率。查看字典中的<strong>转录键。</strong>当我们对自动语音识别感兴趣时，它包含标签。<code>[“audio”][“aray”]</code>包含我们将用于训练或推断的音频数据。</p>
+<p>我们可以轻松收听任何我们想要的音频示例。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs Python"><span class="hljs-keyword">from</span> IPython.display <span class="hljs-keyword">import</span> Audio <span class="hljs-keyword">as</span> aud<br><br>aud(example[<span class="hljs-string">&quot;audio&quot;</span>][<span class="hljs-string">&quot;array&quot;</span>], rate=<span class="hljs-number">16_000</span>)<br></code></pre></td></tr></table></figure>
+<p><a
+target="_blank" rel="noopener" href="https://colab.research.google.com/drive/1iU57okU8Ti0_p1XoinHaExygJE-QDsxv?usp=sharing">您可以在Colab
+Notebook</a>中收听音频。</p>
+<p>现在，我们清楚地了解数据的外观及其结构。我们现在可以继续从自动语音识别的预训练模型中进行推断。</p>
+<p>Huggingface hub
+有许多模型，可用于各种任务，如文本生成、摘要、情感分析、图像分类等。我们可以根据我们想要的任务对中心中的模型进行排序。我们的用例是语音到文本，我们将探索专门为此任务设计的模型。</p>
+<p>为此，您应该导航到https://huggingface.co/models，然后在左侧边栏上单击您想要的任务。在这里，您可以找到可以立即使用的模型，或者找到一个很好的候选模型来微调您的特定任务。</p>
+<p><img src="https://qiniu.hivan.me/picGo/20230715151434.png?imgNote"
+alt="image-20230715151434564" /></p>
+<p>在上图中，我已经选择了自动语音识别作为任务，并且我得到了右侧列出的所有相关模型。</p>
+<p>注意不同的预训练模型。像 wav2vec2
+这样的一种架构可以有许多针对特定数据集进行微调的模型。</p>
+<p>您需要进行一些搜索并记住可用于使用该模型或微调的资源。</p>
+<p>我认为Facebook 的<a
+target="_blank" rel="noopener" href="https://huggingface.co/facebook/wav2vec2-base-960h">wav2vec2-base-960h</a>将适合我们的任务。我再次鼓励您访问模型页面并阅读模型卡。</p>
+<p>Huggingface 有一个非常友好的 API，可以帮助完成各种与 Transformer
+相关的任务。</p>
+<p>之前，我们找到了任务所需的模型，现在我们将其与上一节中看到的 Pipeline
+方法一起使用。</p>
+<p>首先，安装 Huggingface 变压器库。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmake">pip <span class="hljs-keyword">install</span> transformers<br></code></pre></td></tr></table></figure>
+<p>然后，导入 Pipeline 类并选择任务和模型。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> pipeline<br><br>asr = pipeline(<span class="hljs-string">&quot;automatic-speech-recognition&quot;</span>,<br><br>			   model=<span class="hljs-string">&quot;facebook/wav2vec2-base-960h&quot;</span>)<br><br><span class="hljs-built_in">print</span>(asr(example[<span class="hljs-string">&quot;audio&quot;</span>][<span class="hljs-string">&quot;example&quot;</span>])) <span class="hljs-comment"># example is one example from the dataset</span><br></code></pre></td></tr></table></figure>
+<p>输出是：</p>
+<figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs delphi"><span class="hljs-comment">&#123;&#x27;text&#x27;: &#x27;I WOULD LIKE TO PAY MY ELECTRICITY BILL USING MY CAD CAN YOU PLEASE ASSIST&#x27;&#125;</span><br></code></pre></td></tr></table></figure>
+<p>您可以看到这与我们上面看到的注释非常匹配。</p>
+<p>这样，您就可以从任何其他示例中得到推论。</p>
+<p>在本指南中，我介绍了音频数据处理和探索的基础知识以及音频机器学习的基础知识。在简要讨论用于音频机器学习的
+Transformer 架构之后，我向您展示了如何在 Huggingface
+中心使用音频数据集以及如何通过 Huggingface 模型中心使用预训练模型。</p>
+<p>您可以使用此工作流程解决许多与音频相关的问题，并通过利用变压器架构来解决这些问题。</p>
+<ul>
+<li>音频机器学习涉及通过机器学习技术解决音频领域现实世界中出现的与音频相关的问题。</li>
+<li>由于音频数据存储为数字序列，因此可以将其视为与序列相关的问题，并使用我们已有的用于解决其他序列相关问题的工具来解决。</li>
+<li>由于 Transformer 成功解决了与序列相关的问题，我们可以使用
+Transformer 架构来解决音频问题。</li>
+<li>由于语音数据和音频数据通常由于年龄、口音、说话习惯等因素而存在很大差异，因此针对特定数据集使用微调的解决方案总是更好。</li>
+<li>Huggingface
+拥有许多与音频相关的解决方案，涉及数据集、训练模型以及使用和调整训练和微调的简单方法。</li>
+<li>Huggingface Audio ML 课程，了解有关音频机器学习的更多信息</li>
+<li>Allen Downey 的《Think DSP》深入研究数字信号处理</li>
+</ul>
+<p><strong>Q1. 什么是音频机器学习？</strong></p>
+<p>答：音频机器学习是使用机器学习技术解决与音频数据相关的问题的领域。示例包括：通过关键字检测打开和关闭智能家居中的灯，通过语音转文本向语音助手询问当天的天气等。</p>
+<p><strong>Q2。如何收集机器学习的音频数据？</strong></p>
+<p>答：机器学习通常需要大量数据。要收集音频机器学习的数据，必须首先决定要解决什么问题。并收集相关资料。例如，如果您正在创建一个名为“Jarvis”的语音助手，并希望用“Good
+day,
+Jarvis”这句话来激活它，那么您需要收集来自不同地区、不同年龄、属于不同国家的人说出的这句话。多种性别
+- 并使用适当的标签存储数据。在每个音频任务中，标记数据非常重要。</p>
+<p><strong>Q3。什么是机器学习中的音频分类？</strong></p>
+<p>答：音频分类是一项机器学习任务，旨在将音频样本分类为一定数量的预定类别。例如，如果在银行部署音频模型，则可以使用音频分类根据客户的意图对来电进行分类，以将呼叫转发到适当的部门（贷款、储蓄账户、支票和汇票、共同基金）
+， ETC。</p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>使用 Transformers 进行语音转文本的完整入门指南</p><p><a href="https://hivan.me/使用Transformers进行语音转文本/">https://hivan.me/使用Transformers进行语音转文本/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2023-07-15</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2023-07-15</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" href="/null" target="_blank" rel="noopener" data-type="afdian"><span class="icon is-small"><i class="fas fa-charging-station"></i></span><span>爱发电</span></a><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="/null" target="_blank" rel="noopener" data-type="buymeacoffee"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>送我杯咖啡</span></a><a class="button donate" href="/null" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="paypal" onclick="document.getElementById(&#039;paypal-donate-form&#039;).submit()"><span class="icon is-small"><i class="fab fa-paypal"></i></span><span>Paypal</span></a><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" rel="noopener" id="paypal-donate-form"><input type="hidden" name="cmd" value="_donations"><input type="hidden" name="business" value="doo@hivan.me"><input type="hidden" name="currency_code" value="USD"></form><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/BardAPI-ChatGPT/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">将 Bard API 与 ChatGPT 集成：实时数据访问</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/LLMs%E7%9A%84%E5%AE%9E%E7%94%A8%E4%BB%8B%E7%BB%8D/"><span class="level-item">LLMs的实用介绍</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/%E4%BD%BF%E7%94%A8Transformers%E8%BF%9B%E8%A1%8C%E8%AF%AD%E9%9F%B3%E8%BD%AC%E6%96%87%E6%9C%AC/';
+            this.page.identifier = '使用Transformers进行语音转文本/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">200</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">5</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">22</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI秘籍</span></span><span class="level-end"><span class="level-item tag">58</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">27</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">29</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-12T23:30:00.000Z">2023-12-13</time></p><p class="title"><a href="/29.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E5%8D%B7%E7%A7%AF%E7%9A%84%E5%8E%9F%E7%90%86/">29. 深度学习进阶 - 卷积的原理</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-09T23:30:00.000Z">2023-12-10</time></p><p class="title"><a href="/28.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20LSTM/">28. 深度学习进阶 - LSTM</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-05T23:30:00.000Z">2023-12-06</time></p><p class="title"><a href="/27.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E4%B8%BA%E4%BB%80%E4%B9%88RNN/">27. 深度学习进阶 - 为什么RNN</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-01T23:30:00.000Z">2023-12-02</time></p><p class="title"><a href="/26.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/">26. 深度学习进阶 - 深度学习的优化方法</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-11-28T23:30:00.000Z">2023-11-29</time></p><p class="title"><a href="/25.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20%E6%9D%83%E9%87%8D%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%8C%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1%E5%92%8C%E6%A2%AF%E5%BA%A6%E7%88%86%E7%82%B8/">25. 深度学习进阶 - 权重初始化，梯度消失和梯度爆炸</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2023 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
