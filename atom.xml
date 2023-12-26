@@ -6,7 +6,7 @@
   <link href="https://hivan.me/atom.xml" rel="self"/>
   
   <link href="https://hivan.me/"/>
-  <updated>2023-12-24T05:54:53.573Z</updated>
+  <updated>2023-12-26T07:58:02.486Z</updated>
   <id>https://hivan.me/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>AI秘籍 - Python篇 PDF发布</title>
+    <link href="https://hivan.me/AI%E7%A7%98%E7%B1%8D-Python%E7%AF%87%20PDF%E5%8F%91%E5%B8%83/"/>
+    <id>https://hivan.me/AI%E7%A7%98%E7%B1%8D-Python%E7%AF%87%20PDF%E5%8F%91%E5%B8%83/</id>
+    <published>2023-12-26T07:30:00.000Z</published>
+    <updated>2023-12-26T07:58:02.486Z</updated>
+    
+    <content type="html"><![CDATA[<p><imgsrc="https://files.mdnice.com/user/43981/87ba735d-b75d-411e-980e-edc94a367eae.png" /></p><span id="more"></span><p>Hi，大家好。我是茶桁。</p><p>距离《茶桁的AI秘籍》开写已经过去小半年了，目前我们完成了三个部分的内容，分别是<ahref="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3035995870421073928&amp;scene=173&amp;subscene=&amp;sessionid=undefined&amp;enterid=0&amp;from_msgid=2648748542&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">「Python篇」</a>、<ahref="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3074770001140400130&amp;from_itemidx=1&amp;from_msgid=2648748768#wechat_redirect">「数学篇」</a>以及 <ahref="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3123885735829061633&amp;scene=173&amp;subscene=&amp;sessionid=undefined&amp;enterid=0&amp;from_msgid=2648749632&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">「核心基础」篇</a>，核心基础部分其实已经讲完了，剩下最后一篇是一个项目实战练习将会在明天与大家见面。</p><p>这其中数学篇是初次尝试进行收费阅读，也感谢部分小伙伴的支持。其间也有小伙伴提出了不少错误，在此万分感谢。</p><p>那在整个连载的过程中，我的后台有小伙伴留言说想要电子书，在公众号内进行阅读还是有些不太方便。在平时，茶桁其实很多的知识和内容都是来自于公众号，当然，更多的是来自于书本。</p><p>有闲下来的时间了，茶桁打算给大家<strong>写一篇「工作流」</strong>的内容来帮助小伙伴们平时在阅读的时候更好的收集内容。咱们以后再说。</p><p>本次电子书，先出了Python篇的，满足一些小伙伴的阅读需求。那本电子书是会长期更新的，内容上不会做大的改动，不过一些小的错误更正会时常去做。欢迎大家将本书分享给你的其他小伙伴们。</p><p>之后还会陆续更新「数学篇」和「核心基础篇」的电子书，不过数学篇会收费进行售卖，针对已经购买了专辑的小伙伴，则完全免费发放，并会持续更新。</p><p>还有就是咱们的代码仓库，之前有一些小伙伴反馈Github的仓库无法打开，所以我在Gitee上又上传了一份，现在是包含了两个代码仓库，分别是：</p><ul><li>Github: https://github.com/hivandu/AI_Cheats</li><li>Gitee: https://gitee.com/hivandu/ai_cheats</li></ul><p>可以选择一个自己访问顺畅的进行拉取。</p><p>这个仓库内包含了目前为止整个《AI秘籍的》的全部代码以及数据集，方便小伙伴下来之后进行练习。那仓库中的代码截至运行时间是2023年12月26日，为什么要写这个，因为有些包里的一些参数会做一些变动，到目前为止这些代码都可正常运行，假如过若干时间之后大家发现代码运行不了，可以去看看包的官方文档，也可以后台留言给我进行说明，我会对电子书进行更新。</p><p>最后，感谢大家的支持。还望关注「坍缩的奇点」，日后咱们会有一些干货分享给大家，也会和大家一起来完成一些企业项目，帮助小伙伴们更快的步入到实际工作中去。</p><p><imgsrc="https://gitee.com/hivandu/ai_cheats/raw/main/assets/Capture-2023-11-02-164446.png" /></p><p>电子书获取： 1. Github:https://github.com/hivandu/AI_Cheats/blob/main/Documents/%E8%8C%B6%E6%A1%81%E7%9A%84AI%E7%A7%98%E7%B1%8D%20-%20Python%E7%AF%87%20v1.0.pdf2. Gitee:https://gitee.com/hivandu/ai_cheats/blob/main/Documents/%E8%8C%B6%E6%A1%81%E7%9A%84AI%E7%A7%98%E7%B1%8D%20-%20Python%E7%AF%87%20v1.0.pdf3. 百度网盘链接:https://pan.baidu.com/s/1vSKwFa4zEA9XcK6Zpc2CRg?pwd=pua3 提取码:pua3</p><p><imgsrc="https://files.mdnice.com/user/43981/46011147-cda5-4609-b2d2-3200ef2c1418.png" /></p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;&lt;img
+src=&quot;https://files.mdnice.com/user/43981/87ba735d-b75d-411e-980e-edc94a367eae.png&quot; /&gt;&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="AI秘籍" scheme="https://hivan.me/categories/AI%E7%A7%98%E7%B1%8D/"/>
+    
+    <category term="Python" scheme="https://hivan.me/categories/AI%E7%A7%98%E7%B1%8D/Python/"/>
+    
+    
+    <category term="Python" scheme="https://hivan.me/tags/Python/"/>
+    
+  </entry>
   
   <entry>
     <title>32. 深度学习进阶 - Transfer Learning</title>
@@ -514,27 +538,6 @@ SOFTMAX。&lt;/p&gt;</summary>
     
     
     <category term="AI" scheme="https://hivan.me/tags/AI/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Mac上挂载APFS移动硬盘</title>
-    <link href="https://hivan.me/mount-apfs-on-mac/"/>
-    <id>https://hivan.me/mount-apfs-on-mac/</id>
-    <published>2023-10-26T10:10:41.000Z</published>
-    <updated>2023-10-26T10:52:24.631Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote><p>自用文，有需要的自取。</p></blockquote><p>百度网盘同步会认为移动硬盘是系统盘，所以无法进行同步。当然，也有例外的，之前我也是不知怎么同步的。</p><p>这次设置的时候被警告了，不允许设置。</p><span id="more"></span><p>好吧，那就只能将移动硬盘挂载到我的用户目录里了，我的移动硬盘是APFS类型，执行下面命令：</p><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment"># 查看当前硬盘IDENTIFIER</span><br>diskutil apfs list<br><br><span class="hljs-comment"># 或者下面这段命令</span><br>diskutil list<br><br><span class="hljs-comment"># 然后需要进行解锁，恢复键值(recovery_key):</span><br>diskutil apfs unlockVolume <span class="hljs-regexp">/dev/</span>apfs_volume_id -passphrase recovery_key<br><br><span class="hljs-comment"># 接着进行装载到自己期望的目录</span><br>diskutil mount -mountPoint Path apfs_volume_id<br></code></pre></td></tr></table></figure><p>假定我的硬盘<code>apfs_volume_id</code>为disk5s1,希望挂载到<code>~/mount</code>则：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">diskutil apfs unlockVolume /dev/disk5s1 -passphrase recovery_key<br>diskutil mount -mountPoint ~/mount /dev/disk5s1<br></code></pre></td></tr></table></figure><p>本是留待自用的，有需要的有缘人自行取走。</p>]]></content>
-    
-    
-    <summary type="html">&lt;blockquote&gt;
-&lt;p&gt;自用文，有需要的自取。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;百度网盘同步会认为移动硬盘是系统盘，所以无法进行同步。当然，也有例外的，之前我也是不知怎么同步的。&lt;/p&gt;
-&lt;p&gt;这次设置的时候被警告了，不允许设置。&lt;/p&gt;</summary>
-    
-    
-    
     
   </entry>
   
