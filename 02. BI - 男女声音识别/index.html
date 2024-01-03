@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>02. BI - Project Two, 男女声音识别 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content=""><meta property="og:type" content="blog"><meta property="og:title" content="02. BI - Project Two, 男女声音识别"><meta property="og:url" content="https://hivan.me/02.%20BI%20-%20%E7%94%B7%E5%A5%B3%E5%A3%B0%E9%9F%B3%E8%AF%86%E5%88%AB/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2024-01-02T23:30:00.000Z"><meta property="article:modified_time" content="2024-01-03T08:32:45.879Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="article:tag" content="BI"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/02.%20BI%20-%20%E7%94%B7%E5%A5%B3%E5%A3%B0%E9%9F%B3%E8%AF%86%E5%88%AB/"},"headline":"02. BI - Project Two, 男女声音识别","image":[],"datePublished":"2024-01-02T23:30:00.000Z","dateModified":"2024-01-03T08:32:45.879Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":""}</script><link rel="canonical" href="https://hivan.me/02.%20BI%20-%20%E7%94%B7%E5%A5%B3%E5%A3%B0%E9%9F%B3%E8%AF%86%E5%88%AB/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><script>var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?f91b64734fdc7bfb999e48f9248d44dd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-ZFB6CVWZFJ" async></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-ZFB6CVWZFJ');</script><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2024-01-02T23:30:00.000Z" title="1/3/2024, 7:30:00 AM">2024-01-03</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a><span> / </span><a class="link-muted" href="/categories/AI%E7%A7%98%E7%B1%8D/BI/">BI</a></span></div></div><h1 class="title is-3 is-size-4-mobile">02. BI - Project Two, 男女声音识别</h1><div class="content"><p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231116155948.png"
+alt="茶桁的AI秘籍 核心BI 02" /></p>
+<span id="more"></span>
+<p>[TOC]</p>
+<p>Hi, 你好。我是茶桁。</p>
+<p>上一节课，咱们用一个员工离职预测的案例来学习了LR和SVM。</p>
+<p>那今天咱们还是来看案例，从案例来入手。那今天的例子会带着大家一起来做一个练习，是一个男男女声音识别的例子。数据集来自于3,168个录音的样本，有些男性和女性，采集了一些特征，特征都是跟频谱相关的，一共有21个属性，去基于这个属性来预测声音是男还是女。指标是以Accuracy为评价指标。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231115184648.png"
+alt="20231115184648" /></p>
+<p>我们看一看，这个例子我们该怎么去用刚才的模型来解答？可以先看一看要预测是哪一个字段，就是<code>label</code>字段。除了label字段以外，其他的类型都属于我们的特征类型。</p>
+<p>想基于这个特征来预测label思路是啥？先梳理一下思路。我们想想，跟上一节课的流程是一样的，如果对之前的那个离职预测问题能清楚它的结构的话。那这里我们的结构也是先去加载，加在以后去预处理。预处理环节先看看数据长什么样，尤其是那个target，就是这个label标签，平均还是不平均等等。</p>
+<p>如果它是一个非数值类型需要给它做个映射，要采用这个SVM或者是LR这两种模型，跟距离有没有关系？就这个模型的运算流程跟距离有关系吗？是有关系的。</p>
+<p>SVM可以把它理解成是跟平面的距离，就是这个坐标跟超平面的那个距离是有关系的。LR是个分类器，它本身是跟线性回归相关的，它也是一条线，所以它跟距离也有关系。</p>
+<p>这两个模型跟距离计算是有联系的，所以我们需要先做一个归一化的处理，归一化处理以后去调包，调包以后就可以完成预测。就是这样一个任务。</p>
+<p>这个任务我们一起来写写代码，大家可以熟练一下，看看这个流程。</p>
+<p>这是一个csv数据集，<code>voice.csv</code>。老样子，文末有数据集地址。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">dataframe = pd.read_csv(<span class="hljs-string">&#x27;data/voice.csv&#x27;</span>)<br>dataframe.head()<br><br>---<br>	meanfreq	sd	median	Q25	Q75	IQR	skew	kurt	sp.ent	sfm	...	centroid	meanfun	minfun	maxfun	meandom	mindom	maxdom	dfrange	modindx	label<br>...<br><span class="hljs-number">5</span> rows × <span class="hljs-number">21</span> columns<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231115185052.png"
+alt="20231115185052" /></p>
+<p>查看一下数据集的头部，来大概了解一下数据。一共大概有21个词段,
+最后是label。label现在是male和female。除此之外，还有哪些比较常见的数据探索呢？比如说缺失值个数，是通过isnall加sum来做判断的:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 缺失值个数</span><br><span class="hljs-built_in">print</span>(dataframe.isnull().<span class="hljs-built_in">sum</span>())<br><span class="hljs-comment"># 矩阵的大小</span><br><span class="hljs-built_in">print</span>(dataframe.shape)<br><br>---<br>meanfreq    <span class="hljs-number">0</span><br>            ...<br>label       <span class="hljs-number">0</span><br>dtype: int64<br>(<span class="hljs-number">3168</span>, <span class="hljs-number">21</span>)<br></code></pre></td></tr></table></figure>
+<p>打印出来查看的结果，所有数据没有缺失值。大小是3168个，21个指标，没有问题。也可以只使用<code>shape[0]</code>来查看样本个数。</p>
+<p>然后我们还要查看一下样本个数分别男女各是多少，使用<code>label</code>来做一个判断进行筛选：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;男性个数:&#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(dataframe[dataframe.label==<span class="hljs-string">&#x27;male&#x27;</span>].shape[<span class="hljs-number">0</span>]))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;女性个数:&#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(dataframe[dataframe.label==<span class="hljs-string">&#x27;female&#x27;</span>].shape[<span class="hljs-number">0</span>]))<br><br>---<br>男性个数:<span class="hljs-number">1584</span><br>女性个数:<span class="hljs-number">1584</span><br></code></pre></td></tr></table></figure>
+<p>男性1,584，女性1,584，所以这个数据是不是比较规整，它属于一个均衡的一个样本，而且它没有缺失值。</p>
+<p>那下面要去建模之前先要把它分割成为特征，就是提取特征列和目标列。目标列可以把它称为叫label列或叫target</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">X = dataframe.iloc[:, :-<span class="hljs-number">1</span>]<br></code></pre></td></tr></table></figure>
+<p>那咱们在<a
+target="_blank" rel="noopener" href="http://mp.weixin.qq.com/mp/homepage?__biz=MzA4NzE4MDQzMg==&amp;hid=1&amp;sn=4662a6b4305960a2e30a70c26fcefa53&amp;scene=18#wechat_redirect">Python基础课</a>里有教授过Python相关的切片操作，这里面<code>[:, :-]</code>前面一个冒号代表是的取所有行，后面<code>:-1</code>是除了最后一列之外。那为什么要去掉最后一列呢？因为最后一列是label，本来就是我们的目标列，在特征数据集内不应该存在目标。所以我们新的数据集不应该存在这一列。</p>
+<p>那相对的，如果我们是要单独提取一个目标集，那就该反过来写：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">y = dataframe.iloc[:, -<span class="hljs-number">1</span>]<br></code></pre></td></tr></table></figure>
+<p>现在X和y就分别是我们的特征列和目标列。在调包之前一个很关键的过程就是把特征和目标提取出来，那么我们就用了iloc的方式，通过-1的方式给他做了个提取。</p>
+<p>这些特征刚才说了，我们在用模型，如果你用LR模型的话跟距离相关，我们还要做什么操作呢？还要给它做一个归一化操作。label现在是male和female，还要给它做一个标签编码方式，还是使用sklearn里面的LabelEncoder，定义一个<code>gender_encoder</code>，用它来做一个fit和transform。fit是先指定我们的标签关系，然后transform来做一个应用。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 使用标签编码</span><br>gender_encoder = LabelEncoder()<br><span class="hljs-built_in">print</span>(y)<br>y = gender_encoder.fit_transform(y)<br><span class="hljs-built_in">print</span>(y)<br><br>---<br><span class="hljs-number">0</span>         male<br>         ...  <br><span class="hljs-number">3167</span>    female<br>Name: label, Length: <span class="hljs-number">3168</span>, dtype: <span class="hljs-built_in">object</span><br>[<span class="hljs-number">1</span> <span class="hljs-number">1</span> <span class="hljs-number">1</span> ... <span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">0</span>]<br></code></pre></td></tr></table></figure>
+<p>我们把前后的<code>y</code>都打印出来查看一下区别。可以看到之前打印出来的是<code>male</code>和<code>female</code>，字母的形式，在操作之后就变成了1和0.所以1代表的是male，0代表的是female。这是我们编码的一个映射。需要把所有的这个类别特征转化成为数值。</p>
+<p>然后在运行机器学习模型之前，尤其是跟距离相关的，我们还需要给它做归一化操作。数据归一化。我们这里用另一种归一化方式:
+<code>StandardScaler</code>,
+也是一样的，叫正在分布归一化。都是给它做了一个标准化操作.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 数据归一化</span><br>scaler = StandardScaler()<br><span class="hljs-comment"># 对原时特征进行归一化</span><br>scaler.fit_transform(X)<br><span class="hljs-built_in">print</span>(X)<br><br>---<br>[[-<span class="hljs-number">4.04924806</span>  <span class="hljs-number">0.4273553</span>  -<span class="hljs-number">4.22490077</span> ... -<span class="hljs-number">1.43142165</span> -<span class="hljs-number">1.41913712</span><br>  -<span class="hljs-number">1.45477229</span>]<br>...<br> [-<span class="hljs-number">0.51474626</span>  <span class="hljs-number">2.14765111</span> -<span class="hljs-number">0.07087873</span> ... -<span class="hljs-number">1.27608595</span> -<span class="hljs-number">1.2637521</span><br>   <span class="hljs-number">1.47567886</span>]]<br></code></pre></td></tr></table></figure>
+<p>一样，先定义一个<code>scaler</code>，然后用它去fit和transform我们的X，这个是对原始特征进行归一化。</p>
+<p>归一化以后再把它喂回来，打一下我们的X看一下归一化之后的结果是什么样。正态分布归一化之后，均值就变成了0，所以它有可能小于0，也可能大于0。</p>
+<p>这个数据归一化是因为我们用了一个叫做正态分布归一化，正态分布的话，它的归一化是以0为中心点，下图这样的曲线：</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231115201019.png"
+alt="20231115201019" /></p>
+<p>这个中心点<span
+class="math inline">\(\mu\)</span>是0，方差为1。所以我们就把它变成了这样的正态分布了，所以有没有小于0的？一定要有的。</p>
+<p>正态分布有一个叫3Sigma原则，正1和-1之间的这个范围大概是68%，这叫1Sigma，2
+Sigma的话是95%，3
+Sigma是99.7%。所以它不是一个-1到1的结果，正态分布它是有可能小于-3的，也可能大于3，只是概率比较小。</p>
+<p>如果我不用它，我用<code>MinMaxScaler</code>会有小于0的吗？我们来设置一下，这里scaler改为<code>MinMaxScaler</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 测试归一化</span><br>scaler = MinMaxScaler()<br>X = scaler.fit_transform(X)<br><span class="hljs-built_in">print</span>(X)<br><br>---<br>[[<span class="hljs-number">9.64185977e-02</span> <span class="hljs-number">4.73408557e-01</span> <span class="hljs-number">8.41252523e-02</span> ... <span class="hljs-number">0.00000000e+00</span><br>  <span class="hljs-number">0.00000000e+00</span> <span class="hljs-number">0.00000000e+00</span>]<br> ...<br> [<span class="hljs-number">5.95699639e-01</span> <span class="hljs-number">7.68963896e-01</span> <span class="hljs-number">6.87590032e-01</span> ... <span class="hljs-number">2.50178699e-02</span><br>  <span class="hljs-number">2.50357654e-02</span> <span class="hljs-number">3.75385802e-01</span>]]<br></code></pre></td></tr></table></figure>
+<p>再看一看这个结果, 这个结果有可能小于0吗？不会。</p>
+<p>后面就是用数据集切分。还是一样，20%测试集，给一个随机种子数,
+我还是使用今年年份2023.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 数据集切分</span><br>X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=<span class="hljs-number">0.2</span>, random_state=<span class="hljs-number">2023</span>)<br></code></pre></td></tr></table></figure>
+<p>数据切完之后现在要做数据建模了，这里建模你可以用逻辑回归也可以用我们的SVC。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 数据建模</span><br>svc = SVC()<br><span class="hljs-comment"># 模型训练</span><br>svc.fit(X_train, y_train)<br><span class="hljs-comment"># 用训练好的模型进行预测</span><br>y_pred = svc.predict(X_test)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;SVM 预测结果：&#123;&#125;, \n 准确率: &#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(y_pred, accuracy_score(y_test, y_pred)))<br><br>---<br>SVM 预测结果：[<span class="hljs-number">1</span> <span class="hljs-number">0</span> <span class="hljs-number">1</span> ... <span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">0</span>], <br> 准确率: <span class="hljs-number">0.9715976331360947</span><br></code></pre></td></tr></table></figure>
+<p>这里用的是个非线性的SVC，
+创建模型SVC之后就fit，这个就是模型训练。</p>
+<p>之后模型预测是把刚才训练好的这个结果去做一个predict，用训练好的模型进行预测得到我们预测的结果，得到预测结果还要判断一下预测结果的准确性。我们先把结果打印出来，SVM的预测结果。再看一看它的准确率。</p>
+<p>准确率我们用了<code>accuracy_score</code>，帮你计算它的准确性，把测试集的数据和预测的结果<code>y_pred</code>来对比判断一下。可以看到预测的结果，1为男性，0为女性。然后准确率达到了百分之97以上，这个结果还是比较好的。当然，这个数据集也比较的简单。</p>
+<p>好，我们再回过头来说说归一化的问题，和上一节课不同，我们这次使用的是一个正态分布的方式去做归一化。这两个哪个好哪个不好，没有统一的标准。没有说正态分布或者是0-1分布的归一化哪个更好，都可以尝试。找适合的数据集。只不过是让它变得更加标准化，看看是不是方便你去找到它的规律。没有一个特别的规范还说明说该用哪一个不该用哪一个，这两个其实都可以。</p>
+<p>如果真是要说一下区别的话，我个人感觉正态分布更关注于人的一些属性。比如说人的身高、体重这种就比较偏向于正态分布，它更有可能找到好的结果。</p>
+<p>那作为归一化处理，也仅仅是处理特征。我们称呼其为weight,
+也就是权重。整个流程中，y是不需要进行归一化的。回到刚才的例子里，一共有21个特征，除了最后一个以外的话应该就是20个特征。20个特征里面如果用它原始的数值，比如说它是0到1,000，另外一个是0到10，那它就自带的weight会很高，第一个是第二个的100倍。所以对于X来说，如果不给它做归一化，它的量纲就不统一。那我们就让它的weight都一样，就每个特征它的权重大小都是一致的。然后放到模型里面跟y来做对比就可以。</p>
+<p>我们再换个场景，如果我们做的是一个树模型。大家知道最经典的数模型是CART，如果我们用CART角色树来做分类的话，请问需要提前做归一化操作吗？就是对我们的X都要转化，比如说转化成0-1之间区间范围吗？</p>
+<p>因为数模型的计算原理与距离无关，它的原理是跟距离没有关系的。它跟顺序有关系跟你的大小没有关系，所以对树模型来说的话你做不做对它的结果没有影响。但是对于LR、SVM来说做不做会有影响，因为它的权重不一样。</p>
+<p>好这是刚才我们整个的流程，刚刚就把整个的流程给大家梳理清楚了，现在这道题目跟上节课里那个离职预测的题目基本上是一致的过程。</p>
+<p>这两个例子如果你能看明白，下来自己也能把它跑通，基本上机器学习应该就算入门了。比如说你至少能会调包去使用了，而且对它的流程，过程原理还是清楚的。这个是希望大家能明白它的整个过程原理。</p>
+<p>那现在我们再给大家对比一下刚才我们两个项目讲解的两种分类器。一种叫LR，它的这个速度比较快，比较简单，通常用于我们的工业问题上。因为它速度快、资源少，而且方便调整，这是它的优点。</p>
+<p>缺点是啥，刚才说了有20个特征，男女声音识别有20个特征。那请问LR里面要学的参数量有多少？他要学习的一共就是<code>20+1</code>个。针对这样的模型速度比较快，同样的代价就是容易欠拟合，准确性不高。有可能学的不好。</p>
+<p>我们来看一下LR的准确性如何</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python">model = LogisticRegression()<br><br>model.fit(X_train, y_train)<br>y_pred = model.predict(X_test)<br>accuracy_score(y_test, y_pred)<br><br>---<br><span class="hljs-number">0.9692307692307692</span><br></code></pre></td></tr></table></figure>
+<p>可以看到，看到我们这两个模型里面，LR准确性是稍微差一点。虽然也有97%了，但它的准确性是比较差的。</p>
+<p>对于非线性模型为什么它差，是因为它不好发现非线性的特征。那谁可以发现？SVM可以发现。因为SVM的原理就是把低维映射到高维，更容易找到非线性的特征。</p>
+<p>处理非线性的特征同样要做数据归一化处理，因为它跟距离相关，刚才给大家讲过。</p>
+<p>SVM的缺点是啥？效率低，刚才速度快的原因是因为样本数不多，如果样本数变成了10万个再去看一看速度，它可能需要十几秒几十秒。那对于LR来说照样速度会很快。</p>
+<p>缺点二，你要做的是个非线性的映射，但不代表每次都能找到这样的一个映射。好的关系如果没有找到就得到不了很好的结果，所以非线性映射没有统一方案，可能很难找到合适的核函数。</p>
+<p>我们有了四种kernel,这四种kernel都可以尝试。但这四种有可能都不属于最终的解。所以这个kernel没有统一的方案。</p>
+<p>另外我们选择kernel还是有一点小的技巧的。比如说我们的样本数量比较小的情况下用简单的线性核，多的情况下就要用复杂的非线性核。</p>
+<p>每种模型都有自己的适用场景，建议大家未来在工作过程中可以先用简单的模型跑一遍，比如说LR模型。它作为我们预测模型的baseline，baseline我们也把它称为叫做基线。基线就是速度快、简单、效果还可以。不能说好，它的目的不在于好而是在于快，可以拿到一个60分的结果。有了baseline以后再去做复杂的模型，可以知道复杂模型到底好
+还是不好。</p>
+<p>比如说LR刚才那个模型，97%这是个baseline。用SVM得到98%就可以知道它比baseline要高。如果你直接上了一个复杂模型，我们也无法对比。所以可以先用基线来做一个参考。</p>
+<p>常见预测模型除了刚才说的分类模型以外其实还有树模型。树模型之后会详细给大家介绍，这个模型的模块是主要的内容，因为在未来的比赛过程中或项目过程中想要得到好的结果，还是要用到一些复杂的模型。</p>
+<p>好，基本上，我们利用两个项目就基本介绍完了咱们最基本的LR和SVM。和之前讲解机器学习基础原理不同，我们现在主要是基于案例来看具体我们该怎么应用。</p>
+<p>下一节课，咱们来看看几个机器学习神器。</p>
+<p>链接: https://pan.baidu.com/s/1UgXmDZLOpVeXz21-Ebddog?pwd=5t4e
+提取码: 5t4e --来自百度网盘超级会员v7的分享</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231120233241.png"
+alt="20231120233241" /></p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>02. BI - Project Two, 男女声音识别</p><p><a href="https://hivan.me/02. BI - 男女声音识别/">https://hivan.me/02. BI - 男女声音识别/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2024-01-03</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2024-01-03</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a><a class="link-muted mr-2" rel="tag" href="/tags/BI/">BI</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" href="https://afdian.net/item/72907364008511ee904852540025c377" target="_blank" rel="noopener" data-type="afdian"><span class="icon is-small"><i class="fas fa-charging-station"></i></span><span>爱发电</span></a><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://www.buymeacoffee.com/hivandu" target="_blank" rel="noopener" data-type="buymeacoffee"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>送我杯咖啡</span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="paypal" onclick="document.getElementById(&#039;paypal-donate-form&#039;).submit()"><span class="icon is-small"><i class="fab fa-paypal"></i></span><span>Paypal</span></a><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" rel="noopener" id="paypal-donate-form"><input type="hidden" name="cmd" value="_donations"><input type="hidden" name="business" value="doo@hivan.me"><input type="hidden" name="currency_code" value="USD"></form><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/Tea%20Truss&#039;s%20AI%20cheats%20math%20PDF%20release%20download/"><span class="level-item">茶桁的AI秘籍 - 数学篇 PDF发布下载</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/02.%20BI%20-%20%E7%94%B7%E5%A5%B3%E5%A3%B0%E9%9F%B3%E8%AF%86%E5%88%AB/';
+            this.page.identifier = '02. BI - 男女声音识别/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">207</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">6</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">22</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI秘籍</span></span><span class="level-end"><span class="level-item tag">65</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/BI/"><span class="level-start"><span class="level-item">BI</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">32</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-01-02T23:30:00.000Z">2024-01-03</time></p><p class="title"><a href="/02.%20BI%20-%20%E7%94%B7%E5%A5%B3%E5%A3%B0%E9%9F%B3%E8%AF%86%E5%88%AB/">02. BI - Project Two, 男女声音识别</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-01-02T11:00:00.000Z">2024-01-02</time></p><p class="title"><a href="/Tea%20Truss&#039;s%20AI%20cheats%20math%20PDF%20release%20download/">茶桁的AI秘籍 - 数学篇 PDF发布下载</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/Math/">Math</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-30T23:30:00.000Z">2023-12-31</time></p><p class="title"><a href="/01.%20BI%20-%20%E5%91%98%E5%B7%A5%E7%A6%BB%E8%81%8C%E9%A2%84%E6%B5%8B/">01. BI - Project one, 员工离职预测</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-26T07:30:00.000Z">2023-12-26</time></p><p class="title"><a href="/AI%E7%A7%98%E7%B1%8D-Python%E7%AF%87%20PDF%E5%8F%91%E5%B8%83/">AI秘籍 - Python篇 PDF发布</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/Python/">Python</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2023-12-23T23:30:00.000Z">2023-12-24</time></p><p class="title"><a href="/32.%20%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%20-%20Transfer%20Learning/">32. 深度学习进阶 - Transfer Learning</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/">核心能力基础</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2024 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
