@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>11. BI - 如何在 Python 中进行分词并展示词云 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="本文为 「茶桁的 AI 秘籍 - BI 篇 第 11 篇」"><meta property="og:type" content="blog"><meta property="og:title" content="11. BI - 如何在 Python 中进行分词并展示词云"><meta property="og:url" content="https://hivan.me/11.%20BI%20-%20%E5%A6%82%E4%BD%95%E5%9C%A8%20Python%20%E4%B8%AD%E8%BF%9B%E8%A1%8C%E5%88%86%E8%AF%8D%E5%B9%B6%E5%B1%95%E7%A4%BA%E8%AF%8D%E4%BA%91/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="本文为 「茶桁的 AI 秘籍 - BI 篇 第 11 篇」"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2024-02-03T23:30:00.000Z"><meta property="article:modified_time" content="2024-02-28T10:37:55.590Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="article:tag" content="BI"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/11.%20BI%20-%20%E5%A6%82%E4%BD%95%E5%9C%A8%20Python%20%E4%B8%AD%E8%BF%9B%E8%A1%8C%E5%88%86%E8%AF%8D%E5%B9%B6%E5%B1%95%E7%A4%BA%E8%AF%8D%E4%BA%91/"},"headline":"11. BI - 如何在 Python 中进行分词并展示词云","image":[],"datePublished":"2024-02-03T23:30:00.000Z","dateModified":"2024-02-28T10:37:55.590Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"本文为 「茶桁的 AI 秘籍 - BI 篇 第 11 篇」"}</script><link rel="canonical" href="https://hivan.me/11.%20BI%20-%20%E5%A6%82%E4%BD%95%E5%9C%A8%20Python%20%E4%B8%AD%E8%BF%9B%E8%A1%8C%E5%88%86%E8%AF%8D%E5%B9%B6%E5%B1%95%E7%A4%BA%E8%AF%8D%E4%BA%91/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><script>var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?f91b64734fdc7bfb999e48f9248d44dd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-ZFB6CVWZFJ" async></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-ZFB6CVWZFJ');</script><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2024-02-03T23:30:00.000Z" title="2/4/2024, 7:30:00 AM">2024-02-04</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a><span> / </span><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></span></div></div><h1 class="title is-3 is-size-4-mobile">11. BI - 如何在 Python 中进行分词并展示词云</h1><div class="content"><p>本文为 「<a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg%3D%3D&amp;action=getalbum&amp;album_id=3193965113967132673&amp;subscene=&amp;sessionid=svr_548800ce471&amp;enterid=1704001437&amp;from_msgid=2648751621&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;scene=21#wechat_redirect">茶桁的
+AI 秘籍 - BI 篇</a> 第 11 篇」</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/%E8%8C%B6%E6%A1%81%E7%9A%84AI%E7%A7%98%E7%B1%8D%20%E6%A0%B8%E5%BF%83BI%2011.png"
+alt="茶桁的 AI 秘籍 核心 BI 11" /></p>
+<span id="more"></span>
+<p>[TOC]</p>
+<p>Hi, 你好。我是茶桁。</p>
+<p>之前两节课，咱们学习了基础的数据可视化工具以及决策树的可视化。今天这节课，咱们要看到的是另外一个场景，叫做词云展示。</p>
+<p>词云应该所有人都不会陌生，一般什么时候用呢？</p>
+<p>2007 年的时候北京的 Google
+总部，一进入谷歌大楼就有一个非常震撼的场景，在谷歌的大屏幕里面就放了一个词云的展示。其实现在都知道是词云展示，技术并不是很难。它有个地球，每个地点里面都有个点。无论是在北京，或者在印度、美国的某个城市，每个点里面会呈现一个词云。这个词云告诉你在当前城市的关键词，它的新闻都呈现怎样的一个走势，用一种滚动的形态。你会发现它非常的智能。</p>
+<h2 id="python-词云展示">Python 词云展示</h2>
+<p>词云就是对关键词的一种提取，它是文本分析的一种工具。如果我们要做文本分析的话基本上比较常做的就是两种，要么就是英文，要么就是中文。</p>
+<p>在<strong>做词云展示之前要对文本进行处理</strong>，文本特征要去做提取的时候你要以一个单词的粒度。那单词怎么来？在一连串过程中我们要把最原始的那个单词给它提取出来，我们称之为叫做<strong>分词</strong>。</p>
+<p>分词需要用一些分词工具，中文的分词工具最常见的是<code>jieba</code>，英文的话用<code>NLTK</code>。</p>
+<p>那为了下面课程大家能跟着一起操作，我说一下这两个工具的安装。<code>jieba</code>比较简单，直接用<code>conda install jieba</code>就可以了，<code>nltk</code>
+也是一样的，直接用<code>conda install nltk</code>，只是
+<code>nltk</code>
+除了安装包之外，需要安装一些必要的数据集，以便特定功能正常工作。在未确定数据集之前，可以先安装常用的子集：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">python -m nltk.downloader popular<br></code></pre></td></tr></table></figure>
+<p>词云工具的用了<code>word cloud</code>,配置 word cloud
+的时候的话需要输入几个参数:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">wc = WordCloud(<br>      max_words=<span class="hljs-number">100</span>,<br>      width=<span class="hljs-number">1000</span>,<br>      height=<span class="hljs-number">1200</span><br>  )<br></code></pre></td></tr></table></figure>
+<p>单词的最大的容量，在画布里面呈现多少个单词，画布的长度和宽度。然后再把原始数据喂给画布去生成。生成之后可以把它输出一个
+jpg 文件，就可以把这张图呈现出来了。</p>
+<p>这个也不难，我带着大家来写一写。</p>
+<p>首先我们需要加载包：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> wordcloud <span class="hljs-keyword">import</span> WordCloud<br><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><span class="hljs-keyword">from</span> nltk.tokenize <span class="hljs-keyword">import</span> word_tokenize<br></code></pre></td></tr></table></figure>
+<p>接着来定义两个方法，一个方法是用于生成词云，还会调用另外一个方法，用于去掉停用词。</p>
+<p>为什么要有停用词呢？因为其实在我们做分词的时候，很多的单词大量出现，但是却没有实际意义，比如<code>the, a, of</code>等等。</p>
+<p>先来写停用词删除的方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 去掉停用词</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">remove_stop_words</span>(<span class="hljs-params">f</span>):<br>  stop_words = [<span class="hljs-string">&#x27;Movie&#x27;</span>]<br>  <span class="hljs-keyword">for</span> stop_word <span class="hljs-keyword">in</span> stop_words:<br>      f = f.replace(stop_word, <span class="hljs-string">&#x27;&#x27;</span>)<br>  <span class="hljs-keyword">return</span> f<br></code></pre></td></tr></table></figure>
+<p>之后我们再来写一个生成词云的方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 生成词云</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">create_word_cloud</span>(<span class="hljs-params">f</span>):<br>  <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;根据词频，开始生成词云！&#x27;</span>)<br><br>  f = remove_stop_words(f)    <br>  cut_text = word_tokenize(f)<br><br>  cut_text = <span class="hljs-string">&#x27; &#x27;</span>.join(cut_text)<br>  wc = WordCloud(<br>      max_words=<span class="hljs-number">100</span>,<br>      width=<span class="hljs-number">1000</span>,<br>      height=<span class="hljs-number">1200</span><br>  )<br><br>  wordcloud = wc.generate(cut_text)<br>  wordcloud.to_file(<span class="hljs-string">&#x27;assets/wordcloud.jpg&#x27;</span>)<br>  plt.imshow(wordcloud)<br>  plt.axis(<span class="hljs-string">&#x27;off&#x27;</span>)<br>  plt.show()<br></code></pre></td></tr></table></figure>
+<p>两个方法定义完成之后，我们需要一个数据。要生成词云，肯定不能凭空生成，必须是需要数据才可以的。咱们用一个电影数据，里面包含两个特征，<code>title</code>和<code>genres</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 数据加载</span><br>data = pd.read_csv(<span class="hljs-string">&#x27;dataset/movies.csv&#x27;</span>)<br></code></pre></td></tr></table></figure>
+<p>之后就是需要将两个特征读取出来，因为是形成词云，主要是要单词词组，两个可以合成一个数据，不需要做区分。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 读取 title 和 genres 字段</span><br>title = <span class="hljs-string">&#x27; &#x27;</span>.join(data[<span class="hljs-string">&#x27;title&#x27;</span>])<br>genres = <span class="hljs-string">&#x27; &#x27;</span>.join(data[<span class="hljs-string">&#x27;genres&#x27;</span>])<br>all_word = title + genres<br></code></pre></td></tr></table></figure>
+<p>最后当然就是将数据喂给我们写好的方法，形成词云：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 生成词云</span><br>create_word_cloud(all_word)<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231205205837.png"
+alt="20231205205837" /></p>
+<p>词云图展示出来以后，我们可以看到 Comedy, Drama 和 romance
+都比较多。</p>
+<h2 id="marketbasket-购物篮词云分析">MarketBasket 购物篮词云分析</h2>
+<p>简单的了解了词云怎么去完成之后，咱们再来一个案例。拿一个 MarketBasket
+购物篮来做词云分析，这个是 kaggle
+里的一个数据，下载地址为：https://www.kaggle.com/datasets/dragonheir/basket-optimisation/</p>
+<p>这是一个超市的购物小票数据集，我们想要对词云来做个展示，做个探索。做探索就可以判断出来这个超市哪一个商品使用的频率卖的会更好。然后你也可以对这个商品去取一下
+TOP10 都有哪些。</p>
+<p>加载数据之后，我们来打印一下它的数据看看</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231205231052.png"
+alt="20231205231052" /></p>
+<p>发现这个数据里面还是有很多的空值，不仅如此，那个 head
+并不是咱们的特征名，那么我们在读取这样的数据的时候还要处理一下，来重新读取一下数据：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 数据加载</span><br>data = pd.read_csv(<span class="hljs-string">&#x27;/Volumes/Media Database/SynologyDrive/data/AI_Cheats/wordcloud/Market_Basket_Optimisation.csv&#x27;</span>, header=<span class="hljs-literal">None</span>)<br>data.head()<br></code></pre></td></tr></table></figure>
+<p>在读取数据的时候，我们将 header 设置为了 None，
+这样获取的数据，就不会将第一行认为是表头了。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231205230933.png"
+alt="20231205230933" /></p>
+<p>再来看看 values 是怎样的</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231205231310.png"
+alt="20231205231310" /></p>
+<p>确实，很多的<code>nan</code>。那在做词云之前，我们需要将数据先处理一下，反正要将所有的字符都放在一个变量里，在放入之前，先来判断一下它是否为<code>nan</code>就好了:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">all_word = <span class="hljs-string">&#x27;&#x27;</span><br>temp_list = data.values<br><span class="hljs-keyword">for</span> temp <span class="hljs-keyword">in</span> temp_list:<br>  <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> temp:<br>      <span class="hljs-keyword">if</span> <span class="hljs-built_in">str</span>(x) != <span class="hljs-string">&#x27;nan&#x27;</span>: <br>          all_word = all_word + <span class="hljs-string">&#x27; &#x27;</span> + x<br></code></pre></td></tr></table></figure>
+<p>最后，让我们将之前定义过的生成词云的方法调用一下，将本次我们处理好的数据喂给它：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 生成词云</span><br>create_word_cloud(all_word)<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231205231610.png"
+alt="20231205231610" /></p>
+<p>这样，就生成这次数据的一个词云图片。是不是还蛮简单的？其实重点还是在处理数据那里，第一个
+values 看到 dataframe 里面所有的数值，这个数值因为它有两个
+list，所以写了两层分循环。有些值为空，就判断一下它是不是不为空，如果不为空把它拼接到一起。这样就把所有的文本读出来。读完以后再去用它来生成词云，就可以得到一个展示。</p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>11. BI - 如何在 Python 中进行分词并展示词云</p><p><a href="https://hivan.me/11. BI - 如何在 Python 中进行分词并展示词云/">https://hivan.me/11. BI - 如何在 Python 中进行分词并展示词云/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2024-02-04</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2024-02-28</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a><a class="link-muted mr-2" rel="tag" href="/tags/BI/">BI</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/12.%20BI%20-%20%E5%8F%AF%E8%A7%86%E5%8C%96%E5%9C%A8%E9%A1%B9%E7%9B%AE%E8%92%B8%E6%B1%BD%E9%87%8F%E9%A2%84%E6%B5%8B%E7%9A%84%E8%BF%87%E7%A8%8B%E5%8F%8A%E5%BA%94%E7%94%A8/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">12. BI - 可视化在项目蒸汽量预测的过程及应用</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/10.%20BI%20-%20%E5%86%B3%E7%AD%96%E6%A0%91%E7%9A%84%E4%BD%BF%E7%94%A8%E5%8F%8A%E5%8F%AF%E8%A7%86%E5%8C%96/"><span class="level-item">10. BI - 决策树的使用及可视化</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/11.%20BI%20-%20%E5%A6%82%E4%BD%95%E5%9C%A8%20Python%20%E4%B8%AD%E8%BF%9B%E8%A1%8C%E5%88%86%E8%AF%8D%E5%B9%B6%E5%B1%95%E7%A4%BA%E8%AF%8D%E4%BA%91/';
+            this.page.identifier = '11. BI - 如何在 Python 中进行分词并展示词云/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI 游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">223</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">6</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">22</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI 秘籍</span></span><span class="level-end"><span class="level-item tag">81</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/"><span class="level-start"><span class="level-item">BI</span></span><span class="level-end"><span class="level-item tag">17</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">33</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-27T23:30:00.000Z">2024-02-28</time></p><p class="title"><a href="/17.%20BI%20-%20Surprise%E5%B7%A5%E5%85%B7%E7%AE%B1%EF%BC%9ABaseline/">17. BI - Surprise 工具箱：Baseline</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-24T23:30:00.000Z">2024-02-25</time></p><p class="title"><a href="/16.%20BI%20-%20%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E4%B9%8BALS%E5%AE%9E%E7%8E%B0/">16. BI - 推荐系统之 ALS 实现</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-20T23:30:00.000Z">2024-02-21</time></p><p class="title"><a href="/15.%20BI%20-%20%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E4%B9%8BALS%E5%8E%9F%E7%90%86/">15. BI - 推荐系统之 ALS 原理</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-15T23:30:00.000Z">2024-02-16</time></p><p class="title"><a href="/14.%20BI%20-%20%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E4%B9%8B%E7%9F%A9%E9%98%B5%E5%88%86%E8%A7%A3/">14. BI - 推荐系统之矩阵分解</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-10T23:30:00.000Z">2024-02-11</time></p><p class="title"><a href="/13.%20BI%20-%20%E5%8F%AF%E8%A7%86%E5%8C%96%E7%9C%8B%E6%9D%BF%E5%8F%91%E5%B8%83/">13. BI - 可视化看板发布</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2024 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

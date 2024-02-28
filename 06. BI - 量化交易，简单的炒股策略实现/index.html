@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>06. BI - 量化交易，简单的炒股策略实现 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content=""><meta property="og:type" content="blog"><meta property="og:title" content="06. BI - 量化交易，简单的炒股策略实现"><meta property="og:url" content="https://hivan.me/06.%20BI%20-%20%E9%87%8F%E5%8C%96%E4%BA%A4%E6%98%93%EF%BC%8C%E7%AE%80%E5%8D%95%E7%9A%84%E7%82%92%E8%82%A1%E7%AD%96%E7%95%A5%E5%AE%9E%E7%8E%B0/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2024-01-16T23:30:00.000Z"><meta property="article:modified_time" content="2024-02-28T10:34:44.193Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="article:tag" content="BI"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/06.%20BI%20-%20%E9%87%8F%E5%8C%96%E4%BA%A4%E6%98%93%EF%BC%8C%E7%AE%80%E5%8D%95%E7%9A%84%E7%82%92%E8%82%A1%E7%AD%96%E7%95%A5%E5%AE%9E%E7%8E%B0/"},"headline":"06. BI - 量化交易，简单的炒股策略实现","image":[],"datePublished":"2024-01-16T23:30:00.000Z","dateModified":"2024-02-28T10:34:44.193Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":""}</script><link rel="canonical" href="https://hivan.me/06.%20BI%20-%20%E9%87%8F%E5%8C%96%E4%BA%A4%E6%98%93%EF%BC%8C%E7%AE%80%E5%8D%95%E7%9A%84%E7%82%92%E8%82%A1%E7%AD%96%E7%95%A5%E5%AE%9E%E7%8E%B0/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><script>var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?f91b64734fdc7bfb999e48f9248d44dd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-ZFB6CVWZFJ" async></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-ZFB6CVWZFJ');</script><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2024-01-16T23:30:00.000Z" title="1/17/2024, 7:30:00 AM">2024-01-17</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a><span> / </span><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></span></div></div><h1 class="title is-3 is-size-4-mobile">06. BI - 量化交易，简单的炒股策略实现</h1><div class="content"><p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/%E8%8C%B6%E6%A1%81%E7%9A%84AI%E7%A7%98%E7%B1%8D%20%E6%A0%B8%E5%BF%83BI%2006.png"
+alt="茶桁的 AI 秘籍 核心 BI 06" /></p>
+<span id="more"></span>
+<p>[TOC]</p>
+<p>Hi，你好。我是茶桁。</p>
+<p>上一节课中，咱们详细的分解了 Fintech
+的应用场景，也是将相关的一些业务给大家好好的梳理了一遍。</p>
+<p>那么本节课中，咱们来一起做一个实战，关于 Python
+的量化交易的一个板块。</p>
+<p>先来了解一下咱们用到的工具，首先必须是 Python，Python
+的数据会放到一个数据表里面，结构咱们用的是
+dataFrame。以前介绍过，dataFrame 就是 Pandas 这个包内的数据格式。</p>
+<p>在之前的 Python 基础课程有详细的给大家梳理过
+Pandas，有相关基础不太好的小伙伴可以回过头去再好好看看我那一篇内容 <a
+href="https://hivan.me/AI-Python-Pandas/">27. Pandas</a>。</p>
+<h2 id="rolling-函数">Rolling 函数</h2>
+<p>这里咱们要用到 dataFrame 内的一个相关函数，<code>rolling</code>,
+这是一个窗口的滚动，设置了时间窗口的大小，可以帮你去滚动几个窗口的数据。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">DataFrame.rolling(window, min_periods=<span class="hljs-literal">None</span>, center=<span class="hljs-literal">False</span>, on=<span class="hljs-literal">None</span>)<br></code></pre></td></tr></table></figure>
+<p>这其中，window
+是时间窗的大小，即向前几个数据（可以理解将最近的几个值进行 group
+by）</p>
+<p><code>min_periods</code>，最少需要观测点数量，默认与 window
+相等。</p>
+<p><code>center</code>，把窗口的标签设置为居中，布尔型，默认 False</p>
+<p><code>on</code>, 可选参数，制定要计算滚动窗口的列，值为列名。</p>
+<p>我们一起来生成一些模拟的数据:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python">df = pd.DataFrame(np.random.randint(<span class="hljs-number">5</span>, size=(<span class="hljs-number">10</span>, <span class="hljs-number">2</span>)), index = pd.date_range(<span class="hljs-string">&#x27;1/1/2023&#x27;</span>, periods=<span class="hljs-number">10</span>), columns=[<span class="hljs-string">&#x27;A&#x27;</span>, <span class="hljs-string">&#x27;B&#x27;</span>])<br><br><span class="hljs-comment"># 将 B 列最近 2 个值相加并生成新列</span><br>df[<span class="hljs-string">&#x27;C&#x27;</span>] = df[<span class="hljs-string">&#x27;B&#x27;</span>].rolling(window=<span class="hljs-number">2</span>).<span class="hljs-built_in">sum</span>()<br>df[<span class="hljs-string">&#x27;D&#x27;</span>] = df[<span class="hljs-string">&#x27;B&#x27;</span>].rolling(window=<span class="hljs-number">5</span>).<span class="hljs-built_in">sum</span>()<br><br><span class="hljs-comment"># 将 B 列最近 2 个值求平均并生成新列</span><br>df[<span class="hljs-string">&#x27;E&#x27;</span>] = df[<span class="hljs-string">&#x27;B&#x27;</span>].rolling(window=<span class="hljs-number">2</span>, min_periods=<span class="hljs-number">1</span>).mean()<br>df[<span class="hljs-string">&#x27;F&#x27;</span>] = df[<span class="hljs-string">&#x27;B&#x27;</span>].rolling(window=<span class="hljs-number">5</span>, min_periods=<span class="hljs-number">1</span>).mean()<br>df<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231123213833.png"
+alt="20231123213833" /></p>
+<p>现在生成了一些模拟的数据, 然后把 B 列最近的两个值来进行相加，形成了 C
+列，那 D 列是 5 个值进行相加。这两个都是在 B 列的第一个值 0
+再向上多数了一个值，所以都是 NaN。然后咱们的 E，F 是求平均值，我写了一个
+<code>min_periods=1</code>，这样的话就说它只要有一个值也可以做，mean
+是求了一个平均数。</p>
+<p>所以咱们来看 E 和 F，前面一个都是 B 里面的 0 来求平均值，那自然还是
+0。E 的第二个值是 3/2，第三个值是 5/2, 而 F 第二个值也是
+3/2，可是第三个值是 5/3，依次往下类推。</p>
+<p>关于这个 Rolling
+的函数是帮你去提取窗口特征。举个股票的例子，不知道大家有没有炒股的。炒股里面有个均线的设置叫
+MA，比如 MA10，代表 10 天的平均值。为什么取 10
+天的时间或者是多天的时间？因为取一天抖动会剧烈，所以在股票里面会有个
+MA10。MA10 就是代表过去 10
+天的一个平均数，如果用了过去时间的平均数就会更加的均和，更加的平均，所以它也是一个统计量的一个特征。通常会采用窗口里面的统计特征帮你来做股票的决策。</p>
+<p>如果只看过去一天的数字很容易激进，因为过去一天有可能抖动很强。只要抖动强，不代表它的信号一定是上涨的，它有可能马上落下来了，所以
+MA10
+相对来说会更加的平缓，更加过滤掉一些市场上的噪音，它才能代表的一个趋势向。这就是
+Rolling 窗口的函数作用。</p>
+<h2 id="jqdatasdk">JQDataSDK</h2>
+<p>股票的数据又从哪来呢？股票的数据要有一些专业性的软件，现在用一个工具叫
+JQData, 这个工具就是一个 Python 开源的包。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> jqdatasdk<br>jqdatasdk.auth(<span class="hljs-string">&#x27;username&#x27;</span>, <span class="hljs-string">&#x27;password&#x27;</span>)<br>jqdatasdk.get_price(<span class="hljs-string">&#x27;000001.XSHE&#x27;</span>, start_date=<span class="hljs-string">&#x27;2023-01-01&#x27;</span>, end_date=<span class="hljs-string">&#x27;2023-04-01&#x27;</span>)<br></code></pre></td></tr></table></figure>
+<p>首先是需要你去授权，这个数据虽然是开源免费的，但是它有接口次数的要求，如果你是一个非常高频的，一天有几十万上百万的访问请求还需要付费来进行处理。对于学习来说的话这些访问的次数是完全足够用的。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231123220017.png"
+alt="20231123220017" /></p>
+<p>JQDdata
+不光是可以帮你获取到基本的这个信息，有开盘价、收盘价、最高、最低的一些历史数据，还有
+volume，就是交易量有多少。还可以帮你去计算额外的指标，这个股票的倍数、p
+的倍数、市值、market
+cap、板块的信息等等。有了这个信息就可以帮你筛选一些股票。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> jqdatasdk <span class="hljs-keyword">as</span> jq<br>jq.auth(<span class="hljs-string">&#x27;username&#x27;</span>, <span class="hljs-string">&#x27;password&#x27;</span>)<br><br>count = jq.get_query_count()<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;当日可调用数据总条数为: &#x27;</span>, count[<span class="hljs-string">&#x27;total&#x27;</span>])<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;当日剩余调用数据条数为: &#x27;</span>, count[<span class="hljs-string">&#x27;spare&#x27;</span>])<br><br>---<br>当日可调用数据总条数为:  <span class="hljs-number">1000000</span><br>当日剩余调用数据条数为:  <span class="hljs-number">999961</span><br></code></pre></td></tr></table></figure>
+<p>可以看到我在进行授权之后，尝试查看了一下我的使用情况。每天 100W
+条，基本上是绝对够用了。之前调用过接口获取了相关数据，咱们获取的是股票编码
+<code>000001</code>，也就是平安银行从 2023 年 1 月 1 日到 4 月 1
+日的一个数据。</p>
+<p>然后我们还可以查看这只股票一些其他的数据。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">q = jq.query(jq.valuation).<span class="hljs-built_in">filter</span>(jq.valuation.code==<span class="hljs-string">&#x27;000001.XSHE&#x27;</span>)<br>df = jq.get_fundamentals(q, <span class="hljs-string">&#x27;2023-01-03&#x27;</span>)<br>df<br><br>---<br><span class="hljs-built_in">id</span>	code	pe_ratio	turnover_ratio	pb_ratio	ps_ratio	pcf_ratio	capitalization	market_cap	circulating_cap	circulating_market_cap	day	pe_ratio_lyr<br><span class="hljs-number">0</span>	<span class="hljs-number">2194089</span>	<span class="hljs-number">000001.</span>XSHE	<span class="hljs-number">6.0926</span>	<span class="hljs-number">1.1307</span>	<span class="hljs-number">0.7518</span>	<span class="hljs-number">1.4808</span>	-<span class="hljs-number">3.2168</span>	<span class="hljs-number">1.940592e+06</span>	<span class="hljs-number">2672.1949</span>	<span class="hljs-number">1940554.695</span>	<span class="hljs-number">2672.1438</span>	<span class="hljs-number">2023</span>-01-03	<span class="hljs-number">7.3541</span><br></code></pre></td></tr></table></figure>
+<p>可以看看这个属性都有哪些, 这支股票里面它的 PB, PS
+等等。这些指标代表的是它的一些股票计算的因子。比如说 PE
+就是市盈率的一个倍数，PS 应该是营收的倍数，market_cap
+是市场的一个估值。</p>
+<p>关于股票趋势的预测有很多特征是当前才知道，比如今天最高价、最低价、交易量，这些怎么划分数据集才能建立起来对未来一段时间趋势的预测呢？当天知道的是当下的时间。股票趋势预测一定是基于过去，历史数据也是有的。所以首先你过去一段时间的一个历史是可以做，这里有很多种模型。</p>
+<p>未来预测时刻不能仅仅是当天的，还有过去的一段时间。有很多时间序列的模型，在后续课程里面会教给大家时间序列的一个使用方法。比如说有
+ARMA、ARAMA 这些方法。过去 60 天就可以预测未来比如说 6
+天它的股票价格。</p>
+<p>所以建模是 OK 的，除了 ARMA
+以外还有一些持续模型，可以做多个特征的预测。包括像
+LSTM，长短记忆网络等等，这些过程在后续的课程里面都会教给大家去做。今天是教给大家一些简单的一些方法，并没有特别难的一些处理。今天的一些方法就是怎么样去获取一些数据。</p>
+<p>还有就是我这里有一份数据，包含了所有股票 5
+年的数据。不过已经都是之前的数据了，并不是最新的。是一份 2013 年到 2018
+年之间的股票数据，大概有 100
+多支股票。要是用这份数据当然也是可以的，这份数据我还是会放在文末。</p>
+<p>可以筛选一下行业，股票是跟行业相关的，行业有哪些可以看看：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python">temp = jq.get_industries(date=<span class="hljs-string">&#x27;2023-01-03&#x27;</span>)<br>temp<br><br>---<br>name	start_date<br>L72	商务服务业	<span class="hljs-number">1996</span>-08-<span class="hljs-number">29</span><br>L71	租赁业	<span class="hljs-number">1997</span>-01-<span class="hljs-number">30</span><br>G53	铁路运输业	<span class="hljs-number">1998</span>-05-<span class="hljs-number">11</span><br>G57	管道运输业	<span class="hljs-number">1996</span>-<span class="hljs-number">11</span>-04<br>G56	航空运输业	<span class="hljs-number">1997</span>-<span class="hljs-number">11</span>-05<br>...	...	...<br>G60	邮政业	<span class="hljs-number">2017</span>-02-<span class="hljs-number">16</span><br>N76	水利管理业	<span class="hljs-number">2012</span>-01-01<br>N77	生态保护和环境治理业	<span class="hljs-number">2012</span>-<span class="hljs-number">10</span>-<span class="hljs-number">26</span><br>N78	公共设施管理业	<span class="hljs-number">1992</span>-08-07<br>E50	建筑装饰和其他建筑业	<span class="hljs-number">1997</span>-05-<span class="hljs-number">22</span><br></code></pre></td></tr></table></figure>
+<p>每支股票都属于其中一个行业，比如说你想要看跟计算机相关的行业有哪些就专门去做一个输出，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">temp[temp[<span class="hljs-string">&#x27;name&#x27;</span>].<span class="hljs-built_in">str</span>.contains(<span class="hljs-string">&#x27;计算机&#x27;</span>)]<br><br>---<br>                    name	start_date<br>C39	计算机、通信和其他电子设备制造业	<span class="hljs-number">1990</span>-<span class="hljs-number">12</span>-<span class="hljs-number">19</span><br></code></pre></td></tr></table></figure>
+<p>它的代码是 C39,
+这是跟计算机相关的行业。这样可以筛选出来跟计算机行业相关的股票。那怎么筛呢？我们已经知道它的代码是
+C39，可以专门去写一个 C39, 然后把这个股票的值得给它打印出来。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 获取计算机行业版块股票</span><br>pool = jq.get_industry_stocks(<span class="hljs-string">&#x27;C39&#x27;</span>, date=<span class="hljs-string">&#x27;2023-01-03&#x27;</span>)<br>pool<br><br>---<br>[<span class="hljs-string">&#x27;000016.XSHE&#x27;</span>,<br>...<br><span class="hljs-string">&#x27;689009.XSHG&#x27;</span>]<br></code></pre></td></tr></table></figure>
+<p>C39 是计算机相关行业股票，数据也比较多，一共有 558 只股票。</p>
+<p>更具体的一些内容，大家可以查阅一下官方的手册来看看具体怎么使用：https://www.joinquant.com/help/api/help#JQData:%E4%BB%8B%E7%BB%8D%E4%B8%8E%E8%AF%B4%E6%98%8E</p>
+<h2 id="yfinance">yfinance</h2>
+<p>如果你想要使用这个工具可能需要自己来注册个账号就可以了，也可以使用咱们文末分享的那个数据，拿这个数据去做一个练习也是可以的。</p>
+<p>除了 jqdata
+以外，还有一些这个开源的工具是不需要账号密码的，也可以获取一些数据。我们可以使用
+yahoo 的财经工具来获取数据，这个包之前是为了修复
+<code>pandas_datareader</code> 使用 <code>get_data_yahoo()</code>
+可能出现获取数据出错，那么就有了 <code>fix_yahoo_finance</code>
+工具包用来修复获取数据的问题。之后， <code>fix-yahoo-finance</code>
+更名为 <code>yfinance</code>，但是使用还是没什么变化：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> yfinance <span class="hljs-keyword">as</span> yf<br>tickers = [<span class="hljs-string">&#x27;AAPL&#x27;</span>, <span class="hljs-string">&#x27;BABA&#x27;</span>, <span class="hljs-string">&#x27;BIDU&#x27;</span>, <span class="hljs-string">&#x27;GOOGL&#x27;</span>, <span class="hljs-string">&#x27;FB&#x27;</span>, <span class="hljs-string">&#x27;AMZN&#x27;</span>]<br>data = yf.download(tickers = tickers, start = <span class="hljs-string">&#x27;2022-01-01&#x27;</span>, end=<span class="hljs-string">&#x27;2022-12-31&#x27;</span>)<br>data<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231124204511.png"
+alt="20231124204511" /></p>
+<p>我们只要 download
+这些数据就可以了，它后面股票代码会有一点小区别，如果你是上海的股票的话是
+<code>.SS</code>，深圳股票的话是
+<code>.SZ</code>。比如浦发银行的代号就是 <code>600000.SS</code>,
+深发展的代号就是 <code>000001.SZ</code>，这是雅虎的使用方法。</p>
+<p>我们看的股票是去年 1 月 1 号到 12 月 31
+号，六支股票可以一次下载下来。可以看到这六支股票的收盘价，交易量，开盘价等等，所有的数据都出来了。</p>
+<p>那其中 251 是代表什么呢？为什么去年他只有 251
+行？这是一个交易日的情况。一会儿还会用到一个程序帮你画一个 MAC 地图，对
+251 个交易日.</p>
+<p>我们想要去模拟一些股票的情况，这是 2013 年的 2 月份到 18 年的 2
+月份的 505
+只股票的数据。就是给大家提供的五年的时间那个数据，是一个已经下载好的数据。模拟的过程中初始资金是
+1 万，要制定一个策略，对股票来进行买卖，最后计算一下它的 2017 年 12 月
+29 号的资金和投资回报率。</p>
+<p>这是一个模拟的情况，该怎么去模拟？</p>
+<h2 id="模拟交易">模拟交易</h2>
+<p>17 年的 1 月 3 号是 1
+万块钱，年底的时候投资回报率是多少。数据只能是看历史数据，假设看过去一年，把过去一年涨幅情况来做个排序，涨幅最高的那个追涨的策略，就是把涨幅最好那个策略全仓进行购买。然后计算一下投资组合的一个回报价值。</p>
+<p>我们会有以下的一些函数帮你去完成。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 计算投资组合价值</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_portfolio_value</span>(<span class="hljs-params">port, evaluation_date</span>)<br><br><span class="hljs-comment"># 购买股票</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">portfolio_buy</span>(<span class="hljs-params">port, purchase_day, stock_name, num</span>)<br><br><span class="hljs-comment"># 卖出股票</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">portfolio_sell</span>(<span class="hljs-params">port, sell_day, stock_name, num</span>)<br><br><span class="hljs-comment"># 假设初始资金 10000</span><br>portfolio = <span class="hljs-built_in">dict</span>()<br>portfolio[<span class="hljs-string">&#x27;cash&#x27;</span>] = <span class="hljs-number">10000</span><br></code></pre></td></tr></table></figure>
+<p>用的一个字典去存储一些信息，比如说 cash
+这里代表的是你当下资金的一个数量是 1 万块钱。策略比较简单，就是找一个在
+16 年表现的最好的股票，然后 1 万块钱的全仓。那这一年间我啥都不做，就是在
+1 月 3 号就购买，购买以后看一下 12 月 29 号的投资回报率。</p>
+<p>想想这个投资投标率会好吗？不一定，有可能好也有可能不好。主要是看这个股票在下一年的表现是怎样的。</p>
+<p>首先，我们需要引入一些包：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><span class="hljs-keyword">import</span> seaborn <span class="hljs-keyword">as</span> sns<br><span class="hljs-keyword">from</span> datetime <span class="hljs-keyword">import</span> datetime<br></code></pre></td></tr></table></figure>
+<p>在 Python 里面比较常见的 Pandas, NumPy, 画图的包，时间的包。</p>
+<p>然后我们来读取一下数据</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">dataframe = pd.read_csv(<span class="hljs-string">&#x27;dataset/all_stocks_5yr.csv&#x27;</span>)<br>dataframe<br></code></pre></td></tr></table></figure>
+<p>这五年数据去做个模拟，数据在文末去获取。这是所有的股票，股票的数量比较多，一共是有
+619,040 行数据。</p>
+<p>我们可以对数据来做一个探索，并且进行整理：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">dataframe.drop([<span class="hljs-string">&#x27;Unnamed: 0&#x27;</span>], axis=<span class="hljs-number">1</span>, inplace=<span class="hljs-literal">True</span>)<br>df = dataframe<br>df[<span class="hljs-string">&#x27;name&#x27;</span>].nunique()<br><br>---<br><span class="hljs-number">505</span><br></code></pre></td></tr></table></figure>
+<p>它一共有多少只不同的股票，505
+只。也可以对股票的数据去求取一下前几行的一个数据，通过 head
+方法去看，都有哪些特征。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python">df.head()<br><br>---<br><br>Date	     Open  High  Low   Close Volume	 name<br><span class="hljs-number">0</span> <span class="hljs-number">2013</span>-02-08 <span class="hljs-number">15.07</span> <span class="hljs-number">15.12</span> <span class="hljs-number">14.63</span> <span class="hljs-number">14.75</span> <span class="hljs-number">8407500</span>  AAL<br><span class="hljs-number">1</span> <span class="hljs-number">2013</span>-02-<span class="hljs-number">11</span> <span class="hljs-number">14.89</span> <span class="hljs-number">15.01</span> <span class="hljs-number">14.26</span> <span class="hljs-number">14.46</span> <span class="hljs-number">8882000</span>  AAL<br><span class="hljs-number">2</span> <span class="hljs-number">2013</span>-02-<span class="hljs-number">12</span> <span class="hljs-number">14.45</span> <span class="hljs-number">14.51</span> <span class="hljs-number">14.10</span> <span class="hljs-number">14.27</span> <span class="hljs-number">8126000</span>  AAL<br><span class="hljs-number">3</span> <span class="hljs-number">2013</span>-02-<span class="hljs-number">13</span> <span class="hljs-number">14.30</span> <span class="hljs-number">14.94</span> <span class="hljs-number">14.25</span> <span class="hljs-number">14.66</span> <span class="hljs-number">10259500</span> AAL<br><span class="hljs-number">4</span> <span class="hljs-number">2013</span>-02-<span class="hljs-number">14</span> <span class="hljs-number">14.94</span> <span class="hljs-number">14.96</span> <span class="hljs-number">13.16</span> <span class="hljs-number">13.99</span> <span class="hljs-number">31879900</span> AAL<br></code></pre></td></tr></table></figure>
+<p>接着，我们来看看交易日的情况，看看这 5 年时间有多少个交易日：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 交易日情况</span><br>open_dates = np.unique(df.Date)<br><span class="hljs-built_in">len</span>(open_dates)<br><br>---<br><span class="hljs-number">1259</span><br></code></pre></td></tr></table></figure>
+<p>这 5 年时间交易日大概有 1,259
+个，把这个交易日<code>to_datetime</code>一下。这个是转化为 pandas
+中的日期类型，这个使用情况的话也是比较多的，在 pandas
+里面使用的日期类型基本上都是<code>to_datetime</code>来进行转化：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 转化为 Pandas 内的日期类型</span><br>df[<span class="hljs-string">&#x27;Date&#x27;</span>] = pd.to_datetime(df[<span class="hljs-string">&#x27;Date&#x27;</span>])<br></code></pre></td></tr></table></figure>
+<p>咱们主要是想要做一些股票的一些模拟。要筛选某一支股票可以通过 name
+来进行筛选，比如可以筛选 AAPL 这只股票：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 筛选平果这只股票</span><br>sub_df = df[df.name==<span class="hljs-string">&#x27;AAPL&#x27;</span>]<br>sub_df.head()<br>sub_df.plot.line(x=<span class="hljs-string">&#x27;Date&#x27;</span>, y=<span class="hljs-string">&#x27;Open&#x27;</span>, figsize=(<span class="hljs-number">15</span>, <span class="hljs-number">10</span>))<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231124234426.png"
+alt="20231124234426" /></p>
+<p>筛完以后我们还把这股票做了一个可视化，按照时间，刚才已经转换好的时间和开盘价来做一个获取。可以看到
+Apple 这支股票随着时间应该是逐渐上涨的，确实它的表现还是不错。</p>
+<p>然后咱们开始写函数，这个函数的目的是计算一下投资组合目前所带有的一个价值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 计算投资组合价值</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_portfolio_value</span>(<span class="hljs-params">port, evaluation_date</span>):<br><span class="hljs-keyword">if</span> evaluation_date <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> open_dates:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Market closed for today&#x27;</span>)<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span><br>total_value = <span class="hljs-number">0</span><br><span class="hljs-keyword">for</span> stock <span class="hljs-keyword">in</span> port.keys():<br>    <span class="hljs-keyword">if</span> stock == <span class="hljs-string">&#x27;cash&#x27;</span>:<br>        total_value += port[<span class="hljs-string">&#x27;cash&#x27;</span>]<br>        <span class="hljs-keyword">continue</span><br>    stock_price = df[(df.name==stock) &amp; (df.Date==evaluation_date)].iloc[<span class="hljs-number">0</span>][<span class="hljs-string">&#x27;Close&#x27;</span>]<br>    position = stock_price * port[stock]<br>    total_value += position<br><span class="hljs-keyword">return</span> total_value<br></code></pre></td></tr></table></figure>
+<p>这个函数逻辑就是统计每一支股票的一个价格, 然后做累加。</p>
+<p>也可以写一个函数进行购买，购买就是在资金里面减去你购买的金额，然后在拥有股票里面把购买到这个份额给它累加到一起：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">portfolio_buy</span>(<span class="hljs-params">port, purchase_day, stock_name, num</span>):<br><span class="hljs-keyword">if</span> purchase_day <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> open_dates:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Market closed for today&#x27;</span>)<br>    <span class="hljs-keyword">return</span> port<br>stock_price = df[(df.name==stock_name) &amp; (df.Date==purchase_day)].iloc[<span class="hljs-number">0</span>][<span class="hljs-string">&#x27;Open&#x27;</span>]<br>order_price = stock_price * num<br><span class="hljs-keyword">if</span> port[<span class="hljs-string">&#x27;cash&#x27;</span>] &lt; order_price:<br>    <span class="hljs-keyword">return</span> port<br>port[<span class="hljs-string">&#x27;cash&#x27;</span>] -= order_price<br><span class="hljs-keyword">if</span> stock_name <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> port.keys():<br>    port[stock_name] = num<br>    <span class="hljs-keyword">return</span> port<br><span class="hljs-keyword">elif</span> stock_name <span class="hljs-keyword">in</span> port.keys():<br>    port[stock_name] += num<br>    <span class="hljs-keyword">return</span> port<br><span class="hljs-keyword">else</span>:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Error&#x27;</span>)<br>    <span class="hljs-keyword">return</span> port<br></code></pre></td></tr></table></figure>
+<p>卖股票的逻辑就是先看你有没有持仓这支股票,
+如果没有持过这个股票就无法卖掉。你卖的股数如果大于你手上持有的数量也没法卖,
+只有小于等于你现在手上的股才能卖掉。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">portfolio_sell</span>(<span class="hljs-params">port, sell_day, stock_name, num</span>):<br><span class="hljs-keyword">if</span> sell_day <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> open_dates:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Market closed for today&#x27;</span>)<br>    <span class="hljs-keyword">return</span> port<br>stock_price = df[(d.name==stock_name) &amp; (df.Date==sell_day)].iloc[<span class="hljs-number">0</span>][<span class="hljs-string">&#x27;Close&#x27;</span>]<br>order_price=stock_price * num<br><span class="hljs-keyword">if</span> stock_name <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> port.keys():<br>    <span class="hljs-keyword">return</span> port<br><span class="hljs-keyword">if</span> num &gt; port[stock_name]:<br>    <span class="hljs-keyword">return</span> port<br><span class="hljs-keyword">if</span> stock_name <span class="hljs-keyword">in</span> port.keys():<br>    port[stock_name] -= num<br>    port[<span class="hljs-string">&#x27;cash&#x27;</span>] += order_price<br>    <span class="hljs-keyword">return</span> port<br></code></pre></td></tr></table></figure>
+<p>以上三个函数的逻辑一个是卖，一个是买，一个是计算仓位所持有的股票的价值。这三个函数你可以把它理解成是一个股票策略的模拟环境，需要的一个基础信息。</p>
+<p>下面就是设置交易策略的一个初始状态了，初始状态是 1
+万块钱，所以给它建了个字典：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 假设初始资金 10000</span><br>portfolio = <span class="hljs-built_in">dict</span>()<br>portfolio[<span class="hljs-string">&#x27;cash&#x27;</span>] = <span class="hljs-number">10000</span><br>portfolio<br><br>---<br>&#123;<span class="hljs-string">&#x27;cash&#x27;</span>: <span class="hljs-number">10000</span>&#125;<br></code></pre></td></tr></table></figure>
+<p>字典打印出来，开始等于 1 万。如果要买两支股票，这两支股票分别是 AAPL
+和 Google，在 1 月 4 号买 10 股，可以看看：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 买入两只股票</span><br>portfolio_buy(portfolio, <span class="hljs-string">&#x27;2016-01-04&#x27;</span>, <span class="hljs-string">&#x27;AAPL&#x27;</span>, <span class="hljs-number">10</span>)<br>portfolio_buy(portfolio, <span class="hljs-string">&#x27;2016-01-04&#x27;</span>, <span class="hljs-string">&#x27;GOOG&#x27;</span>, <span class="hljs-number">10</span>)<br><br>---<br>&#123;<span class="hljs-string">&#x27;cash&#x27;</span>: <span class="hljs-number">1543.8999999999996</span>, <span class="hljs-string">&#x27;AAPL&#x27;</span>: <span class="hljs-number">10</span>, <span class="hljs-string">&#x27;GOOG&#x27;</span>: <span class="hljs-number">10</span>&#125;<br></code></pre></td></tr></table></figure>
+<p>然后现在是 APPL 10 股， GOOG 10 股，cash 减少了，变成了 1,000
+多。因为原来有 1 万块钱，然后看一下当下今天的情况：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 当下今天的情况</span><br>get_portfolio_value(portfolio, <span class="hljs-string">&#x27;2016-01-04&#x27;</span>)<br><br>---<br><span class="hljs-number">10015.8</span><br></code></pre></td></tr></table></figure>
+<p>买入的话，假设是从开盘一早就进行购买，晚上的时候涨了 15
+块钱，证明还是赚了一点点。</p>
+<p>卖股票也可以按照刚才这个策略来进行售卖，在 2 月 1
+号的时候把它卖掉了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 卖股票</span><br>portfolio_sell(portfolio, <span class="hljs-string">&#x27;2017-02-01&#x27;</span>, <span class="hljs-string">&#x27;AAPL&#x27;</span>, <span class="hljs-number">20</span>)<br></code></pre></td></tr></table></figure>
+<p>但是我们写的代码在这里并不能进行卖出，为什么？因为我所拥有的 AAPL 10
+股，这里要卖 20 股，那肯定卖不出去。</p>
+<p>好卖不出去没关系，在 2 月 1 号的时候我们股票的市值是多少？</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">get_portfolio_value(portfolio, <span class="hljs-string">&#x27;2017-02-01&#x27;</span>)<br><br>---<br><span class="hljs-number">10788.35</span><br></code></pre></td></tr></table></figure>
+<p>达到了 10,788，涨了 7%。</p>
+<p>以上就是一些模拟软件的一些策略，在后面我们要筛选一些股票，筛选出来一定的年份。我们这里找的是
+2016 年全年的信息，505 只股票全年的情况做一个筛选,
+那我们现在的第一个策略就是，2016-2017 年，按照过去 1
+年涨幅排序，直接全仓购买最好的.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 筛选 2016-2017 年的股票数据</span><br>year_2016_df = df[<br>(df.Date &gt;= pd.to_datetime(<span class="hljs-string">&#x27;2016-01-01&#x27;</span>, <span class="hljs-built_in">format</span>=<span class="hljs-string">&#x27;%Y-%m-%d&#x27;</span>, errors=<span class="hljs-string">&#x27;ignore&#x27;</span>)) &amp;<br>(df.Date &lt;= pd.to_datetime(<span class="hljs-string">&#x27;2017-01-01&#x27;</span>, <span class="hljs-built_in">format</span>=<span class="hljs-string">&#x27;%Y-%m-%d&#x27;</span>, errors=<span class="hljs-string">&#x27;ignore&#x27;</span>))<br>]<br><br>year_2016_df<br><br>---<br>...<br><span class="hljs-number">125324</span> rows × <span class="hljs-number">7</span> columns<br></code></pre></td></tr></table></figure>
+<p>这么多股票当中，我们想要找的是一个最好的情况。用什么方法把 2016
+年全年的股票都做了一个判断，从最开始的时间到最大的时间</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python">best_stock = <span class="hljs-string">&#x27;Not sure yet&#x27;</span><br>growth = -<span class="hljs-number">1</span><br><br><span class="hljs-comment"># 使用打擂法，寻找在 2016 年的 best_stock</span><br><span class="hljs-keyword">for</span> stock <span class="hljs-keyword">in</span> <span class="hljs-built_in">list</span>(year_2016_df.name.unique()):<br>sub_df = year_2016_df[year_2016_df.name==stock]<br>open_price = sub_df[sub_df.Date==<span class="hljs-built_in">min</span>(sub_df.Date)].iloc[<span class="hljs-number">0</span>][<span class="hljs-string">&#x27;Open&#x27;</span>]<br>close_price = sub_df[sub_df.Date==<span class="hljs-built_in">max</span>(sub_df.Date)].iloc[<span class="hljs-number">0</span>][<span class="hljs-string">&#x27;Open&#x27;</span>]<br>stock_growth = <span class="hljs-built_in">round</span>(<span class="hljs-number">100</span>*(close_price-open_price) / open_price, <span class="hljs-number">3</span>)<br><span class="hljs-keyword">if</span> stock_growth &gt; growth:<br>    best_stock = stock<br>    growth = stock_growth<br><br><span class="hljs-built_in">print</span>(best_stock, <span class="hljs-string">&#x27;:&#x27;</span>, growth)<br><br>---<br>AMD : <span class="hljs-number">322.383</span><br></code></pre></td></tr></table></figure>
+<p>最小的时间到最大的时间做个筛选, 然后 close 减去 open 再除以
+open。这样我们可以找到它的增长率，增长率如果要更高的话就把它保存起来。我们用的方法叫做打擂方法，寻找<code>best_stock</code>。就是在
+2016 年的最好股票，打印出来。</p>
+<p>这个方法是比较常用的方法，叫打擂法，可以找到最优解。通过计算我们可以发现，应该是一个叫
+AMD 的股票在过去 2016 年全年的时间是效益是最好的。这股票涨了 322.383
+百分比，涨很猛啊，涨了 3 倍，一年时间翻 3
+倍，这个投资回报率真的是很棒。</p>
+<p>如果你能把选股做好的话，基本上应该稳赚不赔的事情。那如果我们在 2017
+年想全仓持有，重仓持有，那要计算一下你能买多少股：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 假设初始资金 10000</span><br>portfolio = <span class="hljs-built_in">dict</span>()<br>portfolio[<span class="hljs-string">&#x27;cash&#x27;</span>] = <span class="hljs-number">10000</span><br>portfolio[<span class="hljs-string">&#x27;cash&#x27;</span>]<br><br><span class="hljs-comment"># 计算能买多少股</span><br>valid_num = <span class="hljs-built_in">int</span>(portfolio[<span class="hljs-string">&#x27;cash&#x27;</span>] / df[(df.name==<span class="hljs-string">&#x27;AMD&#x27;</span>) &amp; (df.Date==<span class="hljs-string">&#x27;2017-01-03&#x27;</span>)].iloc[<span class="hljs-number">0</span>][<span class="hljs-string">&#x27;Open&#x27;</span>])<br>valid_num<br><br>---<br><span class="hljs-number">875</span><br></code></pre></td></tr></table></figure>
+<p>购买的时刻是 2017 年的 1 月 3
+号，那这种策略是个好策略吗？我知道有些人喜欢追涨。策略没有好坏之分，只有适合与否。在某个时间段它有可能就是好策略，但是同样的策略在某时间段有可能就不好。</p>
+<p>我们假设从 1 月 3 号开始买，买的是 AMD 这只股票，看一下能买多, 能够买
+875 股。</p>
+<p>去购买使用的是刚刚写好的那个<code>portfolio_buy</code>这个函数，拿它来进行购买.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 在 2017 年初，重仓 AMD</span><br>portfolio_buy(portfolio, <span class="hljs-string">&#x27;2017-01-03&#x27;</span>, <span class="hljs-string">&#x27;AMD&#x27;</span>, valid_num)<br><br>---<br>&#123;<span class="hljs-string">&#x27;cash&#x27;</span>: <span class="hljs-number">7.5</span>, <span class="hljs-string">&#x27;AMD&#x27;</span>: <span class="hljs-number">875</span>&#125;<br></code></pre></td></tr></table></figure>
+<p>它原来等于 1 万，购完以后只剩 7 块 5
+了，就没剩下什么钱了。然后我们再看一下 12 月 29
+号的一个股票价值剩多少呢？</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 计算 2017 年底，投资组合 value</span><br>get_portfolio_value(portfolio, <span class="hljs-string">&#x27;2017-12-29&#x27;</span>)<br><br>---<br><span class="hljs-number">9002.5</span><br></code></pre></td></tr></table></figure>
+<p>剩了 9,000
+块钱。所以大家可以看一看这个追涨特别好吗？如果你一直没有抛的话，在 2017
+年的年底你可能会亏
+10%。这个策略其实一直持有的话在那一年并不是个好策略。</p>
+<p>我们统计一下 2017
+年所有交易日，看一看这个股票随着不同交易日的时间的变化是怎样的。年底的时候是亏的，那年中有没有可能找个适合点去抛掉会挣钱呢？可以做一个分析</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 统计 2017 年的交易日</span><br>trade_days_2017 = <span class="hljs-built_in">sorted</span>(np.unique(df[<br>(df.Date &gt;= pd.to_datetime(<span class="hljs-string">&#x27;2017-01-01&#x27;</span>, <span class="hljs-built_in">format</span>=<span class="hljs-string">&#x27;%Y-%m-%d&#x27;</span>, errors=<span class="hljs-string">&#x27;ignore&#x27;</span>)) &amp; <br>(df.Date &lt; pd.to_datetime(<span class="hljs-string">&#x27;2018-01-01&#x27;</span>, <span class="hljs-built_in">format</span>=<span class="hljs-string">&#x27;%Y-%m-%d&#x27;</span>, errors=<span class="hljs-string">&#x27;ignore&#x27;</span>))<br>][<span class="hljs-string">&#x27;Date&#x27;</span>].apply(<span class="hljs-keyword">lambda</span> x: <span class="hljs-built_in">str</span>(x)[<span class="hljs-number">0</span>:<span class="hljs-number">10</span>])))<br>trade_days_2017<br><br>port_value_line = pd.DataFrame(&#123;<span class="hljs-string">&#x27;d&#x27;</span>:trade_days_2017, <span class="hljs-string">&#x27;value&#x27;</span>:value&#125;)<br><br><span class="hljs-comment"># 在 2017 年不同交易日的 value 变化</span><br>port_value_line.plot.line(x=<span class="hljs-string">&#x27;d&#x27;</span>, y=<span class="hljs-string">&#x27;value&#x27;</span>, figsize=(<span class="hljs-number">15</span>,<span class="hljs-number">10</span>))<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231125103643.png"
+alt="20231125103643" /></p>
+<p>最后把这股票打印出来，这里是使用了一个获取投资组合，就是计算他在交易日的价值。你看这个价值还是有升的，同时也有降的情况。把这个价值整理出来以后给它画出来。可以看到有的时候曾经达到了
+13,000 美金，就是涨了 30%。中间如果没有抛的话，最后有可能就套住了，套住
+10%。</p>
+<p>这个工具是通过 pandas 来去做模拟，那使用的方法其实并不难，都是通过
+pandas
+来去做了核心。就是我们能有一个简单的模拟环境可以帮你来去买卖股票。花钱买股票然后在适适当的时刻进行售卖，最终我们希望能找到一个策略，帮你来去制定一个好的交易策略，从而可以让你赢的更多。</p>
+<h2 id="年股市数据">5 年股市数据</h2>
+<p>链接: https://pan.baidu.com/s/1otDWJef6Zx6JTLXikcUVJA?pwd=jvfv
+提取码: jvfv --来自百度网盘超级会员 v7 的分享</p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>06. BI - 量化交易，简单的炒股策略实现</p><p><a href="https://hivan.me/06. BI - 量化交易，简单的炒股策略实现/">https://hivan.me/06. BI - 量化交易，简单的炒股策略实现/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2024-01-17</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2024-02-28</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a><a class="link-muted mr-2" rel="tag" href="/tags/BI/">BI</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/07.%20BI%20-%20%E9%87%8F%E5%8C%96%E4%BA%A4%E6%98%93%EF%BC%8C%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99%E4%BB%A3%E7%A0%81%E6%9D%A5%E5%88%A9%E7%94%A8%20MACD%20%E5%86%B3%E5%AE%9A%E9%80%89%E8%82%A1%E7%AD%96%E7%95%A5/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">07. BI - 量化交易，如何编写代码来利用 MACD 决定选股策略</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/05.%20BI%20-%20%E9%87%91%E8%9E%8D%E8%A1%8C%E4%B8%9A%E4%B8%AD%20Fintech%20%E7%9A%84%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/"><span class="level-item">05. BI - 金融行业中 Fintech 的应用场景</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/06.%20BI%20-%20%E9%87%8F%E5%8C%96%E4%BA%A4%E6%98%93%EF%BC%8C%E7%AE%80%E5%8D%95%E7%9A%84%E7%82%92%E8%82%A1%E7%AD%96%E7%95%A5%E5%AE%9E%E7%8E%B0/';
+            this.page.identifier = '06. BI - 量化交易，简单的炒股策略实现/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI 游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">223</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">6</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">22</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI 秘籍</span></span><span class="level-end"><span class="level-item tag">81</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/"><span class="level-start"><span class="level-item">BI</span></span><span class="level-end"><span class="level-item tag">17</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">33</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-27T23:30:00.000Z">2024-02-28</time></p><p class="title"><a href="/17.%20BI%20-%20Surprise%E5%B7%A5%E5%85%B7%E7%AE%B1%EF%BC%9ABaseline/">17. BI - Surprise 工具箱：Baseline</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-24T23:30:00.000Z">2024-02-25</time></p><p class="title"><a href="/16.%20BI%20-%20%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E4%B9%8BALS%E5%AE%9E%E7%8E%B0/">16. BI - 推荐系统之 ALS 实现</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-20T23:30:00.000Z">2024-02-21</time></p><p class="title"><a href="/15.%20BI%20-%20%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E4%B9%8BALS%E5%8E%9F%E7%90%86/">15. BI - 推荐系统之 ALS 原理</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-15T23:30:00.000Z">2024-02-16</time></p><p class="title"><a href="/14.%20BI%20-%20%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E4%B9%8B%E7%9F%A9%E9%98%B5%E5%88%86%E8%A7%A3/">14. BI - 推荐系统之矩阵分解</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-10T23:30:00.000Z">2024-02-11</time></p><p class="title"><a href="/13.%20BI%20-%20%E5%8F%AF%E8%A7%86%E5%8C%96%E7%9C%8B%E6%9D%BF%E5%8F%91%E5%B8%83/">13. BI - 可视化看板发布</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2024 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

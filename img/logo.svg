@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="647px" height="181px" viewBox="0 0 647 181" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>画板2@1.5x</title>
+    <title>画板 2@1.5x</title>
     <defs>
         <linearGradient x1="50%" y1="100%" x2="50%" y2="0%" id="linearGradient-1">
             <stop stop-color="#F7A53F" offset="0%"></stop>
@@ -19,7 +19,7 @@
             <stop stop-color="#FAA115" offset="100%"></stop>
         </linearGradient>
     </defs>
-    <g id="画板2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+    <g id="画板 2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g id="编组" transform="translate(4.000000, 0.000000)">
             <polygon id="矩形备份-3" fill="url(#linearGradient-1)" transform="translate(19.198693, 41.713652) rotate(-28.000000) translate(-19.198693, -41.713652) " points="8.89185622 20.2037306 29.5055307 20.2037306 29.5055307 63.223573 8.89185622 63.223573"></polygon>
             <polygon id="矩形备份-4" fill="url(#linearGradient-2)" transform="translate(136.253578, 43.121947) rotate(31.000000) translate(-136.253578, -43.121947) " points="125.946741 22.0601493 146.560415 22.0601493 146.560415 64.183745 125.946741 64.183745"></polygon>

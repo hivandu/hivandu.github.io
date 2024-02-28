@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>12. BI - 可视化在项目蒸汽量预测的过程及应用 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="本文为 「茶桁的 AI 秘籍 - BI 篇 第 12 篇」"><meta property="og:type" content="blog"><meta property="og:title" content="12. BI - 可视化在项目蒸汽量预测的过程及应用"><meta property="og:url" content="https://hivan.me/12.%20BI%20-%20%E5%8F%AF%E8%A7%86%E5%8C%96%E5%9C%A8%E9%A1%B9%E7%9B%AE%E8%92%B8%E6%B1%BD%E9%87%8F%E9%A2%84%E6%B5%8B%E7%9A%84%E8%BF%87%E7%A8%8B%E5%8F%8A%E5%BA%94%E7%94%A8/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="本文为 「茶桁的 AI 秘籍 - BI 篇 第 12 篇」"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2024-02-06T23:30:00.000Z"><meta property="article:modified_time" content="2024-02-28T10:38:23.267Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="article:tag" content="BI"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/12.%20BI%20-%20%E5%8F%AF%E8%A7%86%E5%8C%96%E5%9C%A8%E9%A1%B9%E7%9B%AE%E8%92%B8%E6%B1%BD%E9%87%8F%E9%A2%84%E6%B5%8B%E7%9A%84%E8%BF%87%E7%A8%8B%E5%8F%8A%E5%BA%94%E7%94%A8/"},"headline":"12. BI - 可视化在项目蒸汽量预测的过程及应用","image":[],"datePublished":"2024-02-06T23:30:00.000Z","dateModified":"2024-02-28T10:38:23.267Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"本文为 「茶桁的 AI 秘籍 - BI 篇 第 12 篇」"}</script><link rel="canonical" href="https://hivan.me/12.%20BI%20-%20%E5%8F%AF%E8%A7%86%E5%8C%96%E5%9C%A8%E9%A1%B9%E7%9B%AE%E8%92%B8%E6%B1%BD%E9%87%8F%E9%A2%84%E6%B5%8B%E7%9A%84%E8%BF%87%E7%A8%8B%E5%8F%8A%E5%BA%94%E7%94%A8/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><script>var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?f91b64734fdc7bfb999e48f9248d44dd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-ZFB6CVWZFJ" async></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-ZFB6CVWZFJ');</script><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2024-02-06T23:30:00.000Z" title="2/7/2024, 7:30:00 AM">2024-02-07</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a><span> / </span><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></span></div></div><h1 class="title is-3 is-size-4-mobile">12. BI - 可视化在项目蒸汽量预测的过程及应用</h1><div class="content"><p>本文为 「<a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg%3D%3D&amp;action=getalbum&amp;album_id=3193965113967132673&amp;subscene=&amp;sessionid=svr_548800ce471&amp;enterid=1704001437&amp;from_msgid=2648751621&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;scene=21#wechat_redirect">茶桁的
+AI 秘籍 - BI 篇</a> 第 12 篇」</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/茶桁的AI秘籍_核心BI_12.png"
+alt="茶桁的AI秘籍_核心BI_12" /></p>
+<span id="more"></span>
+<p>[TOC]</p>
+<p>Hi, 你好。我是茶桁。</p>
+<p>我们今天继续来看数据可视化做数据探索，今天我们还是来看相关项目。来看看可视化
+EDA 在项目中的应用。</p>
+<h2 id="工业蒸汽量预测">工业蒸汽量预测</h2>
+<p>接下来这个项目，是在阿里天池上的一个工业蒸汽量的预测项目。</p>
+<p>首先我们来看一下一些前提知识点。我们知道，火力发点的原理是：燃料加热水
+-&gt; 生成蒸汽 -&gt; 推动汽轮机旋转 -&gt; 带动发电机旋转 -&gt;
+产生电能。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231206224417.png"
+alt="20231206224417" /></p>
+<p>在这个过程中，影响发电效率的核心是锅炉的燃烧效率。影响锅炉燃烧效率的主要因素包括：</p>
+<ol type="1">
+<li>锅炉的可调参数，如燃烧给量，一二次风，引风，返料风，给水水量。</li>
+<li>锅炉的工况，比如锅炉床温、床压，炉膛温度、压力，过热器的温度等。</li>
+</ol>
+<p>很明显，我们要通过调节的锅炉的参数以及锅炉工况的参数来去预测它的蒸气量会是多少。</p>
+<p>这个项目的训练集为<code>zhengqi_train.txt</code>，测试集为<code>zhengqi_test.txt</code>，数据都是脱敏后的传感器采集数据（采集频率为分钟级）。训练集大概
+38 个字段。</p>
+<p>先大概来看一下这个数据，现在要做的事情是根据锅炉的情况来预测它的蒸汽量，蒸汽量这个特征是在最后，也就是要去预测<code>target</code>这个值。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231206235318.png"
+alt="20231206235318" /></p>
+<p>今天主要不是要做建模，而是去看一看数据的分析以及可视化。看看能帮我们得到怎样的一个结论。对于我们预测来说也是有一定的帮助的，至少前期的数据探索是很有帮助。</p>
+<p>当我们看到这样一个数据之后，思路会是怎样的？怎么去做这个可视化的分析？</p>
+<p>首先，我们需要将数据加载出来，每一个特征都可以做一个异常值的处理。还记得咱们之前将图形可视化的时候，可以用箱线图来找出异常值的情况。</p>
+<p>首先，我们还是 Download
+数据，在你的命令行内先进入一个目录，然后进行下载：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">curl -o zhengqi_train.txt http://tianchi-media.oss-cn-beijing.aliyuncs.com/DSW/Industrial_Steam_Forecast/zhengqi_train.txt<br><br>curl -o zhengqi_test.txt http://tianchi-media.oss-cn-beijing.aliyuncs.com/DSW/Industrial_Steam_Forecast/zhengqi_test.txt<br></code></pre></td></tr></table></figure>
+<p>下载之后进行加载，直接使用 read_csv 就可以</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">train = pd.read_csv(path + <span class="hljs-string">&#x27;Zhengqi/zhengqi_train.txt&#x27;</span>, sep=<span class="hljs-string">&#x27;\t&#x27;</span>)<br>train<br></code></pre></td></tr></table></figure>
+<p>因为读取之后的数据格式不对，会发现有很多的<code>\t</code></p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231207131554.png"
+alt="20231207131554" /></p>
+<p>所以我们需要在读取数据的后面加上一个<code>sep='\t'</code>。这样，就不是以逗号被分割了，默认是以逗号。现在的数据因为是<code>\t</code>，所以就写成
+separator 等于<code>\t</code>。</p>
+<p>这个数据基本都是数值类型，我们想要看它的特征可以用 describe
+来做判断。这样就把这 38
+个特征的统计量一目了然了，画箱线图就拿它来画的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">train.describe()<br></code></pre></td></tr></table></figure>
+<p>接下来当然是要导入 matplotlib 和
+seaborn，用于后面的图形展示。第一张图我们要看一下 V0 和 target
+之间的一些关系，那先用箱线图呈现。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">plt.figure(figsize=(<span class="hljs-number">4</span>, <span class="hljs-number">6</span>))<br>sns.boxplot(train[<span class="hljs-string">&#x27;V0&#x27;</span>])<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231207132607.png"
+alt="20231207132607" /></p>
+<p>除了 V0 还有其它的列，列数有多少呢？我们可以看一下 columns，用一个
+len 方法来查看它到底有多少个。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">len</span>(train.columns)<br><br>---<br><span class="hljs-number">39</span><br></code></pre></td></tr></table></figure>
+<p>一共是有 39 列。我们直接用 columns 做个遍历。每一个要设置 index，一共
+39 个特征，你的画布可以设置为多少？比如说我们设成 <span
+class="math inline">\(5 * 8\)</span>，这是 40
+个特征。我们就尝试这样设置下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 39 个特征，画布设置为 5*8</span><br>cols = train.columns<br>i = <span class="hljs-number">0</span> <span class="hljs-comment"># 子图的下标</span><br><br><span class="hljs-keyword">for</span> col <span class="hljs-keyword">in</span> cols:<br>    i = i + <span class="hljs-number">1</span><br>    plt.subplot(<span class="hljs-number">5</span>, <span class="hljs-number">8</span>, i)<br>    <span class="hljs-comment"># 绘制箱线图</span><br>    sns.boxplot(train[col])<br></code></pre></td></tr></table></figure>
+<p>我们首先用 cols 将 train.columns 拿到，然后对它进行遍历，其中 i
+设置从 0 开始，作为它的下标。一开始，就需要进行+1，
+然后按照之前我们想好的设置，<code>subplot</code>设置为<code>5, 8</code>，
+i 就是当前那个图。接着，我们用<code>boxplot</code>将当前的 col
+绘制出来。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231207134137.png"
+alt="20231207134137" /></p>
+<p>不过这样明显看不出所以然出来，我们需要将图像设置的大一点。这个太密集了。所以再设置一下<code>figure</code>:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">plt.figure(figsize=(<span class="hljs-number">40</span>, <span class="hljs-number">30</span>))<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231207134302.png"
+alt="20231207134302" /></p>
+<p>这样就清晰很多，V0
+是有异常值的，似乎很多都有异常值。我们来找找看哪些没有，大部分都有。V14
+没有，V22 没有。这就是查看异常值的检测。</p>
+<p>接下来，咱们可以看看直方图和概率密度图。它是用特征在训练集里面和测试集里面同时做一个呈现。</p>
+<p>跟刚才的逻辑一样，先把画布大小做一个设置,
+然后循环的时候去掉最后一个目标特征<code>target</code>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python">plt.figure(figsize=(<span class="hljs-number">40</span>, <span class="hljs-number">30</span>))<br>i = <span class="hljs-number">0</span><br><span class="hljs-keyword">for</span> col <span class="hljs-keyword">in</span> cols[:-<span class="hljs-number">1</span>]: <span class="hljs-comment"># 不包括 target</span><br>    i = i + <span class="hljs-number">1</span><br>    plt.subplot(<span class="hljs-number">5</span>, <span class="hljs-number">8</span>, i)<br>    <span class="hljs-comment"># 绘制直方图</span><br>    sns.distplot(train[col], color=<span class="hljs-string">&#x27;red&#x27;</span>, label=<span class="hljs-string">&#x27;Train&#x27;</span>)<br>    sns.distplot(test[col], color=<span class="hljs-string">&#x27;blue&#x27;</span>, label=<span class="hljs-string">&#x27;Test&#x27;</span>)<br></code></pre></td></tr></table></figure>
+<p>最后是将<code>train</code>和<code>test</code>两个数据集都绘制了出来，赋予不同的颜色</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231207143704.png"
+alt="20231207143704" /></p>
+<p>之前我们的课程中有说到 distplot 这个方法，默认是将直方图和 kde
+结合在一起。其实我们使用 kde 会显得更清爽一点，只要将 distplot 换成
+kdeplot 方法就行了。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231207151332.png"
+alt="20231207151332" /></p>
+<p>这样看起来虽然清爽了，但是总觉得还缺点什么，其实可以将阴影加上就明显很多。我们可以在方法名后面设置
+shade 为 True</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">for</span> ...<br>    ...<br>    sns.kdeplot(train[col], color=<span class="hljs-string">&#x27;red&#x27;</span>, label=<span class="hljs-string">&#x27;Train&#x27;</span>, shade=<span class="hljs-literal">True</span>)<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231207151516.png"
+alt="20231207151516" /></p>
+<p>因为 kde
+比较平滑，它没有这么多的像乐高一样的方块。这个就看起来比较直观一点。</p>
+<p>看 kde
+能发现哪些问题呢?我们现在要找那种测试集和训练集不太一致的，可以把它去掉。比如说第一个，我们认为应该是一样的。可以把这张图里面的轴向上的
+label
+也给它呈现出来，因为一会儿要数个数，不如直接给它标记出来。顺便，我们之前设置了图例<code>label</code>但是没有正常显示，也一起来解决一下。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 使用 kdeplot</span><br>plt.figure(figsize=(<span class="hljs-number">40</span>, <span class="hljs-number">30</span>))<br>i = <span class="hljs-number">0</span><br><span class="hljs-keyword">for</span> col <span class="hljs-keyword">in</span> cols[:-<span class="hljs-number">1</span>]: <span class="hljs-comment"># 不包括 target</span><br>    i = i + <span class="hljs-number">1</span><br>    fig = plt.subplot(<span class="hljs-number">5</span>, <span class="hljs-number">8</span>, i)<br>    <span class="hljs-comment"># 绘制直方图</span><br>    sns.kdeplot(train[col], color=<span class="hljs-string">&#x27;red&#x27;</span>, ax=fig, label=<span class="hljs-string">&#x27;Train&#x27;</span>, shade=<span class="hljs-literal">True</span>)<br>    sns.kdeplot(test[col], color=<span class="hljs-string">&#x27;blue&#x27;</span>, ax=fig, label=<span class="hljs-string">&#x27;Test&#x27;</span>, shade=<span class="hljs-literal">True</span>)<br>    plt.legend()<br>    fig.set_xlabel(col)<br>    fig.set_ylabel(<span class="hljs-string">&#x27;Frequency&#x27;</span>)<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231207152255.png"
+alt="20231207152255" /></p>
+<p>set 一下 x 和 y 轴的
+label，并且加上<code>plt.legend()</code>让图例正常显示。</p>
+<p>现在我们可以一起来看看，有哪些是不太一样的？前几个虽然有一点差别但实际上还是可以判断的，如果这个蓝色和红色差了几个位置可以给它做一个调整，给他做一个特征变换，用新的特征代替原有的特征，这样预测起来可能会更准一点。</p>
+<p>V5 差别比较大，所以 V5 有可能不太行，好，咱们先记住一个。往后看，V9
+差别也是比较大。咱们就需要去这张图上去找。5、9、11、17、21、22、28，这几个图中可以看到，这些特征在训练集和测试集中的分布差别就比较大的。这一步其实没有一个完全的标准，看你自己感觉上哪个差别比较大，可以给它去掉。</p>
+<p>去掉的目的是降维，不是说要得到更精确的方法。如果更精确的话，你不去可能效果会更好。</p>
+<p>现在可以给它写个方法来去掉这几个特征，先来个列表将特征名放进去：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">drop_cols = [<span class="hljs-string">&#x27;5&#x27;</span>, <span class="hljs-string">&#x27;V9&#x27;</span>, <span class="hljs-string">&#x27;V11&#x27;</span>, <span class="hljs-string">&#x27;V17&#x27;</span>, <span class="hljs-string">&#x27;V21&#x27;</span>, <span class="hljs-string">&#x27;V22&#x27;</span>, <span class="hljs-string">&#x27;V28&#x27;</span>]<br></code></pre></td></tr></table></figure>
+<p>就是这些 column，我们写一个 list
+放进来，这样稍后数据处理会更加少一点，不是所有的数据都会有。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">train2 = train.drop(drop_cols, axis=<span class="hljs-number">1</span>)<br>test2 = test.drop(drop_cols, axis=<span class="hljs-number">1</span>)<br>train2<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231207153448.png"
+alt="20231207153448" /></p>
+<p>这样我们处理之后，就剩下 32 个特征。test 也是一样要进行处理。</p>
+<p>通过训练集和测试集的分布我们找到了一些分布不太一样的给它去掉，剩下的这些特征哪些跟
+target 之间的相关性是比较高的？</p>
+<p>接下来看相关性的话，就要用到<code>regplot</code>,
+方法还是类似的。设置一张大图，然后将特征进行循环，把数据扔进去以后进行绘制：</p>
+<p>这里为了让相关性更明显一点，我们将线设置成不同的颜色：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 绘制所有特征和 target 之间的回归关系</span><br>plt.figure(figsize=(<span class="hljs-number">40</span>, <span class="hljs-number">30</span>))<br>i = <span class="hljs-number">0</span><br><span class="hljs-keyword">for</span> col <span class="hljs-keyword">in</span> cols[:-<span class="hljs-number">1</span>]:<br>    i = i + <span class="hljs-number">1</span><br>    fig = plt.subplot(<span class="hljs-number">5</span>, <span class="hljs-number">8</span>, i)<br>    sns.regplot(x=col, y=<span class="hljs-string">&#x27;target&#x27;</span>, data=train, ax=fig, line_kws=&#123;<span class="hljs-string">&#x27;color&#x27;</span>:<span class="hljs-string">&#x27;red&#x27;</span>&#125;)<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231207154141.png"
+alt="20231207154141" /></p>
+<p>这样可以知道它的相关性，有些相关性是比较好的，有些相关性是不太好的，这张图上就可以一目了然。</p>
+<p>也可以专门做相关性的系数，这次我们使用之前去掉特征之后的<code>train2</code>来做一个相关性系数的呈现，绘制它的热力图帮你判断。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 绘制相关性系数的热力图</span><br>plt.figure(figsize=(<span class="hljs-number">20</span>, <span class="hljs-number">16</span>))<br>sns.heatmap(train2.corr(), annot=<span class="hljs-literal">True</span>)<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231207154516.png"
+alt="20231207154516" /></p>
+<p>现在咱们用了热力图把相关性系数呈现出来，系数非常多，因为维度很多。即使咱们之前已经去掉一些特征，比如说
+28 就去掉了，22
+也去掉了，但是这个维度还是很多。那该怎么看呢？我们可以筛选出来重要的特征，g
+大于 0.5 的，绝对值大于 0.5 的，我们要找跟 traget 的之间相关性大于 0.5
+的。</p>
+<p>我们首先设置一下 threshold, 然后将之前 train2
+里的相关性系数都存下来</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 筛选出来重要的特征，即绝对值 &gt; 0.5</span><br>threshold = <span class="hljs-number">0.5</span><br>corrs = train2.corr()<br></code></pre></td></tr></table></figure>
+<p>然后需要筛选一下保存的这个系数里，<code>target</code>的系数，并且它需要是大于
+threshold 的</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">corrs[<span class="hljs-built_in">abs</span>(corrs[<span class="hljs-string">&#x27;target&#x27;</span>]) &gt; threshold]<br></code></pre></td></tr></table></figure>
+<p>我们只需要它的 index，来喂给我们新建立的一个 filter</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 找到重要的特征</span><br>features_filter = corrs.index[<span class="hljs-built_in">abs</span>(corrs[<span class="hljs-string">&#x27;target&#x27;</span>]) &gt; threshold]<br>features_filter<br><br>---<br>Index([<span class="hljs-string">&#x27;V0&#x27;</span>, <span class="hljs-string">&#x27;V1&#x27;</span>, <span class="hljs-string">&#x27;V2&#x27;</span>, <span class="hljs-string">&#x27;V3&#x27;</span>, <span class="hljs-string">&#x27;V4&#x27;</span>, <span class="hljs-string">&#x27;V8&#x27;</span>, <span class="hljs-string">&#x27;V12&#x27;</span>, <span class="hljs-string">&#x27;V16&#x27;</span>, <span class="hljs-string">&#x27;V27&#x27;</span>, <span class="hljs-string">&#x27;V31&#x27;</span>, <span class="hljs-string">&#x27;V37&#x27;</span>,<br>       <span class="hljs-string">&#x27;target&#x27;</span>],<br>      dtype=<span class="hljs-string">&#x27;object&#x27;</span>)<br></code></pre></td></tr></table></figure>
+<p>这样，我们就拿到了相关性系数比较高的一些特征。咱们把这些特征再去做一个呈现的可视化。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">plt.figure(figsize=(<span class="hljs-number">10</span>, <span class="hljs-number">6</span>))<br>sns.heatmap(train[features_filter].corr(), annot=<span class="hljs-literal">True</span>)<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231207160907.png"
+alt="20231207160907" /></p>
+<p>刚才是一张很大的图，看起来比较密密麻麻。那现在找出来那些最关键的特征，看这张图是不是比较清爽一点了？</p>
+<p>这张图里都是和 target
+相关性比较高的，要么是正相关比较大，要么是负相关比较大。这就是我们筛出来的特征。</p>
+<p>这个做完之后，咱们前期的数据探索基本就差不多了。现在咱们可以快速的来做一版预测。</p>
+<p>咱们要预测的是它的蒸汽量，咱们一起思考下，可以用什么样的方法？是不是可以建一个回归模型？简单一点的模型用线性回归。所以我们从
+sklearn 里面用 liner_model, 导入 LinearRegression， 回归模型。</p>
+<p>然后，因为需要用到的是线性回归，肯定这样将数据喂给模型是不行的，需要先做一个归一化处理，所以还需要导入一个<code>StandardScaler</code>，当然，你用其他的
+Scaler 也可以</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> sklearn.linear_model <span class="hljs-keyword">import</span> LinearRegression<br><span class="hljs-keyword">from</span> sklearn.preprocessing <span class="hljs-keyword">import</span> StandardScaler<br></code></pre></td></tr></table></figure>
+<p>需要的包咱们有了，当然第一步是需要训练集中的<code>target</code>去掉，做一个新的特征列表：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">features_filter = features_filter.tolist()<br>features_filter.remove(<span class="hljs-string">&#x27;target&#x27;</span>)<br><span class="hljs-built_in">print</span>(features_filter)<br><br>---<br>[<span class="hljs-string">&#x27;V0&#x27;</span>, <span class="hljs-string">&#x27;V1&#x27;</span>, <span class="hljs-string">&#x27;V2&#x27;</span>, <span class="hljs-string">&#x27;V3&#x27;</span>, <span class="hljs-string">&#x27;V4&#x27;</span>, <span class="hljs-string">&#x27;V8&#x27;</span>, <span class="hljs-string">&#x27;V12&#x27;</span>, <span class="hljs-string">&#x27;V16&#x27;</span>, <span class="hljs-string">&#x27;V27&#x27;</span>, <span class="hljs-string">&#x27;V31&#x27;</span>, <span class="hljs-string">&#x27;V37&#x27;</span>]<br></code></pre></td></tr></table></figure>
+<p>接下来，咱们就需要将数据做一个处理，做一个归一化处理，测试集和数据集都要做。做的时候注意，train
+训练集我们需要 fit，测试集就不需要了：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 数据归一化处理</span><br>ss = StandardScaler()<br><span class="hljs-comment"># 训练集的数据归一化</span><br>train[features_filter] = ss.fit_transform(train[features_filter])<br><span class="hljs-comment"># 训练集的数据归一化</span><br>test[features_filter] = ss.transform(test[features_filter])<br></code></pre></td></tr></table></figure>
+<p>接着就是创建模型，引用模型对数据进行训练：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 模型创建，线性回归</span><br>model = LinearRegression()<br><span class="hljs-comment"># 模型训练</span><br>model.fit(train[features_filter], train[<span class="hljs-string">&#x27;target&#x27;</span>])<br></code></pre></td></tr></table></figure>
+<p>再然后就是预测了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 模型预测</span><br>y_pred = model.predict(test[features_filter])<br>y_pred<br></code></pre></td></tr></table></figure>
+<p>咱们将这个预测结果保存一下，存成 DataFrame
+格式，整个数据是不需要表头的，我们可以设置 header 为 None</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">y_pred = pd.DataFrame(y_pred)<br>y_pred.to_csv(<span class="hljs-string">&#x27;dataset/baseline.txt&#x27;</span>, index=<span class="hljs-literal">False</span>, header=<span class="hljs-literal">None</span>)<br></code></pre></td></tr></table></figure>
+<p>看看这个<code>baseline.txt</code></p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231207162659.png"
+alt="20231207162659" /></p>
+<p>发现里面是有一些负数的，我们需要回过头去看一下咱们的源数据 train，
+观察一下它里面是不是也有负数，原来那个数据的 target
+如果没有负数那你预测出来负数可能也不太对。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python">train[<span class="hljs-string">&#x27;target&#x27;</span>].value_counts()<br><br>---<br>target<br> <span class="hljs-number">0.451</span>    <span class="hljs-number">7</span><br>         ..<br>-<span class="hljs-number">0.658</span>    <span class="hljs-number">1</span><br>         ..<br>-<span class="hljs-number">3.005</span>    <span class="hljs-number">1</span><br>         ..<br></code></pre></td></tr></table></figure>
+<p>好，也是有负数的。那说明咱们预测的没有问题。这样，就把这个例子给大家写完了。这个模型只是做简化版，并没有说一定要去做一个精确版的。</p>
+<p>这个例子就把一个蒸汽量的预测问题给大家写完了，这章重点看的是前面的可视化的过程，而不是训练。训练之前给大家讲了太多了。可视化过程可以让你对特征会比较熟悉和了解，有没有异常值、分布是不是一致，你看到它就会有后续的一些想法，idea
+就会产生。哪个特征是比较关键的，这些特征之间的相关性系数是如何，重要特征，最重要的那几个是哪些等等就可以拿出来了。</p>
+<p>如果你想要做更精确的预测的话可以用复杂模型，比如说你可以用
+XGBoost，用
+LightGBM，树模型都是一些非线性模型。它的模型就会比较复杂。</p>
+<p>咱们上面这个数据也没有对异常值做处理，如果你想要 drop
+异常值的话也是可以做一些处理的。但是异常值其实不是所有的情况下都一定需要
+drop，它只是给你判断出来有异常值。我们需要观察测试集里面有没有异常值，如果你的测试集里面有异常值的话那么就需要在训练集里有异常值。有点像它的分布情况是一样的。所以异常值只是给你提醒，说这样的数据跟其他的分布之间差别比较大而已。很多时候还是要看测试集里面有没有，要去做一个判断才可以。</p>
+<p>咱们花了三节课的时间来做数据可视化探索，方便你对数据的异常值检测，数据的一些特征的情况做一些了解。这样你对数据的字段就更加的清楚。</p>
+<p>咱们讲了几个图形，这其中饼图其实可以用直方图来呈现，领导有可能会看，但一般来说我们自己也要去做分析，打比赛的时候，做项目的时候用的更多的是散点图，折线图和直方图。</p>
+<p>好，预告一下内容，下一节课，咱们会进行一些产品型的一些内容。那咱们下节课再见。</p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>12. BI - 可视化在项目蒸汽量预测的过程及应用</p><p><a href="https://hivan.me/12. BI - 可视化在项目蒸汽量预测的过程及应用/">https://hivan.me/12. BI - 可视化在项目蒸汽量预测的过程及应用/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2024-02-07</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2024-02-28</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a><a class="link-muted mr-2" rel="tag" href="/tags/BI/">BI</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/13.%20BI%20-%20%E5%8F%AF%E8%A7%86%E5%8C%96%E7%9C%8B%E6%9D%BF%E5%8F%91%E5%B8%83/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">13. BI - 可视化看板发布</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/11.%20BI%20-%20%E5%A6%82%E4%BD%95%E5%9C%A8%20Python%20%E4%B8%AD%E8%BF%9B%E8%A1%8C%E5%88%86%E8%AF%8D%E5%B9%B6%E5%B1%95%E7%A4%BA%E8%AF%8D%E4%BA%91/"><span class="level-item">11. BI - 如何在 Python 中进行分词并展示词云</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/12.%20BI%20-%20%E5%8F%AF%E8%A7%86%E5%8C%96%E5%9C%A8%E9%A1%B9%E7%9B%AE%E8%92%B8%E6%B1%BD%E9%87%8F%E9%A2%84%E6%B5%8B%E7%9A%84%E8%BF%87%E7%A8%8B%E5%8F%8A%E5%BA%94%E7%94%A8/';
+            this.page.identifier = '12. BI - 可视化在项目蒸汽量预测的过程及应用/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI 游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">223</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">6</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">22</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI 秘籍</span></span><span class="level-end"><span class="level-item tag">81</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/"><span class="level-start"><span class="level-item">BI</span></span><span class="level-end"><span class="level-item tag">17</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">33</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-27T23:30:00.000Z">2024-02-28</time></p><p class="title"><a href="/17.%20BI%20-%20Surprise%E5%B7%A5%E5%85%B7%E7%AE%B1%EF%BC%9ABaseline/">17. BI - Surprise 工具箱：Baseline</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-24T23:30:00.000Z">2024-02-25</time></p><p class="title"><a href="/16.%20BI%20-%20%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E4%B9%8BALS%E5%AE%9E%E7%8E%B0/">16. BI - 推荐系统之 ALS 实现</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-20T23:30:00.000Z">2024-02-21</time></p><p class="title"><a href="/15.%20BI%20-%20%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E4%B9%8BALS%E5%8E%9F%E7%90%86/">15. BI - 推荐系统之 ALS 原理</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-15T23:30:00.000Z">2024-02-16</time></p><p class="title"><a href="/14.%20BI%20-%20%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E4%B9%8B%E7%9F%A9%E9%98%B5%E5%88%86%E8%A7%A3/">14. BI - 推荐系统之矩阵分解</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-10T23:30:00.000Z">2024-02-11</time></p><p class="title"><a href="/13.%20BI%20-%20%E5%8F%AF%E8%A7%86%E5%8C%96%E7%9C%8B%E6%9D%BF%E5%8F%91%E5%B8%83/">13. BI - 可视化看板发布</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2024 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

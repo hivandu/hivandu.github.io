@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>03. BI - XGBoost - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content=""><meta property="og:type" content="blog"><meta property="og:title" content="03. BI - XGBoost"><meta property="og:url" content="https://hivan.me/03.%20BI%20-%20XGBoost/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2024-01-06T23:30:00.000Z"><meta property="article:modified_time" content="2024-01-07T06:23:01.739Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="article:tag" content="BI"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/03.%20BI%20-%20XGBoost/"},"headline":"03. BI - XGBoost","image":[],"datePublished":"2024-01-06T23:30:00.000Z","dateModified":"2024-01-07T06:23:01.739Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":""}</script><link rel="canonical" href="https://hivan.me/03.%20BI%20-%20XGBoost/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><script>var _hmt = _hmt || [];
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>03. BI - XGBoost - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content=""><meta property="og:type" content="blog"><meta property="og:title" content="03. BI - XGBoost"><meta property="og:url" content="https://hivan.me/03.%20BI%20-%20XGBoost/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2024-01-06T23:30:00.000Z"><meta property="article:modified_time" content="2024-01-16T08:25:04.780Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="article:tag" content="BI"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/03.%20BI%20-%20XGBoost/"},"headline":"03. BI - XGBoost","image":[],"datePublished":"2024-01-06T23:30:00.000Z","dateModified":"2024-01-16T08:25:04.780Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":""}</script><link rel="canonical" href="https://hivan.me/03.%20BI%20-%20XGBoost/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><script>var _hmt = _hmt || [];
         (function() {
             var hm = document.createElement("script");
             hm.src = "//hm.baidu.com/hm.js?f91b64734fdc7bfb999e48f9248d44dd";
@@ -40,14 +40,17 @@
       window.addEventListener('hashchange', switchTab, false);
   })();
   </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
-</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2024-01-06T23:30:00.000Z" title="1/7/2024, 7:30:00 AM">2024-01-07</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a><span> / </span><a class="link-muted" href="/categories/AI%E7%A7%98%E7%B1%8D/BI/">BI</a></span></div></div><h1 class="title is-3 is-size-4-mobile">03. BI - XGBoost</h1><div class="content"><p><img
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2024-01-06T23:30:00.000Z" title="1/7/2024, 7:30:00 AM">2024-01-07</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a><span> / </span><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></span></div></div><h1 class="title is-3 is-size-4-mobile">03. BI - XGBoost</h1><div class="content"><p><img
 src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231117184644.png"
 alt="20231117184644" /></p>
 <span id="more"></span>
 <p>[TOC]</p>
 <p>Hi，你好。我是茶桁。</p>
-<p>学习总是一个循序渐进的过程，之前两节课的内容中，咱们去了解了LR和SVM在实际项目中是如何使用的，我给大家看了两个项目都是跟分类相关，一个是员工离职预测，一个是男女声音识别。</p>
-<p>其实也能看到，男女声音识别也不一定都要用神经网络，能找到一些关键特征把它转化为结构化的数据你也可以用机器学习来完成预测，而且机器学习的效果还是非常好，基本上都有百分之97，98的准确性。</p>
+<p>学习总是一个循序渐进的过程，之前两节课的内容中，咱们去了解了 LR 和
+SVM
+在实际项目中是如何使用的，我给大家看了两个项目都是跟分类相关，一个是员工离职预测，一个是男女声音识别。</p>
+<p>其实也能看到，男女声音识别也不一定都要用神经网络，能找到一些关键特征把它转化为结构化的数据你也可以用机器学习来完成预测，而且机器学习的效果还是非常好，基本上都有百分之
+97，98 的准确性。</p>
 <p>那今天这节课主要给大家讲解的是「机器学习的神器」，也是今天最主要的内容。</p>
 <p>这个内容希望大家多去仔细阅读，如果你遇到哪些问题可以给我留言，文章下或者私信都可以，基本上，一些容易解答的问题我都会给予回复，大家保持一个良好的学习的方法。</p>
 <h2 id="集成学习">集成学习</h2>
@@ -55,54 +58,97 @@ alt="20231117184644" /></p>
 <p><img
 src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231116162328.png"
 alt="20231116162328" /></p>
-<p>集中学习里面有些策略，Bagging是一种，它像一个袋子一样，数据是放到袋子里面去，叫有放回的抽样方式。这个袋子里面如果你要做一个分类的模型会按照少数服从多数。最简单的就是一个陪审团，看一看大家投票的情况，这是分类问题。回归问题我们要用的是大家的平均值，你预测一下薪酬，他预测一下薪酬，把大家预测结果相加以后除上个数就是求平均值。这些都是一个banging的策略，集中学习把这些大家的结果给合并到一起。</p>
-<p>Stacking叫做堆，什么叫Stacking？上图中下面的部分就是Stacking，我们把它分成两类分类器，分类器1，也就是前面的<code>Classifier</code>做了特征的提取，分类器2,<code>Meta Classifier</code>做了分类的过程。它是属于先后两阶段，先做第一种再做第二种，这是有先后逻辑顺序关系。如果是Bagging是没有先后逻辑关系。它是一个并行方法。你做你的，我做我的，最后我们可以综合起来，这个结果没有先后逻辑关系。而Stacking的话是有一个先后逻辑关系的，这是集成学习的不同种的学习的方式。</p>
-<p>还有一种学习方式的话叫Boosting，Boosting中文可以把它称为叫提升，它也有先后的顺序。</p>
+<p>集中学习里面有些策略，Bagging
+是一种，它像一个袋子一样，数据是放到袋子里面去，叫有放回的抽样方式。这个袋子里面如果你要做一个分类的模型会按照少数服从多数。最简单的就是一个陪审团，看一看大家投票的情况，这是分类问题。回归问题我们要用的是大家的平均值，你预测一下薪酬，他预测一下薪酬，把大家预测结果相加以后除上个数就是求平均值。这些都是一个
+banging 的策略，集中学习把这些大家的结果给合并到一起。</p>
+<p>Stacking 叫做堆，什么叫 Stacking？上图中下面的部分就是
+Stacking，我们把它分成两类分类器，分类器
+1，也就是前面的<code>Classifier</code>做了特征的提取，分类器
+2,<code>Meta Classifier</code>做了分类的过程。它是属于先后两阶段，先做第一种再做第二种，这是有先后逻辑顺序关系。如果是
+Bagging
+是没有先后逻辑关系。它是一个并行方法。你做你的，我做我的，最后我们可以综合起来，这个结果没有先后逻辑关系。而
+Stacking
+的话是有一个先后逻辑关系的，这是集成学习的不同种的学习的方式。</p>
+<p>还有一种学习方式的话叫 Boosting，Boosting
+中文可以把它称为叫提升，它也有先后的顺序。</p>
 <p><img
 src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231116163911.png"
 alt="20231116163911" /></p>
-<p>我们看这张图，原始的数据给了模型，第一个分类器模型做了以后得到一些新的一些数据，再喂给第二个模型，然后再生成一些数据再喂给第三个模型，这三个模型之间是有顺序的。先计算第一个，再计算后面的第二个，再计算第三个，所以这种Boosting的方法是有一些顺序的关系。</p>
-<p>通过Boosting的方式可以把弱分类器结合到一起形成一个强的分类器，这是它的一个Boosting的关系。Boosting有两个比较重要的算法，一个AdaBoost（自适应提升），
-一个是Gradient
+<p>我们看这张图，原始的数据给了模型，第一个分类器模型做了以后得到一些新的一些数据，再喂给第二个模型，然后再生成一些数据再喂给第三个模型，这三个模型之间是有顺序的。先计算第一个，再计算后面的第二个，再计算第三个，所以这种
+Boosting 的方法是有一些顺序的关系。</p>
+<p>通过 Boosting
+的方式可以把弱分类器结合到一起形成一个强的分类器，这是它的一个 Boosting
+的关系。Boosting 有两个比较重要的算法，一个 AdaBoost（自适应提升），
+一个是 Gradient
 Boosting（梯度提升）。这两种方法在咱们之前的机器学习课程中都有详细的讲解。</p>
-<p>AdaBoost是使用前面的学习器用简单的模型去适配数据，然后分析错误。然后会给予错误预测的数据更高权重，然后用后面的学习器去修复。</p>
-<p>所以集成学习是有三种模式，Bagging是一种，Stacking是一种，还有就是Boosting。总的来说都是把多个分类器组合起来，会胜过一个分类器。这几中模型之间比较常见的模型是Boosting和Bagging。</p>
+<p>AdaBoost
+是使用前面的学习器用简单的模型去适配数据，然后分析错误。然后会给予错误预测的数据更高权重，然后用后面的学习器去修复。</p>
+<p>所以集成学习是有三种模式，Bagging 是一种，Stacking 是一种，还有就是
+Boosting。总的来说都是把多个分类器组合起来，会胜过一个分类器。这几中模型之间比较常见的模型是
+Boosting 和 Bagging。</p>
 <p><img
 src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231116164758.png"
-alt="Bagging学习方式" /></p>
+alt="Bagging 学习方式" /></p>
 <p><img
 src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231116164849.png"
 alt="Boosting 学习方式" /></p>
 <p>我们对这两个做个对比。</p>
 <ul>
-<li>在结构上，Bagging是基分类器并行处理，而Boosting是串行处理。</li>
-<li>训练集上，Bagging的基分类器训练是独立的，而Boosting的训练集是依赖于之前的模型</li>
-<li>在作用上，Bagging的作用是减少variance，
-而Boosting在于减少bias。</li>
+<li>在结构上，Bagging 是基分类器并行处理，而 Boosting 是串行处理。</li>
+<li>训练集上，Bagging 的基分类器训练是独立的，而 Boosting
+的训练集是依赖于之前的模型</li>
+<li>在作用上，Bagging 的作用是减少 variance， 而 Boosting 在于减少
+bias。</li>
 </ul>
-<p>并行的方式和串形的方法没有什么特别的好坏之分，如果要去判断也是跟数据相关。我今天讲解的神器是属于最后一种，就是Boosting的方式，所以它应该是一个串形的方法。</p>
-<p>这种分类器里面有很多种，上面我介绍了两个算法，一个是AdaBoost，一个是Gradient
-Boosting，那我们主要看看后面这种算法。这个算法中包含了几个比较重要的工具，有XGBoost、LightGBM、CatBoost以及NGBoost，实际上是对GBDT方法的不同实现，针对同一目标做了不同的优化处理。基本上出现的年限如下：</p>
+<p>并行的方式和串形的方法没有什么特别的好坏之分，如果要去判断也是跟数据相关。我今天讲解的神器是属于最后一种，就是
+Boosting 的方式，所以它应该是一个串形的方法。</p>
+<p>这种分类器里面有很多种，上面我介绍了两个算法，一个是 AdaBoost，一个是
+Gradient
+Boosting，那我们主要看看后面这种算法。这个算法中包含了几个比较重要的工具，有
+XGBoost、LightGBM、CatBoost 以及 NGBoost，实际上是对 GBDT
+方法的不同实现，针对同一目标做了不同的优化处理。基本上出现的年限如下：</p>
 <p><img
 src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231116170231.png"
 alt="20231116170231" /></p>
-<p>Boosting这种方式典型代表是XGBoost、LightGBM和CatBoost，NGBoost采用的boosting的方法跟前三种boosting不太一样，通常我们机器学习的神器还是指的前面三种。当然，近些年还有一些新的工具，比如H2O
-GBM，以及TensorFlow Boosted
+<p>Boosting 这种方式典型代表是 XGBoost、LightGBM 和 CatBoost，NGBoost
+采用的 boosting 的方法跟前三种 boosting
+不太一样，通常我们机器学习的神器还是指的前面三种。当然，近些年还有一些新的工具，比如
+H2O GBM，以及 TensorFlow Boosted
 Trees（TFBT），咱们我们不去探讨它们，以后有机会写进阶课程的时候再说。</p>
-<p>XGBoost最早提出来的是2014年，它是由陈天奇提出来的，提出来以后在Kaggle的比赛中是大火，基本上在2014年那个阶段只要你参加机器学习的比赛必用XGBoost，而且第一名基本上都是XGBoost，效果是最好的。</p>
-<p>三年之后在2017年，微软提出来了一个lightGBM的版本，它是站在原来的XGBoost基础上做了一些简化，让它的版本更轻，轻的一个优势就是快。所以LightGBM占用内存更少，速度更快。</p>
-<p>三个月之后俄罗斯的一家公司叫Yandex又做了一个新的版本，叫CatBoost，这家公司你可以把它理解成是俄罗斯的Google，是个科技巨头，也做测速引擎，同时也开源很多的机器学习的工具箱，那我们现在用的CatBoost就是Yandex提出来的一个模型。</p>
+<p>XGBoost 最早提出来的是 2014 年，它是由陈天奇提出来的，提出来以后在
+Kaggle 的比赛中是大火，基本上在 2014
+年那个阶段只要你参加机器学习的比赛必用 XGBoost，而且第一名基本上都是
+XGBoost，效果是最好的。</p>
+<p>三年之后在 2017 年，微软提出来了一个 lightGBM 的版本，它是站在原来的
+XGBoost 基础上做了一些简化，让它的版本更轻，轻的一个优势就是快。所以
+LightGBM 占用内存更少，速度更快。</p>
+<p>三个月之后俄罗斯的一家公司叫 Yandex 又做了一个新的版本，叫
+CatBoost，这家公司你可以把它理解成是俄罗斯的
+Google，是个科技巨头，也做测速引擎，同时也开源很多的机器学习的工具箱，那我们现在用的
+CatBoost 就是 Yandex 提出来的一个模型。</p>
 <h2 id="xgboost">XGBoost</h2>
 <p>https://arxiv.org/abs/1603.02754</p>
 <p><img
 src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231116172913.png"
 alt="20231116172913" /></p>
-<p>XGBoost是2014年提出来的模型，它本身是基于树的。一般来说用的是CART回归树。这个是一个决策树，这是它的机器学习的模型。</p>
-<p>我们现在要去完成一个预测y值，<code>一个人是否喜欢电子游戏</code>。就是电子游戏的市场跟哪些特征相关，年龄、性别、职业这些特征。前面是我们的X，有很多X，最后是那个y。</p>
-<p>现在如果要建一棵树，用一棵角色树可能会建出来如图的一个过程。先判断他的age是不是小于15岁，如果小于15岁就走左边，再判断他的性别是不是男性，如果是男性我们就认为他会玩两个小时，如果不是男性就是0.1个小时。如果他是大于15岁我们就认为他是-1。</p>
+<p>XGBoost 是 2014 年提出来的模型，它本身是基于树的。一般来说用的是 CART
+回归树。这个是一个决策树，这是它的机器学习的模型。</p>
+<p>我们现在要去完成一个预测 y
+值，<code>一个人是否喜欢电子游戏</code>。就是电子游戏的市场跟哪些特征相关，年龄、性别、职业这些特征。前面是我们的
+X，有很多 X，最后是那个 y。</p>
+<p>现在如果要建一棵树，用一棵角色树可能会建出来如图的一个过程。先判断他的
+age 是不是小于 15 岁，如果小于 15
+岁就走左边，再判断他的性别是不是男性，如果是男性我们就认为他会玩两个小时，如果不是男性就是
+0.1 个小时。如果他是大于 15 岁我们就认为他是-1。</p>
 <p>这个是其中一棵树的一个结果，他的预测是在叶子节点里面会有一个数值，这等于他的输出，所以输出都是在叶子节点里，中间那颗分支都是按照不同的逻辑来做个判断。</p>
-<p>XGBoost它本身是集中学习，其实它背后的那个过程原理叫GBDT，大家先知道就好了，我们今天没有详细展开GBDT，这个是属于它的理论。就是说我有多少棵树一起来学习。就是之前看到那张图上的模型，依照数据流，Model1先去做，做完以后Model2去做，再做完以后Model3去做。它本身的原理就是多棵树相加。</p>
-<p>那GBDT的理论版本是这样，XGBoost是它的工程版本。工程版本的目的是要更加的泛化，所以它主要是在原来GBDT的基础上又加了一个叫做正则化项：</p>
+<p>XGBoost 它本身是集中学习，其实它背后的那个过程原理叫
+GBDT，大家先知道就好了，我们今天没有详细展开
+GBDT，这个是属于它的理论。就是说我有多少棵树一起来学习。就是之前看到那张图上的模型，依照数据流，Model1
+先去做，做完以后 Model2 去做，再做完以后 Model3
+去做。它本身的原理就是多棵树相加。</p>
+<p>那 GBDT 的理论版本是这样，XGBoost
+是它的工程版本。工程版本的目的是要更加的泛化，所以它主要是在原来 GBDT
+的基础上又加了一个叫做正则化项：</p>
 <p><span class="math display">\[
 \begin{align*}
 目标函数 = 损失函数 + 正则化项 \\
@@ -112,10 +158,11 @@ Obj(\varTheta) = L(\varTheta) + \Omega(\varTheta)
 <p>这里，<span
 class="math inline">\(L(\varTheta)\)</span>是损失函数，拟合数据。 <span
 class="math inline">\(\Omega(\varTheta)\)</span>是正则化项，惩罚复杂模型。</p>
-<p>我们的目标函数是由损失函数加正则化项。一般我们要判断的是想让它的预测结果和实际值更小，这个叫loss
-functio，之前课程中，我们一直跟loss打交道。多出来的结果叫y',
-和实际值的y之间, 我们会计算一个损失函数。</p>
-<p>比如说我们要用用MSE做回归值，(y' - y)^2，这等于它loss function。</p>
+<p>我们的目标函数是由损失函数加正则化项。一般我们要判断的是想让它的预测结果和实际值更小，这个叫
+loss functio，之前课程中，我们一直跟 loss 打交道。多出来的结果叫 y',
+和实际值的 y 之间, 我们会计算一个损失函数。</p>
+<p>比如说我们要用用 MSE 做回归值，(y' - y)^2，这等于它 loss
+function。</p>
 <p>所以，正则化项意义就是对我们的叶子节点做了一惩罚项。</p>
 <p><span class="math display">\[
 \begin{align*}
@@ -124,20 +171,27 @@ functio，之前课程中，我们一直跟loss打交道。多出来的结果叫
 \]</span></p>
 <p>整个<span class="math inline">\(\Omega
 (f_t)\)</span>用于控制树的复杂度，防止过拟合，使得模型更简化，也使得最终的模型的预测结果更稳定。</p>
-<p>这个复杂的公式里，
-T代表的就是叶子数量，你想，如果你的决策数叶子数量很多，这个数模型就会很复杂。</p>
-<p>w_j 是叶子分数的L2正则项，
+<p>这个复杂的公式里， T
+代表的就是叶子数量，你想，如果你的决策数叶子数量很多，这个数模型就会很复杂。</p>
+<p>w_j 是叶子分数的 L2 正则项，
 如果它的叶子的分数也是很大的话，也比较复杂，所以我们希望这棵树简单一点，没有这么多的叶子节点，而且叶子节点的数值也比较小一点。这样就是一个稍微小巧一点的模型。</p>
 <p><span
 class="math inline">\(\gamma\)</span>是加入新叶子节点引入的复杂度代价。</p>
-<p>那为什么要加正则化项呢？我给大家举个场景，你自己体会一下。我们的目标是希望损失函数最小化，比如说我们目标是想要挣更多的钱，有两种人a和b。a月薪是2万块钱，他每天就是朝九晚五，办公室的白领。b是网约车司机，每天早上6点出门，晚上12点回家，他也是月薪2万块钱。</p>
+<p>那为什么要加正则化项呢？我给大家举个场景，你自己体会一下。我们的目标是希望损失函数最小化，比如说我们目标是想要挣更多的钱，有两种人
+a 和 b。a 月薪是 2 万块钱，他每天就是朝九晚五，办公室的白领。b
+是网约车司机，每天早上 6 点出门，晚上 12 点回家，他也是月薪 2
+万块钱。</p>
 <p>你想办公室的白领他的模型相对来说比较简单一点，后面我们的系数就是大家不需要太多去努力，大概读出来结果-1，-0.1，+1，
-+0.1就好了。</p>
++0.1 就好了。</p>
 <p>网约车司机他会非常的奔波，很累。可能这个系数抖动比较大，最后得出结果+10，
-+20， -10， -20等等。</p>
-<p>现在想一想，同样月薪2万块钱，你们希望是做a还是做b呢？我们同样可以得到这样一个结果，是希望是像办公室白领一样轻轻松松可以达到你的loss
-function这样的一个目标，还是希望像网约车司机一样特别的辛苦，很复杂。早上6点出门，晚上是24点回家。那大部分人应该都是a，这逻辑是一样的。</p>
-<p>我们希望我们的那棵树没有那么的复杂，也能达到比较好的效果。所以在我们的目标函数过程中统计了两个代价，一个代价叫做loss
++20， -10， -20 等等。</p>
+<p>现在想一想，同样月薪 2 万块钱，你们希望是做 a 还是做 b
+呢？我们同样可以得到这样一个结果，是希望是像办公室白领一样轻轻松松可以达到你的
+loss function
+这样的一个目标，还是希望像网约车司机一样特别的辛苦，很复杂。早上 6
+点出门，晚上是 24 点回家。那大部分人应该都是 a，这逻辑是一样的。</p>
+<p>我们希望我们的那棵树没有那么的复杂，也能达到比较好的效果。所以在我们的目标函数过程中统计了两个代价，一个代价叫做
+loss
 function，损失代价，还有一个就是模型的代价。模型代价跟谁相关呢？跟模型的叶子数和叶子的分数相关。</p>
 <p><img
 src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231116185017.png"
@@ -157,21 +211,22 @@ Obj(\varTheta) &amp; = \sum_il(y_i, \hat y_i)+\sum_k\Omega(f_k) \\
 \Omega(f) &amp; = \gamma T + \frac{1}{2}\lambda ||w||^2
 \end{align*}
 \]</span></p>
-<p>我们在原来的loss
-function里面加了一个正则化项，下面的那个是正则化项的公式，前面是叶子节点的数量，后面是叶子节点的分数。我们希望目标函数最小化，把这个目标函数写成以下的一个过程：</p>
+<p>我们在原来的 loss function
+里面加了一个正则化项，下面的那个是正则化项的公式，前面是叶子节点的数量，后面是叶子节点的分数。我们希望目标函数最小化，把这个目标函数写成以下的一个过程：</p>
 <p><span class="math display">\[
 \begin{align*}
 Obj^t = \sum_{i=1}^n l(y_i, \hat y_i^{t-1} + f_t(x_i))+\Omega(f_t) +
 constant
 \end{align*}
 \]</span></p>
-<p>集成学习的树是由多棵树来完成的，如果你现在做的是t棵树，前面那个结果就是t-1棵树。t-1棵树的结果加上<span
+<p>集成学习的树是由多棵树来完成的，如果你现在做的是 t
+棵树，前面那个结果就是 t-1 棵树。t-1 棵树的结果加上<span
 class="math inline">\(\varDelta\)</span>，也就是<span
-class="math inline">\(f_t(x_i)\)</span>，就说第t棵树的结果。之前咱们说的model1,
-model2, model3这是三棵树,
-如果t等于3的话前面两棵树是t-1，预测结果加上第三棵树的预测结果。</p>
-<p>这两个过程我们都是拿它做一个loss
-function的一个组合，再加上正则化项，再加上一个常数项，这等它的目标函数。</p>
+class="math inline">\(f_t(x_i)\)</span>，就说第 t
+棵树的结果。之前咱们说的 model1, model2, model3 这是三棵树, 如果 t 等于
+3 的话前面两棵树是 t-1，预测结果加上第三棵树的预测结果。</p>
+<p>这两个过程我们都是拿它做一个 loss function
+的一个组合，再加上正则化项，再加上一个常数项，这等它的目标函数。</p>
 <p>对这个函数改进，进行二阶泰勒展开：</p>
 <p><span class="math display">\[
 \begin{align*}
@@ -193,12 +248,13 @@ f_t(x_i)
 \end{align*}
 \]</span></p>
 <p>那这个式子就可以这样推理得到。其中<span class="math inline">\(\hat
-y_i^{(t)}\)</span>是第t轮的模型预测，<span class="math inline">\(\hat
-y_i^{(t-1)}\)</span>是保留前t-1轮的模型预测， 而<span
+y_i^{(t)}\)</span>是第 t 轮的模型预测，<span class="math inline">\(\hat
+y_i^{(t-1)}\)</span>是保留前 t-1 轮的模型预测， 而<span
 class="math inline">\(f_t(x_i)\)</span>是加入新的预测函数。</p>
 <p>我们可以做多阶泰勒展开，二阶泰勒展开呢相对简单一点。现在只要知道有这么一个概念，这个概念是做一个近似的过程即可。今天就不去讲这个数学的推导了，关于如何利用数学进行推导，大家回到我数学篇里专门有一篇讲泰勒展开的一节去好好补一下基础。</p>
-<p>那这个过程就还是一个loss
-function，这里就是一个任何的function都是一样的。后面这个f'(x)是一个导数，f'是一阶导数，f''是二阶导数，就是做完一阶以后再去做一阶。</p>
+<p>那这个过程就还是一个 loss function，这里就是一个任何的 function
+都是一样的。后面这个
+f'(x)是一个导数，f'是一阶导数，f''是二阶导数，就是做完一阶以后再去做一阶。</p>
 <p>一阶导数乘上<span class="math inline">\(\varDelta
 x\)</span>，再加上二阶导数乘上<span class="math inline">\(\varDelta
 x^2\)</span>，这等于二阶泰勒展开，这是一个定理。那这个定理代入的就是刚才这套过程。</p>
@@ -213,13 +269,18 @@ g_if_t(x_i) + \frac{1}{2}h_if_t^2(x_i) \right ] + \Omega(f_t) + constant
 <p>这里，f(x)就是等于<span class="math inline">\(l(y_i, \hat
 y_i^{(t-1)})\)</span>，后面这个<span
 class="math inline">\(f_t(x_i)\)</span>不就是<span
-class="math inline">\(\varDelta
-x\)</span>吗，然后f'(x)是定义成了一阶导数，用g来代表，再之后是<span
+class="math inline">\(\varDelta x\)</span>吗，然后
+f'(x)是定义成了一阶导数，用 g 来代表，再之后是<span
 class="math inline">\(\varDelta x^2\)</span>，它就是<span
-class="math inline">\(f_t^2(x_i)\)</span>。那个二阶导数用h来代表，前面再把1/2拿过来。</p>
-<p>这样目标函数我们就把它做了个改写，我们把它用二阶泰勒展开做了个改写，中间的一阶导数项用g，二阶导数项用h，所以它是个约等于。</p>
+class="math inline">\(f_t^2(x_i)\)</span>。那个二阶导数用 h
+来代表，前面再把 1/2 拿过来。</p>
+<p>这样目标函数我们就把它做了个改写，我们把它用二阶泰勒展开做了个改写，中间的一阶导数项用
+g，二阶导数项用 h，所以它是个约等于。</p>
 <p>有了这个流程以后，刚才这是个约等于，是用二阶泰勒展开。还可以再去详细的去看一看,
-f_t(x_i)，这是第7棵树的结果，因为咱们用的是个决策树，它的结果是在叶子节点，那么叶子节点可以作为定义。它叶子节点假设是w，那它的叶子节点的平方也是w的平方，我们再加上后面的正则化项，正则化项是刚刚我们定义好的<span
+f_t(x_i)，这是第 7
+棵树的结果，因为咱们用的是个决策树，它的结果是在叶子节点，那么叶子节点可以作为定义。它叶子节点假设是
+w，那它的叶子节点的平方也是 w
+的平方，我们再加上后面的正则化项，正则化项是刚刚我们定义好的<span
 class="math inline">\(\gamma T+\lambda\frac{1}{2}\sum_{i=1}^T
 w_j^2\)</span>,
 这是陈天奇定义好的一个公式。这样一个推导我们还可以再把它去做一个合并的过程,这个过程就不完全展开了，可以自己看一下，我们来看一个完整的推导：</p>
@@ -234,17 +295,17 @@ Obj^t &amp; = \sum_{i=1}^n \left [ g_if_t(x_i) -
 + \gamma T
 \end{align*}
 \]</span></p>
-<p>T为叶子节点数量， <span
+<p>T 为叶子节点数量， <span
 class="math inline">\(I_j\)</span>定义为每个叶子节点里面的样本集合<span
 class="math inline">\(I_j = \{ i | q(x_i) = j \}\)</span>，<span
 class="math inline">\(f_t(x_i) =
-w_{q(x_i)}\)</span>即每个样本所在叶子节点索引的分数（叶子权重w）。</p>
-<p>那么我们就可以看到，g是做了一个求和项,h也做了一个求和项。
-所以我们就把一阶导数的求和用一个大G去表达，<span
+w_{q(x_i)}\)</span>即每个样本所在叶子节点索引的分数（叶子权重 w）。</p>
+<p>那么我们就可以看到，g 是做了一个求和项,h 也做了一个求和项。
+所以我们就把一阶导数的求和用一个大 G 去表达，<span
 class="math inline">\(G_j = \sum_{i\in I_j}
-g_i\)</span>，二阶的求和用个大H来做表达<span class="math inline">\(H_j =
-\sum_{i\in I_j}
-h_i\)</span>，就是把这个过程用大G和大H来去做一个表达，那我们上面最后那一步的那个复杂公式就可以写成：</p>
+g_i\)</span>，二阶的求和用个大 H 来做表达<span class="math inline">\(H_j
+= \sum_{i\in I_j} h_i\)</span>，就是把这个过程用大 G 和大 H
+来去做一个表达，那我们上面最后那一步的那个复杂公式就可以写成：</p>
 <p><span class="math display">\[
 \begin{align*}
 Obj^t = \sum_{j=1}^T \left[ G_jw_j + \frac{1}{2}(H_j + \lambda) w_j^2
@@ -252,15 +313,16 @@ Obj^t = \sum_{j=1}^T \left[ G_jw_j + \frac{1}{2}(H_j + \lambda) w_j^2
 \end{align*}
 \]</span></p>
 <p>以上就把它的目标函数做了一个改写,
-那现在我们是希望这个目标函数是越大越好，还是越小越好？自然是希望它越小越好。那什么时候得到最小值？导数为0的时候，就是对<span
-class="math inline">\(\frac{\partial Obj}{\partial
+那现在我们是希望这个目标函数是越大越好，还是越小越好？自然是希望它越小越好。那什么时候得到最小值？导数为
+0 的时候，就是对<span class="math inline">\(\frac{\partial Obj}{\partial
 w_j}\)</span>求偏导，，那求偏导就得到：</p>
 <p><span class="math display">\[
 \begin{align*}
 \frac{\partial Obj}{\partial w_j} = G_j + (H_j + \lambda)w_j = 0
 \end{align*}
 \]</span></p>
-<p>导数等于0的时候，我们就可以求到极值，它等于0的时候我们可以求解得：</p>
+<p>导数等于 0 的时候，我们就可以求到极值，它等于 0
+的时候我们可以求解得：</p>
 <p><span class="math display">\[
 \begin{align*}
 w_j &amp; = - \frac{G_j}{H_j + \lambda} \\
@@ -269,25 +331,35 @@ Obj &amp; = -\frac{1}{2} \sum_{j=1}^T \frac{G_j^2}{H_j + \lambda} +
 \end{align*}
 \]</span></p>
 <p>先求得<span
-class="math inline">\(w_j\)</span>之后再将它代入到前面那个公式，我们就可以得到Obj。</p>
-<p>所以要想让目标函数最小，我们可以直接求出来w_j的极值以及最小化的那个Obj。</p>
-<p>有了这个过程之后我们一起看一看，我们的XGBoost是怎么去进行运算的。</p>
-<p>我们的Obj的目标函数也是称为一个叫结构分数（打分函数），我们希望这个结构分数越小越好。越小就代表它这个结构越稳定。</p>
+class="math inline">\(w_j\)</span>之后再将它代入到前面那个公式，我们就可以得到
+Obj。</p>
+<p>所以要想让目标函数最小，我们可以直接求出来 w_j 的极值以及最小化的那个
+Obj。</p>
+<p>有了这个过程之后我们一起看一看，我们的 XGBoost
+是怎么去进行运算的。</p>
+<p>我们的 Obj
+的目标函数也是称为一个叫结构分数（打分函数），我们希望这个结构分数越小越好。越小就代表它这个结构越稳定。</p>
 <p><img
 src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231116233928.png"
 alt="20231116233928" /></p>
-<p>我们看图，第一个部分，判断is
-male为yes的时候的叶子是一个样本，为no的时候是一个样本，那判断age &lt;
-15为no的时候是三个样本。如果三个样本输出的结果的话，我们的的大G就是三个样本的之和，大H也是这三个样本的h，二阶导数之和。</p>
-<p>Obj是衡量模型好坏的标准，我们希望这个分数越小越好，就是这个数会更加的稳定一些。</p>
-<p>那怎么样去求解这个Obj让它更小？刚才我们已经找到了这个机制，也就是</p>
+<p>我们看图，第一个部分，判断 is male 为 yes 的时候的叶子是一个样本，为
+no 的时候是一个样本，那判断 age &lt; 15 为 no
+的时候是三个样本。如果三个样本输出的结果的话，我们的的大 G
+就是三个样本的之和，大 H 也是这三个样本的 h，二阶导数之和。</p>
+<p>Obj
+是衡量模型好坏的标准，我们希望这个分数越小越好，就是这个数会更加的稳定一些。</p>
+<p>那怎么样去求解这个 Obj
+让它更小？刚才我们已经找到了这个机制，也就是</p>
 <p><span class="math display">\[
 \begin{align*}
 Obj &amp; = -\frac{1}{2} \sum_{j=1}^T \frac{G_j^2}{H_j + \lambda} +
 \gamma T
 \end{align*}
 \]</span></p>
-<p>这样Obj会比较好一点。那我们的树要去做分割，大家知道这个学习过程中的树是一点点长出来的，长出来的话叶子节点做分割就会成为一个父亲和孩子的一个结构。那要不要做分割的依据是啥？孩子的Obj应该要更小一点才会更好。所以你要去做的事情我们把它称为叫做一个Gain，Gain就是你分割的一个条件。</p>
+<p>这样 Obj
+会比较好一点。那我们的树要去做分割，大家知道这个学习过程中的树是一点点长出来的，长出来的话叶子节点做分割就会成为一个父亲和孩子的一个结构。那要不要做分割的依据是啥？孩子的
+Obj 应该要更小一点才会更好。所以你要去做的事情我们把它称为叫做一个
+Gain，Gain 就是你分割的一个条件。</p>
 <p><span class="math display">\[
 \begin{align*}
 Gain = \frac{1}{2}\left[ \frac{G_L^2}{H_L + \lambda} + \frac{G_R^2}{H_R
@@ -298,111 +370,164 @@ Gain = \frac{1}{2}\left[ \frac{G_L^2}{H_L + \lambda} + \frac{G_R^2}{H_R
 <p><img
 src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231116235512.png"
 alt="20231116235512" /></p>
-<p>Gain等于父亲啊减去孩子，也就是分割前的Obj减去分割后的左右Obj。如果说，父亲的Obj减去孩子的Obj等于Gain，那么Gain如果小于0，还要不要做分割？那么要记得，Gain&lt;0,
-那说明孩子比父亲还不稳定，那这个节点就不做分割，我们要找Gain&gt;0的点。那Gain&gt;0也有很多，我们要找其中最大的来做分割。这是XGBoost的一个过程。</p>
+<p>Gain 等于父亲啊减去孩子，也就是分割前的 Obj 减去分割后的左右
+Obj。如果说，父亲的 Obj 减去孩子的 Obj 等于 Gain，那么 Gain 如果小于
+0，还要不要做分割？那么要记得，Gain&lt;0,
+那说明孩子比父亲还不稳定，那这个节点就不做分割，我们要找 Gain&gt;0
+的点。那 Gain&gt;0 也有很多，我们要找其中最大的来做分割。这是 XGBoost
+的一个过程。</p>
 <p>那这里的可能性多不多我们怎么做？分裂节点的分裂，我们以这五个样本为例：</p>
 <p><img
 src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231117000741.png"
 alt="20231117000741" /></p>
-<p>这是一个叶子节点，这叶子节点里面要去给它做分裂，先按照原来的g_i,
+<p>这是一个叶子节点，这叶子节点里面要去给它做分裂，先按照原来的 g_i,
 就是一阶的导数从小到大来做个排序，按照一定的顺序。</p>
-<p>那g1,
-g4的顺序实际上就是g1比g4要小，后面也是。按照这个顺序来做排序，排序以后，我们现在切分有几种切分的方法？如果是5个样本的话，从最前面和最后面分割毫无意义，我们要做的是从中间将它们一分为二，那无非就是<code>[[1,4], [2, 3], [3, 2], [4, 1]]</code>。所以应该是四种结构。</p>
-<p>我们有四种分裂的可能性，我们要找这种分裂的Obj最小的,
-或者叫Gain最大的。四种结构我们要求4个Gain,
+<p>那 g1, g4 的顺序实际上就是 g1 比 g4
+要小，后面也是。按照这个顺序来做排序，排序以后，我们现在切分有几种切分的方法？如果是
+5
+个样本的话，从最前面和最后面分割毫无意义，我们要做的是从中间将它们一分为二，那无非就是<code>[[1,4], [2, 3], [3, 2], [4, 1]]</code>。所以应该是四种结构。</p>
+<p>我们有四种分裂的可能性，我们要找这种分裂的 Obj 最小的, 或者叫 Gain
+最大的。四种结构我们要求 4 个 Gain,
 在四个里面去找到一种最大的来去做判断。</p>
-<p>我们知道，我们的样本数有可能很多，一般机器学习有可能有上万个样本。一个节点，最开始原来样本假设有1万个，想想，1万个这样的样本要把它做划分的话，现在还是用从小到大给它规范好，这样的顺序来做划分有多少种划分方式呢？要计算<code>1w-1</code>次，接近1万次，9,999次。</p>
-<p>这只是划分一次，决策树的划分不仅仅分裂一次，分裂完一次以后下个节点还可以再做分裂。所以每次来计算的话，这个计算量相当于是个for循环一样，计算量其实是蛮大的。</p>
-<p>这是我们最开始的XGBoost的版本，对于它的节点划分来说我们要计算<code>1w - 1</code>次,
-如果它的这个节点的样本是1w的话。</p>
+<p>我们知道，我们的样本数有可能很多，一般机器学习有可能有上万个样本。一个节点，最开始原来样本假设有
+1 万个，想想，1
+万个这样的样本要把它做划分的话，现在还是用从小到大给它规范好，这样的顺序来做划分有多少种划分方式呢？要计算<code>1w-1</code>次，接近
+1 万次，9,999 次。</p>
+<p>这只是划分一次，决策树的划分不仅仅分裂一次，分裂完一次以后下个节点还可以再做分裂。所以每次来计算的话，这个计算量相当于是个
+for 循环一样，计算量其实是蛮大的。</p>
+<p>这是我们最开始的 XGBoost
+的版本，对于它的节点划分来说我们要计算<code>1w - 1</code>次,
+如果它的这个节点的样本是 1w 的话。</p>
 <p><img
 src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231117151029.png"
 alt="20231117151029" /></p>
-<p>原始的XGBoost的计算量会比较大，这是在2014年的版本。XGBoost的原理在2014年提出来用的是一种贪心算法。这个贪心是从小到大的顺序来做了一个规范化，其实整个的顺序是有多种可能性的，我们是按照从小到大的顺序。然后去切的过程中，我们也只是看当下自有解，这是贪心计算方法。</p>
-<p>但即使这种计算方法的计算量级也很多，在2016年作者就提出来一种改进的方式叫做histogram。</p>
+<p>原始的 XGBoost 的计算量会比较大，这是在 2014 年的版本。XGBoost
+的原理在 2014
+年提出来用的是一种贪心算法。这个贪心是从小到大的顺序来做了一个规范化，其实整个的顺序是有多种可能性的，我们是按照从小到大的顺序。然后去切的过程中，我们也只是看当下自有解，这是贪心计算方法。</p>
+<p>但即使这种计算方法的计算量级也很多，在 2016
+年作者就提出来一种改进的方式叫做 histogram。</p>
 <p><img
 src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231117151147.png"
 alt="20231117151147" /></p>
-<p>它用直方图，其目的就是把多个样本给它捆绑到一起。我们还是要做一个分裂的事情，再看刚才的结果，如果你在叶子节点上有1万个样本，原来是要切分出来9,999刀，现在把这1万个样本用绳子给它捆绑出来128个桶。桶就是一个最小的单位，把前面这些样本都拿绳子捆到一起，后面这个捆到一起，一共有多少桶？128个桶。</p>
-<p>我们如果再去做切分的时候只能在桶与桶之间来做切分，那它的划分的样式有多少种？原来的1万要做9,999次的切分，现在128个桶，在做计算的时候就变成了127次。这种方式是种降维处理，有点类似于像聚类的方式，这样我们的计算量就大大缩减，所以他的计算的时间就会快很多。</p>
-<p>这是XBGoost的一种近似的方法，近似的方法它不代表好，但是它是属于近似最优解，可以用更快的时间提升，基本上快几十倍还是有可能的。</p>
-<p>以上就是XGBoost的原理，我们简单的再总结一下。</p>
-<p>XGBoost是在GBDT多棵集成学习树上面做的优化。多棵学习树可以把它理解成model1+model2+...+modeln,
-这是原来的集成学习的概念。XGBoost在原有基础上加了正则化项，正则化项的目的是防止过拟合。同时这个正则化项构造的很精巧，它用了一个公式，这个公式带进去以后经过一系列的转化，它的二阶项跟前面的1/2就消掉了。转化以后通过求偏导的方式可以把极值给求出来。前后相减的分裂过程是希望孩子的Obj更小。也就是说我们的父亲的Obj减去孩子的Obj等于Gain，每一项的话都可以进行一个求解，我们希望它的Gain变得更大一点。</p>
-<p>那么怎么做分裂呢？就会有尝试多种分裂的方法，找到一种更最大的分裂方式。在这么多种分裂方法过程中采用的是贪心算法，1万个样本就要切1万减1刀。作者在2016年提出来了更快的方法，就是直方图的方法，这方法可以按照桶的个数来进行划分，所以它是一种近似的方式。</p>
-<p>XGBoost算法的一些特点呢，就是讲树模型的复杂度加入到正则项中，从而避免过拟合，泛化性能好。其损失函数是用泰勒展开去完成的，用到了一阶和二阶导数，可以加快优化速度。它在寻找最佳分割点的时候，采用的是近似贪心算法，用来加速计算。那直方图还可以使用GPU来进行计算，GPU就可以采用并性化的方式来进行计算，所以速度就会比较快。XGBoost不仅支持CART作为基分类器，还支持线性分类器，在使用线性分类器的时候可以使用L1，
-L2正则化。</p>
-<p>XGBoost有点是速度快、效果好、能处理大规模数据、支持自定义损失函数等，缺点就是算法参数过多，调参复杂，不适合处理超高维度特征数据。</p>
-<p>XGBoost的通用参数：</p>
+<p>它用直方图，其目的就是把多个样本给它捆绑到一起。我们还是要做一个分裂的事情，再看刚才的结果，如果你在叶子节点上有
+1 万个样本，原来是要切分出来 9,999 刀，现在把这 1
+万个样本用绳子给它捆绑出来 128
+个桶。桶就是一个最小的单位，把前面这些样本都拿绳子捆到一起，后面这个捆到一起，一共有多少桶？128
+个桶。</p>
+<p>我们如果再去做切分的时候只能在桶与桶之间来做切分，那它的划分的样式有多少种？原来的
+1 万要做 9,999 次的切分，现在 128 个桶，在做计算的时候就变成了 127
+次。这种方式是种降维处理，有点类似于像聚类的方式，这样我们的计算量就大大缩减，所以他的计算的时间就会快很多。</p>
+<p>这是 XBGoost
+的一种近似的方法，近似的方法它不代表好，但是它是属于近似最优解，可以用更快的时间提升，基本上快几十倍还是有可能的。</p>
+<p>以上就是 XGBoost 的原理，我们简单的再总结一下。</p>
+<p>XGBoost 是在 GBDT
+多棵集成学习树上面做的优化。多棵学习树可以把它理解成
+model1+model2+...+modeln, 这是原来的集成学习的概念。XGBoost
+在原有基础上加了正则化项，正则化项的目的是防止过拟合。同时这个正则化项构造的很精巧，它用了一个公式，这个公式带进去以后经过一系列的转化，它的二阶项跟前面的
+1/2
+就消掉了。转化以后通过求偏导的方式可以把极值给求出来。前后相减的分裂过程是希望孩子的
+Obj 更小。也就是说我们的父亲的 Obj 减去孩子的 Obj 等于
+Gain，每一项的话都可以进行一个求解，我们希望它的 Gain 变得更大一点。</p>
+<p>那么怎么做分裂呢？就会有尝试多种分裂的方法，找到一种更最大的分裂方式。在这么多种分裂方法过程中采用的是贪心算法，1
+万个样本就要切 1 万减 1 刀。作者在 2016
+年提出来了更快的方法，就是直方图的方法，这方法可以按照桶的个数来进行划分，所以它是一种近似的方式。</p>
+<p>XGBoost
+算法的一些特点呢，就是讲树模型的复杂度加入到正则项中，从而避免过拟合，泛化性能好。其损失函数是用泰勒展开去完成的，用到了一阶和二阶导数，可以加快优化速度。它在寻找最佳分割点的时候，采用的是近似贪心算法，用来加速计算。那直方图还可以使用
+GPU 来进行计算，GPU
+就可以采用并性化的方式来进行计算，所以速度就会比较快。XGBoost 不仅支持
+CART 作为基分类器，还支持线性分类器，在使用线性分类器的时候可以使用 L1，
+L2 正则化。</p>
+<p>XGBoost
+有点是速度快、效果好、能处理大规模数据、支持自定义损失函数等，缺点就是算法参数过多，调参复杂，不适合处理超高维度特征数据。</p>
+<p>XGBoost 的通用参数：</p>
 <ul>
-<li><code>booster[default=gbtree]</code>，
-模型选择，gbtree或者gblinear。gbtree使用基于树的模型进行提升计算，gblinear使用线性模型进行提升计算。。</li>
-<li><code>silent[default=0]</code>，缄默方式，0表示打印运行时信息，1表示以缄默方式运行，不打印运行时信息。</li>
-<li><code>nthread[default=缺省值是当前系统可以获得的最大线程数]</code>，XGBoost运行时的线程数。</li>
-<li><code>num_feature</code>，
-boosting过程中用到的特征个数，XGBoost会自动设置。</li>
+<li><code>booster[default=gbtree]</code>， 模型选择，gbtree 或者
+gblinear。gbtree 使用基于树的模型进行提升计算，gblinear
+使用线性模型进行提升计算。。</li>
+<li><code>silent[default=0]</code>，缄默方式，0 表示打印运行时信息，1
+表示以缄默方式运行，不打印运行时信息。</li>
+<li><code>nthread[default=缺省值是当前系统可以获得的最大线程数]</code>，XGBoost
+运行时的线程数。</li>
+<li><code>num_feature</code>， boosting 过程中用到的特征个数，XGBoost
+会自动设置。</li>
 <li><code>eta[default=0.3]</code>，
-为了防止过拟合，更新过程中用到的收缩步长。在每次提升计算之后，算法会直接获取新特征的权重。eta通过缩减特征的权重使提升计算过程更加保守，取值范围为<code>[0, 1]</code>。</li>
+为了防止过拟合，更新过程中用到的收缩步长。在每次提升计算之后，算法会直接获取新特征的权重。eta
+通过缩减特征的权重使提升计算过程更加保守，取值范围为<code>[0, 1]</code>。</li>
 <li><code>gamma[default=0]</code>,
-分裂节点时，损失函数减小值只有大于等于gamma节点才分裂，gamma值越大，算法越保守，越不容易过拟合，但性能就不一定能保证，需要trade
+分裂节点时，损失函数减小值只有大于等于 gamma 节点才分裂，gamma
+值越大，算法越保守，越不容易过拟合，但性能就不一定能保证，需要 trade
 off， 取值范围<code>[0, ∞]</code>。</li>
 <li><code>max_depth[default=6]</code>，
-树的最大深度，取值范围为<code>[1, ∞]</code>, 典型值为3-10。</li>
+树的最大深度，取值范围为<code>[1, ∞]</code>, 典型值为 3-10。</li>
 <li><code>min_child_weight[default=1]</code>，一个自己的所有观察值的最小权重和。如果新分裂的节点的样本权重和小于<code>min_child_weight</code>则停止分裂。这个可以用来减少过拟合，但是也不能太高，会导致欠拟合，取值范围为<code>[0, ∞]</code>。</li>
 <li><code>subsample[default=1]</code>,
-构建每颗树对样本的采样率，如果设置成0.5，
-XGBoost会随机选择50%的样本作为训练集。</li>
+构建每颗树对样本的采样率，如果设置成 0.5， XGBoost 会随机选择
+50%的样本作为训练集。</li>
 <li><code>colsample_bytree[default=1]</code>，列采样率，也就是特征采样率。</li>
-<li><code>lambda[default=1, alias:reg_lambda]</code>,
-L2正则化，用来控制XGBoost的正则化部分</li>
-<li><code>alpha[default=0, alias:reg_alpha]</code>，L2正则化，增加该值会让模型更加收敛。</li>
+<li><code>lambda[default=1, alias:reg_lambda]</code>, L2
+正则化，用来控制 XGBoost 的正则化部分</li>
+<li><code>alpha[default=0, alias:reg_alpha]</code>，L2
+正则化，增加该值会让模型更加收敛。</li>
 <li><code>scale_pos_weight[default=1]</code>,
-在类别高度不平衡的情况下，将参数设置大于0，可以加快收敛。</li>
+在类别高度不平衡的情况下，将参数设置大于 0，可以加快收敛。</li>
 </ul>
 <p>学习目标参数：</p>
 <ul>
 <li><code>objective[default=reg:linear]</code>，定义学习目标，reg:linear，reg:logistic，binary:logistic，binary:logitraw，count:poisson，multi:softmax，
 multi:softprob，rank:pairwise</li>
-<li><code>eval_metric</code>，评价指标，包括rmse，logloss，error，merror，mlogloss，auc，ndcg，map等</li>
+<li><code>eval_metric</code>，评价指标，包括
+rmse，logloss，error，merror，mlogloss，auc，ndcg，map 等</li>
 <li><code>seed[default=0]</code>，随机数的种子</li>
 <li><code>dtrain</code>，训练的数据</li>
 <li><code>num_boost_round</code>，提升迭代的次数，也就是生成多少基模型</li>
 <li><code>early_stopping_rounds</code>，早停法迭代次数</li>
-<li><code>evals</code>：这是一个列表，用于对训练过程中进行评估列表中的元素。形式是evals
-= [(dtrain,'train'),(dval,'val')]或者是evals = [(dtrain,'train')]，
+<li><code>evals</code>：这是一个列表，用于对训练过程中进行评估列表中的元素。形式是
+evals = [(dtrain,'train'),(dval,'val')]或者是 evals =
+[(dtrain,'train')]，
 对于第一种情况，它使得我们可以在训练过程中观察验证集的效果</li>
-<li><code>verbose_eval</code>，如果为True，则对evals中元素的评估输出在结果中；如果输入数字，比如5，则每隔5个迭代输出一次
+<li><code>verbose_eval</code>，如果为 True，则对 evals
+中元素的评估输出在结果中；如果输入数字，比如 5，则每隔 5 个迭代输出一次
 nm - <code>learning_rates</code>：每一次提升的学习率的列表</li>
 </ul>
-<p>我们看这个参数量还挺多的，XGBoost里面参数量确实还是比较多的，如果你用到的话可以回头再来看看我这篇文章，当作一个手册来看。默认情况下了，我会教给大家一些比较常见的参数设置，你直接用它就可以。</p>
+<p>我们看这个参数量还挺多的，XGBoost
+里面参数量确实还是比较多的，如果你用到的话可以回头再来看看我这篇文章，当作一个手册来看。默认情况下了，我会教给大家一些比较常见的参数设置，你直接用它就可以。</p>
 <p>我这里还是给大家看一个示例</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 天猫用户复购预测（XGBoost使用示意）</span><br>X_train, X_valid, y_train, y_valid = train_test_split(train_X, train_y, test_size=<span class="hljs-number">.2</span>)<br><br><span class="hljs-comment"># 使用XGBoost</span><br>model = xgb.XGBClassifier(<br>    max_depth = <span class="hljs-number">8</span>, <span class="hljs-comment"># 树的最大深度</span><br>    n_estimators = <span class="hljs-number">1000</span>, <span class="hljs-comment"># 提升迭代的次数，也就是生成多少基模型</span><br>    min_child_weight = <span class="hljs-number">300</span>, <span class="hljs-comment"># 一个子集的所有观察值的最小权重和</span><br>    colsample_bytree = <span class="hljs-number">0.8</span>, <span class="hljs-comment"># 列采样率，也就是特征采样率</span><br>    subsample = <span class="hljs-number">0.8</span>,  <span class="hljs-comment"># 构建每颗树对样本的采样率</span><br>    eta = <span class="hljs-number">0.3</span>, <span class="hljs-comment"># eta通过缩减特征的权重使提升计算过程更加保守，防止过拟合</span><br>    seed = <span class="hljs-number">42</span> <span class="hljs-comment"># 随机数种子</span><br>)<br><br>model.fit(X_train, y_train,<br>          eval_metric=<span class="hljs-string">&#x27;auc&#x27;</span>, <br>          eval_set=[(X_train, y_train), (X_valid, y_valid)],<br>          verbose=<span class="hljs-literal">True</span>,<br>          <span class="hljs-comment"># 早停法，如果auc在10epoch没有进步就stop</span><br>          early_stopping_rounds = <span class="hljs-number">10</span><br>          )<br>model.fit(X_train, y_train)<br>prob = model.predict_proba(test_data)<br></code></pre></td></tr></table></figure>
-<p>比如我们现在创建好了一个model，<code>XGBClassifier</code>，创建好之后我们可以设置参数，比如一些树的深度等:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python">param = &#123;<br>    <span class="hljs-string">&#x27;boosting_type&#x27;</span>:<span class="hljs-string">&#x27;gbdt&#x27;</span>, <br>    <span class="hljs-string">&#x27;objective&#x27;</span>:<span class="hljs-string">&#x27;binary:logistic&#x27;</span>, <span class="hljs-comment"># 任务目标</span><br>    <span class="hljs-string">&#x27;eval_metric&#x27;</span>:<span class="hljs-string">&#x27;auc&#x27;</span>, <span class="hljs-comment"># 评估指标</span><br>    <span class="hljs-string">&#x27;eta&#x27;</span>:<span class="hljs-number">0.01</span>, <span class="hljs-comment"># 学习率</span><br>    <span class="hljs-string">&#x27;max_depth&#x27;</span>:<span class="hljs-number">15</span>, <span class="hljs-comment">#树最大深度</span><br>    <span class="hljs-string">&#x27;colsample_bytree&#x27;</span>:<span class="hljs-number">0.8</span>, <span class="hljs-comment">#设置在每次迭代中使用特征的比例</span><br>    <span class="hljs-string">&#x27;subsample&#x27;</span>: <span class="hljs-number">0.9</span>, <span class="hljs-comment">#样本采样比例</span><br>    <span class="hljs-string">&#x27;subsample_freq&#x27;</span>: <span class="hljs-number">8</span>, <span class="hljs-comment">#bagging的次数</span><br>    <span class="hljs-string">&#x27;alpha&#x27;</span>: <span class="hljs-number">0.6</span>, <span class="hljs-comment">#L1正则</span><br>    <span class="hljs-string">&#x27;lambda&#x27;</span>: <span class="hljs-number">0</span>, <span class="hljs-comment">#L2正则</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 天猫用户复购预测（XGBoost 使用示意）</span><br>X_train, X_valid, y_train, y_valid = train_test_split(train_X, train_y, test_size=<span class="hljs-number">.2</span>)<br><br><span class="hljs-comment"># 使用 XGBoost</span><br>model = xgb.XGBClassifier(<br>    max_depth = <span class="hljs-number">8</span>, <span class="hljs-comment"># 树的最大深度</span><br>    n_estimators = <span class="hljs-number">1000</span>, <span class="hljs-comment"># 提升迭代的次数，也就是生成多少基模型</span><br>    min_child_weight = <span class="hljs-number">300</span>, <span class="hljs-comment"># 一个子集的所有观察值的最小权重和</span><br>    colsample_bytree = <span class="hljs-number">0.8</span>, <span class="hljs-comment"># 列采样率，也就是特征采样率</span><br>    subsample = <span class="hljs-number">0.8</span>,  <span class="hljs-comment"># 构建每颗树对样本的采样率</span><br>    eta = <span class="hljs-number">0.3</span>, <span class="hljs-comment"># eta 通过缩减特征的权重使提升计算过程更加保守，防止过拟合</span><br>    seed = <span class="hljs-number">42</span> <span class="hljs-comment"># 随机数种子</span><br>)<br><br>model.fit(X_train, y_train,<br>          eval_metric=<span class="hljs-string">&#x27;auc&#x27;</span>, <br>          eval_set=[(X_train, y_train), (X_valid, y_valid)],<br>          verbose=<span class="hljs-literal">True</span>,<br>          <span class="hljs-comment"># 早停法，如果 auc 在 10epoch 没有进步就 stop</span><br>          early_stopping_rounds = <span class="hljs-number">10</span><br>          )<br>model.fit(X_train, y_train)<br>prob = model.predict_proba(test_data)<br></code></pre></td></tr></table></figure>
+<p>比如我们现在创建好了一个
+model，<code>XGBClassifier</code>，创建好之后我们可以设置参数，比如一些树的深度等:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python">param = &#123;<br>    <span class="hljs-string">&#x27;boosting_type&#x27;</span>:<span class="hljs-string">&#x27;gbdt&#x27;</span>, <br>    <span class="hljs-string">&#x27;objective&#x27;</span>:<span class="hljs-string">&#x27;binary:logistic&#x27;</span>, <span class="hljs-comment"># 任务目标</span><br>    <span class="hljs-string">&#x27;eval_metric&#x27;</span>:<span class="hljs-string">&#x27;auc&#x27;</span>, <span class="hljs-comment"># 评估指标</span><br>    <span class="hljs-string">&#x27;eta&#x27;</span>:<span class="hljs-number">0.01</span>, <span class="hljs-comment"># 学习率</span><br>    <span class="hljs-string">&#x27;max_depth&#x27;</span>:<span class="hljs-number">15</span>, <span class="hljs-comment">#树最大深度</span><br>    <span class="hljs-string">&#x27;colsample_bytree&#x27;</span>:<span class="hljs-number">0.8</span>, <span class="hljs-comment">#设置在每次迭代中使用特征的比例</span><br>    <span class="hljs-string">&#x27;subsample&#x27;</span>: <span class="hljs-number">0.9</span>, <span class="hljs-comment">#样本采样比例</span><br>    <span class="hljs-string">&#x27;subsample_freq&#x27;</span>: <span class="hljs-number">8</span>, <span class="hljs-comment">#bagging 的次数</span><br>    <span class="hljs-string">&#x27;alpha&#x27;</span>: <span class="hljs-number">0.6</span>, <span class="hljs-comment">#L1 正则</span><br>    <span class="hljs-string">&#x27;lambda&#x27;</span>: <span class="hljs-number">0</span>, <span class="hljs-comment">#L2 正则</span><br>&#125;<br></code></pre></td></tr></table></figure>
 <p><code>colsample</code>和<code>subsample</code>,
 这个分别代表我们的列采样和行采样。设置行采样和列采样是让我们每次训练的时候更加的快一点，更加的轻量一点。这两个参数和树的深度参数，这三个参数都是比较常见的需要设置的参数。此外我们还需要针对你的任务来去做设置任务目标。</p>
-<p>我们以attraction这个题目为例可以看一看怎么用</p>
+<p>我们以 attraction 这个题目为例可以看一看怎么用</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python">train_data = xgb.DMatrix(X_train, label=y_train) <br>valid_data = xgb.DMatrix(X_valid, label=y_valid) <br>test_data = xgb.DMatrix(test) <br><br>model = xgb.train(param, train_data, evals=[(train_data, <span class="hljs-string">&#x27;train&#x27;</span>), (valid_data, <span class="hljs-string">&#x27;valid&#x27;</span>)], num_boost_round = <span class="hljs-number">10000</span>, early_stopping_rounds=<span class="hljs-number">200</span>, verbose_eval=<span class="hljs-number">25</span>) <br><br>predict = model.predict(test_data) <br>test[<span class="hljs-string">&#x27;Attrition&#x27;</span>]=predict <span class="hljs-comment"># 转化为二分类输出 </span><br>test[<span class="hljs-string">&#x27;Attrition&#x27;</span>]=test[<span class="hljs-string">&#x27;Attrition&#x27;</span>].<span class="hljs-built_in">map</span>(<span class="hljs-keyword">lambda</span> x:<span class="hljs-number">1</span> <span class="hljs-keyword">if</span> x&gt;=<span class="hljs-number">0.5</span> <span class="hljs-keyword">else</span> <span class="hljs-number">0</span>) <br>test[[<span class="hljs-string">&#x27;Attrition&#x27;</span>]].to_csv(<span class="hljs-string">&#x27;dataset/submit_lgb.csv&#x27;</span>)<br></code></pre></td></tr></table></figure>
-<p>原来的XGBoost还有两种版本,
+<p>原来的 XGBoost 还有两种版本,
 一种版本的话是用它的<code>DMatrix</code>，这属于官方封装好的一个结构。
-把原来切分好的数据集用DMatrix来做的一个封装，封装好以后再进行训练。所以它是属于一个自己的一个训练的一个数据结构，叫DMatrix。我们以前用训练的话一般用<code>fit</code>，
-如果你用XGBoost官方版本的话，它写的是<code>train</code>，这是它的一个写法会稍微有一些区别。</p>
-<p>带进去之后，其实后面都是调包的过程，train完以后predict，得到一个结果，最后把这个结果进行输出。</p>
-<p>那我们来去用XGBoost来完成一下上节课我们完成的项目，首先还是数据的一些处理，这个和我们前几节课没有什么不同。主要就是我们要对一个参数进行设置；</p>
+把原来切分好的数据集用 DMatrix
+来做的一个封装，封装好以后再进行训练。所以它是属于一个自己的一个训练的一个数据结构，叫
+DMatrix。我们以前用训练的话一般用<code>fit</code>， 如果你用 XGBoost
+官方版本的话，它写的是<code>train</code>，这是它的一个写法会稍微有一些区别。</p>
+<p>带进去之后，其实后面都是调包的过程，train 完以后
+predict，得到一个结果，最后把这个结果进行输出。</p>
+<p>那我们来去用 XGBoost
+来完成一下上节课我们完成的项目，首先还是数据的一些处理，这个和我们前几节课没有什么不同。主要就是我们要对一个参数进行设置；</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python">param = &#123;<br>    <span class="hljs-string">&#x27;boosting_type&#x27;</span>: <span class="hljs-string">&#x27;gbdt&#x27;</span>,<br>    <span class="hljs-string">&#x27;objective&#x27;</span>: <span class="hljs-string">&#x27;binary:logistic&#x27;</span>,<br>    <span class="hljs-string">&#x27;eval_metric&#x27;</span>: <span class="hljs-string">&#x27;auc&#x27;</span>,<br>    <span class="hljs-string">&#x27;eta&#x27;</span>: <span class="hljs-number">0.01</span>,<br>    <span class="hljs-string">&#x27;max_depth&#x27;</span>: <span class="hljs-number">15</span>,<br>    <span class="hljs-string">&#x27;colsample_bytree&#x27;</span>: <span class="hljs-number">0.8</span>,<br>    <span class="hljs-string">&#x27;subsample&#x27;</span>: <span class="hljs-number">0.9</span>,<br>    <span class="hljs-string">&#x27;subsample_freq&#x27;</span>: <span class="hljs-number">8</span>,<br>    <span class="hljs-string">&#x27;alpha&#x27;</span>: <span class="hljs-number">0.6</span>,<br>    <span class="hljs-string">&#x27;lambda&#x27;</span>:<span class="hljs-number">0</span><br>&#125;<br></code></pre></td></tr></table></figure>
-<p>这个就比我们之前调用其他模型来进行计算的参数量多了很多。然后我们用它官方的结构DMatrix：</p>
+<p>这个就比我们之前调用其他模型来进行计算的参数量多了很多。然后我们用它官方的结构
+DMatrix：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">train_data = xgb.DMatrix(X_train, label=y_train)<br>valid_data = xgb.DMatrix(X_valid, label=y_valid)<br>test_data = xgb.DMatrix(test)<br></code></pre></td></tr></table></figure>
 <p>这个套用就是把<code>X_train</code>，<code>y_train</code>给它放进去，它会封装一个自己的数据结构。所有样本都是一样，放进去训练的话就用自己的数据结构来去做训练。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">model = xgb.train(param, train_data, evals=[(train_data, <span class="hljs-string">&#x27;train&#x27;</span>), (valid_data, <span class="hljs-string">&#x27;valid&#x27;</span>)], num_boost_round=<span class="hljs-number">10000</span>, early_stopping_rounds=<span class="hljs-number">200</span>, verbose_eval=<span class="hljs-number">25</span>)<br></code></pre></td></tr></table></figure>
 <p><code>param</code>是前面设置好的，我们的训练的一些参数设置成一个字典，这是常见的一些配置。训练以后就可以拿这个模型去做预测得到一个预测结果，再把这个结果进行输出。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python">predict = model.predict(test_data)<br>test[<span class="hljs-string">&#x27;Attrition&#x27;</span>] = predict<br><span class="hljs-built_in">print</span>(predict)<br><br>---<br>[<span class="hljs-number">25</span>]	train-auc:<span class="hljs-number">0.98897</span>	valid-auc:<span class="hljs-number">0.75885</span><br>...<br>[<span class="hljs-number">675</span>]	train-auc:<span class="hljs-number">1.00000</span>	valid-auc:<span class="hljs-number">0.77299</span><br>[<span class="hljs-number">0.11253858</span> <span class="hljs-number">0.07342984</span> <span class="hljs-number">0.19541897</span> <span class="hljs-number">0.11211961</span> <span class="hljs-number">0.8137899</span>  <span class="hljs-number">0.19079192</span><br>...<br> <span class="hljs-number">0.07080463</span> <span class="hljs-number">0.07864323</span> <span class="hljs-number">0.09115468</span> <span class="hljs-number">0.21122025</span> <span class="hljs-number">0.06211422</span> <span class="hljs-number">0.06264106</span>]<br></code></pre></td></tr></table></figure>
-<p>我们打印的结果来看，发生了过拟合的情况。在做训练过程中，我们加了一个validation，现在train-auc和valid-auc都有一个评分。现在呢，训练集基本满分，但是验证集和它差别很大。</p>
-<p>这种情况下我们就可以调整参数，来防止过拟合状况。那我们首当其冲应该想到的就是eta以及max_depth，
-深度过大会造成过拟合，eta本来就是为了防止过拟合而在更新过程中用到的收缩步长。</p>
+<p>我们打印的结果来看，发生了过拟合的情况。在做训练过程中，我们加了一个
+validation，现在 train-auc 和 valid-auc
+都有一个评分。现在呢，训练集基本满分，但是验证集和它差别很大。</p>
+<p>这种情况下我们就可以调整参数，来防止过拟合状况。那我们首当其冲应该想到的就是
+eta 以及 max_depth， 深度过大会造成过拟合，eta
+本来就是为了防止过拟合而在更新过程中用到的收缩步长。</p>
 <p>在进行调整之后，过拟合状况就好多了：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">[<span class="hljs-number">290</span>]	train-auc:<span class="hljs-number">0.91738</span>	valid-auc:<span class="hljs-number">0.83852</span><br></code></pre></td></tr></table></figure>
-<p>下一节课，我们来看看Boosting的另外一个版本，微软出的LightBGM.</p>
-</div><div class="article-licensing box"><div class="licensing-title"><p>03. BI - XGBoost</p><p><a href="https://hivan.me/03. BI - XGBoost/">https://hivan.me/03. BI - XGBoost/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2024-01-07</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2024-01-07</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a><a class="link-muted mr-2" rel="tag" href="/tags/BI/">BI</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/04.%20BI%20-%20LightGBM%20vs%20CatBoost%EF%BC%8C%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0%E5%88%86%E6%9E%90/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">04. BI - LightGBM vs CatBoost，具体实现分析</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/02.%20BI%20-%20%E7%94%B7%E5%A5%B3%E5%A3%B0%E9%9F%B3%E8%AF%86%E5%88%AB/"><span class="level-item">02. BI - Project Two, 男女声音识别</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+<p>下一节课，我们来看看 Boosting 的另外一个版本，微软出的 LightBGM.</p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>03. BI - XGBoost</p><p><a href="https://hivan.me/03. BI - XGBoost/">https://hivan.me/03. BI - XGBoost/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2024-01-07</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2024-01-16</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a><a class="link-muted mr-2" rel="tag" href="/tags/BI/">BI</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/04.%20BI%20-%20LightGBM%20vs%20CatBoost%EF%BC%8C%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0%E5%88%86%E6%9E%90/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">04. BI - LightGBM vs CatBoost，具体实现分析</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/02.%20BI%20-%20%E7%94%B7%E5%A5%B3%E5%A3%B0%E9%9F%B3%E8%AF%86%E5%88%AB/"><span class="level-item">02. BI - Project Two, 男女声音识别</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
             this.page.url = 'https://hivan.me/03.%20BI%20-%20XGBoost/';
             this.page.identifier = '03. BI - XGBoost/';
         };
@@ -411,7 +536,7 @@ nm - <code>learning_rates</code>：每一次提升的学习率的列表</li>
             s.src = '//' + 'hivan' + '.disqus.com/embed.js';
             s.setAttribute('data-timestamp', +new Date());
             (d.head || d.body).appendChild(s);
-        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">211</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">6</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">22</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI秘籍</span></span><span class="level-end"><span class="level-item tag">69</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/BI/"><span class="level-start"><span class="level-item">BI</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">33</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-01-13T23:30:00.000Z">2024-01-14</time></p><p class="title"><a href="/05.%20BI%20-%20%E9%87%91%E8%9E%8D%E8%A1%8C%E4%B8%9A%E4%B8%AD%20Fintech%20%E7%9A%84%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/">05. BI - 金融行业中 Fintech 的应用场景</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-01-09T23:30:00.000Z">2024-01-10</time></p><p class="title"><a href="/04.%20BI%20-%20LightGBM%20vs%20CatBoost%EF%BC%8C%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0%E5%88%86%E6%9E%90/">04. BI - LightGBM vs CatBoost，具体实现分析</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-01-06T23:30:00.000Z">2024-01-07</time></p><p class="title"><a href="/03.%20BI%20-%20XGBoost/">03. BI - XGBoost</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-01-02T23:30:00.000Z">2024-01-03</time></p><p class="title"><a href="/02.%20BI%20-%20%E7%94%B7%E5%A5%B3%E5%A3%B0%E9%9F%B3%E8%AF%86%E5%88%AB/">02. BI - Project Two, 男女声音识别</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-01-02T11:00:00.000Z">2024-01-02</time></p><p class="title"><a href="/Tea%20Truss&#039;s%20AI%20cheats%20math%20PDF%20release%20download/">茶桁的AI秘籍 - 数学篇 PDF发布下载</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/Math/">Math</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2024 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI 游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">223</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">6</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">22</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI 秘籍</span></span><span class="level-end"><span class="level-item tag">81</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/"><span class="level-start"><span class="level-item">BI</span></span><span class="level-end"><span class="level-item tag">17</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">33</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-27T23:30:00.000Z">2024-02-28</time></p><p class="title"><a href="/17.%20BI%20-%20Surprise%E5%B7%A5%E5%85%B7%E7%AE%B1%EF%BC%9ABaseline/">17. BI - Surprise 工具箱：Baseline</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-24T23:30:00.000Z">2024-02-25</time></p><p class="title"><a href="/16.%20BI%20-%20%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E4%B9%8BALS%E5%AE%9E%E7%8E%B0/">16. BI - 推荐系统之 ALS 实现</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-20T23:30:00.000Z">2024-02-21</time></p><p class="title"><a href="/15.%20BI%20-%20%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E4%B9%8BALS%E5%8E%9F%E7%90%86/">15. BI - 推荐系统之 ALS 原理</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-15T23:30:00.000Z">2024-02-16</time></p><p class="title"><a href="/14.%20BI%20-%20%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E4%B9%8B%E7%9F%A9%E9%98%B5%E5%88%86%E8%A7%A3/">14. BI - 推荐系统之矩阵分解</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-10T23:30:00.000Z">2024-02-11</time></p><p class="title"><a href="/13.%20BI%20-%20%E5%8F%AF%E8%A7%86%E5%8C%96%E7%9C%8B%E6%9D%BF%E5%8F%91%E5%B8%83/">13. BI - 可视化看板发布</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2024 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
             article: {
                 highlight: {
                     clipboard: true,

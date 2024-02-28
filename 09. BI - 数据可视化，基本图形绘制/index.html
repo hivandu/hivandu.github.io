@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>09. BI - 数据可视化，如何进行基本图形绘制 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="本文为 「茶桁的 AI 秘籍 - BI 篇 第 09 篇」"><meta property="og:type" content="blog"><meta property="og:title" content="09. BI - 数据可视化，如何进行基本图形绘制"><meta property="og:url" content="https://hivan.me/09.%20BI%20-%20%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96%EF%BC%8C%E5%9F%BA%E6%9C%AC%E5%9B%BE%E5%BD%A2%E7%BB%98%E5%88%B6/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="本文为 「茶桁的 AI 秘籍 - BI 篇 第 09 篇」"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2024-01-27T23:30:00.000Z"><meta property="article:modified_time" content="2024-02-28T10:37:17.661Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="article:tag" content="BI"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/09.%20BI%20-%20%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96%EF%BC%8C%E5%9F%BA%E6%9C%AC%E5%9B%BE%E5%BD%A2%E7%BB%98%E5%88%B6/"},"headline":"09. BI - 数据可视化，如何进行基本图形绘制","image":[],"datePublished":"2024-01-27T23:30:00.000Z","dateModified":"2024-02-28T10:37:17.661Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"本文为 「茶桁的 AI 秘籍 - BI 篇 第 09 篇」"}</script><link rel="canonical" href="https://hivan.me/09.%20BI%20-%20%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96%EF%BC%8C%E5%9F%BA%E6%9C%AC%E5%9B%BE%E5%BD%A2%E7%BB%98%E5%88%B6/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><script>var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?f91b64734fdc7bfb999e48f9248d44dd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-ZFB6CVWZFJ" async></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-ZFB6CVWZFJ');</script><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2024-01-27T23:30:00.000Z" title="1/28/2024, 7:30:00 AM">2024-01-28</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a><span> / </span><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></span></div></div><h1 class="title is-3 is-size-4-mobile">09. BI - 数据可视化，如何进行基本图形绘制</h1><div class="content"><p>本文为 「<a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg%3D%3D&amp;action=getalbum&amp;album_id=3193965113967132673&amp;subscene=&amp;sessionid=svr_548800ce471&amp;enterid=1704001437&amp;from_msgid=2648751621&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;scene=21#wechat_redirect">茶桁的
+AI 秘籍 - BI 篇</a> 第 09 篇」</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/%E8%8C%B6%E6%A1%81%E7%9A%84AI%E7%A7%98%E7%B1%8D%20%E6%A0%B8%E5%BF%83BI%2009.png"
+alt="茶桁的 AI 秘籍 核心 BI 09" /></p>
+<span id="more"></span>
+<p>[TOC]</p>
+<p>Hi，你好。我是茶桁。</p>
+<p>今天想给大家讲的是关于数据的可视化。在工作中很多时候我们不光要计算结果，还要把结果呈现出来，最好是一种图形化的方式。因为这样领导会更容易去理解。</p>
+<p>此外在工作中我们也希望自己对数据更有感觉，因为数据量有的时候会非常大，对于几十万上百万的数据的不可能一行一行看，所以可视化就是一个非常重要的工具。</p>
+<p>首先一起来思考一下可视化都有哪些视图。这些视图我们把它归成四大类，每一大类里面都有一些可以选择的图表样式。在
+Python 要做可视化离不开两个工具箱，一个工具箱是 Matplotlib, 一个是
+Seaborn。</p>
+<p>这里做一个调查，读者中的小伙伴们有没有使用过这类工具？大家可以在下面留给我，看一看大家之前有没有做过。如果你用
+Python 做过可视化基本上都会用这两个工具。</p>
+<p>我相信大部同学应该还是有一些了解的，没用过的到时候看一下我课件上的一些代码，这个代码直接运行的话是可以运行出来，在运行之前你需要安装这两个工具。</p>
+<p>如果你的图表比较复杂，一张图上面要把它分成几个象限，那么你们会使用到一个工具叫
+subpolot，就是子图的意思，所以它是专门去画一些小的图形。</p>
+<p>后面几天咱们还会去做一些可视化的样式是跟词云相关，这次带来一个项目，看一看怎么样用词云展示去呈现出来那些关键词。</p>
+<p>还有可以对树来做可视化。决策树本身是一种机器学习的模型，这个模型你脑海中可以想一想，它会分成两个叉，每个叉都有一个判断的标准。那这棵树也可以给它用可视化的工具来呈现出来。</p>
+<p>最后我们还是会有一个项目，这个项目是在阿里云的天池上的一场比赛。我们主要的任务就是用这样的一个数据集来看一看怎么样去用可视化的方式方便你去了解它们。</p>
+<p>接着，咱们会继续来看 Python 的可视化。Python
+的可视化如果你要封装成一个产品，这个产品指的是发布的产品，可以由用户来使用，那么你会使用到
+Flask 这个工具。</p>
+<p>Python 在做这个搭建所有框架里面除了 Flask 还有一个叫做 Django
+的。我推荐大家使用 Flask，因为它更加轻量级。如果你不写 Python
+代码，想要更方便的直接通过拖拽的方式来完成可视化的话，我们会使用到一些
+PowerBI，类似于这样的一些软件的 BI 报表，还有我一直以来比较推崇的
+Tableau。</p>
+<p>所以在之后的课程中我们看一看一个完整型的数据产品是如何搭建出来的。这里也给大家一个例子，就是我之前做过的一个例子，通过
+Flask 加 echarts 可以搭建一个肺炎疫情的可视化的 Dashboard。</p>
+<p>不可能一口吃成一个胖子，咱们一步一步慢慢来。首先我们一起来思考一下，可视化的
+EDA 都有哪些作用？我们先来看看什么是 EDA，EDA
+这个名词大家可能在网上会看过，我们在做数据处理的过程中第一项就是要做一个
+explore data
+analysis，叫做探索性的数据分析。所以探索性的数据分析可以通过可视化的方式帮我们来做呈现。</p>
+<h2 id="eda-作用">EDA 作用</h2>
+<p>那我们来思考一下，可视化都有哪些方式？它可以说贯穿到我们整个数据分析的始终。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231130170516.png"
+alt="20231130170516" /></p>
+<p>在数据加载之后的预处理环节中要做一些探索，这个探索可以用可视化的图形来做。机器学习的过程中有没有必要去做可视化呢？如果你要预测一个模型，训练一个模型需要花一天的时间，那这一天
+20 多个小时时间之内你要了解机器目前运行的程度是怎样的。所以你可以把一张
+loss
+的曲线图给它进行一个呈现。所以在机器学习的训练过程中可以做可视化。训练完成之后你也可以把结果呈现出来。</p>
+<h2 id="可视化视图">可视化视图</h2>
+<p>所以在训练前、训练中和训练后都可以使用可视化的工具。那这样的可视化的工具都有哪些？</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231130171107.png"
+alt="20231130171107" /></p>
+<p>基本上，我们可以将可视化视图按类别区分一下，分成比较、联系、构成和分布。</p>
+<ul>
+<li>比较：展示事物的排列顺序，比如条图</li>
+<li>练习：查看两个变量之间的关系，比如气泡图</li>
+<li>构成：每个部分所占整体的百分比，比如饼图</li>
+<li>分布：关心各数值范围包含多少项目，比如柱状图</li>
+</ul>
+<p>图表可以说是非常非常多，如果我们要去学的话有三种必知必会的，在使用过程中用的场景非常的多。第一个散点图，第二个是看趋势用折线图，还有看对比用直方图。这三个是必须会的，那我们可以再加一个饼图。这几个图形基本上我们大概率都会用到。</p>
+<p>除了这些图还有其它的一些图，比如说像雷达图，然后做一些地图的呈现等等都可以去来做。那么在
+Python 中我们会用到两个包，一个是 Matplotlib, 一个是 Seaborn。</p>
+<p>那我们第一眼看到 Matplotlib
+的时候会想到什么工具跟它有关系？不知道有没有小伙伴在读研究生的时候会用到一个数据仿真软件，叫做
+MATLAB。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231130172005.png"
+alt="20231130172005" /></p>
+<p>这个软件有用过的同学可以给我留言，我们一起可以交流一下。这个软件如果你在做仿真实验的时候研究生期间有可能会用到，但是后来可能用的没有那么的多了，因为之前有过一个针对哈工大的名单事件。</p>
+<p>我们在 Python 里面使用的 Matplotlib 本身是个开源工具，它不是商业化的
+MATLAB，是 MATLAB
+的一个竞争对手开发的一个工具。它把这个工具开源出来，作用是帮你来做可视化的呈现。</p>
+<p>在可视化呈现的编码过程中你会发现它跟 MATLAB
+很像，比如说我们要设置子图，画图等等。好在 Python
+就是一个开源的生态系统，基于它我们基本上可以实现你想要实现的任何的图表，都是可以完成的。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231130230938.png"
+alt="20231130230938" /></p>
+<p>那 Matplotlib 和 Seaborn 之间有没有区别呢？你可以把 Matplotlib
+认为是一个基础版本，它是个底层的东西，而 Seaborn 是一个基于 Matplotlib
+的高级封装，它在 Matplotlib
+的基础上去封装了一些代码，让你使用起来会更加的方便。</p>
+<h2 id="python-进行可视化">Python 进行可视化</h2>
+<p>下面我们给大家看一下这些代码的实践的过程，第一个是散点图，先来随机生成的一些数据</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 数据准备</span><br>N = <span class="hljs-number">500</span><br>x = np.random.randn(N)<br>y = np.random.randn(N)<br></code></pre></td></tr></table></figure>
+<p>如果你用 Matplotlib 的是用 scatter，scatter 代表散点的含义。把 x,y
+在坐标轴上绘制出来。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 用 Matplotlib 画散点图</span><br>plt.scatter(x, y, marker=<span class="hljs-string">&#x27;x&#x27;</span>)<br>plt.show()<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231130231612.png"
+alt="20231130231612" /></p>
+<p>marker
+代表的是你绘制的这个样式，它是一个<code>x</code>的样式。这个就是我们的第一张图。</p>
+<p>第二张图用的是 seaborn 这个工具箱。这个工具箱我们先用了一个 DataFrame
+的样式。DataFrame 平时应该是在 Python
+里面使用频率最高的。你要处理任何的数据基本上都离不开 DataFrame。</p>
+<p>我们可以直接在 DataFrame 的基础上去喂给 sns，这样我们直接把 DataFrame
+传给我们的 data，然后指定 x 轴和 y 轴。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 用 Seaborn 画散点图</span><br>df = pd.DataFrame(&#123;<span class="hljs-string">&#x27;x&#x27;</span>:x, <span class="hljs-string">&#x27;y&#x27;</span>:y&#125;)<br>sns.jointplot(x=<span class="hljs-string">&#x27;x&#x27;</span>, y=<span class="hljs-string">&#x27;y&#x27;</span>, data=df, kind=<span class="hljs-string">&#x27;scatter&#x27;</span>)<br>plt.show()<br></code></pre></td></tr></table></figure>
+<p>kind 我们用选散点图 scatter，最后给它呈现出来。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231130233955.png"
+alt="20231130233955" /></p>
+<p>两相对比之下，matploylib 的图就没有那么方正，seaborn
+似乎更没罐一些。</p>
+<p>seaborn
+的散点图上面和右面都有多出来的一部分，它是额外做了一个辅助的标记，代表着数据分布情况。那这可以看到，两边和上下的分布的比较散比较少，中间的部分数据比较集中，也比较多。它是一个分布直方图。</p>
+<p>这是我们第一个，散点图的一个样式。</p>
+<p>第二个图也是使用场景比较多，就是折线图。什么情况下会选择折线图呢？我们接下来的一个数据模拟，是从
+1990 开始到
+1910。所以它应该是用于连续数据，主要用到跟时间序列相关，或者用的是一个叫做趋势项，要看趋势就离不开折线图。</p>
+<p>我们还是先来准备一下数据：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 数据准备</span><br>x = [<span class="hljs-number">1900</span>, <span class="hljs-number">1901</span>, <span class="hljs-number">1902</span>, <span class="hljs-number">1903</span>, <span class="hljs-number">1904</span>, <span class="hljs-number">1905</span>, <span class="hljs-number">1906</span>, <span class="hljs-number">1907</span>, <span class="hljs-number">1908</span>, <span class="hljs-number">1909</span>, <span class="hljs-number">1910</span>]<br>y = [<span class="hljs-number">265</span>, <span class="hljs-number">323</span>, <span class="hljs-number">136</span>, <span class="hljs-number">220</span>, <span class="hljs-number">305</span>, <span class="hljs-number">350</span>, <span class="hljs-number">419</span>, <span class="hljs-number">450</span>, <span class="hljs-number">560</span>, <span class="hljs-number">720</span>, <span class="hljs-number">830</span>]<br></code></pre></td></tr></table></figure>
+<p>然后依然是先来看看 matploylib 的呈现：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 使用 Matplotlib 画折线图</span><br>plt.plot(x, y)<br>plt.show()<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231130235014.png"
+alt="20231130235014" /></p>
+<p>接着是 seaborn</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 使用 Seaborn 画折线图</span><br>df = pd.DataFrame(&#123;<span class="hljs-string">&#x27;x&#x27;</span>:x, <span class="hljs-string">&#x27;y&#x27;</span>:y&#125;)<br>sns.lineplot(x=<span class="hljs-string">&#x27;x&#x27;</span>, y=<span class="hljs-string">&#x27;y&#x27;</span>, data=df)<br>plt.show()<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231130235022.png"
+alt="20231130235022" /></p>
+<p>这个折线图里，x 是代表时间轴，y
+是它的统计量。一起来看一看这两张图，呈现出来的样式谁会更加美观一点？说实话，看不出什么差别，基本上都是一样的。</p>
+<p>第三个是条形图。条形图有的时候也叫直方图，直方图就经常用于不同类别之间的一些对比。那这两种工具都可以做直方图的呈现，我们还是一样，进行数据生成后来看看两个的区别：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 数据准备</span><br>x = [<span class="hljs-string">&#x27;c1&#x27;</span>, <span class="hljs-string">&#x27;c2&#x27;</span>, <span class="hljs-string">&#x27;c3&#x27;</span>, <span class="hljs-string">&#x27;c4&#x27;</span>]<br>y = [<span class="hljs-number">15</span>, <span class="hljs-number">18</span>, <span class="hljs-number">5</span>, <span class="hljs-number">27</span>]<br><br><span class="hljs-comment"># 用 plt 来画条形图</span><br>plt.bar(x, y)<br>plt.show()<br><br><span class="hljs-comment"># 用 seaborn 来画条形图</span><br>sns.barplot(x=x, y=y)<br>plt.show()<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231201132422.png"
+alt="20231201132422" /></p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231201132427.png"
+alt="20231201132427" /></p>
+<p>上面是 Matploylib, 下面是 Seaborn。说实话，没啥区别。本来 Seaborn
+应该在柱子的颜色上有所区分的，我印象中以前使用 Seaborn
+是默认带颜色的，现在这个 0.13
+版本不知道是取消了还是用法和以前不一样了。</p>
+<p>前面给大家讲完了散点图、折线图和条形图，下面咱们来看看箱线图。我们一起来看看，先模拟一下数据：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 生成数据</span><br><span class="hljs-comment"># 生成 0-1 之间的 20*4 维度数据</span><br>data = np.random.normal(size=(<span class="hljs-number">10</span>, <span class="hljs-number">4</span>))<br>labels = [<span class="hljs-string">&#x27;A&#x27;</span>, <span class="hljs-string">&#x27;B&#x27;</span>, <span class="hljs-string">&#x27;C&#x27;</span>, <span class="hljs-string">&#x27;D&#x27;</span>]<br></code></pre></td></tr></table></figure>
+<p>这个数据模拟了 ABCD 四个类别，每个类别里面有 10
+个数据。然后我们来画图：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 用 Matplotlib 画箱线图</span><br>plt.boxplot(data, labels=labels)<br>plt.show()<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231201133140.png"
+alt="20231201133140" /></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 用 Seaborn 画箱线图</span><br>df = pd.DataFrame(data, columns=labels)<br>sns.boxplot(data=df)<br>plt.show()<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231201133147.png"
+alt="20231201133147" /></p>
+<p>这个图的区别就比较明显了。有些人喜欢朴素一点的，有些人喜欢颜色显明一点的是吧。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231201133517.png"
+alt="20231201133517" /></p>
+<p>我们看一看某一个单独的箱子，上面这个线和下面这个线，这两条线代表什么含义？上面线和下面线你可以把它理解成一个是
+Max 一个是 min，或者把它理解成是 100%和 0%，数据正常范围的 0%到
+100%，也就是极值。</p>
+<p>再来看箱子本身的上下的这两条边线</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231201133555.png"
+alt="20231201133555" /></p>
+<p>这两条线代表的含义，一个应该是四分位数的 75%，还有一个是
+25%。这个就跟股票阴阳线是差不多的。那箱子里面中间那条线，就是数据的
+50%。</p>
+<p>所以箱线图是把它的数据特征从 0%、25、50、75 和 100 都呈现了出来。</p>
+<p>最后还有，我们注意看 label B
+的位置，在箱子下面有一个圆点，它在箱子的外面。那这个点是什么？那这样的一个点就是异常值，称为离群点。</p>
+<p>所以箱线图可以用于我们特征的统计，也可以帮你来判断这样的一个特征里面有没有一些异常值，你可以把它用于异常值的检测的使用。</p>
+<p>那下面一个图我们就很熟悉了，我们来看看饼图：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 数据准备</span><br>nums = [<span class="hljs-number">25</span>, <span class="hljs-number">33</span>, <span class="hljs-number">38</span>]<br><br><span class="hljs-comment"># 射手 adc, 法师 apc, 坦克 tk</span><br>labels = [<span class="hljs-string">&#x27;adc&#x27;</span>, <span class="hljs-string">&#x27;apc&#x27;</span>, <span class="hljs-string">&#x27;tk&#x27;</span>]<br><br><span class="hljs-comment"># 用 matplotlib 画饼图</span><br>plt.pie(x=nums, labels=labels)<br>plt.show()<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231201134744.png"
+alt="20231201134744" /></p>
+<p>这张图只有 matplotlib 的，是因为 seaborn
+里面我没有找到有相关的饼图的绘制方法，只有在 matplotlib 里有绘制，通过
+pie 方式就可以给它绘制出来。</p>
+<p>然后我们来看看热力图</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 数据准备</span><br>np.random.seed(<span class="hljs-number">2021</span>)<br>data = np.random.rand(<span class="hljs-number">3</span>,<span class="hljs-number">3</span>)<br><br>sns.heatmap(data)<br>plt.show()<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231201135833.png"
+alt="20231201135833" /></p>
+<p>那热力图我们在之前的课程中就有看到过了，当我们需要找数据之间的相关性的时候，就能看到这张图。热力图的含义就是把数字转换成为颜色。</p>
+<p>我们看右边的热力值的那一条柱子，颜色比较浅的部分，它的数值就比较高，如果数值比较低的话它会比较深。所以我们把这个数值和颜色之间做了一个映射。</p>
+<p>除了相关性系数之外，我们看到天气预报会在地图上面做呈现。如果一个地方
+37 度，有个地方是 15 度、10
+度，观看数字没有这么直观，但如果把颜色给你标识出来，温度很低的地方用蓝色，温度很高用深色的，暖色的。这样就非常直观。知道全国每个地区哪些温度高，哪些温度低。所以热力图它就是一种非常直观的形象的方式来了解数值的大小。</p>
+<p>那接下来的这张图就是雷达图，我们也可以叫它蜘蛛图。我们说马龙是六边形战士是吧，那这个六边形就是在雷达图上做了展示。还有，我们的英雄比赛完以后可以通过它的画像，可以比较这几个维度的高低之分。它是做多维度的展示，它会把
+6 个维度指标用一个雷达图来做个呈现。</p>
+<p>我这边写数据就用咱们的英雄的比赛来做，六个维度：KDA、生存、团战、发育和输出。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 数据准备</span><br>labels = np.array([<span class="hljs-string">u&#x27;推进&#x27;</span>, <span class="hljs-string">&#x27;KDA&#x27;</span>, <span class="hljs-string">u&#x27;生存&#x27;</span>, <span class="hljs-string">u&#x27;团战&#x27;</span>, <span class="hljs-string">u&#x27;发育&#x27;</span>, <span class="hljs-string">u&#x27;输出&#x27;</span>])<br><br>stats = [<span class="hljs-number">76</span>, <span class="hljs-number">58</span>, <span class="hljs-number">67</span>, <span class="hljs-number">97</span>, <span class="hljs-number">86</span>, <span class="hljs-number">58</span>]<br></code></pre></td></tr></table></figure>
+<p>然后在画图之前，我们需要做一些准备工作，包括数据准备，角度和状态值。这里需要注意的是，我们虽然是
+6
+个维度，但是需要多生成出来一个坐标点和第一个点重叠，否则连线是无法闭合的，那这个闭合点包括标签，角度和数据都需要做：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 画图数据准备，角度，状态值</span><br>angles = np.linspace(<span class="hljs-number">0</span>, <span class="hljs-number">2</span>*np.pi, <span class="hljs-built_in">len</span>(labels), endpoint=<span class="hljs-literal">False</span>)<br>stats = np.concatenate((stats, [stats[<span class="hljs-number">0</span>]]))<br>angles = np.concatenate((angles, [angles[<span class="hljs-number">0</span>]]))<br>labels = np.concatenate((labels, [labels[<span class="hljs-number">0</span>]]))<br><br><span class="hljs-comment"># 检查角度和标签的数量是否相同</span><br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">len</span>(angles), <span class="hljs-built_in">len</span>(labels))  <br><br>---<br><span class="hljs-number">7</span>, <span class="hljs-number">7</span><br></code></pre></td></tr></table></figure>
+<p>然后我们就可以用 matplotlib 来画雷达图了，画图之前，我们要知道
+matplotlib
+显示图像如果有中文和负号，基本会显示乱码，也就是显示成一个个的方框，这个要提前处理一下，设置一下中文默认字体和解决负号问题：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pylab <span class="hljs-keyword">import</span> mpl<br><br><span class="hljs-comment"># 设置中文字体</span><br>mpl.rcParams[<span class="hljs-string">&#x27;font.sans-serif&#x27;</span>] = [<span class="hljs-string">&#x27;SimHei&#x27;</span>] <span class="hljs-comment"># 默认字体</span><br>mpl.rcParams[<span class="hljs-string">&#x27;axes.unicode_minus&#x27;</span>] = <span class="hljs-literal">False</span> <span class="hljs-comment"># 解决保存图像负号&#x27;-&#x27;显示为方块的问题</span><br><br><span class="hljs-comment"># 用 matplotlib 画雷达图</span><br>fig = plt.figure()<br>ax = fig.add_subplot(<span class="hljs-number">111</span>, polar=<span class="hljs-literal">True</span>)<br>ax.plot(angles, stats, <span class="hljs-string">&#x27;o-&#x27;</span>, linewidth=<span class="hljs-number">2</span>)<br>ax.fill(angles, stats, alpha=<span class="hljs-number">0.25</span>)<br><br>ax.set_thetagrids(angles*<span class="hljs-number">180</span>/np.pi, labels)<br>plt.show()<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231201150844.png"
+alt="20231201150844" /></p>
+<p>那我们可以很直观的看到，这场比赛我们的英雄团战的指标很高，那哪个指标万的不太好呢？就是
+KDA 和输出都不是太好，比较低。</p>
+<p>所以通过雷达图就非常一目了然，它主要用于多维度的判断和分析。那其实雷达图在
+Python
+里面没有专门的工具箱，我们这一段代码的本质含义就是自己来画一个圈把线段给连接起来，最终再去设置一个阴影绘图。</p>
+<p>下面我们来看一个图，这个图平时我们也有看到过，但是不常见。这个图叫做二元分布图。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231201151639.png"
+alt="20231201151639" /></p>
+<p>二元分布图主要用于两个特征之间的一个关联分析，这个图呢，我用了一个数据集来做示例，咱么弄一个美国航空公司的一个数据集。这是在
+seaborn 里面自带的一个 dataset，先把数据加载进来。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 数据准备</span><br>flights = sns.load_dataset(<span class="hljs-string">&#x27;flights&#x27;</span>)<br>flights.info()<br><br>---<br>&lt;<span class="hljs-keyword">class</span> <span class="hljs-string">&#x27;pandas.core.frame.DataFrame&#x27;</span>&gt;<br>RangeIndex: <span class="hljs-number">144</span> entries, <span class="hljs-number">0</span> to <span class="hljs-number">143</span><br>Data columns (total <span class="hljs-number">3</span> columns):<br> <span class="hljs-comment">#   Column      Non-Null Count  Dtype   </span><br>---  ------      --------------  -----   <br> <span class="hljs-number">0</span>   year        <span class="hljs-number">144</span> non-null    int64   <br> <span class="hljs-number">1</span>   month       <span class="hljs-number">144</span> non-null    category<br> <span class="hljs-number">2</span>   passengers  <span class="hljs-number">144</span> non-null    int64   <br>dtypes: category(<span class="hljs-number">1</span>), int64(<span class="hljs-number">2</span>)<br>memory usage: <span class="hljs-number">2.9</span> KB<br></code></pre></td></tr></table></figure>
+<p>顺便我们观察了一下这个数据，可以看到这个数据里一个是有 144
+个数据行，一共有 3 个特征，包括<code>year</code>,
+<code>month</code>和<code>passengers</code>。</p>
+<p>观察数据是让大家知道，之后我们如果要用 seaborn
+来画这个图的画，我的数据应该是整理成什么样。</p>
+<p>好，接下来，让我们画三张图，一个是我们上面学过的散点图，一个是核密度图，一个是
+Hexbin
+图，先别管这些图都用来做什么，让我们先画出来，看着图才好去解释：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 用 Seaborn 画二元变量分布图（散点图，核密度图，Hexbin 图）</span><br>sns.jointplot(x=<span class="hljs-string">&#x27;year&#x27;</span>, y=<span class="hljs-string">&#x27;passengers&#x27;</span>, data=flights, kind=<span class="hljs-string">&#x27;scatter&#x27;</span>)<br>sns.jointplot(x=<span class="hljs-string">&#x27;year&#x27;</span>, y=<span class="hljs-string">&#x27;passengers&#x27;</span>, data=flights, kind=<span class="hljs-string">&#x27;kde&#x27;</span>)<br>sns.jointplot(x=<span class="hljs-string">&#x27;year&#x27;</span>, y=<span class="hljs-string">&#x27;passengers&#x27;</span>, data=flights, kind=<span class="hljs-string">&#x27;hex&#x27;</span>)<br>plt.show()<br></code></pre></td></tr></table></figure>
+<p>我们可以看到，这三障图在数据上一模一样，不同的就是最后的
+kind，我们使用了不同的类型。我们从上到下依次粘贴一下图像来看看。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231201152450.png"
+alt="20231201152450" /></p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231201152455.png"
+alt="20231201152455" /></p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231201152501.png"
+alt="20231201152501" /></p>
+<p>我们想要判断两个指标，年份和 passengers
+这两个指标它们呈现的关系。第一张图，散点图可以看一看，可以看到随着时间的一个增长，乘客的数量也在线性的增长，是一个非常明显的一个趋势。这样就可以把两个特征之间的关系用一个散点图来做呈现。</p>
+<p>那二联分布的关系除了散点图以外，kind
+还可以指向<code>kde</code>，它叫做核密度图，还有<code>hex</code>叫做蜂窝图。基于图像我们能看出来和散点图呈现出了一个对应的关系，不同的是，在整个增长的趋势里，我们还可以看到最大的增长是在什么区间内，虽然散点图旁边的直方图上也能看得出来，但是核密度和蜂窝图就更直观的显示了具体的范围。</p>
+<p>这是做了二元的一个关系，如果要看一元关系呢？一元关系里面直接用一个
+KDE 核密度就把它的密度曲线给它呈现出来了.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 查看 passengers 的分布情况（一元分布）</span><br>sns.kdeplot(flights[<span class="hljs-string">&#x27;passengers&#x27;</span>], color=<span class="hljs-string">&#x27;red&#x27;</span>, fill=<span class="hljs-literal">True</span>)<br>plt.show()<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231201153602.png"
+alt="20231201153602" /></p>
+<p>大家有没有发现这个曲线很熟悉，我们再来一个直方图大家观察一下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">sns.distplot(flights[<span class="hljs-string">&#x27;passengers&#x27;</span>], color=<span class="hljs-string">&#x27;red&#x27;</span>)<br>plt.show()<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231201154110.png"
+alt="20231201154110" /></p>
+<p>是不是曲线是一样的？这里多说一点，<code>distplot</code>这个方法在之后的
+seaborn
+里会被删除，被取代的是<code>displot</code>和<code>histplot</code>方法。新的<code>displot</code>方法里，kde
+默认并不是 True
+的状态，需要自己设置<code>kde=True</code>才可以看到曲线。</p>
+<p>回到我们这张 kde
+的一元呈现，这个密度曲线的含义，可以想一想，我们用的是一个<code>passengers</code>，现在的密度体现是一元的，我们使用的数据集是从
+1949 年到 1960
+年期间每个月份美国航空公司的乘客的数量，那么这个月份的乘客的数量它的密度曲线是怎样的可以用
+kde 给它呈现出来。我们可以从中看到，200 到 300
+之间的这个人数的密度最大，也就是出现的概率最多。哪个概率最低呢？700
+以上的，还有就是 50 以下这样的概率是比较低的。</p>
+<p>所以密度图是可以帮你来预估一个它的分布，这个一元密度图就单独预测它的出现的一个分布，二元呢就是这两者之间的一个相关关系。</p>
+<p>在一元分布中，纵坐标就是 probability, 也就是我们的概率。</p>
+<p>现在我们来想想，这整个的阴影面积，就是红色的曲线圈定的部分加起来应该等于多少？我们所有的情况把它做一个累加，它的面积累加求和等于
+1。等于 1 的话，上面每一个点代表就是它的一个概率值。</p>
+<p>比如说 200 的概率值，在这里大概对应出来就是 0.003，也就是百分之
+0.3，所以他出现的概率就是 0.3%。这个数值看起来似乎很小，但其实后面还有
+201、202，并不是我们看到的 200，300，200 到 300 之间其实还有 100
+个数值，把所有的加到一起就等于我们整个面积为 1。</p>
+<p>所以这个概率分布也挺重要的，给了这个数据集，我们可以预估出来。</p>
+<p>除此之外，我们还有另外一种呈现方式：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">sns.pairplot(flights)<br>plt.show()<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231201162445.png"
+alt="20231201162445" /></p>
+<p>这样成对就把所有的组合都给你呈现出来了，这个数据集比较简单，只有两个特征，所以如果你用成对关系的就是
+2 乘以 2。x 轴有两个，y
+轴有两个。它的好处就是一次只用一条命令就可以把所有的可能性的关系给呈现出来。</p>
+<p>现在我们来思考一下，如果换一个数据集，这个数据集里面有 5
+个特征，那么现在用<code>pairplot</code>来做呈现，这张图里面会呈现出来多少种子图？应该是
+5 乘上 5，就是 x 轴有 5 个特征，y 轴也有 5
+个特征，每个特征和另外一个特征之间一个是 x 轴一个 y
+轴，它们都可以呈现出来，所以它一共有 25 张图。</p>
+<p>这 25
+张纸图就不需要一个一个自己写了，直接可以用一条命令<code>pairplot</code>给呈现出来。在这个呈现过程中就可以一目了然的更容易发现哪两个特征之间是有关联关系的。</p>
+<h2 id="subplot">subplot</h2>
+<p>除了单张的图以外，我们还可以用一些分块的方式给它做一个细分。matplotlib
+一个 figuer 对象可以包含多个子图(Axes),
+可以使用<code>subplot()</code>快速绘制。它有三个参数，行(numRows)，列(numCols)还有当下的座标位置(plotNum)。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231203140403.png"
+alt="20231203140403" /></p>
+<p>这张图不是很规则，如果你要划分的话可以分为上面一行，下面一行，然后左边是一列，右边还有一列，先这么去设置。</p>
+<p>第一张图左上角的图我们去定义 subolot 内的参数，应该是
+221，物理含义就是我们这张图的位置是把一张大图拆成了 2 乘以
+2，它的第一张图，就是 221。右上角这张的参数那就应该是 222。</p>
+<p>下面这张就有点不一样，行依旧是两行，但是列没有必要拆成两列。因为这个是把单元格合并到一起的，所以是把它看成了一列，所以应该是
+212.</p>
+<p>这三张子图的整个代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">f</span>(<span class="hljs-params">t</span>):<br>    <span class="hljs-keyword">return</span> np.exp(-t) * np.cos(<span class="hljs-number">2</span>*np.pi*t)<br><br>t1 = np.arange(<span class="hljs-number">0</span>, <span class="hljs-number">5</span>, <span class="hljs-number">0.1</span>)<br>t2 = np.arange(<span class="hljs-number">0</span>, <span class="hljs-number">5</span>, <span class="hljs-number">0.02</span>)<br><br>plt.figure()<br>plt.subplot(<span class="hljs-number">221</span>)<br>plt.plot(t1, f(t1), <span class="hljs-string">&#x27;r-&#x27;</span>)<br>plt.subplot(<span class="hljs-number">222</span>)<br>plt.plot(t2, np.cos(<span class="hljs-number">2</span>*np.pi*t2), <span class="hljs-string">&#x27;r-&#x27;</span>)<br>plt.subplot(<span class="hljs-number">212</span>)<br>plt.plot([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>], [<span class="hljs-number">1</span>, <span class="hljs-number">4</span>, <span class="hljs-number">9</span>, <span class="hljs-number">16</span>])<br>plt.show()<br></code></pre></td></tr></table></figure>
+<p>你们可以拿来自己运行一下，就把上面那张图画出来了。subplot
+就是画网格，然后数到底属于第几块网格。</p>
+<p>比较规整的就如下面这样：</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231203155354.png"
+alt="20231203155354" /></p>
+<p>这个应该就简单一点，从左到右从上到下依次就是
+221，222，223，224。这样你可以把一张大图分成几张小块，方便做绘制。为什么有的时候这么画呢？是因为图太多了，一张一张画会给你顺序排列，所以可以把它一张大图绘成几个小图的一个拼接的方法。</p>
+<p>那以上就基本上把我们可视化用到的图表样式给大家讲完了，当然还有一部分没有讲到。我之前在讲
+Python 基础的时候，有专门拿一章来讲过
+Matplotlib，关于如何绘制图表大家可以去看看那一章，算是一个工具的使用手册，比较基础的部分。</p>
+<p>在使用过程中你不需要背下来，只要把我的这两篇文章（之前 Python 部分的
+Matplotlib
+和本章）当成你的手册，可以下次使用的时候直接套。比如说直方图、散点图、折线图怎么做，直接套用就可以了。</p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>09. BI - 数据可视化，如何进行基本图形绘制</p><p><a href="https://hivan.me/09. BI - 数据可视化，基本图形绘制/">https://hivan.me/09. BI - 数据可视化，基本图形绘制/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2024-01-28</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2024-02-28</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a><a class="link-muted mr-2" rel="tag" href="/tags/BI/">BI</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/10.%20BI%20-%20%E5%86%B3%E7%AD%96%E6%A0%91%E7%9A%84%E4%BD%BF%E7%94%A8%E5%8F%8A%E5%8F%AF%E8%A7%86%E5%8C%96/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">10. BI - 决策树的使用及可视化</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/08.%20BI%20-%20%E4%B8%87%E5%AD%97%E9%95%BF%E6%96%87%EF%BC%8C%E9%93%B6%E8%A1%8C%E5%A6%82%E4%BD%95%E5%81%9A%E8%B4%B7%E6%AC%BE%E8%BF%9D%E7%BA%A6%E7%9A%84%E9%A2%84%E6%B5%8B%EF%BC%8C%E7%89%B9%E5%BE%81%E5%A4%84%E7%90%86%E5%8F%8A%E5%AD%A6%E4%B9%A0/"><span class="level-item">08. BI - 万字长文，银行如何做贷款违约的预测，特征处理及学习</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/09.%20BI%20-%20%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96%EF%BC%8C%E5%9F%BA%E6%9C%AC%E5%9B%BE%E5%BD%A2%E7%BB%98%E5%88%B6/';
+            this.page.identifier = '09. BI - 数据可视化，基本图形绘制/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI 游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">223</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">6</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">22</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI 秘籍</span></span><span class="level-end"><span class="level-item tag">81</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/"><span class="level-start"><span class="level-item">BI</span></span><span class="level-end"><span class="level-item tag">17</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">33</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-27T23:30:00.000Z">2024-02-28</time></p><p class="title"><a href="/17.%20BI%20-%20Surprise%E5%B7%A5%E5%85%B7%E7%AE%B1%EF%BC%9ABaseline/">17. BI - Surprise 工具箱：Baseline</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-24T23:30:00.000Z">2024-02-25</time></p><p class="title"><a href="/16.%20BI%20-%20%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E4%B9%8BALS%E5%AE%9E%E7%8E%B0/">16. BI - 推荐系统之 ALS 实现</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-20T23:30:00.000Z">2024-02-21</time></p><p class="title"><a href="/15.%20BI%20-%20%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E4%B9%8BALS%E5%8E%9F%E7%90%86/">15. BI - 推荐系统之 ALS 原理</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-15T23:30:00.000Z">2024-02-16</time></p><p class="title"><a href="/14.%20BI%20-%20%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E4%B9%8B%E7%9F%A9%E9%98%B5%E5%88%86%E8%A7%A3/">14. BI - 推荐系统之矩阵分解</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-10T23:30:00.000Z">2024-02-11</time></p><p class="title"><a href="/13.%20BI%20-%20%E5%8F%AF%E8%A7%86%E5%8C%96%E7%9C%8B%E6%9D%BF%E5%8F%91%E5%B8%83/">13. BI - 可视化看板发布</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2024 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

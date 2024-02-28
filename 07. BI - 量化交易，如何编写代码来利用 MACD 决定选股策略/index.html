@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>07. BI - 量化交易，如何编写代码来利用 MACD 决定选股策略 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="本文为 「茶桁的 AI 秘籍 - BI 篇 第 07 篇」"><meta property="og:type" content="blog"><meta property="og:title" content="07. BI - 量化交易，如何编写代码来利用 MACD 决定选股策略"><meta property="og:url" content="https://hivan.me/07.%20BI%20-%20%E9%87%8F%E5%8C%96%E4%BA%A4%E6%98%93%EF%BC%8C%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99%E4%BB%A3%E7%A0%81%E6%9D%A5%E5%88%A9%E7%94%A8%20MACD%20%E5%86%B3%E5%AE%9A%E9%80%89%E8%82%A1%E7%AD%96%E7%95%A5/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="本文为 「茶桁的 AI 秘籍 - BI 篇 第 07 篇」"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2024-01-20T23:30:00.000Z"><meta property="article:modified_time" content="2024-02-28T10:36:27.245Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="article:tag" content="BI"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/07.%20BI%20-%20%E9%87%8F%E5%8C%96%E4%BA%A4%E6%98%93%EF%BC%8C%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99%E4%BB%A3%E7%A0%81%E6%9D%A5%E5%88%A9%E7%94%A8%20MACD%20%E5%86%B3%E5%AE%9A%E9%80%89%E8%82%A1%E7%AD%96%E7%95%A5/"},"headline":"07. BI - 量化交易，如何编写代码来利用 MACD 决定选股策略","image":[],"datePublished":"2024-01-20T23:30:00.000Z","dateModified":"2024-02-28T10:36:27.245Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"本文为 「茶桁的 AI 秘籍 - BI 篇 第 07 篇」"}</script><link rel="canonical" href="https://hivan.me/07.%20BI%20-%20%E9%87%8F%E5%8C%96%E4%BA%A4%E6%98%93%EF%BC%8C%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99%E4%BB%A3%E7%A0%81%E6%9D%A5%E5%88%A9%E7%94%A8%20MACD%20%E5%86%B3%E5%AE%9A%E9%80%89%E8%82%A1%E7%AD%96%E7%95%A5/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><script>var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?f91b64734fdc7bfb999e48f9248d44dd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-ZFB6CVWZFJ" async></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-ZFB6CVWZFJ');</script><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2024-01-20T23:30:00.000Z" title="1/21/2024, 7:30:00 AM">2024-01-21</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a><span> / </span><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></span></div></div><h1 class="title is-3 is-size-4-mobile">07. BI - 量化交易，如何编写代码来利用 MACD 决定选股策略</h1><div class="content"><p>本文为 「<a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg%3D%3D&amp;action=getalbum&amp;album_id=3193965113967132673&amp;subscene=&amp;sessionid=svr_548800ce471&amp;enterid=1704001437&amp;from_msgid=2648751621&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;scene=21#wechat_redirect">茶桁的
+AI 秘籍 - BI 篇</a> 第 07 篇」</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/%E8%8C%B6%E6%A1%81%E7%9A%84AI%E7%A7%98%E7%B1%8D%20%E6%A0%B8%E5%BF%83BI%2007.png"
+alt="茶桁的 AI 秘籍 核心 BI 07" /></p>
+<span id="more"></span>
+<p>[TOC]</p>
+<p>Hi，你好。我是茶桁。</p>
+<p>炒股票的同学应该知道指数吧？你们知道这个指数吗？MACD。</p>
+<h2 id="macd-指标">MACD 指标</h2>
+<p>我们看一下这个指数是什么。MACD 这个指数全称 Moving Average
+Convergence and Divergence。</p>
+<p>它的原理是要计算两条线，一个叫 MA1，一个叫 MA2, 1 是短线，2
+是长线。短线就是短期的平均值，比如说过去的 10
+天。长线就是长期的平均值，比如说 20
+天。这两条线之间也会有个差，这个差值称为
+DIFF，这个差就可以知道现在是短期大，还是长期更高。DIFF
+组成的线，我们称之为 MACD 线。</p>
+<p>MACD
+是一个重要特征，它可以帮你来去抉择进行买卖，选择一个适当的买入时刻和卖出的时刻，那这个买入和卖出的时刻我们就要找到一个比较可靠的一个特征。我们用的一个特征是通过
+n 个周期的平滑值，n 个周期就是滑动窗口设为
+n，它在滑动窗口里面的一个平均值。DIFF 的 n 周期的平滑移动平均线为
+DEA。</p>
+<p>那大家想想，为什么要用滑动窗口来去做一个平均值的计算？如果不用滑动窗口，我们就看过去一天会不会存在一些噪音的特征呢？有了滑动窗口，它的原理就是经过平滑可以过滤到一些异常的信号，尤其是那种突高突低的信号，这样得到的信号是相对有效的一个信号，这是好处。不好的地方就是滑动窗口毕竟是需要一定时间范围的窗口，所以有可能错失掉最好的买卖的时刻点。各有利弊，总体上来说还是更有价值来去做一个过滤的。</p>
+<p>那怎么样去使用这个指标来判断什么时候买什么时候卖呢？</p>
+<p>长期均线更能代表股票的实际价值，但是长期价值指的是什么价值呢？是长期的历史价值。我们所有的数据都是过去的历史，但是我们要决策的是未来，难点是未来是变化的，有的时候它存在不可测的因素。那么需要通过短线和长线帮你判断它的浮动情况。</p>
+<p>股票是有惯性的，就像开车一样。如果是一个上升期，那它上升不是一两天的上升，可能是一个周期性的、阶段性的上升。下降也是一样，也是个阶段性的下降。</p>
+<p>所以想要找到的是它在上升期的开始以及下降期的开始，决定你迈出的一个信号。这个信号可以把它用
+DIFF
+来去做个判断，向上突破就是短期抬头了，超过了长期均线就证明短期大盘在发力，大盘发力可以认为是一个好的买入信号。</p>
+<blockquote>
+<p>差离值 DIFF 向上突破 MACD =&gt; 后市看好的买入信号</p>
+<p>差离值 DIFF 向下突破 MACD =&gt; 后市看坏的卖出信号</p>
+<p>差离值 DIFF 与 MACD 都呈现向上走势，而且有突破，是黄金交叉点 =&gt;
+后市大好</p>
+<p>差离值 DIFF 与 MACD 都呈现向下跌势，而且有跌破，是死亡交叉点 =&gt;
+后市大坏</p>
+</blockquote>
+<p>大体上可以这么去理解。</p>
+<p>动量策略背后的逻辑就是认为我们的交易是有一个惯性，它不是立刻停止，所以你现在上升还会上升一个惯性周，下降也是一样。</p>
+<p>MACD 指标： - DIFF, DEA 和 MACD（即两条曲线 + 红绿柱） - DIFF
+即橙线，是对 K 线收盘价进行一系列计算的结果 - DEA 是蓝线，是在 DIFF
+的基础上计算出来的 - MACD 柱 = （橙线 - 蓝线）* 2 = (快线 DIFF - DIFF 的
+9 日加权移动均线 DEA) * 2</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231125202358.png"
+alt="20231125202358" /></p>
+<p>如上图，可以把 MACD
+理解成移动平均线，这移动平均线是由两条线组成的，快和慢。快就是短期，慢就是长周期。</p>
+<p>以这样一个数据为例，快线是我们的橙线，蓝线应该会更慢。当它们某一个时刻点如果快线向上走势刚刚超过了慢线，则要进行买入。刚刚超过的过程中它是有一个惯性的，它超过去会有个周期，所以它应该是买。</p>
+<p>但是超过不会一直超过，他超过以后蓝线也会逐渐的上升，但是上拉的力量已经开始疲软了，到某一个会客点的时候，当橙线和蓝线又给它交合的时候，这个时刻是该买还是该卖呢？</p>
+<p>我们在再一次发生交集的时候应该应该卖掉，为什么，大盘疲软了。不过大盘疲软以后马上要开始上升了，其实你没卖多久，后面又上去了，上去以后还要购买，这是按照
+MACD 的一个指标来去给你的提示。</p>
+<p>我们再来看这张图，标示一下买卖点：</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231125210226.png"
+alt="20231125210226" /></p>
+<p>大体上对应一下，应该是如图这样。如果是这样的一个买卖信息，通过 MACD
+线来做决策，在上面写的这个买卖的时刻点。现在我们想想，这样的交易策略是好还是坏呢？这样的一个标记策略能不能挣到钱？</p>
+<p>从这个数据集上面来去看是好的，而在很多的其他情况下其实也是好的。但是也有些情况下可能是坏的，所以刚才这个策略不能说是完全
+100%的一劳永逸。在某些情况下，它确实是可以帮你挣到钱。</p>
+<p>我们来看，这个交易是从 2,000 多点一直到大盘 5,000
+多点又下来。这个交易不能说多频繁，应该是属于一个长周期的交易，它有可能横跨了一两年之后。但是它是滞后的，MACD
+是个移动平均线，看到平均，看到滑动窗口就会想到它的特征，计算没有那么的及时，因为毕竟需要一个时间段来去验证。可能需要有一个
+10
+天的周期，所以它是滞后的。因此就算挣钱也不会有多极致，但是总的来说还是不错的。</p>
+<p>MACD
+就告诉你在正确的时间做正确的事，这就是一个统计特征。具体在程序上面在这个策略上面怎么做呢？MACD
+是要有一个快和慢的定义，快线现在是可以用 12 天，慢线用的是 26
+天。为什么是 12 和
+26，因为在早些年间我们那阵工作时间还是一周六天，所以当时的股票交易就是一周六天，那么半个月就是
+12 天。半个月你就认为是一个快线特征，那一个月有可能就是 26 天。</p>
+<p>当然现在工作日已经不是一周六天而是一周五天。（我知道你们想说什么，不用吐槽，以法定工作日为准，毕竟股市是严格按照法定日来的。）所以在实际的股票交易日里面如果你还是半个月和一个月，它应该已经变成
+10 和 21。用哪一种方式都行，可以用 12 和 26，也可以用 10 和 21。</p>
+<p>为什么有些人现在还用 12 和 26
+来做快线和慢线的一个准则呢？原因就是因为我们已经形成了共识，已经把它当成快慢的一个标准。所以大家都会看这个特征，当看到这个特征的人数多了我们就会认为它是个重要的一个指标。当然你也可以采用
+10 和 21 这个数值。</p>
+<p>简单总结一下，DIFF 是这两个线的差值，当 DIFF 上穿 0
+轴时，差值抬头了，就证明短线在开始突破，即 12 日均线与 26 日均线金叉。当
+DIFF 下穿 0 轴时，已经开始疲软了，逐渐的弱下于整个长期的趋势了，即 12
+日均线与 26 日均线死叉，死叉就是个卖的信号。</p>
+<p>那么怎么去指导买卖呢？金叉、死叉其实就是一个很好的买卖信号，但这个信号是有前提的，它是在趋势行情，也就是动量行情。就说趋势是应该有一个惯性的，如果它是在震荡，震荡是随机的，它没有趋势，所以它的惯性特征没有这么明显。没有这么明显的过程中，金叉和死叉就有可能不是个有效的信号。</p>
+<p>以上是在趋势行情里面来去做的，周期内的一个情况。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231125222633.png"
+alt="20231125222633" /></p>
+<p>操作的过程我们可以看一看，可以对未来股票计算一下它的短期均线 MA1
+和长期的均线 MA2，我们拿 AAPL
+来举例，计算它的买卖时刻和信号，在股市中绘制买入和卖出的信号，包括
+DIFF，MA1 和 MA2 曲线。</p>
+<p>这就是教给大家一个工具怎么样去计算它的短期和长期的特征，基于它的这个特征来去决定你买入和卖出的一个时刻点，把这个时刻点绘制出来。你可以看有的时候也没这么好，比如图中绘制的这个买卖点也会造成一个亏损，比如第一个买点和第二个卖点之间，就是一个亏损的状态。整体上来说有赔有赚，总的来说挣的概率会更大一些。</p>
+<p>那接下来，我们用 MACD 策略看一波代码。</p>
+<p>首先，我们是要先实现咱们的 MACD 策略:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 计算 df 的短期平均 ma1， 长期平均 ma2</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">macd</span>(<span class="hljs-params">df</span>):<br>df[<span class="hljs-string">&#x27;ma1&#x27;</span>] = df[<span class="hljs-string">&#x27;Close&#x27;</span>].rolling(window=ma1, min_periods=<span class="hljs-number">1</span>).mean() <br>df[<span class="hljs-string">&#x27;ma2&#x27;</span>] = df[<span class="hljs-string">&#x27;Close&#x27;</span>].rolling(window=ma2, min_periods=<span class="hljs-number">1</span>).mean()<br><br>df[<span class="hljs-string">&#x27;diff&#x27;</span>] = df[<span class="hljs-string">&#x27;ma1&#x27;</span>] - df[<span class="hljs-string">&#x27;ma2&#x27;</span>]<br>df[<span class="hljs-string">&#x27;dea&#x27;</span>] = df[<span class="hljs-string">&#x27;diff&#x27;</span>].rolling(window=<span class="hljs-number">9</span>, min_periods=<span class="hljs-number">1</span>).mean()<br><span class="hljs-keyword">return</span> df<br></code></pre></td></tr></table></figure>
+<p>可以看到，滑动窗口用的 <code>rolling</code>
+函数。滑动窗口就是计算它的快线和慢线，MA1 就是 12 天，MA2 是 26
+天。用滑动窗口求 <code>diff</code>，diff
+代表的含义是快线减慢线，看一看现在是在上面还是在下面。然后把 diff
+求了一次均值。快线和慢线已经做过一次求均值，如果又做一次均值的应该是两次平滑，如果用两次平滑拿它做指标会过滤异常值，效果更好，就不容易出现那种噪音的浮动，因为我们用了两次以上值的过滤。你可以采用一次平滑，也可以采用两次平滑。一次平滑看的是
+diff，两次平滑是看的 diff 处的滑动窗口的平均值，拿它来去做判断。</p>
+<p>然后咱们来计算买卖时刻点的信号</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">signal_compute</span>(<span class="hljs-params">df</span>):<br>df = macd(df)<br>df[<span class="hljs-string">&#x27;positions&#x27;</span>] = <span class="hljs-number">0</span><br><br>df[<span class="hljs-string">&#x27;positions&#x27;</span>][ma1:] = np.where(df[<span class="hljs-string">&#x27;ma1&#x27;</span>][ma1:] &gt;= df[<span class="hljs-string">&#x27;ma2&#x27;</span>][ma1:],<span class="hljs-number">1</span>,<span class="hljs-number">0</span>)<br><br>df[<span class="hljs-string">&#x27;signals&#x27;</span>] = df[<span class="hljs-string">&#x27;positions&#x27;</span>].diff()<br><br>df[<span class="hljs-string">&#x27;diff&#x27;</span>] = df[<span class="hljs-string">&#x27;ma1&#x27;</span>] - df[<span class="hljs-string">&#x27;ma2&#x27;</span>]<br>df[<span class="hljs-string">&#x27;macd&#x27;</span>] = <span class="hljs-number">2</span> * (df[<span class="hljs-string">&#x27;diff&#x27;</span>] - df[<span class="hljs-string">&#x27;dea&#x27;</span>])<br><br><span class="hljs-keyword">return</span> df<br></code></pre></td></tr></table></figure>
+<p>我们现在做的应该是一次平滑的信号,
+就是说看它快线和慢线是不是大，如果大我们就认为现在应该持有，那我们就会把它的
+<code>positions</code> 写成 1。</p>
+<p><code>np.where</code>是个条件判断, 如果它存在我们就写为 1,
+如果它不存在写为 0.</p>
+<p>所以上面这个代码可以看到，短线抬头的时候你要持仓，那这个持仓是你当下的一个状态。什么时候做这个状态呢？我们还要看一看它先后的一个变化，如果之前是不持仓，position
+等于 0，突然某一个时刻发生突变的过程中 position 从 0 到
+1，这个时刻点是给你一个信号，从没有这只股票到拥有这只股票我要做的是个信号的处理，它应该就是个买的信号。</p>
+<p>如果它的 position 一直都是 1，突然有一天它的 position 变成了
+0，我们把它的这个 diff 求解出来应该变成了卖的信号。</p>
+<p>所以怎么去筛出来这个买和卖呢？筛的过程实际上是求了一个<code>diff()</code>,
+这个方法在 Pandas 里面代表前后相减，可以把买卖信号计算出来。</p>
+<p>信号 position 无外乎就是 0 和 1
+的关系，所以这两个趋势都可以计算出来了。</p>
+<p>那其中一些 Python
+的基础语法，大家应该在之前就应该掌握了。比如<code>df[ma1]</code>,
+这就是在 df
+数据内去筛选快线特征，在快线特征里面筛的不是它的全量值，筛的是什么？<code>[ma1:]</code>代表的就是
+12 天以后的。因为在 12 天之前我们还没有这个特征，在股票刚刚上线前，12
+天之前其实是没有快线特征的，所以我们把它过滤掉了。不把它过滤掉，把它就写<code>[ma1]</code>其实理论上也是
+OK 的。因为这两个为<code>NaN</code>， 其实是没有什么意义的一个特征。</p>
+<p>总的来说，可以把它理解成就是 MA1 大于
+MA2，就是快线和慢线的一个对比的情况。把这个对比情况喂给<code>position</code>，就可以知道要持仓还是不持仓。</p>
+<p>signal 计算完成以后我们可以在图里面把 signal 给它绘制出来。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 绘制回测结果</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">plot</span>(<span class="hljs-params">df, ticker</span>):<br><span class="hljs-comment"># 绘制实际的股票收盘数据</span><br>fig = plt.figure(figsize=(<span class="hljs-number">12</span>, <span class="hljs-number">6</span>))<br>ax = fig.add_subplot(<span class="hljs-number">111</span>)<br>ax.plot(df.index, df[<span class="hljs-string">&#x27;Close&#x27;</span>], label=ticker)<br><br><span class="hljs-comment"># 只显示时刻点，不显示折线图 =&gt; 设置 linewidth=0</span><br>ax.plot(df.loc[df[<span class="hljs-string">&#x27;signals&#x27;</span>]==<span class="hljs-number">1</span>].index, df[<span class="hljs-string">&#x27;Close&#x27;</span>][df[<span class="hljs-string">&#x27;signals&#x27;</span>]==<span class="hljs-number">1</span>], label=<span class="hljs-string">&#x27;Buy&#x27;</span>, linewidth=<span class="hljs-number">0</span>, marker=<span class="hljs-string">&#x27;^&#x27;</span>, c=<span class="hljs-string">&#x27;g&#x27;</span>)<br>ax.plot(df.loc[df[<span class="hljs-string">&#x27;signals&#x27;</span>]==-<span class="hljs-number">1</span>].index, df[<span class="hljs-string">&#x27;Close&#x27;</span>][df[<span class="hljs-string">&#x27;signals&#x27;</span>]==-<span class="hljs-number">1</span>], label=<span class="hljs-string">&#x27;Sell&#x27;</span>, linewidth=<span class="hljs-number">0</span>, marker=<span class="hljs-string">&#x27;v&#x27;</span>, c=<span class="hljs-string">&#x27;r&#x27;</span>)<br><br>plt.legend(loc=<span class="hljs-string">&#x27;best&#x27;</span>)<br>plt.grid(<span class="hljs-literal">True</span>)<br>plt.title(<span class="hljs-string">&#x27;Positions&#x27;</span>)<br>plt.show()<br><br><span class="hljs-comment"># 显示 diff，即 ma1-ma2</span><br>fig = plt.figure(figsize=(<span class="hljs-number">12</span>, <span class="hljs-number">6</span>))<br>cx = fig.add_subplot(<span class="hljs-number">211</span>)<br>df[<span class="hljs-string">&#x27;diff&#x27;</span>].plot(kind=<span class="hljs-string">&#x27;bar&#x27;</span>, color=<span class="hljs-string">&#x27;r&#x27;</span>)<br><br>plt.legend(loc=<span class="hljs-string">&#x27;best&#x27;</span>)<br>plt.grid(<span class="hljs-literal">True</span>)<br>plt.xticks([]) <span class="hljs-comment"># 不显示 x 轴刻度</span><br><br><span class="hljs-comment"># 绘制 ma1, ma2 曲线</span><br>bx = fig.add_subplot(<span class="hljs-number">212</span>)<br>bx.plot(df.index, df[<span class="hljs-string">&#x27;ma1&#x27;</span>], label=<span class="hljs-string">&#x27;ma1&#x27;</span>, color=<span class="hljs-string">&#x27;orange&#x27;</span>)<br>bx.plot(df.index, df[<span class="hljs-string">&#x27;ma2&#x27;</span>], label=<span class="hljs-string">&#x27;ma2&#x27;</span>, linestyle=<span class="hljs-string">&#x27;:&#x27;</span>, color=<span class="hljs-string">&#x27;blue&#x27;</span>)<br><br>plt.legend(loc=<span class="hljs-string">&#x27;best&#x27;</span>)<br>plt.grid(<span class="hljs-literal">True</span>)<br>plt.show()<br></code></pre></td></tr></table></figure>
+<p>signal 等于 1 就是需要进行持有，在上面写成一个
+buy，建议你去购买。颜色用 green 绿色，signal 等于-1
+就是不建议持有，写成了 sell，颜色呢写成了
+r，就是红色。一会儿可以用这个函数打印出来。</p>
+<p>具体在设置参数的时候设了 12 天和 26 天：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python">ma1 = <span class="hljs-number">12</span><br>ma2 = <span class="hljs-number">26</span><br><br>slicer = <span class="hljs-number">0</span><br><br>data = yf.download(tickers=<span class="hljs-string">&#x27;AAPL&#x27;</span>, start=<span class="hljs-string">&#x27;2021-01-01&#x27;</span>, end=<span class="hljs-string">&#x27;2021-12-31&#x27;</span>)<br>data.to_csv(<span class="hljs-string">&#x27;dataset/AAPL_2021_MACD.csv&#x27;</span>)<br><span class="hljs-comment"># data</span><br></code></pre></td></tr></table></figure>
+<p>股票我们选用的是 AAPL，就是 apple
+的股票。买卖时刻点可以分别帮你来计算出来，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;买入信号：&#x27;</span>, df.loc[df[<span class="hljs-string">&#x27;signals&#x27;</span>]==<span class="hljs-number">1</span>].index)<br><span class="hljs-comment"># print(&#x27;买入信号时的收盘价：&#x27;,df[&#x27;Close&#x27;][df[&#x27;signals&#x27;]==1])</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;卖出信号：&#x27;</span>, df.loc[df[<span class="hljs-string">&#x27;signals&#x27;</span>]==-<span class="hljs-number">1</span>].index)<br><span class="hljs-comment"># print(&#x27;卖出信号时的收盘价：&#x27;, df[&#x27;Close&#x27;][df[&#x27;signals&#x27;]==-1])</span><br><br>---<br>买入信号： DatetimeIndex([<span class="hljs-string">&#x27;2021-01-21&#x27;</span>, <span class="hljs-string">&#x27;2021-04-07&#x27;</span>, <span class="hljs-string">&#x27;2021-06-15&#x27;</span>, <span class="hljs-string">&#x27;2021-10-21&#x27;</span>], dtype=<span class="hljs-string">&#x27;datetime64[ns]&#x27;</span>, name=<span class="hljs-string">&#x27;Date&#x27;</span>, freq=<span class="hljs-literal">None</span>)<br>卖出信号： DatetimeIndex([<span class="hljs-string">&#x27;2021-02-19&#x27;</span>, <span class="hljs-string">&#x27;2021-05-10&#x27;</span>, <span class="hljs-string">&#x27;2021-09-21&#x27;</span>], dtype=<span class="hljs-string">&#x27;datetime64[ns]&#x27;</span>, name=<span class="hljs-string">&#x27;Date&#x27;</span>, freq=<span class="hljs-literal">None</span>)<br></code></pre></td></tr></table></figure>
+<p>告诉你说 1 月 21 号买, 4 月 7 号买，6 月 15 号，10 月 21
+号买。这个买卖时间是交错的，买不会一直买，掉下来了，疲软的时候交叉的部分其实就是卖。所以可以把它理解成是
+1 月 21 号买，2 月 19 号就卖了。之后 4 月 7 号买，5 月 10
+号再卖掉...</p>
+<p>来，我们将数据绘制出来：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">plot(df, <span class="hljs-string">&#x27;AAPL&#x27;</span>)<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231126122813.png"
+alt="20231126122813" /></p>
+<p>做的这个策略是历史复盘的一个情况，这是它的整个历史的一个数据，能看到他的复盘情况。</p>
+<p>我们制定一个策略是想看它在过去一段时间的表现怎么样，如果它在过去一段时间表现好，那么你在未来时刻可以采用这个策略来去做一个实战。不过大家可以思考一下，过去表现好一定代表未来好吗？不一定，有可能会差。但是总的来说它还是过去一段时间一个好的验证。对于之前的这个时刻我们应该是在某一个时刻点到另一个时刻点，它的一段距离的情况就是
+MA。而且 MA 是过去 12 天和 26 天。</p>
+<p>我们现在就把它画出来了，下图就是它的 ma1 和 ma2，还有 diff 的图：</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231126122820.png"
+alt="20231126122820" /></p>
+<p>这个曲线可以看到，橙色是快线，它的运动的幅度会更大一点。以靠近
+2021-07
+在它之前的那个交叉点为例，橙色快线上升的时候这个点应该是买还是卖？这个点蓝色现在已经开始往上升了，所以理论上应该是要买会更好。然后一直都是可以买的，因为它都属于上升的波段。</p>
+<p>在 2021-09
+之后的第一个交叉点是不就卖掉了？卖掉以后再择时，择到下一个时刻再买。</p>
+<p>所以在更上面那张图中，我们把它的买卖时刻标注了出来。</p>
+<p>告诉你说 1 月 21 号买, 4 月 7 号买，6 月 15 号，10 月 21
+号买。这个买卖时间是交错的，买不会一直买，掉下来了，疲软的时候交叉的部分其实就是卖。所以可以把它理解成是
+1 月 21 号买，2 月 19 号就卖了。之后 4 月 7 号买，5 月 10
+号再卖掉...</p>
+<p>可以看到是 1 月 21 买了，2 月 19 号就卖了。4 月 7 号买了，持有了大概
+1 个多月，然后就卖掉了。这张图就是 MACD 的一个买卖信号。</p>
+<p>从这张图里面其实也能判断出来，整体上来说还是有亏钱的可能。比如第一个买点和第一个卖点之间，我们可以看到它就亏钱了，第一个小周期是赔钱了。1
+月 21 号到 2 月 25
+号之间是赔钱了。但是第三个买卖周期算是大赚了一笔，之后再买入并持有，一直是赚的。有赚有赔，总来说赚的可能性会略高一点。</p>
+<p>我们来验证一下咱们的周期看看，用上节课中咱们对股票进行操作的函数来进行：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 假设初始资金 10000</span><br>portfolio = <span class="hljs-built_in">dict</span>()<br>portfolio[<span class="hljs-string">&#x27;cash&#x27;</span>] = <span class="hljs-number">10000</span><br><br><span class="hljs-comment"># 计算能买多少股</span><br>valid_num = <span class="hljs-built_in">int</span>(portfolio[<span class="hljs-string">&#x27;cash&#x27;</span>] / df.iloc[<span class="hljs-number">0</span>][<span class="hljs-string">&#x27;Open&#x27;</span>])<br>valid_num<br><br>---<br><span class="hljs-number">74</span><br></code></pre></td></tr></table></figure>
+<p>设置完初始资金并计算我们可以买入的数量之后，我们就来操作下看看，先看第一个周期：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">portfolio_buy(portfolio, <span class="hljs-string">&#x27;2021-01-21&#x27;</span>, <span class="hljs-string">&#x27;AAPL&#x27;</span>, <span class="hljs-number">70</span>)<br>portfolio_sell(portfolio, <span class="hljs-string">&#x27;2021-02-19&#x27;</span>, <span class="hljs-string">&#x27;AAPL&#x27;</span>, <span class="hljs-number">70</span>)<br><br>---<br>&#123;<span class="hljs-string">&#x27;cash&#x27;</span>: <span class="hljs-number">9724.899444580078</span>, <span class="hljs-string">&#x27;AAPL&#x27;</span>: <span class="hljs-number">0</span>&#125;<br></code></pre></td></tr></table></figure>
+<p>果然是如我们预期的一样，第一个小周期内是亏钱的对吧？那我们来看看所有周期结束后，如果在年底卖出会怎么样。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 买卖股票</span><br>portfolio_buy(portfolio, <span class="hljs-string">&#x27;2021-01-21&#x27;</span>, <span class="hljs-string">&#x27;AAPL&#x27;</span>, <span class="hljs-number">70</span>)<br>portfolio_sell(portfolio, <span class="hljs-string">&#x27;2021-02-19&#x27;</span>, <span class="hljs-string">&#x27;AAPL&#x27;</span>, <span class="hljs-number">70</span>)<br>portfolio_buy(portfolio, <span class="hljs-string">&#x27;2021-04-07&#x27;</span>, <span class="hljs-string">&#x27;AAPL&#x27;</span>, <span class="hljs-number">70</span>)<br>portfolio_sell(portfolio, <span class="hljs-string">&#x27;2021-05-10&#x27;</span>, <span class="hljs-string">&#x27;AAPL&#x27;</span>, <span class="hljs-number">70</span>)<br>portfolio_buy(portfolio, <span class="hljs-string">&#x27;2021-06-15&#x27;</span>, <span class="hljs-string">&#x27;AAPL&#x27;</span>, <span class="hljs-number">70</span>)<br>portfolio_sell(portfolio, <span class="hljs-string">&#x27;2021-09-21&#x27;</span>, <span class="hljs-string">&#x27;AAPL&#x27;</span>, <span class="hljs-number">70</span>)<br>portfolio_buy(portfolio, <span class="hljs-string">&#x27;2021-10-21&#x27;</span>, <span class="hljs-string">&#x27;AAPL&#x27;</span>, <span class="hljs-number">70</span>)<br>portfolio_sell(portfolio, <span class="hljs-string">&#x27;2021-12-30&#x27;</span>, <span class="hljs-string">&#x27;AAPL&#x27;</span>, <span class="hljs-number">70</span>)<br><br>---<br>&#123;<span class="hljs-string">&#x27;cash&#x27;</span>: <span class="hljs-number">12797.898483276367</span>, <span class="hljs-string">&#x27;AAPL&#x27;</span>: <span class="hljs-number">0</span>&#125;<br></code></pre></td></tr></table></figure>
+<p>当然我们为了简便，现在是手动的根据之前分析的买卖点来执行买卖操作，并没有完全用程序自动执行。不过我们可以看到，整体收益率是达到了近百分之二十八。这个是很棒的一个收益了对吧？</p>
+<p>以上就是 MACD 的一个策略,
+我简单给大家梳理一下。然后整个代码在我仓库里也有，大家可以自己去获取，你们可以做一个参考。</p>
+<p>其实选股是非常重要一件事，买什么这第一个维度，第二个怎么买。怎么买又分了每一只股票的一个配额,
+如果我们最初 1W 的资金，买 10 支股票，那么平均配额，每支股票分到 1000
+块钱。</p>
+<p>第三就是制定交易策略，交易策略是刚才介绍给大家的 MACD，MACD
+算是指标之王，在炒股里面这个指标是使用频率最高的，也是所有人基本上必研究的一个指标。</p>
+<p>我们可以通过 MACD
+给你一些信号一个策略展示，就按照刚才这段代码，大家可以自己来去模拟一下。
+- ## 如何选股</p>
+<p>择股优于择时，择股是你的格局。你去选了一个大的格局，后面是属于在格局里面的一个努力。你选了一个很好的赛道，这个赛道有一个很好的一个空间，所以你要选择一个好的股票有的时候才是第一个要位。</p>
+<p>好的股票怎么选呢？用我们之前介绍的 jqdata 就可以，
+那我们都知道，要选股首先是要先观察行业，我们看好一个行业之后再从中进行选择。那么就先将所有行业查询出来：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">benchmark_date = <span class="hljs-string">&#x27;2023-08-25&#x27;</span><br>temp = jq.get_industries(date=benchmark_date)<br></code></pre></td></tr></table></figure>
+<p>选择这个日期也是因为我的这个账户并没有缴费，所以免费版的限制是到这一天为止。</p>
+<p>好，那从这些查找出来的行业中，我们看看和计算机相关的产业都有哪些：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">temp[temp[<span class="hljs-string">&#x27;name&#x27;</span>].<span class="hljs-built_in">str</span>.contains(<span class="hljs-string">&#x27;计算机&#x27;</span>)]<br></code></pre></td></tr></table></figure>
+<p>接着，我们获取一下这个行业版块内所有的股票：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">pool = jq.get_industry_stocks(<span class="hljs-string">&#x27;C39&#x27;</span>, date=benchmark_date)<br>pool<br><br>---<br>[<span class="hljs-string">&#x27;000016.XSHE&#x27;</span>,<br>...<br><span class="hljs-string">&#x27;689009.XSHG&#x27;</span>]<br></code></pre></td></tr></table></figure>
+<p>这样就可以将这个版块内所有的股票代码获取到。</p>
+<p>接着，我们就可以根据获取到的代码，来查看市盈率大于
+0，那范围当然就是我们之前获取的，属于计算机行业这个版块的所有股票，然后我们让它们的
+PE 从小到大进行一个排序：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python">q = jq.query(jq.valuation.code, jq.valuation.pe_ratio, jq.valuation.market_cap).<span class="hljs-built_in">filter</span>(jq.valuation.pe_ratio &gt; <span class="hljs-number">0</span>, jq.valuation.code.in_(pool)).order_by(jq.valuation.pe_ratio.asc())<br>df = jq.get_fundamentals(q, date=benchmark_date)<br>df<br><br>---<br><br>code	pe_ratio	market_cap<br><span class="hljs-number">0</span>	<span class="hljs-number">300390.</span>XSHE	<span class="hljs-number">3.7676</span>	<span class="hljs-number">224.1249</span><br>...	...	...	...<br><span class="hljs-number">449</span>	<span class="hljs-number">002161.</span>XSHE	<span class="hljs-number">8955.4187</span>	<span class="hljs-number">37.3577</span><br></code></pre></td></tr></table></figure>
+<p>当然我们想要查询一下我们获取的这么多股票的 PE 和 MC
+均值大概为多少，这也可以大概了解一下这个版块的发展到底如何：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python">pe_mean = <span class="hljs-built_in">float</span>(df[<span class="hljs-string">&#x27;pe_ratio&#x27;</span>].mean())<br>mc_mean = <span class="hljs-built_in">float</span>(df[<span class="hljs-string">&#x27;market_cap&#x27;</span>].mean())<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;满足条件的股票: &#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(<span class="hljs-built_in">len</span>(df)))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;平均 PE: &#123;&#125;, 平均 MC: &#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(pe_mean, mc_mean))<br><br>---<br>满足条件的股票: <span class="hljs-number">450</span><br>平均 PE: <span class="hljs-number">102.55968466666666</span>, 平均 MC: <span class="hljs-number">156.16871555555554</span><br></code></pre></td></tr></table></figure>
+<p>接着，我们来筛选我们想要投资的股票，那这个就是一个策略问题，在这里，我想要看看小于
+PE 均值，且 PE 要大于 0， 然后大于 MC 均值的所有股票，再进行排序：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python">q = jq.query(jq.valuation.code, jq.valuation.pe_ratio).<span class="hljs-built_in">filter</span>(jq.valuation.pe_ratio&lt;pe_mean, jq.valuation.market_cap&gt;mc_mean, jq.valuation.pe_ratio&gt;<span class="hljs-number">0</span>, jq.valuation.code.in_(pool)).order_by(jq.valuation.pe_ratio.asc())<br><br><span class="hljs-comment"># 对于筛选出来的股票，查询 benchmark_date 的数据</span><br>df = jq.get_fundamentals(q, benchmark_date)<br>df<br><br>---<br>code	pe_ratio<br><span class="hljs-number">0</span>	<span class="hljs-number">300390.</span>XSHE	<span class="hljs-number">3.7676</span><br>...	...	...<br><span class="hljs-number">83</span>	<span class="hljs-number">002436.</span>XSHE	<span class="hljs-number">100.6802</span><br></code></pre></td></tr></table></figure>
+<p>那我们这样呢，还是获取了 84
+支股票，似乎还是有点多是把？这里呢，就是教大家这么个意思，具体的选股策略，最终选取出自己心仪的那几支，大家还是需要去学习一下基础的股票知识。</p>
+<p>好，那最后，我们将这 84 支股票打印出来，看看都有哪些：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(df[<span class="hljs-string">&#x27;code&#x27;</span>].values)<br><br>---<br>[<span class="hljs-string">&#x27;300390.XSHE&#x27;</span> ... <span class="hljs-string">&#x27;002436.XSHE&#x27;</span>]<br></code></pre></td></tr></table></figure>
+<p>如果我们想要进行一个长期的数据对比，也可以选中一个自己看重的指标，然后将其全部
+down 下来进行观察，这里，我选中的指标还是 PE 值：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 从 2023-1-1 到 2023-08-25 这些股票的数据</span><br>start_date = datetime(<span class="hljs-number">2023</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>)<br>end_date = datetime(<span class="hljs-number">2023</span>,<span class="hljs-number">8</span>,<span class="hljs-number">25</span>)<br><br><span class="hljs-comment"># 获取制定的交易日范围</span><br>all_trade_days = jq.get_trade_days(start_date=start_date, end_date=end_date)<br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> all_trade_days:<br><span class="hljs-comment"># 设置第 i 天的 PE 数据</span><br>df[i] = jq.get_fundamentals(q, i)[<span class="hljs-string">&#x27;pe_ratio&#x27;</span>]<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231127225533.png"
+alt="20231127225533" /></p>
+<p>数据的 columns
+就是日期，太多了我就不完全展示了。大家可以在本文之后自己操作一下看看。</p>
+<p>在整个代码操作过程中，我保存了几个数据在 dataset
+里，大家可以去我的代码仓库里直接拿来用，使用 read_csv
+就可以，这样就不需要去从新去查询和获取数据了。</p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>07. BI - 量化交易，如何编写代码来利用 MACD 决定选股策略</p><p><a href="https://hivan.me/07. BI - 量化交易，如何编写代码来利用 MACD 决定选股策略/">https://hivan.me/07. BI - 量化交易，如何编写代码来利用 MACD 决定选股策略/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2024-01-21</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2024-02-28</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a><a class="link-muted mr-2" rel="tag" href="/tags/BI/">BI</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/08.%20BI%20-%20%E4%B8%87%E5%AD%97%E9%95%BF%E6%96%87%EF%BC%8C%E9%93%B6%E8%A1%8C%E5%A6%82%E4%BD%95%E5%81%9A%E8%B4%B7%E6%AC%BE%E8%BF%9D%E7%BA%A6%E7%9A%84%E9%A2%84%E6%B5%8B%EF%BC%8C%E7%89%B9%E5%BE%81%E5%A4%84%E7%90%86%E5%8F%8A%E5%AD%A6%E4%B9%A0/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">08. BI - 万字长文，银行如何做贷款违约的预测，特征处理及学习</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/06.%20BI%20-%20%E9%87%8F%E5%8C%96%E4%BA%A4%E6%98%93%EF%BC%8C%E7%AE%80%E5%8D%95%E7%9A%84%E7%82%92%E8%82%A1%E7%AD%96%E7%95%A5%E5%AE%9E%E7%8E%B0/"><span class="level-item">06. BI - 量化交易，简单的炒股策略实现</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/07.%20BI%20-%20%E9%87%8F%E5%8C%96%E4%BA%A4%E6%98%93%EF%BC%8C%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99%E4%BB%A3%E7%A0%81%E6%9D%A5%E5%88%A9%E7%94%A8%20MACD%20%E5%86%B3%E5%AE%9A%E9%80%89%E8%82%A1%E7%AD%96%E7%95%A5/';
+            this.page.identifier = '07. BI - 量化交易，如何编写代码来利用 MACD 决定选股策略/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI 游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">223</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">6</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">22</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI 秘籍</span></span><span class="level-end"><span class="level-item tag">81</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/"><span class="level-start"><span class="level-item">BI</span></span><span class="level-end"><span class="level-item tag">17</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">33</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-27T23:30:00.000Z">2024-02-28</time></p><p class="title"><a href="/17.%20BI%20-%20Surprise%E5%B7%A5%E5%85%B7%E7%AE%B1%EF%BC%9ABaseline/">17. BI - Surprise 工具箱：Baseline</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-24T23:30:00.000Z">2024-02-25</time></p><p class="title"><a href="/16.%20BI%20-%20%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E4%B9%8BALS%E5%AE%9E%E7%8E%B0/">16. BI - 推荐系统之 ALS 实现</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-20T23:30:00.000Z">2024-02-21</time></p><p class="title"><a href="/15.%20BI%20-%20%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E4%B9%8BALS%E5%8E%9F%E7%90%86/">15. BI - 推荐系统之 ALS 原理</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-15T23:30:00.000Z">2024-02-16</time></p><p class="title"><a href="/14.%20BI%20-%20%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E4%B9%8B%E7%9F%A9%E9%98%B5%E5%88%86%E8%A7%A3/">14. BI - 推荐系统之矩阵分解</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-10T23:30:00.000Z">2024-02-11</time></p><p class="title"><a href="/13.%20BI%20-%20%E5%8F%AF%E8%A7%86%E5%8C%96%E7%9C%8B%E6%9D%BF%E5%8F%91%E5%B8%83/">13. BI - 可视化看板发布</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2024 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

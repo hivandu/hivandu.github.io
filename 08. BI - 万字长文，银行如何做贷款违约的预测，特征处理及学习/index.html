@@ -1,0 +1,657 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>08. BI - 万字长文，银行如何做贷款违约的预测，特征处理及学习 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="本文为 「茶桁的 AI 秘籍 - BI 篇 第 08 篇」"><meta property="og:type" content="blog"><meta property="og:title" content="08. BI - 万字长文，银行如何做贷款违约的预测，特征处理及学习"><meta property="og:url" content="https://hivan.me/08.%20BI%20-%20%E4%B8%87%E5%AD%97%E9%95%BF%E6%96%87%EF%BC%8C%E9%93%B6%E8%A1%8C%E5%A6%82%E4%BD%95%E5%81%9A%E8%B4%B7%E6%AC%BE%E8%BF%9D%E7%BA%A6%E7%9A%84%E9%A2%84%E6%B5%8B%EF%BC%8C%E7%89%B9%E5%BE%81%E5%A4%84%E7%90%86%E5%8F%8A%E5%AD%A6%E4%B9%A0/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="本文为 「茶桁的 AI 秘籍 - BI 篇 第 08 篇」"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2024-01-23T23:30:00.000Z"><meta property="article:modified_time" content="2024-02-28T10:36:53.534Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="article:tag" content="BI"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/08.%20BI%20-%20%E4%B8%87%E5%AD%97%E9%95%BF%E6%96%87%EF%BC%8C%E9%93%B6%E8%A1%8C%E5%A6%82%E4%BD%95%E5%81%9A%E8%B4%B7%E6%AC%BE%E8%BF%9D%E7%BA%A6%E7%9A%84%E9%A2%84%E6%B5%8B%EF%BC%8C%E7%89%B9%E5%BE%81%E5%A4%84%E7%90%86%E5%8F%8A%E5%AD%A6%E4%B9%A0/"},"headline":"08. BI - 万字长文，银行如何做贷款违约的预测，特征处理及学习","image":[],"datePublished":"2024-01-23T23:30:00.000Z","dateModified":"2024-02-28T10:36:53.534Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"本文为 「茶桁的 AI 秘籍 - BI 篇 第 08 篇」"}</script><link rel="canonical" href="https://hivan.me/08.%20BI%20-%20%E4%B8%87%E5%AD%97%E9%95%BF%E6%96%87%EF%BC%8C%E9%93%B6%E8%A1%8C%E5%A6%82%E4%BD%95%E5%81%9A%E8%B4%B7%E6%AC%BE%E8%BF%9D%E7%BA%A6%E7%9A%84%E9%A2%84%E6%B5%8B%EF%BC%8C%E7%89%B9%E5%BE%81%E5%A4%84%E7%90%86%E5%8F%8A%E5%AD%A6%E4%B9%A0/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><script>var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?f91b64734fdc7bfb999e48f9248d44dd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-ZFB6CVWZFJ" async></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-ZFB6CVWZFJ');</script><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2024-01-23T23:30:00.000Z" title="1/24/2024, 7:30:00 AM">2024-01-24</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a><span> / </span><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></span></div></div><h1 class="title is-3 is-size-4-mobile">08. BI - 万字长文，银行如何做贷款违约的预测，特征处理及学习</h1><div class="content"><p>本文为 「<a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg%3D%3D&amp;action=getalbum&amp;album_id=3193965113967132673&amp;subscene=&amp;sessionid=svr_548800ce471&amp;enterid=1704001437&amp;from_msgid=2648751621&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;scene=21#wechat_redirect">茶桁的
+AI 秘籍 - BI 篇</a> 第 08 篇」</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/%E8%8C%B6%E6%A1%81%E7%9A%84AI%E7%A7%98%E7%B1%8D%20%E6%A0%B8%E5%BF%83BI%2008.png"
+alt="茶桁的 AI 秘籍 核心 BI 08" /></p>
+<span id="more"></span>
+<p>[TOC]</p>
+<p>Hi， 你好。我是茶桁。</p>
+<h2 id="课程回顾">课程回顾</h2>
+<p>上节课，咱们讲了一个股票的指标：MACD。在趋势行情里面它应该还是有效的指标。它比较忌讳动荡行情，比如说它一会上升一会下降，那还没有等
+12 天过完，就是均线还没有画好它又马上变成了另一个行线，这样 MACD
+有可能会失效。</p>
+<p>这个问题我们大家自己去思考一下，如果你采用这个策略在过去一段时间里面选择一些股票来进行购买的话，能不能让它的收益率大于
+60%？有这种可能性，选好股的话确实在过去一年交易里面收益率是有可能大于
+60%。</p>
+<p>那我们之前的课程里，带来了 Fintech
+的应用场景，同时又对其中一个量化交易的场景做了一个简单实验。今天，咱们来另一个
+Fintech 的场景，同样也是有数据，这个数据是来自于一场比赛。</p>
+<p>这个比赛是关于贷款违约预测的一个比赛，来，我们一起回想一下，在这个 BI
+系列课程开始的几节课里咱们讲的模型、机器学习的神器。大家还记得是哪两个神器吗？其实严格来说的话应该是三个神器。</p>
+<p>XGBoost 是第一个，LightGBM 是更快的，还有一个是跟分类相关的
+CatBoost。 ## 案例分析</p>
+<p>接下来，我们来看一个问题：</p>
+<blockquote>
+<p>零基础入门金融风控-贷款违约预测</p>
+</blockquote>
+<p>这里有 47 个指标，120 万贷款记录。其中 15 列为匿名变量，并且对
+employmentTitle、purpose、postCode 和 title 等字段进行了脱敏。</p>
+<p>给你两个数据集， 一个是训练集，一个是测试集：</p>
+<blockquote>
+<p>训练集为 train.csv 测试集为 testA.csv 提交格式 sample_submit.csv</p>
+</blockquote>
+<p>我这里就不提供数据了，有需要的可以用阿里云帐号自行去获取：</p>
+<p><a
+target="_blank" rel="noopener" href="https://tianchi.aliyun.com/competition/entrance/531830/information">https://tianchi.aliyun.com/competition/entrance/531830/information</a></p>
+<p>我们来看看字段：</p>
+<table>
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 76%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">字段</th>
+<th style="text-align: center;">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">id</td>
+<td style="text-align: center;">为贷款清单分配的唯一信用证标识</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">loanAmnt</td>
+<td style="text-align: center;">贷款金额</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">term</td>
+<td style="text-align: center;">贷款期限（year）</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">interestRate</td>
+<td style="text-align: center;">贷款利率</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">installment</td>
+<td style="text-align: center;">分期付款金额</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">grade</td>
+<td style="text-align: center;">贷款等级</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">subGrade</td>
+<td style="text-align: center;">贷款等级之子级</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">employmentTitle</td>
+<td style="text-align: center;">就业职称</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">employmentLength</td>
+<td style="text-align: center;">就业年限（年）</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">homeOwnership</td>
+<td style="text-align: center;">借款人在登记时提供的房屋所有权状况</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">annualIncome</td>
+<td style="text-align: center;">年收入</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">verificationStatus</td>
+<td style="text-align: center;">验证状态</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">issueDate</td>
+<td style="text-align: center;">贷款发放的月份</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">purpose</td>
+<td style="text-align: center;">借款人在贷款申请时的贷款用途类别</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">postCode</td>
+<td style="text-align: center;">借款人在贷款申请中提供的邮政编码的前 3
+位数字</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">regionCode</td>
+<td style="text-align: center;">地区编码</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">dti</td>
+<td style="text-align: center;">债务收入比</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">delinquency_2years</td>
+<td style="text-align: center;">借款人过去 2 年信用档案中逾期 30
+天以上的违约事件数</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">ficoRangeLow</td>
+<td style="text-align: center;">借款人在贷款发放时的 fico
+所属的下限范围</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">ficoRangeHigh</td>
+<td style="text-align: center;">借款人在贷款发放时的 fico
+所属的上限范围</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">openAcc</td>
+<td style="text-align: center;">借款人信用档案中未结信用额度的数量</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">pubRec</td>
+<td style="text-align: center;">贬损公共记录的数量</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">pubRecBankruptcies</td>
+<td style="text-align: center;">公开记录清除的数量</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">revolBal</td>
+<td style="text-align: center;">信贷周转余额合计</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">revolUtil</td>
+<td
+style="text-align: center;">循环额度利用率，或借款人使用的相对于所有可用循环信贷的信贷金额</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">totalAcc</td>
+<td style="text-align: center;">借款人信用档案中当前的信用额度总数</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">initialListStatus</td>
+<td style="text-align: center;">贷款的初始列表状态</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">applicationType</td>
+<td
+style="text-align: center;">表明贷款是个人申请还是与两个共同借款人的联合申请</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">earliesCreditLine</td>
+<td style="text-align: center;">借款人最早报告的信用额度开立的月份</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">title</td>
+<td style="text-align: center;">借款人提供的贷款名称</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">policyCode</td>
+<td style="text-align: center;">公开可用的策略_代码=1
+新产品不公开可用的策略_代码=2</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">n 系列匿名特征</td>
+<td style="text-align: center;">匿名特征
+n0-n14，为一些贷款人行为计数特征的处理</td>
+</tr>
+</tbody>
+</table>
+<p>现在我们想要评估它，可以看一下到底哪一个是我们的 label？ 贷款的
+id、金额、期限、利率、等级等等，这些都是业务指标。最后有一个匿名特征，15
+个。还有一个<code>isDefault</code>，代表违约，1 是违约，0
+代表是正常。所以我们预测词段应该是最后一个词段叫<code>isDefault</code>。</p>
+<p>这是一个什么问题？我们可以思考一下，这是机器学习里面非常经典的一个问题，叫做分类问题。确切说这是个二分类问题，那么二分类问题可以提交结果是
+0 和 1，也可以提交一个概率。如果你提交概率，评价指标是
+AUC提交哪一个会更好？是提交 0 和 1
+具体的分类结果好，还是提交一个概率结果。如果预测出来是个概率值的话，把它转化成了
+0 和 1，有可能 AUC
+是不高的，这是一个小的技巧性的问题。所以建议大家是以概率值来进行提交。</p>
+<p>0 和 1
+是实际的结果，从这个物理含义上来说的话它确实有违约和不违约两个最终的结果。但是我们要去预测，你做分类任务也可以得到一个概率值，这概率值是
+0.95，就是他违约概率是 95%，还比较高。0.06 就是他不太违约，可以写 0 和
+1，也可以写上它的概率值。概率值通常情况下 AUC
+的结果会更大，就是你的排名会更靠前。</p>
+<p>这些可以自己做个对比，因为它本身是一个在线的比赛，你可以把它转化成为一个分类结果再去看一看
+AUC 会变成多少。</p>
+<p>题目就是这样一个题目，去预测一个二分类的任务，是个跟贷款违约相关的场景。除了我们要知道这种分类模型可以用
+XGBoost 的 LightGBM 以外，关键是要统计它的一些特征。</p>
+<p>梳理一下整个过程，第一个要做数据加载，前期数据探索，探索一般来说我们要看字段
+label，跟 label
+相关的，还有就是有没有缺失值，唯一值的个数也可以做一些探索。</p>
+<p><code>sns.countplot()</code>函数，以 bar
+的形式展示每个类别的数量。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231128155206.png"
+alt="20231128155206" /></p>
+<p>探索以后可以做一些预处理，中间如果有缺失值要在模型里面进行补全，补全也会分两种情况，第一种情况叫做数值特征:<code>num_features</code>，第二种叫做类别特征:
+<code>cat_features</code>。</p>
+<p>以年龄为例，就是一个具体的数字。还有一个叫做收入，类似这种跟钱相关的指标用什么样的方式来做补全？两种方式，一般平均值和中位数。我个人更倾向于使用中位数。</p>
+<p>举个例子，我们回头看一下刚才字段里的贷款金额，不同人的贷款金额可能不一样。不知道有没有人尝试过网络贷款，跟金额相关的其实差别是比较大的，均值会偏高，你想你借
+500 块钱、1,000 块钱，有也会有人在贷款软件上借 20 万、30
+万。这种如果你放到均值里面，差别会特别大。</p>
+<p>再举个场景，收入，你们公司的收入平均收入是多少？如果你把马云放进去，你想想马云的收入高不高？一下子平均收入个人都是上亿的，这样大家都变成了异常值。</p>
+<p>所以收入字段这种字段是不能用平均值的，用平均值做补全是没有意义的。因为那个缺失的值很有可能不是马云，你被平均了。所以用的是中位数，中位数会更加的过滤异常值，金额可以用中位数补全。</p>
+<p>除了收入以外，一般来说年龄这种平均值差别不会太大。你可以自己做个实验，基本差不多。</p>
+<p>第二种是类别特征，那众数在类别特征里做补全比较好，因为在类别特征里面不是一个连续值。</p>
+<p>举个例子，gender
+代表性别，请问性别能用平均值补全吗？肯定不行。因为性别只有两种情况，所以两种情况我们要找到那种情况最大的，如果他男性居多，我们的补全可以倾向于用男性来去做补全。</p>
+<p>所以在类别特征里面一般来说是用众数好。</p>
+<p>这是前期的数据处理，类别特征在整个程序里面还要做一个处理叫做数值编码。因为类别特征它原来是字母类型，数值编码有一个工具叫做<code>labelEncoder</code>，这个叫做标签编码，标签编码可以自动帮你进行标签。但有些情况下，有些类别是有方向的，什么是类别方向呢？
+有一个叫做贷款等级：<code>grade</code>，贷款等级有方向之分，大小从
+a、b、c、d、e，a 可能是优质的，e 可能是劣质的。贷款等级还不能直接让他用
+labelEncoder，需要自己去写一个映射关系。</p>
+<p>日期类型的处理，日期在数据集里面经常会出现，一般怎么处理呢？举个场景，2023
+年的 7 月 5
+号这是个日期，直接把它喂到模型里面是不能用的，我们要抽取出来它一个多尺度特征，多尺度可以按照年月日分别抽取出来，2023
+一个特征，7 月一个特征，5 号一个特征。</p>
+<p>那我们思考一下，还有没有其他多尺度特征可以抽取？那今天是周六（以我写这篇文章的日期问准，而非发布），周六在整个的时间里面也算是一个特殊的时间，你可以把这个特征叫做
+weekday。还有哪个特征？是不是还可以再取一个叫做 holiday，或者叫
+workday。因为有些周六它是个工作日。</p>
+<p>所以从业务场景出发，weekday 是周几，还可以出一个叫 workday 或 holiday
+来判断到底是工作还是不工作，这些也都有关系。可能跟贷款违约没啥关系，但是跟什么交通流量，或者跟商业里面的销售都是有关系的。举个例子，比如说电影票房就是个最明显的区别，工作日不会很高，但是假日的话是工作日的可能几倍都不止。</p>
+<p>除了这种类型处理的方式我们还有一种处理的方法，我们把它称为 diff，
+就是 different。</p>
+<p>我们的日期可以做一个锚点，以一个最小值为例，什么时候开始的这项业务，假设是
+2023 年的 1 月 1 号这个业务开始的，那么现在是 2023 年的 11 月 28
+号，相比 1 月 1 号来说就会存在一个时间的
+diff，这样就会把它转化成一个数值类型，也是一个统计特征。</p>
+<p>所以时间类型有两种处理方式，一种叫做时间多尺度，一种叫做时间
+diff。</p>
+<p>这个方法还是比较常见的，未来你们在工作和比赛过程中遇到时间类型放到模型之前，都要采用这样的处理的方法。不一定两种策略都用，但是至少，如果要放时间特征的话，要用其中的一种。要不你用多尺度，要不你用时间
+diff，否则这个时间是不能直接放到模型里去的。</p>
+<p>那这个数据集里面就有跟时间类型相关的数据，比如说有个<code>issueDate</code>，贷款发方月份，这个是时间的，所以一会儿我们要采用提到的方式来进行处理。</p>
+<p>然后就是第四个步骤了，我们要进行特征构造。大家要明白，模型的使用不是难点，因为大家都会用
+XGBoost 和
+LightGBM，参数也都是那些，区别在于前期的特征构造。我们之前有句话叫做特征决定模型的上限，而模型只是把上限跑出来而已。那么在特征构造里面有哪些技巧呢？特征构造里面有一些统计学的一些技巧。</p>
+<p>对于那些类别变量的一些特征来说我们可以做一些统计的特征，代表这个类型的一些属性。</p>
+<p>举个例子，比如说贷款等级我们有
+a、b、c、d、e，是按照分组的方式。这个分组你可以数一下分组的个数，还可以把贷款等级和违约概率<code>isDefault</code>分别做一个对应。a
+是 0，b 是 1...</p>
+<p>这种对应到底是好还是不好我并不清楚，但是能把 a 的 default
+的平均值计算出来，应该按照分组的方式求一下<code>isDefault</code>这个统计变量的平均值就好了，b、c、d、e
+也都能算。算完以后就可以把它叫做<code>grade_isDefault_mean</code>。你加这个字段，假设
+a 是 0.01，就是它的平均值。b 假设是 0.02，c 是
+0.03，这样我们就可以给它统计一个特征出来，</p>
+<p>就是说我们可以对每一个特征去跟我们的<code>isDefault</code>来做关联，做完关联以后就可以方便你去理解这个特征的一个含义。需要说明一点，这个特征一定是属于类别变量,
+因为类别变量是一个离散的个数，它在贷款里面假设类别 a、b、c、d、e 只有 5
+种，那只有 5 种每一种它的<code>isDefault</code>平均值才有价值。</p>
+<p>如果它不是类别变量是一个数值变量，把每个数值都计算出来<code>isDefault</code>，请问它会发生什么样的一个结果呢？我们把这个结果叫做标签泄漏。为什么叫标签泄漏？因为在你的计算过程中我已经知道实际的答案了，知道实际答案的话就预测不出来这个结果。因为实际的情况下我们是不知道答案的，或者说实际情况下它的<code>isDefault_mean</code>没有一个稳定的衡量结果。</p>
+<p>那么对于类别变量它才能相对稳定。对于数值变量他加<code>isDefault</code>能稳定吗？不能稳定。这个技巧是只限于类别变量，它才能得到一个相对稳定的一个状态特征。</p>
+<p>然后就到了我们的第五个步骤，特征构造完了我们就上模型。模型这里用的是
+LightGBM。那它的参数也很多，我们在之前的课程中给大家讲过，建议大家用祖传参数，因为祖传参数不需要把时间花到调参上面。那么这里我们也用的是祖传参数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">clf = LGBMClassifier(<br>num_leaves=<span class="hljs-number">2</span>**<span class="hljs-number">5</span>-<span class="hljs-number">1</span>, reg_alpha=<span class="hljs-number">0.25</span>, reg_lambda=<span class="hljs-number">0.25</span>, objective=<span class="hljs-string">&#x27;binary&#x27;</span>, max_depth=-<span class="hljs-number">1</span>, learning_rate=<span class="hljs-number">0.005</span>, min_child_samples=<span class="hljs-number">3</span>, random_state=<span class="hljs-number">2023</span>, n_estimators=<span class="hljs-number">2000</span>, subsample=<span class="hljs-number">1</span>, colsample_bytree=<span class="hljs-number">1</span><br>)<br></code></pre></td></tr></table></figure>
+<p>我们的数据比较多，100 多万。迭代的次数也比较多，用的是 2,000
+轮。未来你都可以把这个轮数再进一步进行提升。</p>
+<p>后面我们还可以做一个子模型的融合，这里叫五折交叉验证。子模型融合是什么含义呢？就是你列了
+5 个模型，让这 5
+个模型一起来去产生作用，这是一个五折交叉验证的一个策略。</p>
+<h2 id="案例实战">案例实战</h2>
+<p>那现在就一起来写一写这个代码，一起来看一看这个流程。那这个预测是来自一个真实的业务比赛的一个数据，我们可以去将数据集下载下来，自己做一个测试。就去我上面提供的那个地址去下载就可以了，我这里就不进行提供了。</p>
+<p>咱们这次的数据主要是 train 和 testA
+两个数据集，先来把数据加载进来，然后简单的看一下，看这个数据长什么样:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">train = pd.read_csv(<span class="hljs-string">&#x27;dataset/train.csv&#x27;</span>)<br>test = pd.read_csv(<span class="hljs-string">&#x27;dataset/testA.csv&#x27;</span>)<br>train.head()<br></code></pre></td></tr></table></figure>
+<p>我们今天简单写一写，给大家写个简单的
+baseline，不会写那么完善。思路也是给大家梳理清楚。</p>
+<p>第一个模块我们看一看唯一值的个数：比如我们要看一下其中<code>isDefault</code>这个特征的唯一值个数:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">train[<span class="hljs-string">&#x27;isDefault&#x27;</span>].nunique()<br><br>---<br><span class="hljs-number">2</span><br></code></pre></td></tr></table></figure>
+<p>我们知道，这个特征那肯定是只有 2 个值，不是 0 就是
+1，它是最后的一个结果。现在，我们要查看所有特征的唯一值，需要先统计它都有哪些特征，对它的
+column 来做个遍历。某一个特征唯一值个数是多少用 format，然后看它的
+column 唯一值个数咱们依然还是用<code>nunique()</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">for</span> col <span class="hljs-keyword">in</span> train.columns:<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;&#123;&#125; 特征，唯一值个数&#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(col, train[col].nunique()))<br><br>---<br><span class="hljs-built_in">id</span> 特征，唯一值个数 <span class="hljs-number">800000</span><br>...<br>n14 特征，唯一值个数 <span class="hljs-number">31</span><br></code></pre></td></tr></table></figure>
+<p>数据集我们知道，训练集一共是 80 万，ID 的唯一值是 80
+万。那我们想，这个 ID 会放到模型中去完成训练吗？ID
+每个数值都不一样，而且它物理上面是不具备含义的，不要放到模型中。所以需要
+drop 掉。</p>
+<p>同时上面也能看出来，还有关注哪些？关注那些唯一值少的，<code>isDefault</code>这个比较明显，因为预测分类就是违约、不违约。</p>
+<p>我们从打印结果来看，<code>policyCode</code>个数唯一，我们其实还可以单独写一句话来去做判断，判断唯一值个数是否为
+1。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">for</span> col <span class="hljs-keyword">in</span> train.columns:<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;&#123;&#125; 特征，唯一值个数&#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(col, train[col].nunique()))<br><span class="hljs-comment"># 判断唯一值个数是否为 1</span><br><span class="hljs-keyword">if</span> train[col].nunique() == <span class="hljs-number">1</span>:<br>    <span class="hljs-built_in">print</span>(col, <span class="hljs-string">&#x27;唯一值为 1 ################&#x27;</span>)<br><br>---<br><span class="hljs-built_in">id</span> 特征，唯一值个数 <span class="hljs-number">800000</span><br>...<br>policyCode 特征，唯一值个数 <span class="hljs-number">1</span><br>policyCode 唯一值为 <span class="hljs-number">1</span> <span class="hljs-comment">####################</span><br>...<br></code></pre></td></tr></table></figure>
+<p>如果它的<code>nunique</code>等于 1 的话我们把它打印出来。</p>
+<p>然后方便起见，加一个特殊的符号，也是为了在打印结果中一眼就可以分辨哪些是，让它做一个提示。</p>
+<p>找到这个结果，它告诉我们<code>policyCode</code>唯一，那我们对这个数据，看一眼它的<code>value_counts</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">train[<span class="hljs-string">&#x27;policyCode&#x27;</span>].value_counts()<br><br>---<br>policyCode<br><span class="hljs-number">1.0</span>    <span class="hljs-number">800000</span><br>Name: count, dtype: int64<br></code></pre></td></tr></table></figure>
+<p>80w 行数据都等于
+1，那么我们还需要将它放到模型区吗？不要放，因为放进去和不放进去是没有任何区别的。我们就把这个给它去掉。</p>
+<p>那我们的策略目前是去掉 ID 和<code>policyCode</code>，用 drop
+方法。我们要去掉它，那训练集和测试集就都要去，不能只去一个，需要两个都执行：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">train.drop([<span class="hljs-string">&#x27;id&#x27;</span>, <span class="hljs-string">&#x27;policyCode&#x27;</span>], axis=<span class="hljs-number">1</span>, inplace=<span class="hljs-literal">True</span>)<br>test.drop([<span class="hljs-string">&#x27;id&#x27;</span>, <span class="hljs-string">&#x27;policyCode&#x27;</span>], axis=<span class="hljs-number">1</span>, inplace=<span class="hljs-literal">True</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">len</span>(train.columns), <span class="hljs-built_in">len</span>(test.columns))<br><br>---<br><span class="hljs-number">45</span>, <span class="hljs-number">44</span><br></code></pre></td></tr></table></figure>
+<p>去掉以后, 原来的列数是 47 列，现在的列数是 45 列。</p>
+<p>接下来，我们需要进行数据的清洗，首先我们需要对缺失值来进行补全。我们先看一看缺失值的个数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 统计缺失值个数</span><br>train.isnull().<span class="hljs-built_in">sum</span>()<br><br>---<br>loanAmnt                  <span class="hljs-number">0</span><br>...<br>employmentLength      <span class="hljs-number">46799</span><br>...<br>dti                     <span class="hljs-number">239</span><br>...<br>n11                   <span class="hljs-number">69752</span><br>n12                   <span class="hljs-number">40270</span><br>n13                   <span class="hljs-number">40270</span><br>n14                   <span class="hljs-number">40270</span><br>dtype: int64<br></code></pre></td></tr></table></figure>
+<p>统计缺失值个数这里用的是<code>isnull().sum()</code>来做统计，<code>isnull()</code>是对每个字段是否为空来做个判断，如果它为空的话把空的个数求和。求出来之后，现在可以看出来我们是有一些为空的词段，有些个数还挺高的。</p>
+<p>比如<code>employmentLength</code>等等，这些资料其实都为空，还是蛮多的。先不着急直接补全，我们还可以在数据探索方面再去探索一下。可以看看这个不同类别特征与
+label
+之间的一些关系，我们简单看几个比较关键的特征。带大家一起来看一看这个该怎么去写。比如说<code>grade</code>，看它是不是类别特征，查看数据的类型。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 查看数据的类型</span><br>train.info()<br><br>---<br>&lt;<span class="hljs-keyword">class</span> <span class="hljs-string">&#x27;pandas.core.frame.DataFrame&#x27;</span>&gt;<br>RangeIndex: <span class="hljs-number">800000</span> entries, <span class="hljs-number">0</span> to <span class="hljs-number">799999</span><br>Data columns (total <span class="hljs-number">45</span> columns):<br><span class="hljs-comment">#   Column              Non-Null Count   Dtype  </span><br>---  ------              --------------   -----  <br><span class="hljs-number">0</span>   loanAmnt            <span class="hljs-number">800000</span> non-null  float64<br><span class="hljs-number">1</span>   term                <span class="hljs-number">800000</span> non-null  int64  <br>...<br><span class="hljs-number">4</span>   grade               <span class="hljs-number">800000</span> non-null  <span class="hljs-built_in">object</span> <br>...<br><span class="hljs-number">44</span>  n14                 <span class="hljs-number">759730</span> non-null  float64<br>dtypes: float64(<span class="hljs-number">32</span>), int64(<span class="hljs-number">8</span>), <span class="hljs-built_in">object</span>(<span class="hljs-number">5</span>)<br>memory usage: <span class="hljs-number">274.7</span>+ MB<br></code></pre></td></tr></table></figure>
+<p>这里用的是 info 来去做一个查看，我们可以看到<code>grade</code>词段是
+object，一般来说就是字符串的类型，可以来对它的<code>grade</code>去求一下<code>value_counts</code>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python">train[<span class="hljs-string">&#x27;grade&#x27;</span>].value_counts()<br><br>---<br>grade<br>B    <span class="hljs-number">233690</span><br>C    <span class="hljs-number">227118</span><br>A    <span class="hljs-number">139661</span><br>D    <span class="hljs-number">119453</span><br>E     <span class="hljs-number">55661</span><br>F     <span class="hljs-number">19053</span><br>G      <span class="hljs-number">5364</span><br></code></pre></td></tr></table></figure>
+<p>可以看到是是
+A、B、C、D、E，F、G，所以它应该是属于类别特征。那不同的类别和最终违约会有怎样的关系呢？我们以柱状图的形式展示每个类别的数量。呈现图的时候用的
+seaborn 里的 sns 来做一个呈现：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 以直方图的形式，展示每个类型的数量</span><br>sns.countplot(x=<span class="hljs-string">&#x27;grade&#x27;</span>, hue=<span class="hljs-string">&#x27;isDefault&#x27;</span>, data=train)<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231128212932.png"
+alt="20231128212932" /></p>
+<p>这是一个 grade 跟 isDefault
+两者之间来做一个判断,数据是我们的训练数据。可以看一看这个结果，怎么看
+ABCDEFG 这些类别跟 isDefault 之间的关系呢？因为 isDefault
+有两种类型，所以每一个 ABCDE
+都有这两种类型的柱状图。那么哪些特征是比较好，不容易违约。从这张图里面大概是能判断出来，0
+是代表好人，1 代表坏人.所以我们看 A 是比较好的，A 的话就不太违约。其次是
+B，然后再是 C，还有就是 D。然后到 E 后面违约的比例上基本差不多了，E
+的比例已经比较高了，F 和 G 就会更高。所以 A 到 G
+之间是有一个顺序关系的，越是字母靠前的 A、B、C 就越不太容易违约。</p>
+<p>那应该还有其他一些特征都可以来去做个判断，比如我们再挑一个，<code>homeOwnership</code>，
+借款人在登记时提供的房屋所有权状况，看它的<code>value_counts</code>是 0
+到 5：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python">train[<span class="hljs-string">&#x27;homeOwnership&#x27;</span>].value_counts()<br><br>---<br>homeOwnership<br><span class="hljs-number">0</span>    <span class="hljs-number">395732</span><br><span class="hljs-number">1</span>    <span class="hljs-number">317660</span><br><span class="hljs-number">2</span>     <span class="hljs-number">86309</span><br><span class="hljs-number">3</span>       <span class="hljs-number">185</span><br><span class="hljs-number">5</span>        <span class="hljs-number">81</span><br><span class="hljs-number">4</span>        <span class="hljs-number">33</span><br>Name: count, dtype: int64<br></code></pre></td></tr></table></figure>
+<p>那我们觉得理论上它应该是属于什么类别的特征？看一下物理含义，借款人在登记时提供的房屋所有权的状态，它没有小数点，0-5
+虽然是数值，但是它应该是个类别特征。</p>
+<p>那类别特征的话我们用的过程和刚才是一样的，来做个对比，拿这个词段作为
+x 轴</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">sns.countplot(x=<span class="hljs-string">&#x27;homeOwnership&#x27;</span>, hue=<span class="hljs-string">&#x27;isDefault&#x27;</span>, data=train)<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231128221019.png"
+alt="20231128221019" /></p>
+<p>到后面其实这个值已经比较小了, 每个特征还是有一点明显的。0
+是比较好的，然后 1 比较差，2
+可能后面就逐渐的会下降。这些是属于跟房屋状态的一个特征相关的。</p>
+<p>这些维度其实都可以做判断，我们也发现出来有些类别特征是可以找到
+isDefault 的一个平均值的。</p>
+<p>再看下面这个特征，这 0-13 看起来也像是类别特征</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">train[<span class="hljs-string">&#x27;purpose&#x27;</span>].value_counts()<br><br>---<br>purpose<br><span class="hljs-number">0</span>     <span class="hljs-number">464096</span><br>...<br><span class="hljs-number">13</span>       <span class="hljs-number">190</span><br></code></pre></td></tr></table></figure>
+<p>这是借款人在贷款时的贷款用途类别，跟刚才过程是一样的，依然是来看一个对比：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">sns.countplot(x=<span class="hljs-string">&#x27;purpose&#x27;</span>, hue=<span class="hljs-string">&#x27;isDefault&#x27;</span>, data=train)<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231128221320.png"
+alt="20231128221320" /></p>
+<p>这个有点类似于像 A 到 G 的那个感觉。这个虽然是数值，但大家想想是不
+是更倾向于看成一种类别的计算，我们想，类别最后也是要把它转化成一个数值类型的。因为这个统计个数没有小数点，所以我更倾向于把它看成是一种类别。就是已经转化成数值之后的一个类别。</p>
+<p>基本上都看完之后我们看下一步，我们要设置一些状态，设置数值类型，然后来去做一些缺失值补全。</p>
+<p>那下面我们就要找一找哪些是数值类型，哪些是类别特征。可以借助它的
+dtype，那我们之前看过数据的 info， 一般来说 float
+应该都是属于数值类型，这个是毫无疑问的。int
+类型有些可能要属于类别之后的一个编码，就是它已经是类别加了 labelEncoder,
+所以我们先用 float 来去做一个计算。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 找到数值类型的特征</span><br>num_features = train.select_dtypes(include=<span class="hljs-built_in">float</span>).columns<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;数值特征：&#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(num_features))<br><br>---<br>数值特征：Index([<span class="hljs-string">&#x27;loanAmnt&#x27;</span>, <span class="hljs-string">&#x27;interestRate&#x27;</span>, <span class="hljs-string">&#x27;installment&#x27;</span>, <span class="hljs-string">&#x27;employmentTitle&#x27;</span>, <span class="hljs-string">&#x27;annualIncome&#x27;</span>, <span class="hljs-string">&#x27;postCode&#x27;</span>, <span class="hljs-string">&#x27;dti&#x27;</span>， <span class="hljs-string">&#x27;delinquency_2years&#x27;</span>, <span class="hljs-string">&#x27;ficoRangeLow&#x27;</span>, <span class="hljs-string">&#x27;ficoRangeHigh&#x27;</span>, <span class="hljs-string">&#x27;openAcc&#x27;</span>, <span class="hljs-string">&#x27;pubRec&#x27;</span>, <span class="hljs-string">&#x27;pubRecBankruptcies&#x27;</span>, <span class="hljs-string">&#x27;revolBal&#x27;</span>, <span class="hljs-string">&#x27;revolUtil&#x27;</span>, <span class="hljs-string">&#x27;totalAcc&#x27;</span>, <span class="hljs-string">&#x27;title&#x27;</span>, <span class="hljs-string">&#x27;n0&#x27;</span>, <span class="hljs-string">&#x27;n1&#x27;</span>, <span class="hljs-string">&#x27;n2&#x27;</span>, <span class="hljs-string">&#x27;n3&#x27;</span>, <span class="hljs-string">&#x27;n4&#x27;</span>, <span class="hljs-string">&#x27;n5&#x27;</span>, <span class="hljs-string">&#x27;n6&#x27;</span>, <span class="hljs-string">&#x27;n7&#x27;</span>, <span class="hljs-string">&#x27;n8&#x27;</span>, <span class="hljs-string">&#x27;n9&#x27;</span>, <span class="hljs-string">&#x27;n10&#x27;</span>, <span class="hljs-string">&#x27;n11&#x27;</span>, <span class="hljs-string">&#x27;n12&#x27;</span>, <span class="hljs-string">&#x27;n13&#x27;</span>, <span class="hljs-string">&#x27;n14&#x27;</span>], dtype=<span class="hljs-string">&#x27;object&#x27;</span>)<br></code></pre></td></tr></table></figure>
+<p>这些肯定是数值特征，因为它是属于 float。</p>
+<p>计算完<code>num_features</code>，我们再计算
+cat，找到类别。类别特征有一个简单的方法就是非 float 类型。包括了
+int，包括了
+object。那怎么去写？这个就和我们的数值类型的获取正好反过来：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">cat_features = train.select_dtypes(exclude=<span class="hljs-built_in">float</span>).columns<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;类别特征: &#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(cat_features))<br><br>---<br>类别特征: Index([<span class="hljs-string">&#x27;term&#x27;</span>, <span class="hljs-string">&#x27;grade&#x27;</span>, <span class="hljs-string">&#x27;subGrade&#x27;</span>, <span class="hljs-string">&#x27;employmentLength&#x27;</span>, <span class="hljs-string">&#x27;homeOwnership&#x27;</span>, <span class="hljs-string">&#x27;verificationStatus&#x27;</span>, <span class="hljs-string">&#x27;issueDate&#x27;</span>, <span class="hljs-string">&#x27;isDefault&#x27;</span>, <span class="hljs-string">&#x27;purpose&#x27;</span>, <span class="hljs-string">&#x27;regionCode&#x27;</span>, <span class="hljs-string">&#x27;initialListStatus&#x27;</span>, <span class="hljs-string">&#x27;applicationType&#x27;</span>, <span class="hljs-string">&#x27;earliesCreditLine&#x27;</span>],dtype=<span class="hljs-string">&#x27;object&#x27;</span>)<br></code></pre></td></tr></table></figure>
+<p>这回我们用的是<code>exclude=float</code>，include
+是<code>是</code>，exclude 就是<code>非</code>。这样不是我们 float
+类型的部分都等于我们的类别类型。这样类别特征就求出来了，这些都属于类别特征。</p>
+<p>下一步就要做缺失值补全了。在模型预测之前，最好把缺失值给它补上，可以基于刚才统计好的类型和数值来去完成一个设置。</p>
+<p>cat 是类别特征，然后我们来计算一下它当中有 null 值的都有多少：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python">train[cat_features].isnull().<span class="hljs-built_in">sum</span>()<br><br>---<br>term                      <span class="hljs-number">0</span><br>...<br>employmentLength      <span class="hljs-number">46799</span><br>...<br>earliesCreditLine         <span class="hljs-number">0</span><br>dtype: int64<br></code></pre></td></tr></table></figure>
+<p>找到<code>employmentLength</code>是个缺失值，而且只有这一个。我们还是先来看看这个特征的<code>value_counts</code>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python">train[<span class="hljs-string">&#x27;employmentLength&#x27;</span>].value_counts()<br><br>---<br>employmentLength<br><span class="hljs-number">10</span>+ years    <span class="hljs-number">262753</span><br><span class="hljs-number">2</span> years       <span class="hljs-number">72358</span><br>&lt; <span class="hljs-number">1</span> year      <span class="hljs-number">64237</span><br><span class="hljs-number">3</span> years       <span class="hljs-number">64152</span><br><span class="hljs-number">1</span> year        <span class="hljs-number">52489</span><br><span class="hljs-number">5</span> years       <span class="hljs-number">50102</span><br><span class="hljs-number">4</span> years       <span class="hljs-number">47985</span><br><span class="hljs-number">6</span> years       <span class="hljs-number">37254</span><br><span class="hljs-number">8</span> years       <span class="hljs-number">36192</span><br><span class="hljs-number">7</span> years       <span class="hljs-number">35407</span><br><span class="hljs-number">9</span> years       <span class="hljs-number">30272</span><br>Name: count, dtype: int64<br></code></pre></td></tr></table></figure>
+<p>看到这个内容，我们来看看怎么补充最好？对于这样一个类别特征，其实最好的办法是通过随机森林去计算，然后将缺失值分别补充进去，不过我们今天重点不在那里，所以现在我们拿众数来做补充。众数怎么求都不需要管，因为通过打印出来的结果，我们明显看到<code>10+ years</code>就是最多的。那我们就直接补进去就好了：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">train[<span class="hljs-string">&#x27;employmentLength&#x27;</span>].fillna(<span class="hljs-string">&#x27;10+ years&#x27;</span>, inplace=<span class="hljs-literal">True</span>)<br>train[cat_features].isnull().<span class="hljs-built_in">sum</span>()<br></code></pre></td></tr></table></figure>
+<p>再查一遍类别特征的 isnull，全部都为 0
+了。那我们类别特征就算是补全了。</p>
+<p>相应的，测试集里我们也需要操作一遍：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">test[<span class="hljs-string">&#x27;employmentLength&#x27;</span>].value_counts()<br>test[<span class="hljs-string">&#x27;employmentLength&#x27;</span>].fillna(<span class="hljs-string">&#x27;10+ years&#x27;</span>, inplace=<span class="hljs-literal">True</span>)<br>test[<span class="hljs-string">&#x27;employmentLength&#x27;</span>].isnull().<span class="hljs-built_in">sum</span>()<br></code></pre></td></tr></table></figure>
+<p>接下来是数值类型，跟刚才的过程原理是一样的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs python">train[num_features].isnull().<span class="hljs-built_in">sum</span>()<br><br>---<br>...<br>employmentTitle           <span class="hljs-number">1</span><br>...<br>postCode                  <span class="hljs-number">1</span><br>dti                     <span class="hljs-number">239</span><br>...<br>pubRecBankruptcies      <span class="hljs-number">405</span><br>...<br>revolUtil               <span class="hljs-number">531</span><br>...<br>title                     <span class="hljs-number">1</span><br>n0                    <span class="hljs-number">40270</span><br>n1                    <span class="hljs-number">40270</span><br>n2                    <span class="hljs-number">40270</span><br>n3                    <span class="hljs-number">40270</span><br>n4                    <span class="hljs-number">33239</span><br>n5                    <span class="hljs-number">40270</span><br>n6                    <span class="hljs-number">40270</span><br>n7                    <span class="hljs-number">40270</span><br>...<br>n11                   <span class="hljs-number">69752</span><br>n12                   <span class="hljs-number">40270</span><br>n13                   <span class="hljs-number">40270</span><br>n14                   <span class="hljs-number">40270</span><br>dtype: int64<br></code></pre></td></tr></table></figure>
+<p>可以看到 num
+里的缺失值还是蛮多的，似乎工作量不小。那我们怎么办，先拿<code>employmentTitle</code>这个来看，我们先查看一下它这个特征：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python">train[<span class="hljs-string">&#x27;employmentTitle&#x27;</span>].value_counts()<br><br>---<br>employmentTitle<br><span class="hljs-number">54.0</span>        <span class="hljs-number">51149</span><br><span class="hljs-number">38.0</span>        <span class="hljs-number">12644</span><br><span class="hljs-number">32.0</span>        <span class="hljs-number">11543</span><br><span class="hljs-number">184.0</span>        <span class="hljs-number">6112</span><br><span class="hljs-number">151.0</span>        <span class="hljs-number">5193</span><br>        ...  <br><span class="hljs-number">56828.0</span>         <span class="hljs-number">1</span><br><span class="hljs-number">118913.0</span>        <span class="hljs-number">1</span><br><span class="hljs-number">208948.0</span>        <span class="hljs-number">1</span><br><span class="hljs-number">313793.0</span>        <span class="hljs-number">1</span><br><span class="hljs-number">134854.0</span>        <span class="hljs-number">1</span><br>Name: count, Length: <span class="hljs-number">248683</span>, dtype: int64<br></code></pre></td></tr></table></figure>
+<p>特征值内全是浮点数，我们还是来看看它的中位数等于多少。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">train[<span class="hljs-string">&#x27;employmentTitle&#x27;</span>].median()<br><br>---<br><span class="hljs-number">7755.0</span><br></code></pre></td></tr></table></figure>
+<p>median 是等于 7,000 多，这个特征其实补 7000 多也可以，补 54
+也可以，也就是众数。</p>
+<p>那一个一个数值特征去处理有点太过麻烦了，我这里只是为了告诉大家思路而不是为了比赛，那我这里就简便的做一个批量处理。全部都用
+median 来进行处理。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">for</span> col <span class="hljs-keyword">in</span> num_features:<br><span class="hljs-keyword">if</span> train[col].isnull().<span class="hljs-built_in">sum</span>() &gt; <span class="hljs-number">0</span>:<br>    <span class="hljs-comment"># print(col)</span><br>    train[col].fillna(train[col].median(), inplace=<span class="hljs-literal">True</span>)<br><span class="hljs-keyword">if</span> test[col].isnull().<span class="hljs-built_in">sum</span>() &gt; <span class="hljs-number">0</span>:<br>    test[col].fillna(train[col].median(), inplace=<span class="hljs-literal">True</span>)<br><br>train.isnull().<span class="hljs-built_in">sum</span>()<br><br>---<br>loanAmnt              <span class="hljs-number">0</span><br>...<br>n14                   <span class="hljs-number">0</span><br>dtype: int64<br></code></pre></td></tr></table></figure>
+<p>这里我们将所有的 num 进行循环，用于处理每一个数值特征，当 null
+的个数大于 0 的时候，也就是有 null 值的时候，我们就将其用 median
+进行处理，inplace 打开。不要忘了除了 train 特征集之外，test
+也做同样的处理。这样每个有缺失值的部分我们都可以给它做一个补全。</p>
+<p>然后查看一下 train 和 test 的 null
+值是否还有。这样，我们就完成了所有缺失值的一个补全。</p>
+<p>之后我们要做的事情，就是要转化数值编码了。那要做处理的类别特征有哪些呢？我们之前查看
+info 的时候，有很多的 object 类型，这就是我们现在要处理的内容。因为
+object 类型，基本上都是字符串的形式。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">train.select_dtypes(include=<span class="hljs-built_in">object</span>).columns<br><br>---<br>Index([<span class="hljs-string">&#x27;grade&#x27;</span>, <span class="hljs-string">&#x27;subGrade&#x27;</span>, <span class="hljs-string">&#x27;employmentLength&#x27;</span>, <span class="hljs-string">&#x27;issueDate&#x27;</span>, <span class="hljs-string">&#x27;earliesCreditLine&#x27;</span>], dtype=<span class="hljs-string">&#x27;object&#x27;</span>)<br></code></pre></td></tr></table></figure>
+<p>找到这些特征，<code>grade</code>是其中一个需要处理的类别特征。这些类别特征其实都需要给它转换成数值编码，我们将其打印出来一遍后续查看</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;需要处理的类别特征: &#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(train.select_dtypes(include=<span class="hljs-built_in">object</span>).columns))<br></code></pre></td></tr></table></figure>
+<p>然后我们先来处理<code>grade</code>，看看它是什么样的一个特征，以及特征个数都分别有多少：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python">train[<span class="hljs-string">&#x27;grade&#x27;</span>].value_counts()<br><br>---<br>grade<br>B    <span class="hljs-number">233690</span><br>C    <span class="hljs-number">227118</span><br>A    <span class="hljs-number">139661</span><br>D    <span class="hljs-number">119453</span><br>E     <span class="hljs-number">55661</span><br>F     <span class="hljs-number">19053</span><br>G      <span class="hljs-number">5364</span><br>Name: count, dtype: int64<br></code></pre></td></tr></table></figure>
+<p>刚刚我们应该能知道它是有一定的顺序的，就是我们之前看到过那张柱状图，可以发现
+A
+的等级是最好的，所以需要给它指定出来一个顺序，那这里的指定关系可以自己手写一下，去做一个类别编码。按照指定顺序进行类别编码，通过
+map 的方式来去做一个指定。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">train[<span class="hljs-string">&#x27;grade&#x27;</span>] = train[<span class="hljs-string">&#x27;grade&#x27;</span>].<span class="hljs-built_in">map</span>(&#123;<span class="hljs-string">&#x27;A&#x27;</span>:<span class="hljs-number">0</span>, <span class="hljs-string">&#x27;B&#x27;</span>:<span class="hljs-number">1</span>, <span class="hljs-string">&#x27;C&#x27;</span>:<span class="hljs-number">2</span>, <span class="hljs-string">&#x27;D&#x27;</span>:<span class="hljs-number">3</span>, <span class="hljs-string">&#x27;E&#x27;</span>:<span class="hljs-number">4</span>, <span class="hljs-string">&#x27;F&#x27;</span>:<span class="hljs-number">5</span>, <span class="hljs-string">&#x27;G&#x27;</span>:<span class="hljs-number">6</span>&#125;)<br>test[<span class="hljs-string">&#x27;grade&#x27;</span>] = test[<span class="hljs-string">&#x27;grade&#x27;</span>].<span class="hljs-built_in">map</span>(&#123;<span class="hljs-string">&#x27;A&#x27;</span>:<span class="hljs-number">0</span>, <span class="hljs-string">&#x27;B&#x27;</span>:<span class="hljs-number">1</span>, <span class="hljs-string">&#x27;C&#x27;</span>:<span class="hljs-number">2</span>, <span class="hljs-string">&#x27;D&#x27;</span>:<span class="hljs-number">3</span>, <span class="hljs-string">&#x27;E&#x27;</span>:<span class="hljs-number">4</span>, <span class="hljs-string">&#x27;F&#x27;</span>:<span class="hljs-number">5</span>, <span class="hljs-string">&#x27;G&#x27;</span>:<span class="hljs-number">6</span>&#125;)<br></code></pre></td></tr></table></figure>
+<p>那测试集一样，我们也需要做这样一个处理，编码规则一定是要一致。</p>
+<p>做完以后我们再去对比一下它的<code>value_counts</code>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python">train[<span class="hljs-string">&#x27;grade&#x27;</span>].value_counts()<br><br>---<br>grade<br><span class="hljs-number">1</span>    <span class="hljs-number">233690</span><br><span class="hljs-number">2</span>    <span class="hljs-number">227118</span><br><span class="hljs-number">0</span>    <span class="hljs-number">139661</span><br><span class="hljs-number">3</span>    <span class="hljs-number">119453</span><br><span class="hljs-number">4</span>     <span class="hljs-number">55661</span><br><span class="hljs-number">5</span>     <span class="hljs-number">19053</span><br><span class="hljs-number">6</span>      <span class="hljs-number">5364</span><br>Name: count, dtype: int64<br></code></pre></td></tr></table></figure>
+<p>可以看到，目前就把它转化成了 0-6 之间，就是我们的 A 到 G
+的一个转化。</p>
+<p>我们回顾之前的 object
+特征列表，第二个是<code>subGrade</code>，那现在就来处理这个特征，还是一样，先查看一下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python">train[<span class="hljs-string">&#x27;subGrade&#x27;</span>].value_counts()<br><br>---<br>subGrade<br>C1    <span class="hljs-number">50763</span><br>...<br>G5      <span class="hljs-number">645</span><br>Name: count, dtype: int64<br></code></pre></td></tr></table></figure>
+<p>这个似乎有点麻烦。前面这个 ABCD...应该是属于大的类别，然后后面的
+12345
+属于小的类别。那现在怎么弄呢，我们创建一个临时变量，然后用这个临时变量做一个排序，再来观察下它的规律：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python">temp = train[<span class="hljs-string">&#x27;subGrade&#x27;</span>].value_counts()<br>temp.sort_index(ascending=<span class="hljs-literal">True</span>)<br><br>---<br>subGrade<br>A1    <span class="hljs-number">25909</span><br>A2    <span class="hljs-number">22124</span><br>A3    <span class="hljs-number">22655</span><br>A4    <span class="hljs-number">30928</span><br>A5    <span class="hljs-number">38045</span><br>...<br>G5      <span class="hljs-number">645</span><br>Name: count, dtype: int64<br></code></pre></td></tr></table></figure>
+<p>可以发现，这个 A 到 G，每一个大类别里都有 5
+个小类别，还是比较规律的。那这样的话就比较好做了，我个人的做法，是干脆从
+A1 到 G5 全部编成不同的数值，从 0 开始向后进行排列。</p>
+<p>可以自己来去手工写，最笨的办法的话是一个手工的办法来去完成，简单写一个逻辑。</p>
+<p>好，先来做一些前期工作，我们先写个 A 到 G 的列表，然后定义一个 index
+和一个 map，用于作为中间值好做处理：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">grades = [<span class="hljs-string">&#x27;A&#x27;</span>, <span class="hljs-string">&#x27;B&#x27;</span>, <span class="hljs-string">&#x27;C&#x27;</span>, <span class="hljs-string">&#x27;D&#x27;</span>, <span class="hljs-string">&#x27;E&#x27;</span>, <span class="hljs-string">&#x27;F&#x27;</span>, <span class="hljs-string">&#x27;G&#x27;</span>]<br>subgrade_index = <span class="hljs-number">0</span><br>sub_map = &#123;&#125;<br></code></pre></td></tr></table></figure>
+<p>接着，我们就可以来做个循环了，将我们定义好的映射值放入<code>sub_map</code>:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">for</span> grade <span class="hljs-keyword">in</span> grades:<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">5</span>):<br>    subgrade = grade+<span class="hljs-built_in">str</span>(i+<span class="hljs-number">1</span>)<br>    sub_map[subgrade]  = subgrade_index<br>    subgrade_index += <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+<p>接下来呢，直接将<code>subGrade</code>这个特征做一个
+map，然后我们来查看一下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python">train[<span class="hljs-string">&#x27;subGrade&#x27;</span>] = train[<span class="hljs-string">&#x27;subGrade&#x27;</span>].<span class="hljs-built_in">map</span>(sub_map)<br>train[<span class="hljs-string">&#x27;subGrade&#x27;</span>].value_counts().sort_index(ascending=<span class="hljs-literal">True</span>)<br><br>---<br>subGrade<br><span class="hljs-number">0</span>     <span class="hljs-number">25909</span><br>...<br><span class="hljs-number">34</span>      <span class="hljs-number">645</span><br>Name: count, dtype: int64<br></code></pre></td></tr></table></figure>
+<p>为了查看方便，给它做一个排序。这样，我们可以看到从 0 到 34，一个 35
+个特征值就转化好了。</p>
+<p>这个逻辑是我们现在 0-34 这 35 个类别，有这个类别我们再统一给它做一个
+map。当然，之后测试集也是要做一样的处理：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">test[<span class="hljs-string">&#x27;subGrade&#x27;</span>] = test[<span class="hljs-string">&#x27;subGrade&#x27;</span>].<span class="hljs-built_in">map</span>(sub_map)<br></code></pre></td></tr></table></figure>
+<p>接着，我们再来查看一下目前的 object 特征还有哪些：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">train.select_dtypes(include=<span class="hljs-built_in">object</span>).columns<br><br>---<br>Index([<span class="hljs-string">&#x27;employmentLength&#x27;</span>, <span class="hljs-string">&#x27;issueDate&#x27;</span>, <span class="hljs-string">&#x27;earliesCreditLine&#x27;</span>], dtype=<span class="hljs-string">&#x27;object&#x27;</span>)<br></code></pre></td></tr></table></figure>
+<p>之前我们知道<code>issueDate</code>是属于日期类型，一共现在还有 3
+个类别变量。那现在我们还是一个一个来，先从<code>employmentLength</code>开始，我们查看一下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python">train[<span class="hljs-string">&#x27;employmentLength&#x27;</span>].value_counts()<br><br>---<br>employmentLength<br><span class="hljs-number">10</span>+ years    <span class="hljs-number">309552</span><br><span class="hljs-number">2</span> years       <span class="hljs-number">72358</span><br>&lt; <span class="hljs-number">1</span> year      <span class="hljs-number">64237</span><br><span class="hljs-number">3</span> years       <span class="hljs-number">64152</span><br><span class="hljs-number">1</span> year        <span class="hljs-number">52489</span><br><span class="hljs-number">5</span> years       <span class="hljs-number">50102</span><br><span class="hljs-number">4</span> years       <span class="hljs-number">47985</span><br><span class="hljs-number">6</span> years       <span class="hljs-number">37254</span><br><span class="hljs-number">8</span> years       <span class="hljs-number">36192</span><br><span class="hljs-number">7</span> years       <span class="hljs-number">35407</span><br><span class="hljs-number">9</span> years       <span class="hljs-number">30272</span><br>Name: count, dtype: int64<br></code></pre></td></tr></table></figure>
+<p>这个顺序关系怎么去写呢，找一找看有没有一些比较巧的方法来去做一下。排下顺序看看：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python">temp = train[<span class="hljs-string">&#x27;employmentLength&#x27;</span>].value_counts()<br>temp.sort_index(ascending=<span class="hljs-literal">True</span>)<br><br>---<br>employmentLength<br><span class="hljs-number">1</span> year        <span class="hljs-number">52489</span><br><span class="hljs-number">10</span>+ years    <span class="hljs-number">309552</span><br><span class="hljs-number">2</span> years       <span class="hljs-number">72358</span><br><span class="hljs-number">3</span> years       <span class="hljs-number">64152</span><br><span class="hljs-number">4</span> years       <span class="hljs-number">47985</span><br><span class="hljs-number">5</span> years       <span class="hljs-number">50102</span><br><span class="hljs-number">6</span> years       <span class="hljs-number">37254</span><br><span class="hljs-number">7</span> years       <span class="hljs-number">35407</span><br><span class="hljs-number">8</span> years       <span class="hljs-number">36192</span><br><span class="hljs-number">9</span> years       <span class="hljs-number">30272</span><br>&lt; <span class="hljs-number">1</span> year      <span class="hljs-number">64237</span><br>Name: count, dtype: int64<br></code></pre></td></tr></table></figure>
+<p>似乎也并没有特别好的方式，那我们还是用最笨的方法，直接用 map
+来手工写一个好了：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python">train[<span class="hljs-string">&#x27;employmentLength&#x27;</span>] = train[<span class="hljs-string">&#x27;employmentLength&#x27;</span>].<span class="hljs-built_in">map</span>(&#123;<span class="hljs-string">&#x27;&lt; 1 year&#x27;</span>:<span class="hljs-number">0</span>,  <span class="hljs-string">&#x27;1 year&#x27;</span>:<span class="hljs-number">1</span>, <span class="hljs-string">&#x27;2 years&#x27;</span>:<span class="hljs-number">2</span>, <span class="hljs-string">&#x27;3 years&#x27;</span>:<span class="hljs-number">3</span>, <span class="hljs-string">&#x27;4 years&#x27;</span>:<span class="hljs-number">4</span>, <span class="hljs-string">&#x27;5 years&#x27;</span>:<span class="hljs-number">5</span>, <span class="hljs-string">&#x27;6 years&#x27;</span>:<span class="hljs-number">6</span>, <span class="hljs-string">&#x27;7 years&#x27;</span>:<span class="hljs-number">7</span>, <span class="hljs-string">&#x27;8 years&#x27;</span>:<span class="hljs-number">8</span>, <span class="hljs-string">&#x27;9 years&#x27;</span>:<span class="hljs-number">9</span>, <span class="hljs-string">&#x27;10+ years&#x27;</span>:<span class="hljs-number">10</span>&#125;)<br>train[<span class="hljs-string">&#x27;employmentLength&#x27;</span>].value_counts().sort_index(ascending=<span class="hljs-literal">True</span>)<br><br>---<br>employmentLength<br><span class="hljs-number">0</span>      <span class="hljs-number">64237</span><br><span class="hljs-number">1</span>      <span class="hljs-number">52489</span><br><span class="hljs-number">2</span>      <span class="hljs-number">72358</span><br><span class="hljs-number">3</span>      <span class="hljs-number">64152</span><br><span class="hljs-number">4</span>      <span class="hljs-number">47985</span><br><span class="hljs-number">5</span>      <span class="hljs-number">50102</span><br><span class="hljs-number">6</span>      <span class="hljs-number">37254</span><br><span class="hljs-number">7</span>      <span class="hljs-number">35407</span><br><span class="hljs-number">8</span>      <span class="hljs-number">36192</span><br><span class="hljs-number">9</span>      <span class="hljs-number">30272</span><br><span class="hljs-number">10</span>    <span class="hljs-number">309552</span><br>Name: count, dtype: int64<br></code></pre></td></tr></table></figure>
+<p>这样就把这个数值呢给它 map 好以后再去映射回去，test
+的应该也是一样的逻辑。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">test[<span class="hljs-string">&#x27;employmentLength&#x27;</span>] = test[<span class="hljs-string">&#x27;employmentLength&#x27;</span>].<span class="hljs-built_in">map</span>(&#123;<span class="hljs-string">&#x27;&lt; 1 year&#x27;</span>:<span class="hljs-number">0</span>,  <span class="hljs-string">&#x27;1 year&#x27;</span>:<span class="hljs-number">1</span>, <span class="hljs-string">&#x27;2 years&#x27;</span>:<span class="hljs-number">2</span>, <span class="hljs-string">&#x27;3 years&#x27;</span>:<span class="hljs-number">3</span>, <span class="hljs-string">&#x27;4 years&#x27;</span>:<span class="hljs-number">4</span>, <span class="hljs-string">&#x27;5 years&#x27;</span>:<span class="hljs-number">5</span>, <span class="hljs-string">&#x27;6 years&#x27;</span>:<span class="hljs-number">6</span>, <span class="hljs-string">&#x27;7 years&#x27;</span>:<span class="hljs-number">7</span>, <span class="hljs-string">&#x27;8 years&#x27;</span>:<span class="hljs-number">8</span>, <span class="hljs-string">&#x27;9 years&#x27;</span>:<span class="hljs-number">9</span>, <span class="hljs-string">&#x27;10+ years&#x27;</span>:<span class="hljs-number">10</span>&#125;)<br></code></pre></td></tr></table></figure>
+<p>处理好这个特征之后，我们就只剩下<code>['issueDate', 'earliesCreditLine']</code>这两个特征需要进行处理了。之前我们知道，<code>issueDate</code>是一个日期特征，也讲到了，处理日期特征要么就是将其分拆，做多尺度，要么就是使用
+diff 的方式。这里，我们为了方便，选择 diff 的方式来处理。</p>
+<p>首先我们是要将其转化为 Pandas 中的日期格式：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 转化为 Pandas 中的日期格式</span><br>train[<span class="hljs-string">&#x27;issueDate&#x27;</span>] = pd.to_datetime(train[<span class="hljs-string">&#x27;issueDate&#x27;</span>])<br>test[<span class="hljs-string">&#x27;issueDate&#x27;</span>] = pd.to_datetime(test[<span class="hljs-string">&#x27;issueDate&#x27;</span>])<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;train min date: &#123;&#125;, test min date: &#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(train[<span class="hljs-string">&#x27;issueDate&#x27;</span>].<span class="hljs-built_in">min</span>(), test[<span class="hljs-string">&#x27;issueDate&#x27;</span>].<span class="hljs-built_in">min</span>()))<br><br>---<br>train <span class="hljs-built_in">min</span> date: <span class="hljs-number">2007</span>-06-01 <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span>, test <span class="hljs-built_in">min</span> date: <span class="hljs-number">2007</span>-07-01 <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span><br></code></pre></td></tr></table></figure>
+<p>那最小的日期是 2007 年 6 月 1
+号，那我们就设置一个起始时间，就将其设置为这个时间点：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 设置起始时间</span><br>base_time = datetime.datetime.strptime(<span class="hljs-string">&#x27;2007-06-01&#x27;</span>, <span class="hljs-string">&#x27;%Y-%m-%d&#x27;</span>)<br></code></pre></td></tr></table></figure>
+<p>其实时间设置好之后，就可以将特征值设定为 diff
+的形式了。这里，我们写一个简单的匿名函数来完成：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 设置日期类型特征值为 diff</span><br>train[<span class="hljs-string">&#x27;issueDate&#x27;</span>] = train[<span class="hljs-string">&#x27;issueDate&#x27;</span>].apply(<span class="hljs-keyword">lambda</span> x: x-base_time).dt.days<br>test[<span class="hljs-string">&#x27;issueDate&#x27;</span>] = test[<span class="hljs-string">&#x27;issueDate&#x27;</span>].apply(<span class="hljs-keyword">lambda</span> x: x-base_time).dt.days<br></code></pre></td></tr></table></figure>
+<p>train 和 test
+都做了一个处理，然后我们来看看，特征打印出来现在是什么样。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">train[<span class="hljs-string">&#x27;issueDate&#x27;</span>]<br><br>---<br><span class="hljs-number">0</span>         <span class="hljs-number">2587</span><br>      ... <br><span class="hljs-number">799999</span>    <span class="hljs-number">4079</span><br>Name: issueDate, Length: <span class="hljs-number">800000</span>, dtype: int64<br></code></pre></td></tr></table></figure>
+<p>这样就好了。我们接下来就还剩下最后一个特征需要进行处理，就是<code>earliesCreditLine</code>，先来看看它是什么样的：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">train[<span class="hljs-string">&#x27;earliesCreditLine&#x27;</span>]<br><br>---<br><span class="hljs-number">0</span>         Aug-<span class="hljs-number">2001</span><br>        ...   <br><span class="hljs-number">799999</span>    Feb-<span class="hljs-number">2002</span><br></code></pre></td></tr></table></figure>
+<p>竟然也是一个时间类型的特征，正好，之前处理<code>issueDate</code>的逻辑放在这里还是可以用：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python">train[<span class="hljs-string">&#x27;earliesCreditLine&#x27;</span>] = pd.to_datetime(train[<span class="hljs-string">&#x27;earliesCreditLine&#x27;</span>])<br>test[<span class="hljs-string">&#x27;earliesCreditLine&#x27;</span>] = pd.to_datetime(test[<span class="hljs-string">&#x27;earliesCreditLine&#x27;</span>])<br><br>base_time = datetime.datetime.strptime(<span class="hljs-string">&#x27;1944-01-01&#x27;</span>, <span class="hljs-string">&#x27;%Y-%m-%d&#x27;</span>)<br><br>train[<span class="hljs-string">&#x27;earliesCreditLine&#x27;</span>] = train[<span class="hljs-string">&#x27;earliesCreditLine&#x27;</span>].apply(<span class="hljs-keyword">lambda</span> x: x-base_time).dt.days<br>test[<span class="hljs-string">&#x27;earliesCreditLine&#x27;</span>] = test[<span class="hljs-string">&#x27;earliesCreditLine&#x27;</span>].apply(<span class="hljs-keyword">lambda</span> x: x-base_time).dt.days<br><br>train[<span class="hljs-string">&#x27;earliesCreditLine&#x27;</span>].value_counts()<br><br>---<br>earliesCreditLine<br><span class="hljs-number">21032</span>    <span class="hljs-number">5567</span><br>      ... <br><span class="hljs-number">731</span>         <span class="hljs-number">1</span><br>Name: count, Length: <span class="hljs-number">720</span>, dtype: int64<br></code></pre></td></tr></table></figure>
+<p>那现在呢，我们就将所有的数据都清洗好了，前期是需要花一点时间去做一个数据清洗的工作。大家可以仔细看一下我的整个写法的一个过程，重点还是要看思路，如果不是很熟悉没有关系，一点点来。第一次我可以带你来去写，后面你逐渐熟悉以后就知道它整个的过程原理了。</p>
+<p>接着，我们就可以使用<code>corr()</code>来查看相关性了，因为所有特征都变成了数值类型。顺便，我们为了更直观一些，用一个热力图将其打印出来：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">train.corr()<br>plt.figure(figsize=(<span class="hljs-number">32</span>, <span class="hljs-number">26</span>))<br>sns.heatmap(train.corr(), annot=<span class="hljs-literal">True</span>)<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231129162223.png"
+alt="20231129162223" /></p>
+<p><code>annot=True</code>，是将数值也写上去。那这张图我们的 figsize
+就要设置的大一些才可以，因为图太小数字写上去可能有重影。</p>
+<p>类别确实很很多，关注哪些值？一般怎么看呢？关注颜色高亮的值，0.95，0.9
+这些值就比较有含义。可以自己对照一下，它们是一个高度相关性。还有就是绝对值负的这种数也很重要，它会给你高亮出来。</p>
+<p>什么是相关和负相关我这里就不一一给大家看了，你回去可以自己来看一看，这个图都帮你高亮出来了。这是它的特征相关性。</p>
+<p>在所有数据处理的工作做完之后呢，就轮到我们的模型上长了。这里我们用的是
+LightGBM。</p>
+<p>开头，我给到大家的一个祖传参数，这里可以拿过来创建模型：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">clf = LGBMClassifier(<br>num_leaves=<span class="hljs-number">2</span>**<span class="hljs-number">5</span>-<span class="hljs-number">1</span>, reg_alpha=<span class="hljs-number">0.25</span>, reg_lambda=<span class="hljs-number">0.25</span>, objective=<span class="hljs-string">&#x27;binary&#x27;</span>, max_depth=-<span class="hljs-number">1</span>, learning_rate=<span class="hljs-number">0.005</span>, min_child_samples=<span class="hljs-number">3</span>, random_state=<span class="hljs-number">2023</span>, n_estimators=<span class="hljs-number">2000</span>, subsample=<span class="hljs-number">1</span>, colsample_bytree=<span class="hljs-number">1</span><br>)<br></code></pre></td></tr></table></figure>
+<p>那数据集我们是要进行分割的</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">train_X, test_X, train_y, test_y = train_test_split(train.drop([<span class="hljs-string">&#x27;isDefault&#x27;</span>], axis=<span class="hljs-number">1</span>), train[<span class="hljs-string">&#x27;isDefault&#x27;</span>], test_size=<span class="hljs-number">0.2</span>, random_state=<span class="hljs-number">2023</span>)<br></code></pre></td></tr></table></figure>
+<p>我们把这个数据集给它做个切分，看一看这个数据的效果，然后再把整个的全量数据拿去做个训练。因为原始数据，我们是要应该把<code>isDefault</code>给它
+drop 掉。</p>
+<p>然后现在去 fit 一下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python">clf.fit(train_X, train_y)<br>y_pred = clf.predict(test_X)<br>y_pred<br><br>---<br>[LightGBM] [Info] Number of positive: <span class="hljs-number">127712</span>, number of negative: <span class="hljs-number">512288</span><br>[LightGBM] [Info] Auto-choosing row-wise multi-threading, the overhead of testing was <span class="hljs-number">0.031736</span> seconds.<br>You can <span class="hljs-built_in">set</span> `force_row_wise=true` to remove the overhead.<br>And <span class="hljs-keyword">if</span> memory <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> enough, you can <span class="hljs-built_in">set</span> `force_col_wise=true`.<br>[LightGBM] [Info] Total Bins <span class="hljs-number">3940</span><br>[LightGBM] [Info] Number of data points <span class="hljs-keyword">in</span> the train <span class="hljs-built_in">set</span>: <span class="hljs-number">640000</span>, number of used features: <span class="hljs-number">44</span><br>[LightGBM] [Info] [binary:BoostFromScore]: pavg=<span class="hljs-number">0.199550</span> -&gt; initscore=-<span class="hljs-number">1.389109</span><br>[LightGBM] [Info] Start training <span class="hljs-keyword">from</span> score -<span class="hljs-number">1.389109</span><br>CPU times: user 3<span class="hljs-built_in">min</span> 34s, sys: <span class="hljs-number">15.3</span> s, total: 3<span class="hljs-built_in">min</span> 50s<br>Wall time: <span class="hljs-number">59</span> s<br><br>array([<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, ..., <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>])<br></code></pre></td></tr></table></figure>
+<p>fit 以后去
+predict，然后我们将赋值后的<code>y_pred</code>打印出来，看它运行的结果。我在前面加了一个<code>%%time</code>，所以最后将整个的运行时间打印了出来，我们可以看到，一共用时是
+3min 50s，那这样一个 80W 的数据，我们用了 2000 轮来进行
+fit，最后的时间还是比较快的，可以看到 LightGBM
+确实在速度上还是非常有优势的。那最后的<code>array</code>就是我们的<code>y_pred</code>。</p>
+<p>我们先拿它在提交结果之前看一下这个结果会怎么样,如果这个结果还可以，你可以直接用个全量的数据来去做个训练和预测，然后把这个结果输出来。</p>
+<p>结果是打印出来了，我们想看看评分，这次的评分来看看两个结果，一个
+Accuracy, 一个比赛要求的 AUC：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Accuracy: &#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(accuracy_score(y_pred, test_y)))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;AUC : &#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(roc_auc_score(y_pred, test_y)))<br><br>---<br>Accuracy: <span class="hljs-number">0.8058875</span><br>AUC : <span class="hljs-number">0.6956198372904435</span><br></code></pre></td></tr></table></figure>
+<p>这个结果并不是很好，那我们现在来用一个全量的数据跑一下看看：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python">%%time<br>clf.fit(train.drop([<span class="hljs-string">&#x27;isDefault&#x27;</span>], axis=<span class="hljs-number">1</span>), train[<span class="hljs-string">&#x27;isDefault&#x27;</span>])<br>result = clf.predict_proba(test)[:, <span class="hljs-number">1</span>]<br>result<br><br>---<br>array([<span class="hljs-number">0.07173634</span>, <span class="hljs-number">0.33175495</span>, <span class="hljs-number">0.50728124</span>, ..., <span class="hljs-number">0.18494668</span>, <span class="hljs-number">0.27338017</span>,<br>    <span class="hljs-number">0.03319145</span>])<br></code></pre></td></tr></table></figure>
+<p>然后呢，我们从新读取一下 testA 的数据，我们只要它的
+id，然后将结果放到里面去作为<code>isDefault</code>这个特征。最后输出一个
+csv 文件，用于进行提交：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">test2 = pd.read_csv(<span class="hljs-string">&#x27;~/mount/Sync/data/AI_Cheats/531830/testA.csv&#x27;</span>)<br>test2 = test2[[<span class="hljs-string">&#x27;id&#x27;</span>]]<br>test2[<span class="hljs-string">&#x27;isDefault&#x27;</span>] = result<br>test2.to_csv(<span class="hljs-string">&#x27;dataset/baseline_lgb_2000.csv&#x27;</span>, index=<span class="hljs-literal">False</span>)<br></code></pre></td></tr></table></figure>
+<p>然后到比赛的页面上，我们在提交结果这个页面内将刚才输出的文件提交上去：</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231129164926.png"
+alt="20231129164926" /></p>
+<p>在等待一段时间之后，会给一个提交结果：</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231129165336.png"
+alt="20231129165336" /></p>
+<p>em...
+这个分数就不要指望在比赛中有什么好的排名了，基本预测分数应该都是在 0.74
+以上的，那这个分数预估在所有参赛人员名单里，也就是在
+50%左右吧，反正排名名单里是基本找不到。</p>
+<p>好，这样我们整个流程就完成了，当然，如果你看重比赛结果，想自己排名更好一点的话，可以尝试的方式就是更改自己使用的模型，可以事实
+catBoost， XGBoost
+等等，然后调整一下参数。更重要的，你可以自己用随机森林把之前我们要填补的缺失值都计算填写进去，而不是像我们目前这样随意的使用中位数来进行填充。</p>
+<p>简单总结一下，我们的操作就是把类别变量和数值变量做一个区分，对数据做了一个清洗，然后让类别变量做数据编码的时候有一定的顺序，对时间类型求一个
+diff，仅此而已。然后就用祖传参数来去完成训练。整个的结果是 0.72
+分，基本上应该会在 3000 多名左右的位置 在整个 7,000
+多个人队伍中呢也就是中游水平。</p>
+<p>刚才我们整个的这个求解这套问题的思路，从数据加载、数据探索，再到数据的预处理、补全这样一套思路，最后到
+LGBM 的计算这套过程。这个问题的思路跟我们之前课程中给大家讲 LGBM
+基本上是一致的，LGBM
+就是帮你来做这种分类任务的。具体做的过程中更多的时间都是在数据预处理的环节中。</p>
+<p>好，我们来留个作业，就是大家自己去比赛的这个页面，完成我们今天的一个练习，然后自己提交一下，看看你的分数是多少。可以在我这篇文章下面进行留言，把你的分数告诉我。</p>
+<p>在你做练习过程中可能会遇到各种问题，不论是咱们本文中讲解的一些概念原理还是在代码实战过程中调包使用等等，如果你遇到任何问题都可以和我来做一个交流。</p>
+<p>那最后也非常感谢大家能学习我的这个教程，绝对有帮助的话，可以分享出去给其他更多的小伙伴看到。</p>
+<p>今天的课程就到这里。那我们下节课再见，下节课还是关于 BI
+的一些知识内容。</p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>08. BI - 万字长文，银行如何做贷款违约的预测，特征处理及学习</p><p><a href="https://hivan.me/08. BI - 万字长文，银行如何做贷款违约的预测，特征处理及学习/">https://hivan.me/08. BI - 万字长文，银行如何做贷款违约的预测，特征处理及学习/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2024-01-24</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2024-02-28</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a><a class="link-muted mr-2" rel="tag" href="/tags/BI/">BI</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/09.%20BI%20-%20%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96%EF%BC%8C%E5%9F%BA%E6%9C%AC%E5%9B%BE%E5%BD%A2%E7%BB%98%E5%88%B6/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">09. BI - 数据可视化，如何进行基本图形绘制</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/07.%20BI%20-%20%E9%87%8F%E5%8C%96%E4%BA%A4%E6%98%93%EF%BC%8C%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99%E4%BB%A3%E7%A0%81%E6%9D%A5%E5%88%A9%E7%94%A8%20MACD%20%E5%86%B3%E5%AE%9A%E9%80%89%E8%82%A1%E7%AD%96%E7%95%A5/"><span class="level-item">07. BI - 量化交易，如何编写代码来利用 MACD 决定选股策略</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/08.%20BI%20-%20%E4%B8%87%E5%AD%97%E9%95%BF%E6%96%87%EF%BC%8C%E9%93%B6%E8%A1%8C%E5%A6%82%E4%BD%95%E5%81%9A%E8%B4%B7%E6%AC%BE%E8%BF%9D%E7%BA%A6%E7%9A%84%E9%A2%84%E6%B5%8B%EF%BC%8C%E7%89%B9%E5%BE%81%E5%A4%84%E7%90%86%E5%8F%8A%E5%AD%A6%E4%B9%A0/';
+            this.page.identifier = '08. BI - 万字长文，银行如何做贷款违约的预测，特征处理及学习/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI 游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">223</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">6</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">22</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI 秘籍</span></span><span class="level-end"><span class="level-item tag">81</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/"><span class="level-start"><span class="level-item">BI</span></span><span class="level-end"><span class="level-item tag">17</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">33</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-27T23:30:00.000Z">2024-02-28</time></p><p class="title"><a href="/17.%20BI%20-%20Surprise%E5%B7%A5%E5%85%B7%E7%AE%B1%EF%BC%9ABaseline/">17. BI - Surprise 工具箱：Baseline</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-24T23:30:00.000Z">2024-02-25</time></p><p class="title"><a href="/16.%20BI%20-%20%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E4%B9%8BALS%E5%AE%9E%E7%8E%B0/">16. BI - 推荐系统之 ALS 实现</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-20T23:30:00.000Z">2024-02-21</time></p><p class="title"><a href="/15.%20BI%20-%20%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E4%B9%8BALS%E5%8E%9F%E7%90%86/">15. BI - 推荐系统之 ALS 原理</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-15T23:30:00.000Z">2024-02-16</time></p><p class="title"><a href="/14.%20BI%20-%20%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E4%B9%8B%E7%9F%A9%E9%98%B5%E5%88%86%E8%A7%A3/">14. BI - 推荐系统之矩阵分解</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-10T23:30:00.000Z">2024-02-11</time></p><p class="title"><a href="/13.%20BI%20-%20%E5%8F%AF%E8%A7%86%E5%8C%96%E7%9C%8B%E6%9D%BF%E5%8F%91%E5%B8%83/">13. BI - 可视化看板发布</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2024 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

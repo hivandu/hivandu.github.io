@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>17. BI - Surprise 工具箱：Baseline - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="本文为 「茶桁的 AI 秘籍 - BI 篇 第 17 篇」"><meta property="og:type" content="blog"><meta property="og:title" content="17. BI - Surprise 工具箱：Baseline"><meta property="og:url" content="https://hivan.me/17.%20BI%20-%20Surprise%E5%B7%A5%E5%85%B7%E7%AE%B1%EF%BC%9ABaseline/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="本文为 「茶桁的 AI 秘籍 - BI 篇 第 17 篇」"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2024-02-27T23:30:00.000Z"><meta property="article:modified_time" content="2024-02-28T10:40:10.521Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="article:tag" content="BI"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/17.%20BI%20-%20Surprise%E5%B7%A5%E5%85%B7%E7%AE%B1%EF%BC%9ABaseline/"},"headline":"17. BI - Surprise 工具箱：Baseline","image":[],"datePublished":"2024-02-27T23:30:00.000Z","dateModified":"2024-02-28T10:40:10.521Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"本文为 「茶桁的 AI 秘籍 - BI 篇 第 17 篇」"}</script><link rel="canonical" href="https://hivan.me/17.%20BI%20-%20Surprise%E5%B7%A5%E5%85%B7%E7%AE%B1%EF%BC%9ABaseline/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><script>var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?f91b64734fdc7bfb999e48f9248d44dd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-ZFB6CVWZFJ" async></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-ZFB6CVWZFJ');</script><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2024-02-27T23:30:00.000Z" title="2/28/2024, 7:30:00 AM">2024-02-28</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a><span> / </span><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></span></div></div><h1 class="title is-3 is-size-4-mobile">17. BI - Surprise 工具箱：Baseline</h1><div class="content"><p>本文为 「<a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg%3D%3D&amp;action=getalbum&amp;album_id=3193965113967132673&amp;subscene=&amp;sessionid=svr_548800ce471&amp;enterid=1704001437&amp;from_msgid=2648751621&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;scene=21#wechat_redirect">茶桁的
+AI 秘籍 - BI 篇</a> 第 17 篇」</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/茶桁的AI秘籍_核心BI_17.png"
+alt="茶桁的AI秘籍_核心BI_17" /></p>
+<span id="more"></span>
+<p>[TOC]</p>
+<p>Hi， 你好。我是茶桁。</p>
+<p>今天给大家介绍另外一个方法：surprise。重点来看一下 surprise
+的一些工具的使用。</p>
+<p>在此之前，来说明一下 Spark
+单机的分布式。其实分布式是一个方法，它把一个数据分成了很多块，这些块是相对独立的，在最后的结果层再把它进行汇总，这个就是一个分布式的概念。那为什么一台机器也可以？</p>
+<p>分布式的数据可以放到多台机器，一个数据分成了很多块，块 1 在机器 1
+里面，块 2 在机器 2 里面，块 3 在机器 3
+里面，分成了不同的块。这样的存储是分布的，计算也是分布的，最后计算完再进行汇总，这个就是分布式的概念。</p>
+<p>原来在三台机器的数据现在放在一台机器可不可以？也可以，当你数据量级不大的情况下它也有可能都是在一台机器，在一台机器上分块进行操作这也是
+OK 的。所以本身 Spark 是可以单机来进行运行的。</p>
+<p>通常情况下，是放在多台机器的性能高还是放在一台机器的性能高？多台机器它的效率会更高，因为计算资源，每一台机器都是相对独立的一台机器，毕竟内存和计算
+CPU 是有限的，要共用一个效率其实不高，肯定是多台机器高。</p>
+<p>因此 Spark
+是可以有单机版在单台机器来进行使用，但是它背后的原理也是分布式。它是把其看成了块
+1、块 2，只不过指向的 IP 都是同一个 IP，计算资源都是同一个 CPU
+而已。</p>
+<h2 id="目标函数的优化方法">目标函数的优化方法</h2>
+<p>接着，来看看 SGD 的概念。</p>
+<p>之前的课程主要给大家讲解了交替最小二乘这种方式，随机梯度下降也是在机器学习的模型中比较常见的一个策略。这个策略怎么去学？</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231217135954.png"
+alt="20231217135954" /></p>
+<p>以 X0 这个点为例，目标是要最小值，这是 loss function
+的极值问题，这个点现在在这还是有损失的。怎么办，要沿着切线去下降，沿着切线往下去走。步子如果迈的过大，就会跑到曲线右边，再大一点又会跑到左边，所以它就会出现不同的抖动情况。</p>
+<p>SGD
+就是怎么样去选择这个方向。方向很重要，在参数拟合过程中一个是方向，一个是步长。SGD
+基本思路就是以随机方式遍历训练集中的数据，并给出每个已知评分的预测评分。用户和物品特征向量的调整就沿着评分误差越来越小的方向迭代进行，直到误差达到要求。所以
+SGD 不需要遍历所有的样本即可完成特征向量的求解。</p>
+<p>先看这个概念，看一个线性回归的一个例子，用它来去模拟的 y。</p>
+<p><span class="math display">\[
+\begin{align*}
+h_{\theta}(x) = \theta_0 + \theta_1x_1 + \theta_2x_2 + ... + \theta_nx_n
+\end{align*}
+\]</span></p>
+<p>以上是预测的方程，其中 theta 为参数，代表权重，n 为特征数。它跟 y
+之间用 MSE 去做一个表达，希望让损失函数最小化。</p>
+<p><span class="math display">\[
+\begin{align*}
+J(\theta) = \frac{1}{2} \sum_{i=1}^m(h_{\theta}(x) - y)^2
+\end{align*}
+\]</span></p>
+<p>这样的话每一次要学习的过程其实不长。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231217144144.png"
+alt="20231217144144" /></p>
+<p>处于山中的某个位置，不知道极值点在哪里，每一步都以下降最多的路线来下山。</p>
+<p><span class="math display">\[
+\begin{align*}
+\theta_j = \theta_j - \alpha \bigtriangledown J(\theta)
+\end{align*}
+\]</span></p>
+<p>这里的 alpha
+代表的是学习率（步长），这个步长是沿着梯度的方式，就是沿着 loss
+function，对它的参数的一个导数，沿着它来进行下降。</p>
+<p>曲面上方向导数的最大值的方向代表了梯度的方向。沿着梯度方向，会让 h
+值升高，因此需要沿着梯度的反方向，也就是采用地图下降的方式进行权重更新。</p>
+<p>每次的更新，梯度下降是沿着导数的反方向来进行下降的。那么 theta
+就减去了这个方向，它就会前进一步。<code>=</code> 后面的 theta
+是原参数，<code>=</code> 前面的是更新之后的参数，被赋予了新值。</p>
+<p>所以参数每一轮都会进行不断的迭代，不断的优化。那选择这个方向重要不重要呢？这个方向很重要。来看看更新的过程。</p>
+<p><span class="math display">\[
+\begin{align*}
+\theta_j &amp; = \theta_j - \alpha\frac{\partial}{\partial
+\theta_j}J(\theta) \\
+\frac{\partial}{\partial \theta_j}J(\theta) &amp; =
+\frac{\partial}{\partial\theta_j}\frac{1}{2}(h_{\theta}(x)-y)^2 \\
+&amp; = 2 \cdot
+\frac{1}{2}(h_{\theta}(x)-y)\cdot\frac{\partial}{\partial
+\theta_j}(h_{\theta}(x)-y) \\
+&amp; = (h_{\theta(x) - y}) \cdot \frac{\partial}{\partial\theta_j}
+\left[ \sum_{i=0}^n \theta_ix_i - y \right] \\
+&amp; = (h_{\theta}(x) - y)x_j
+\end{align*}
+\]</span></p>
+<p>这是它的导数过程，方向有三种方向</p>
+<ul>
+<li>批量梯度下降</li>
+<li>随机梯度下降</li>
+<li>mini-batch 梯度下降</li>
+</ul>
+<p>这三个咱们在机器学习的基础课中都有详细的讲解过其原理。大家可以回过头去好好看看相关的课程。这里简单说一下这三种方向的一个特点。</p>
+<p>批量梯度下降，在每次更新时用所有样本，稳定，收敛慢。</p>
+<p>随机梯度下降，每次更新时用 1 个样本，用 1
+个样本来近似所有的样本，更快收敛，最终解在全局最优解附近。</p>
+<p>而 mini-batch 梯度下降每次更新时用 b
+个样本，折中的方法，速度较快。</p>
+<p>这也是一个比较常见的概念，未来不管是面试的时候还是在使用优化方法的时候都可以去了解采用的方法是哪一种方法。随机下降会使用更多，它虽然每次都是随机一个但是速度会更快，相对来说
+SGD 的使用场景会比较多。</p>
+<p>其实目标函数优化方法已经不仅仅是 SGD，SGD
+是最早提出来的，后面还有很多种。现在用的更多的是 Adam，
+它综合了很多个方法，这个后面有时间再详细给大家进行讲解。SGD
+也有一些缺点。在梯度过程比较常见的是刚才说的这三种。</p>
+<h2 id="baseline-算法">Baseline 算法</h2>
+<p>ALS 和 SGD 是可以用于很多的优化方法，这里给大家看 surprise
+的一种：baseline。它要求解的是预估一个电影的评分，结果是 <span
+class="math inline">\(b_{ui}\)</span>，把这个评分结果拆成了 3
+个指标，</p>
+<p><span class="math display">\[
+b_{ui} = \mu + b_u + b_i
+\]</span></p>
+<p>mu 是均指，大盘平均的分数。<span class="math inline">\(b_u\)</span>
+是用户偏差，<span class="math inline">\(b_i\)</span> 是商品偏差。</p>
+<p>举个例子，还是以前几节课中的 MovieLens
+那个电影为例。在那个电影中有一部电影叫做泰坦尼克号，这个电影拍的比较好，它的
+<span class="math inline">\(b_i\)</span> 是正向的，多了 0.5 分。在
+MovieLens 里面它整个的评分是 3.7 分。</p>
+<p>这个值是直接计算来的，直接把所有电影相加以后除上总数就可以得到评分值。还有
+<span class="math inline">\(b_u\)</span>
+是用户偏好，比如说这个用户比较苛刻，比一般的人打的分要低，低 0.3
+分。那么这个苛刻一点的人给泰坦尼克号会打多少分？</p>
+<p>如果利用这个公式就直接可以求出来，这是一个简单的建模过程。把用户和电影之间的交互拆成了三段，大盘分，用户的偏好分和商品的偏好分。这个苛刻的人对泰坦尼克号会打多少分，就直接把这
+3 个数值做一个相加，应该等于 3.9 分。这就是 baseline
+的一个策略，用户对商品的评分分成了 <span class="math inline">\(\mu + b_u
++ b_i\)</span>。</p>
+<p>要学的参数是哪一个？mu 是直接求出来的，<span
+class="math inline">\(b_u\)</span> 和 <span
+class="math inline">\(b_i\)</span> 是要去学的内容。这个 baseline
+方法没有做个性化的偏好，做的是整体的偏差。</p>
+<p>一个苛刻的人，假设他对所有电影都倾向于比一般的人要低 0.3。<span
+class="math inline">\(b_i\)</span>
+是这个商品整体的评分，假设所有人都会认为它比一般的电影要好 0.5
+分，其实并不一定，有些人可能就不喜欢这种类型的电影，有些人可能会更加喜欢。现在不考虑那种个性化的偏好，只考虑那些对整体的评价，所以这个参数要学的应该就是
+<span class="math inline">\(b_u\)</span> 和 <span
+class="math inline">\(b_i\)</span>，<span
+class="math inline">\(b_u\)</span> 和 <span
+class="math inline">\(b_i\)</span> 要进行学习。</p>
+<p><span class="math display">\[
+\begin{align*}
+min_{b_u}\sum_{(u，i)\in k}(r_{ui} - \mu - b_u - b_i)^2 +
+\lambda_1(\sum_{u}b_u^2 + \sum_ib_i^2)
+\end{align*}
+\]</span></p>
+<p>这个方法有点像之前给大家介绍的 ALS
+方法？从定义上来去看的话很类似，都是原来的实际分减出预测出来的分，再加上后面的正则化项。不过区别也是有的，哪种方法计算量会更简化一些？是之前给大家讲的
+ALS 方法更简单，速度更快，还是 baseline 这个方法速度更快?</p>
+<p>如果做的是个机器学习的建模，要衡量的是要学习的参数量是多少。那
+baseline 更快，因为参数量更小，<span class="math inline">\(b_u\)</span>
+和 <span class="math inline">\(b_i\)</span> 只需要计算它整体的过程。</p>
+<p>之前是有个 k 的概念，k 等于 3
+，要把一个用户分成三种情况，商品分成三种情况。而现在可以把它看成一种特殊的
+k 等于 1。相当于只需要把一个 k 变成 1，就类似于变成一个
+baseline。就之前讲解的<code>12 * 3</code>和<code>3 * 9</code>两个矩阵，user
+和 item， 只需要 user 的一列，item 矩阵也只需要一行就行了。</p>
+<p>这就是 k 等于 1 的一种情况，只需要快速的计算一下 k = 1，这是 baseline
+的一个特点。</p>
+<p>它使用的方法也可以使用 ALS，ALS 就固定一个求解另一个。现在 k=1，k=1
+它不是矩阵而是向量了。可以固定一个向量 <span
+class="math inline">\(b_u\)</span> 求另一个 <span
+class="math inline">\(b_i\)</span>，再把 <span
+class="math inline">\(b_i\)</span> 固定下来以后再去求 <span
+class="math inline">\(b_u\)</span> 就可以了。所以 baseline
+的速度会稍微快一点点。</p>
+<p>each item i we set:</p>
+<p><span class="math display">\[
+\begin{align*}
+b_i = \frac{\sum_{u:(u，i)\in k}(r_{ui} - \mu)}{\lambda_2 +
+|{u|(u，i)\in k}|}
+\end{align*}
+\]</span></p>
+<p>Then， for each user u we set:</p>
+<p><span class="math display">\[
+\begin{align*}
+b_u = \frac{\sum_{i:(u，i)\in k}(r_{ui} - \mu - b_i)}{\lambda_3 +
+|{i|(u，i)\in k}|}
+\end{align*}
+\]</span></p>
+<h2 id="surprise-推荐系统工具">Surprise 推荐系统工具</h2>
+<p>baseline 是在 surprise 里的一个工具，surprise 又是 scikit
+系列中的一个推荐系统库。文档：https://surprise.readthedocs.io/en/stable/</p>
+<p>还有一个就是 LightFM，是 Python
+推荐算法库，具有隐式和显式反馈的多种推荐算法实现。易用、快速（通过多线程模型估计），能够产生高质量的结果。</p>
+<p>今天给大家使用的是 surprise，其常用算法包括：</p>
+<ul>
+<li>Baseline 算法</li>
+<li>基于领域的协同过滤</li>
+<li>矩阵分解：SVD， SVD++， PMF， NMF</li>
+<li>SlopeOne 协同过滤算法</li>
+</ul>
+<p>刚才给大家看的 baseline
+是一种比较简略的方法。认为用户的打分求出来的参数是对整体的，商品的好坏也是对整体的。</p>
+<p>除了 baseline 还有一些算法，其实整个的 surprise
+工具箱里面提供了很多可以调包的一些工具：</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>算法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>NormalPredictor()</code></td>
+<td>基于统计的推荐系统预测打分，假定用户打分的分布是基于正太分布的</td>
+</tr>
+<tr class="even">
+<td><code>BaselineOnly</code></td>
+<td>基于统计的基准预测线打分</td>
+</tr>
+<tr class="odd">
+<td><code>knns.KNNBasic</code></td>
+<td>基本的协同过滤算法</td>
+</tr>
+<tr class="even">
+<td><code>knns.KNNWithMeans</code></td>
+<td>协同过滤算法的变种，考虑每个用户的平均评分</td>
+</tr>
+<tr class="odd">
+<td><code>knns.KNNWithZScore</code></td>
+<td>协同过滤算法的变种，考虑每个用户评分的归一化操作</td>
+</tr>
+<tr class="even">
+<td><code>knns.KNNBaseline</code></td>
+<td>协同过滤算法的变种，考虑每个用户评分的基线</td>
+</tr>
+<tr class="odd">
+<td><code>matrix_factorzation.SVD</code></td>
+<td>SVD 矩阵分解算法</td>
+</tr>
+<tr class="even">
+<td><code>matrix_factorzation.SVDpp</code></td>
+<td>SVD++矩阵分解算法</td>
+</tr>
+<tr class="odd">
+<td><code>matrix_factorzation.NMF</code></td>
+<td>一种非负矩阵的协同过滤算法</td>
+</tr>
+<tr class="even">
+<td><code>SlopeOne</code></td>
+<td>SlopeOne 协同过滤算法</td>
+</tr>
+</tbody>
+</table>
+<p>这是整个的 surprise
+工具箱里面能提供的可以调包的一些工具。baselineOnly 是基线，一般来说看到
+baseline
+的基线都可以猜测到它的方法速度会比较快，但是准确率可能相对一般，拿个六七十分应该问题不大。</p>
+<h2 id="surprise-进行-movielens-电影推荐">Surprise 进行 MovieLens
+电影推荐</h2>
+<p>要用的话，还是直接去调包 surprise:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> surprise <span class="hljs-keyword">import</span> Dataset<br><span class="hljs-keyword">from</span> surprise <span class="hljs-keyword">import</span> Reader<br><span class="hljs-keyword">from</span> surprise <span class="hljs-keyword">import</span> BaselineOnly， KNNBasic<br><span class="hljs-keyword">from</span> surprise <span class="hljs-keyword">import</span> accuracy<br><span class="hljs-keyword">from</span> surprise.model_selection <span class="hljs-keyword">import</span> KFold<br></code></pre></td></tr></table></figure>
+<p>surprise 里面这个类 Dataset 和
+Reader，相当是自己的一个读数的工具，你可以把它理解成是个读卡器。这个读卡器需要设定一些格式，通过这个格式会转成一个内部格式。</p>
+<p>先是读入一些数据，build 一下训练集：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">reader = Reader(line_format=<span class="hljs-string">&#x27;user item rating timestamp&#x27;</span>， sep=<span class="hljs-string">&#x27;，&#x27;</span>， skip_lines=<span class="hljs-number">1</span>)<br>data = Dataset.load_from_file(<span class="hljs-string">&#x27;dataset/movies/ratings.csv&#x27;</span>， reader=reader)<br>train_set = data.build_full_trainset()<br></code></pre></td></tr></table></figure>
+<p>所以先去引用一下它的 reader，从 CSV 里面进行读取得到一个
+data，这是它内部的 dataset，然后再把这个内部 dataset 调入一个 build
+trainset，一个函数，这样它就会自动生成一个训练集。这是它写好的一个内置函数，不需要你做
+train set 了。</p>
+<p>生成的这个训练集以后在 surprise 里面要用 baselineOnly
+这个方法创建这个包。在设置参数过程中有几个比较重要的项，一个是优化方法可以指定
+ALS、epoch，也就是迭代轮次，还有 <span
+class="math inline">\(r_u\)</span> 和 <span
+class="math inline">\(r_i\)</span>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">bsl_options = &#123;<span class="hljs-string">&#x27;method&#x27;</span>:<span class="hljs-string">&#x27;als&#x27;</span>， <span class="hljs-string">&#x27;n_epochs&#x27;</span>:<span class="hljs-number">5</span>， <span class="hljs-string">&#x27;reg_u&#x27;</span>:<span class="hljs-number">12</span>， <span class="hljs-string">&#x27;reg_i&#x27;</span>:<span class="hljs-number">5</span>&#125;<br></code></pre></td></tr></table></figure>
+<p>reg_i 和 reg_u 是正动化系数，再去求 i 和 u
+的过程中正动化系数也可以会有一些不一样的地方。</p>
+<p>然后又设定了一个 k 折交叉验证，其实不设验证直接去 fit 也可以。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 定义 K 折交叉验证迭代器， k=3</span><br>kf = KFold(n_splits = <span class="hljs-number">3</span>)<br></code></pre></td></tr></table></figure>
+<p>fit 以后得到一个结果，然后去 test 得到一个结果。k 折交叉验证是得到 3
+折，把这 3 个结果都给它输入出来：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">for</span> trainset， testset <span class="hljs-keyword">in</span> kf.split(data):<br>  <span class="hljs-comment"># 训练并预测</span><br>  algo.fit(trainset)<br>  predictions = algo.test(testset)<br>  <span class="hljs-comment"># 计算 RMSE</span><br>  accuracy.rmse(predictions， verbose=<span class="hljs-literal">True</span>)<br>  <span class="hljs-comment"># 每个模型提供 1/3 的结果</span><br>  pred = algo.predict(uid， iid， r_ui=<span class="hljs-number">4</span>， verbose=<span class="hljs-literal">False</span>)<br>  <span class="hljs-built_in">print</span>(pred)<br></code></pre></td></tr></table></figure>
+<p>除了 ALS 以外，还可以做
+SGD。因为它也是优化方法，只要把学习的目标定义出来就可以采用不同的优化侧面来进行求解。</p>
+<p>预测结果是指定用户和指定商品，<span
+class="math inline">\(r_{ui}\)</span>
+代表实际值。可以看一看它跟实际值之间的偏差会有多少</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">Estimating</span> biases using als...<br><span class="hljs-attribute">RMSE</span>: <span class="hljs-number">0</span>.<span class="hljs-number">8615</span><br><span class="hljs-attribute">user</span>: <span class="hljs-number">196</span>        item: <span class="hljs-number">302</span>        r_ui = <span class="hljs-number">4</span>.<span class="hljs-number">00</span>   est = <span class="hljs-number">4</span>.<span class="hljs-number">18</span>   &#123;&#x27;was_impossible&#x27;: False&#125;<br><span class="hljs-attribute">Estimating</span> biases using als...<br><span class="hljs-attribute">RMSE</span>: <span class="hljs-number">0</span>.<span class="hljs-number">8626</span><br><span class="hljs-attribute">user</span>: <span class="hljs-number">196</span>        item: <span class="hljs-number">302</span>        r_ui = <span class="hljs-number">4</span>.<span class="hljs-number">00</span>   est = <span class="hljs-number">4</span>.<span class="hljs-number">09</span>   &#123;&#x27;was_impossible&#x27;: False&#125;<br><span class="hljs-attribute">Estimating</span> biases using als...<br><span class="hljs-attribute">RMSE</span>: <span class="hljs-number">0</span>.<span class="hljs-number">8679</span><br><span class="hljs-attribute">user</span>: <span class="hljs-number">196</span>        item: <span class="hljs-number">302</span>        r_ui = <span class="hljs-number">4</span>.<span class="hljs-number">00</span>   est = <span class="hljs-number">4</span>.<span class="hljs-number">11</span>   &#123;&#x27;was_impossible&#x27;: False&#125;<br></code></pre></td></tr></table></figure>
+<p>这相当于做了 3 个子模型，每个子模型都去判断一下 196 这个用户对 302
+的电影的偏差。</p>
+<p>可以看到这 3 个子模型 MSE
+其实差别不太大，基本差不多。求出来这个结果实际值 4.0，预测出来是
+4.18，4.09， 4.11。基本上差别不太大。</p>
+<p>以上是用了
+baselineOnly，虽然是一个基线的方法，但是结果差别也不是很大，还算是比较准确的。</p>
+<p>surprise 里面除了 baselineOnly，还有一个
+NormalPredictor，这个方式今天没有详细讲，其实你也可以调包去使用。它背后的原理是拟合一个正态分布，通过拟合的正态分布给出一个预测出来的值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python">algo = NormalPredictor()<br><br><span class="hljs-comment"># 定义 k 折交叉验证迭代器 k=3</span><br>kf = KFold(n_splits=<span class="hljs-number">3</span>)<br><span class="hljs-keyword">for</span> trainset， testset <span class="hljs-keyword">in</span> kf.split(data):<br>  algo.fit(trainset)<br>  predictions = algo.test(testset)<br>  accuracy.rmse(predictions， verbose=<span class="hljs-literal">True</span>)<br>  pred=algo.predict(uid， iid， r_ui=<span class="hljs-number">4</span>， verbose=<span class="hljs-literal">False</span>)<br>  <span class="hljs-built_in">print</span>(pred)<br></code></pre></td></tr></table></figure>
+<p>好，下一节课咱们来看看 Surprise 里的另外一个协同过滤方法，SlopeOne
+算法。</p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>17. BI - Surprise 工具箱：Baseline</p><p><a href="https://hivan.me/17. BI - Surprise工具箱：Baseline/">https://hivan.me/17. BI - Surprise工具箱：Baseline/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2024-02-28</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2024-02-28</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a><a class="link-muted mr-2" rel="tag" href="/tags/BI/">BI</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/16.%20BI%20-%20%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E4%B9%8BALS%E5%AE%9E%E7%8E%B0/"><span class="level-item">16. BI - 推荐系统之 ALS 实现</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/17.%20BI%20-%20Surprise%E5%B7%A5%E5%85%B7%E7%AE%B1%EF%BC%9ABaseline/';
+            this.page.identifier = '17. BI - Surprise工具箱：Baseline/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI 游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">223</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">6</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">22</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI 秘籍</span></span><span class="level-end"><span class="level-item tag">81</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/"><span class="level-start"><span class="level-item">BI</span></span><span class="level-end"><span class="level-item tag">17</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">33</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-27T23:30:00.000Z">2024-02-28</time></p><p class="title"><a href="/17.%20BI%20-%20Surprise%E5%B7%A5%E5%85%B7%E7%AE%B1%EF%BC%9ABaseline/">17. BI - Surprise 工具箱：Baseline</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-24T23:30:00.000Z">2024-02-25</time></p><p class="title"><a href="/16.%20BI%20-%20%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E4%B9%8BALS%E5%AE%9E%E7%8E%B0/">16. BI - 推荐系统之 ALS 实现</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-20T23:30:00.000Z">2024-02-21</time></p><p class="title"><a href="/15.%20BI%20-%20%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E4%B9%8BALS%E5%8E%9F%E7%90%86/">15. BI - 推荐系统之 ALS 原理</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-15T23:30:00.000Z">2024-02-16</time></p><p class="title"><a href="/14.%20BI%20-%20%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E4%B9%8B%E7%9F%A9%E9%98%B5%E5%88%86%E8%A7%A3/">14. BI - 推荐系统之矩阵分解</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-10T23:30:00.000Z">2024-02-11</time></p><p class="title"><a href="/13.%20BI%20-%20%E5%8F%AF%E8%A7%86%E5%8C%96%E7%9C%8B%E6%9D%BF%E5%8F%91%E5%B8%83/">13. BI - 可视化看板发布</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2024 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

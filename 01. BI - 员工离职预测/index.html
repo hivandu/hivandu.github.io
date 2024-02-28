@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>01. BI - Project one, 员工离职预测 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content=""><meta property="og:type" content="blog"><meta property="og:title" content="01. BI - Project one, 员工离职预测"><meta property="og:url" content="https://hivan.me/01.%20BI%20-%20%E5%91%98%E5%B7%A5%E7%A6%BB%E8%81%8C%E9%A2%84%E6%B5%8B/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2023-12-30T23:30:00.000Z"><meta property="article:modified_time" content="2024-01-03T08:32:51.046Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="article:tag" content="BI"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/01.%20BI%20-%20%E5%91%98%E5%B7%A5%E7%A6%BB%E8%81%8C%E9%A2%84%E6%B5%8B/"},"headline":"01. BI - Project one, 员工离职预测","image":[],"datePublished":"2023-12-30T23:30:00.000Z","dateModified":"2024-01-03T08:32:51.046Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":""}</script><link rel="canonical" href="https://hivan.me/01.%20BI%20-%20%E5%91%98%E5%B7%A5%E7%A6%BB%E8%81%8C%E9%A2%84%E6%B5%8B/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><script>var _hmt = _hmt || [];
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>01. BI - Project one, 员工离职预测 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content=""><meta property="og:type" content="blog"><meta property="og:title" content="01. BI - Project one, 员工离职预测"><meta property="og:url" content="https://hivan.me/01.%20BI%20-%20%E5%91%98%E5%B7%A5%E7%A6%BB%E8%81%8C%E9%A2%84%E6%B5%8B/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2023-12-30T23:30:00.000Z"><meta property="article:modified_time" content="2024-01-16T08:25:04.780Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="article:tag" content="BI"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/01.%20BI%20-%20%E5%91%98%E5%B7%A5%E7%A6%BB%E8%81%8C%E9%A2%84%E6%B5%8B/"},"headline":"01. BI - Project one, 员工离职预测","image":[],"datePublished":"2023-12-30T23:30:00.000Z","dateModified":"2024-01-16T08:25:04.780Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":""}</script><link rel="canonical" href="https://hivan.me/01.%20BI%20-%20%E5%91%98%E5%B7%A5%E7%A6%BB%E8%81%8C%E9%A2%84%E6%B5%8B/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><script>var _hmt = _hmt || [];
         (function() {
             var hm = document.createElement("script");
             hm.src = "//hm.baidu.com/hm.js?f91b64734fdc7bfb999e48f9248d44dd";
@@ -40,20 +40,24 @@
       window.addEventListener('hashchange', switchTab, false);
   })();
   </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
-</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2023-12-30T23:30:00.000Z" title="12/31/2023, 7:30:00 AM">2023-12-31</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a><span> / </span><a class="link-muted" href="/categories/AI%E7%A7%98%E7%B1%8D/BI/">BI</a></span></div></div><h1 class="title is-3 is-size-4-mobile">01. BI - Project one, 员工离职预测</h1><div class="content"><p><img
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2023-12-30T23:30:00.000Z" title="12/31/2023, 7:30:00 AM">2023-12-31</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a><span> / </span><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></span></div></div><h1 class="title is-3 is-size-4-mobile">01. BI - Project one, 员工离职预测</h1><div class="content"><p><img
 src="https://raw.githubusercontent.com/hivandu/notes/main/img/202311142107687.png"
 alt="Alt text" /></p>
 <span id="more"></span>
 <p>[TOC]</p>
 <p>Hi，你好。我是茶桁。</p>
 <p>又是开始了一个新的阶段。我不建议一些没基础的同学直接从这里开始，还是要先去之前的课程里补补基础。有的时候即便依葫芦画瓢的把代码写出来了，但是基本原理不清楚。而有的时候，则可能听都听不懂。</p>
-<p>好了，接下来的课程里，我给大家讲解一下机器学习的预测神器。就是是XGBoost，LightGBM以及CatBoost这样的一些方法。这个方法在后续的机器学习工作中会经常使用到。不光是在工作中使用，如果你打一些比赛，也是一个必知必会的模型，基本上属于TOP3的级别。</p>
+<p>好了，接下来的课程里，我给大家讲解一下机器学习的预测神器。就是是
+XGBoost，LightGBM 以及 CatBoost
+这样的一些方法。这个方法在后续的机器学习工作中会经常使用到。不光是在工作中使用，如果你打一些比赛，也是一个必知必会的模型，基本上属于
+TOP3 的级别。</p>
 <p>在讲解机器学习神器之前要给大家看一看比较常见的预测的全家桶。</p>
-<p>首先先看一个题目，这个数据是一个「员工离职的预测」，第二个项目是关于「男女声音的识别」。这两个项目里面我们都是要做一些分类任务，所以会有一些分类算法的讲解，包括LR，SVM和KNN。矩阵分解我们会用到，FunkSVD，
-BiasSVD以及SVD++，
-还有就是树模型，除了上面我提到的神器之外，还有GBDT以及NGBoost。</p>
+<p>首先先看一个题目，这个数据是一个「员工离职的预测」，第二个项目是关于「男女声音的识别」。这两个项目里面我们都是要做一些分类任务，所以会有一些分类算法的讲解，包括
+LR，SVM 和 KNN。矩阵分解我们会用到，FunkSVD， BiasSVD 以及 SVD++，
+还有就是树模型，除了上面我提到的神器之外，还有 GBDT 以及 NGBoost。</p>
 <p>那三种机器学习的神器应该是属于必知必会的内容，未来在工作中基本上大家都掉包就可以。那很多人都知道，我们的工作会被戏称为掉包侠，这个是你入职之后可以调包，但是入职之前面试官经常会考一些问题，考察一下你对原理是不是了解。我建议大家第一次学习的时候还是要了解一下它背后的一些原理，这样使用的时候你会更有感觉。</p>
-<p>我在这第一节课上先做一个调查，就是小伙伴们对这3种方法有了解的同学可以在下面进行留言。那我们还是先要去了解原理再去理解工具的使用。在项目中我们会使用这些工具去解决我们的问题。</p>
+<p>我在这第一节课上先做一个调查，就是小伙伴们对这 3
+种方法有了解的同学可以在下面进行留言。那我们还是先要去了解原理再去理解工具的使用。在项目中我们会使用这些工具去解决我们的问题。</p>
 <p>接下来，咱们先看一张图：</p>
 <p><img
 src="https://raw.githubusercontent.com/hivandu/notes/main/img/202311142107688.png"
@@ -65,74 +69,114 @@ alt="Alt text" /></p>
 <p><img
 src="https://raw.githubusercontent.com/hivandu/notes/main/img/202311142107689.png"
 alt="Alt text" /></p>
-<p>这个项目是来自于Kaggle开过的一场比赛，大家可以去这里去查看项目本身，也可以在这里下载相关数据集：https://www.kaggle.com/competitions/bi-attrition-predict/</p>
-<p>题目要做的是员工离职预测，有一些员工的属性，这些属性包括了公司、出差信息、工作满意度、投入度、加班等等。大概有31个feature，这31个feature要去预测那个y,
-target，一会儿可以看一看咱们这个target是什么，大家可以跟我一起来看一下。</p>
+<p>这个项目是来自于 Kaggle
+开过的一场比赛，大家可以去这里去查看项目本身，也可以在这里下载相关数据集：https://www.kaggle.com/competitions/bi-attrition-predict/</p>
+<p>题目要做的是员工离职预测，有一些员工的属性，这些属性包括了公司、出差信息、工作满意度、投入度、加班等等。大概有
+31 个 feature，这 31 个 feature 要去预测那个 y,
+target，一会儿可以看一看咱们这个 target
+是什么，大家可以跟我一起来看一下。</p>
 <p><img
 src="https://raw.githubusercontent.com/hivandu/notes/main/img/202311142107691.png"
 alt="Alt text" /></p>
-<p>这些数据的字段，Age, Attrition,
-businessTravel等等，那想从这里面的词段里面找到一下我们要预测的那个字段，看一看是哪一个字段。</p>
-<p>我们要做的任务是员工离职预测任务，首先拿到这个题目要思考的问题是我们要去选用怎样的模型。我们当前的任务应该是典型的分类任务，而且是一个2分类问题。我们需要预测它是yes还是no。所以，我们要预测Attrition字段。除此之外，所有此段都属于它的特征，大概是在31个特征维度。</p>
+<p>这些数据的字段，Age, Attrition, businessTravel
+等等，那想从这里面的词段里面找到一下我们要预测的那个字段，看一看是哪一个字段。</p>
+<p>我们要做的任务是员工离职预测任务，首先拿到这个题目要思考的问题是我们要去选用怎样的模型。我们当前的任务应该是典型的分类任务，而且是一个
+2 分类问题。我们需要预测它是 yes 还是 no。所以，我们要预测 Attrition
+字段。除此之外，所有此段都属于它的特征，大概是在 31 个特征维度。</p>
 <p>这些特征一般来说把它分成两种，一种叫做类别，还有一种叫做数值。关于类别和数值有什么区别，我们曾经在机器学习的篇章里给大家有详细的解释。</p>
-<p>来看一看哪些是类别特征，第3个字段businessTravel，应该属于类别特征，是一个三分类的特征。那第四个字段DailyRate，这个可能就是一个数值类型。所以变量可以把它分成类别特征和数值类型特征。这两种之间还是有比较明显的区别的。</p>
-<p>有些时候我们可以看一看，比如WorkLifeBalance, 工作与生活平衡程度,
-1-4。那咱们分析一下，这样的一个词段是类别特征还是数值类型？有些情况我们看到它也是个数字啊，1-4，从这个个数去看的话我们可以把它看成分类，更接近于类别。但是这种类别特征又有区别于我们以往的类别特征。因为1-4的话，它是有顺序关系的，所以它又具有数值的一些属性、数值特征，就是一个明显的数顺序关系。</p>
+<p>来看一看哪些是类别特征，第 3 个字段
+businessTravel，应该属于类别特征，是一个三分类的特征。那第四个字段
+DailyRate，这个可能就是一个数值类型。所以变量可以把它分成类别特征和数值类型特征。这两种之间还是有比较明显的区别的。</p>
+<p>有些时候我们可以看一看，比如 WorkLifeBalance, 工作与生活平衡程度,
+1-4。那咱们分析一下，这样的一个词段是类别特征还是数值类型？有些情况我们看到它也是个数字啊，1-4，从这个个数去看的话我们可以把它看成分类，更接近于类别。但是这种类别特征又有区别于我们以往的类别特征。因为
+1-4
+的话，它是有顺序关系的，所以它又具有数值的一些属性、数值特征，就是一个明显的数顺序关系。</p>
 <p>所以可以把它理解成是有顺序关系的类别特征。在处理的过程中可以把它看成四个分类，这是没有问题的。但是在运算逻辑上我们要取它的数值大小，不能把它再去做一遍。所以它是属于一个特殊的一个维度。</p>
 <p>针对这个项目怎么做呢？</p>
 <blockquote>
 <p>常用预测（分类、回归）模型： 1. 分类算法: LR, SVM, KNN 2. 矩阵分解：
-FunkSVD, BiasSVD, SVD++ 3. FM模型：FM，FFM，DeepFM，NFM，AFM 4. 树模型：
-GBDT, XGBoost, LightGBM, CatBoost, NGBoost 5. Attention模型：
+FunkSVD, BiasSVD, SVD++ 3. FM 模型：FM，FFM，DeepFM，NFM，AFM 4.
+树模型： GBDT, XGBoost, LightGBM, CatBoost, NGBoost 5. Attention 模型：
 DIN，DIEN，DSIN</p>
 </blockquote>
-<p>我们要看一看预测模型有哪些，典型的机器学习分类器有LR，这个LR应该把它称为叫做logistic
-regression，逻辑回归。还有SVM和KNN，这些是属于传统机器学习的方法。除了这个以外我们还有一些，像CART决策树，这些也都属于机器学习的方法。</p>
+<p>我们要看一看预测模型有哪些，典型的机器学习分类器有 LR，这个 LR
+应该把它称为叫做 logistic regression，逻辑回归。还有 SVM 和
+KNN，这些是属于传统机器学习的方法。除了这个以外我们还有一些，像 CART
+决策树，这些也都属于机器学习的方法。</p>
 <p>矩阵分解它也是一种预测模型，在推荐系统里面我会给大家进行讲解，后面会有详细的推荐系统的章节会使用到。</p>
-<p>还有推荐系统里面会使用到的FM模型，矩阵分解和FM模型都是在推荐算法里面。</p>
+<p>还有推荐系统里面会使用到的 FM 模型，矩阵分解和 FM
+模型都是在推荐算法里面。</p>
 <p>树模型呢，跟分类器是一样的，这两个部分都可以做分类任务，也可以做回归任务。</p>
-<p>Attention是属于一种技术，它也是在推荐系统里面。</p>
-<p>整个处理这道问题的流程，脑海中要先想到我们可以采用哪些模型。就是第1个类别分类任务，还有第4个树模型，这些是可以使用的。</p>
+<p>Attention 是属于一种技术，它也是在推荐系统里面。</p>
+<p>整个处理这道问题的流程，脑海中要先想到我们可以采用哪些模型。就是第 1
+个类别分类任务，还有第 4 个树模型，这些是可以使用的。</p>
 <p>模型要使用的话基本上掉包就可以了，所以大家可以思考一下区别，如果你要得到一个很好的成绩区别在哪？区别是在于模型的使用还是在于特征工程的一个拆解？</p>
 <p>模型使用基本上如果参加项目的时候都掉包，而且参数可能也不会有太大的变化，所以区别应该是在于前面，就是特征工程，好的特征工程是拿分的关键。</p>
-<p>在工作里面也是一样，这31个特征能不能再做一些组合，看看哪些特征之间给你更多的一些启发。所以特征工程在工作中、在项目的比赛中都很关键。这个先记住，这是它的特征工程重要性。</p>
-<p>那我们先看一看模型。第一类的模型像LR，SVM和KNN。先通体上介绍一下，我们怎么去使用这些模型来进行求解。</p>
+<p>在工作里面也是一样，这 31
+个特征能不能再做一些组合，看看哪些特征之间给你更多的一些启发。所以特征工程在工作中、在项目的比赛中都很关键。这个先记住，这是它的特征工程重要性。</p>
+<p>那我们先看一看模型。第一类的模型像 LR，SVM 和
+KNN。先通体上介绍一下，我们怎么去使用这些模型来进行求解。</p>
 <h2 id="数据集处理">数据集处理</h2>
 <p>拿到这个程序，我们前面这个模块是要读取数据，有训练集和测试集，把数据读取进来。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br>train = pd.read_csv(<span class="hljs-string">&#x27;dataset/train.csv&#x27;</span>, index_col=<span class="hljs-number">0</span>)<br>test = pd.read_csv(<span class="hljs-string">&#x27;dataset/test.csv&#x27;</span>, index_col=<span class="hljs-number">0</span>)<br></code></pre></td></tr></table></figure>
-<p>在模型调包之前，还有一项任务是要做数据的探索。数据探索的目的就是看一看这个数据长什么样，给你直观的一个感受。最直接的就是看label，比如<code>Attrition</code>里面它到底长什么样。</p>
+<p>在模型调包之前，还有一项任务是要做数据的探索。数据探索的目的就是看一看这个数据长什么样，给你直观的一个感受。最直接的就是看
+label，比如<code>Attrition</code>里面它到底长什么样。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(train[<span class="hljs-string">&#x27;Attrition&#x27;</span>].value_counts())<br><br>---<br>Attrition<br>No     <span class="hljs-number">988</span><br>Yes    <span class="hljs-number">188</span><br>Name: count, dtype: int64<br></code></pre></td></tr></table></figure>
-<p>非离职的988，离职的188。所以我们可以看到，这个二分类应该是属于不平衡的。就是不离职的类别特征会更多一点，而且它还不是数值类型，如果不是数值类型还要做一个映射处理，所以咱们下面做一个映射处理。yes变为1，no变为0，这样就会把它转化成数值类型。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 处理Attrition 字段</span><br>train[<span class="hljs-string">&#x27;Attrition&#x27;</span>] = train[<span class="hljs-string">&#x27;Attrition&#x27;</span>].<span class="hljs-built_in">map</span>(<span class="hljs-keyword">lambda</span> x:<span class="hljs-number">1</span> <span class="hljs-keyword">if</span> x==<span class="hljs-string">&#x27;Yes&#x27;</span> <span class="hljs-keyword">else</span> <span class="hljs-number">0</span>)<br></code></pre></td></tr></table></figure>
+<p>非离职的 988，离职的
+188。所以我们可以看到，这个二分类应该是属于不平衡的。就是不离职的类别特征会更多一点，而且它还不是数值类型，如果不是数值类型还要做一个映射处理，所以咱们下面做一个映射处理。yes
+变为 1，no 变为 0，这样就会把它转化成数值类型。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 处理 Attrition 字段</span><br>train[<span class="hljs-string">&#x27;Attrition&#x27;</span>] = train[<span class="hljs-string">&#x27;Attrition&#x27;</span>].<span class="hljs-built_in">map</span>(<span class="hljs-keyword">lambda</span> x:<span class="hljs-number">1</span> <span class="hljs-keyword">if</span> x==<span class="hljs-string">&#x27;Yes&#x27;</span> <span class="hljs-keyword">else</span> <span class="hljs-number">0</span>)<br></code></pre></td></tr></table></figure>
 <p>还有一些数据探索比较关键是看一看我们的缺失值的个数。这个我们用<code>isna.sum()</code>来进行判断。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 查看数据中每列是否有空值</span><br><span class="hljs-built_in">print</span>(train.isna().<span class="hljs-built_in">sum</span>())<br><br>---<br>Age                         <span class="hljs-number">0</span><br>...<br>YearsWithCurrManager        <span class="hljs-number">0</span><br>dtype: int64<br></code></pre></td></tr></table></figure>
 <p>可以看到数据还是比较完善的，没有什么缺失值。如果缺失值的话在模型预测之前可能需要做一个缺失值补全的任务。</p>
-<p>在探索过程中能发现一个问题，就是有个字段叫<code>EmployeeNumber</code>，这个字段是员工号码，对我们的这个判断来说这个字段应该是没有意义的。为什么没有意义我们可以通过value
-counts来看一看。</p>
+<p>在探索过程中能发现一个问题，就是有个字段叫<code>EmployeeNumber</code>，这个字段是员工号码，对我们的这个判断来说这个字段应该是没有意义的。为什么没有意义我们可以通过
+value counts 来看一看。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(train[<span class="hljs-string">&#x27;EmployeeNumber&#x27;</span>].value_counts())<br><br>---<br>EmployeeNumber<br><span class="hljs-number">1938</span>    <span class="hljs-number">1</span><br>...<br><span class="hljs-number">954</span>     <span class="hljs-number">1</span><br>Name: count, Length: <span class="hljs-number">1176</span>, dtype: int64<br></code></pre></td></tr></table></figure>
-<p>她没有太多其他维度的特征，所以这个字段在入模之前可以给它drop掉。</p>
+<p>她没有太多其他维度的特征，所以这个字段在入模之前可以给它 drop
+掉。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">train = train.drop([<span class="hljs-string">&#x27;EmployeeNumber&#x27;</span>], axis=<span class="hljs-number">1</span>)<br></code></pre></td></tr></table></figure>
-<p>还有，<code>StandardHours</code>觉得有意义吗? 它都等于80,
-一共是1,176个人，所有值都一样。那我们一样，可以给它去掉。就变成:</p>
+<p>还有，<code>StandardHours</code>觉得有意义吗? 它都等于 80, 一共是
+1,176 个人，所有值都一样。那我们一样，可以给它去掉。就变成:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">train = train.drop([<span class="hljs-string">&#x27;EmployeeNumber&#x27;</span>, <span class="hljs-string">&#x27;StandardHours&#x27;</span>], axis=<span class="hljs-number">1</span>)<br></code></pre></td></tr></table></figure>
-<p>这里，我们对训练集和测试集采用同样的操作，直接给它drop掉了。</p>
+<p>这里，我们对训练集和测试集采用同样的操作，直接给它 drop 掉了。</p>
 <p>这其中的属性<code>axis=1</code>是表示按列的方式进行操作。</p>
-<p>我们找一找分类特征, 分类特征有一种方式,
-我们可以将它的info属性打印出来看看。</p>
+<p>我们找一找分类特征, 分类特征有一种方式, 我们可以将它的 info
+属性打印出来看看。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python">train.info()<br><br>---<br>&lt;<span class="hljs-keyword">class</span> <span class="hljs-string">&#x27;pandas.core.frame.DataFrame&#x27;</span>&gt;<br>Index: <span class="hljs-number">1176</span> entries, <span class="hljs-number">1374</span> to <span class="hljs-number">684</span><br>Data columns (total <span class="hljs-number">35</span> columns):<br> <span class="hljs-comment">#   Column                    Non-Null Count  Dtype </span><br>---  ------                    --------------  ----- <br> <span class="hljs-number">0</span>   Age                       <span class="hljs-number">1176</span> non-null   int64 <br>...<br> <span class="hljs-number">34</span>  YearsWithCurrManager      <span class="hljs-number">1176</span> non-null   int64 <br>dtypes: int64(<span class="hljs-number">27</span>), <span class="hljs-built_in">object</span>(<span class="hljs-number">8</span>)<br>memory usage: <span class="hljs-number">330.8</span>+ KB<br></code></pre></td></tr></table></figure>
-<p>里面有一个Dtype，这个值就是表示是什么类型的数据，如果是<code>int64</code>代表的就是数值类，那就不属于类别，我们就把<code>object</code>类型给它取出来。</p>
+<p>里面有一个
+Dtype，这个值就是表示是什么类型的数据，如果是<code>int64</code>代表的就是数值类，那就不属于类别，我们就把<code>object</code>类型给它取出来。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">attr=[<span class="hljs-string">&#x27;Age&#x27;</span>,<span class="hljs-string">&#x27;BusinessTravel&#x27;</span>,<span class="hljs-string">&#x27;Department&#x27;</span>,<span class="hljs-string">&#x27;Education&#x27;</span>,<span class="hljs-string">&#x27;EducationField&#x27;</span>,<span class="hljs-string">&#x27;Gender&#x27;</span>,<span class="hljs-string">&#x27;JobRole&#x27;</span>,<span class="hljs-string">&#x27;MaritalStatus&#x27;</span>,<span class="hljs-string">&#x27;Over18&#x27;</span>,<span class="hljs-string">&#x27;OverTime&#x27;</span>]<br></code></pre></td></tr></table></figure>
-<p>这些类别特征是通过筛选object类型来去提出来的，这个是直接写出来了，都属于类别特征。类别特征它就不属于数值类型，在机器学习入模之前，需要把它转换成为数值类型。</p>
-<p>我们可以使用one-hat编码，除此之外，还有什么其他方法方式进行编码吗？数值编码有两种常见的方法，一种是刚才提到的one-hat，还有一种方法的话叫<code>LabelEncoder</code>,
+<p>这些类别特征是通过筛选 object
+类型来去提出来的，这个是直接写出来了，都属于类别特征。类别特征它就不属于数值类型，在机器学习入模之前，需要把它转换成为数值类型。</p>
+<p>我们可以使用 one-hat
+编码，除此之外，还有什么其他方法方式进行编码吗？数值编码有两种常见的方法，一种是刚才提到的
+one-hat，还有一种方法的话叫<code>LabelEncoder</code>,
 我们把它称为叫做标签编码。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">lbe_list=[]<br><span class="hljs-keyword">for</span> feature <span class="hljs-keyword">in</span> attr:<br>    lbe=LabelEncoder()<br>    train[feature]=lbe.fit_transform(train[feature])<br>    test[feature]=lbe.transform(test[feature])<br>    lbe_list.append(lbe)<br></code></pre></td></tr></table></figure>
-<p>如果你有10个类别，这10个类别会分别编码成多少呢？会编码成0-9对吧？</p>
-<p>那针对每一个feature，就是从这个列表里面去进行提取，先去做了一个<code>fit_transform</code>。就是先去fit，同时去做transform，把feature做了一个转换。</p>
-<p>我们是对训练集做了个转换，测试集只要应用就好了。那想想，为什么测试集里面没有做fit？因为训练集你已经fit完了，训练集和测试集标准是统一的，同样的一种编码规则，所以这里就不需要做fit了。</p>
-<p>为什么测试集不用fit，因为我们的编码规则要统一。举个例子，<code>BusinessTravel</code>这个特征，很少旅行我们把它称为叫2，不旅行叫0，经常旅行叫1.在测试集里面我们也有Travel，那如果出现的顺序跟之前的顺序不一样，你还会去做一个fit，它有可能编码的关系就发生了变化。就是说我们的类别特征在训练集里面出现了，在测试集里面也会出现。我们需要让它的编码的规则是一致的，训练集里面如果他指定的<code>Travel_Rarely</code>是2的话，在测试集里面也必须是2。如果我们重新fit，有可能它就不是2而有可能变成1。如果变成1的话两个代表的含义就不一致了，就会造成运算的错误。所以我们在测试集里面是直接应用fit的含义，fit含义的话就是指定关系，fit就是指定我们的label
-encoder的关系。transform是应用这种label encoder的关系进行编码。</p>
-<p>又或者，我们可以将这两个数据集合并一下，合并成一个大的数据集，统一进行fit，fit之后再将它们分开。当然，这样做也是可以的。</p>
-<p>我们就用刚才的LabelEncoder直接做transform，把测试集也做一个编码。编码之后，依次的这个类别特征就编码好了，就可以把它输出出来。你可以看一看他的LabelEncoder的这个逻辑关系。</p>
+<p>如果你有 10 个类别，这 10 个类别会分别编码成多少呢？会编码成 0-9
+对吧？</p>
+<p>那针对每一个
+feature，就是从这个列表里面去进行提取，先去做了一个<code>fit_transform</code>。就是先去
+fit，同时去做 transform，把 feature 做了一个转换。</p>
+<p>我们是对训练集做了个转换，测试集只要应用就好了。那想想，为什么测试集里面没有做
+fit？因为训练集你已经 fit
+完了，训练集和测试集标准是统一的，同样的一种编码规则，所以这里就不需要做
+fit 了。</p>
+<p>为什么测试集不用
+fit，因为我们的编码规则要统一。举个例子，<code>BusinessTravel</code>这个特征，很少旅行我们把它称为叫
+2，不旅行叫 0，经常旅行叫 1.在测试集里面我们也有
+Travel，那如果出现的顺序跟之前的顺序不一样，你还会去做一个
+fit，它有可能编码的关系就发生了变化。就是说我们的类别特征在训练集里面出现了，在测试集里面也会出现。我们需要让它的编码的规则是一致的，训练集里面如果他指定的<code>Travel_Rarely</code>是
+2 的话，在测试集里面也必须是 2。如果我们重新 fit，有可能它就不是 2
+而有可能变成 1。如果变成 1
+的话两个代表的含义就不一致了，就会造成运算的错误。所以我们在测试集里面是直接应用
+fit 的含义，fit 含义的话就是指定关系，fit 就是指定我们的 label encoder
+的关系。transform 是应用这种 label encoder 的关系进行编码。</p>
+<p>又或者，我们可以将这两个数据集合并一下，合并成一个大的数据集，统一进行
+fit，fit 之后再将它们分开。当然，这样做也是可以的。</p>
+<p>我们就用刚才的 LabelEncoder 直接做
+transform，把测试集也做一个编码。编码之后，依次的这个类别特征就编码好了，就可以把它输出出来。你可以看一看他的
+LabelEncoder 的这个逻辑关系。</p>
 <p><img
 src="https://raw.githubusercontent.com/hivandu/notes/main/img/202311142107692.png"
 alt="Alt text" /></p>
@@ -142,56 +186,69 @@ alt="Alt text" /></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">X_train, X_valid, y_train, y_valid = train_test_split(train_load.drop(<span class="hljs-string">&#x27;Attrition&#x27;</span>,axis=<span class="hljs-number">1</span>), train_load[<span class="hljs-string">&#x27;Attrition&#x27;</span>], test_size=<span class="hljs-number">0.2</span>, random_state=<span class="hljs-number">2023</span>)<br></code></pre></td></tr></table></figure>
 <p>这里应该是数据<code>train</code>，
 因为之后这个数据集还要用，所以我做了个保存再读取，所以变成了<code>train_load</code>,
-test也一样。</p>
+test 也一样。</p>
 <p>我们在建模的时候又切分了一下数据集，切分用的是<code>train_test_split</code>，这个就是一个比较常见的切分的工具。在前面基础课程中我有一节专门将了数据集的处理，里面也有详细的说到。</p>
-<p>指定它的切分的数量是20%，也就说测试集是20%。至于为什么不拿百分百的数据用于训练，我们之前的课程里也详细的说过，最后会无法评估模型的效果。</p>
-<p>然后我们用20%的数据作为切分，在切分过程中，我们设置了一个<code>random_state</code>，这里是随机数的种子。如果不写随机数的种子的话，同样的模型的参数得出来的结果可能是不一样的，我们就不好评估哪一个模型的参数会更好。所以一般来说我们可以写一个<code>random_state</code>作为随机数的种子。</p>
+<p>指定它的切分的数量是 20%，也就说测试集是
+20%。至于为什么不拿百分百的数据用于训练，我们之前的课程里也详细的说过，最后会无法评估模型的效果。</p>
+<p>然后我们用
+20%的数据作为切分，在切分过程中，我们设置了一个<code>random_state</code>，这里是随机数的种子。如果不写随机数的种子的话，同样的模型的参数得出来的结果可能是不一样的，我们就不好评估哪一个模型的参数会更好。所以一般来说我们可以写一个<code>random_state</code>作为随机数的种子。</p>
 <p>我这里的设置的今年的年份，可以参考这样的写法，这样每次运行的结果就不会因为随机数种子的问题产生不一样的情况。</p>
 <h2 id="lr">LR</h2>
 <p>然后咱们来用一个逻辑回归方法。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">model = LogisticRegression(max_iter=<span class="hljs-number">100</span>, <br>                           verbose=<span class="hljs-literal">True</span>, <br>                           random_state=<span class="hljs-number">33</span>,<br>                           tol=<span class="hljs-number">1e-4</span><br>                          )<br></code></pre></td></tr></table></figure>
-<p>逻辑回归以后调包，去fit它。fit以后我们就可以predict,
+<p>逻辑回归以后调包，去 fit 它。fit 以后我们就可以 predict,
 得到一个结果。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">model.fit(X_train, y_train)<br><span class="hljs-comment"># 二分类结果， 0或者1</span><br>predict = model.predict(test_load)<br><span class="hljs-built_in">print</span>(predict)<br><br>---<br>[<span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">0</span> ... <span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">0</span>]<br></code></pre></td></tr></table></figure>
-<p>直接predict得到的是个二分类结果，就是0和1。0和1刚才已经指定了，1代表离职，0代表不离职。我们也可以把它转换成一个概率型的问题，需要在predict的后面加一个probability,
-函数名称为<code>predict_proba()</code>:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 二分类任务，有2个概率值，label=0的概率，label=1的概率</span><br>predict = model.predict_proba(test_load)[:, <span class="hljs-number">1</span>]<br>test_load[<span class="hljs-string">&#x27;Attrition&#x27;</span>]=predict<br><span class="hljs-built_in">print</span>(test_load[<span class="hljs-string">&#x27;Attrition&#x27;</span>])<br><br>---<br>user_id<br><span class="hljs-number">442</span>     <span class="hljs-number">0.118824</span><br>          ...   <br><span class="hljs-number">1229</span>    <span class="hljs-number">0.173611</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">model.fit(X_train, y_train)<br><span class="hljs-comment"># 二分类结果， 0 或者 1</span><br>predict = model.predict(test_load)<br><span class="hljs-built_in">print</span>(predict)<br><br>---<br>[<span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">0</span> ... <span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">0</span>]<br></code></pre></td></tr></table></figure>
+<p>直接 predict 得到的是个二分类结果，就是 0 和 1。0 和 1
+刚才已经指定了，1 代表离职，0
+代表不离职。我们也可以把它转换成一个概率型的问题，需要在 predict
+的后面加一个 probability, 函数名称为<code>predict_proba()</code>:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 二分类任务，有 2 个概率值，label=0 的概率，label=1 的概率</span><br>predict = model.predict_proba(test_load)[:, <span class="hljs-number">1</span>]<br>test_load[<span class="hljs-string">&#x27;Attrition&#x27;</span>]=predict<br><span class="hljs-built_in">print</span>(test_load[<span class="hljs-string">&#x27;Attrition&#x27;</span>])<br><br>---<br>user_id<br><span class="hljs-number">442</span>     <span class="hljs-number">0.118824</span><br>          ...   <br><span class="hljs-number">1229</span>    <span class="hljs-number">0.173611</span><br></code></pre></td></tr></table></figure>
 <p>这样我们就可以知道它离职的概率是多少，最后把它打印出来。</p>
 <p>就着这个结果，我给大家再回头来说一下<code>random_state</code>,
-当我们设置为2023的时候，那这个结果，就比如1229这个员工，它的离职概率是0.173611，是不会发生变化的。当我们设置一个其他的参数，或者个干脆删除的话，它预测的值就会发生变化，比如，我删除了<code>random_state</code>之后，结果为：</p>
+当我们设置为 2023 的时候，那这个结果，就比如 1229
+这个员工，它的离职概率是
+0.173611，是不会发生变化的。当我们设置一个其他的参数，或者个干脆删除的话，它预测的值就会发生变化，比如，我删除了<code>random_state</code>之后，结果为：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">user_id<br><span class="hljs-number">442</span>     <span class="hljs-number">0.143042</span><br>          ...   <br><span class="hljs-number">1229</span>    <span class="hljs-number">0.204464</span><br></code></pre></td></tr></table></figure>
-<p>可以看到442和1229这两个员工的概率都变了。再设置回来，那它的结果又会变成原来的值，也就是说，我们模型和数据都没有发生变化的时候，那么对最后的结果发生影响的就是这个种子值。有的时候，我们看到结果发生变化，可能会认为我们模型有可能变好了或变坏了，实际上模型是没有发生任何的变化，我们也没有改变它。</p>
+<p>可以看到 442 和 1229
+这两个员工的概率都变了。再设置回来，那它的结果又会变成原来的值，也就是说，我们模型和数据都没有发生变化的时候，那么对最后的结果发生影响的就是这个种子值。有的时候，我们看到结果发生变化，可能会认为我们模型有可能变好了或变坏了，实际上模型是没有发生任何的变化，我们也没有改变它。</p>
 <p>所以为了去衡量模型的好坏我们把那些变化量给它固定住，让它设置成为一个固定的随机数种子。这样我们再去调参的时候就可以知道这个模型的好坏了。</p>
-<p>机器学习还有个过程叫做超参数的调整，比如说<code>max_iter</code>可能不用100，我们试试看50的好坏等等。怎么去衡量它，要把<code>random_state</code>固定下来，来去对比50好还是100好，这样才能有更清晰的一个判断标准。</p>
-<p>所以<code>ramdom_state</code>是帮助你去衡量模型的好坏的。比如说我们下一次用SVM来去判断，这样我们先用随机数种子也给大家固定起来。</p>
-<p>接下来，如果我们要将概率转化为二分类进行输出，加一个简单的判断，map一下就可以了：</p>
+<p>机器学习还有个过程叫做超参数的调整，比如说<code>max_iter</code>可能不用
+100，我们试试看 50
+的好坏等等。怎么去衡量它，要把<code>random_state</code>固定下来，来去对比
+50 好还是 100 好，这样才能有更清晰的一个判断标准。</p>
+<p>所以<code>ramdom_state</code>是帮助你去衡量模型的好坏的。比如说我们下一次用
+SVM 来去判断，这样我们先用随机数种子也给大家固定起来。</p>
+<p>接下来，如果我们要将概率转化为二分类进行输出，加一个简单的判断，map
+一下就可以了：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 转化为二分类输出</span><br>test_load[<span class="hljs-string">&#x27;Attrition&#x27;</span>]=test_load[<span class="hljs-string">&#x27;Attrition&#x27;</span>].<span class="hljs-built_in">map</span>(<span class="hljs-keyword">lambda</span> x:<span class="hljs-number">1</span> <span class="hljs-keyword">if</span> x&gt;=<span class="hljs-number">0.5</span> <span class="hljs-keyword">else</span> <span class="hljs-number">0</span>)<br></code></pre></td></tr></table></figure>
 <p>大家可以自己运行一下，好好看一看这个逻辑。可能第一次写机器学习的同学需要后面逐渐熟悉一下，包括我们这些流程的过程，代码呢在我的课程仓库里，大家可以自行去获取：
 <a target="_blank" rel="noopener" href="https://github.com/hivandu/AI_Cheats/tree/main/Core%20BI">Core
 BI</a></p>
-<p>以上就把这个流程简单给说完了,
-这里用的是一个LR的模型，其实可以采用其他的模型一起去做。</p>
-<p>LR就是一个逻辑回归，逻辑回归是属于线性模型，比较简单的一个模型。我们今天先不着重讲解逻辑回归背后的原理，这个咱们之前的基础课程里也有详细的给大家讲过。现在只是让大家先有个整体的概念，知道都有哪些工具可以去使用它。</p>
-<p>LR工具：</p>
+<p>以上就把这个流程简单给说完了, 这里用的是一个 LR
+的模型，其实可以采用其他的模型一起去做。</p>
+<p>LR
+就是一个逻辑回归，逻辑回归是属于线性模型，比较简单的一个模型。我们今天先不着重讲解逻辑回归背后的原理，这个咱们之前的基础课程里也有详细的给大家讲过。现在只是让大家先有个整体的概念，知道都有哪些工具可以去使用它。</p>
+<p>LR 工具：</p>
 <ul>
 <li><code>from sklearn.linear_model._logistic import LogisticRegression</code></li>
 </ul>
 <p>参数：</p>
 <ul>
-<li><code>penalty</code>:
-惩罚项，正则化参数，防止过拟合，l1或l2，默认为l2</li>
-<li><code>C</code>，正则化系数λ的倒数，float类型，默认为1.0</li>
+<li><code>penalty</code>: 惩罚项，正则化参数，防止过拟合，l1 或
+l2，默认为 l2</li>
+<li><code>C</code>，正则化系数λ的倒数，float 类型，默认为 1.0</li>
 <li><code>solver</code>: 损失函数优化方法，liblinear（默认），lbfgs，
 newton-cg， sag</li>
 <li><code>random_state</code>: 随机数种子</li>
-<li><code>max_iter</code>: 算法收敛的最大迭代次数，默认为100</li>
-<li><code>tol=0.0001</code>:
-优化算法停止条件，迭代前后函数差小于tol则终止</li>
-<li><code>verbose=0</code>:
-日志冗长度int：冗长度；0：不输出训练过程；1：偶尔 输出；
+<li><code>max_iter</code>: 算法收敛的最大迭代次数，默认为 100</li>
+<li><code>tol=0.0001</code>: 优化算法停止条件，迭代前后函数差小于 tol
+则终止</li>
+<li><code>verbose=0</code>: 日志冗长度
+int：冗长度；0：不输出训练过程；1：偶尔 输出；
 &gt;1：对每个子模型都输出</li>
-<li><code>n_jobs=1</code>:
-并行数，int：个数；-1：跟CPU核数一致；1:默认值</li>
+<li><code>n_jobs=1</code>: 并行数，int：个数；-1：跟 CPU
+核数一致；1:默认值</li>
 </ul>
 <p>常用方法： - <code>fit(X, y, sample_weight=None)</code> -
 <code>fit_transform(X, y=None, **fit_params)</code> -
@@ -202,66 +259,107 @@ newton-cg， sag</li>
 accuracy）</p>
 <p>这个工序里面我们怎么去设置参数，比较常见的像<code>penalty</code>，正则化系数<code>C</code>等等。</p>
 <p>随意数种子、迭代次数这些参数都是可以调整的，也可以用它默认的参数直接去创建。</p>
-<p><code>predict(X)</code>和<code>predict_proba(X)</code>这两个分别代表的一个是等于类别，就是0和1输出的结果。还有一个输出的就是个概率值。根据需求，到底是直接看类别还是概率值，可以选择不同的函数来去完成。</p>
-<p>那这边我们就把LR使用的一个流程在我们的项目中，通过这个例子来给大家讲完了。咱们先从整体上去了解，细节的地方下来再慢慢的去看，自己加一些笔记。</p>
+<p><code>predict(X)</code>和<code>predict_proba(X)</code>这两个分别代表的一个是等于类别，就是
+0 和 1
+输出的结果。还有一个输出的就是个概率值。根据需求，到底是直接看类别还是概率值，可以选择不同的函数来去完成。</p>
+<p>那这边我们就把 LR
+使用的一个流程在我们的项目中，通过这个例子来给大家讲完了。咱们先从整体上去了解，细节的地方下来再慢慢的去看，自己加一些笔记。</p>
 <h2 id="svm">SVM</h2>
-<p>除了LR以外还可以用SVM，这个我们在之前的基础课程也有重点讲过，支持向量机。这个方法在2010年前后很火，这模型在10几年前是主流模型。现在的风头已经被神经网络，就是我们的neural
-network，以及大数据模型掩盖住了。但是在2010年左右那阵主流模型就是SVM。不管是做分类任务还是图像识别，它的效果都是不错的。</p>
-<p>它有三种包，分别是SVC，NuSVC和LinearSVC。这个包有啥区别呢？其实一般来说，前两种只要用一个就可以，这两种都是我们的支持向量机，无外乎就是它的参数、配置会有些区别而已，一个是<code>C</code>,
+<p>除了 LR 以外还可以用
+SVM，这个我们在之前的基础课程也有重点讲过，支持向量机。这个方法在 2010
+年前后很火，这模型在 10
+几年前是主流模型。现在的风头已经被神经网络，就是我们的 neural
+network，以及大数据模型掩盖住了。但是在 2010 年左右那阵主流模型就是
+SVM。不管是做分类任务还是图像识别，它的效果都是不错的。</p>
+<p>它有三种包，分别是 SVC，NuSVC 和
+LinearSVC。这个包有啥区别呢？其实一般来说，前两种只要用一个就可以，这两种都是我们的支持向量机，无外乎就是它的参数、配置会有些区别而已，一个是<code>C</code>,
 一个是<code>nu</code>，用哪一个都可以。推荐大家使用第一个。</p>
-<p>后面有个LinearSVC，我们把它称为线性的。支持向量机一般来说是非线性的特征，它由低维的空间映射到一个高维空间里面去了，所以通常我们用非线性的话用第一种SVC。如果你认为我们的变化是个线性变化，那我们可以用LinearSVC也是一样的。</p>
+<p>后面有个
+LinearSVC，我们把它称为线性的。支持向量机一般来说是非线性的特征，它由低维的空间映射到一个高维空间里面去了，所以通常我们用非线性的话用第一种
+SVC。如果你认为我们的变化是个线性变化，那我们可以用 LinearSVC
+也是一样的。</p>
 <p>这三种方法分别如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">sklearn.svm.SVC(C=<span class="hljs-number">1.0</span>, kernel=<span class="hljs-string">&#x27;rbf&#x27;</span>, degree=<span class="hljs-number">3</span>, gamma=<span class="hljs-string">&#x27;auto&#x27;</span>, coef0=<span class="hljs-number">0.0</span>, shrinking=<span class="hljs-literal">True</span>, probability=<span class="hljs-literal">False</span>, tol=<span class="hljs-number">0.001</span>, cache_size=<span class="hljs-number">200</span>, class_weight=<span class="hljs-literal">None</span>, verbose=<span class="hljs-literal">False</span>, max_iter=<span class="hljs-number">1</span>, decision_function_shape=<span class="hljs-string">&#x27;ovr&#x27;</span>, random_state=<span class="hljs-literal">None</span>)<br><br>sklearn.svm.NuSVC(nu=<span class="hljs-number">0.5</span>, kernel=<span class="hljs-string">&#x27;rbf&#x27;</span>, degree=<span class="hljs-number">3</span>, gamma=<span class="hljs-string">&#x27;auto&#x27;</span>, coef0=<span class="hljs-number">0.0</span>, shrinking=<span class="hljs-literal">True</span>, probability=<span class="hljs-literal">False</span>, tol=<span class="hljs-number">0.001</span>, cache_size=<span class="hljs-number">200</span>, class_weight=<span class="hljs-literal">None</span>, verbose=<span class="hljs-literal">False</span>, max_iter=<span class="hljs-number">1</span>, decision_function_shape=<span class="hljs-string">&#x27;ovr&#x27;</span>, random_state=<span class="hljs-literal">None</span>)<br><br>sklearn.svm.LinearSVC(penalty=<span class="hljs-string">&#x27;l2&#x27;</span>, loss=<span class="hljs-string">&#x27;squared_hinge&#x27;</span>, dual=<span class="hljs-literal">True</span>, tol=<span class="hljs-number">0.0001</span>, C=<span class="hljs-number">1.0</span>, multi_class=<span class="hljs-string">&#x27;ovr&#x27;</span>, fit_intercept=<span class="hljs-literal">True</span>, intercept_scaling=<span class="hljs-number">1</span>, class_weight=<span class="hljs-literal">None</span>, verbose=<span class="hljs-number">0</span>, random_state=<span class="hljs-literal">None</span>, max_iter=<span class="hljs-number">1000</span>)<br></code></pre></td></tr></table></figure>
 <p>常用参数：</p>
 <ul>
-<li><code>C</code>，惩罚系数，类似于LR中的正则化系数，C越大惩罚越大</li>
-<li><code>nu</code>，代表训练集训练的错误率的上限（用于NuSVC）</li>
+<li><code>C</code>，惩罚系数，类似于 LR 中的正则化系数，C
+越大惩罚越大</li>
+<li><code>nu</code>，代表训练集训练的错误率的上限（用于 NuSVC）</li>
 <li><code>kernel</code>，核函数类型，RBF, Linear, Poly,
-Sigmoid,precomputed，默认为RBF径向基核（高斯核函数）</li>
-<li><code>gamma</code>，核函数系数，默认为auto</li>
-<li><code>degree</code>，当指定kernel为'poly'时，表示选择的多项式的最高次数，默认为三次多项式</li>
+Sigmoid,precomputed，默认为 RBF 径向基核（高斯核函数）</li>
+<li><code>gamma</code>，核函数系数，默认为 auto</li>
+<li><code>degree</code>，当指定 kernel
+为'poly'时，表示选择的多项式的最高次数，默认为三次多项式</li>
 <li><code>probability</code>，是否使用概率估计</li>
-<li><code>shrinking</code>，是否进行启发式，SVM只用少量训练样本进行计算</li>
-<li><code>penalty</code>，正则化参数，L1和L2两种参数可选，仅LinearSVC有</li>
+<li><code>shrinking</code>，是否进行启发式，SVM
+只用少量训练样本进行计算</li>
+<li><code>penalty</code>，正则化参数，L1 和 L2 两种参数可选，仅
+LinearSVC 有</li>
 <li><code>loss</code>，损失函数，有‘hinge’和‘squared_hinge’两种可选，
-前者又称L1损失，后者称为L2损失</li>
-<li><code>tol</code>: 残差收敛条件，默认是0.0001，与LR中的一致</li>
+前者又称 L1 损失，后者称为 L2 损失</li>
+<li><code>tol</code>: 残差收敛条件，默认是 0.0001，与 LR 中的一致</li>
 </ul>
 <p>这些是一些比较常见的一些参数，我们可以做一些配置，这个你自己可以看一看。</p>
 <p>工具的使用啊，其实工具的使用就掉包就好了。我们在学习的时候也稍微了解一下它的一个原理。机器学习和深度学习原理呢，咱们之前课程都详细的讲过，这里简单给大家讲解一下。</p>
-<p>SVM的思想就是把一些原来不太在线性平面上，不好分割的数据，通过一个超平面让它去分割。</p>
+<p>SVM
+的思想就是把一些原来不太在线性平面上，不好分割的数据，通过一个超平面让它去分割。</p>
 <p><img
 src="https://raw.githubusercontent.com/hivandu/notes/main/img/202311142107693.png"
 alt="Alt text" /></p>
 <p>比如说左图，这是个物体在一个平面的桌子上面去摆放。这个平面桌子上有两种物体，一种是红色的圆球，一种是绿色的方块。那我们在桌子上去任意的划分，以线性分类器做分类，他们能把它分类出来吗？你去切很多刀，每次的话都是线性的，线性就是一条直线的方法。能不能把红色和绿色给它一分为二，分的比较好呢？</p>
 <p>你会发现很难对不对？怎么画都很难。所以在低维空间中它是无法线性可分的。这个时候，咱们就想了一个方式，用手猛地一拍桌子，这些物体瞬间腾空而起，在他腾空的那一刹那时空静止，咱们再次用手在它的平面处切了一刀。可以看到这个平面在黄色之上的，我们把它分割出来是红色的圆球，在平面之下就是绿色的方块。</p>
-<p>所以在高维空间中我们可以让它变得线性可分。那么SVM的特点就是去找到一个从低维到高维的映射，让它在高维空间中线性可分。现在大家能明白SVM的一个原理了吧？它的作用就是找到一个映射关系，方便你在高维中进行一个线性可分。</p>
-<p>我今天没有着重去推数学的工具，这些如果要推的话可能会花很长的时间，那我只是给大家介绍机器学习的全家桶，先让大家有一个整体的认知。你知道SVM的作用是什么，下一次想到它就会想到我们刚才讲的那个场景。由低维到高维。</p>
+<p>所以在高维空间中我们可以让它变得线性可分。那么 SVM
+的特点就是去找到一个从低维到高维的映射，让它在高维空间中线性可分。现在大家能明白
+SVM
+的一个原理了吧？它的作用就是找到一个映射关系，方便你在高维中进行一个线性可分。</p>
+<p>我今天没有着重去推数学的工具，这些如果要推的话可能会花很长的时间，那我只是给大家介绍机器学习的全家桶，先让大家有一个整体的认知。你知道
+SVM
+的作用是什么，下一次想到它就会想到我们刚才讲的那个场景。由低维到高维。</p>
 <p>那由低维到高维找到这个空间怎么找呢？我们有一些找的方式。</p>
-<p>去设置一个核函数，这个叫做Kernel。它的Kernel,
+<p>去设置一个核函数，这个叫做 Kernel。它的 Kernel,
 核就是映射关系。有几种核，一种叫线性核，线性核还是一种桌子平面，只不过把这个桌子变成了另一个桌子。</p>
 <p>多相式核就是一个非线性的空间，更高维了。</p>
-<p>RBF属于高斯核函数，也是一个非线性的关系。</p>
-<p>包括sigmoid核，sigmoid在SVM里面可以设置这4个核函数，sigmoid是其中之一。这个sigmoid如果你之前有看我的前面的「核心基础」部分，那是经常会提到它。我们在构建神经网络的时候，它就是神经网络的激活函数。它也是逻辑回归的一个过程。</p>
-<p>sigmoid的原理就是把线性的映射成为非线性，所以它也是一个非线性的映射。</p>
+<p>RBF 属于高斯核函数，也是一个非线性的关系。</p>
+<p>包括 sigmoid 核，sigmoid 在 SVM 里面可以设置这 4 个核函数，sigmoid
+是其中之一。这个 sigmoid
+如果你之前有看我的前面的「核心基础」部分，那是经常会提到它。我们在构建神经网络的时候，它就是神经网络的激活函数。它也是逻辑回归的一个过程。</p>
+<p>sigmoid
+的原理就是把线性的映射成为非线性，所以它也是一个非线性的映射。</p>
 <p>我们有很多种映射关系，都可以帮你找一找能不能在这样的高维空间中变得线可分，有可能。所以我们可以尝试不同的核，去做一些切分。</p>
-<p>在使用过程中如果你要用不同的核，尤其是高维的核，你要用SVC了。如果你觉得它就是个线性过程的话，我们就用LinearSVC，它就是个线性的变化。</p>
+<p>在使用过程中如果你要用不同的核，尤其是高维的核，你要用 SVC
+了。如果你觉得它就是个线性过程的话，我们就用
+LinearSVC，它就是个线性的变化。</p>
 <p>针对我们离职员工预测这个问题，它的数据集比较简单，规律也没有那么复杂，所以可以两种方式都尝试一下，看看谁的效果好。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python">mms = MinMaxScaler(feature_range=(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>))<br>X_train = mms.fit_transform(X_train)<br>X_valid = mms.fit_transform(X_valid)<br>test_load = mms.fit_transform(test_load)<br><br>model = LinearSVC(max_iter=<span class="hljs-number">1000</span>,<br>                  random_state=<span class="hljs-number">33</span>,<br>                  verbose=<span class="hljs-literal">True</span>)<br><br>model.fit(X_train, y_train)<br>predict = model.predict(test_load)<br><span class="hljs-built_in">print</span>(predict)<br><br>test_load[<span class="hljs-string">&#x27;Attrition&#x27;</span>] = predict<br>test_load[[<span class="hljs-string">&#x27;Attrition&#x27;</span>]].to_csv(<span class="hljs-string">&#x27;dataset/submit_svc.csv&#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;submit_svc.csv saved&#x27;</span>)<br></code></pre></td></tr></table></figure>
-<p>我这里用的LinearSVC做一个设置，整个调包过程都是类似的，都是创建好了这个包然后用模型去fit，再去predict，把predict之后的结果进行输出即可。调包的原理、过程都是一样的，只不过你可以调不同的包来去完成。</p>
-<p>以上是SVM的过程, 可以用SVC也可以用LinearSVC。</p>
-<p>那在这段代码里，我在执行LinearSVC之前还做了一个操作，这个操作是一个叫做MinMaxScaler，
-这个是0~1规范化，它也属于数据预处理的一个环节。</p>
-<p>用0-1规划化的目的是把数据映射归一化。归一化到0-1区间。原来的数据类型如果你去看那个大小，比如说工资就有可能是几千到几万不等，他的数据的范围比较大，工作时长有可能就是从几十到上百不等，可能维度相对小一点。不同的维度我们现在都给他统一。</p>
+<p>我这里用的 LinearSVC
+做一个设置，整个调包过程都是类似的，都是创建好了这个包然后用模型去
+fit，再去 predict，把 predict
+之后的结果进行输出即可。调包的原理、过程都是一样的，只不过你可以调不同的包来去完成。</p>
+<p>以上是 SVM 的过程, 可以用 SVC 也可以用 LinearSVC。</p>
+<p>那在这段代码里，我在执行 LinearSVC
+之前还做了一个操作，这个操作是一个叫做 MinMaxScaler， 这个是 0~1
+规范化，它也属于数据预处理的一个环节。</p>
+<p>用 0-1 规划化的目的是把数据映射归一化。归一化到 0-1
+区间。原来的数据类型如果你去看那个大小，比如说工资就有可能是几千到几万不等，他的数据的范围比较大，工作时长有可能就是从几十到上百不等，可能维度相对小一点。不同的维度我们现在都给他统一。</p>
 <p>统一的目的是啥？如果不统一对我们的模型有没有影响？记住，如果不统一的话，对于这种通过距离来做分类的这样一些模型是有影响的。</p>
-<p>怎么影响呢？举个例子，比如说我要两种类别，一种类别叫做Salary，这个<code>salary</code>以0-1万为例。还有一个我们叫做<code>work hour</code>，可能是由0-100为例。如果不给它统一，哪一个指标会占主导？是Salary还是hour？这两个相对来说哪个更主导？</p>
-<p>应该是属于量纲范围更大的，它的范围越大就越影响整个的模型的计算的过程，所以Salary就会更加的主导一点，还有其他的词段也是一样的。所以为了保持统一，我们就把0-1万都转换成0-1。而work
-hour也转换成0-1。这样的话我们的权重都是一致的。否则Salary的重要性就变成100倍的work
-hour，或者其他的维度的指标。</p>
+<p>怎么影响呢？举个例子，比如说我要两种类别，一种类别叫做
+Salary，这个<code>salary</code>以 0-1
+万为例。还有一个我们叫做<code>work hour</code>，可能是由 0-100
+为例。如果不给它统一，哪一个指标会占主导？是 Salary 还是
+hour？这两个相对来说哪个更主导？</p>
+<p>应该是属于量纲范围更大的，它的范围越大就越影响整个的模型的计算的过程，所以
+Salary
+就会更加的主导一点，还有其他的词段也是一样的。所以为了保持统一，我们就把
+0-1 万都转换成 0-1。而 work hour 也转换成
+0-1。这样的话我们的权重都是一致的。否则 Salary 的重要性就变成 100 倍的
+work hour，或者其他的维度的指标。</p>
 <p>所以这个规划的过程是跟距离相关的模型，对距离相关的模型我们需要先采用规律化的方法。因为你的距离，他的量纲要保持统一才可以。</p>
-<p>好，以上就是我们整个的过程。SVM就直接吊包去使用。当对它的了解，概念有些认知之后，我们可以直接去调用这个LinearSVC的包。具体的SVM原理，还是推荐大家去看看我之前的一章专门讲解支持向量机的课程。</p>
+<p>好，以上就是我们整个的过程。SVM
+就直接吊包去使用。当对它的了解，概念有些认知之后，我们可以直接去调用这个
+LinearSVC 的包。具体的 SVM
+原理，还是推荐大家去看看我之前的一章专门讲解支持向量机的课程。</p>
 <p>那这个项目过程就给大家讲完了。咱们下节课再讲一个例子，带大家一起来看一个男女声音识别的例子。</p>
-</div><div class="article-licensing box"><div class="licensing-title"><p>01. BI - Project one, 员工离职预测</p><p><a href="https://hivan.me/01. BI - 员工离职预测/">https://hivan.me/01. BI - 员工离职预测/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2023-12-31</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2024-01-03</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a><a class="link-muted mr-2" rel="tag" href="/tags/BI/">BI</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/Tea%20Truss&#039;s%20AI%20cheats%20math%20PDF%20release%20download/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">茶桁的AI秘籍 - 数学篇 PDF发布下载</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/33.%20Exercise:%20Captcha%20Recognition/"><span class="level-item">33. CV练习： 验证码识别</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+</div><div class="article-licensing box"><div class="licensing-title"><p>01. BI - Project one, 员工离职预测</p><p><a href="https://hivan.me/01. BI - 员工离职预测/">https://hivan.me/01. BI - 员工离职预测/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2023-12-31</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2024-01-16</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a><a class="link-muted mr-2" rel="tag" href="/tags/BI/">BI</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/Tea%20Truss&#039;s%20AI%20cheats%20math%20PDF%20release%20download/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">茶桁的 AI 秘籍 - 数学篇 PDF 发布下载</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/33.%20Exercise:%20Captcha%20Recognition/"><span class="level-item">33. CV 练习： 验证码识别</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
             this.page.url = 'https://hivan.me/01.%20BI%20-%20%E5%91%98%E5%B7%A5%E7%A6%BB%E8%81%8C%E9%A2%84%E6%B5%8B/';
             this.page.identifier = '01. BI - 员工离职预测/';
         };
@@ -270,7 +368,7 @@ hour，或者其他的维度的指标。</p>
             s.src = '//' + 'hivan' + '.disqus.com/embed.js';
             s.setAttribute('data-timestamp', +new Date());
             (d.head || d.body).appendChild(s);
-        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">211</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">6</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">22</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI秘籍</span></span><span class="level-end"><span class="level-item tag">69</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/BI/"><span class="level-start"><span class="level-item">BI</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">33</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-01-13T23:30:00.000Z">2024-01-14</time></p><p class="title"><a href="/05.%20BI%20-%20%E9%87%91%E8%9E%8D%E8%A1%8C%E4%B8%9A%E4%B8%AD%20Fintech%20%E7%9A%84%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/">05. BI - 金融行业中 Fintech 的应用场景</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-01-09T23:30:00.000Z">2024-01-10</time></p><p class="title"><a href="/04.%20BI%20-%20LightGBM%20vs%20CatBoost%EF%BC%8C%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0%E5%88%86%E6%9E%90/">04. BI - LightGBM vs CatBoost，具体实现分析</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-01-06T23:30:00.000Z">2024-01-07</time></p><p class="title"><a href="/03.%20BI%20-%20XGBoost/">03. BI - XGBoost</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-01-02T23:30:00.000Z">2024-01-03</time></p><p class="title"><a href="/02.%20BI%20-%20%E7%94%B7%E5%A5%B3%E5%A3%B0%E9%9F%B3%E8%AF%86%E5%88%AB/">02. BI - Project Two, 男女声音识别</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-01-02T11:00:00.000Z">2024-01-02</time></p><p class="title"><a href="/Tea%20Truss&#039;s%20AI%20cheats%20math%20PDF%20release%20download/">茶桁的AI秘籍 - 数学篇 PDF发布下载</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/Math/">Math</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2024 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI 游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">223</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">6</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">22</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI 秘籍</span></span><span class="level-end"><span class="level-item tag">81</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/"><span class="level-start"><span class="level-item">BI</span></span><span class="level-end"><span class="level-item tag">17</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">33</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-27T23:30:00.000Z">2024-02-28</time></p><p class="title"><a href="/17.%20BI%20-%20Surprise%E5%B7%A5%E5%85%B7%E7%AE%B1%EF%BC%9ABaseline/">17. BI - Surprise 工具箱：Baseline</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-24T23:30:00.000Z">2024-02-25</time></p><p class="title"><a href="/16.%20BI%20-%20%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E4%B9%8BALS%E5%AE%9E%E7%8E%B0/">16. BI - 推荐系统之 ALS 实现</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-20T23:30:00.000Z">2024-02-21</time></p><p class="title"><a href="/15.%20BI%20-%20%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E4%B9%8BALS%E5%8E%9F%E7%90%86/">15. BI - 推荐系统之 ALS 原理</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-15T23:30:00.000Z">2024-02-16</time></p><p class="title"><a href="/14.%20BI%20-%20%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E4%B9%8B%E7%9F%A9%E9%98%B5%E5%88%86%E8%A7%A3/">14. BI - 推荐系统之矩阵分解</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-10T23:30:00.000Z">2024-02-11</time></p><p class="title"><a href="/13.%20BI%20-%20%E5%8F%AF%E8%A7%86%E5%8C%96%E7%9C%8B%E6%9D%BF%E5%8F%91%E5%B8%83/">13. BI - 可视化看板发布</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2024 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
             article: {
                 highlight: {
                     clipboard: true,

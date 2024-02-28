@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>04. BI - LightGBM vs CatBoost，具体实现分析 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content=""><meta property="og:type" content="blog"><meta property="og:title" content="04. BI - LightGBM vs CatBoost，具体实现分析"><meta property="og:url" content="https://hivan.me/04.%20BI%20-%20LightGBM%20vs%20CatBoost%EF%BC%8C%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0%E5%88%86%E6%9E%90/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2024-01-09T23:30:00.000Z"><meta property="article:modified_time" content="2024-01-10T18:23:22.328Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="article:tag" content="BI"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/04.%20BI%20-%20LightGBM%20vs%20CatBoost%EF%BC%8C%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0%E5%88%86%E6%9E%90/"},"headline":"04. BI - LightGBM vs CatBoost，具体实现分析","image":[],"datePublished":"2024-01-09T23:30:00.000Z","dateModified":"2024-01-10T18:23:22.328Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":""}</script><link rel="canonical" href="https://hivan.me/04.%20BI%20-%20LightGBM%20vs%20CatBoost%EF%BC%8C%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0%E5%88%86%E6%9E%90/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><script>var _hmt = _hmt || [];
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>04. BI - LightGBM vs CatBoost，具体实现分析 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content=""><meta property="og:type" content="blog"><meta property="og:title" content="04. BI - LightGBM vs CatBoost，具体实现分析"><meta property="og:url" content="https://hivan.me/04.%20BI%20-%20LightGBM%20vs%20CatBoost%EF%BC%8C%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0%E5%88%86%E6%9E%90/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2024-01-09T23:30:00.000Z"><meta property="article:modified_time" content="2024-01-16T08:25:04.781Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="article:tag" content="BI"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/04.%20BI%20-%20LightGBM%20vs%20CatBoost%EF%BC%8C%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0%E5%88%86%E6%9E%90/"},"headline":"04. BI - LightGBM vs CatBoost，具体实现分析","image":[],"datePublished":"2024-01-09T23:30:00.000Z","dateModified":"2024-01-16T08:25:04.781Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":""}</script><link rel="canonical" href="https://hivan.me/04.%20BI%20-%20LightGBM%20vs%20CatBoost%EF%BC%8C%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0%E5%88%86%E6%9E%90/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><script>var _hmt = _hmt || [];
         (function() {
             var hm = document.createElement("script");
             hm.src = "//hm.baidu.com/hm.js?f91b64734fdc7bfb999e48f9248d44dd";
@@ -40,20 +40,22 @@
       window.addEventListener('hashchange', switchTab, false);
   })();
   </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
-</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2024-01-09T23:30:00.000Z" title="1/10/2024, 7:30:00 AM">2024-01-10</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a><span> / </span><a class="link-muted" href="/categories/AI%E7%A7%98%E7%B1%8D/BI/">BI</a></span></div></div><h1 class="title is-3 is-size-4-mobile">04. BI - LightGBM vs CatBoost，具体实现分析</h1><div class="content"><p><img
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2024-01-09T23:30:00.000Z" title="1/10/2024, 7:30:00 AM">2024-01-10</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a><span> / </span><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></span></div></div><h1 class="title is-3 is-size-4-mobile">04. BI - LightGBM vs CatBoost，具体实现分析</h1><div class="content"><p><img
 src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202401101541800.png"
-alt="茶桁的AI秘籍 核心BI 04" /></p>
+alt="茶桁的 AI 秘籍 核心 BI 04" /></p>
 <span id="more"></span>
 <p>[TOC]</p>
 <p>Hi，你好。我是茶桁。</p>
-<p>那今天我们是来讲解另外两个Boosting的工具，首先是微软出品的LightGBM。</p>
+<p>那今天我们是来讲解另外两个 Boosting 的工具，首先是微软出品的
+LightGBM。</p>
 <h2 id="lightgbm">LightGBM</h2>
-<p>LightGBM 是微软提出来的,
-是属于XGBoost的升级版，也曾经是Kaggle里面使用模型最多的机器学习的神器。当然，目前LightGBM
-之外，BERT以及GPT都越来越受关注，但是LightGBM
+<p>LightGBM 是微软提出来的, 是属于 XGBoost 的升级版，也曾经是 Kaggle
+里面使用模型最多的机器学习的神器。当然，目前 LightGBM 之外，BERT 以及
+GPT 都越来越受关注，但是 LightGBM
 这么久了，依然还是占据一席之地，依然还是某些性质及任务要求下的首选。</p>
-<p>Light的概念就是轻和快，GBM 全称为 Gradient Boosting
-Machine，这个GBM就把它理解成就是GBDT，所以它其实就是轻量级的GBDT，而且是升级版本。所以我们看一看，它到底做了哪些轻量级的一些操作。</p>
+<p>Light 的概念就是轻和快，GBM 全称为 Gradient Boosting Machine，这个
+GBM 就把它理解成就是 GBDT，所以它其实就是轻量级的
+GBDT，而且是升级版本。所以我们看一看，它到底做了哪些轻量级的一些操作。</p>
 <p>常用的机器学习算法，例如神经网络等算法，都可以以<code>mini-batch</code>的方式训练，训练数据的大小不会受到内存限制。</p>
 <p>GBDT
 在每一次迭代的时候，都需要遍历整个训练数据多次。如果把整个训练数据装进内存则会限制训练数据的大小，如果不装进内存，反复地读写训练数据又会消耗非常大的时间。对于工业级海量的数据，普通的
@@ -62,7 +64,7 @@ GBDT 算法是不能满足其需求的。</p>
 可以更好更快地用于工业场景。</p>
 <p>我们看整个的例子，先让大家有个直观的感受。</p>
 <p>我找了四个数据集，然后用 XGBoost, XGBoost_approx 以及 LightGBM
-来做一个比较. 其中 XGBoost_approx 是2016年左右提出来的 XGBoost
+来做一个比较. 其中 XGBoost_approx 是 2016 年左右提出来的 XGBoost
 的近似版.</p>
 <p><img
 src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231118000026.png"
@@ -70,17 +72,20 @@ alt="20231118000026" /></p>
 <p>一共做了两种对比，一种对比是它的内存消耗，看谁的内存占用更小。可以看到
 LightGBM 明显比 XGBoost 的内存会更小一点。同样的数据集只有大约 1/6
 左右。</p>
-<p>指标除了内存以外还是要关注一下评价结果，结果上LightGBM
-和XGBoost差别并不大，甚至有些情况下还会更好。所以在结果差别不大的情况下，内存只有原来的1/6.</p>
+<p>指标除了内存以外还是要关注一下评价结果，结果上 LightGBM 和 XGBoost
+差别并不大，甚至有些情况下还会更好。所以在结果差别不大的情况下，内存只有原来的
+1/6.</p>
 <p>除此之外，训练速度上还做了一个对比</p>
 <p><img
 src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231118000552.png"
 alt="20231118000552" /></p>
-<p>这里<code>seconds</code>代表的是时长，这四种训练集里面，XGBoost的2016版比原来2014版速度要快，因为它是近似方法，还记得上节课说的直方图吧？LightGBM
-明显还比它所有的这些版本都要快，大概快了有1/10。</p>
+<p>这里<code>seconds</code>代表的是时长，这四种训练集里面，XGBoost 的
+2016 版比原来 2014
+版速度要快，因为它是近似方法，还记得上节课说的直方图吧？LightGBM
+明显还比它所有的这些版本都要快，大概快了有 1/10。</p>
 <p>所以我们用了 1/10 的速度，用了 1/6
-的内存，得到了一个还不错的结果，这两个模型也比较相当。这两个模型还可以帮我们来自动处理一些特征的确认值，XGBoost是不支持类别特征的，而LightGBM
-支持类别特征。</p>
+的内存，得到了一个还不错的结果，这两个模型也比较相当。这两个模型还可以帮我们来自动处理一些特征的确认值，XGBoost
+是不支持类别特征的，而 LightGBM 支持类别特征。</p>
 <p>那么问题来了, 为什么 LightGBM 会更快呢？</p>
 <p>让我们稍微拆解了一下模型复杂度的流程</p>
 <p><span class="math display">\[
@@ -98,10 +103,11 @@ alt="20231118000552" /></p>
 个样本来进行训练。如果是随机的选择 5,000
 个样本来做训练，对于精度来说是有损失的。目的是希望更快，但是会损失一定的进度。</p>
 <p>第三， EFB 算法。</p>
-<p>它使用互斥特征捆绑算法，减少特征的数量。原来有100个特征，现在随机抽取80个特征，对精度也是有一定损失。</p>
-<p>XGBoost的预排序（ pre-sorted
+<p>它使用互斥特征捆绑算法，减少特征的数量。原来有 100
+个特征，现在随机抽取 80 个特征，对精度也是有一定损失。</p>
+<p>XGBoost 的预排序（ pre-sorted
 ）算法是将样本按照特征取值排序，然后从全部特征取值中找到最优的分裂点位。预排序算法的侯选分裂点数量
-= 样本特征不同取值个数减1。</p>
+= 样本特征不同取值个数减 1。</p>
 <p><img
 src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231118133706.png"
 alt="20231118133706" /></p>
@@ -111,9 +117,8 @@ alt="20231118133706" /></p>
 src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231118134058.png"
 alt="20231118134058" /></p>
 <p>这样每一个桶就当成了一个整体和一个集合，相对来说，分裂节点的数量就减少了。这种方式其实就是
-Histogram
-算法，2016年的XGBoost就是采用的这种算法。这种方式替代了XGBoost原先的
-pre-sorted 算法。</p>
+Histogram 算法，2016 年的 XGBoost 就是采用的这种算法。这种方式替代了
+XGBoost 原先的 pre-sorted 算法。</p>
 <p>因为做了合并，原来是三个样本的<code>gi</code>,
 现在变成了一个<code>Gi</code>。<code>Gi</code>是求和，这里的<code>Gi</code>就把三个里面一阶导数的梯度做为个累加，就等于<code>0.1</code>。<code>Hi</code>二阶梯度相加就等于<code>0.29</code>。这样就是第一个桶的一个特征，合并以后
 Histogram
@@ -122,20 +127,21 @@ Histogram
 <p>那么未来做分割的时候，我们就只要在这个基础上来做分割就好了。因为它前面已经合并成了一个整体，这种方式候选的节点的数量变成了
 <code>桶的个数-1</code> ，也就是<code>k-1</code>。</p>
 <p>它的思想就是连续的浮点特征值离散化成<code>k</code>个整数，同时构造一个宽度为<code>k</code>的直方图，即将连续特征值离散化到<code>k</code>个<code>bins</code>上。当遍历一次数据后，直方图累积了需要的统计量，然后根据直方图的离散值，遍历寻找最优的分割点。</p>
-<p>XGBoost是需要遍历所有离散化的值，LightGBM
-就只需要遍历k个直方图的值。其侯选分裂点数量就等于<code>k-1</code>。</p>
+<p>XGBoost 是需要遍历所有离散化的值，LightGBM 就只需要遍历 k
+个直方图的值。其侯选分裂点数量就等于<code>k-1</code>。</p>
 <p>除了这种方法以外，LightGBM 还有两种优化策略。GOSS
 算法的全称是<code>Gradient-based One-Side Sampling</code>,
 基于梯度的单边采样算法。</p>
 <p><img
 src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231118135829.png"
 alt="20231118135829" /></p>
-<p>刚才是用 subsample
-，XGBoost里面专门有一个参数，可以把它设成<code>0.5</code>，也就是50%，它会有精度的下降，会有损失。</p>
+<p>刚才是用 subsample ，XGBoost
+里面专门有一个参数，可以把它设成<code>0.5</code>，也就是
+50%，它会有精度的下降，会有损失。</p>
 <p>那我们现在来思考一个问题，样本的梯度是大好还是小好呢？我们在机器学习过程中是通过什么来去更新我们的参数？</p>
 <p>机器学习有一种方式叫做梯度下降，梯度下降证明了你学习的方向。如果方向梯度越大，就代表我学习方向越明确。如果梯度已经变成了<code>0.00001</code>，就不好学习到内容。所以对于样本的梯度来说，其实希望它大一点好，可以持续降低。梯度越大就证明学习方向是非常明确的，更容易学到内容。</p>
 <p>GOSS 方法它想到，之前 50% 随机采样，舍弃了
-50%，如果舍弃的是那些梯度比较大的样本在精度上更容易有损失。所以GOSS
+50%，如果舍弃的是那些梯度比较大的样本在精度上更容易有损失。所以 GOSS
 就希望先保留那些梯度大的样本，给它设了一个阈值。比如说图例中阈值设为
 <code>0.1</code>，梯度大于<code>0.1</code>我们就全部保留，因为这些样本它是属于好的样本。</p>
 <p>好样本的梯度怎么理解？</p>
@@ -161,17 +167,18 @@ y)^2\)</span>，所以它的梯度就代表了是我要学习下降的一个方�
 算法计算之后的结果。</p>
 <p>前面的直方图我们是已经计算好了的，所以有三个<code>bin</code>。对于第一个<code>bin</code>的计算,
 做了<code>1/3</code>的采样,
-选中的<code>2</code>。可以想成是人大代表，代表3个人。因为是从3个人里面选举出来的这一个人作为代表，这也是3个人的情况。</p>
+选中的<code>2</code>。可以想成是人大代表，代表 3 个人。因为是从 3
+个人里面选举出来的这一个人作为代表，这也是 3 个人的情况。</p>
 <p>那么对于第一个桶来说，里面只抽出来了样本
 <code>2</code>，<code>2</code> 是一个代表，所以它相当于是 <span
-class="math inline">\(1 \times 3\)</span>，3个样本。样本 <code>2</code>
+class="math inline">\(1 \times 3\)</span>，3 个样本。样本 <code>2</code>
 的<code>gi</code>原来是 <span
 class="math inline">\(0.03\)</span>，它的代表相当于是 <span
 class="math inline">\(0.03 \times 3\)</span>，<code>hi</code> 是
 <code>0.04</code>，同理就是 <span class="math inline">\(0.04 \times 3 =
 0.12\)</span>。</p>
 <p>那对于第二个桶，是一样的计算方法。<code>6</code>
-是全部保留，<code>4</code> 代表了3个，所以是 <span
+是全部保留，<code>4</code> 代表了 3 个，所以是 <span
 class="math inline">\(1 \times 3\)</span> 个，那就是 <span
 class="math inline">\(1+1\times 3\)</span>。<code>Gi</code> 就是
 <code>6</code> 加上 <code>4</code> 乘 <code>3</code>， 那就是 <span
@@ -183,8 +190,8 @@ class="math inline">\(0.02+0.02 \times 3 = 0.08\)</span>。</p>
 的计算复杂度。单边采样，只对梯度绝对值较小的样本按照一定比例进行采样，而保留了梯度绝对值较大的样本。因为目标函数增益主要来自于梯度绝对值较大的样本
 =&gt; GOSS 算法在性能和精度之间进行了很好的权衡。</p>
 <p>那最后，LightGBM 内还包含了一个 EFB
-算法。刚才咱们的采样可以理解为行采样，就是从10,000个样本减到5,000个采样，
-EFB 是列采样。 EFB
+算法。刚才咱们的采样可以理解为行采样，就是从 10,000 个样本减到 5,000
+个采样， EFB 是列采样。 EFB
 其实是互斥特征绑定法，<code>Exclusive Feature Bunding</code>。</p>
 <p>机器学习过程中，有的时候会用 one-hot 编码把类别特征转化成为
 <code>0-1</code> 特征。 one-hot 就是将你要的特征变为
@@ -194,7 +201,7 @@ EFB 是列采样。 EFB
 代表没有，大量为 <code>0</code> 的叫稀疏。这个过程放眼望去肯定是
 <code>0</code> 多，<code>0</code> 代表空，<code>1</code>
 代表有价值有数据，所以它是大量的稀疏特征。</p>
-<p>EFB 就发现了这样的一个逻辑：XGBoost有很多人提前做了 one-hot
+<p>EFB 就发现了这样的一个逻辑：XGBoost 有很多人提前做了 one-hot
 编码，就会有大量稀疏特征。那能不能把这个大量稀疏特征给它合并到一起？这也就是
 EFB
 的思想。特征中包含大量稀疏特征的时候，减少构建直方图的特征数量，从而降低计算复杂度。</p>
@@ -202,9 +209,9 @@ EFB
 src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231120160537.png"
 alt="20231120160537" /></p>
 <p>比如说第一个 <code>feature</code>，<code>0</code>
-这个代表为空没有含义，<code>1</code> 和 <code>2</code>
-有10个值，这是有价值的。</p>
-<p>第二个特征也是一个稀疏特征，有95个是没有的意义，只有 <code>1</code>
+这个代表为空没有含义，<code>1</code> 和 <code>2</code> 有 10
+个值，这是有价值的。</p>
+<p>第二个特征也是一个稀疏特征，有 95 个是没有的意义，只有 <code>1</code>
 和 <code>2</code> 是有价值的。</p>
 <p>那作者就想到，能不能把 <code>1</code> 和 <code>2</code>
 这两个特征合并成一个新的特征，叫 <code>feature 1'</code>。怎么合并？首先
@@ -216,10 +223,10 @@ alt="20231120160537" /></p>
 <code>4</code> 。这里的 <code>3</code> 对应出来是原来
 <code>feature 2</code> 里的 <code>1</code> ， <code>4</code> 对应的是
 <code>feature 2</code> 里的 <code>2</code> 。</p>
-<p>原来 <code>feature 1</code> 里面是有100个特征的，现在增加了
-<code>3</code>和<code>4</code>
-，一个是4个，一个是1个，所以匀了5个特征给后面补进来的部分，整个特征数是不能变的，所以最前面的
-<code>0</code> 特征，就从90个里面减去了5个，变成了 <span
+<p>原来 <code>feature 1</code> 里面是有 100 个特征的，现在增加了
+<code>3</code>和<code>4</code> ，一个是 4 个，一个是 1 个，所以匀了 5
+个特征给后面补进来的部分，整个特征数是不能变的，所以最前面的
+<code>0</code> 特征，就从 90 个里面减去了 5 个，变成了 <span
 class="math inline">\(90-5 =
 85\)</span>个。这样就把两个特征列合二为一变成一个新的特征列，而且精度没有损失，因为把原来的做成一个等价的还原。</p>
 <p>如果用 EFB
@@ -227,49 +234,53 @@ class="math inline">\(90-5 =
 one-hot
 稀疏特征很容易进行合并，合并之后就可以让特征的数量大大减少，就不需要用刚才说的设置
 100 自动的抽 80 列，那样其实信息是有损失的，但是 EFB 不会有损失。</p>
-<h2 id="lightgbm的使用">LightGBM的使用</h2>
-<p>LightGBM的用法也是从引入包开始<code>import lightgbm as lgb</code>，其参数也基本上差不多，我们来看下：</p>
+<h2 id="lightgbm-的使用">LightGBM 的使用</h2>
+<p>LightGBM
+的用法也是从引入包开始<code>import lightgbm as lgb</code>，其参数也基本上差不多，我们来看下：</p>
 <ul>
 <li><code>boosting_type</code>，训练方式，gbdt</li>
-<li><code>objective</code>，目标函数，可以是binary，regression</li>
-<li><code>metric</code>，评估指标，可以选择auc,
+<li><code>objective</code>，目标函数，可以是 binary，regression</li>
+<li><code>metric</code>，评估指标，可以选择 auc,
 mae，mse，binary_logloss, multi_logloss</li>
-<li><code>max_depth</code>，树的最大深度，当模型过拟合时，可以降低max_depth</li>
-<li><code>min_data_in_leaf</code>，叶子节点最小记录数，默认20</li>
-<li><code>lambda</code>，正则化项，范围为0～1</li>
+<li><code>max_depth</code>，树的最大深度，当模型过拟合时，可以降低
+max_depth</li>
+<li><code>min_data_in_leaf</code>，叶子节点最小记录数，默认 20</li>
+<li><code>lambda</code>，正则化项，范围为 0～1</li>
 <li><code>min_gain_to_split</code>，描述分裂的最小
 gain，控制树的有用的分裂</li>
 <li><code>max_cat_group</code>，在 group
 边界上找到分割点，当类别数量很多时，找分割点很容易过拟合时</li>
 <li><code>num_boost_round</code>，迭代次数，通常 100+</li>
 <li><code>num_leaves</code>，默认 31</li>
-<li><code>device</code>，指定cpu 或者 gpu</li>
+<li><code>device</code>，指定 cpu 或者 gpu</li>
 <li><code>max_bin</code>，表示 feature 将存入的 bin 的最大数量</li>
 <li><code>categorical_feature</code>，如果 categorical_features =
-0,1,2， 则列 0，1，2是 categorical 变量</li>
+0,1,2， 则列 0，1，2 是 categorical 变量</li>
 <li><code>ignore_column</code>，与 categorical_features
-类似，只不过不是将特定的列视为categorical，而是完全忽略</li>
+类似，只不过不是将特定的列视为 categorical，而是完全忽略</li>
 </ul>
-<p>Bagging参数：bagging_fraction + bagging_freq（需要同时设置）</p>
+<p>Bagging 参数：bagging_fraction + bagging_freq（需要同时设置）</p>
 <ul>
 <li><code>bagging_fraction</code>，每次迭代时用的数据比例，用于加快训练速
 度和减小过拟合</li>
-<li><code>bagging_freq</code>：bagging的次数。默认为0，表示禁用bagging，非零值表示执行k次bagging，可以设置为3-5</li>
-<li><code>feature_fraction</code>，设置在每次迭代中使用特征的比例，例如为0.8时，意味着在每次迭代中随机选择80％的参数来建树</li>
+<li><code>bagging_freq</code>：bagging 的次数。默认为 0，表示禁用
+bagging，非零值表示执行 k 次 bagging，可以设置为 3-5</li>
+<li><code>feature_fraction</code>，设置在每次迭代中使用特征的比例，例如为
+0.8 时，意味着在每次迭代中随机选择 80％的参数来建树</li>
 <li><code>early_stopping_round</code>，如果一次验证数据的一个度量在最近的
-round中没有提高，模型将停止训练</li>
+round 中没有提高，模型将停止训练</li>
 </ul>
 <p>那我们比较常见的参数配置如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python">params = &#123;<br>    <span class="hljs-string">&#x27;boosting_type&#x27;</span>: <span class="hljs-string">&#x27;gbdt&#x27;</span>,<br>    <span class="hljs-string">&#x27;objective&#x27;</span>: <span class="hljs-string">&#x27;binary&#x27;</span>, <br>    <span class="hljs-string">&#x27;eta&#x27;</span>: <span class="hljs-number">0.01</span>,<br>    <span class="hljs-string">&#x27;max_depth&#x27;</span>: <span class="hljs-number">15</span>,<br>    <span class="hljs-string">&#x27;num_leaves&#x27;</span>: <span class="hljs-number">31</span>,  <span class="hljs-comment"># 根据需要调整</span><br>    <span class="hljs-string">&#x27;colsample_bytree&#x27;</span>: <span class="hljs-number">0.8</span>,<br>    <span class="hljs-string">&#x27;subsample&#x27;</span>: <span class="hljs-number">0.9</span>,<br>    <span class="hljs-string">&#x27;subsample_freq&#x27;</span>: <span class="hljs-number">8</span>,<br>    <span class="hljs-string">&#x27;alpha&#x27;</span>: <span class="hljs-number">0.6</span>,<br>    <span class="hljs-string">&#x27;lambda&#x27;</span>: <span class="hljs-number">0</span>,<br>    <span class="hljs-string">&#x27;device_type&#x27;</span>: <span class="hljs-string">&#x27;cpu&#x27;</span>, <span class="hljs-comment"># 我是M1电脑，所以使用的是CPU</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python">params = &#123;<br>    <span class="hljs-string">&#x27;boosting_type&#x27;</span>: <span class="hljs-string">&#x27;gbdt&#x27;</span>,<br>    <span class="hljs-string">&#x27;objective&#x27;</span>: <span class="hljs-string">&#x27;binary&#x27;</span>, <br>    <span class="hljs-string">&#x27;eta&#x27;</span>: <span class="hljs-number">0.01</span>,<br>    <span class="hljs-string">&#x27;max_depth&#x27;</span>: <span class="hljs-number">15</span>,<br>    <span class="hljs-string">&#x27;num_leaves&#x27;</span>: <span class="hljs-number">31</span>,  <span class="hljs-comment"># 根据需要调整</span><br>    <span class="hljs-string">&#x27;colsample_bytree&#x27;</span>: <span class="hljs-number">0.8</span>,<br>    <span class="hljs-string">&#x27;subsample&#x27;</span>: <span class="hljs-number">0.9</span>,<br>    <span class="hljs-string">&#x27;subsample_freq&#x27;</span>: <span class="hljs-number">8</span>,<br>    <span class="hljs-string">&#x27;alpha&#x27;</span>: <span class="hljs-number">0.6</span>,<br>    <span class="hljs-string">&#x27;lambda&#x27;</span>: <span class="hljs-number">0</span>,<br>    <span class="hljs-string">&#x27;device_type&#x27;</span>: <span class="hljs-string">&#x27;cpu&#x27;</span>, <span class="hljs-comment"># 我是 M1 电脑，所以使用的是 CPU</span><br>&#125;<br></code></pre></td></tr></table></figure>
 <p>现在咱们还是用之前员工离职预测的来做一个代码示例，在进行模型训练的时候，这里有一个和
 XGBoost 类似的地方，之前 XGBoost
 用的是自己的数据结构<code>DMatrix</code>，在 LightGBM 里也有一个
-Dataset，也是几乎一样的用法，除了用官方的Dataset
+Dataset，也是几乎一样的用法，除了用官方的 Dataset
 方式进行封装之外，训练的时候要用 <code>train</code> 来进行训练,
 那这是一个官方的版本，不过我们这里用 sklearn
-提供的版本来使用。为什么要用它而不是官方版本，这是因为sklearn
+提供的版本来使用。为什么要用它而不是官方版本，这是因为 sklearn
 的参数名称都比较统一，比如说我们的机器学习里面有个参数都叫
-<code>n_estimators</code>, 而官方的 XGBoost 和LightGBM 都称作
+<code>n_estimators</code>, 而官方的 XGBoost 和 LightGBM 都称作
 <code>num_boost_round</code>。为了和其他机器学习方式统一避免麻烦，所以我建议大家还是使用
 sklearn 里的方式来使用。</p>
 <p>那我们这次为了看 LightGBM 的实际效果，还是使用官方的方法:</p>
@@ -315,14 +326,17 @@ https://catboost.ai/en/docs/</p>
 <ul>
 <li><code>learning_rate</code>，学习率</li>
 <li><code>depth</code>， 树的深度</li>
-<li><code>l2_leaf_reg</code>，L2正则化系数</li>
+<li><code>l2_leaf_reg</code>，L2 正则化系数</li>
 <li><code>n_estimators</code>，树的最大数量，即迭代次数</li>
-<li><code>one_hot_max_size</code>，one-hot编码最大规模，默认值根据数据和训练环境的不同而不同</li>
-<li><code>loss_function</code>
-，损失函数，包括Logloss，RMSE，MAE，CrossEntropy，回归任务默认RMSE，分类任务默认Logloss</li>
-<li><code>eval_metric</code>，优化目标，包括RMSE，Logloss，MAE，CrossEntropy，Recall，Precision，F1，Accuracy，AUC，R2</li>
+<li><code>one_hot_max_size</code>，one-hot
+编码最大规模，默认值根据数据和训练环境的不同而不同</li>
+<li><code>loss_function</code> ，损失函数，包括
+Logloss，RMSE，MAE，CrossEntropy，回归任务默认 RMSE，分类任务默认
+Logloss</li>
+<li><code>eval_metric</code>，优化目标，包括
+RMSE，Logloss，MAE，CrossEntropy，Recall，Precision，F1，Accuracy，AUC，R2</li>
 </ul>
-<p>fit函数参数：</p>
+<p>fit 函数参数：</p>
 <ul>
 <li><code>X</code>，输入数据数据类型可以是：list; pandas.DataFrame;
 pandas.Series</li>
@@ -331,7 +345,7 @@ pandas.Series</li>
 <li><code>sample_weight=None</code>，输入数据的样本权重</li>
 <li><code>logging_level=None</code>，控制是否输出日志信息，或者其他信息</li>
 <li><code>plot=False</code>，训练过程中，绘制，度量值，所用时间等</li>
-<li><code>eval_set=None</code>，验证集合，数据类型list(X, y)tuples</li>
+<li><code>eval_set=None</code>，验证集合，数据类型 list(X, y)tuples</li>
 <li><code>baseline=None</code></li>
 <li><code>use_best_model=None</code></li>
 <li><code>verbose=None</code></li>
@@ -344,8 +358,8 @@ pandas.Series</li>
 的几种工具就都给大家介绍完了，来简单总结一下，这三种工具，LightGBM
 效率是最高的，在 Kaggle 比赛中应用多， CatBoost
 对于分类特征多的数据，可以高效的处理，过拟合程度小，效果好。XGBoost，LightGBM
-和 CatBoost 的参数都比较多，调参需要花大量时间。 Boosting
-集成学习包括了AdaBoosting 和 Gradient Boosting， 那 Boosting
+和 CatBoost 的参数都比较多，调参需要花大量时间。 Boosting 集成学习包括了
+AdaBoosting 和 Gradient Boosting， 那 Boosting
 就只是集成学习中的一种，还有 Bagging 和 Stacking。</p>
 <p>最后留一些问题啊给大家去思考一下，那这些问题大家最好自己去梳理一下，然后写上自己的答案，把你的答案写到本文留言框里，我们来看看谁梳理的最好。</p>
 <ul>
@@ -355,13 +369,13 @@ pandas.Series</li>
 <p>那除此之外，还有一个问题</p>
 <ul>
 <li>Thinking3：举一个你之前做过的预测例子（用的什么模型，解决什么问题，比如我用
-LR模型，对员工离职进行了预测，效果如何...
+LR 模型，对员工离职进行了预测，效果如何...
 你可以在下面留言来说一下。）</li>
 </ul>
 <p>那我们要做的题目：Action1，用我之前给大家使用过的：男女声音识别的数据集：
 voice.csv</p>
 <p>链接: https://pan.baidu.com/s/1UgXmDZLOpVeXz21-Ebddog?pwd=5t4e
-提取码: 5t4e --来自百度网盘超级会员v7的分享</p>
+提取码: 5t4e --来自百度网盘超级会员 v7 的分享</p>
 <p><img
 src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231120233241.png"
 alt="20231120233241" /></p>
@@ -373,7 +387,7 @@ alt="20231120233241" /></p>
 中，大家试试用 XGBoost 和 LightGBM 的方式来进行。</p>
 <p>那这个 Action1
 就是留给大家的一个实操作业，可以去我的代码库中找相关的示例，但是我还是希望大家能自己去做一下，不要一上来就去看参考。</p>
-</div><div class="article-licensing box"><div class="licensing-title"><p>04. BI - LightGBM vs CatBoost，具体实现分析</p><p><a href="https://hivan.me/04. BI - LightGBM vs CatBoost，具体实现分析/">https://hivan.me/04. BI - LightGBM vs CatBoost，具体实现分析/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2024-01-10</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2024-01-11</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a><a class="link-muted mr-2" rel="tag" href="/tags/BI/">BI</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/05.%20BI%20-%20%E9%87%91%E8%9E%8D%E8%A1%8C%E4%B8%9A%E4%B8%AD%20Fintech%20%E7%9A%84%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">05. BI - 金融行业中 Fintech 的应用场景</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/03.%20BI%20-%20XGBoost/"><span class="level-item">03. BI - XGBoost</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+</div><div class="article-licensing box"><div class="licensing-title"><p>04. BI - LightGBM vs CatBoost，具体实现分析</p><p><a href="https://hivan.me/04. BI - LightGBM vs CatBoost，具体实现分析/">https://hivan.me/04. BI - LightGBM vs CatBoost，具体实现分析/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2024-01-10</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2024-01-16</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a><a class="link-muted mr-2" rel="tag" href="/tags/BI/">BI</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/05.%20BI%20-%20%E9%87%91%E8%9E%8D%E8%A1%8C%E4%B8%9A%E4%B8%AD%20Fintech%20%E7%9A%84%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">05. BI - 金融行业中 Fintech 的应用场景</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/03.%20BI%20-%20XGBoost/"><span class="level-item">03. BI - XGBoost</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
             this.page.url = 'https://hivan.me/04.%20BI%20-%20LightGBM%20vs%20CatBoost%EF%BC%8C%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0%E5%88%86%E6%9E%90/';
             this.page.identifier = '04. BI - LightGBM vs CatBoost，具体实现分析/';
         };
@@ -382,7 +396,7 @@ alt="20231120233241" /></p>
             s.src = '//' + 'hivan' + '.disqus.com/embed.js';
             s.setAttribute('data-timestamp', +new Date());
             (d.head || d.body).appendChild(s);
-        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">211</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">6</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">22</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI秘籍</span></span><span class="level-end"><span class="level-item tag">69</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/BI/"><span class="level-start"><span class="level-item">BI</span></span><span class="level-end"><span class="level-item tag">5</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile" href="/categories/AI%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">33</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-01-13T23:30:00.000Z">2024-01-14</time></p><p class="title"><a href="/05.%20BI%20-%20%E9%87%91%E8%9E%8D%E8%A1%8C%E4%B8%9A%E4%B8%AD%20Fintech%20%E7%9A%84%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/">05. BI - 金融行业中 Fintech 的应用场景</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-01-09T23:30:00.000Z">2024-01-10</time></p><p class="title"><a href="/04.%20BI%20-%20LightGBM%20vs%20CatBoost%EF%BC%8C%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0%E5%88%86%E6%9E%90/">04. BI - LightGBM vs CatBoost，具体实现分析</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-01-06T23:30:00.000Z">2024-01-07</time></p><p class="title"><a href="/03.%20BI%20-%20XGBoost/">03. BI - XGBoost</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-01-02T23:30:00.000Z">2024-01-03</time></p><p class="title"><a href="/02.%20BI%20-%20%E7%94%B7%E5%A5%B3%E5%A3%B0%E9%9F%B3%E8%AF%86%E5%88%AB/">02. BI - Project Two, 男女声音识别</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-01-02T11:00:00.000Z">2024-01-02</time></p><p class="title"><a href="/Tea%20Truss&#039;s%20AI%20cheats%20math%20PDF%20release%20download/">茶桁的AI秘籍 - 数学篇 PDF发布下载</a></p><p class="categories"><a href="/categories/AI%E7%A7%98%E7%B1%8D/">AI秘籍</a> / <a href="/categories/AI%E7%A7%98%E7%B1%8D/Math/">Math</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2024 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI 游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">223</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">6</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">22</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI 秘籍</span></span><span class="level-end"><span class="level-item tag">81</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/"><span class="level-start"><span class="level-item">BI</span></span><span class="level-end"><span class="level-item tag">17</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">33</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-27T23:30:00.000Z">2024-02-28</time></p><p class="title"><a href="/17.%20BI%20-%20Surprise%E5%B7%A5%E5%85%B7%E7%AE%B1%EF%BC%9ABaseline/">17. BI - Surprise 工具箱：Baseline</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-24T23:30:00.000Z">2024-02-25</time></p><p class="title"><a href="/16.%20BI%20-%20%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E4%B9%8BALS%E5%AE%9E%E7%8E%B0/">16. BI - 推荐系统之 ALS 实现</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-20T23:30:00.000Z">2024-02-21</time></p><p class="title"><a href="/15.%20BI%20-%20%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E4%B9%8BALS%E5%8E%9F%E7%90%86/">15. BI - 推荐系统之 ALS 原理</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-15T23:30:00.000Z">2024-02-16</time></p><p class="title"><a href="/14.%20BI%20-%20%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E4%B9%8B%E7%9F%A9%E9%98%B5%E5%88%86%E8%A7%A3/">14. BI - 推荐系统之矩阵分解</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-10T23:30:00.000Z">2024-02-11</time></p><p class="title"><a href="/13.%20BI%20-%20%E5%8F%AF%E8%A7%86%E5%8C%96%E7%9C%8B%E6%9D%BF%E5%8F%91%E5%B8%83/">13. BI - 可视化看板发布</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2024 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
             article: {
                 highlight: {
                     clipboard: true,
