@@ -40,7 +40,113 @@
       window.addEventListener('hashchange', switchTab, false);
   })();
   </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
-</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-08-31T14:21:07.782Z" title="8/31/2021, 10:21:07 PM">2021-08-31</time>发表</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/g1-app2sd/">G1 app2sd 完全教程</a></p><div class="content"><p>
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-08-31T14:21:07.782Z" title="8/31/2021, 10:21:07 PM">2021-08-31</time>发表</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/android-ownandroidify/">Make Android Your Own-Androidify</a></p><div class="content"><p>Androidify,由 Google 推出的一个 app，可以让 Android
+使用者在手机上创造属于自己的形象
+Android。是一套单纯的纸娃娃系统,可以自定义包括肤色、发色、衣服、裤子、鞋子、饰品等众多套件，还可变更身体的比例，其实还颇好玩的哩。只要直接在
+Android Market 搜寻 Androidify 就能找到这个可爱的小软件。</p>
+<p>跳转有 Google 针对这个 app
+推出的小短片。不过还不如自己赶快下载回来玩比较实在。</p>
+<div class="video-container">
+<embed src="http://www.tudou.com/v/xmAwwxbn0Tw/&amp;rpid=2060991/v.swf" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" wmode="opaque" width="480" height="400">
+</embed>
+</div>
+</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-08-31T14:21:07.782Z" title="8/31/2021, 10:21:07 PM">2021-08-31</time>发表</span></div></div><div class="content"><p>
+在安卓中叫兽曾经写过两个换肤教程.而教程中写的是替换原文件包...其实这个完全没必要.只要在模拟器的快捷方式中加入一段代码就好了...
+</p>
+<p>
+<code>-avd avdname <strong>-skin skinname</strong></code>
+</p>
+<p>
+而皮肤文件可以分开来放.如图:</div><a class="article-more button is-small is-size-7" href="/android-skin/#more">阅读更多</a></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-08-31T14:21:07.782Z" title="8/31/2021, 10:21:07 PM">2021-08-31</time>发表</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/android-twitteryoutubefacebook/">Android 简易访问 Twitter,youtube,facebook 方法</a></p><div class="content"><p>
+其实就是修改 hosts 文件.<br /> 而这个 hosts
+文件我是已经修改完毕的...直接 cat 到手机内覆盖原文件就可以了!
+</p>
+<p>
+执行之前请将 hosts 复制到 sdcard 的根目录,然后 cmd,cd 如 adb
+目录,然后执行其下代码:
+</p>
+<p>
+adb remount<br /> cat /sdcard/hosts &gt; /etc/hosts
+</p>
+<p>
+一切搞定! <strong>请对于 hosts 上的 IP 地址低调传播,谢谢!</strong>
+</p>
+<p>
+PS:本 hosts 修改大法已经基本完全失效,基本所有有效果的 IP
+地址都被屏蔽,如果有条件,自己建立一个 VPN
+吧!不过对于联通的用户我要给你一个大大的警告:联通屏蔽 VPN.....
+</p>
+</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-08-31T14:21:07.782Z" title="8/31/2021, 10:21:07 PM">2021-08-31</time>发表</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/cm6-test0-32b/">CM6 test0 32b</a></p><div class="content"><p>
+好吧,熟悉的人看到标题应该能猜到这就是 Android 2.2 的 CM
+版本.没想到这么快会出现,和之前发布的版本不同,这次编译与 CM
+大神的版本!没想到在和儿子过生的当间就发布了...
+<ul>
+<li>
+基于 7 月 5 日最新 CM6 源码编译，新增了电池百分比显示的开关，在
+Cyanogenmod 设置里进行更改
+</li>
+<li>
+默认关闭 jit，在 32a/32b 等低端机上开启 jit
+对性能没有改善，反倒更占内存，故在这个版本中关闭 jit
+</li>
+<li>
+修改 ADW 的默认设置，使其常驻内存，改善从其它程序退回桌面的速度
+</li>
+<li>
+修改 ADW 的壁纸图库，用 AOSP 的图库替换了 CM 的图库
+</li>
+<li>
+修改了 framework.jar，使用了 geesun 的代码试其支持中文运营商显示
+</li>
+<li>
+使用了最新的 FRF91 的 GAPPS
+</li>
+<li>
+CM6 自带的 contact 文件有不少 bug，故换成了 aosp 的 contact，虽然相对
+cm6 的功能更少，但非常稳定
+</li>
+<li>
+重新编译了 kernel，个人感觉比默认的 kernel 更稳定
+</li>
+<li>
+进一步汉化了 framework 和 superuser 等程序
+</li>
+<li>
+新增 32a 的支持，32a 的用户也可以使用
+</li>
+</ul>
+Known Issues：
+<ul>
+<li>
+第一次启动时可能会意外重启，完成设置后就不会出现这个问题
+</li>
+<li>
+相机中按 0x 变焦按键会使相机 fc
+</li>
+<li>
+摄像无法正常使用
+</li>
+<li>
+由于 Gapps 都是 Nexus 专用的，故其素材的尺寸都很大，特别是
+gmail，显示出来很大，这个暂时无法解决
+</li>
+<li>
+Dream 和 Magic 因为性能问题，不支持 flash，即便刷了 2.2 也不可能运行
+flash，所以不要去市场下载 flash 程序了，不会起作用的，另外也不要再求使用
+flash 的方法了，在地球上不存在解决方法，除非你换手机
+</li>
+</ul>
+App2sd：<br /> rom 支持 app2sd，但默认没有开启。<br /> 开启方法：<br />
+在超级终端中输入：<br /> su<br /> pm setInstallLocation 2<br /> 即可开启
+app2sd，不需要有 ext 分区就可以使用，但官方的这个 app2sd
+还不太稳定，不建议使用。<br /> Download：<br /> Dream/Magic
+32b:http://thesoloblack.com/rom/cm6-test0-32b-0705-fixed.zip<br /> Magic
+32a:http://thesoloblack.com/rom/cm6-test0-32a-0705-fixed.zip
+</p>
+<p>
+<strong>本更新信息和下载链接均来源于机锋网!</strong>
+</p>
+</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-08-31T14:21:07.782Z" title="8/31/2021, 10:21:07 PM">2021-08-31</time>发表</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/g1-app2sd/">G1 app2sd 完全教程</a></p><div class="content"><p>
 声明
 1:你所需要的软件在<a href="http://hivan.me/2009/04/23/g1%E5%88%B7%E6%9C%BA%E9%A1%BA%E5%BA%8F%E6%8C%87%E5%8D%97.html">这里可以下载</a>的到!<br />
 声明 2.app2sd 虽然可以省却手机内存,但是也有许多不便的地方!操作后 SDcard
@@ -56,7 +162,13 @@ style="color: #000000;"> <del datetime="2009-04-24T08:21:41+00:00">声明
 <span style="color: #ff0000;">从新格盘,正好用自己的图!顺便说一下,ubuntu
 下的默认抓图真恶心!每抓一张都要从新启动一次程序!</span>
 </p>
-<p></div><a class="article-more button is-small is-size-7" href="/g1-app2sd/#more">阅读更多</a></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-08-31T14:21:07.782Z" title="8/31/2021, 10:21:07 PM">2021-08-31</time>发表</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/g1-hero-tipsapp/">G1 上打造 Hero!(更新 tips&amp;app)</a></p><div class="content"><p>
+<p></div><a class="article-more button is-small is-size-7" href="/g1-app2sd/#more">阅读更多</a></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-08-31T14:21:07.782Z" title="8/31/2021, 10:21:07 PM">2021-08-31</time>发表</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/g1-bluetooth-file-transfer-1-4/">G1 蓝牙传输更新 Bluetooth File Transfer 1.4</a></p><div class="content"><p>
+不知道有没有人和我遇到了一样的问题!在 G1rom 更新到固件 1.6 以后,app2sd
+的 Bluex1.12 版本无法安装,而无 app2sd
+版本的在安装后只能发送文件而无法打开蓝牙端口接收!
+</p>
+<p>
+有兴趣的朋友可以<a target="_blank" rel="noopener" href="http://doo.hivan.net/archives/967.html">到这里下载</a>以后试试.</div><a class="article-more button is-small is-size-7" href="/g1-bluetooth-file-transfer-1-4/#more">阅读更多</a></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-08-31T14:21:07.782Z" title="8/31/2021, 10:21:07 PM">2021-08-31</time>发表</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/g1-hero-tipsapp/">G1 上打造 Hero!(更新 tips&amp;app)</a></p><div class="content"><p>
 这本来是安卓上发布的一片帖子,我写在这里主要是为了为自己增加点浏览量!顺便解解眼馋.但是我并不打算在这里提供教程和下载!
 <del datetime="2009-08-28T10:24:55+00:00">(由于 flickr
 最近不稳定,所以图片显现不出来!)</del>是由于博客上的 flickr 插件的原因..
@@ -91,13 +203,7 @@ ext3 to ext4 的更换分区功能.玩过 linux
 的应该对这个分区很熟悉!而在黑色美版中我刷入了 1.61 版的
 recovery,依旧刷的 1.6 版本 rom.
 </p>
-</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-08-31T14:21:07.782Z" title="8/31/2021, 10:21:07 PM">2021-08-31</time>发表</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/g1-bluetooth-file-transfer-1-4/">G1 蓝牙传输更新 Bluetooth File Transfer 1.4</a></p><div class="content"><p>
-不知道有没有人和我遇到了一样的问题!在 G1rom 更新到固件 1.6 以后,app2sd
-的 Bluex1.12 版本无法安装,而无 app2sd
-版本的在安装后只能发送文件而无法打开蓝牙端口接收!
-</p>
-<p>
-有兴趣的朋友可以<a target="_blank" rel="noopener" href="http://doo.hivan.net/archives/967.html">到这里下载</a>以后试试.</div><a class="article-more button is-small is-size-7" href="/g1-bluetooth-file-transfer-1-4/#more">阅读更多</a></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-08-31T14:21:07.782Z" title="8/31/2021, 10:21:07 PM">2021-08-31</time>发表</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/google-android-40/">Google  Android 4.0</a></p><div class="content"><p>10,19 日上午十点左右,Google,三星在香港联合举办了发布会,推出了下一代
+</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-08-31T14:21:07.782Z" title="8/31/2021, 10:21:07 PM">2021-08-31</time>发表</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/google-android-40/">Google  Android 4.0</a></p><div class="content"><p>10,19 日上午十点左右,Google,三星在香港联合举办了发布会,推出了下一代
 Android 系统(Ice Cream Sandwich)Android4.0,以及下一代 Nexus
 智能手机,三星 Galaxy Nexus Prime.</p>
 <p>这次的软件开发包也在这次大会宣布可以下载使用,在 developer,android.com
@@ -155,152 +261,7 @@ HTC 版 G2 使用的更新程序</a></strong> <br />大小: 4848659 字节
 <br />保证手机与电脑连接无误后，双击更新程序运行即可。
 </p>
 </p>
-</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-08-31T14:21:07.781Z" title="8/31/2021, 10:21:07 PM">2021-08-31</time>发表</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/android-2-2-app2sd/">Android 2.2 App2sd 问题</a></p><div class="content"><p>
-其实比起以前版本的 app2sd 来说,设置是一样的!只是多了一个步骤,就是需要给
-rom 添加一个 sdext.然后所有的设置就和以前的版本一模一样了.
-</p>
-<p>
-首先当然需要有一个已经分好区的 sdcard,具体设置可以查看我以前的文,有
-ubuntu 下进行分区的和 windows 下的!
-</p>
-<p>
-然后需要最近版本的 SPL 和
-Radio,这个本人不提供了,可以自行解决!伸手党可以留下自己的邮箱,我提供下载地址!
-</p>
-<p>准备工作做足后,第一步就是需要在手机上建立一个 sdext
-访问.这里提供一个文本文档:<a target="_blank" rel="noopener" href="http://yunfile.com/file/hivandu/16325f3c/">下载：
-fr-patch134.zip</a></p>
-<p>放在 sdcard 根目录,然后在连接手机的情况下在终端如下操作:</p>
-<ul>
-<li><code>adb shell</code></li>
-<li><code># sh /sdcard/fr-patch134.txt sdext</code></li>
-<li><code>busybox df -h</code></li>
-</ul>
-<p>
-如果看到有/sd-ext 分区,OK,以下的事情就顺理成章了,参考我以前发布的 app2sd
-步骤操作就好了!
-</p>
-<p>
-至此所有问题解决!
-</p>
-<p>
-此处为后续更新,由于之前忽略了点东西,所以这里做一个补充!
-</p>
-<p>
-由于 2.2rom 和以前版本的一些差别,在做 app2sd 之前,需要挂在 system,sd-ext
-和 data 分区,这是需要注意的一点!挂在命令为:mount
-</p>
-<p>
-例子: mount system
-</p>
-<p>
-有什么不明白的再问吧!
-</p>
-</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-08-31T14:21:07.781Z" title="8/31/2021, 10:21:07 PM">2021-08-31</time>发表</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/android-2-2-for-g1/">Android 2.2 for G1</a></p><div class="content"><p>
-親愛的 Android,我回歸了...說實話,後兩個月我真的有些壓抑.現在感覺解脫了!
-<img src="http://farm5.static.flickr.com/4080/4754782987_f6b843d0c0.jpg" alt="" />
-Android 2.2 For G1 已經被 C
-神放出,貌似解決了相機問題,而其他問題暫時沒有進行測試,因為本人也正在下載中...萬分期待!
-</p>
-<p>
-先提供下載地址,等待我適用後再放試用報告..
-</p>
-<p>
-http://drop.io/ionstorm/asset/defcon-dream-ota-eng-t1-signed-zip
-</p>
-<p>
-PS:如果沒有語言要求可以下載這個版本就 OK
-了,如果強烈需求中文,需要下載中文補丁包
-</p>
-<p>
-试用报告:
-<ul>
-<li>
-仍然没有中文
-</li>
-<li>
-系统默认没有中文输入法(这个到不是问题)
-</li>
-<li>
-没有 Google Map,市场无法下到.并且安装了 4.2
-开发版后打开就崩溃(这点对于喜欢 Buzz 的朋友是个致命伤)
-</li>
-<li>
-3D 图库效果有.
-</li>
-<li>
-相机不能用,和 2.1 不同的是,就算拍照有图片,打开来看也是一个 android
-小人....
-</li>
-<li>
-WIFI 正常使用
-</li>
-<li>
-蓝牙没有测试.
-</li>
-<li>
-速度真的比 2.1 快了不少,没有一点卡的感觉.
-</li>
-<li>
-Settings 里有 CyanogenMod settings,可以直接更新 Rom,可是我这里链接失败.
-</li>
-<li>
-Apn 需要自行设置,具体的设置方法可在网上 Google
-</li>
-<li>
-Vpn 使用正常
-</li>
-<li>
-因为地图没有打开,所以 GPS 模块没有测试.
-</li>
-<li>
-其他不进行补充了,由于以上有些原因是我无法接受的.所以打算刷回
-1.6rom,以前刷 2.1 是为了绑定自己和公司双帐号,现在不必了!不用忍受 2.1
-的速度了...
-</li>
-</ul>
-</p>
-</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-08-31T14:21:07.781Z" title="8/31/2021, 10:21:07 PM">2021-08-31</time>发表</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/android-3-0-preview/">Android 3.0 Preview</a></p><div class="content"><p>
-整个界面都显得很陌生啊!大家可以从视频中看到.</div><a class="article-more button is-small is-size-7" href="/android-3-0-preview/#more">阅读更多</a></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-08-31T14:21:07.781Z" title="8/31/2021, 10:21:07 PM">2021-08-31</time>发表</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/android-3-0/">Android 3.0</a></p><div class="content"><p>
-好吧,7.1 号 Eldar Murtazin 在其博客上已经放出一个可信度比较高的谣言,就是
-Android3.0 将于十月份发布,代号姜饼(Gingerbread)
-<img src="http://www.unwiredview.com/wp-content/uploads/2010/06/Android-Gingerbread.jpg" alt="" />
-据传,3.0rom 将会针对高端市场,分辨率达到了
-1280X760,支持此系统的最低配置将为 1Ghz 处理器,512M 内存.可以这么说,在
-3.0 系统发布以后,就可以正式宣布 G1 被彻底淘汰了.
-<ul>
-<li>
-Android 3.0 Gingerbread will be released in mid- October (around 15
--16th), 2010. First handsets shipping in November/December – for the
-Holiday Season.
-</li>
-<li>
-<em>Minimum</em> hardware requirements for Android 3.0 devices are: 1GHZ
-CPU, 512MB or RAM, displays from 3.5” and higher.  (We all, of course,
-heard
-that <a target="_blank" rel="noopener" href="http://www.unwiredview.com/2010/06/10/motorola-raises-the-bar-with-plans-for-2-ghz-android-in-2010/">Android
-handsets with 2GHz CPU’s</a> are coming)
-</li>
-<li>
-New 1280×760 resolution available for the devices with displays of 4”
-and higher. (Anyone thinking about Android tablets now? )
-</li>
-<li>
-Completely revamped user interface. If you want to get a feeling of what
-Android 3.0 Gingerbread UX is like, check out
-the <a href="http://www.youtube.com/watch?v=1E1mSSBKEPU" target="_blank">Gallery  App</a>
-on Nexus One. The same overall feel, light animated transitions,etc.
-Natively, through all the UI.
-</li>
-<li>
-Android’s split into 2 branches becomes official. 3.0 for top of the
-line/high end devices. Cheap, low-end mass market handsets will keep
-Android 2.1/2.2
-</li>
-</ul>
-详情可以参看:<a target="_blank" rel="noopener" href="http://www.unwiredview.com/2010/06/30/android-3-0-gingerbread-details-1280x760-resolution-1ghz-minimum-specs-mid-oct-release/">http://www.unwiredview.com/2010/06/30/android-3-0-gingerbread-details-1280x760-resolution-1ghz-minimum-specs-mid-oct-release/</a>
-</p>
-</div></article></div><nav class="pagination" role="navigation" aria-label="pagination"><div class="pagination-previous"><a href="/page/17/">上一页</a></div><div class="pagination-next"><a href="/page/19/">下一页</a></div><ul class="pagination-list is-hidden-mobile"><li><a class="pagination-link" href="/">1</a></li><li><span class="pagination-ellipsis">&hellip;</span></li><li><a class="pagination-link" href="/page/17/">17</a></li><li><a class="pagination-link is-current" href="/page/18/">18</a></li><li><a class="pagination-link" href="/page/19/">19</a></li><li><span class="pagination-ellipsis">&hellip;</span></li><li><a class="pagination-link" href="/page/23/">23</a></li></ul></nav></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI 游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">223</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">6</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">22</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI 秘籍</span></span><span class="level-end"><span class="level-item tag">81</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/"><span class="level-start"><span class="level-item">BI</span></span><span class="level-end"><span class="level-item tag">17</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">33</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-27T23:30:00.000Z">2024-02-28</time></p><p class="title"><a href="/17.%20BI%20-%20Surprise%E5%B7%A5%E5%85%B7%E7%AE%B1%EF%BC%9ABaseline/">17. BI - Surprise 工具箱：Baseline</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-24T23:30:00.000Z">2024-02-25</time></p><p class="title"><a href="/16.%20BI%20-%20%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E4%B9%8BALS%E5%AE%9E%E7%8E%B0/">16. BI - 推荐系统之 ALS 实现</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-20T23:30:00.000Z">2024-02-21</time></p><p class="title"><a href="/15.%20BI%20-%20%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E4%B9%8BALS%E5%8E%9F%E7%90%86/">15. BI - 推荐系统之 ALS 原理</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-15T23:30:00.000Z">2024-02-16</time></p><p class="title"><a href="/14.%20BI%20-%20%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E4%B9%8B%E7%9F%A9%E9%98%B5%E5%88%86%E8%A7%A3/">14. BI - 推荐系统之矩阵分解</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-10T23:30:00.000Z">2024-02-11</time></p><p class="title"><a href="/13.%20BI%20-%20%E5%8F%AF%E8%A7%86%E5%8C%96%E7%9C%8B%E6%9D%BF%E5%8F%91%E5%B8%83/">13. BI - 可视化看板发布</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2024 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+</div></article></div><nav class="pagination" role="navigation" aria-label="pagination"><div class="pagination-previous"><a href="/page/17/">上一页</a></div><div class="pagination-next"><a href="/page/19/">下一页</a></div><ul class="pagination-list is-hidden-mobile"><li><a class="pagination-link" href="/">1</a></li><li><span class="pagination-ellipsis">&hellip;</span></li><li><a class="pagination-link" href="/page/17/">17</a></li><li><a class="pagination-link is-current" href="/page/18/">18</a></li><li><a class="pagination-link" href="/page/19/">19</a></li><li><span class="pagination-ellipsis">&hellip;</span></li><li><a class="pagination-link" href="/page/23/">23</a></li></ul></nav></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI 游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">227</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">6</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">22</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI 秘籍</span></span><span class="level-end"><span class="level-item tag">85</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/"><span class="level-start"><span class="level-item">BI</span></span><span class="level-end"><span class="level-item tag">21</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">33</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-03-09T23:30:00.000Z">2024-03-10</time></p><p class="title"><a href="/21.%20BI%20-%20SVD%20%E7%9F%A9%E9%98%B5%E5%88%86%E8%A7%A3%E7%9A%84%E5%AE%9E%E9%99%85%E6%A1%88%E4%BE%8B%EF%BC%9A%E5%88%A9%E7%94%A8%20SVD%20%E8%BF%9B%E8%A1%8C%E5%9B%BE%E5%83%8F%E5%8E%8B%E7%BC%A9/">21. BI - SVD 矩阵分解的实际案例：利用 SVD 进行图像压缩</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-03-05T23:30:00.000Z">2024-03-06</time></p><p class="title"><a href="/20.%20BI%20-%20%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E4%B8%BA%E4%BD%A0%E8%AE%B2%E9%80%8F%20SVD%20%E7%9F%A9%E9%98%B5%E5%88%86%E8%A7%A3%E7%9A%84%E5%8E%9F%E7%90%86/">20. BI - 一篇文章为你讲透 SVD 矩阵分解的原理</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-03-02T23:30:00.000Z">2024-03-03</time></p><p class="title"><a href="/19.%20BI%20-%20%E5%AD%A6%E4%B9%A0%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A6%82%E4%BD%95%E4%BB%8E%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87%E4%B8%AD%E8%8E%B7%E5%8F%96%E4%B8%80%E6%89%8B%E4%BF%A1%E6%81%AF%EF%BC%8C%E5%B9%B6%E6%8E%A8%E8%8D%90%E4%B8%80%E4%BA%9B%E6%8A%80%E6%9C%AF%E8%AE%BA%E6%96%87/">19. BI - 学习人工智能如何从阅读论文中获取一手信息，并推荐一些技术论文</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-29T23:30:00.000Z">2024-03-01</time></p><p class="title"><a href="/18.%20BI%20-%20SlopeOne%20%E5%8E%9F%E5%A7%8B%E7%AE%97%E6%B3%95%E3%80%81%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95%E7%9A%84%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/">18. BI - SlopeOne 原始算法、优化算法的原理及应用</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-27T23:30:00.000Z">2024-02-28</time></p><p class="title"><a href="/17.%20BI%20-%20Surprise%E5%B7%A5%E5%85%B7%E7%AE%B1%EF%BC%9ABaseline/">17. BI - Surprise 工具箱：Baseline</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2024 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
             article: {
                 highlight: {
                     clipboard: true,

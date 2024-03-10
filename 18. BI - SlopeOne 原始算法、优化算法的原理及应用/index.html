@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>18. BI - SlopeOne 原始算法、优化算法的原理及应用 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="本文为 「茶桁的 AI 秘籍 - BI 篇 第 18 篇」"><meta property="og:type" content="blog"><meta property="og:title" content="18. BI - SlopeOne 原始算法、优化算法的原理及应用"><meta property="og:url" content="https://hivan.me/18.%20BI%20-%20SlopeOne%20%E5%8E%9F%E5%A7%8B%E7%AE%97%E6%B3%95%E3%80%81%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95%E7%9A%84%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="本文为 「茶桁的 AI 秘籍 - BI 篇 第 18 篇」"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2024-02-29T23:30:00.000Z"><meta property="article:modified_time" content="2024-03-10T03:14:52.460Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="article:tag" content="BI"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/18.%20BI%20-%20SlopeOne%20%E5%8E%9F%E5%A7%8B%E7%AE%97%E6%B3%95%E3%80%81%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95%E7%9A%84%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/"},"headline":"18. BI - SlopeOne 原始算法、优化算法的原理及应用","image":[],"datePublished":"2024-02-29T23:30:00.000Z","dateModified":"2024-03-10T03:14:52.460Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"本文为 「茶桁的 AI 秘籍 - BI 篇 第 18 篇」"}</script><link rel="canonical" href="https://hivan.me/18.%20BI%20-%20SlopeOne%20%E5%8E%9F%E5%A7%8B%E7%AE%97%E6%B3%95%E3%80%81%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95%E7%9A%84%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><script>var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?f91b64734fdc7bfb999e48f9248d44dd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-ZFB6CVWZFJ" async></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-ZFB6CVWZFJ');</script><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2024-02-29T23:30:00.000Z" title="3/1/2024, 7:30:00 AM">2024-03-01</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a><span> / </span><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></span></div></div><h1 class="title is-3 is-size-4-mobile">18. BI - SlopeOne 原始算法、优化算法的原理及应用</h1><div class="content"><p>本文为 「<a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg%3D%3D&amp;action=getalbum&amp;album_id=3193965113967132673&amp;subscene=&amp;sessionid=svr_548800ce471&amp;enterid=1704001437&amp;from_msgid=2648751621&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;scene=21#wechat_redirect">茶桁的
+AI 秘籍 - BI 篇</a> 第 18 篇」</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/茶桁的AI秘籍_核心BI_18.png"
+alt="茶桁的AI秘籍_核心BI_18" /></p>
+<span id="more"></span>
+<p>[TOC]</p>
+<p>Hi，你好。我是茶桁。</p>
+<p>上节课的内容中，我们介绍了 Surprise 工具箱以及其中的
+BaselineOnly，最后我们简单实现了一下。这一节课中，咱们来看看 Surprise
+中的另外一个内容，SlopeOne 算法。</p>
+<h2 id="slope-one-算法">Slope One 算法</h2>
+<p>SlopeOne 算法是在 2005 年提出的一个 item-based
+的协同过滤推荐算法，提出人是 Daniel lemire。</p>
+<p>这个算法最大的有点在于算法很简单，易于实现，效率高且推荐准确度较高。</p>
+<p>咱们来看一下这个表格：</p>
+<table>
+<thead>
+<tr class="header">
+<th>用户</th>
+<th>商品 1 评分</th>
+<th>商品 2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td>5</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td>4</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td>C</td>
+<td>4</td>
+<td>?</td>
+</tr>
+</tbody>
+</table>
+<p>有 3 个用户对商品做了打分，用户 A 打了 5 分和 3 分给商品 1 和商品
+2，B 给商品 1 打了 4 分，给商品 2 打了 3 分，C 给商品 1 打了 4
+分，那请问 C 会给商品 2 打几分？</p>
+<p>这是个协同过滤，所以我们会利用已有的一些用户对商品的评分。你们觉得 C
+会给商品 2 打几分？这个分数的打法怎么打，我们的打法是要找过滤，找到 1 和
+2 之间的一些差别。</p>
+<p>可以打 3 分，为什么？因为 C 和 B 很像，B 打三分，所以认为 C 也应该是
+3 分。这其实类似于邻近方法，它不是 SlopeOne，这也是一种策略。</p>
+<p>那 SlopeOne 的策略是什么？它会这么认为：你看 1 是不是比 2
+要好？好多少，我们要把规律学出来。</p>
+<p>这里有两个样本，5 - 3 是第一个人，第二个人是 4 -
+3。一共有两个人所以除上 2：<strong>C 对商品 2 的评分 = 4 -
+((5-3)+(4-3))/2 = 2.5</strong>。</p>
+<p>其实就是 1 比 2 要好 1.5 分，平均分要好 1.5 分。那么对于 C 来说的第 1
+个商品评分是 4， 4 - 1.5 就变成了 2.5。这个就是 SlopeOne
+的一个原理。</p>
+<p>SlopeOne 就是先去找一个规律，然后去应用规律，把空的给它填上。</p>
+<p>我们来总结一下 SlopeOne 算法： - Step1， 计算 Item
+之间的评分差的均值，记为评分偏差（两个 item 都评分过的用户）</p>
+<p><span class="math display">\[
+\begin{align*}
+&amp; 商品 i 和 j 之间被共同用户打分过的个数。\\
+&amp; dev_{j,i} = \sum_{u\in S_{j,i}(x)}\frac{u_j-u_i}{card(S_{j,i}(x))}
+\end{align*}
+\]</span></p>
+<p>首先，商品和商品之间应该是有一些规律的偏差的，我们把这个均值求出来，这是第一个找规律的阶段。
+- Step2, 根据 Item 间的评分偏差和用户的历史评分，预测用户对未评分的 item
+的评分</p>
+<p><span class="math display">\[
+\begin{align*}
+P(u)_j &amp; = \frac{1}{card(R_j)}(dev_{j,i} + u_i) \\
+P^{S1}(u)_j &amp; = \overline u + \frac{1}{card(R_j)}\sum_{i\in R_j}
+dev_{j, i}
+\end{align*}
+\]</span></p>
+<p>第二阶段是利用刚才找到的这个规律和用户的评分来去预测用户没有评分的商品。第二阶段叫做用规律，用完规律预测出来的分值去做排序，排序以后的结果推荐给用户。
+- Step3, 将预测评分排序，取 topN 对应的 item 推荐给用户。</p>
+<p>看看 SlopeOne
+的原理，感觉起来应该也还好。我们来一个比原来稍微复杂一点点的一个例子一起来看一下。</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>a</th>
+<th>b</th>
+<th>c</th>
+<th>d</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td>5</td>
+<td>3.5</td>
+<td>？</td>
+<td>？</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td>2</td>
+<td>5</td>
+<td>4</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td>C</td>
+<td>4.5</td>
+<td>3.5</td>
+<td>1</td>
+<td>4</td>
+</tr>
+</tbody>
+</table>
+<p>三个用户 A， B，C，四个商品 a、b、c，d。用户 A 对它的打分，B
+的打分，C 的打分。现在就是要预测用户 A 对 c 和 d 的打分是多少。</p>
+<p>我们用 SlopeOne，刚才咱们说的第一步就是要去找商品的规律，我们先看 b
+和 a 之间的规律，b 和 a 之间的规律的是三个用户都打分了，因此是</p>
+<p><span class="math display">\[
+\begin{align*}
+b \ and \ a: ((3.5-5)+(5-2)+(3.5-4.5))/3 = 0.5/3 = 1/6
+\end{align*}
+\]</span></p>
+<p>计算的结果，b 比 a 要好 1/6。</p>
+<p>这个规律学完以后再去看 c 和 a 的规律，c 和 a 出现过几个样本？应该是 2
+个,用户 B 和用户 C：</p>
+<p><span class="math display">\[
+\begin{align*}
+c \ and \ a: ((4-2)+(1-4.5))/2 = -1.5/2 = -\frac{3}{4}
+\end{align*}
+\]</span></p>
+<p>也就是<span class="math inline">\(-\frac{3}{4}\)</span>。</p>
+<p>接着依次来找剩余的规律，包含上面的两个，完整的规律就应该是</p>
+<p><span class="math display">\[
+\begin{align*}
+b \ and \ a: &amp; ((3.5-5)+(5-2)+(3.5-4.5))/3 = 0.5/3 = 0.17 \\
+c \ and \ a: &amp; ((4-2)+(1-4.5))/2 = -1.5/2 = -0.75 \\
+d \ and \ a: &amp; ((2-2)+(4-4.5))/2 = -0.5/2 = -0.25 \\
+c \ and \ b: &amp; ((4-5)+(1-3.5))/2 = -3.5/2 = -1.75 \\
+d \ and \ b: &amp; ((2-5)+(4-3.5))/2 = -2.5/2 = -1.25 \\
+d \ and \ c: &amp; ((2-4)+(4-1))/2 = 1/2 = 0.5
+\end{align*}
+\]</span></p>
+<p>这个过程就是计算两两之间的一个均值的偏差，叫找规律。把两个均值间的差值计算了出来。</p>
+<p>上面这个过程找好规律就要用规律了，要预测用户 A 对于商品 c 和 d
+的评分，那么用户 A 对商品 c 的评分怎么去运用它的一个规律呢？</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>a</th>
+<th>b</th>
+<th>c</th>
+<th>d</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>a</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>b</td>
+<td>0.17</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>c</td>
+<td>-0.75</td>
+<td>-1.75</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>d</td>
+<td>-0.25</td>
+<td>-1.25</td>
+<td>0.5</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>来看这个之前找规律时计算的结果，c 是有 2 个, c 和 a 之间是 -0.75， c
+和 b 之间是-1.75, 再看 d，有三个，d 和 a 之间是-0.25, d 和 b
+之间是-1.25， d 和 c 之间是 0.5。</p>
+<p>那 A 对 c 和 d 的评分就应该是：</p>
+<p><span class="math display">\[
+\begin{align*}
+A 对 c 的评分 &amp; = ((-0.75+5)+(-1.75+3.5))/2 = 3 \\
+A 对 d 的评分 &amp; = ((-0.25+5)+(-1.25 + 3.5))/2 = 3.5
+\end{align*}
+\]</span></p>
+<p>有了这个结果之后，就可以将 c 和 d 进行排序，排序结果是 d
+的预测评分大于 c，那 A 可能更偏好于 d，我们就给用户 A 推荐 d
+商品。预测评分排序结果就为 <code>&#123;d, c&#125;</code>。</p>
+<p>以上就是一个原理，先去找两点之间的规律，再把这个规律应用于未知的地方，再去求每个未知。过程中我们都是找这个未知跟已知之间的原有规律的计算，把它推演出来。</p>
+<p>最好的方式还是代入进去自己去推算一下，最开始的那个过程应该都比较好理解，比较简单。后面就稍微复杂一点，但实际上再怎么复杂两两之间规律都肯定能计算出来。</p>
+<p>ALS 和 SlopeOne
+这两种方法都是协同过滤，都是猜你喜欢，猜矩阵的值。SlopeOne
+它没有学内容，它就直接计算。SlopeOne
+这个方法其实原理也比较清晰，就是找两两之间的规律，通过这些数据来做个判断，然后再去应用就好。</p>
+<p>它虽然是协同过滤，但是实际上没有太多学习的过程，它的学习也就是把以前的那个差值给他计算出来，统计的方式。</p>
+<p>ALS
+最大的使用特点就是把矩阵降维处理了，把稀疏变成稠密再进行预测。</p>
+<p>SlopeOne
+这个方法实际上在一篇论文里面可以找到。这篇论文的作者在论文里面提到了三种方法，刚才看到的是第一种
+SlopeOne，其实还有一种在原有基础上做的改进叫 Weighted
+SlopeOne，其实就是加权的方式。</p>
+<p>如果有 100 个用户对 Item1 和 Item2 都打过分，有 1000 个用户对 Item3
+和 Item2 也打过分，显然这两个 rating
+差的权重是不一样的，因此计算方法为：</p>
+<p><span class="math display">\[
+\begin{align*}
+(100 \cdot (Rating 1 to 2) + 1000 \cdot (Rating 3 to 2)) / (100 + 1000)
+\end{align*}
+\]</span></p>
+<p>有 100 个用户对商品 1 和商品 2 都打过分, 还有 2 和 3 之间的规律是有
+1,000 个人的打分。那么这两个矩阵的打分权重一样吗？以往的方式，最原始的
+SlopeOne 的方式是一样的，而现在认为是有些差别的。1 和 2 的权重是 100，2
+和 3 的权重变成了 1,000。最后我们除上它，整个的平均就是 1,100。</p>
+<p>加 Weighted
+实际上是一个比较容易的一种加权方式，这种加权的方法就考虑了不同的权重的概念。</p>
+<p>SlopeOne
+的特点是作商品和商品之间的规律，对于商品不太更新的内容它就会比较稳定，也就是适用于
+item
+更新不频繁，数量相对较稳定的。相反，如果商品天天更新是不太好用。</p>
+<p>item 数要小于 user
+数。因为商品和商品之间是两两之间都要计算规律的，item
+数量如果很大我们的计算规律的数量也会很多，算法的效率也是个问题，所以它适合于
+item 不太更新的场景，item 要小于 user 数。</p>
+<p>整体来说算法比较简单，易于实现，执行效率比较高。</p>
+<p>但是它是依赖于用户行为，存在冷启动问题和稀疏性问题。也就是用户需要对商品来做打分。</p>
+<p>其实，只要是协同过滤的话都存在冷启动问题。比如说用户对商品，如果是个新的用户，没有商品打分，你就没法利用他以前的规律来进行操作。</p>
+<p>稀疏性问题 ALS
+相对来说会好一点。它毕竟还有个降维处理，可以帮你来变得更加稠密一些。</p>
+<p>实现起来其实和之前也没有太大的区别，就是调用的包会不一样。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 数据读取</span><br>reader = Reader(line_format=<span class="hljs-string">&#x27;user item rating timestamp&#x27;</span>, sep=<span class="hljs-string">&#x27;,&#x27;</span>, skip_lines=<span class="hljs-number">1</span>)<br>data = Dataset.load_from_file(<span class="hljs-string">&#x27;dataset/movies/ratings.csv&#x27;</span>, reader=reader)<br>train_set = data.build_full_trainset()<br><br><span class="hljs-comment"># 使用 SlopeOne 算法</span><br>algo = SlopeOne()<br>algo.fit(train_set)<br><br><span class="hljs-comment"># 对制定用户和商品进行评分预测</span><br>uid = <span class="hljs-built_in">str</span>(<span class="hljs-number">196</span>)<br>iid = <span class="hljs-built_in">str</span>(<span class="hljs-number">302</span>)<br><br>pred = algo.predict(uid, iid, r_ui=<span class="hljs-number">4</span>, verbose=<span class="hljs-literal">True</span>)<br><br>---<br>user: <span class="hljs-number">196</span>        item: <span class="hljs-number">302</span>        r_ui = <span class="hljs-number">4.00</span>   est = <span class="hljs-number">4.32</span>   &#123;<span class="hljs-string">&#x27;was_impossible&#x27;</span>: <span class="hljs-literal">False</span>&#125;<br></code></pre></td></tr></table></figure>
+<p>我们还是预估 196 对 302 这个商品，那结果也还可以，原始值是 4，
+预测出来的结果是 4.32。</p>
+<h2 id="surprise-推荐系统工具">Surprise 推荐系统工具</h2>
+<p>SlopeOne 是在 surprise 里的一个工具，surprise
+是一个工具箱，里面还有非常多的一些其他的工具。比如说基于邻域的协同过滤，你的邻域可以用
+KNN 找邻居的方法: KNNBaseline，这里就不讲原理了，KNN
+原理前面的课程讲过很多，只让大家体验一下什么是邻域，什么是基于内存。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 数据读取</span><br>reader = Reader(line_format=<span class="hljs-string">&#x27;user item rating timestamp&#x27;</span>, sep=<span class="hljs-string">&#x27;,&#x27;</span>, skip_lines=<span class="hljs-number">1</span>)<br>data = Dataset.load_from_file(<span class="hljs-string">&#x27;dataset/movies/ratings.csv&#x27;</span>, reader=reader)<br>train_set = data.build_full_trainset()<br><br><span class="hljs-comment"># 相似度计算，使用皮尔逊相似度计算法，使用 ItemCF 相似度计算</span><br>sim_options = &#123;<span class="hljs-string">&#x27;name&#x27;</span>:<span class="hljs-string">&#x27;pearson_baseline&#x27;</span>, <span class="hljs-string">&#x27;user_based&#x27;</span>:<span class="hljs-literal">False</span>&#125;<br><br><span class="hljs-comment"># 使用 KNNBaseline 算法，一种 CF 算法</span><br>algo = KNNBaseline(sim_options=sim_options)<br>algo.fit(train_set)<br><br><span class="hljs-comment"># 获得电影名称信息数据</span><br>rid_to_name, name_to_rid = read_item_names()<br><br><span class="hljs-comment"># 获得 Toy Story 电影的电影 ID</span><br>toy_story_raw_id = name_to_rid[<span class="hljs-string">&#x27;Toy Story (1995)&#x27;</span>]<br><br><span class="hljs-comment"># 通过 Toy Story 电影的电影 ID 获取该电影的推荐内部 id</span><br>toy_story_inner_id = algo.trainset.to_inner_iid(<span class="hljs-built_in">str</span>(toy_story_raw_id))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;电影名称:&#123;&#125;, 电影 id:&#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(df.loc[df[<span class="hljs-string">&#x27;movieId&#x27;</span>]==toy_story_inner_id][<span class="hljs-string">&#x27;title&#x27;</span>].values, toy_story_inner_id))<br><br>---<br>电影名称:[<span class="hljs-string">&#x27;Drop Zone (1994)&#x27;</span>], 电影 <span class="hljs-built_in">id</span>:<span class="hljs-number">227</span><br></code></pre></td></tr></table></figure>
+<p>我们运行一下看看内存：</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/%E6%88%AA%E5%B1%8F2023-12-18%2021.19.47.png"
+alt="截屏 2023-12-18 21.19.47" /></p>
+<p>在运行之前，还只用了 5 个 G 内存，运行之后直接飙到了 13.89G，如果这个
+Python 已经运行完了就会瞬间下降，降到原来的的 5 个
+G。这就是为什么叫做基于内存的过滤。</p>
+<p>好，总结一下。这几节课我们矩阵分解内容就基本讲完了，首先矩阵分解是个隐语义的概念，隐语义通过隐分类去匹配用户和商品之间来做推荐，他把原来的平行矩阵
+R 做了一个降维的处理，分成了两个小矩阵：User 矩阵和 Item 矩阵，User
+每一行代表一个用户的向量，Item 每一列代表一个 item 的向量。将 User 和
+Item 的维度降低到隐类别个数的维度。</p>
+<p>根据用户行为，矩阵分解可以分为显式矩阵分解和隐式矩阵分解。显式 MF
+中，用户向量和物品向量的内积拟合的是用户对物品的实际评分，隐式 MF
+中，用户向量和物品向量的内积拟合的是用户对物品的偏好（0 或
+1），拟合的强度由置信度控制，置信度又由行为的强度决定。</p>
+<h2 id="alssgd">ALS&amp;SGD</h2>
+<p>ALS 和 SGD
+都是数学上的优化方法，这两种方法也都给大家说了一下，可以解决最优化问题（损失函数最小化）。</p>
+<p>ALS-WR
+算法，可以解决过拟合问题，当隐特征个数很多的时候也不会造成过拟合。ALS，SGD
+都可以进行并行化处理，SGD
+方法可以不需要遍历所有的样本即可完成特征向量的求解。</p>
+<p>Facebook
+把这两种方法都进行了揉合提出来一种新的策略，旋转混合式求解方法，可以处理
+1,000 亿的数据。这数量级非常庞大，而且效率还比 Spark mllib 快了有 10
+倍。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20231218221824.png"
+alt="20231218221824" /></p>
+<p>从张图计算时间的图来看，Spark 是红色，Giraph 是蓝色，就 Facebook
+提出来这个方法，它的计算时间是原来的
+1/10。所以把这两种方法融合到一起提供一种螺旋式的求解方式，这样求解的效率，得出来参数的拟合速度会更快一点。</p>
+<p>具体使用的时候当然就是调包，我们有 Surprise
+这个工具箱，里面有很多的方法。之前给大家讲过，它是 Scikit
+家族的，使用起来和 sklearn 也很像。它内置了 ALS 和 SGD
+等多种优化算法，还有一些预测算法，包括基线算法，邻域方法，矩阵分解，SlopeOne
+等等，这些也在之前的课程中给大家都讲解过。除了这些之外，还有一些没有讲的内容，比如相似性度量，内置
+cosine，MSD，pearson 等等。</p>
+<p>这个就是咱们今天这节课的主要内容了，那下一节课中，咱们来看一个论文。虽然是比较早的一篇论文了，但是阅读论文也是一种能力，如果你想要未来获取大量的一些新的方法，读取论文是最直接的方式。</p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>18. BI - SlopeOne 原始算法、优化算法的原理及应用</p><p><a href="https://hivan.me/18. BI - SlopeOne 原始算法、优化算法的原理及应用/">https://hivan.me/18. BI - SlopeOne 原始算法、优化算法的原理及应用/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2024-03-01</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2024-03-10</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a><a class="link-muted mr-2" rel="tag" href="/tags/BI/">BI</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/19.%20BI%20-%20%E5%AD%A6%E4%B9%A0%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A6%82%E4%BD%95%E4%BB%8E%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87%E4%B8%AD%E8%8E%B7%E5%8F%96%E4%B8%80%E6%89%8B%E4%BF%A1%E6%81%AF%EF%BC%8C%E5%B9%B6%E6%8E%A8%E8%8D%90%E4%B8%80%E4%BA%9B%E6%8A%80%E6%9C%AF%E8%AE%BA%E6%96%87/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">19. BI - 学习人工智能如何从阅读论文中获取一手信息，并推荐一些技术论文</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/17.%20BI%20-%20Surprise%E5%B7%A5%E5%85%B7%E7%AE%B1%EF%BC%9ABaseline/"><span class="level-item">17. BI - Surprise 工具箱：Baseline</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/18.%20BI%20-%20SlopeOne%20%E5%8E%9F%E5%A7%8B%E7%AE%97%E6%B3%95%E3%80%81%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95%E7%9A%84%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/';
+            this.page.identifier = '18. BI - SlopeOne 原始算法、优化算法的原理及应用/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI 游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">227</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">6</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">22</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI 秘籍</span></span><span class="level-end"><span class="level-item tag">85</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/"><span class="level-start"><span class="level-item">BI</span></span><span class="level-end"><span class="level-item tag">21</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">33</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-03-09T23:30:00.000Z">2024-03-10</time></p><p class="title"><a href="/21.%20BI%20-%20SVD%20%E7%9F%A9%E9%98%B5%E5%88%86%E8%A7%A3%E7%9A%84%E5%AE%9E%E9%99%85%E6%A1%88%E4%BE%8B%EF%BC%9A%E5%88%A9%E7%94%A8%20SVD%20%E8%BF%9B%E8%A1%8C%E5%9B%BE%E5%83%8F%E5%8E%8B%E7%BC%A9/">21. BI - SVD 矩阵分解的实际案例：利用 SVD 进行图像压缩</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-03-05T23:30:00.000Z">2024-03-06</time></p><p class="title"><a href="/20.%20BI%20-%20%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E4%B8%BA%E4%BD%A0%E8%AE%B2%E9%80%8F%20SVD%20%E7%9F%A9%E9%98%B5%E5%88%86%E8%A7%A3%E7%9A%84%E5%8E%9F%E7%90%86/">20. BI - 一篇文章为你讲透 SVD 矩阵分解的原理</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-03-02T23:30:00.000Z">2024-03-03</time></p><p class="title"><a href="/19.%20BI%20-%20%E5%AD%A6%E4%B9%A0%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A6%82%E4%BD%95%E4%BB%8E%E9%98%85%E8%AF%BB%E8%AE%BA%E6%96%87%E4%B8%AD%E8%8E%B7%E5%8F%96%E4%B8%80%E6%89%8B%E4%BF%A1%E6%81%AF%EF%BC%8C%E5%B9%B6%E6%8E%A8%E8%8D%90%E4%B8%80%E4%BA%9B%E6%8A%80%E6%9C%AF%E8%AE%BA%E6%96%87/">19. BI - 学习人工智能如何从阅读论文中获取一手信息，并推荐一些技术论文</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-29T23:30:00.000Z">2024-03-01</time></p><p class="title"><a href="/18.%20BI%20-%20SlopeOne%20%E5%8E%9F%E5%A7%8B%E7%AE%97%E6%B3%95%E3%80%81%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95%E7%9A%84%E5%8E%9F%E7%90%86%E5%8F%8A%E5%BA%94%E7%94%A8/">18. BI - SlopeOne 原始算法、优化算法的原理及应用</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-02-27T23:30:00.000Z">2024-02-28</time></p><p class="title"><a href="/17.%20BI%20-%20Surprise%E5%B7%A5%E5%85%B7%E7%AE%B1%EF%BC%9ABaseline/">17. BI - Surprise 工具箱：Baseline</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2024 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
