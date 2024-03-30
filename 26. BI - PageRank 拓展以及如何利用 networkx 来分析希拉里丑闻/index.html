@@ -1,0 +1,559 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>26. BI - PageRank 拓展以及如何利用 networkx 来分析希拉里丑闻 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="本文为 「茶桁的 AI 秘籍 - BI 篇 第 26 篇」"><meta property="og:type" content="blog"><meta property="og:title" content="26. BI - PageRank 拓展以及如何利用 networkx 来分析希拉里丑闻"><meta property="og:url" content="https://hivan.me/26.%20BI%20-%20PageRank%20%E6%8B%93%E5%B1%95%E4%BB%A5%E5%8F%8A%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8%20networkx%20%E6%9D%A5%E5%88%86%E6%9E%90%E5%B8%8C%E6%8B%89%E9%87%8C%E4%B8%91%E9%97%BB/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="本文为 「茶桁的 AI 秘籍 - BI 篇 第 26 篇」"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2024-03-26T23:30:00.000Z"><meta property="article:modified_time" content="2024-03-30T14:20:48.894Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="article:tag" content="BI"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/26.%20BI%20-%20PageRank%20%E6%8B%93%E5%B1%95%E4%BB%A5%E5%8F%8A%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8%20networkx%20%E6%9D%A5%E5%88%86%E6%9E%90%E5%B8%8C%E6%8B%89%E9%87%8C%E4%B8%91%E9%97%BB/"},"headline":"26. BI - PageRank 拓展以及如何利用 networkx 来分析希拉里丑闻","image":[],"datePublished":"2024-03-26T23:30:00.000Z","dateModified":"2024-03-30T14:20:48.894Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"本文为 「茶桁的 AI 秘籍 - BI 篇 第 26 篇」"}</script><link rel="canonical" href="https://hivan.me/26.%20BI%20-%20PageRank%20%E6%8B%93%E5%B1%95%E4%BB%A5%E5%8F%8A%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8%20networkx%20%E6%9D%A5%E5%88%86%E6%9E%90%E5%B8%8C%E6%8B%89%E9%87%8C%E4%B8%91%E9%97%BB/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><script>var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?f91b64734fdc7bfb999e48f9248d44dd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-ZFB6CVWZFJ" async></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-ZFB6CVWZFJ');</script><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2024-03-26T23:30:00.000Z" title="3/27/2024, 7:30:00 AM">2024-03-27</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a><span> / </span><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></span></div></div><h1 class="title is-3 is-size-4-mobile">26. BI - PageRank 拓展以及如何利用 networkx 来分析希拉里丑闻</h1><div class="content"><p>本文为 「<a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg%3D%3D&amp;action=getalbum&amp;album_id=3193965113967132673&amp;subscene=&amp;sessionid=svr_548800ce471&amp;enterid=1704001437&amp;from_msgid=2648751621&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;scene=21#wechat_redirect">茶桁的
+AI 秘籍 - BI 篇</a> 第 26 篇」</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/茶桁的AI秘籍_核心BI_26.png"
+alt="茶桁的AI秘籍_核心BI_26" /></p>
+<span id="more"></span>
+<p>[TOC]</p>
+<p>Hi, 我是茶桁.</p>
+<p>上节课咱们讲解了 PageRank 的两种模型, 并分别做了代码上的演示. 这节课,
+让我们来看看 PageRank 的影响力及其应用.</p>
+<p>PageRank 已经超越了原来提出来的模型, 因为 PageRank
+的影响力影响到了后续很多的一些模型, 都可以采用它. 举个例子,
+最早是在论文里面使用, 之后在网页里面使用,
+现在还可以在社交网络里面使用.</p>
+<p>比如微博, 如果一个微博的博主的粉丝量有 10 万个, 那他影响力一定大吗?
+10 万粉丝的博主, 有 10 万人关注, 你可能觉得这个影响力确实很大.
+但有没有一些可能他的影响力并不大? 存在这种可能性吗?</p>
+<p>大家知道, 其实有些粉丝并不活跃, 我们把它称为叫做僵尸粉.
+在淘宝上面据说有一些在卖僵尸粉的, 1 万个粉丝可能几块钱或者十几块钱.</p>
+<p>如果你要去做到一个十万粉丝的一个博主其实并不难,
+这里我指的加上很多的僵尸粉. 假设这些粉丝都没有什么活跃度,
+这个博主还有影响力吗? 就不一定.</p>
+<p>所以在社交网络中如果要去衡量一个博主实际的影响力, 不能只看粉丝的数量,
+还要看粉丝的质量. 如果质量比较高, 影响力就比较大.</p>
+<p>再举个例子, 如果一个微博的博主粉丝刚开始的时候只有 500 个, 但是这 500
+个粉丝都是一些有影响力的人, 比如像李开复, 马云等等.
+那么他的影响力大不大? 影响力一定会很大. 而且后面粉丝数肯定也会越来越多,
+因为他的粉丝的影响力大, 关注了这个人就相当于把票数投给了这个人, 在
+PageRank 方式里面再去计算影响力过程中,
+就比简单的只看粉丝数效果好很多.</p>
+<p>脉脉这个软件对标的是国外的 LinkedIn, 也是个职场社交的软件.
+脉脉在你进去以后会扫描你的手机通讯录, 然后会给你打一个影响力的分数.
+他告诉你在行业中的影响力是多少.</p>
+<p>猎头在脉脉上, 很多你的身边的同事也在脉脉上,
+脉脉就可以看到自己的影响力, 也可以看到别人的影响力.
+这个影响力的计算你可能会好奇他怎么算出来的, 实际上这个影响力的计算就是跟
+PageRank 相关.</p>
+<p>你会发现明星的影响力都很高, 但他的计算又是基于手机通讯录.
+其实一个人的手机通讯录都不会太多, 可能 5,000 个人, 一万个人就顶天了.
+但是怎么样能看出来有的人影响力能有几万的影响力, 有的人影响力只有十几.
+这里的差距可能有成百上千倍的一个差距.</p>
+<p>就是因为你的通讯录那些人的影响力的高低来决定了.
+如果你的通讯录都是一些大老板, 是一些企业家或者是一些投资人,
+再或者是一些明星. 那你的影响力就会很大.</p>
+<p>所以只要你跟有影响力的人在一起, 你的影响力就会大很多.
+从这个例子上面也能告诉我们, 在职场上面你要社交的话, 如果在社交链路上是跟
+100 个底层的员工都是好朋友, 他在公司里面影响力大吗? 再换另一个人, 他跟
+10 个高管都是好朋友, 数量其实并不多, 谁的影响力会更大?
+是第一个人还是第二个人?</p>
+<p>从整个 PageRank 的算法过程中, 如果你按照这个指数来进行计算,
+它其实看的并不是整个的数量. 第二个人虽然他的数量比较少,
+但是结识的都是一些高管, 高管的影响力比较大. 所以影响力也很大.</p>
+<p>所以同样在生物领域里面, PageRank 也可以帮我们去确定哪一个基因是关键.
+它可以帮我们来去确定跟遗传相关的肿瘤基因, 去定位,
+做生物领域的一些研究.</p>
+<p>还可以在推荐系统里面, 帮我们给用户去做一个推荐.
+这里的推荐需要转化成图. 因为他要分析的是一张图中的影响力的关系.</p>
+<h2 id="personalrank">PersonalRank</h2>
+<p>那到底是怎样跟推荐系统相关呢?
+给某一个用户进行推荐就相当于要计算用户和所有商品之间的一些相关性,
+然后把那些它没有连接的物品从高到低生成一个列表, 这是整个的一个逻辑.</p>
+<p>具体怎么做? 我们来看下面这张图:</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240103183319.png"
+alt="PersonalRank" /></p>
+<p>整个这张图我们把它分成两个部分, 一个叫用户 user, 一个叫商品 item.
+用户是大写的 A B C D, item 是小写的 a b c d e.</p>
+<p>在推荐系统里面用户和商品之间是有些关系的, 比如点击行为.
+点击行为是属于隐式的关系. A 它点击了 a b d, B 点击了 a 和 c 等等.</p>
+<p>这张图可以用一个"二部图"分成两个部分, 左侧是所有的用户,
+右侧是所有的商品. 如果发生了点击, 就用一张无向图,
+没有方向的图来做一个连接. 可以到 A 是和 a b d 做了一个连接,
+把它做成了三条边的连接.同样 B 是跟 a 和 c, C 是和 b 和 e, D 是跟 c d e.
+这样我们就把边给连接好了.</p>
+<p>我们现在来思考, 如果把边连接好能不能去计算顶点的影响力?
+其实只要有了图, 就可以计算影响力, 因为连接边就相当于把票数给了别人,
+所以这个过程是可以计算影响力了.整个的原理是, 如果你要给用户 A 来做推荐,
+就相当于把 a b c d e 去做一个排名的关系, 排名以后 a b d
+这三个商品都已经浏览过了, 所以重点是看 c 和 e 的排名. 如果 c
+的排名高推荐顺序就是先推荐 c, 再推荐 e, 这就是针对 A 来做推荐.</p>
+<p>那这整个的算法被称为 PersonalRank, 它也是基于 PageRank
+产生的一种推荐算法, 是把用户和商品看成一张二部图,
+中间的行为会形成一条边.
+要针对某一个用户做推荐实际上就是对所有的商品去做排序, 然后去掉 A
+已经看过的商品. 这就是 PersonalRank 的一个原理.</p>
+<p>具体怎么去套 PageRank, 其实它还是有一个公式.</p>
+<p><span class="math display">\[
+\begin{align*}
+  PR(V_i) = \frac{1-d}{N} + d \sum_{V_j \in ln(V_i)}
+\frac{PR(V_j)}{|Out(V_j)|}
+\end{align*}
+\]</span></p>
+<p>首先这是一个随机浏览模型, 可以看到它原来的模型是两部分组成,
+把所有的影响力都平均分配给网络上的 N 个节点.</p>
+<p>现在也用随机的模型, 只不过现在随机不是一个纯随机,
+是每次都从固定的顶点开始. 如果你是给 A 来做推荐那就只针对 A.</p>
+<p><span class="math display">\[
+\begin{align*}
+&amp; PR(V_i) = (1-d)r_i + d \sum_{v_j \in ln(V_i)}
+\frac{PR(V_j)}{|Out(V_j)|} \\
+&amp; r_i = \begin{cases} 1 \qquad i=u \\ 0 \qquad i \ne u \end{cases}
+\end{align*}
+\]</span></p>
+<p>比如说现在给用户 u 做推荐, 那对于 u 来说它为 1 是 100%, 下一步都给 u,
+如果不是 u 就为 0%, 下次不点击你. 那这是一个初始化的过程, 我们将用户 u
+设为 A, 就如上图, 有 A B C D 四个用户. 目前是对 A 做推荐,
+那我们初始化值就是<code>PR(A) = 1, PR(B) = 0, PR(C) = 0, PR(D) = 0, PR(a) = 0, PR(c) = 0 , ... PR(e) = 0</code>.
+也就是说, 我们并不区分用户和商品, 仅仅是把它当作一个节点,
+要对通过连接的边为每个节点打分.</p>
+<p>然后我们就要开始游走, 从不为 0 的节点开始, 那我们因为是对 A 做推荐,
+初始化值<code>PR(A) = 1</code>, 沿着边游走的概率为<code>d</code>,
+停在当前点的概率为<code>1-d</code>.</p>
+<p>此时 PR 值不为 0 的节点就为 A, a, b, d, 然后我们从这三点触发,
+继续上述过程, 直到收敛为止. 当收敛的时候, 计算 item 节点影响力,
+把影响力做个排序, 排序以后去掉 A 已经看过的一些商品, 最终就可以给 A
+做推荐了.</p>
+<p>它的核心是如何去转化成一张图, 如果把它看成一张图, 图里面就自带
+PageRank 的模型, 自带影响力的排序, 就可以给用户去做推荐了.
+这是基于图论的一种推荐方法.</p>
+<p>pageRank 的影响力还不仅仅是 PersonalRank, 还有很多的一些影响力.
+很多种模型都是基于它来产生的衍生. 刚才看到的是 PernalRank,
+还有哪些模型跟它有关系?</p>
+<p>还可以做交通网络, 交通网络就是一张图, 图里面会有顶点,
+哪个顶点影响力高就意味着这个人流往哪里, 那个地方就是交通的枢纽.
+在交通网络里面也有影响力的排名.</p>
+<h2 id="pagerank-工具使用">PageRank 工具使用</h2>
+<p>对于这些 PageRank 的应用我们该怎么去使用? 我们可以使用的工具也蛮多的,
+我们先来看第一个: <code>igraph</code>. igraph 的性能会比较强大,
+效率比较高.</p>
+<p>除此之外, 我们还有第二工具<code>NetworkX</code>. 这个工具是基于
+Python 的一个库, 对于使用者来说非常友好, 如果你是 Python
+的使用者建议使用第二个库.</p>
+<p>这两个库的作用是一样的, 使用<code>NetworkX</code>是因为它对 Python
+的接口非常友好. 如果数据量非常非常的多, 节点超过了上百万个,
+可以使用<code>igraph</code>. <code>igraph</code>的效率会更加的强大.</p>
+<p>通常如果顶点数量不是很多用<code>NetworkX</code>还是比较好用的.
+而且<code>NetworkX</code>除了 PageRank 这个模型,
+还集成了很多其他的图论模型.</p>
+<p>我们还是来看一个示例, 咱们上一节课有一个有向图:</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240103151020.png"
+alt="20240103151020" /></p>
+<p>咱们就用这个图中 A B C D 的影响力排序来看一看,
+怎么样去调<code>NetworkX</code>这个包.</p>
+<p>首先, 创建一个有向图. 有向图的叫<code>Directed Graph</code>,
+有方向的含义.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">G = nx.DiGraph()<br></code></pre></td></tr></table></figure>
+<p>当我们看到一张图就要有意识, 一个图的组成是由边和顶点.
+所以一张图你可以把它看成顶点和边的一个集合. 如果我们把边都规定出来,
+线上面有点, 那么这张图就出来了.</p>
+<p>现在我们来看上面这张图, 它是一个有向图, 所以边是有顺序的.
+顺序是边指向的方向, 这些过程都是一个有顺序的过程. 比如说从 A 到 C,
+那就写成<code>(A, C)</code>, 据此,
+我们可以写出这个有向图的一个边的关系:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">edges = [(<span class="hljs-string">&#x27;A&#x27;</span>, <span class="hljs-string">&#x27;B&#x27;</span>), (<span class="hljs-string">&#x27;A&#x27;</span>, <span class="hljs-string">&#x27;C&#x27;</span>), (<span class="hljs-string">&#x27;A&#x27;</span>, <span class="hljs-string">&#x27;D&#x27;</span>), (<span class="hljs-string">&#x27;B&#x27;</span>, <span class="hljs-string">&#x27;A&#x27;</span>), (<span class="hljs-string">&#x27;B&#x27;</span>, <span class="hljs-string">&#x27;D&#x27;</span>), (<span class="hljs-string">&#x27;C&#x27;</span>, <span class="hljs-string">&#x27;A&#x27;</span>), (<span class="hljs-string">&#x27;D&#x27;</span>, <span class="hljs-string">&#x27;B&#x27;</span>), (<span class="hljs-string">&#x27;D&#x27;</span>, <span class="hljs-string">&#x27;C&#x27;</span>)]<br></code></pre></td></tr></table></figure>
+<p>然后把所有的边做一个累加. 写一个循环, 前面是起点, 后面是终点.
+把边都加到了图里面去, 这张图就建好了, 只要图建好了就可以做 PageRank.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">for</span> edge <span class="hljs-keyword">in</span> edges:<br>  G.add_edge(edge[<span class="hljs-number">0</span>], edge[<span class="hljs-number">1</span>])<br></code></pre></td></tr></table></figure>
+<p>现在先用一个精简模型, 精简模型是 100%都用于模型, 没有随机浏览的部分.
+所以阻尼因子不是 0.85 了, 而是 1. 在 PageRank 里面,
+阻尼因子的参数是<code>Alpha</code>, 把<code>Alpha</code>设为 1,
+调<code>networkx</code>.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">pagerank_list = nx.pagerank(G, alpha=<span class="hljs-number">1</span>)<br></code></pre></td></tr></table></figure>
+<p>原始数据就是<code>G</code>, 刚刚创建好的这张图.
+通过它的配置可以计算出来, 得到一个<code>pagerank_list</code>, 这个就是
+PR 值.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;pagerank 值为: &#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(pagerank_list))<br><br>---<br>pagerank 值为: &#123;<span class="hljs-string">&#x27;A&#x27;</span>: <span class="hljs-number">0.33333396911621094</span>, <span class="hljs-string">&#x27;B&#x27;</span>: <span class="hljs-number">0.22222201029459634</span>, <span class="hljs-string">&#x27;C&#x27;</span>: <span class="hljs-number">0.22222201029459634</span>, <span class="hljs-string">&#x27;D&#x27;</span>: <span class="hljs-number">0.22222201029459634</span>&#125;<br></code></pre></td></tr></table></figure>
+<p>打印一下, 看到最终的结果. 上一节课中, 咱们是自己去写的模拟,
+<code>networkx</code>则是集成了这个包, 调用起来也非常的方便.</p>
+<p><code>networkx</code>还有一些可视化的功能,
+我们直接先去做一个<code>layout</code>, 就是布局采用怎样的布局的形式.
+重要是把这张图画出来.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">layout = nx.spring_layout(G)<br>nx.draw(G, pos=layout, with_labels=<span class="hljs-literal">True</span>)<br></code></pre></td></tr></table></figure>
+<p>position 等于 layout, 指定 layout 方式. <code>with_labels</code>,
+要不要 label. 然后给它画出来:</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240103222921.png"
+alt="20240103222921" /></p>
+<p>那同时还可以设置一下随机模型, 只要把<code>alpha</code>设成 0.85
+就可以. 同样, 我们修改程序之后再来运行一下, 看到打印的结果.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">pagerank_list = nx.pagerank(G, alpha=<span class="hljs-number">0.85</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;pagerank 值为: &#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(pagerank_list))<br><br>---<br>pagerank 值为: &#123;<span class="hljs-string">&#x27;A&#x27;</span>: <span class="hljs-number">0.3245609358176832</span>, <span class="hljs-string">&#x27;B&#x27;</span>: <span class="hljs-number">0.2251463547274389</span>, <span class="hljs-string">&#x27;C&#x27;</span>: <span class="hljs-number">0.2251463547274389</span>, <span class="hljs-string">&#x27;D&#x27;</span>: <span class="hljs-number">0.2251463547274389</span>&#125;<br></code></pre></td></tr></table></figure>
+<p>我们展示的图实际上跟之前我手工绘制的那个图是完全一致的,
+边的逻辑关系是一样的.</p>
+<p>可视化之后, 我们打印出来的值跟之前计算的也是一样的. 在精简模型中 A 是
+0.333, B C D 都是 0.222. 如果把阻尼因子设成 85%, 得出来 A 比较大, 后面 B
+C D 也是相等的.</p>
+<p><code>networkx</code>的逻辑就是先创建数据, 往里面加上各种边. 有了边,
+图就出来了, 可以做可视化. 同样只要一句话, 就可以去调 pagerank 的结果,
+这个结果就是个字典, 因为 pagerank 是对网页做排序,
+其实得出来的结论就是一个网页的影响力.
+我们就用字典的形式把这个结果做了一个保存.</p>
+<p>后面咱们套这个模型, 想一想怎么样先转化成一张图,
+有了图最终调包就是一句话的事.</p>
+<p>还有一些情况可以用<code>networkx</code>,
+是直接可以把一张图给它读进来. 这里可能就需要用到一些特殊的格式,
+有一个<code>gml</code>的格式, 就是<code>graph XML</code>,
+它的编码形式呢就是一张图, 因为有的时候图会很复杂,
+一个一个去加时间也会很长, 不如直接从图文件来进行加载.
+<code>networkx</code>也是支持直接加载的功能.</p>
+<p>刚才咱们的示例中, 创建的是一个有向图, 用了<code>DiGraph</code>方法,
+如果需要创建无向图, 可以使用<code>Graph</code>方法:
+<code>nx.Graph()</code>. 包括我们还可以对节点进行一些操作, 增删改查:</p>
+<ul>
+<li>添加节点: 使用<code>G.add_node('A')</code>,
+也可以使用<code>G.add_nodes_from(['B', 'C', 'D', 'E'])</code>,
+区别就是加一个顶点和加一群顶点.</li>
+<li>删除节点: 使用<code>G.remove_node(node)</code>,
+也可以使用<code>G.remove_nodes_from(['B', 'C', 'D', 'E'])</code>.</li>
+<li>节点查询: <code>G.nodes()</code>获取途中所有节点,
+<code>G.number_of_nodes()</code>获取途中节点的个数.</li>
+</ul>
+<p>这些都是比较常使用的一些, 然后就是我们可以对边做一些操作:</p>
+<ul>
+<li><code>G.add_edge('A', 'B')</code>添加制定的从 A 到 B 的边</li>
+<li><code>G.add_edges_from</code>从边集合中添加</li>
+<li><code>G.add_weighted_edges_from</code>
+从带有权重的边的集合中添加</li>
+</ul>
+<p>以上都是边的添加, 参数就是 1
+个或者多个三元组<code>[u, v, w]</code>作为参数, u, v, w 分别代表起点,
+终点和权重.</p>
+<p>那什么是有权重呢? 之前认为边的权重都是相等的,
+但有些时候这个边你可以给它设一个权重,
+设了权重就代表可以把它看成多条边或者可以把它看成影响力更大的一种走法.</p>
+<p>我们再去用<code>add_weighted_edge</code>的时候, 就要使用三个元素,
+除了两个顶点 u 和 v 以外, 还有 w, 就是权重. 比如,
+咱们说一个关于邮件的例子, a 到 b 两个人如果经常写邮件, 和 a 到 b
+只写过一次邮件还是不太一样的.</p>
+<p>经常写邮件就证明这条通路很大, 权重大, 所以权重就会高. 它就可以表明 a
+到 b 转移的概率不是一个平均分配, 而是一个有权重性的分配方式.</p>
+<p>除了加上这个边以外, 我们还可以去删除或者删除一群边,
+方法为<code>G.remove_edge</code>以及<code>G.remove_edges_from</code>.</p>
+<p>还可以对边进行查询, <code>G.edges()</code>是获取图中所有边,
+<code>G.number_of_edges()</code>是获取图中边的个数.</p>
+<p>这两个跟点的方式是完全一样的.</p>
+<p>我们在进行可视化的过程中,
+我刚才示例了一个<code>spring_layout</code>方式,
+除此之外其实还有其他的一些形式, 包括<code>nx.circular_layout()</code>,
+<code>nx.shell_layout()</code>. 大家可以自己跑一下试试,
+我这里就不做示范了.</p>
+<p>你选择一个适合的方法, 当你的边数很多的情况下,
+不同的样式呈现出来也会有一些区别. 以下是它们的一些区别:</p>
+<ul>
+<li><code>spring_layout</code>: 中心放射状</li>
+<li><code>circular_layout</code>: 在一个圆环上均匀分布节点</li>
+<li><code>random_layout</code>: 随机分布节点</li>
+<li><code>shell_layout</code>: 节点都在同心圆上</li>
+</ul>
+<h2 id="希拉里邮件丑闻">希拉里邮件丑闻</h2>
+<p>咱们来看一个例子把, 这个例子是希拉里邮件的丑闻.
+相信大家应该都知道这个故事是一个什么样的事件. 故事发生在 2016 年,
+当时应该是希拉里和特朗普在竞选美国的总统. 竞选过程中希拉里一直是领先的,
+后来爆出来一个丑闻, 发现一共有 9,300 多封邮件和 513 个人. 马上要大选了,
+9,000 多封邮件, 500 多个人,
+如果每个人都进行庭审的话可能一年的时间都不止. 法官就找到了一个科技公司,
+帮着想办法找到最关键的 20 个人, 这 20 个人作为最开始的庭审的对象.</p>
+<p>那怎么样去找到这关键的一些人物, 这个科技公司就想到了使用 PageRank.
+因为我们可以把邮件的往来看成一个网络, 这个网络里面每一个人都是个顶点,
+每封邮件都是一条边, 就有 9,000 多封电和 500 多个顶点.</p>
+<p>数据是三个文件, 一个是原始的记录<code>Email</code>.
+发邮件的时候有时并不写它的全称, 会有些昵称,
+所以单独还有个<code>Aliases</code>来存储一些邮件的别名,
+<code>Persons</code>统计了邮件中所有任务的姓名及对应的 ID.</p>
+<p>那怎么样去数据里面挖掘那些有影响力的一些人呢?
+我们先来看一下原始的数据</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240105150230.png"
+alt="Emails" /></p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240105150254.png"
+alt="Persons" /></p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240105150314.png"
+alt="Aliases" /></p>
+<p><code>Emails</code>上面有很多的表头, 真正要用的主要是两个,
+一个就是它的发件人, 一个是它的寄件人. <code>Persons</code>对做了一个 ID
+的处理, 比如叫什么名称. 但一个人可能会有很多别名,
+因此还专门有个<code>Aliases</code>,
+哪些别名最后指向的是哪个<code>PersoID</code>都会给它一一做记录.</p>
+<p>所以我们把别名和<code>persoID</code>作为关联,
+可以看到<code>persoID</code>是最关键的一个信息,
+同时具体的<code>name</code>在哪里,
+都是通过<code>persoID</code>来作为关联.</p>
+<p>在 Emails 里有几个比较关键的信息, 一个就是<code>MetadataTo</code>,
+一个是<code>Metadata From</code>,
+这两个信息代表的是从哪一个人到哪一个人,
+当然后面还有具体的一些<code>content</code>.</p>
+<p>我们今天不去看具体的 content, 主要是看人物的关系,
+如何去把它变成一张图.</p>
+<p>原始数据<code>emails</code>文件比较大, 但是真正关心的数据只有两列:
+<code>from</code>和<code>to</code>.</p>
+<p>我们先来对原始数据做一个加载:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 数据加载</span><br>emails = pd.read_csv(<span class="hljs-string">&#x27;dataset/pagerank/Emails.csv&#x27;</span>)<br><span class="hljs-comment"># 读取别名文件</span><br>alias_files = pd.read_csv(<span class="hljs-string">&#x27;dataset/pagerank/Aliases.csv&#x27;</span>)<br><span class="hljs-comment"># 读取人名文件</span><br>person_files = pd.read_csv(<span class="hljs-string">&#x27;dataset/pagerank/Persons.csv&#x27;</span>)<br></code></pre></td></tr></table></figure>
+<p>现在咱们需要做一个字典, 把所有的别名跟<code>persoID</code>做一个关联.
+读出来的<code>alias</code>和<code>persoID</code>之间的关系,
+然后又读取了一个<code>persons</code>,
+这里存储的是<code>persoID</code>和<code>name</code>之间的关系.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python">aliases = &#123;&#125;<br><span class="hljs-comment"># 别名 =&gt; PersonalID</span><br><span class="hljs-keyword">for</span> index, row <span class="hljs-keyword">in</span> alias_files.iterrows():<br>  aliases[row[<span class="hljs-string">&#x27;Alias&#x27;</span>]] = row[<span class="hljs-string">&#x27;PersonId&#x27;</span>]<br><br>persons = &#123;&#125;<br><span class="hljs-comment"># PersonID =&gt; Name</span><br><span class="hljs-keyword">for</span> index, row <span class="hljs-keyword">in</span> person_files.iterrows():<br>  persons[row[<span class="hljs-string">&#x27;Id&#x27;</span>]] = row[<span class="hljs-string">&#x27;Name&#x27;</span>]<br></code></pre></td></tr></table></figure>
+<p>那么任何的名称都可以找到 ID, ID 呢又可以找到 name,
+就需要写一个函数来去做一个变化.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 针对别名进行转换 Alias =&gt; Name</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">unify_name</span>(<span class="hljs-params">name</span>):<br>  <span class="hljs-comment"># 姓名统一小写</span><br>  name = <span class="hljs-built_in">str</span>(name).lower()<br>  <span class="hljs-comment"># 去掉`,`和`@`后面的内容</span><br>  name = name.replace(<span class="hljs-string">&#x27;,&#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>).split(<span class="hljs-string">&#x27;@&#x27;</span>)[<span class="hljs-number">0</span>]<br>  <span class="hljs-comment"># 别名转换</span><br>  <span class="hljs-keyword">if</span> name <span class="hljs-keyword">in</span> aliases.keys():<br>    <span class="hljs-keyword">return</span> persons[aliases[name]]<br>  <span class="hljs-keyword">return</span> name<br></code></pre></td></tr></table></figure>
+<p>第一个<code>name</code>进来以后去掉一些不相关的一些内容,
+然后看<code>aliases</code>里面有没有, 如果有最终转化出来.
+就是把<code>alias</code>转化到<code>name</code>, 然后返回出来.</p>
+<p>看这个逻辑,
+原来是一个<code>alias</code>的一个<code>name</code>转化成一个<code>persoID</code>,
+再把<code>persoID</code>转化成一个<code>name</code>,
+这样对别名做了一个清洗.</p>
+<p>之后我们就要来绘制一张网络图, 为此我们来写个方法,
+方便后面进行调用</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">show_graph</span>(<span class="hljs-params">graph, <span class="hljs-built_in">type</span>=<span class="hljs-string">&#x27;sprint_layout&#x27;</span></span>):<br>  <span class="hljs-keyword">pass</span><br></code></pre></td></tr></table></figure>
+<p>在图里面可以制定不同的一些<code>layout</code>,
+咱们用<code>type</code>来接收, 并在其中做一个判断,
+来确定具体使用哪一个方法:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">if</span> <span class="hljs-built_in">type</span> == <span class="hljs-string">&#x27;sprint_layout&#x27;</span>:<br>  <span class="hljs-comment"># 使用 Spring Layout 布局, 类似中心放射状</span><br>  positions = nx.spring_layout(graph)<br><span class="hljs-keyword">if</span> <span class="hljs-built_in">type</span> == <span class="hljs-string">&#x27;circular_layout&#x27;</span>:<br>  <span class="hljs-comment"># 使用 Circular Layout 布局, 在一个圆环上均匀分布</span><br>  positions = nx.circular_layout(graph)<br></code></pre></td></tr></table></figure>
+<p>然后就是丰富一下这个方法, 将绘制内容添加进去</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 设置网络图中的节点大小</span><br>nodesize = [x[<span class="hljs-string">&#x27;pagerank&#x27;</span>]*<span class="hljs-number">20000</span> <span class="hljs-keyword">for</span> v,x <span class="hljs-keyword">in</span> graph.nodes(data=<span class="hljs-literal">True</span>)]<br><span class="hljs-comment"># 设置网络中的边长度</span><br>edgesize = [(np.sqrt(e[<span class="hljs-number">2</span>][<span class="hljs-string">&#x27;weight&#x27;</span>]))/<span class="hljs-number">5</span> <span class="hljs-keyword">for</span> e <span class="hljs-keyword">in</span> graph.edges(data=<span class="hljs-literal">True</span>)]<br><br>fig, ax = plt.subplots(figsize=(<span class="hljs-number">12</span>, <span class="hljs-number">8</span>))<br><span class="hljs-comment"># 绘制节点</span><br>nx.draw_networkx_nodes(graph, positions, node_size=nodesize, alpha=<span class="hljs-number">0.4</span>, ax=ax)<br><span class="hljs-comment"># 绘制边</span><br>nx.draw_networkx_edges(graph, positions, width=edgesize, edge_color=<span class="hljs-string">&#x27;r&#x27;</span>, alpha=<span class="hljs-number">0.5</span>, ax=ax)<br><span class="hljs-comment"># 绘制节点的 label</span><br>nx.draw_networkx_labels(graph, positions, font_size=<span class="hljs-number">10</span>, ax=ax)<br><span class="hljs-comment"># 输出邮件中所有人物关系图</span><br>plt.show()<br></code></pre></td></tr></table></figure>
+<p>提取信息的时候,
+是从<code>emails</code>里的提取<code>MetadataFrom</code>和<code>MetadataTo</code>,
+我们<code>apply</code>刚才的那个别名转换的函数<code>unify_name()</code>.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 将寄件人和收件人的姓名规范化</span><br>emails.MetadataFrom = emails.MetadataFrom.apply(unify_name)<br>emails.MetadataTo = emails.MetadataTo.apply(unify_name)<br></code></pre></td></tr></table></figure>
+<p>那么<code>MetadataTo</code>和<code>MetadataFrom</code>这两个表明的就是整个的<code>name</code>,
+从谁到谁. 那具体是哪一个人都用最终的一个<code>name</code>去做关联.
+所以<code>name</code>是最后清洗出来的唯一一个人.
+因此通过<code>apply</code>的方式去调了一个清洗函数,
+把<code>from</code>和<code>to</code>作了一个清洗.</p>
+<p>同样人和人之间写邮件有可能是多次, 因此也需要记录一下发邮件的个数.
+就用<code>from</code>和<code>to</code>去做一个代表,
+然后把<code>from</code>和<code>to</code>这个权重写一个字典,
+建一个<code>edges_weights_temp</code>专门记录一下邮件往来的次数.
+如果没有就写成 1.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 设置边的权重等于发邮件的次数</span><br>edges_weights_temp = defaultdict(<span class="hljs-built_in">list</span>)<br><span class="hljs-keyword">for</span> row <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(emails.MetadataFrom, emails.MetadataTo, emails.RawText):<br>  temp = (row[<span class="hljs-number">0</span>], row[<span class="hljs-number">1</span>])<br>  <span class="hljs-keyword">if</span> temp <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> edges_weights_temp:<br>    edges_weights_temp[temp] = <span class="hljs-number">1</span><br>  <span class="hljs-keyword">else</span>:<br>    edges_weights_temp[temp] = edges_weights_temp[temp] + <span class="hljs-number">1</span><br><br><span class="hljs-built_in">print</span>(edges_weights_temp)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;-&#x27;</span>*<span class="hljs-number">100</span>)<br><br>defaultdict(&lt;<span class="hljs-keyword">class</span> <span class="hljs-string">&#x27;list&#x27;</span>&gt;, &#123;(<span class="hljs-string">&#x27;Jake Sullivan&#x27;</span>, <span class="hljs-string">&#x27;Hillary Clinton&#x27;</span>): <span class="hljs-number">815</span>, ... , (<span class="hljs-string">&#x27;Hillary Clinton&#x27;</span>, <span class="hljs-string">&#x27;Daniel&#x27;</span>): <span class="hljs-number">1</span>&#125;)<br>------------------<br></code></pre></td></tr></table></figure>
+<p>就说这里的一封邮件, 看它之前有没有创建, 如果没有创建就为 1,
+是第一次记录. 如果有创建就在原来的值上面加 1.</p>
+<p>最终可以把它打印出来.
+打印出来以后就把它的<code>from</code>和<code>to</code>取出来.</p>
+<p>这个结果我们可以看到, 希拉里写了 815 封邮件,
+应该写的还是比较多的.</p>
+<p>这里我们中断一下, 说一下<code>zip</code>方法.
+<code>zip</code>是个合并的含义,
+那基本上都知道<code>zip</code>原本是压缩,
+将一个文件夹或者文件压缩到一起. 这里类似, 相当于把它生成了一个元组.</p>
+<p>我们来看一个小的示例, 比如, 我定义三个 list, <code>a</code>,
+<code>b</code>和<code>c</code>, 先将<code>a</code>,
+<code>b</code>压缩成<code>zipped</code>.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python">a = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]<br>b = [<span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>]<br>c = [<span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>]<br>zipped = <span class="hljs-built_in">zip</span>(a, b)<br>zipped<br><br>---<br>&lt;<span class="hljs-built_in">zip</span> at <span class="hljs-number">0x15ff7b580</span>&gt;<br></code></pre></td></tr></table></figure>
+<p>然后我们来看看<code>zipped</code>的 type 是什么</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(<span class="hljs-built_in">type</span>(zipped))<br><br>---<br>&lt;<span class="hljs-keyword">class</span> <span class="hljs-string">&#x27;zip&#x27;</span>&gt;<br></code></pre></td></tr></table></figure>
+<p>这个时候,
+我们可以用<code>list</code>将这个<code>zip</code>转换成列表:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">list</span>(zipped)<br><br>---<br>[(<span class="hljs-number">1</span>, <span class="hljs-number">4</span>), (<span class="hljs-number">2</span>, <span class="hljs-number">5</span>), (<span class="hljs-number">3</span>, <span class="hljs-number">6</span>)]<br></code></pre></td></tr></table></figure>
+<p>既然是一个<code>list</code>, 那我们完全可以写一个循环, 依次取出 a 和
+b 的元素.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">for</span> a, b <span class="hljs-keyword">in</span> zipped:<br>  <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;a: &#123;&#125;, b: &#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(a, b))<br><br>---<br>a: <span class="hljs-number">1</span>, b: <span class="hljs-number">4</span><br>a: <span class="hljs-number">2</span>, b: <span class="hljs-number">5</span><br>a: <span class="hljs-number">3</span>, b: <span class="hljs-number">6</span><br></code></pre></td></tr></table></figure>
+<p>那我们还多定义了一个<code>c</code>是做什么用的? 是为了告诉大家,
+在使用<code>zip</code>方法的时候, 元素个数与最短的列表会保持一直.
+<code>c</code>中我们多定义了<code>7, 8</code>,
+但当我们对<code>a</code>和<code>c</code>使用<code>zip</code>的时候,
+其结果和我们对<code>a</code>和<code>b</code>使用的结果是一致的:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">list</span>(<span class="hljs-built_in">zip</span>(a, c))<br><br>---<br>[(<span class="hljs-number">1</span>, <span class="hljs-number">4</span>), (<span class="hljs-number">2</span>, <span class="hljs-number">5</span>), (<span class="hljs-number">3</span>, <span class="hljs-number">6</span>)]<br></code></pre></td></tr></table></figure>
+<p>除此之外, 可以使用和<code>zip</code>相反的<code>zip(*)</code>,
+这个方法可以理解为解压缩, 返回二维矩阵式.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">c1, c2 = <span class="hljs-built_in">zip</span>(*<span class="hljs-built_in">zip</span>(a, b))<br><span class="hljs-built_in">list</span>(c1)<br><br>---<br>[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]<br></code></pre></td></tr></table></figure>
+<p>使用<code>zip</code>必须是可迭代对象作为参数.
+你可以把它理解成是两个<code>list</code>, 两个可迭代的部分合并成一起.
+我们将其合并一起以后要再去做一个展开, 因为要去得到两个值, 就是 for
+循环需要有两个部分, 每次取是一个<code>from</code>一个<code>to</code>.
+如果之前写一个负循环, 那第二个内容应该也是个并列的部分.
+所以就把这两个部分放到 zip 里面去, 从它里面去取一个,
+再从它里面去取一个.</p>
+<p>想象成 Excel 里的列, 这样在做遍历的时候就不是一列数据从头到尾了, zip
+几个就是几列数据, 刚才是 zip 的三列数据, 一个<code>row</code>就可以有 3
+个值了.</p>
+<p>我们在做<code>add_weighted_edges_from</code>的时候是一个三元组,
+这个三元组分别是<code>from</code>,
+<code>to</code>和<code>weight</code>三个元素,
+那我就可以通过它先去创建一张有向图. 记得要转化一下格式.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 转化格式(from, to), weight =&gt; from, to, weight</span><br>edges_weights = [(key[<span class="hljs-number">0</span>], key[<span class="hljs-number">1</span>], val) <span class="hljs-keyword">for</span> key, val <span class="hljs-keyword">in</span> edges_weights_temp.items()]<br><br><span class="hljs-comment"># 创建一个有向图</span><br>graph = nx.DiGraph()<br><span class="hljs-comment"># 设置有向图中的路径及权重(from, to, weight)</span><br>graph.add_weighted_edges_from(edges_weights)<br><span class="hljs-comment"># 计算每个节点(人物)的 PR 值, 并作为节点的 pagerank 属性</span><br>pagerank = nx.pagerank(graph)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;pagerank=&#x27;</span>, pagerank)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;-&#x27;</span> * <span class="hljs-number">100</span>)<br><br>---<br>pagerank= &#123;<span class="hljs-string">&#x27;Jake Sullivan&#x27;</span>: <span class="hljs-number">0.005791704166582628</span>, <span class="hljs-string">&#x27;Hillary Clinton&#x27;</span>: <span class="hljs-number">0.30625575336382355</span>, ..., <span class="hljs-string">&#x27;Daniel&#x27;</span>: <span class="hljs-number">0.0010259982609288146</span>&#125;<br>------------<br></code></pre></td></tr></table></figure>
+<p>最后计算完成应该是顶点影响力的关系, 把每一个影响力都计算出来了.
+比如希拉里的影响力是 0.30, 应该是非常高的. 还有 Jack 这个人,
+跟希拉里关系应该也不低.</p>
+<p>创建一张有向图, 然后把它添加上去.
+加上去以后就可以做<code>pagerank</code>的计算了.
+把<code>pagerank</code>打印出来就等于整个的影响力的顺序.</p>
+<p>打印<code>pagerank</code>是分别有<code>node</code>和<code>rank</code>,
+对它做个遍历.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 获取每个节点的 pagerank 数值</span><br>pagerank_list = &#123;node: rank <span class="hljs-keyword">for</span> node, rank <span class="hljs-keyword">in</span> pagerank.items()&#125;<br></code></pre></td></tr></table></figure>
+<p>图也可以把它画出来. 调用我们之前写好的绘图方法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 将 pagerank 数值作为节点的属性</span><br>nx.set_node_attributes(graph, name=<span class="hljs-string">&#x27;pagerank&#x27;</span>, values=pagerank_list)<br><span class="hljs-comment"># 画网络图</span><br>show_graph(graph, <span class="hljs-string">&#x27;sprint_layout&#x27;</span>)<br></code></pre></td></tr></table></figure>
+<p>我们使用的是<code>sprint_layout</code>这种方式,
+把这张图的大小跟<code>pagerank</code>的<code>value</code>做了一个关联.</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240105205852.png"
+alt="20240105205852" /></p>
+<p>如果我们把 500 多个人都在一张图上面进行绘制的话是看不清楚的, 9,000
+多条边很难看清楚. 虽然已经选择了最合适的布局, 但是很难去看清楚.</p>
+<p>那我们要怎么做, 把所有的人都显示出来需要一张超大的图, 不好看.
+所以在一个宏观的粒度上面如果要把它显示的清晰一点, 咱们去做一个拆解.
+可视化比较清楚, 但是可视化咱们又不能显示这么多的边和顶点.
+所以要去做一个事情, 就是过滤掉那些不重要的顶点和边.</p>
+<p>要找到那些关键人物, 就是法官最开始那个请求一样. 怎么样去过滤呢?
+那过滤的过程中可以对影响力做个排序, 比如要取前 20 个人排序,
+可以设置一个影响力的阈值, 这里阈值是一个参数, 可以自己来做调整.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 设置 PR 值的阈值，筛选大于阈值的重要核心节点</span><br>pagerank_threshold = <span class="hljs-number">0.005</span><br></code></pre></td></tr></table></figure>
+<p>现在设的是一个<code>0.005</code>, 也就是千分之五, 乘上 200 大概就等于
+1, 就只取了千分之五这个粒度.</p>
+<p>原来的<code>graph</code>已经格式化出来了,
+现在对它做一个<code>copy</code>, 就是再复制一份.
+如果用原来的那个<code>graph</code>数据就会发生一些变化,
+所以干脆直接复制一份, 在新的这份数据里面做一个记录.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 复制一份计算好的网络图</span><br>small_graph = graph.copy()<br></code></pre></td></tr></table></figure>
+<p>现在就直接遍历它所有的顶点, 然后去查询<code>pagerank</code>的值.
+不符合要求从图里面给它<code>remove</code>掉.
+<code>remove</code>之后就变成了一张小图, 再把小图去做一个可视化.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 剪掉 PR 值小于 pagerank_threshold 的节点</span><br><span class="hljs-keyword">for</span> n, p_rank <span class="hljs-keyword">in</span> graph.nodes(data=<span class="hljs-literal">True</span>):<br>    <span class="hljs-keyword">if</span> p_rank[<span class="hljs-string">&#x27;pagerank&#x27;</span>] &lt; pagerank_threshold: <br>        small_graph.remove_node(n)<br><span class="hljs-comment"># 画网络图</span><br>show_graph(small_graph, <span class="hljs-string">&#x27;circular_layout&#x27;</span>)<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240105210750.png"
+alt="20240105210750" /></p>
+<p>这次我们换了一个<code>circular_layout</code>的布局形式,
+把它变成一张小图逻辑就会很清楚了, 最大的那个面积是希拉里,
+因为所有人都基本上都会跟她联系.</p>
+<p>但是这里面咱们发现也不是所有的人都找希拉里, 他们之间也在相互通信.
+所以他们之间也是一个互相链接的一个关系.</p>
+<p>这样就可以把影响力的大小从图中很明显的看出来.
+那法官要做的事情就是找影响力的人物,
+这样就可以对这些最有影响力的人提前去做开庭庭审.</p>
+<p>在这个过程中, 首先第一确定模型<code>pagerank</code>;
+第二个是前期的数据清洗, 邮件是一个很特殊的例子, 它存在了一些别名的关系,
+所以要把它统一名称, 统一人物;
+第三个在设置边的转移过程中做一个有权重的边, 因为 a 到 b
+之间可能会有多个边, 就是发多封邮件, 多封邮件就代表 a 到 b
+属于一个高频的信息. 要做状态转移的时候应该更倾向于邮件次数多的.</p>
+<p>最后, 绘制的图如果顶点数很多还可以设个阈值来做一个筛选,
+这样呈现出来的图会更加的清爽.</p>
+<p>其实这个并不是有多难, 关键的就是怎么样去想到.
+还是看<code>pagerank</code>的擅长点, 它擅长的是做排名排序,
+而且第二个特点就是图的排名, 排序就是图. 而正好邮件这个事可以看成图,
+而且法官的需求就是做排名和排序,
+因此用<code>pagerank</code>是最适合不过的.</p>
+<p>本次例子中使用到​的数据集也在咱们的代码仓库里，
+如果想直接下载数据的可以去这里：
+https://github.com/hivandu/AI_Cheats/tree/main/Core%20BI/dataset/pagerank</p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>26. BI - PageRank 拓展以及如何利用 networkx 来分析希拉里丑闻</p><p><a href="https://hivan.me/26. BI - PageRank 拓展以及如何利用 networkx 来分析希拉里丑闻/">https://hivan.me/26. BI - PageRank 拓展以及如何利用 networkx 来分析希拉里丑闻/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2024-03-27</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2024-03-30</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a><a class="link-muted mr-2" rel="tag" href="/tags/BI/">BI</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/25.%20BI%20-%20%E5%B8%A6%E4%BD%A0%E8%AF%A6%E7%BB%86%E4%BA%86%E8%A7%A3%E5%8D%81%E5%A4%A7%E7%BB%8F%E5%85%B8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E4%B9%8B%20Google%20%E7%9A%84%E5%9F%BA%E7%9F%B3%EF%BC%9APageRank/"><span class="level-item">25. BI - 带你详细了解十大经典机器学习模型之 Google 的基石：PageRank</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/26.%20BI%20-%20PageRank%20%E6%8B%93%E5%B1%95%E4%BB%A5%E5%8F%8A%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8%20networkx%20%E6%9D%A5%E5%88%86%E6%9E%90%E5%B8%8C%E6%8B%89%E9%87%8C%E4%B8%91%E9%97%BB/';
+            this.page.identifier = '26. BI - PageRank 拓展以及如何利用 networkx 来分析希拉里丑闻/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI 游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">232</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">6</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">22</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI 秘籍</span></span><span class="level-end"><span class="level-item tag">90</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/"><span class="level-start"><span class="level-item">BI</span></span><span class="level-end"><span class="level-item tag">26</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">33</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-03-26T23:30:00.000Z">2024-03-27</time></p><p class="title"><a href="/26.%20BI%20-%20PageRank%20%E6%8B%93%E5%B1%95%E4%BB%A5%E5%8F%8A%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8%20networkx%20%E6%9D%A5%E5%88%86%E6%9E%90%E5%B8%8C%E6%8B%89%E9%87%8C%E4%B8%91%E9%97%BB/">26. BI - PageRank 拓展以及如何利用 networkx 来分析希拉里丑闻</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-03-23T23:30:00.000Z">2024-03-24</time></p><p class="title"><a href="/25.%20BI%20-%20%E5%B8%A6%E4%BD%A0%E8%AF%A6%E7%BB%86%E4%BA%86%E8%A7%A3%E5%8D%81%E5%A4%A7%E7%BB%8F%E5%85%B8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E4%B9%8B%20Google%20%E7%9A%84%E5%9F%BA%E7%9F%B3%EF%BC%9APageRank/">25. BI - 带你详细了解十大经典机器学习模型之 Google 的基石：PageRank</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-03-19T23:30:00.000Z">2024-03-20</time></p><p class="title"><a href="/24.%20BI%20-%20Embedding/">24. BI - 一篇文章带你详细理解特征工程核心：Embedding</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-03-16T23:30:00.000Z">2024-03-17</time></p><p class="title"><a href="/23.%20BI%20-%20%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%9F%BA%E4%BA%8E%E5%86%85%E5%AE%B9%E7%9A%84%E6%8E%A8%E8%8D%90/">23. BI - 基于酒店建立内容推荐系统</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-03-12T23:30:00.000Z">2024-03-13</time></p><p class="title"><a href="/22.%20BI%20-%20%E8%AF%A6%E7%BB%86%E6%9D%A5%E8%AF%B4%E8%AF%B4%20SVD%20%E7%9F%A9%E9%98%B5%E5%88%86%E8%A7%A3%E7%9A%84%E4%B8%89%E7%A7%8D%E7%AE%97%E6%B3%95/">22. BI - 详细来说说 SVD 矩阵分解的三种算法</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2024 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
