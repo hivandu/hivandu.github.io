@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>32. BI - 依据淘宝的用户行为，从 0 开始实现一个简单的移动推荐系统 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="本文为 「茶桁的 AI 秘籍 - BI 篇 第 32 篇」"><meta property="og:type" content="blog"><meta property="og:title" content="32. BI - 依据淘宝的用户行为，从 0 开始实现一个简单的移动推荐系统"><meta property="og:url" content="https://hivan.me/32.%20BI%20-%20%E4%BE%9D%E6%8D%AE%E6%B7%98%E5%AE%9D%E7%9A%84%E7%94%A8%E6%88%B7%E8%A1%8C%E4%B8%BA%EF%BC%8C%E4%BB%8E%200%20%E5%BC%80%E5%A7%8B%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E7%A7%BB%E5%8A%A8%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F-1/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="本文为 「茶桁的 AI 秘籍 - BI 篇 第 32 篇」"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2024-04-16T23:30:00.000Z"><meta property="article:modified_time" content="2024-04-17T01:27:20.211Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="article:tag" content="BI"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/32.%20BI%20-%20%E4%BE%9D%E6%8D%AE%E6%B7%98%E5%AE%9D%E7%9A%84%E7%94%A8%E6%88%B7%E8%A1%8C%E4%B8%BA%EF%BC%8C%E4%BB%8E%200%20%E5%BC%80%E5%A7%8B%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E7%A7%BB%E5%8A%A8%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F-1/"},"headline":"32. BI - 依据淘宝的用户行为，从 0 开始实现一个简单的移动推荐系统","image":[],"datePublished":"2024-04-16T23:30:00.000Z","dateModified":"2024-04-17T01:27:20.211Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"本文为 「茶桁的 AI 秘籍 - BI 篇 第 32 篇」"}</script><link rel="canonical" href="https://hivan.me/32.%20BI%20-%20%E4%BE%9D%E6%8D%AE%E6%B7%98%E5%AE%9D%E7%9A%84%E7%94%A8%E6%88%B7%E8%A1%8C%E4%B8%BA%EF%BC%8C%E4%BB%8E%200%20%E5%BC%80%E5%A7%8B%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E7%A7%BB%E5%8A%A8%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F-1/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><script>var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?f91b64734fdc7bfb999e48f9248d44dd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-ZFB6CVWZFJ" async></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-ZFB6CVWZFJ');</script><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2024-04-16T23:30:00.000Z" title="4/17/2024, 7:30:00 AM">2024-04-17</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a><span> / </span><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></span></div></div><h1 class="title is-3 is-size-4-mobile">32. BI - 依据淘宝的用户行为，从 0 开始实现一个简单的移动推荐系统</h1><div class="content"><p>本文为 「<a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg%3D%3D&amp;action=getalbum&amp;album_id=3193965113967132673&amp;subscene=&amp;sessionid=svr_548800ce471&amp;enterid=1704001437&amp;from_msgid=2648751621&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;scene=21#wechat_redirect">茶桁的
+AI 秘籍 - BI 篇</a> 第 32 篇」</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/茶桁的AI秘籍_BI_32.png"
+alt="茶桁的AI秘籍_BI_32" /></p>
+<span id="more"></span>
+<p>Hi, 你好。我是茶桁。</p>
+<p>今天咱们要来完成一个简单的推荐系统的建立。</p>
+<p>之前的课程里给大家讲了两种模型，也希望大家对模型的概念以及使用场景会有些了解。不光是推荐系统，在生物、心理学、社交网络等等里面都会有一些使用。</p>
+<p>曾经有过这么一句话：<strong>Embedding is all you
+need</strong>，这曾经是一篇论文的标题，也有很多 AI
+相关的文章都会引用这句话作为标题，大家可以去 Google
+一下，一搜一大片。这句话意思是 <strong>Embedding
+就是你所想要的一切</strong>，这可以说明特征工程的一个重要性。</p>
+<p>Embedding
+之所以这么重要，原因就是因为它后续可以接入神经网络。神经网络是一个无限的拟合器，它需要有一个固定维度的向量。如果你不给它做
+Embedding 放到神经网路里去就会产生维度爆炸。所以先做
+Embedding，特征学完以后再放到神经网络里是一个最好的方法。</p>
+<p>接下来，咱们来看一个项目，这个项目是移动推荐系统项目，我们看一看用户的购买预测，如何来进行推荐。</p>
+<p>移动推荐系统是来自于阿里云天池上的一场比赛，这个比赛目前也是开放的，感兴趣的可以自己进行提交，看一看你自己的排名。</p>
+<p>https://tianchi.aliyun.com/competition/entrance/231522/information</p>
+<p>如果之前没有做过这场比赛可以先把数据下载下来。数据压缩包 100
+多兆，解压以后大概一个
+G，数据量级非常庞大。所以这个数据大家就自己去比赛页面去自己下载一下。</p>
+<p>这个数据是一个真实业务场景的数据，当然也做了一些脱敏的处理。在官网上对题目和数据的定义是这样的：</p>
+<blockquote>
+<p>在真实的业务场景下，我们往往需要对所有商品的一个子集构建个性化推荐模型。在完成这件任务的过程中，我们不仅需要利用用户在这个商品子集上的行为数据，往往还需要利用更丰富的用户行为数据。定义如下的符号：
+U ——用户集合 I ——商品全集 P ——商品子集，P ⊆ I D
+——用户对商品全集的行为数据集合 那么我们的目标是利用 D 来构造 U 中用户对
+P 中商品的推荐模型。</p>
+</blockquote>
+<p>我们需要对所有商品的子集构造一个个性化的推荐。完成这个任务不仅需要在用户的商品子集上的行为，还需要更丰富的其它用户行为。</p>
+<p>首先用户的集合 U
+是全量的用户，你可以把它想象成是淘宝上的用户。淘宝上面还有非常多的商品，I
+是商品全集。我们要去关注的不是全量商品，而是一部分商品是
+P。为什么是一个子集，想象有一个广告投放业务，他不需要对所有商品都做推荐，要找谁付了费，放到阿里巴巴上面要去做推广，这是有收益的。所以
+P 是他的广告候选集。</p>
+<p>D 是用户的行为集合，这是一个全量商品 I 的行为，是用户在 i
+上面的所有的全量行为，这本身是构造了一个用户行为的一个数据集。而我们要去预测的并不是全部的数据，而是
+P，看一看用户会不会对 P 感兴趣。</p>
+<p>这样定义完之后大家应该能明白了把？</p>
+<p>整个的比赛的数据是给我们提供了 2
+万个用户的行为数据以及百万个商品信息，数据啊我们也可以看到比赛页面上也有比较详细的一个描述：</p>
+<blockquote>
+<p>第一部分是用户在商品全集上的移动端行为数据（D）,表名为<code>tianchi_fresh_comp_train_user_2w</code>，包含如下字段：</p>
+</blockquote>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240117204921.png"
+alt="20240117204921" /></p>
+<p>时间上，是来自于 11.18 到
+12.18，一个月的左右的移动端的行为，对应的数据表就是
+<code>tianchi_fresh_comp_train_user</code>, 一个多 G 的
+CSV，所以原始数据还是非常大的。</p>
+<p>我们来看一下 <code>behavior_type</code>
+这个字段的说明，包含了浏览、收藏、加购物车、购买、对应取值分别是
+1、2、3、4，我们平时用淘宝大概也就这些行为。看一看商品，放到购物车里，产生购买，你可以把这个商品收藏起来，这个行为字段叫
+<code>behavior_type</code>。</p>
+<p>数据集里还包含了用户位置的空间。用户有的时候把位置开放了，就可以知道用户的一些位置空间，这里是做了一个加密算法的处理，因为用户的隐私，并不能直接告诉你，这些数据都是做了一些脱敏的处理。</p>
+<p>脱敏虽然看不出来原始数据，但是它的特征是有保留的。可以把它理解成为就是经过算法的一个映射关系，看成是个加密。Embedding
+和 PAC 都是一些比较常见的脱敏技术，因为 Embedding 和 PAC
+本身是对特征做了一些提取。</p>
+<p>还有一些行为，精确到小时的级别。</p>
+<p>这个数据表就把用户和商品的行为、时间以及地理位置都做了一些特征的描述。还有包括商品特征，商品子集是来自于
+<code>tianchi_fresh_comp_train_item</code>
+这张表，这张表比较简单，只有三个字段。商品标识，商品分类标识以及商品位置的空间标识。</p>
+<blockquote>
+<p>第二个部分是商品子集（P），表名为
+<code>tianchi_fresh_comp_train_item_2w</code>，包含如下字段：</p>
+</blockquote>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240117205016.png"
+alt="20240117205016" /></p>
+<p>现在要去预测一个月之后的某一天，12 月 19 号
+他商品子集的购买情况。如果预测更准确分数就会更高一点，最终的输入结果有
+<code>user_id</code> 和 <code>item_id</code> 这两个字段。</p>
+<p>用户对哪一个商品会产生购买，最终评价指标它用的是 F1 值，F1
+是由两个维度来进行构成的。</p>
+<p><span class="math display">\[
+F1 = \frac{2 \times Precision \times Recall}{Precision \times Recall}
+\]</span></p>
+<p>其中 Precision 是精确度，Recall
+是召回率，这两个指标咱们在之前讲解机器学习的时候都有详细的讲解过。</p>
+<p><span class="math display">\[
+Precision = \frac{|\frown(PredictionSet,
+ReferenceSet)|}{|PredictionSet|} \\ \\
+Recall = \frac{|\frown(PredictionSet, ReferenceSet)|}{|ReferenceSet|}
+\]</span></p>
+<p>那为什么不单独的用精确度和召回率呢？</p>
+<p>先看一下相关定义，给了一个预测的用户购买集: PredictionSet,
+本身答案也有一个ReferenceSet，这是一个真实答案，这是给出来的预测结果。两者之间前面的符号是用了一个交集"<span
+class="math inline">\(\frown\)</span>"，就是两个集合中都存在的一个数据的集合。然后又求了一个
+lens，就求它的长度。这里用的<code>| |</code>并不是指绝对值，而是长度。求出的这个长度比上预测的长度，就代表精确度。也就是说，在给出来的这些集合过程中，你预测对了多少个，是精确度。</p>
+<p>那请问，如果只看精确度作为最终考核指标的话，这样的一个指标有没有可能作弊？有没有一些策略可以让精确度的分数比较高？</p>
+<p>我们最终是除上一个分母
+<code>|PredictionSet|</code>，这个分母是精确的，预测的集合。所以会不会存在一种情况可以让它的分数达到很高？比如说只给一个预测购买的结果，这个购买结果确实存在过，所以精确度就会很准，只预测一条数据是个极端行为。所以我们还要考量一个维度
+“召回率 Recall”。</p>
+<p>召回率还是这两个交集，也就是两个集合中都存在的数据，比上真实的答案。那我们在想想，如果只看召回率，有没有一些方法也能让你作弊，达到很好的成绩？这个应该比较容易。</p>
+<p>召回率就是在实际的购买过程中找到了多少，最简单的策略是把所有的商品子集都放进去。如果所有商品子集都放进去一定
+100% 都涵盖，召回率就拿了满分，这样其实也是不对的。</p>
+<p>为了防止作弊就不能用单一的指标，而是要把这两个指标合到一起。F1
+值就更加的精确一点，避免了用户作弊的两种可能性。这样就是一个算法真实的考量，用
+F1 值会更合理一些，也成为最终的评价指标。</p>
+<p>一会儿会给 2
+万的用户行为数据来去预测商品子集在接下来一天会不会产生购买，计算的是 F1
+值。</p>
+<p>现在可以好好思考一下思路，应该怎么去做？这是一个预测是否购买的任务，第一肯定是先要对原来的数据做观察。</p>
+<p>用户的购买本身跟时间是有关系的，给出来的数据给了前 30
+天的行为，所以可以先去考量一下。我们一起来看一看。</p>
+<p>先把数据加载进来</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 数据加载</span><br>df = pd.read_csv(path+<span class="hljs-string">&#x27;/tianchi_fresh_comp_train_user.csv&#x27;</span>)<br>df<br></code></pre></td></tr></table></figure>
+<p>数据加载可能存在一个问题，现在这个数据量可能会比较大，所以可能需要对这个数据去做一个分块的处理。如果你的内存比较大可以直接来进行读取。</p>
+<p>我的笔记本内存还好一点，16 个 g，如果你的笔记本内存是 8 个 g
+的话基本上后面运算就比较难了。前期的读取时间相对来说会比较长。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240223220132.png"
+alt="20240223220132" /></p>
+<p>咱们主要看的是用户的时间，数据这个 time 是 2014 年的 12
+月份，要预测的是 2014 年的 12 月 19 号。思考一下， 2014 年 12 月 19
+号大家会想到什么样的一个特征？</p>
+<p>对于网购来说，哪一天购买对用户来说是否有关系？比如说周一的时候买商品还是周五的时候买会不会不一样？周一在淘宝上购买行为跟周日会不会有区别？这个肯定还是有区别的。所以咱们第一个想法是需要看一看，2014
+年 12 月 19 号是星期几。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240208204459.png"
+alt="20240208204459" /></p>
+<p>周五更容易产生购物，而这一天正好是周五。给了 30
+天的数据，要怎么去完成预测呢？是不是可以划一个时间段，给你一个
+x，然后再预测一个 y。</p>
+<p>x 怎么设置？如果预测的是周五，把它分成几组，可以这样分：</p>
+<p><span class="math display">\[
+\begin{align*}
+train1 : 11.22 ~ 11.27 -&gt; 11.28 \\
+train2 : 11.29 ~ 12.04 -&gt; 12.05 \\
+train3 : 12.06 ~ 12.10 -&gt; 12.12 \\
+train4 : 12.13 ~ 12.18 -&gt; 12.19
+\end{align*}
+\]</span></p>
+<p>前面 13 到 18 是 6
+天的时间，预测它是周五。相当于是从周六开始一直到周四，预测 19 号。从
+train1 到 train4
+都是一样的，都是从周六开始到周四，预测周五。把每一周七天的时间可以划分出来，这样就会有四个七天的时间，每个七天都形成了
+x 和 y 的特点，前面是 x，后面是
+y。所以如果要去建一个分类模型就可以这么去构造，前面是原始数据的
+x，后面是 y。可以把它称为 test day，就是预测 y。y 的时间点就是 12 月 19
+号、12 月 12 号、 12 月 05 号和 11 月 28 号。</p>
+<p>当然这种划分方式也不是唯一的标准，也可以按照其他不同的方式。比如预测
+31 天，然后再把中间的 30
+天预测下一天也完全可以。没有一种统一的方式，采用哪种方法都可以，看哪一种更合理。</p>
+<p>咱们现在按照之前的划分方式，四个段落里有没有可能存在异常值？</p>
+<p>2014
+年的时候，淘宝那阵已经上线一段时间双十一的活动，这应该是淘宝造节的一个非常成功的一个案例。除了双十一以外还有一个重要的节日，也可能会造成购买的异常，你会发现用户购买的情况非常多，这个数据集里面也覆盖到了，就是
+12 月 12 号，叫双十二。</p>
+<p>这个相信大家应该经历过，就是下一个月双 12
+的时候应该也有一些促销的优惠幅度，这对于第三组（train3: 12.06 ~ 12.10
+-&gt;
+12.12）来说包含了一个异常点。有了这个异常点对于模型来说存在一些反向价值，或者有些噪音点。所以为了更好去预测，可以把异常值去掉。</p>
+<p>以上是一个思考维度，大家可以按照这种思维自己去做一个建模。最终我们可以用模型去预测用户是否会完成购买，前期也会有数据的一个统计。</p>
+<p>另外我这里也教给大家还有一些方式，咱们可以对数据做分块儿的处理。如果你的数据很大，可以使用
+chunksize，chunksize 是 Pandas 里面做分块处理的一个设置。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">dateparse = <span class="hljs-keyword">lambda</span> dates: pd.to_datetime(dates, <span class="hljs-built_in">format</span>=<span class="hljs-string">&#x27;%Y-%m-%d %H&#x27;</span>)<br>file_name = path+<span class="hljs-string">&#x27;/tianchi_fresh_comp_train_user.csv&#x27;</span><br>batch = <span class="hljs-number">0</span><br><span class="hljs-keyword">for</span> df <span class="hljs-keyword">in</span> pd.read_csv(<span class="hljs-built_in">open</span>(file_name, <span class="hljs-string">&#x27;r&#x27;</span>), parse_dates=[<span class="hljs-string">&#x27;time&#x27;</span>],<br>      index_col=[<span class="hljs-string">&#x27;time&#x27;</span>],<br>      date_parser = dateparse,<br>      chunksize = <span class="hljs-number">1000000</span>):<br></code></pre></td></tr></table></figure>
+<p>打开一个文件，然后设置成 size，这里的 size 大小设置成了 100
+万，或者你设成 10 万，这里意思就是每一块现在是 100 万行的数据。</p>
+<p>第一行的 dateparse 中，date
+代表是日期的含义。我们设置了一个日期的一个解析。解析是
+<code>parse_dates=['time']</code> 这个特征，还可以把它设成
+<code>index_col</code>，这样每一次 DF 就有了 100 万行。也可以把这 100
+万行的数据每一次都 to 成一个 CSV，把它保存进去。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">train1.to_csv(train1_file, columns = [<span class="hljs-string">&#x27;user_id&#x27;</span>, <span class="hljs-string">&#x27;item_id&#x27;</span>, <span class="hljs-string">&#x27;behavior_type&#x27;</span>, <span class="hljs-string">&#x27;item_category&#x27;</span>], header = <span class="hljs-literal">False</span>, mode = <span class="hljs-string">&#x27;a&#x27;</span>)<br></code></pre></td></tr></table></figure>
+<p>如果你的文件特别特别大，要保存的话可以使用一种叫做
+<code>append</code> 的模式。<code>mode = 'a'</code> 代表是 append，
+追加模式。追加模式的话，header
+就不能有了。每次如果都有表实际上就多了一些表头，要把表头去掉。所以在追加模式过程中，header
+一般设为 <code>False</code>，这样你生成出来的 CSV 是没有表头的。</p>
+<p>除了对数据做了这样一个处理以外，我们再来做一个简单的策略，先做个简单规则。</p>
+<p>我们想想，在购买要预测的是哪一个特征？是 <code>behavior_type</code>
+这个字段。再来看看字段说明：</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240224163149.png"
+alt="20240224163149" /></p>
+<p>要是产生购买应该是 <code>behavior_type</code> 的第 4 个，
+<code>behavior_type</code> 等于
+4。一般购买的逻辑是什么？在购买之前还要做一个操作，哪一个逻辑跟购买之间是最直接相关的？</p>
+<p>一个用户可能不只有一种类型，对同一个商品 ID 可能会有
+1、2、3、4，也就是浏览、收藏、加购物车和购买。那 1 肯定是必备的，其他的
+3 可能最近。知道转化漏斗吧？点击进去以后放到购物车产生购买，所以 3 和 4
+之间的关系，到底转化率是多少这可能是一个问号，我们可能想要去看一看。</p>
+<p>原始数据已经给到了，完全可以通过一些数据探索的形式做一些可视化的分析。这里可以先设一个简单规则，假设用户都是先放到购物车再进行购买的，也就是对应的从
+<code>behavior_type = 3</code> 再到
+<code>behavior_type = 4</code>。先去观察一下，因为每一个
+<code>behavior_type</code> 都有时间的记录，可以看到原始的数据里面有个
+<code>time</code>，可能就比较好奇 3 ～ 4 之间一般会间隔多久。</p>
+<p>一般放到购物车里然后产生购买，不同的人时间不一样。这里咱们做个小调查，有没有一些同学把购物车当成收藏夹，大家可以在我的留言区内回复。</p>
+<p>有时候我们发现产品设计很有意思，虽然有收藏的功能，但总有些人先放到购物车里不买，先等着，可能过一段时间又买了。很神奇，我身边有很多人也都是类似的一些行为。我们可以观察一下这两者之间的时间差。你放到购物车到最终完成购买，这里设置一个
+<code>delta_hour</code>，这是一个新的特征段，把这个 delta_hour
+可视化。</p>
+<p>购物车到购买的时间间隔越短，可能很快就买了，越长就越是起到收藏的功能，总体来说这个规律非常的明显，特征很突出。</p>
+<p>我们设置它每个长度是 24，就是 24
+小时，基本上是在一天左右用户就产生一个购买。用户有一个很强的特征，一般要放在购物车的话一天的时间之内可能就买了，那我们能不能写一个简单的策略，去预测用户购买哪些商品？</p>
+<p>既然要预测的是 12 月 29
+号的购买情况，如果上一步是要放到购物车，最大的数据是 12 月 18
+号的数据，所以会利用哪一天的购物车来进行预测呢？有没有可能，在 12 月 18
+号之前把商品放到购物车里去，而那一天没有购买，我们就可以把它认为未来可能会购买，可以以
+12 月 18 号那一天的购物车数据来进行预测。这就是一个简单的一个策略。</p>
+<p>如果把它放到了购物车里还没有完成购物，假设它可能会在 12 月 19
+号完成购物，这样一个策略我们看一看它的结果会是怎样的。</p>
+<p>接着上面的代码继续写下去，就像前面分析的，咱们最关注的特征应该是
+<code>behavior_type</code>, 在它等于 3 或 4的时候，因为你现在假设是 3-4
+之间的一个转换，所以可以写一个数组，把它做一个抽取，原来的数据直接读进来。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df_act_34 = df[df[<span class="hljs-string">&#x27;behavior_type&#x27;</span>].isin([<span class="hljs-number">3</span>,<span class="hljs-number">4</span>])]<br></code></pre></td></tr></table></figure>
+<p>因为我的内存还可以，而追加读取的方式太耗时间，所以我干脆就直接读取完整的数据了。然后未了方便，我将其保存为
+pickle：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">df_act_34.to_pickle(path+<span class="hljs-string">&#x27;/df_act_34.pkl&#x27;</span>)<br></code></pre></td></tr></table></figure>
+<p>这样的话，下次只要计算一次，以后其实就可以直接通过 pickle
+文件来进行读取了，速度会比较快一点。得到的文件为 49.2 M.</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240224223926.png"
+alt="20240224223926" /></p>
+<p>pickle 文件在读取的时候需要用 open 来进行，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(path+<span class="hljs-string">&#x27;/df_act_34.pkl&#x27;</span>, <span class="hljs-string">&#x27;rb&#x27;</span>) <span class="hljs-keyword">as</span> file:<br>  df_act_34 = pickle.load(file)<br>df_act_34.head()<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240224224114.png"
+alt="20240224224114" /></p>
+<p>这个写完以后，下面要去提取所有
+<code>behavior_type = 3</code>的数据，不过数据还需要再做个处理。</p>
+<p>咱们需要将 dublicate 的数据 drop
+一下。对他的一个粒度筛选是用户和商品之间的行为，最终要提交的也是用户和商品之间的行为。</p>
+<p>把一些重复的 drop
+掉之后还有一个小问题，就是应该有一些时间的概念，要把时间从小到大排序，按照它的这个维度可以先
+sort 一下:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python">df_act_34.sort_values(by=[<span class="hljs-string">&#x27;time&#x27;</span>], ascending=<span class="hljs-literal">True</span>, inplace=<span class="hljs-literal">True</span>)<br>df_act_34.drop_duplicates([<span class="hljs-string">&#x27;user_id&#x27;</span>, <span class="hljs-string">&#x27;item_id&#x27;</span>, <span class="hljs-string">&#x27;behavior_type&#x27;</span>], keep=<span class="hljs-string">&#x27;last&#x27;</span>, inplace=<span class="hljs-literal">True</span>)<br>df_act_34.info()<br><br>---<br>...<br>Index: <span class="hljs-number">742625</span> entries, <span class="hljs-number">5</span> to <span class="hljs-number">23290546</span><br>Data columns (total <span class="hljs-number">6</span> columns):<br>...<br></code></pre></td></tr></table></figure>
+<p>保存它最后一次 <code>keep = 'last'</code> 就可以了，原来是 89
+万的数据，现在变成了 74 万的数据。</p>
+<p>那现在这个数据其实还是<code>[3, 4]</code>的数据，要提取几个关键特征，第一个要提取的是
+<code>behavior_type = 3</code> 的数据。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 所有 behavior_type = 3 的数据</span><br>df_time_3 = df_act_34[df_act_34[<span class="hljs-string">&#x27;behavior_type&#x27;</span>] == <span class="hljs-number">3</span>][[<span class="hljs-string">&#x27;user_id&#x27;</span>, <span class="hljs-string">&#x27;item_id&#x27;</span>, <span class="hljs-string">&#x27;time&#x27;</span>]]<br>df_time_3<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240224231833.png"
+alt="20240224231833" /></p>
+<p>我们求几个维度，<code>['user_id', 'item_id', 'time']</code>,
+把这个数据作为 <code>df_time_3</code> 打印出来。</p>
+<p>同理还可以求一下所有 <code>behavior_type = 4</code>
+的数据，目的就是要看这两者之间有没有一些关联。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 所有 behavior_type = 4 的数据</span><br>df_time_4 = df_act_34[df_act_34[<span class="hljs-string">&#x27;behavior_type&#x27;</span>] == <span class="hljs-number">4</span>][[<span class="hljs-string">&#x27;user_id&#x27;</span>, <span class="hljs-string">&#x27;item_id&#x27;</span>, <span class="hljs-string">&#x27;time&#x27;</span>]]<br>df_time_4<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240224232042.png"
+alt="20240224232042" /></p>
+<p>现在 3 和 4 都求完了，统一去看 3-4
+之间的一个差值。以用户的粒度为例，或者以 item
+粒度为例。咱们最后要提交的文件里面是 <code>user_id</code> 和
+<code>item_id</code>。</p>
+<p>现在提取出来了 <code>user_id</code> 和 <code>item_id</code>
+两种特征，一个是 <code>behavior_type = 3</code> 的特征，一个是
+<code>behavior_type = 4</code> 的特征，可以把这两个特征合并起来。</p>
+<p>合并的过程中也存在一个问题，它都等于 time，所以对它的 time
+也需要做一个变换。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">df_time_3.rename(columns=&#123;<span class="hljs-string">&#x27;time&#x27;</span>:<span class="hljs-string">&#x27;time3&#x27;</span>&#125;, inplace=<span class="hljs-literal">True</span>)<br>df_time_4.rename(columns=&#123;<span class="hljs-string">&#x27;time&#x27;</span>:<span class="hljs-string">&#x27;time4&#x27;</span>&#125;, inplace=<span class="hljs-literal">True</span>)<br></code></pre></td></tr></table></figure>
+<p>这些都求解出来以后，如果之前有些数据不想要了也可以给他 drop
+掉，可以直接帮他把内存清掉。</p>
+<p>这两个数据还可以合并到一起，将<code>time3</code>和<code>time4</code>的数据进行连接，用
+<code>user_id</code> 和 <code>item_id</code> 来做链接:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">df_time = pd.merge(df_time_3, df_time_4, on = [<span class="hljs-string">&#x27;user_id&#x27;</span>, <span class="hljs-string">&#x27;item_id&#x27;</span>], how=<span class="hljs-string">&#x27;left&#x27;</span>)<br>df_time<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240224234458.png"
+alt="20240224234458" /></p>
+<p>这样就可以把它链接到一起。可以看到有些是有 3 但是没有 4，4
+的位置是空值。那我们需要在对数据进行一下处理，将空值去掉。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">df_time_34 = df_time.dropna()<br>df_time_34<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240224234639.png"
+alt="20240224234639" /></p>
+<p>接着咱们来计算从加购物车到购买的时间差：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python">delta_time = pd.to_datetime(df_time_34[<span class="hljs-string">&#x27;time4&#x27;</span>]) - pd.to_datetime(df_time_34[<span class="hljs-string">&#x27;time3&#x27;</span>])<br>delta_time<br><br>---<br><span class="hljs-number">4</span>           <span class="hljs-number">0</span> days <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span><br>                ...        <br><span class="hljs-number">542781</span>    -<span class="hljs-number">5</span> days +<span class="hljs-number">15</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00</span><br><span class="hljs-number">542788</span>    -<span class="hljs-number">3</span> days +01:<span class="hljs-number">00</span>:<span class="hljs-number">00</span><br>Length: <span class="hljs-number">115705</span>, dtype: timedelta64[ns]<br></code></pre></td></tr></table></figure>
+<p>这是要去分析的一个重要特征，可以把这个特征画一画。可以提取一些具体的时间，遍历一下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">delta_hour = []<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(delta_time)):<br>  d_hour = delta_time.iloc[i].days * <span class="hljs-number">24</span> + delta_time.iloc[i]._h<br>  delta_hour.append(d_hour)<br>delta_hour<br></code></pre></td></tr></table></figure>
+<p>接着去写可视化的过程</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">plt.hist(delta_hour, bins=<span class="hljs-number">24</span>)<br>plt.xlabel(<span class="hljs-string">&#x27;Hours&#x27;</span>)<br>plt.ylabel(<span class="hljs-string">&#x27;Count&#x27;</span>)<br>plt.title(<span class="hljs-string">&#x27;Delta_hour from shopping cart to buy&#x27;</span>)<br>plt.grid(<span class="hljs-literal">True</span>)<br>plt.show()<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240225103321.png"
+alt="20240225103321" /></p>
+<p>可以看到这个数据存在一些异常值，有一些购买和原来的时间不匹配的情况。如果它存在这种不匹配的情况，你可以把它删掉，给它做一个处理。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python">delta_hour = []<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(delta_time)):<br>  d_hour = delta_time.iloc[i].days * <span class="hljs-number">24</span> + delta_time.iloc[i]._h<br>  <span class="hljs-keyword">if</span> d_hour&lt;<span class="hljs-number">0</span>:<br>    <span class="hljs-keyword">continue</span><br>  <span class="hljs-keyword">else</span>:<br>    delta_hour.append(d_hour)<br>delta_hour<br></code></pre></td></tr></table></figure>
+<p>接着咱们再来展现一下看看：</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240225103201.png"
+alt="20240225103201" /></p>
+<p>通过这个例子可以看出来比较明显，基本上用户在一天之内都完成了购买，之后陆陆续续也会有一些购买。所以这个特征是一个非常强的特征，特征比较强就可以直接去查看
+2014 年 12 月 18 号的购物车，当时放到购物车的用户有哪些。</p>
+<p>这个怎么看? 咱们之前在拆解数据的时候，购物车数据应该是
+<code>time3</code>， 也就是
+<code>df_time_3</code>。咱们来看看这个部分：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 查看2014-12-18，当时放到购物车中的用户</span><br>ui_pred = df_time[df_time[<span class="hljs-string">&#x27;time4&#x27;</span>].isnull() &amp; (df_time[<span class="hljs-string">&#x27;time3&#x27;</span>] &gt;= <span class="hljs-string">&#x27;2014-12-18 00&#x27;</span>)]<br>ui_pred<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240225103849.png"
+alt="20240225103849" /></p>
+<p>求一下 time3 有但是 time4 没有，并且 time3 又大于等于 12 月 18
+号，这个数据应该就是咱们想要的数据。</p>
+<p>我们想要的就是大于 12 月 18
+号在那一天放到购物车，但是没有产生购物的人，求解出来以后再去做一个商品子集的对比。</p>
+<p>在原始数据中有个商品子集，咱们可以检索一下，商品子集是
+<code>item_id</code>， 把这两个 item_id 做一个求解，做一个 merge。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">df_item = pd.read_csv(path+<span class="hljs-string">&#x27;/tianchi_fresh_comp_train_item.csv&#x27;</span>)<br>df_item<br>ui_pred_in_p = pd.merge(ui_pred, df_item, on=<span class="hljs-string">&#x27;item_id&#x27;</span>)<br>ui_pred_in_p<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240225120038.png"
+alt="20240225120038" /></p>
+<p>然后把这个结果保存起来</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">ui_pred_in_p.to_csv(path+<span class="hljs-string">&#x27;/baseline_rulebased.csv&#x27;</span>, columns = [<span class="hljs-string">&#x27;user_id&#x27;</span>, <span class="hljs-string">&#x27;item_id&#x27;</span>], index=<span class="hljs-literal">False</span>)<br></code></pre></td></tr></table></figure>
+<p>根据要求应该只有两列，一个是 user_id，一个是 item_id。
+所以咱们在保存的时候设置了一下 columns。 index = False
+是不要把序号加上去.</p>
+<p>保存完毕之后，咱们再来看看保存好的文件，读取一下看看：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">pd.read_csv(path+<span class="hljs-string">&quot;/baseline_rulebased.csv&quot;</span>)<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240225120401.png"
+alt="20240225120401" /></p>
+<p>查看一下没有问题，那咱们就可以提交了，看看最终的成绩是怎样的。虽然这次没用机器学习，但是我们找到了一个比较好的特征，这个特征非常明显，可以看看这个特征对最终预测是否会有帮助。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240225121215.png"
+alt="20240225121215" /></p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240225121231.png"
+alt="20240225121231" /></p>
+<p>提交之后可以看到自己的分数，那可以看到咱们此次的分数并不高，只有0.06875，也是大概在
+400 多名去了。整个参赛队伍大概是有 15000 名左右。</p>
+<p>整个数据如果能找到一个比较好的特征，那至少可以把它当成一个权重因子，后续还可以再去引入到一些新的维度，也可以采用多种
+rule base 一起来做一个合并，也可以在此基础上再做一些模型训练。</p>
+<p>从上面这个例子来去看，推荐系统在这些操作之后还可以再加一个预测的模型，让预测更加精准，而这是一种比较常见的策略。</p>
+<p>好，这个就是本节课的一些内容，大家如果想要在比赛中提高自己的分数，或者加强自己的能力，课后可以在尝试融合一些模型训练。勤思考，勤练习，期待大家能有一个更好的成绩和提升，别忘了回来留言告诉我你的成绩。咱们下节课再见。</p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>32. BI - 依据淘宝的用户行为，从 0 开始实现一个简单的移动推荐系统</p><p><a href="https://hivan.me/32. BI - 依据淘宝的用户行为，从 0 开始实现一个简单的移动推荐系统-1/">https://hivan.me/32. BI - 依据淘宝的用户行为，从 0 开始实现一个简单的移动推荐系统-1/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2024-04-17</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2024-04-17</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a><a class="link-muted mr-2" rel="tag" href="/tags/BI/">BI</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/31.%20BI%20-%20%E4%BB%8E%E5%8E%9F%E7%90%86%E5%88%B0%E5%AE%9E%E4%BE%8B%EF%BC%8C%E8%AF%A6%E8%A7%A3%20Node2Vec%20%E7%AE%97%E6%B3%95-1/"><span class="level-item">31. BI - 从原理到实例，详解 Node2Vec 算法</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/32.%20BI%20-%20%E4%BE%9D%E6%8D%AE%E6%B7%98%E5%AE%9D%E7%9A%84%E7%94%A8%E6%88%B7%E8%A1%8C%E4%B8%BA%EF%BC%8C%E4%BB%8E%200%20%E5%BC%80%E5%A7%8B%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E7%A7%BB%E5%8A%A8%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F-1/';
+            this.page.identifier = '32. BI - 依据淘宝的用户行为，从 0 开始实现一个简单的移动推荐系统-1/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI 游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">238</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">6</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">22</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI 秘籍</span></span><span class="level-end"><span class="level-item tag">96</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/"><span class="level-start"><span class="level-item">BI</span></span><span class="level-end"><span class="level-item tag">32</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">33</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-04-16T23:30:00.000Z">2024-04-17</time></p><p class="title"><a href="/32.%20BI%20-%20%E4%BE%9D%E6%8D%AE%E6%B7%98%E5%AE%9D%E7%9A%84%E7%94%A8%E6%88%B7%E8%A1%8C%E4%B8%BA%EF%BC%8C%E4%BB%8E%200%20%E5%BC%80%E5%A7%8B%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E7%A7%BB%E5%8A%A8%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F-1/">32. BI - 依据淘宝的用户行为，从 0 开始实现一个简单的移动推荐系统</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-04-13T23:30:00.000Z">2024-04-14</time></p><p class="title"><a href="/31.%20BI%20-%20%E4%BB%8E%E5%8E%9F%E7%90%86%E5%88%B0%E5%AE%9E%E4%BE%8B%EF%BC%8C%E8%AF%A6%E8%A7%A3%20Node2Vec%20%E7%AE%97%E6%B3%95-1/">31. BI - 从原理到实例，详解 Node2Vec 算法</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-04-09T23:30:00.000Z">2024-04-10</time></p><p class="title"><a href="/30.%20BI%20-%20%E8%AF%A6%E8%A7%A3%20Graph%20Embedding%20%E7%9A%84%20DeepWalk%20%E7%AE%97%E6%B3%95%E5%8F%8A%E5%AE%9E%E4%BE%8B-1/">30. BI - 详解 Graph Embedding 的 DeepWalk 算法及实例</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-04-06T23:30:00.000Z">2024-04-07</time></p><p class="title"><a href="/29.%20BI%20-%20%E5%88%9D%E6%8E%A5%E8%A7%A6%20Graph%20Embedding/">29. BI - 初接触 Graph Embedding</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-04-02T23:30:00.000Z">2024-04-03</time></p><p class="title"><a href="/28.%20BI%20-%20%E5%9B%BE%E8%AE%BA%E5%B7%A5%E5%85%B7%E5%92%8C%E7%AE%97%E6%B3%95,%20%E7%A4%BE%E5%8C%BA%E5%8F%91%E7%8E%B0%E4%BB%A5%E5%8F%8A%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84/">28. BI - 图论工具和算法, 社区发现以及最短路径</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2024 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

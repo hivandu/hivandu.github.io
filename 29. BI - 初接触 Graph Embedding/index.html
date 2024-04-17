@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>29. BI - 初接触 Graph Embedding - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="29. BI - 初接触 Graph Embedding 本文为 「茶桁的 AI 秘籍 - BI 篇 第 29 篇」"><meta property="og:type" content="blog"><meta property="og:title" content="29. BI - 初接触 Graph Embedding"><meta property="og:url" content="https://hivan.me/29.%20BI%20-%20%E5%88%9D%E6%8E%A5%E8%A7%A6%20Graph%20Embedding/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="29. BI - 初接触 Graph Embedding 本文为 「茶桁的 AI 秘籍 - BI 篇 第 29 篇」"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="http://qiniu.hivan.me/picGo/202401091650462.png?imgNote"><meta property="og:image" content="http://qiniu.hivan.me/picGo/202401091652878.png?imgNote"><meta property="article:published_time" content="2024-04-06T23:30:00.000Z"><meta property="article:modified_time" content="2024-04-17T01:26:16.428Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="article:tag" content="BI"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="http://qiniu.hivan.me/picGo/202401091650462.png?imgNote"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/29.%20BI%20-%20%E5%88%9D%E6%8E%A5%E8%A7%A6%20Graph%20Embedding/"},"headline":"29. BI - 初接触 Graph Embedding","image":[],"datePublished":"2024-04-06T23:30:00.000Z","dateModified":"2024-04-17T01:26:16.428Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"29. BI - 初接触 Graph Embedding 本文为 「茶桁的 AI 秘籍 - BI 篇 第 29 篇」"}</script><link rel="canonical" href="https://hivan.me/29.%20BI%20-%20%E5%88%9D%E6%8E%A5%E8%A7%A6%20Graph%20Embedding/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><script>var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?f91b64734fdc7bfb999e48f9248d44dd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-ZFB6CVWZFJ" async></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-ZFB6CVWZFJ');</script><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2024-04-06T23:30:00.000Z" title="4/7/2024, 7:30:00 AM">2024-04-07</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a><span> / </span><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></span></div></div><h1 class="title is-3 is-size-4-mobile">29. BI - 初接触 Graph Embedding</h1><div class="content"><h1 id="bi---初接触-graph-embedding">29. BI - 初接触 Graph
+Embedding</h1>
+<p>本文为 「<a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg%3D%3D&amp;action=getalbum&amp;album_id=3193965113967132673&amp;subscene=&amp;sessionid=svr_548800ce471&amp;enterid=1704001437&amp;from_msgid=2648751621&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;scene=21#wechat_redirect">茶桁的
+AI 秘籍 - BI 篇</a> 第 29 篇」</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202401091850176.png"
+alt="茶桁的AI秘籍_核心BI_29.png" /></p>
+<span id="more"></span>
+<p>[TOC]</p>
+<p>Hi，我是茶桁.</p>
+<p>Graph Embedding
+是一个比较重要的内容，这一部分的内容可能要讲个几节课才能完全讲完。那今天的课程大家先放松一下，
+这节课没那么多内容， 主要来了解一下相关概念。</p>
+<h2 id="课程回顾">课程回顾</h2>
+<p>在开始今天的课程之前，咱们先来回忆一下之前的课程内容.</p>
+<p>上一节课中，我们讲了图的相关知识，包括两个最短路径算法 Dijkstra 和
+Floyd.</p>
+<p>其实不只是上节课，咱们整个四个篇章内都在讲基于图的算法，也可以说是思想.
+最开始，引出了十大经典机器学习之一的
+PageRank，咱们一共用了三节课的内容来讲其相关思想以及以它为基础延展的其他算法，包括
+PersonRank，EdgeRank 以及 TextRank.</p>
+<h2 id="graph-embedding-概要">Graph Embedding 概要</h2>
+<p>今天，咱们还是要继续看图，来看看 Graph Embedding。</p>
+<p>这个技术在 19 年到 21
+年之间是非常火热的一项技术，当然，现在最火热的当属以 ChatGPT 为首的 LLM
+相关的内容.</p>
+<p>Graph Embedding 在推荐系统里面也有使用， 在一些文本表征里面都有使用.
+今天咱们就来看一看 Graph Embedding 到底什么样的一个内容.</p>
+<p>之前咱们一直有提到过 Embedding ，在 <a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/GHaGp-hamwQj_bTw9rK3Vg">13. 机器学习 -
+数据集的处理</a> 中就提到过，而在 <a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/UCuFXzAQoJtnSlm9KikquQ">24. BI -
+Embedding</a> 中专门讲过 Embedding. 看过前边课程的同学应该知道，
+Embedding
+是一种嵌入的技术，它把很多特征的维度嵌入到一个固定特征的向量里面去.
+所以看到 Embedding 有两个，第一个叫做固定维度.
+我们的维度应该是固定下来的，第二个，固定下来维度以后目的就是可计算，方便后续来进行计算.
+而且它的可计算只要更容易，找到后面分类结果会更好计算一些。</p>
+<p>在后续的神经网络过程中 Embedding 都属于一个标配，只有采用 Embedding
+技术才能放到后续更大的网络模型中.
+今天咱们就来看一看如何来去对一个图的网络来做 Graph Embedding .</p>
+<p>在这之前，我们先要来了解一个东西，就是
+<strong>非欧几里得数据</strong>. 这是一个重要的概念.</p>
+<p>我们在去求解 Graph Embedding 的时候有两个重要的技术，分别是 Deep Walk
+还有 Node2Vec.</p>
+<p>相信读我文章的人基本都是在公众号内阅读的，那可以肯定的是大家都用微信朋友圈.
+微信朋友圈怎么投放广告呢? 要找跟你相似的一些人. 怎么找?
+首先要对你的特征要了解，要学习，是基于你的 Embedding
+特征表达，要找相似的内容. 基于 Embedding
+特征去找相似的其他人还有哪些，这样就会给你做相关的一些推荐. 所以
+Node2Vec 在微信朋友圈里面的投放里面是有一些广泛的应用.</p>
+<p>这个可以把它理解成是用户画像的提取以及种子用户生成之后做一个人群放大的作用.
+你会发现今天的内容在很多的 AI 的领域里面都会有使用。</p>
+<p>说到 AI，大家应该都知道 AI 有三大主流的方向，CV，NLP 还有 BI. BI
+又会包括其中一个重要的应用场景，就是 RS.</p>
+<p>RS 是英文缩写，全称应该是 Recommended system，推荐系统.
+推荐系统里面要对用户的特征来进行学习，所以在 CV，NLP，RS 中都有 GCN
+的身影. GCN 也就可以理解为是 Graph Embedding 。</p>
+<p>在图像里面可以有一些图的表达，可以用图的表征来做提取。文本中也能把它看成图，
+在推荐系统用户关系里面也能看成图，所以 GCN 贯穿始终.</p>
+<h2 id="graph-和-非欧几里得数据">Graph 和 非欧几里得数据</h2>
+<p>咱们先来看几个应用的场景，以图像为例.
+大家是否知道图像是由怎样的数据结构来表达的? 图像中一个比较经典的格式叫
+JPG， 还有一些其他的格式比如 PNG. 这两个格式是怎么样进行存储的?
+或者说把这个格式的图像读取出来.</p>
+<p>先做一个小科普，知道的同学可以担待一下，不知道的同学在这里要记住. JPG
+的图像格式大部分人应该都知道是三个通道，之前的课程中我也讲过.
+哪三个通道呢? 包括「红，绿，蓝」三个通道，也就是我们经常说的
+<code>RGB</code> 通道. PNG 和 JPG 相比多了一个透明通道，也就是
+<code>RGBA</code> 四个通道，这个 <code>A</code> 是
+<code>Alpha</code>.</p>
+<p>这里每个通道都可以把它看成一个矩阵的表达，矩阵是可以看成一个长和宽的数组.</p>
+<p><span class="math display">\[
+\begin{align*}
+A = \begin{bmatrix} 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 2
+&amp; 2 &amp; 1 &amp; 1 &amp; 0 \\0 &amp; 1 &amp; 2 &amp; 2 &amp; 2
+&amp; 1 &amp; 0 \\0 &amp; 0 &amp; 1 &amp; 2 &amp; 2 &amp; 1 &amp; 0 \\ 0
+&amp; 0 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1
+&amp; 1 &amp; 1 &amp; 1 &amp; 0 \end{bmatrix}
+\end{align*}
+\]</span></p>
+<p>不管是几个通道，每个通道都是一个矩阵. 现在要对矩阵的特征来进行提取.
+咱们现在还没有专门讲到图像的识别技术，在核心基础篇里有稍微提到一些.
+看过前面文章的同学应该知道， 如果对图像做特征提取一般会
+CNN，也就是卷积神经网络.</p>
+<p>CNN 就是一个小的卷积， 是一个小的二维矩阵.</p>
+<p><img src="http://qiniu.hivan.me/picGo/202401091650462.png?imgNote"
+alt="image.png" /></p>
+<p>这个二维矩阵是一个规则二维矩阵数据，我们称之为欧几里得数据.
+就是在数学课上学的欧式空间。</p>
+<p>那我们再来看一张图:</p>
+<p><img src="http://qiniu.hivan.me/picGo/202401091652878.png?imgNote"
+alt="image.png" /></p>
+<p>这张图里的数据没有明确的表达的方式，也没有一个明确的存储方法，我们可以把它称为
+<code>Graph</code>， 之前 CNN
+中的图像我们称为<code>Image</code>，这两个不一样.</p>
+<p>二维矩阵上下都有点，相对来说比较规整. 图，也就是 Graph
+是由顶点和边组成的，图中每个顶点其边的数量有可能是不定的，所以对于节点来说它的连接方式有可能是不一样的.
+这种方式就不是规整的，就无法用欧式空间来进行求解.
+我们把这样的数据称之为「非欧几里德数据」，也就是每个节点都有可能会有不一样的连接方法.</p>
+<p>再来看看 NLP，在做一些文本的分类，文本的一些特征提取有很多源于
+Embedding 的技术，word2Vec 就是其一。</p>
+<p>之前在 <a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/UCuFXzAQoJtnSlm9KikquQ">24. BI -
+Embedding</a> 这一章节中咱们就介绍过 word2Vec，里面也讲到过，这是 Google
+提出来的一种模型.</p>
+<p>我们在这里再来简单提一下，防止有些小伙伴没看过前面的课程或者忘记了.
+word2Vec
+是把一个句子抠出来一块儿，两边的内容是它的上下文，中间的部分是要预测的内容.
+我们有两种学习的方法，拿到两边预测中间或者拿到中间预测两边.总之我们要去求解的是它跟上下文之间的一个关系.</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202401091759815.png"
+alt="word2Vec" /></p>
+<p>对于一个句子来说，它的长度确实有可能是不一样.
+但是在表达和计算的时候我们会以窗口的方式 <code>Window size</code>
+来做一个定义，每次都是由滑动窗口在一个规则的形状上面来进行移动，这个是不是跟
+CNN 类似?</p>
+<p>CNN 是一个矩阵在图上进行移动，而 word2Vec
+的滑动窗口是一个长度的窗口，一维窗口，在上面进行采集读出数据，这个数据也是规整的.</p>
+<p>那接下来这张图就不是规整的内容了</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202401091841330.png"
+alt="image.png" /></p>
+<p>有些情况下，确实是可以把它看成这张图这种表达的形态.
+所以在这种方式里面就可能要采用一些不一样的方法，就是将要给大家讲解的
+Graph Embedding .</p>
+<h2 id="什么是-graph-embedding">什么是 Graph Embedding</h2>
+<p>Graph Embedding
+可以在很多的场景里面去使用，在图像里面，在文本的特征提取里面都有可能去使用到它，包括推荐系统也可以使用
+Graph Embedding 。</p>
+<p>我们在上一节课 <a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/DwU0bh0kYNyxPx4IIY-Qeg">28. BI -
+图论工具的作用</a> 的内容中使用过一个美国大学生足球队的数据。
+之前的课程中我们对这个数据也有了一个大概的了解， 一共是 115 支球队，
+被划分成了 12 个联盟。在上一节课中用过这个数据，
+做了图上的一个划分，实现了一个社区发现。</p>
+<p>这个数据中每个节点是一个足球队，
+每条边是两支球队的比赛记录。只要数据的顶点和边都定义好了，
+在图上就可以学习它的一些特征。</p>
+<p>具体应该怎么去做？我们就可以采用 Graph Embedding ，Graph Embedding
+不止是可以解决足球队的特征提取，把每个球队信息压缩到一个固定的向量空间里面去。还可以有很多场景的使用。</p>
+<p>第一个，社交网络。社交网络人和人会有很多的边，它的行为组成一个图，我们可以对它来学习。微信的朋友圈就是采用这种方式来进行种子用户的特征提取。</p>
+<p>生物的信息也可以把它看成之前那张图中的一种结构，每个分子之间都可以有些联系，在这里我们再拿过来看一下这张图：</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202401091841330.png"
+alt="image.png" /></p>
+<p>还有在推荐系统用户的购物行为中，每个用户也可以做这样一个链接的关系。</p>
+<p>另外在阿里的推荐系统里会有多种角色的划分。推荐系统会有一些用户，还会有一些商品。把用户看成点，把商品也可以看成点，他们之间都会有交互。另外用户和用户之间，商品和商品之间可能也存在着一些关联关系。还有店铺，用户和店铺之间，商品和店铺之间，店铺和店铺之间也可能有关系。</p>
+<p>所以我们的顶点，不同的一些类型可以用不同的颜色来做区分，这样就会形成一张特别大的网络。</p>
+<p>在这个大的网络中有很多种角色可以一起进行学习，因为他们之间都会有些相互的行为记录。这样我们就可以把每一个用户、商品和店铺的特征都在图上面进行表征的学习。</p>
+<p>我们也可以用于后续的一些预测。当找相似性的商品，相似性的用户的时候就可以去做一些推荐。</p>
+<p>所以当前讲解的 Graph Embedding
+在社交网络、生物信息、用户购买预测等等这些领域里都是可以使用的，他们都存在着大量的关系图谱。</p>
+<p>Graph Embedding 就是一种 Embedding
+降维技术，可以有效的挖掘图网络中的节点特征表示，把原来很稀疏，很大的向量给固定下来，压缩到一个稠密的空间中。这样就可以方便的去做后续的一些计算。</p>
+<p>Graph Embedding
+在推荐系统、计算广告等等领域中是一个热点模型，可以把它看成是 Embedding
+的技术延伸。</p>
+<p>我们之前讲到过，在 Graph Embedding 之前已经有 Embedding
+这个名词了，最早是应用于 Word Embedding，它是 Google
+提出来的一种单词的表征方法，它会对单词特征做一个提取用于后续的一些分类任务。Graph
+Embedding 是在 Word Embedding
+的基础上又进行了一些深化，可以用于图的表达，也可以用于非欧几里得数据的计算。</p>
+<p>Graph Embedding
+可以帮我们从图网络中进行特征提取，将图网络中的点用低维的向量表示，并且这些向量要能反应原有网络的特性，比如原网络中有两个点的结构相似，那么这两个点表示的向量也应该类似。</p>
+<p>Graph Embedding
+主流的技术有三种，第一个是在图上面去做一个因式分解机，称为「图因子分解机」(
+factorization methods )，第二种是「随机游走」(random walk techniques)
+，第三种是「深度学习」(deep
+learning)。这次我们先讲解随机游走的方法，之后的课程中，我们再去介绍深度学习的方法。这三种方式都可以在图上面得到特征表达。</p>
+<p>下节课， 咱们就来看看 Graph Embedding 的相关算法 Deep Walk。</p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>29. BI - 初接触 Graph Embedding</p><p><a href="https://hivan.me/29. BI - 初接触 Graph Embedding/">https://hivan.me/29. BI - 初接触 Graph Embedding/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2024-04-07</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2024-04-17</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a><a class="link-muted mr-2" rel="tag" href="/tags/BI/">BI</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/30.%20BI%20-%20%E8%AF%A6%E8%A7%A3%20Graph%20Embedding%20%E7%9A%84%20DeepWalk%20%E7%AE%97%E6%B3%95%E5%8F%8A%E5%AE%9E%E4%BE%8B-1/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">30. BI - 详解 Graph Embedding 的 DeepWalk 算法及实例</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/28.%20BI%20-%20%E5%9B%BE%E8%AE%BA%E5%B7%A5%E5%85%B7%E5%92%8C%E7%AE%97%E6%B3%95,%20%E7%A4%BE%E5%8C%BA%E5%8F%91%E7%8E%B0%E4%BB%A5%E5%8F%8A%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84/"><span class="level-item">28. BI - 图论工具和算法, 社区发现以及最短路径</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/29.%20BI%20-%20%E5%88%9D%E6%8E%A5%E8%A7%A6%20Graph%20Embedding/';
+            this.page.identifier = '29. BI - 初接触 Graph Embedding/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI 游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">238</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">6</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">22</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI 秘籍</span></span><span class="level-end"><span class="level-item tag">96</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/"><span class="level-start"><span class="level-item">BI</span></span><span class="level-end"><span class="level-item tag">32</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">33</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-04-16T23:30:00.000Z">2024-04-17</time></p><p class="title"><a href="/32.%20BI%20-%20%E4%BE%9D%E6%8D%AE%E6%B7%98%E5%AE%9D%E7%9A%84%E7%94%A8%E6%88%B7%E8%A1%8C%E4%B8%BA%EF%BC%8C%E4%BB%8E%200%20%E5%BC%80%E5%A7%8B%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E7%A7%BB%E5%8A%A8%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F-1/">32. BI - 依据淘宝的用户行为，从 0 开始实现一个简单的移动推荐系统</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-04-13T23:30:00.000Z">2024-04-14</time></p><p class="title"><a href="/31.%20BI%20-%20%E4%BB%8E%E5%8E%9F%E7%90%86%E5%88%B0%E5%AE%9E%E4%BE%8B%EF%BC%8C%E8%AF%A6%E8%A7%A3%20Node2Vec%20%E7%AE%97%E6%B3%95-1/">31. BI - 从原理到实例，详解 Node2Vec 算法</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-04-09T23:30:00.000Z">2024-04-10</time></p><p class="title"><a href="/30.%20BI%20-%20%E8%AF%A6%E8%A7%A3%20Graph%20Embedding%20%E7%9A%84%20DeepWalk%20%E7%AE%97%E6%B3%95%E5%8F%8A%E5%AE%9E%E4%BE%8B-1/">30. BI - 详解 Graph Embedding 的 DeepWalk 算法及实例</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-04-06T23:30:00.000Z">2024-04-07</time></p><p class="title"><a href="/29.%20BI%20-%20%E5%88%9D%E6%8E%A5%E8%A7%A6%20Graph%20Embedding/">29. BI - 初接触 Graph Embedding</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-04-02T23:30:00.000Z">2024-04-03</time></p><p class="title"><a href="/28.%20BI%20-%20%E5%9B%BE%E8%AE%BA%E5%B7%A5%E5%85%B7%E5%92%8C%E7%AE%97%E6%B3%95,%20%E7%A4%BE%E5%8C%BA%E5%8F%91%E7%8E%B0%E4%BB%A5%E5%8F%8A%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84/">28. BI - 图论工具和算法, 社区发现以及最短路径</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2024 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>30. BI - 详解 Graph Embedding 的 DeepWalk 算法及实例 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="本文为 「茶桁的 AI 秘籍 - BI 篇 第 30 篇」"><meta property="og:type" content="blog"><meta property="og:title" content="30. BI - 详解 Graph Embedding 的 DeepWalk 算法及实例"><meta property="og:url" content="https://hivan.me/30.%20BI%20-%20%E8%AF%A6%E8%A7%A3%20Graph%20Embedding%20%E7%9A%84%20DeepWalk%20%E7%AE%97%E6%B3%95%E5%8F%8A%E5%AE%9E%E4%BE%8B-1/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="本文为 「茶桁的 AI 秘籍 - BI 篇 第 30 篇」"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2024-04-09T23:30:00.000Z"><meta property="article:modified_time" content="2024-04-17T01:26:38.025Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="article:tag" content="BI"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/30.%20BI%20-%20%E8%AF%A6%E8%A7%A3%20Graph%20Embedding%20%E7%9A%84%20DeepWalk%20%E7%AE%97%E6%B3%95%E5%8F%8A%E5%AE%9E%E4%BE%8B-1/"},"headline":"30. BI - 详解 Graph Embedding 的 DeepWalk 算法及实例","image":[],"datePublished":"2024-04-09T23:30:00.000Z","dateModified":"2024-04-17T01:26:38.025Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"本文为 「茶桁的 AI 秘籍 - BI 篇 第 30 篇」"}</script><link rel="canonical" href="https://hivan.me/30.%20BI%20-%20%E8%AF%A6%E8%A7%A3%20Graph%20Embedding%20%E7%9A%84%20DeepWalk%20%E7%AE%97%E6%B3%95%E5%8F%8A%E5%AE%9E%E4%BE%8B-1/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><script>var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?f91b64734fdc7bfb999e48f9248d44dd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-ZFB6CVWZFJ" async></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-ZFB6CVWZFJ');</script><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2024-04-09T23:30:00.000Z" title="4/10/2024, 7:30:00 AM">2024-04-10</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a><span> / </span><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></span></div></div><h1 class="title is-3 is-size-4-mobile">30. BI - 详解 Graph Embedding 的 DeepWalk 算法及实例</h1><div class="content"><p>本文为 「<a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg%3D%3D&amp;action=getalbum&amp;album_id=3193965113967132673&amp;subscene=&amp;sessionid=svr_548800ce471&amp;enterid=1704001437&amp;from_msgid=2648751621&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;scene=21#wechat_redirect">茶桁的
+AI 秘籍 - BI 篇</a> 第 30 篇」</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/茶桁的AI秘籍_核心BI_30.png"
+alt="茶桁的AI秘籍_核心BI_30" /></p>
+<span id="more"></span>
+<p>Hi, 我是茶桁。</p>
+<p>接着上节课咱们继续来讲。上一节中咱们讲了 Graph Embedding
+的一些概念以及其中比较相关的「非欧几里得数据」是什么，介绍了 Graph
+Embedding 三种主流的技术，图因子分解机，随机游走以及深度学习。</p>
+<p>那这节课，我们来看看 Deep Walk 算法，
+还是要拿上节课的那张图过来：</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202401091841330.png"
+alt="image.png" /></p>
+<p>今天要用到的数据模型就是上图这样的形态，这个形态可以用于很多场景。</p>
+<p>有了这样的数据表达，如何去把顶点的特征学出来？2014
+年就有作者提出来一个种算法叫做 DeepWalk。</p>
+<p>「[DeepWalk Online Learning of Social Representations, 2014 KDD」<a
+href="#fn1" class="footnote-ref" id="fnref1"
+role="doc-noteref"><sup>1</sup></a>这篇文章是开辟图的表征学习的开山之作，感兴趣的同学可以自己去看一看。KDD
+这个会议应该算是在数据挖掘，知识发现里面非常顶级的会议。如果你有机会在上面发表一些文章，基本上在高校里面拿一个老师的职位都不成问题。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240113013517.png"
+alt="20240113013517" /></p>
+<p>它输入是一张图的网络，输出就是网络中顶点的向量表达。做法是通过「截断随机游走」的方式(<code>truncated random walk</code>)去学习出一个网络的社会表示(<code>social representation</code>)，在网络标注顶点很少的情况也能得到比较好的效果。它具有可扩展的优点，能够适应网络的变化。</p>
+<p>作者所用的方法也是借鉴了 NLP 中的 word2vec，也就是 Word Embedding
+词嵌入的方式。Word Embedding 的基本元素是 word，在 Graph 中表示的就是
+Node。既然都是在做 Embedding，都是在做特征表达，做 word Embedding
+输入的是一系列的单词，和图相比两种数据结构并不一样，有没有一些方式可以把图的这种内容去转化出来，让它变得一样。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240113014732.png"
+alt="20240113014732" /></p>
+<p>想对任何的一个数据进行学习，可以先去找其中的一个顶点，顶点和顶点之间是有一条边联系。可以从它的邻居中找到任意的一个邻居去做游走，这样就可以在顶点上面游走出来一条路径，这样的路径就特别像一个句子。</p>
+<p>word embedding 是对构成一个句子中单词序列进行分析，在 Graph Network
+中 Node 构成的序列就是 Random Walk。</p>
+<p>Random walk
+指的就是从某一个特定的端点开始，去找它的一个邻居，再从邻居出发找下一个邻居，游走的每一步都从与当前节点相连的边中随机选择一条，沿着选定的边移动到下一个顶点，一直不断的重复这个过程。</p>
+<p>我们可以去制定要去游走的步数，把这样一条路径抽出来就得到了一个句子。不断的反复就得到很多的句子。有了这些句子就可以利用
+word2vec 这样的技术去学习，把所有的单词的特征都可以学出来。</p>
+<p>DeepWalk
+它的逻辑就是由随机游走做了一个模型的转换，这样就可以把图跟单词之间去做一个关联，<code>DeepWalk = Random Walk + Skip-gram</code>。</p>
+<p>第一步咱们给定当前访问起始节点，从其领居中随机采样节点作为下一个访问节点，重复此过程，直到访问序列长度满足预设条件，产生大量词序列（句子）。然后将这些词序列作为训练样本输入
+word2vec, 用 Skip-gram + Hierarchical softmax 进行训练，得到
+Embedding。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240113021156.png"
+alt="20240113021156" /></p>
+<p>咱们还是以美国大学生足球队为例。一共有 115
+支球队，每支球队都可以看成一支顶点，每个顶点都可以为起始进行出发，比如说以
+A 为起始要游走多少次，每支球队游走 5
+次，这个次数是人工来设定出来。那么以 A 为例就会有 5
+个句子，每个句子的长度也可以自己来去定义，比如说每个句子的长度都为
+10，这样就以 A 为开始，会有 5 个长度为 10 的句子。</p>
+<p>咱们一共是有 115 支球队，如果通过这种方式来进行一个随机游走，应该是
+575 个句子。将这 575 个句子作为数据就可以把每一个足球队学出来。</p>
+<p>作者用一个巧妙的一个衔接，把 word2vec
+这个工具跟图连接到一起去，衔接方式叫做随机游走(random walk)，所以 random
+walk
+是在图的学习过程中一种比较常见的技术，也是当下比较主流的一个技术。</p>
+<p>通过 random walk 在刚才的例子里面创建了 575
+个句子是第一步，第二步是把句子作为训练样本喂给 word2vec
+就可以让它学出来。 word2vec 有两种学习模式， 一种是
+Skip-gram，还有一种呢叫 CBOW，不管采用哪种学习的模式都可以把一个单词的
+Embedding 策略给学出来。</p>
+<p>现在回到应用场景，来看推荐系统。推荐系统要去对一个商品的特征去学习，所以你可以把它理解成任务就是要做
+item
+embedding。那商品的什么特征，有怎么样的一个数据？以用户的行为数据来去做建模。</p>
+<p>举个例子，我们来看图：</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240113230642.png"
+alt="20240113230642" /></p>
+<p>图中有三个用户，每个用户都点击了一些商品。用户 1 点击了
+D，A，B，这个点击序列是要按照时序的顺序，先点击了 D，再点击 A，再点击
+B。</p>
+<p>第 2 个用户的时序就是 B 和 E，然后是
+D，E，F。中间有一个虚线，虚线是把点击的序列做了一个分割，原来把这个数据叫做
+sequence，持续的序列数据，现在分割把它称为 session。</p>
+<p>session 称为会话，在浏览器里面有一个
+session，在推荐系统里面因为你的点击有可能持续会特别长，以淘宝为例，如果从十多年前你就开始用淘宝，那你的点击序列可能
+10
+年前最开始的那个时间就已经开始做记录了，到目前为止可能你前两天刚刚看完淘宝，这个
+sequence 序列可能会很长。你如果点击过 10 万个商品，那就会有 10 万个 item
+组成的一个 sequence。</p>
+<p>如果你把它看成一句话，一个序列，这个序列实际上就会特别长，有点像去看一本小说，如果所有的内容都是一句话的话，过程中没有任何的断句，实际上也是不合理的。</p>
+<p>那么最合理的方式就是可以按照章节，按照一个时间的关系去给他做一个断句。我们采用浏览器的断句的方式，以
+30 分钟为一个阶段，前后两个商品的点击如果小于 30
+分钟我们就认为它是属于一个 size。如果它的前后两个点击大于 30
+分钟，就认为它是不同的 size。</p>
+<p>你可能昨天去看了一个衣服，但是今天你再去上淘宝的时候去看一本书。因为时间间隔已经相对比较长了，那么搜索的目标或者你的这些内容已经发生了一些迁移，人们更容易在相同的时间段之内做类似的事情，隔了一段时间可能就会有下一个任务产生。所以这里用一个虚线把它分隔出来。</p>
+<p>对于一个用户来说有很多的句子，前面是一句话是 30
+分钟之内，后面又是一句话，对于用户 3
+来说也有这样一个句子。原始数据可以把它看成就是每一个用户会产生很多的点击的序列，click
+的 sequence。</p>
+<p>今天要去使用的是 Graph
+Embedding，原来的数据还要把它构造出来一张图。有了点击的序列，点击的关系可以用图的方式来作表达，也就是从
+A 到 B 的过程。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240113234911.png"
+alt="20240113234911" /></p>
+<p>先来看用户 1，他点击的顺序是 D，A，B，这里 D 是第一个单词，然后是
+A，然后是 B。我们用边代表它随机游走的逻辑。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240113235122.png"
+alt="20240113235122" /></p>
+<p>用户 2 是 B 和 E，B 和 E 走完了，E 和 D
+之间是一个断开的关系，所以并没有连接边。再之后就是 D 到 E，E 到 F。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240113235257.png"
+alt="20240113235257" /></p>
+<p>用户 3 的序列是 E 到 C 是一个, C 到 B 是一个, 然后断开了，在之后就是
+B 到 A。</p>
+<p>这样把三个链接逻辑组成一张图，就可以得到一张最终转化出来的图</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240113235358.png"
+alt="20240113235358" /></p>
+<p>用户的是形成了三个
+sequence，现在形成了一张图。第一步构造图的过程就完成了，做成了一个
+Graph。原始数据是用户的点击序列，每个都是一个 sequence，最终讲这些
+sequence 转成了图。</p>
+<p>DeepWalk 上面给大家讲了，是两个阶段组成的，第一个阶段是 Random
+Walk，第二个阶段是 Skip-gram。它的本质就是 word2vec。</p>
+<p>那么现在就从每个顶点开始都去随机游走一些边数。从 A 开始，A 可以走到 B
+到 E 到 F。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240113235944.png"
+alt="20240113235944" /></p>
+<p>每个游走的过程都是找它邻居，邻居里面随机的去选取一个就可以。有 5
+个邻居，在 5 个邻居里面随机的去选中一个，如果找到了 B，B
+还有很多邻居，再去随机选中其中一个。</p>
+<p>长度假设设为 5，那为什么有些地方到 4 就结束了？因为到 F
+这个位置就没法再走了，走不了。所以就直接停掉了。</p>
+<p>这样就从形成的图走到了下一个过程，这一步里就是产生了很多个随机走出来的句子。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240114000945.png"
+alt="20240114000945" /></p>
+<p>原来是三句话，现在产生无数句话。这是随机游走的过程，有了随机游走，再喂给第二步
+Skip-gram。通过 Embedding with Skip-gram 把每个单词的含义学出来，
+作为它的表达。</p>
+<p>回到这个例子里面来，我们通过图的方法已经把每一个商品的特征学习出来了。那么商品特征学习出来以后，当用户点击了某一个商品就可以找跟他类似的
+Embedding，求它的 similariting 相似度，最相似的那些商品的 TopN
+来进行推荐。</p>
+<p>我们以上整个过程是一共分了四步去做，那我们可不可以不走图的方式，拿到
+sequence 以后就直接去进行特征学习呢？其实图的学习方式只是一种 Embedding
+的策略，如果不走第二、第三步，也就是不去随机游走组合成句子理论上也是可行的。</p>
+<p>那为什么还要走第二步和第三步呢？
+或者说走这两步有什么好处。原来我们只有三句话，零零星星的拿到几种可能性，这种可能性只是告诉我们它们可以构造出来一张图，每条边代表它的一种可能。</p>
+<p>因为用户的点击不是全量点击，也没有把所有的可能性都枚举出来，那我们就可以基于第二步去生成一些新的可能性，这样我们就会通过随机游走的方式拿到更多的句子。</p>
+<p>在第三步的基础上再进行学习，实际上是通过第二步的方式去创建更多的
+sequence，这样再通过 Embedding 去学习后面更多单词的特征表达。</p>
+<p>DeepWalk 有一个随机的概念，走到某个节点 vi 后，然后再去遍历 vi
+的临接电 vj 的概率。如果物品的相关图是一个有向的有权图的话。</p>
+<p>是什么意思呢？比如我们在点击序列过程中 A 到 B 的出现次数可能是 10
+次，这样我就会把这条边的设置为 10 的权重。如果 B 到 C 是 1
+次，就可以设置为 1 的权重。这个权重对后续的跳转转移还是有影响的。如果 A
+到 B 是 10 次，它的次数要更多，那么在未来模拟 generate
+的时候，理论上也应该比其他的跳转概率会更多一点。</p>
+<p>所以我们可以把跳转概率概率 P 在节点 <span
+class="math inline">\(v_i\)</span> 走到 <span
+class="math inline">\(v_j\)</span> 的可能性给求出来。</p>
+<p><span class="math display">\[
+\begin{align*}
+P(v_j | v_i) = \begin{cases} \frac{M_{ij}}{\sum_{j\in N_{+}(v_i)}M_{ij}}
+, v_j \in N_{+}(v_i) \\ 0, e_{ij} \notin \ \end{cases}
+\end{align*}
+\]</span></p>
+<p><span class="math inline">\(M_{ij}\)</span> 代表的是节点 <span
+class="math inline">\(v_i\)</span> 到节点 <span
+class="math inline">\(v_j\)</span> 两者之间边的权重， <span
+class="math inline">\(N_{+}(v_i)\)</span> 是节点 <span
+class="math inline">\(v_i\)</span> 所有的出边集合。</p>
+<p>如果物品相关图是无向无权图，那么跳转概率将是上面公式的一个特例，即权重
+<span class="math inline">\(M_{ij}\)</span> 将为常数 1, 且 <span
+class="math inline">\(N_{+}(v_j)\)</span> 应该是节点 <span
+class="math inline">\(v_i\)</span>
+所有「边」的集合，而不是所有「出边」的集合。</p>
+<p>比如，A 到 B 的概率是 10，B 到 C 的概率是 1，现在有 D 和 E，A 到 D
+的概率是 1，A 到 E 的概率是 1。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240114015707.png"
+alt="20240114015707" /></p>
+<p>现在 A 有三个邻居，我们把权重放进去，那 A 到 B 的概率就是 <span
+class="math inline">\(10 /
+(10+2+1)\)</span>。这样就会更加真实的去模拟出来从 A 到 B
+的一种跳转概率的可能性。</p>
+<p>所以总来说原来的数据可能是一些样本的采样点，产生了一些用户点击的行为序列。通过它去构造一张图，图中把原来的采样的概率求出来，这种采样概率最终我们还可以让它生成出来更多种可能性。</p>
+<p>就有点类似于像样本补全一样的策略，就可以在图中的产生出来更多句子，可以更充分的去学习这些点击序列的特征。所以在
+DeepWalk 里面是可以设置有向的有权图，权重可以代表点击的次数。</p>
+<h2 id="实例美国大学生足球队-embedding">实例：美国大学生足球队
+Embedding</h2>
+<p>回到美国大学生足球队的这个实例，来看一看这个工具该怎么去做。</p>
+<p>先使用 networkx
+来构造一张图，这个是之前的课程给大家讲解的。图的数据结构是专门有自己的文件格式<code>gml</code>，因为图无外乎就是点和边。自己去一个一个加也是完全可以的，也可以通过
+networkx 来生成一个:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">G = nx.read_gml(<span class="hljs-string">&#x27;dataset/football.gml&#x27;</span>)<br></code></pre></td></tr></table></figure>
+<p>有了这张
+G，我们就可以对它的顶点情况，边的情况来进行查询了。然后我们将顶点和边分别打印出来查看一下。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(G.nodes())<br><span class="hljs-built_in">print</span>(G.edges())<br></code></pre></td></tr></table></figure>
+<p>接着咱们来模拟整个运算的过程，第一个模拟的就是 random walk：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_randomwalk</span>(<span class="hljs-params">node, path_length</span>):<br>  random_walk = [node]<br>  <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(path_length-<span class="hljs-number">1</span>):<br>    temp = <span class="hljs-built_in">list</span>(G.neighbors(node))<br>    temp = <span class="hljs-built_in">list</span>(<span class="hljs-built_in">set</span>(temp) - <span class="hljs-built_in">set</span>(random_walk))<br>    <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(temp) == <span class="hljs-number">0</span>:<br>      <span class="hljs-keyword">break</span><br>    random_node = random.choice(temp)<br>    random_walk.append(random_node)<br>    node = random_node<br>  <span class="hljs-keyword">return</span> random_walk<br><span class="hljs-built_in">print</span>(get_randomwalk(<span class="hljs-string">&#x27;EastCarolina&#x27;</span>, <span class="hljs-number">10</span>))<br><br>---<br>[<span class="hljs-string">&#x27;EastCarolina&#x27;</span>, <span class="hljs-string">&#x27;Louisville&#x27;</span>, <span class="hljs-string">&#x27;Army&#x27;</span>, <span class="hljs-string">&#x27;Tulane&#x27;</span>, <span class="hljs-string">&#x27;Houston&#x27;</span>, <span class="hljs-string">&#x27;Rice&#x27;</span>, <span class="hljs-string">&#x27;Nevada&#x27;</span>, <span class="hljs-string">&#x27;Tulsa&#x27;</span>, <span class="hljs-string">&#x27;Hawaii&#x27;</span>, <span class="hljs-string">&#x27;LouisianaTech&#x27;</span>]<br></code></pre></td></tr></table></figure>
+<p>我们先去选中一个顶点, 给他一个
+node，然后人工参数指定要游走的长度。游走的 random walk 记录好的句子呢从
+node 开始了，剩下的长度就是设定的长度减 1。比如说设定
+<code>path_length</code> 为 10，后面还要走 9 步。</p>
+<p>每个步骤先去找 node 的邻居，它的
+neighbor。邻居里面现在在做的是一个不重复的采样，如果直接走过就把它去掉了，剩下的过程中看一看它有没有元素，没有元素就
+break。所以它的长度有可能是小于 10 的。</p>
+<p>如果它的长度现在还有一些可以走的邻居，就从这个邻居过程中去做一个
+random choice，随机去选择其中一个。把这个选择好的 random node
+加到之前游走的这个列表的队列过程中，再把 random node 移动到下一站，把
+node 变成了刚才采样的这个邻居的顶点。然后再去做一个 for 循环，因为 node
+已经更新了，就会找到新的 node，它的 neighbor，以此类推。</p>
+<p>最终有可能等于 10，就是 length
+指定的长度。然后把游走的序列给它返回过去。</p>
+<p>最后我们打印一下，顶点 <code>EastCarolina</code> 生成 10
+个长度的句子。我们再运行一下:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">[<span class="hljs-string">&#x27;EastCarolina&#x27;</span>, <span class="hljs-string">&#x27;SouthernMississippi&#x27;</span>, <span class="hljs-string">&#x27;Louisville&#x27;</span>, <span class="hljs-string">&#x27;Tulane&#x27;</span>, <span class="hljs-string">&#x27;Mississippi&#x27;</span>, <span class="hljs-string">&#x27;NevadaLasVegas&#x27;</span>, <span class="hljs-string">&#x27;Wyoming&#x27;</span>, <span class="hljs-string">&#x27;CentralMichigan&#x27;</span>, <span class="hljs-string">&#x27;BoiseState&#x27;</span>, <span class="hljs-string">&#x27;WashingtonState&#x27;</span>]<br></code></pre></td></tr></table></figure>
+<p>可以看到和上一次打印的结果相比已经发生了一些变化，所以它每次游走有可能是不一样的。</p>
+<p>随机游走完成以后接下来要去做一个遍历，遍历它所有的顶点。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">all_nodes = <span class="hljs-built_in">list</span>(G.nodes())<br><br>random_walks = []<br><span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> tqdm(all_nodes):<br>	<span class="hljs-comment"># 每个节点游走 5 次，每次最长距离为 10</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">5</span>):<br>        random_walks.append(get_randomwalk(n,<span class="hljs-number">10</span>))<br></code></pre></td></tr></table></figure>
+<p>一共 115 个顶点，每个顶点的遍历过程都走了 5 个句子，5
+这里是人工指定的，每一次句子的长度是 10 也是人工指定的。</p>
+<p>这样 random walks 里就变成了 115 x 5 = 575 个句子。</p>
+<p>接下来，再把它的 rendom works 打印出来, 以及它的长度。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Node: \n&#x27;</span>, random_walks)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Length: \n&#x27;</span>, <span class="hljs-built_in">len</span>(random_walks))<br><br>---<br>Node: <br> [[<span class="hljs-string">&#x27;BrighamYoung&#x27;</span>, <span class="hljs-string">&#x27;NewMexico&#x27;</span>, ...,  <span class="hljs-string">&#x27;BrighamYoung&#x27;</span>]]<br>Length: <br> <span class="hljs-number">575</span><br></code></pre></td></tr></table></figure>
+<p>它的长度还是比较长，随机游走出来了非常多条边。有了这 575
+个句子，可以把它看成英文的百科全书，它是一个非常大的语料库。</p>
+<p>接下来就是掉包了，去使用
+word2vec，从这样的一个语料库去学习每个单词的特征表达。</p>
+<p>word2vec 有几个核心参数，window
+是上下文的长度，因为单词只跟上下文预测相关，所以要去限定它的 window
+size。后面还有一些负采样的一些比值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 训练 skip-gram (word2vec)模型</span><br>model = Word2Vec(window = <span class="hljs-number">4</span>, sg = <span class="hljs-number">1</span>, hs = <span class="hljs-number">0</span>,<br>                 negative = <span class="hljs-number">10</span>, <span class="hljs-comment"># 负采样</span><br>                 alpha=<span class="hljs-number">0.03</span>, min_alpha=<span class="hljs-number">0.0007</span>,<br>                 seed = <span class="hljs-number">14</span>)<br></code></pre></td></tr></table></figure>
+<p>设置好了这个 model 以后，就可以让 model 去创建一个词汇表，从 random
+woalks 里面，就 575 个句子里面去 build 一下 vocabulary。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 从 random_walks 中创建词汇表</span><br>model.build_vocab(random_walks, progress_per=<span class="hljs-number">2</span>)<br></code></pre></td></tr></table></figure>
+<p>然后再去做一个训练，把原来的语料喂给它去做一个训练。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">model.train(random_walks, total_examples = model.corpus_count, epochs=<span class="hljs-number">20</span>, report_delay=<span class="hljs-number">1</span>)<br></code></pre></td></tr></table></figure>
+<p>训练好以后就可以有些功能在 word2vec
+里面去使用了，一个比较常见的使用功能就可以去找跟它相似的顶点还有哪些。</p>
+<p>还是以 <code>EastCarolina</code> 为例，找一找在现在的这个 model
+里面跟它相近的顶点，跟它相近的球队有哪些。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(model.wv.similar_by_word(<span class="hljs-string">&#x27;EastCarolina&#x27;</span>))<br><br>---<br>[(<span class="hljs-string">&#x27;Army&#x27;</span>, <span class="hljs-number">0.982618510723114</span>), (<span class="hljs-string">&#x27;AlabamaBirmingham&#x27;</span>, <span class="hljs-number">0.9381647706031799</span>), (<span class="hljs-string">&#x27;Louisville&#x27;</span>, <span class="hljs-number">0.933090090751648</span>), (<span class="hljs-string">&#x27;Memphis&#x27;</span>, <span class="hljs-number">0.9233267307281494</span>), (<span class="hljs-string">&#x27;Tulane&#x27;</span>, <span class="hljs-number">0.9136509895324707</span>), (<span class="hljs-string">&#x27;Syracuse&#x27;</span>, <span class="hljs-number">0.8800936937332153</span>), (<span class="hljs-string">&#x27;BostonCollege&#x27;</span>, <span class="hljs-number">0.8797063231468201</span>), (<span class="hljs-string">&#x27;Cincinnati&#x27;</span>, <span class="hljs-number">0.8741576075553894</span>), (<span class="hljs-string">&#x27;SouthernMississippi&#x27;</span>, <span class="hljs-number">0.874110758304596</span>), (<span class="hljs-string">&#x27;Navy&#x27;</span>, <span class="hljs-number">0.8594821095466614</span>)]<br></code></pre></td></tr></table></figure>
+<p>通过图上的表达的学习可以得出来跟它最接近的列表。<code>Army</code>
+是最接近的，相似度是 <code>0.982</code>。 后面还有
+<code>AlabamaBirmingham</code>, <code>Louisville</code>等等。</p>
+<p>其实，如果我们再去运行一下，这个排序理论上是有可能会不一样的。因为在做训练的过程中，random
+walk 有可能每一次都不一样，之前的 575 个句子和下一次运行的 575
+个句子有可能不同。咱们并没有设随机数种子，所以得出来的内容，训练的语料不一样，那得出来的
+Embedding 也可能不一样。</p>
+<p>但也能看到整体的趋势，细节上面有些稍微的调整，但是整体的趋势是不会发生变化的。总来说它的相似度计算还是比较准确的。</p>
+<p>我们还可以用一个 PCA 的工具。PCA
+这个工具可以去降维到一个很小的一个维度向量里面去。原来在做 word2vec
+的时候是 100 维，一个顶点它是一个 100 维的一个长度，而 100
+维的长度要去从可视化的角度上去看基本上是不可能的。就要把它通过主成分变化的方法映射到
+2 维的坐标系里面去。它最大的好处就是可以做平面的直角坐标系的呈现，通过
+PCA 来进行计算，然后再把计算的结果以散点图 scatter
+的形式呈现出来。这样就可以知道哪两支球队会更近一点。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 在二维空间中绘制所选节点的向量</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">plot_nodes</span>(<span class="hljs-params">word_list</span>):<br>    X = model.wv[word_list]<br><br>    pca = PCA(n_components=<span class="hljs-number">2</span>)<br>    result = pca.fit_transform(X) <br>    <span class="hljs-comment"># 绘制节点向量</span><br>    plt.figure(figsize=(<span class="hljs-number">12</span>,<span class="hljs-number">9</span>))<br>    <span class="hljs-comment"># 创建一个散点图的投影</span><br>    plt.scatter(result[:, <span class="hljs-number">0</span>], result[:, <span class="hljs-number">1</span>])<br>    <span class="hljs-keyword">for</span> i, word <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(word_list):<br>        plt.annotate(word, xy=(result[i, <span class="hljs-number">0</span>], result[i, <span class="hljs-number">1</span>]))        <br>    plt.show()<br>    <br><span class="hljs-comment"># 将所有的球队 embedding 进行绘制</span><br>word_list = <span class="hljs-built_in">list</span>(model.wv.key_to_index.keys())<br>plot_nodes(word_list)<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240114191301.png"
+alt="20240114191301" /></p>
+<p>最后我们来看一看可视化的一个结果。</p>
+<p>115
+支球队数量还是比较多的，通过二维可视化可以看出来他们之间的一些相似程度。比如说
+<code>navy</code>，可能跟 <code>Boston</code>，<code>Indiana</code>
+相对来说会近一点，离 <code>Stanford</code> 就会比较远，离
+<code>Purdue</code> 也比较远。</p>
+<p>虽然压缩以后会有些精度的损失，但总来说主要特征还是比较明确的。以上整个过程就是我们所求的球队的一个表达。这样我们就可以知道每支球队的向量，也可以方便你去计算哪两支球队是比较接近的。原始的数据是通过
+<code>gml</code> 来完成的，然后自己去写了一个 random walk
+来进行采样，得到 Embedding 的工具还是 word2vec，用它来去完成，word2vec
+是最早提出来的 Word Embedding。</p>
+<p>其实这种例子可以用到很多的场景，不仅仅是美国大学生足球队。人和人之间的社交行为，看谁的行为特征是更接近的，也是完全可以的。</p>
+<p>整个我们看出来 Deep Walk
+的思想还是非常巧妙的，做了一个衔接，可以把原来的 word2vec
+直接无缝的去衔接利用上。这个算法就是最早的 Graph Embedding
+的一个开山之作，原来做 random walk 是它最大的创新,而 random walk
+没有考量随机策略。</p>
+<p>那我们下一节课就来看看，在这两年之后，也就是 2016 年提出来的
+<code>Node2vec</code>。</p>
+<section id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
+<ol>
+<li
+id="fn1"><p>https://classes.cs.uoregon.edu/17S/cis607bddl/papers/Perozzi.pdf<a
+href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+</div><div class="article-licensing box"><div class="licensing-title"><p>30. BI - 详解 Graph Embedding 的 DeepWalk 算法及实例</p><p><a href="https://hivan.me/30. BI - 详解 Graph Embedding 的 DeepWalk 算法及实例-1/">https://hivan.me/30. BI - 详解 Graph Embedding 的 DeepWalk 算法及实例-1/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2024-04-10</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2024-04-17</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a><a class="link-muted mr-2" rel="tag" href="/tags/BI/">BI</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/31.%20BI%20-%20%E4%BB%8E%E5%8E%9F%E7%90%86%E5%88%B0%E5%AE%9E%E4%BE%8B%EF%BC%8C%E8%AF%A6%E8%A7%A3%20Node2Vec%20%E7%AE%97%E6%B3%95-1/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">31. BI - 从原理到实例，详解 Node2Vec 算法</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/29.%20BI%20-%20%E5%88%9D%E6%8E%A5%E8%A7%A6%20Graph%20Embedding/"><span class="level-item">29. BI - 初接触 Graph Embedding</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/30.%20BI%20-%20%E8%AF%A6%E8%A7%A3%20Graph%20Embedding%20%E7%9A%84%20DeepWalk%20%E7%AE%97%E6%B3%95%E5%8F%8A%E5%AE%9E%E4%BE%8B-1/';
+            this.page.identifier = '30. BI - 详解 Graph Embedding 的 DeepWalk 算法及实例-1/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI 游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">238</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">6</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">22</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI 秘籍</span></span><span class="level-end"><span class="level-item tag">96</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/"><span class="level-start"><span class="level-item">BI</span></span><span class="level-end"><span class="level-item tag">32</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">33</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-04-16T23:30:00.000Z">2024-04-17</time></p><p class="title"><a href="/32.%20BI%20-%20%E4%BE%9D%E6%8D%AE%E6%B7%98%E5%AE%9D%E7%9A%84%E7%94%A8%E6%88%B7%E8%A1%8C%E4%B8%BA%EF%BC%8C%E4%BB%8E%200%20%E5%BC%80%E5%A7%8B%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E7%A7%BB%E5%8A%A8%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F-1/">32. BI - 依据淘宝的用户行为，从 0 开始实现一个简单的移动推荐系统</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-04-13T23:30:00.000Z">2024-04-14</time></p><p class="title"><a href="/31.%20BI%20-%20%E4%BB%8E%E5%8E%9F%E7%90%86%E5%88%B0%E5%AE%9E%E4%BE%8B%EF%BC%8C%E8%AF%A6%E8%A7%A3%20Node2Vec%20%E7%AE%97%E6%B3%95-1/">31. BI - 从原理到实例，详解 Node2Vec 算法</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-04-09T23:30:00.000Z">2024-04-10</time></p><p class="title"><a href="/30.%20BI%20-%20%E8%AF%A6%E8%A7%A3%20Graph%20Embedding%20%E7%9A%84%20DeepWalk%20%E7%AE%97%E6%B3%95%E5%8F%8A%E5%AE%9E%E4%BE%8B-1/">30. BI - 详解 Graph Embedding 的 DeepWalk 算法及实例</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-04-06T23:30:00.000Z">2024-04-07</time></p><p class="title"><a href="/29.%20BI%20-%20%E5%88%9D%E6%8E%A5%E8%A7%A6%20Graph%20Embedding/">29. BI - 初接触 Graph Embedding</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-04-02T23:30:00.000Z">2024-04-03</time></p><p class="title"><a href="/28.%20BI%20-%20%E5%9B%BE%E8%AE%BA%E5%B7%A5%E5%85%B7%E5%92%8C%E7%AE%97%E6%B3%95,%20%E7%A4%BE%E5%8C%BA%E5%8F%91%E7%8E%B0%E4%BB%A5%E5%8F%8A%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84/">28. BI - 图论工具和算法, 社区发现以及最短路径</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2024 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
