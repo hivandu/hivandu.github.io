@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>如何在企业级同时实施知识图谱 (KG) 和大型语言模型 (LLM) - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="大型语言模型（LLM）和知识图谱（KG）是让更多人访问数据的不同方法。知识图谱使用语义学将数据集通过其含义（即它们所代表的实体）连接起来。LLM 使用向量和深度神经网络来预测自然语言。它们通常都以 &amp;quot;解锁 &amp;quot;数据为目标。对于实施 KGs 的企业来说，最终目标通常是建立数据市场、语义层、使数据 FAIR 化或使企业更加以数据为中心。这些都是不同的解决方案，但最终目标是相同的：让更多数据更快地提供给合"><meta property="og:type" content="blog"><meta property="og:title" content="如何在企业级同时实施知识图谱 (KG) 和大型语言模型 (LLM)"><meta property="og:url" content="https://hivan.me/%E5%A6%82%E4%BD%95%E5%9C%A8%E4%BC%81%E4%B8%9A%E7%BA%A7%E5%90%8C%E6%97%B6%E5%AE%9E%E6%96%BD%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E5%92%8C%E5%A4%A7%E5%9E%8B%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%20(LLM)/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="大型语言模型（LLM）和知识图谱（KG）是让更多人访问数据的不同方法。知识图谱使用语义学将数据集通过其含义（即它们所代表的实体）连接起来。LLM 使用向量和深度神经网络来预测自然语言。它们通常都以 &amp;quot;解锁 &amp;quot;数据为目标。对于实施 KGs 的企业来说，最终目标通常是建立数据市场、语义层、使数据 FAIR 化或使企业更加以数据为中心。这些都是不同的解决方案，但最终目标是相同的：让更多数据更快地提供给合"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://hivan.me/img/og_image.png"><meta property="article:published_time" content="2024-04-19T23:30:00.000Z"><meta property="article:modified_time" content="2024-06-01T06:27:54.030Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="article:tag" content="book"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://hivan.me/img/og_image.png"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/%E5%A6%82%E4%BD%95%E5%9C%A8%E4%BC%81%E4%B8%9A%E7%BA%A7%E5%90%8C%E6%97%B6%E5%AE%9E%E6%96%BD%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E5%92%8C%E5%A4%A7%E5%9E%8B%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%20(LLM)/"},"headline":"如何在企业级同时实施知识图谱 (KG) 和大型语言模型 (LLM)","image":["https://hivan.me/img/og_image.png"],"datePublished":"2024-04-19T23:30:00.000Z","dateModified":"2024-06-01T06:27:54.030Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"大型语言模型（LLM）和知识图谱（KG）是让更多人访问数据的不同方法。知识图谱使用语义学将数据集通过其含义（即它们所代表的实体）连接起来。LLM 使用向量和深度神经网络来预测自然语言。它们通常都以 &quot;解锁 &quot;数据为目标。对于实施 KGs 的企业来说，最终目标通常是建立数据市场、语义层、使数据 FAIR 化或使企业更加以数据为中心。这些都是不同的解决方案，但最终目标是相同的：让更多数据更快地提供给合"}</script><link rel="canonical" href="https://hivan.me/%E5%A6%82%E4%BD%95%E5%9C%A8%E4%BC%81%E4%B8%9A%E7%BA%A7%E5%90%8C%E6%97%B6%E5%AE%9E%E6%96%BD%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E5%92%8C%E5%A4%A7%E5%9E%8B%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%20(LLM)/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><script>var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?f91b64734fdc7bfb999e48f9248d44dd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-ZFB6CVWZFJ" async></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-ZFB6CVWZFJ');</script><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2024-04-19T23:30:00.000Z" title="4/20/2024, 7:30:00 AM">2024-04-20</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI/">AI</a></span></div></div><h1 class="title is-3 is-size-4-mobile">如何在企业级同时实施知识图谱 (KG) 和大型语言模型 (LLM)</h1><div class="content"><p>大型语言模型（LLM）和知识图谱（KG）是让更多人访问数据的不同方法。知识图谱使用语义学将数据集通过其含义（即它们所代表的实体）连接起来。LLM
+使用向量和深度神经网络来预测自然语言。它们通常都以 "解锁
+"数据为目标。对于实施 KGs
+的企业来说，最终目标通常是建立数据市场、语义层、使数据 FAIR
+化或使企业更加以数据为中心。这些都是不同的解决方案，但最终目标是相同的：让更多数据更快地提供给合适的人。对于实施
+LLM 或其他类似 GenAI
+解决方案的企业来说，其目标往往是相似的：为员工或客户提供一个
+"数字助理"，以便更快地将正确的信息提供给正确的人。这种潜在的共生关系是显而易见的：LLM
+的一些主要弱点，即它们是黑盒模型，难以处理事实知识，而这正是 KG
+的一些最大优势。从本质上讲，KG
+是事实的集合，而且完全可以解释。但是，在企业中，KGs 和 LLMs
+究竟应该如何结合使用呢？</p>
+<span id="more"></span>
+<p>去年找工作时，我不得不写很多封求职信。我用 ChatGPT
+来帮忙--我把已有的求职信复制到提示窗口，再加上我的简历和应聘职位的职位描述，然后让
+ChatGPT 来完成剩下的工作。ChatGPT
+帮我写出了几份相当不错的初稿，为我赢得了动力，但如果不加选择，它还会给我提供我没有的多年工作经验，并声称我上过我从未上过的学校。</p>
+<p>我之所以提到我的求职信，是因为：</p>
+<p>1）我认为这是一个很好的例子，说明了 LLM 的优缺点，以及为什么 KG
+是实施 LLM 的重要组成部分；</p>
+<p>2）这个用例与许多大型企业目前使用 LLM
+的用途并无太大区别：自动生成报告。只要在提示中明确包含现有的求职信和职位描述，ChatGPT
+就能很好地通过更改内容来重新创建求职信。确保 LLM 有正确的内容就是 KG
+的作用所在。如果你只是简单地写
+"为我想要的工作写一封求职信"，结果肯定会让人哭笑不得。此外，求职信的例子也是
+LLMs 的绝佳应用，因为它涉及到语言的总结和重组。还记得 LLM 中的第二个 L
+代表什么吗？LLMs 历来专注于非结构化数据（文本），这也是他们的强项，而 KG
+则擅长整合结构化和非结构化数据。您可以使用 LLM
+来撰写求职信，但您应该使用 KG 来确保它具有正确的简历。</p>
+<blockquote>
+<p>注：我不是人工智能专家，但我也不太相信任何假装自己是专家的人。这个领域变化太快，我们根本无法跟上，更不用说预测未来在企业层面实施人工智能会是什么样子了。在我看来，我将介绍目前整合
+KG 和 LLM
+的一些方式。这并不是一份全面的清单，我欢迎大家提出补充和建议。</p>
+</blockquote>
+<h2
+id="知识图谱和大型语言模型的兩種關係">知识图谱和大型语言模型的兩種關係</h2>
+<p>目前，KG 和 LLM 有两种互动方式：LLM
+是构建知识图谱的工具，而知识图谱则是 LLM 或 GenAI
+应用程序的输入。我们这些在知识图谱领域工作的人正处于一个奇怪的境地：我们构建的东西有望改善人工智能应用，而人工智能同时又改变了我们构建这些东西的方式。我们被期望在日常工作中将人工智能作为一种工具进行优化，同时改变我们的产出以促进人工智能的优化。这两种趋势相互关联，而且经常重叠，下面我将逐一讨论。</p>
+<h2 id="利用-llms-协助-kg-的创建和策划过程">利用 LLMs 协助 KG
+的创建和策划过程</h2>
+<p>LLM 是构建 KG 的重要工具。在整理 KG 的过程中利用 LLM
+技术的一种方法是将 KG
+矢量化（或嵌入）到矢量数据库中。矢量数据库（或矢量存储）是一种用于存储矢量或数字列表的数据库。矢量化即使不是驱动语言模型的核心技术组件，也是其中之一。这些模型通过大量的训练数据，学会将单词与向量联系起来。这些向量会根据训练数据中的上下文捕捉单词的语义和句法信息。通过使用使用这些海量数据训练出来的嵌入服务，我们可以在
+KG 中利用这些语义和句法信息。</p>
+<blockquote>
+<p>注意：将 KG 矢量化绝不是在 KG 整理和构建中使用 LLM
+技术的唯一方法。而且，LLM 的这些应用对于 KG
+创建来说都不是新鲜事。例如，NLP 用于实体提取已经有几十年的历史了，而 LLM
+只是协助本体论/分类学家的一种新能力。</p>
+</blockquote>
+<p>LLMs 可以通过以下方式帮助创建 KG：</p>
+<ol type="1">
+<li>实体解析：实体解析是对同一现实世界实体的记录进行对齐的过程。例如，对乙酰氨基酚是一种常见的止痛药，在美国以泰诺（Tylenol）品牌销售，而在英国则被称为扑热息痛（paracetamol），以潘那多（Panadol）品牌销售。这四个名称毫无相似之处，但如果将您的
+KG 嵌入矢量数据库，矢量就能通过语义理解知道这些实体密切相关。</li>
+<li>标记非结构化数据：假设您想将一些非结构化数据纳入
+KG。您有一堆文件名模糊的 PDF
+文件，但您知道这些文件中有重要的信息。您需要用文件类型和主题来标记这些文档。如果您已经嵌入了主题分类法和文件类型分类法，那么您只需对文件进行矢量化，矢量数据库就会从每个分类法中识别出最相关的实体。</li>
+<li>实体和类提取：在非结构化数据语料库的基础上创建或增强本体或分类法等受控词汇。实体提取与标记类似，但这里的目标是增强本体，而不是将非结构化数据纳入
+KG。假设您有一个地理本体，并希望在其中填充城镇、城市、省等实例。您可以使用
+LLM 从文本语料库中提取实体来填充本体。同样，您也可以使用 LLM
+从语料库中提取类和类之间的关系。假设您忘记在本体中包含 "资本"。LLM
+可能会将其提取为一个新类或一个城市的属性。</li>
+</ol>
+<h2 id="使用-kg-驱动和管理-genai-管道">使用 KG 驱动和管理 GenAI
+管道</h2>
+<p>使用 KG 来支持和管理 GenAI 流水线和应用程序有几个原因。根据 Gartner
+的报告，"到 2025 年，至少有 30% 的 GenAI 项目将在概念验证 (POC)
+之后因数据质量差、风险控制不足、成本上升或业务价值不明确而被放弃"。KG
+可以帮助提高数据质量、降低风险和成本。</p>
+<h3 id="数据管理访问控制和法规遵从">数据管理、访问控制和法规遵从</h3>
+<p>只有经过授权的人员和应用程序才能访问某些特定目的的数据。通常，企业希望特定类型的人员（或应用程序）以良好的管理方式与特定类型的数据聊天。如何知道哪些数据应该进入
+GenAI 管道？如何确保 PII
+不会进入希望与所有员工聊天的数字助理？答案就是数据治理。补充几点：</p>
+<ul>
+<li>政策和法规会发生变化，尤其是在人工智能领域。即使您的人工智能应用程序现在合规，将来也可能不合规。良好的数据治理基础可以让企业适应这些不断变化的法规。</li>
+<li>有时，问题的正确答案是 "我不知道"，或
+"您无法获得回答该问题所需的信息"，或
+"我回答该问题是非法或不道德的"。回答的质量不仅关系到真实性或准确性，还关系到合规性。</li>
+<li>实施或启用该解决方案的知名企业（按字母顺序排列）：语义 KG 公司，如
+Cambridge Semantics、data.world、PoolParty、metaphacts 和
+TopQuadrant，以及数据目录公司，如 Alation、Collibra 和
+Informatica（还有很多很多）。</li>
+</ul>
+<h3 id="准确性和上下文理解">准确性和上下文理解</h3>
+<p>KG
+还有助于提高整体数据质量--如果您的文档中充斥着相互矛盾和/或虚假的陈述，那么当您的聊天机器人告诉您不一致和虚假的事情时，请不要感到惊讶。如果您的数据结构不佳，将其存储在一个地方也无济于事。数据湖的承诺就是这样变成了数据沼泽的祸害。同样，如果您的数据结构不佳，将其矢量化也不会解决您的问题，只会造成新的头痛问题：矢量化数据沼泽。但是，如果您的数据结构良好，KGs
+可以为 LLM
+提供额外的相关资源，通过多种方式生成更加个性化和准确的推荐。使用KG提高LLM准确性的方法多种多样，但一般都属于自然语言查询（NLQ）范畴--使用自然语言与数据库进行交互。据我所知，目前实现自然语言查询的方法有
+RAG、提示查询和微调。</p>
+<p>检索增强生成（RAG）：RAG
+是指用训练数据之外的其他相关信息对提示进行补充，以生成更准确的回复。虽然
+LLM
+已在大量数据上接受过训练，但它们尚未在您的数据上接受过训练。想想上面的求职信例子。我可以让
+LLM
+为茶桁写一封求职信，应聘商汤的产品管理职位"，它会返回一个答案，但其中会包含幻觉。更聪明的做法是，让模型接受这一提示，检索茶桁在
+LinkedIn
+上的个人资料，检索商汤的空缺职位的职位描述，然后撰写求职信。目前有两种著名的检索方式：将图矢量化或将提示转化为图查询（提示到查询）。</p>
+<ul>
+<li>基于矢量的检索：这种检索方法需要将 KG
+矢量化并存储在矢量存储区中。如果您将自然语言提示矢量化，就可以在矢量存储中找到与您的提示最相似的矢量。由于这些向量与图中的实体相对应，因此您可以根据自然语言提示返回图中最
+"相关 "的实体。这与上文描述的标记功能过程完全相同--我们基本上是用 KG
+中的相关标记来 "标记 "提示。</li>
+<li>从提示到查询的检索：或者，您也可以使用 LLM 生成 SPARQL 或 Cypher
+查询，并使用该查询从图中获取最相关的数据。注意：您可以使用提示到查询方法直接查询数据库，而不使用查询结果来补充对
+LLM 的提示。这不是 RAG 的应用，因为您没有 "增强
+"任何东西。下面将详细介绍这种方法。</li>
+</ul>
+<p>关于 RAG 和两种检索方法的其他利弊和说明：</p>
+<ul>
+<li>根据定义，RAG
+需要一个知识库。知识图谱就是一个知识库，因此支持知识图谱的人也会支持由图谱驱动的
+RAG（有时称为 GraphRAG）。但是，没有知识图谱也可以实现 RAG。</li>
+<li>RAG
+可以根据提示内容和提示中的元数据，从知识库中提取最相关的数据来补充提示。例如，我们可以根据提问者、他们可以访问的内容以及他们的其他人口统计信息来定制回答。</li>
+<li>如上所述，使用基于矢量的检索方法的一个好处是，如果将 KG
+嵌入到矢量数据库中进行标记和实体解析，那么困难的部分就已经完成了。查找与提示相关的最相关实体，与用
+KG 中的实体标记一大段非结构化文本没有什么区别。</li>
+<li>RAG
+在一定程度上提供了回复的可解释性。用户现在可以看到提示中的补充数据，以及问题的答案可能就在这些数据中。</li>
+<li>我在上文提到，人工智能正在影响我们构建 KG
+的方式，同时我们也希望构建的 KG
+能够促进人工智能的发展。提示-查询方法就是一个很好的例子。KG 的模式会影响
+LLM 的查询能力。如果本体论的目的是为人工智能应用提供信息，那么 "最佳
+"本体论就不再是现实的反映，而是人工智能看待现实的方式的反映。</li>
+<li>从理论上讲，更多相关信息应能减少幻觉，但这并不意味着 RAG
+能消除幻觉。我们仍在使用语言模型来生成反应，因此仍有很大的不确定性和幻觉空间。即使有我的简历和职位描述，
+LLMs 也可能会夸大我的经验。对于从文本到查询的方法，我们使用 LLM 来生成
+KG 查询和响应，因此实际上有两个地方可能会产生幻觉。</li>
+<li>同样，RAG
+也提供了一定程度的可解释性，但并非完全如此。例如，如果我们使用基于向量的检索，模型可以告诉我们它包含了哪些实体，因为它们是最相关的，但它无法解释为什么这些实体是最相关的。如果使用自动生成的
+KG 查询，自动生成的查询会 "解释
+"为什么某些数据会被图返回，但用户需要了解 SPARQL 或 Cypher
+才能完全理解为什么这些数据会被返回。</li>
+<li>这两种方法并不相互排斥，许多公司都在同时采用这两种方法。例如，Neo4j
+就有通过基于向量的检索实现 RAG
+以及生成提示查询的教程。我在写这篇文章之前刚刚参加了一个会议，会议主要关注生命科学领域的
+KG 和 LLM 实施，我看到许多生命科学公司都在做基于向量和提示查询 RAG
+的某种组合。</li>
+<li>实施或启用该解决方案的著名公司（按字母顺序排列）：Data.World、微软、Neo4j、Ontotext、PoolParty、SciBite、Stardog、TopQuadrant（还有很多很多）。</li>
+</ul>
+<p>单独的 "提示到查询"（Prompt-to-query）：使用 LLM
+将自然语言查询转化为正式查询（如 SPARQL 或 Cypher）。这与上文描述的 RAG
+的 "提示-查询 "检索方法相同，只是在检索数据后，我们不会将数据发送给
+LLM。这里的想法是，通过使用 LLM
+生成查询而不是解释数据，可以减少幻觉。不过，如上所述，LLM
+生成什么并不重要，它可能包含幻觉。支持这种方法的论点是，与自动生成的响应相比，用户更容易从自动生成的查询中发现幻觉。我对此有些怀疑，因为许多使用
+LLM 生成 SPARQL 查询的用户对 SPARQL
+的了解可能不足以发现自动生成的查询中存在的问题。</p>
+<ul>
+<li>任何使用提示到查询检索来实施 RAG
+解决方案的人也可以单独实施提示到查询。这些解决方案包括Neo4j、Ontotext 和
+Stardog。</li>
+</ul>
+<p>用于微调 LLM 的 KG：使用你的 KG 为现成的 LLM 提供额外的训练。与其将
+KG 数据作为查询时提示（RAG）的一部分，您还不如使用您的 KG 来训练 LLM
+本身。这样做的好处是，您可以将所有数据保存在本地，而无需将提示信息发送给
+OpenAI 或其他任何人。缺点是 LLM 中的第一个 L
+代表大型，因此下载和微调其中一个模型需要耗费大量资源。此外，虽然根据企业或行业特定数据微调的模型会更加准确，但并不能完全消除幻觉。关于这个问题的一些其他想法：</p>
+<ul>
+<li>一旦使用图形对模型进行微调，也就失去了使用图形进行访问控制的能力。</li>
+<li>有些 LLM 已经针对不同行业进行了微调，如医疗保健行业的 MedLM
+和网络安全行业的 SecLM。</li>
+<li>根据使用案例的不同，可能不需要微调 LLM。例如，如果您主要使用 LLM
+来总结新闻文章，那么 LLM 可能不需要特别的培训。</li>
+<li>有些公司并没有使用行业特定信息对 LLM 进行微调，而是使用经过微调的
+LLM 生成代码（如 Code Llama），作为其提示到查询解决方案的一部分。</li>
+<li>实施或启用该解决方案的著名公司（按字母顺序排列）：据我所知，Stardog
+的 Voicebox 是唯一使用 KG 为客户微调 LLM 的解决方案。</li>
+</ul>
+<p>关于我在这里列出的整合 KG 和 LLM
+的不同方法的说明：这些类别（RAG、提示查询和微调）既不全面，也不相互排斥。实施幼稚园教育和本地学习管理还有其他方法，今后还会有更多。此外，这些解决方案之间也有相当多的重叠，你可以将它们结合起来。例如，您可以在微调模型上运行基于向量和提示查询的
+RAG 混合解决方案。</p>
+<h3 id="效率和可扩展性">效率和可扩展性</h3>
+<p>构建许多互不关联的独立应用程序是低效的，也是软件荒地。应用程序是否
+"由人工智能驱动
+"并不重要。孤立的应用程序会导致重复的数据和代码以及整体冗余。KGs
+提供了一个基础，通过整个企业的数据顺畅流动来消除这些冗余。</p>
+<p>许多 GenAI 项目将因成本上升而被放弃，但我不知道 KG
+是否能显著降低这些成本。我不知道是否有任何研究或成本效益分析支持这种说法。为企业开发一个由
+LLM 驱动的聊天机器人成本高昂，但开发一个 KG 也是如此。</p>
+<p>我不会假装知道 "最佳
+"解决方案，而且，正如我在前面所说，我认为任何假装知道人工智能未来的人都是自欺欺人。我确实相信，对于试图更快地向正确的人提供更多数据的人来说，KG
+和 LLM 都是有用的工具，它们各有优缺点。使用 LLMs
+来撰写求职信（或监管报告），但使用 KG
+来确保提供正确的简历（或研究或期刊论文或其他）。</p>
+<p>一般来说，我认为应尽可能使用人工智能来构建、维护和扩展知识图谱，而且对于希望采用
+GenAI
+技术的企业来说，知识图谱也是必要的。这有几个原因：数据治理、访问控制和法规遵从；准确性和上下文理解；效率和可扩展性。</p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>如何在企业级同时实施知识图谱 (KG) 和大型语言模型 (LLM)</p><p><a href="https://hivan.me/如何在企业级同时实施知识图谱和大型语言模型 (LLM)/">https://hivan.me/如何在企业级同时实施知识图谱和大型语言模型 (LLM)/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2024-04-20</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2024-06-01</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a><a class="link-muted mr-2" rel="tag" href="/tags/book/">book</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/33.%20BI%20-%20Graph%20Embedding%20%E5%9B%9E%E9%A1%BE%E4%BB%A5%E5%8F%8A%20GCN%20%E7%AE%97%E6%B3%95%E4%BB%8B%E7%BB%8D-1/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">33. BI - Graph Embedding 回顾以及 GCN 算法介绍</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E4%B9%A6%E7%AD%BE%E6%90%9C%E7%B4%A2%E5%8A%A9%E6%89%8B%EF%BC%9F/"><span class="level-item">如何创建自己的人工智能书签搜索助手？</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/%E5%A6%82%E4%BD%95%E5%9C%A8%E4%BC%81%E4%B8%9A%E7%BA%A7%E5%90%8C%E6%97%B6%E5%AE%9E%E6%96%BD%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E5%92%8C%E5%A4%A7%E5%9E%8B%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%20(LLM)/';
+            this.page.identifier = '如何在企业级同时实施知识图谱和大型语言模型 (LLM)/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI 游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">250</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">7</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">24</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI/"><span class="level-start"><span class="level-item">AI</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI 秘籍</span></span><span class="level-end"><span class="level-item tag">101</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/"><span class="level-start"><span class="level-item">BI</span></span><span class="level-end"><span class="level-item tag">37</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">33</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-05-23T23:30:00.000Z">2024-05-24</time></p><p class="title"><a href="/%E6%9F%8F%E6%8B%89%E5%9B%BE%E5%BC%8F%E8%A1%A8%E5%BE%81%EF%BC%9A%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%B7%B1%E5%BA%A6%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B%E6%98%AF%E5%90%A6%E8%B6%8B%E4%BA%8E%E4%B8%80%E8%87%B4%EF%BC%9F/">柏拉图式表征：人工智能深度网络模型是否趋于一致？</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-05-21T23:30:00.000Z">2024-05-22</time></p><p class="title"><a href="/LSTM%20%E5%8D%87%E7%BA%A7%E4%BA%86%EF%BC%9F%20xLSTM%20%E6%9D%A5%E6%8C%91%E6%88%98%E7%8E%B0%E7%8A%B6%E4%BA%86/">LSTM 升级了？ xLSTM 来挑战现状了</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-05-11T23:30:00.000Z">2024-05-12</time></p><p class="title"><a href="/11%20%E6%9C%AC%20AI%20%E7%9B%B8%E5%85%B3%E4%B9%A6%E7%B1%8D%E5%8F%8A%E4%B8%8B%E8%BD%BD%20%E4%B8%8B/">11 本 AI 相关书籍及下载（下）</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-05-07T23:30:00.000Z">2024-05-08</time></p><p class="title"><a href="/11%20%E6%9C%AC%20AI%20%E7%9B%B8%E5%85%B3%E4%B9%A6%E7%B1%8D%E5%8F%8A%E4%B8%8B%E8%BD%BD%20%E4%B8%8A/">11 本 AI 相关书籍及下载（上）</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-05-04T23:30:00.000Z">2024-05-05</time></p><p class="title"><a href="/37.%20BI%20-%20%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%A1%88%E4%BE%8B%EF%BC%9A%E8%87%AA%E5%8A%A8%E5%AE%8C%E6%88%90%E6%B8%B8%E6%88%8F%20Flappy%20Bird-1/">37. BI - 强化学习案例：自动完成游戏 Flappy Bird</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2024 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

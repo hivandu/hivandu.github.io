@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>如何创建自己的人工智能书签搜索助手？ - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="「基于 GPT 的书签自动搜索 pipeline 分步指南」"><meta property="og:type" content="blog"><meta property="og:title" content="如何创建自己的人工智能书签搜索助手？"><meta property="og:url" content="https://hivan.me/%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E4%B9%A6%E7%AD%BE%E6%90%9C%E7%B4%A2%E5%8A%A9%E6%89%8B%EF%BC%9F/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="「基于 GPT 的书签自动搜索 pipeline 分步指南」"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2024-04-17T23:30:00.000Z"><meta property="article:modified_time" content="2024-06-01T06:29:15.644Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="article:tag" content="book"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E4%B9%A6%E7%AD%BE%E6%90%9C%E7%B4%A2%E5%8A%A9%E6%89%8B%EF%BC%9F/"},"headline":"如何创建自己的人工智能书签搜索助手？","image":[],"datePublished":"2024-04-17T23:30:00.000Z","dateModified":"2024-06-01T06:29:15.644Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"「基于 GPT 的书签自动搜索 pipeline 分步指南」"}</script><link rel="canonical" href="https://hivan.me/%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E4%B9%A6%E7%AD%BE%E6%90%9C%E7%B4%A2%E5%8A%A9%E6%89%8B%EF%BC%9F/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><script>var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?f91b64734fdc7bfb999e48f9248d44dd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-ZFB6CVWZFJ" async></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-ZFB6CVWZFJ');</script><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2024-04-17T23:30:00.000Z" title="4/18/2024, 7:30:00 AM">2024-04-18</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI/">AI</a></span></div></div><h1 class="title is-3 is-size-4-mobile">如何创建自己的人工智能书签搜索助手？</h1><div class="content"><p>「基于 GPT 的书签自动搜索 pipeline 分步指南」</p>
+<p><img
+src="https://miro.medium.com/v2/resize:fit:700/1*bEPnFU7QPsJF-VkVx9FWgA.png"
+alt="img" /></p>
+<span id="more"></span>
+<p>您是否遇到过这样的情况：在 Chrome
+浏览器中搜索特定书签时，却发现书签数量太多，让您应接不暇？在大量书签中进行筛选变得相当枯燥乏味。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202404181726756.png"
+alt="image-20240418165803912" /></p>
+<p>其实，我们可以把它交给
+ChatGPT，它是目前最流行的人工智能模型，基本上可以回答我们提出的所有问题。试想一下，如果它能获取我们的书签，那就太好了！问题就解决了！然后，我们就可以要求它从整个书签存储中给出我们想要的特定链接，就像下面的
+GIF 一样：</p>
+<p><img
+src="https://miro.medium.com/v2/resize:fit:700/1*mt1fZYvA6BkGmMLW37UI3g.gif"
+alt="img" /></p>
+<p>为此，我建立了一个 pipeline，将 Chrome
+浏览器书签更新到矢量数据库中，ChatGPT
+将使用该数据库作为我们提问的上下文。我将在本文中逐步解释如何构建这样一个
+pipeline，最终你也会拥有自己的 pipeline ！</p>
+<h2 id="特点">特点</h2>
+<p>在开始之前，我们先来数数它的优点：</p>
+<ol type="1">
+<li><p>与传统搜索引擎（如 Chrome
+浏览器书签管理器中的搜索引擎）不同，人工智能模型可以很好地理解每个标题的语义。如果你在搜索书签时忘记了准确的关键词，你只需画出一个大概的轮廓，ChatGPT
+就能得到它！它甚至能理解不同语言的标题，是不是很厉害？</p>
+<p><img
+src="https://miro.medium.com/v2/resize:fit:700/1*zuJ4qWGZrYbtCats5Kbg3Q.png"
+alt="img" /></p>
+<p><img
+src="https://miro.medium.com/v2/resize:fit:369/1*irgvqEXuZsjHYtr553wuAw.png"
+alt="img" /></p></li>
+<li><p>一切都会自动更新。每个新添加的书签都会在几分钟内自动反映到人工智能知识数据库中。</p></li>
+</ol>
+<h2 id="pipeline-概览">pipeline 概览</h2>
+<p><img
+src="https://miro.medium.com/v2/resize:fit:1000/1*D8M41XsWGeXp1e5IC818KA.png"
+alt="img" /></p>
+<p>在这里，您可以看到每个组件在我们的流程中的作用。我们使用定制的 Chrome
+浏览器插件将 Chrome 浏览器书签提取到谷歌工作表的行中。Estuary Flow
+获取（或捕捉）所有工作表数据，然后通过使用 OpenAI API
+的嵌入模型将其矢量化（或实体化）。所有嵌入（每个向量对应工作表的每一行，即每个书签）将被检索并存储到
+Pinecone 向量数据库中。之后，用户可以使用 Streamlit 和 LangChain
+向内置应用程序发出提示（例如，"有 dinov2 的链接吗？）它首先会从 Pinecone
+中检索一些类似的嵌入（获取上下文/多个潜在书签选项），然后将它们与用户的问题结合起来，作为
+ChatGPT 的输入。然后，ChatGPT
+会考虑所有可能的书签，并给出最终答案。这个过程也被称为
+RAG：检索增强生成（Retrieval Augmented Generation）。</p>
+<p>在下文中，我们将逐步了解如何构建这样一个 pipeline。</p>
+<h2 id="用于书签检索的-chrome-浏览器插件">用于书签检索的 Chrome
+浏览器插件</h2>
+<p>Code: https://github.com/swsychen/Boomark2Sheet_Chromeplugin</p>
+<p>要将书签传输到 Google Sheet
+中进行进一步处理，我们需要先创建一个定制的 Chrome
+浏览器插件（或扩展）。</p>
+<p><img
+src="https://miro.medium.com/v2/resize:fit:700/1*WxoJLRcKwJKGO3YC2btIkQ.png"
+alt="img" /></p>
+<p>对于 Chrome 浏览器扩展来说，最重要的文件是
+manifest.json，它定义了插件的高级结构和行为。在这里，我们添加了使用
+Google Chrome 浏览器书签 API 和跟踪书签更改所需的权限。我们还为 oauth2
+身份验证设置了一个字段，因为我们将使用 Google Sheet
+API。您需要在该字段中输入您自己的
+client_id。你可以根据此链接(https://developers.google.com/sheets/api/quickstart/js)中的
+"设置环境 "部分获取 client_id 和 Google Sheet API
+Key（我们稍后会用到）。需要注意的是</p>
+<ol type="1">
+<li>在 OAuth 同意页面，你需要添加自己（Gmail
+地址）作为测试用户。否则，你将无法使用 API。</li>
+<li>在创建 OAuth 客户端 ID 中，应选择的应用程序类型是 Chrome
+浏览器扩展（而不是快速入门链接中的 Web 应用程序）。需要指定的项目 ID
+是插件 ID（我们在加载插件时会有它，你可以在扩展管理器中找到它）。</li>
+</ol>
+<p><img
+src="https://miro.medium.com/v2/resize:fit:437/1*1BW_MoA1UK-JtVXZel1hMw.png"
+alt="img" /></p>
+<p>核心功能文件是 background.js，它可以在后台完成所有同步。我已经在
+GitHub 链接中为你准备好了代码，你唯一需要修改的就是 javascript
+文件开头的电子表格 ID。这个 id 可以在创建的 Google Sheet
+的共享链接中找到（在 d/ 之后、/edit 之前，没错，你需要先手动创建一个
+Google Sheet！）：</p>
+<p>https://docs.google.com/spreadsheets/d/{spreadsheetId}/edit#gid=0</p>
+<p>代码的主要逻辑是监测书签的任何变化，并在触发插件时（例如添加新书签时）用所有书签刷新（clear
++ write）工作表文件。它会将每个书签的 id、标题和 URL 写入指定 Google
+Sheet 的单独一行中。</p>
+<p><img
+src="https://miro.medium.com/v2/resize:fit:700/1*rUZqa_O53f5ATSQy-UbSsA.png"
+alt="img" /></p>
+<p>最后一个文件 popup.html 基本上没什么用，因为它只定义了在 Chrome
+浏览器中点击插件按钮时弹出窗口中显示的内容。</p>
+<p>确保所有文件都在一个文件夹中后，就可以上传插件了：</p>
+<ol type="1">
+<li>进入 Chrome 浏览器的 "扩展"&gt;"管理扩展"，打开页面右上方的
+"开发者模式"。</li>
+<li>点击 "加载已解压
+"并选择代码文件夹。然后你的插件就会上传并运行。点击超链接服务工作者，查看代码打印的日志信息。</li>
+</ol>
+<p>上传后，只要 Chrome
+浏览器打开，插件就会一直运行。重新打开浏览器时，它也会自动开始运行。</p>
+<h2 id="设置estuary-flow和pinecone">设置Estuary Flow和Pinecone</h2>
+<p>Estuary Flow
+基本上是一个连接器，可以将数据库与你提供的数据源同步。在我们的例子中，当
+Estuary Flow 将谷歌工作表中的数据同步到矢量数据库 Pinecone
+中时，它还会调用嵌入模型，将数据转换为嵌入矢量，然后存储到 Pinecone
+数据库中。</p>
+<p>关于 Estuary Flow 和 Pinecone 的设置，YouTube
+上已经有一个相当全面的视频教程：https://youtu.be/qyUmVW88L_A?si=xZ-atgJortObxDi-。</p>
+<p>但请注意因为 Estuary Flow 和 Pinecone
+正在快速开发中。视频中的某些内容现在已经有所改变，可能会引起混淆。在此，我列出了视频中的一些更新，以便您可以轻松复制所有内容：</p>
+<p>1.(Estuary Flow&gt;create Capture）在行批量大小中，您可以根据 Google
+Sheet 中书签的总行数设置一些较大的数字。(例如，如果你已经有 400
+多行书签，则可将其设置为 600 行）</p>
+<p>2.(Estuary Flow&gt;create Capture）在设置目标收藏时，删除光标字段
+"row_id "并添加新字段 "ID"，如下截图所示。命名空间可以保持为空。</p>
+<p><img
+src="https://miro.medium.com/v2/resize:fit:700/1*QdHtWF0Wnr7u-lDT7wtOcQ.png"
+alt="img" /></p>
+<p>3.(Estuary Flow&gt;create Capture）然后切换到 COLLECTION 子标签，按
+EDIT 键将 Key 从 /row_id 改为 /ID。还应将模式代码中的 "必填 "字段改为
+"ID"，如下所示：</p>
+<p><img
+src="https://miro.medium.com/v2/resize:fit:700/1*1noAI0gdB9B35f60_tyH9Q.png"
+alt="img" /></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python">    //...skipped<br>    <span class="hljs-string">&quot;URL&quot;</span>: &#123;<br>      <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;string&quot;</span><br>    &#125;,<br>    <span class="hljs-string">&quot;row_id&quot;</span>: &#123;<br>      <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;integer&quot;</span><br>    &#125;<br>  &#125;,<br>  <span class="hljs-string">&quot;required&quot;</span>: [<br>    <span class="hljs-string">&quot;ID&quot;</span><br>  ],<br>  <span class="hljs-string">&quot;type&quot;</span>: <span class="hljs-string">&quot;object&quot;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>​ SAVE AND PUBLISH "后，您可以看到 <strong>Collections&gt;{your
+collection name}&gt;Overview&gt;Data Preview</strong>
+将显示每个书签的正确 ID。</p>
+<ol start="4" type="1">
+<li><p>(Estuary Flow&gt;create
+Capture）在最后一步，您可以看到高级规格编辑器（在页面底部）。在这里，您可以添加一个字段
+"interval"：10m "字段，将刷新率降至每 10
+分钟一次（如果未指定，默认设置为每 5 分钟一次）。每次刷新都会调用 OpenAI
+嵌入模型重做所有嵌入，这将花费一定的成本。降低刷新率可以节省一半的费用。您可以忽略
+"backfill"字段。</p>
+<p><img
+src="https://miro.medium.com/v2/resize:fit:700/1*BFm3_PgdT4B8mYZFQS7cqw.png"
+alt="img" /></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python">        //...skipped<br>        <span class="hljs-string">&quot;syncMode&quot;</span>: <span class="hljs-string">&quot;full_refresh&quot;</span><br>      &#125;,<br>      <span class="hljs-string">&quot;target&quot;</span>: <span class="hljs-string">&quot;CJQ/mybookmark/bookmarks_v3&quot;</span><br>    &#125;<br>  ],<br>  <span class="hljs-string">&quot;interval&quot;</span>: <span class="hljs-string">&quot;10m&quot;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>5.（Estuary Flow&gt;create Materialization）Pinecone 环境通常为
+"gcp-starter"，用于自由层的 Pinecone 索引，或者类似于
+"us-east-1-aws"，用于标准计划用户（我不在 Pinecone
+中使用无服务器模式，因为 Estuary Flow 尚未为 Pinecone
+无服务器模式提供连接器）。Pinecone 索引是在 Pinecone
+中创建索引时的索引名称。</p>
+<p>6.(Estuary Flow&gt;create
+Materialization）下面是一些比较棘手的部分。</p>
+<ul>
+<li>首先，应使用蓝色按钮 "SOURCE FROM CAPTURE"选择源捕获，然后将
+"CONFIG"中的 Pinecone 命名空间留空（Pinecone
+的免费层必须有一个空的命名空间）。</li>
+<li>其次，按下 "NEXT "后，在出现的物化高级规范编辑器中，必须确保
+"bindings"字段不是空的。如果是空的或字段不存在，请按下面的截图填写内容，否则不会向
+Pinecone
+发送任何内容。此外，你还需要使用自己的收藏路径（与上一张截图中的
+"target"相同）更改 "source"字段。如果按下 "NEXT
+"键后，在看到编辑器之前出现了一些错误，请再按一次 "NEXT
+"键，然后就能看到高级规范编辑器了。然后就可以指定 "bindings"，并按下
+"SAVE AND
+PUBLISH"。完成这一步后，一切都应该没问题了。出现错误是因为我们之前没有指定
+"bindings"。</li>
+<li>如果在发布所有内容并返回 "目的地
+"页面后出现另一条错误信息，告诉你没有添加集合，只要你在概览直方图中看到使用量不为零（见下面的截图），就可以忽略它。直方图基本上表示向
+Pinecone 发送了多少数据。</li>
+</ul></li>
+</ol>
+<p><img
+src="https://miro.medium.com/v2/resize:fit:700/1*kd4SfI0VAmknmQmJ3q6tQQ.png"
+alt="img" /></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-string">&quot;bindings&quot;</span>: [<br>    &#123;<br>      <span class="hljs-string">&quot;resource&quot;</span>: &#123;&#125;,<br>      <span class="hljs-string">&quot;source&quot;</span>: <span class="hljs-string">&quot;CJQ/mybookmark/bookmarks_v3&quot;</span>,<br>      <span class="hljs-string">&quot;fields&quot;</span>: &#123;<br>        <span class="hljs-string">&quot;recommended&quot;</span>: true<br>      &#125;<br>    &#125;<br>  ],<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://miro.medium.com/v2/resize:fit:627/1*noa2bgNfUY-rxaDnTuhW5g.png"
+alt="img" /></p>
+<p><img
+src="https://miro.medium.com/v2/resize:fit:700/1*GoZWoY8EVCYFW49ksIjUkA.png"
+alt="img" /></p>
+<p>7.（Pinecone&gt;create index）Pinecone
+推出了无服务器索引模式（免费，但 Estuary Flow
+尚不支持），但我在本项目中没有使用它。在这里，我们仍然使用基于 pod
+的选项（上次检查是在 2024 年 4 月 14
+日，现在已不再免费），它足以满足我们的书签嵌入存储需求。创建索引时，只需设置索引名称和尺寸。</p>
+<p>8.(Pinecone&gt;Indexes&gt;{Your index}）完成 Pinecone
+索引的创建，并确保在 Estuary Flow
+的实体化中正确填写了索引名称和环境后，就大功告成了。在 Pincone
+控制台中，转到 Indexes&gt;{Your
+index}，就能看到显示书签总数的矢量计数。可能需要几分钟时间，直到
+Pinecone 收到 Estuary Flow 的信息并显示正确的矢量计数。</p>
+<p><img
+src="https://miro.medium.com/v2/resize:fit:700/1*9mKZq5g5wt4mIgQzF5u_cg.png"
+alt="img" /></p>
+<h2 id="使用-streamlit-和-langchain-构建自己的应用程序">使用 Streamlit
+和 Langchain 构建自己的应用程序</h2>
+<p>代码: https://github.com/swsychen/BookmarkAI_App</p>
+<p>我们就快成功了！最后一步是创建一个漂亮的界面，就像最初的 ChatGPT
+一样。在这里，我们使用了一个名为 Streamlit
+的非常方便的框架，只需几行代码就能创建一个应用程序。Langchain
+也是一个用户友好型框架，可以用最少的代码使用任何大型语言模型。</p>
+<p>我还为你准备了本应用程序的代码。请按照 GitHub
+链接中的安装和使用指南操作，尽情享受吧！</p>
+<p>代码的主要逻辑如下</p>
+<p>获取用户提示 → 使用 ChatGPT 和 Pinecone 创建一个检索链 →
+向检索链输入提示并获取响应 → 将结果流式传输到用户界面</p>
+<p><img
+src="https://miro.medium.com/v2/resize:fit:700/1*ArPET7rPAr_ZPH69qs98Hg.png"
+alt="img" /></p>
+<p>请注意，由于 Langchain 处于开发阶段，如果您使用的版本与
+requirements.txt 中所述版本不同，代码可能会被弃用。如果您想深入研究
+Langchain 并使用其他 LLM 进行书签搜索，请随时查阅 Langchain
+的官方文档(https://python.langchain.com/docs/get_started/introduction/)。</p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>如何创建自己的人工智能书签搜索助手？</p><p><a href="https://hivan.me/如何创建自己的人工智能书签搜索助手？/">https://hivan.me/如何创建自己的人工智能书签搜索助手？/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2024-04-18</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2024-06-01</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a><a class="link-muted mr-2" rel="tag" href="/tags/book/">book</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/%E5%A6%82%E4%BD%95%E5%9C%A8%E4%BC%81%E4%B8%9A%E7%BA%A7%E5%90%8C%E6%97%B6%E5%AE%9E%E6%96%BD%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E5%92%8C%E5%A4%A7%E5%9E%8B%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%20(LLM)/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">如何在企业级同时实施知识图谱 (KG) 和大型语言模型 (LLM)</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/32.%20BI%20-%20%E4%BE%9D%E6%8D%AE%E6%B7%98%E5%AE%9D%E7%9A%84%E7%94%A8%E6%88%B7%E8%A1%8C%E4%B8%BA%EF%BC%8C%E4%BB%8E%200%20%E5%BC%80%E5%A7%8B%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E7%A7%BB%E5%8A%A8%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F-1/"><span class="level-item">32. BI - 依据淘宝的用户行为，从 0 开始实现一个简单的移动推荐系统</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E4%B9%A6%E7%AD%BE%E6%90%9C%E7%B4%A2%E5%8A%A9%E6%89%8B%EF%BC%9F/';
+            this.page.identifier = '如何创建自己的人工智能书签搜索助手？/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI 游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">250</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">7</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">24</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI/"><span class="level-start"><span class="level-item">AI</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI 秘籍</span></span><span class="level-end"><span class="level-item tag">101</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/"><span class="level-start"><span class="level-item">BI</span></span><span class="level-end"><span class="level-item tag">37</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">33</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-05-23T23:30:00.000Z">2024-05-24</time></p><p class="title"><a href="/%E6%9F%8F%E6%8B%89%E5%9B%BE%E5%BC%8F%E8%A1%A8%E5%BE%81%EF%BC%9A%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%B7%B1%E5%BA%A6%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B%E6%98%AF%E5%90%A6%E8%B6%8B%E4%BA%8E%E4%B8%80%E8%87%B4%EF%BC%9F/">柏拉图式表征：人工智能深度网络模型是否趋于一致？</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-05-21T23:30:00.000Z">2024-05-22</time></p><p class="title"><a href="/LSTM%20%E5%8D%87%E7%BA%A7%E4%BA%86%EF%BC%9F%20xLSTM%20%E6%9D%A5%E6%8C%91%E6%88%98%E7%8E%B0%E7%8A%B6%E4%BA%86/">LSTM 升级了？ xLSTM 来挑战现状了</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-05-11T23:30:00.000Z">2024-05-12</time></p><p class="title"><a href="/11%20%E6%9C%AC%20AI%20%E7%9B%B8%E5%85%B3%E4%B9%A6%E7%B1%8D%E5%8F%8A%E4%B8%8B%E8%BD%BD%20%E4%B8%8B/">11 本 AI 相关书籍及下载（下）</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-05-07T23:30:00.000Z">2024-05-08</time></p><p class="title"><a href="/11%20%E6%9C%AC%20AI%20%E7%9B%B8%E5%85%B3%E4%B9%A6%E7%B1%8D%E5%8F%8A%E4%B8%8B%E8%BD%BD%20%E4%B8%8A/">11 本 AI 相关书籍及下载（上）</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-05-04T23:30:00.000Z">2024-05-05</time></p><p class="title"><a href="/37.%20BI%20-%20%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%A1%88%E4%BE%8B%EF%BC%9A%E8%87%AA%E5%8A%A8%E5%AE%8C%E6%88%90%E6%B8%B8%E6%88%8F%20Flappy%20Bird-1/">37. BI - 强化学习案例：自动完成游戏 Flappy Bird</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2024 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
