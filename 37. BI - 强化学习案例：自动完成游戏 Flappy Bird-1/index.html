@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>37. BI - 强化学习案例：自动完成游戏 Flappy Bird - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="本文为 「茶桁的 AI 秘籍 - BI 篇 第 37 篇」 [TOC]"><meta property="og:type" content="blog"><meta property="og:title" content="37. BI - 强化学习案例：自动完成游戏 Flappy Bird"><meta property="og:url" content="https://hivan.me/37.%20BI%20-%20%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%A1%88%E4%BE%8B%EF%BC%9A%E8%87%AA%E5%8A%A8%E5%AE%8C%E6%88%90%E6%B8%B8%E6%88%8F%20Flappy%20Bird-1/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="本文为 「茶桁的 AI 秘籍 - BI 篇 第 37 篇」 [TOC]"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2024-05-04T23:30:00.000Z"><meta property="article:modified_time" content="2024-06-01T06:04:15.785Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="article:tag" content="BI"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/37.%20BI%20-%20%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%A1%88%E4%BE%8B%EF%BC%9A%E8%87%AA%E5%8A%A8%E5%AE%8C%E6%88%90%E6%B8%B8%E6%88%8F%20Flappy%20Bird-1/"},"headline":"37. BI - 强化学习案例：自动完成游戏 Flappy Bird","image":[],"datePublished":"2024-05-04T23:30:00.000Z","dateModified":"2024-06-01T06:04:15.785Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"本文为 「茶桁的 AI 秘籍 - BI 篇 第 37 篇」 [TOC]"}</script><link rel="canonical" href="https://hivan.me/37.%20BI%20-%20%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%A1%88%E4%BE%8B%EF%BC%9A%E8%87%AA%E5%8A%A8%E5%AE%8C%E6%88%90%E6%B8%B8%E6%88%8F%20Flappy%20Bird-1/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><script>var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?f91b64734fdc7bfb999e48f9248d44dd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-ZFB6CVWZFJ" async></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-ZFB6CVWZFJ');</script><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2024-05-04T23:30:00.000Z" title="5/5/2024, 7:30:00 AM">2024-05-05</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a><span> / </span><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></span></div></div><h1 class="title is-3 is-size-4-mobile">37. BI - 强化学习案例：自动完成游戏 Flappy Bird</h1><div class="content"><p>本文为 「<a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg%3D%3D&amp;action=getalbum&amp;album_id=3193965113967132673&amp;subscene=&amp;sessionid=svr_548800ce471&amp;enterid=1704001437&amp;from_msgid=2648751621&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;scene=21#wechat_redirect">茶桁的
+AI 秘籍 - BI 篇</a> 第 37 篇」</p>
+<p>[TOC]</p>
+<span id="more"></span>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202402291729812.png"
+alt="茶桁的AI秘籍_核心BI_37" /></p>
+<p>Hi, 你好。我是茶桁。</p>
+<p>几天不见，大家还记得咱们上一节课的内容吗？我们上一节课讲了强化学习的一些概念也原理，并且完成了一个简单的案例：迷宫问题。</p>
+<p>那我们这一节课就来完成一个稍微复杂一点的案例，一起来看一看 Flappy
+Bird 该如何去学习。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202402291722706.jpg"
+alt="截屏 2024-02-28 17.30.11" /></p>
+<p>现在来一起思考一下，这个状态比咱们上一个案例多还是少？我们现在用的
+Flappy Bird 是一个游戏，所以游戏就需要一个模拟的环境。我所使用的是
+PyGame-Learning-Environment 库，缩写为 PLE。</p>
+<h2 id="如何安装-ple-环境">如何安装 PLE 环境</h2>
+<p>之所以用这个环境是因为环境可以告诉我们这个小鸟所在的位置，水管出现的位置。就没有必要自己去搭建这个环境了，只需要在环境中得到更高的分数。PLE
+的存在就是让我们不需要考虑仿真环境，因为它专门搭建的是一个
+armage。你的决策就是如何去训练这个 AI。在 PLE
+里面也有很多的游戏，除了Flappy
+Bird以外其他游戏也可以去做一些训练。包括：Catecher、Monster
+Kong、Pixelcopter、Pong、PuckWorld、RaycastMaze、Snake、WaterWorld。</p>
+<p>那首先，没有安装的小伙伴我可以给大家一个简略的安装指南:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">brew install sdl sdl_ttf sdl_image sdl_mixer portmidi  <span class="hljs-comment"># brew or use equivalent means</span><br>pip install pygame <br><span class="hljs-comment"># 然后是下载PLE库</span><br>git clone https://github.com/ntasfi/PyGame-Learning-Environment<br><span class="hljs-comment"># 进入安装</span><br>cd PyGame-Learning-Environment<br>pip install -e .<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202402291808500.png"
+alt="image-20240229180800269" /></p>
+<p>这样，你就安装成功了。</p>
+<p>相关的 PLE
+参数使用可以看这里：https://pygame-learning-environment.readthedocs.io/en/latest/modules/ple.html</p>
+<p>接着我们来看一看 PLE
+环境是如何记录状态的。还是像一个史官一样，把我们的状态记录下来，他的状态记录有以下的一些参数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python">state = &#123;<br>  <span class="hljs-string">&#x27;player_y&#x27;</span>: <span class="hljs-number">256</span>,<br>  <span class="hljs-string">&#x27;player_vel&#x27;</span>: <span class="hljs-number">0</span>,<br>  <span class="hljs-string">&#x27;next_pipe_dist_to_player&#x27;</span>: <span class="hljs-number">309.0</span>,<br>  <span class="hljs-string">&#x27;next_pipe_top_y&#x27;</span>: <span class="hljs-number">29</span>,<br>  <span class="hljs-string">&#x27;next_pipe_bottom_y&#x27;</span>: <span class="hljs-number">129</span>,<br>  <span class="hljs-string">&#x27;next_next_pipe_dist_to_player&#x27;</span>: <span class="hljs-number">453.0</span>,<br>  <span class="hljs-string">&#x27;next_next_pipe_top_y&#x27;</span>: <span class="hljs-number">107</span>,<br>  <span class="hljs-string">&#x27;next_next_pipe_bottom_y&#x27;</span>: <span class="hljs-number">207</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>第一个是小鸟所在的高度，这个小鸟所在高度是位置
+256，然后是小鸟的速度为 0，再接着是下一个水管到小鸟的距离
+309，下个水管它的 top_y 是 29，下个水管的bottom_y 是 129。为什么会有
+top_y 和 bottom_y
+呢？玩过这个游戏的应该都清楚，鸟是在中间飞的，上下都有一个水管。下下个水管到
+player 的距离是
+453，所以我们最多是给它两个水管到它之间的距离，更好地方便你来去做一些决策。还有，下下个水管的
+top_y 和 下下个水管的一个 bottom_y，大概的关系如下图：</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202402291950876.jpg"
+alt="截屏 2024-02-29 19.47.37" /></p>
+<p>所以可以看到 stage
+是很好的记录下鸟的状态和到障碍物之间的一个状态。</p>
+<p>PLE
+是一种简化的方式，以前我们要搭建这个游戏模拟人的操作行为还需要搭建视觉系统。很多玩游戏的是前期去分析你的游戏界面，识别出来哪些是水管，哪些是鸟，这个可能就更复杂一点。现在就不需要识别它，PLE
+的环境可以把中间的状态假设已经识别好了，所以有点类似于像无人驾驶一样。游戏告诉你速度是多少，你就直接去做无人驾驶的决策，Flappy
+Bird 的一个 action 就可以了。</p>
+<p>我们的参数来做一些设置，这里的状态有这么多，这个空间还比较大。Flappy
+Bird
+还不是个很复杂的游戏，它比红警、星际要简单很多，但这个状态的可能性因为要把每一种状态都做记录，那这个可能性多不多呢？</p>
+<p>游戏窗口是 288 乘 512，假设这个 y 可以是 512，速度假设是 100
+个速度，还有可能下一个到它的距离，就比如说这几种状态，把它数值算出来，y
+的情况都算完以后，算算这个值大不大。这个状态数量怎么算，这个状态数量是看有几个参数，每个参数之间是做乘法。因为每一种参数都有可能会发生一些变化，所以
+y 的值是
+512，横坐标可能也会有可能性，所以要把它做一个连乘。连乘就代表我们的状态的空间非常非常大。</p>
+<p>我们来自己算一算，这里有 8 种参数，这 8 个参数每个参数如果假设都是
+512 的话，就是 8 个 512 进行相乘。想一想咱们之前提到的 Q-table，左边是
+state，上面是 action。好在 Flappy Bird 的 action 比较简单，它只有两种
+action。第一个就是往上，第二个就是不动，不动的话小鸟就会自动的下来。</p>
+<p>如果要把 Flappy Bird 学好，这个学习的速度时长会很长。这是按照 PLE
+原来的参数量来进行学习，这还仅仅是一个 Flappy
+Bird，你要把它学完以后会发现它的维度会很高。512 的 8
+次方，而且还跟训练的次数相关。他不是一次就训练完了，还有训练次数。所以这个状态如果状态空间太多容易爆炸，那有什么方法可以让他学出来呢？我们就需要对其降维。</p>
+<p>原来是 8
+个参数，有哪些维度可以降维？我们简化成只考虑下一个水管，去掉下下个水管。下一个水管也只考量距离顶端水管的一个垂直距离，这个小鸟到顶端水管一个垂直距离。那最后我们其实就简化成只考虑三个参数，一个是小鸟的速度
+<code>player_vel</code>，这个是必须的，然后是距离顶端水管的垂直距离
+<code>player_y - next_pipe_top_y</code>，再接着是距离下一个水管的水平距离
+<code>next_pipe_dist_to_player</code>。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202403011037897.png"
+alt="image-20240229195404979" /></p>
+<p>这三个参数肯定是有缺陷的，只用一个水管，并没有考虑下下个水管。实际上在某些情况下，可能就达不到很好的效果。还有，我们只计算了上面这个水管的一个
+y，并没有下面的，其实下面这个对计算也有一些帮助。这是为了我们训练可以更快地来进行收敛，给它简化成这三个维度。</p>
+<p>第一个就是参数量的降维，第二个，参数量降维以后要学习的时间已经大幅缩短了，但这个时间还是比较长的。比如鸟的速度可能是一个区间范围，下一个水管到这个鸟的距离是
+0 到 288，然后 player 到上一个水管的范围有可能是 -512 到 +512，一共有
+1,024 个区值。所以大体上算一算，1,024 乘上 288 秒的速度，假设有 16
+种可能性，这个粒度也比较大。</p>
+<p>这种情况大体上可能也有 300 万的一个计算量，300 多万 400
+万一个计算量。如果要把参数学出来，这个时间肯定很长。即使已经把它用了三个参数，但是要学出来时间也很难收敛。那还可以怎么做？</p>
+<p>参数的个数少了，现在目标应该聚焦到范围上，接着采用降维的方式。0 到
+288，就不要给他做这么一个连续的区间了，能不能把它设成几段？比如说距离远、距离近、距离中、距离超近、超远。可以给他做一个范围的设定，速度也是一样。</p>
+<p>为了简化，我设成了以下的3种等级：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 设置小鸟速度的等级</span><br><span class="hljs-keyword">if</span> velocity &lt; -<span class="hljs-number">15</span>:<br>    velocity_category = <span class="hljs-number">0</span><br><span class="hljs-keyword">elif</span> velocity &lt; -<span class="hljs-number">10</span>:<br>    velocity_category = <span class="hljs-number">1</span><br><span class="hljs-keyword">elif</span> velocity &lt; -<span class="hljs-number">5</span>:<br>    velocity_category = <span class="hljs-number">2</span><br><span class="hljs-keyword">elif</span> velocity &lt; <span class="hljs-number">0</span>:<br>    velocity_category = <span class="hljs-number">3</span><br><span class="hljs-keyword">elif</span> velocity &lt; <span class="hljs-number">5</span>:<br>    velocity_category = <span class="hljs-number">4</span><br><span class="hljs-keyword">else</span>:<br>    velocity_category = <span class="hljs-number">5</span><br><br><span class="hljs-comment"># 设置小鸟高度等级</span><br><span class="hljs-keyword">if</span> dist_to_pipe_bottom &lt; <span class="hljs-number">8</span>:  <span class="hljs-comment"># very close</span><br>    height_category = <span class="hljs-number">0</span><br><span class="hljs-keyword">elif</span> dist_to_pipe_bottom &lt; <span class="hljs-number">20</span>:  <span class="hljs-comment"># close</span><br>    height_category = <span class="hljs-number">1</span><br><span class="hljs-keyword">elif</span> dist_to_pipe_bottom &lt; <span class="hljs-number">50</span>:  <span class="hljs-comment"># not close</span><br>    height_category = <span class="hljs-number">2</span><br><span class="hljs-keyword">elif</span> dist_to_pipe_bottom &lt; <span class="hljs-number">125</span>:  <span class="hljs-comment"># mid</span><br>    height_category = <span class="hljs-number">3</span><br><span class="hljs-keyword">elif</span> dist_to_pipe_bottom &lt; <span class="hljs-number">250</span>:  <span class="hljs-comment"># far</span><br>    height_category = <span class="hljs-number">4</span><br><span class="hljs-keyword">else</span>:<br>    height_category = <span class="hljs-number">5</span><br><br><span class="hljs-comment"># 设置distance等级</span><br><span class="hljs-keyword">if</span> dist_to_pipe_horz &lt; <span class="hljs-number">8</span>:  <span class="hljs-comment"># very close</span><br>    dist_category = <span class="hljs-number">0</span><br><span class="hljs-keyword">elif</span> dist_to_pipe_horz &lt; <span class="hljs-number">20</span>:  <span class="hljs-comment"># close</span><br>    dist_category = <span class="hljs-number">1</span><br><span class="hljs-keyword">elif</span> dist_to_pipe_horz &lt; <span class="hljs-number">50</span>:  <span class="hljs-comment"># not close</span><br>    dist_category = <span class="hljs-number">2</span><br><span class="hljs-keyword">elif</span> dist_to_pipe_horz &lt; <span class="hljs-number">125</span>:  <span class="hljs-comment"># mid</span><br>    dist_category = <span class="hljs-number">3</span><br><span class="hljs-keyword">elif</span> dist_to_pipe_horz &lt; <span class="hljs-number">250</span>:  <span class="hljs-comment"># far</span><br>    dist_category = <span class="hljs-number">4</span><br><span class="hljs-keyword">else</span>:<br>    dist_category = <span class="hljs-number">5</span><br></code></pre></td></tr></table></figure>
+<p>这个降维处理就是把原来的数值类型，做成了一个离散的一个分段区间。只要在这个区间里面，就按照这个区间的策略。所以它不是那么的个性化，不需要把每一个数值都计算出来，只要按区间的方式就可以了。</p>
+<p>可以看一下，速度区间给它设成了6个，高度等级也是设成6个，0-5。除了高度以外
+distance
+也是一样，也按照刚才的逻辑进行设置。我们再算一下，这里的状态数量大体上是多少个？
+<code>6*6*6=216</code>，得到216个。现在我们就由原来的 300
+万变成了216。这个计算量降维处理就很多了，减少了 1 万 3
+千多倍。计算量减少 1
+万多倍，精度肯定有损失，但是总体来说如果训练的好应该也能拿到不少的分数。</p>
+<p>这是第一种，比起最初是减少了 2 万多倍（20 * 1014 * 288 -&gt; 6 * 6 *
+6）。我们就由原来的速度 20 个，假设乘上 1024，再乘上
+288，现在可以转换成216个，减少了 2.73 万倍。</p>
+<p>那以上已经把思路简单梳理了一下，我们看一看这个流程，该怎么去完成这个任务。现在是
+Q-Learning 的实现方式，是要做后面 Q-table，每个状态 216 个，action
+有两种：上和不动，都可以得到它的一个分数：</p>
+<table>
+<thead>
+<tr class="header">
+<th>Q-Table</th>
+<th><span class="math inline">\(a_1\)</span></th>
+<th><span class="math inline">\(a_2\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(s_1\)</span></td>
+<td><span class="math inline">\(Q(s_1, a_1)\)</span></td>
+<td><span class="math inline">\(Q(s_1, a_2)\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(s_2\)</span></td>
+<td><span class="math inline">\(Q(s_2, a_1)\)</span></td>
+<td><span class="math inline">\(Q(s_2, a_2)\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(s_3\)</span></td>
+<td><span class="math inline">\(Q(s_3, a_1)\)</span></td>
+<td><span class="math inline">\(Q(s_3, a_2)\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>算法输入：迭代轮数 T，状态集 S，动作集 A，步长 <span
+class="math inline">\(\alpha\)</span>，衰减因子<span
+class="math inline">\(\gamma\)</span>，探索率<span
+class="math inline">\(\epsilon\)</span> 输出：所有的状态和动作对应的价值
+Q</p>
+<p>这个分数怎么来的？在游戏的仿真环境过程中，怎么样得到一个
+reward？是你操作了 action 以后到了某一个阶段，就会自动得到一个分数。以
+Flappy Bird 为例，撞到水管上就是一个负分，通过一个水管就加 1
+分，就是让机器去模拟、去训练，我们就会采集到不同的分数。通过采集到的环境分数来指导迭代。也就是说
+Q-table 的生成实际上是不断的去玩这个游戏得出来的一个反馈。</p>
+<p>在最开始的时候信息量是非常有限的，得到的反馈也很有限，也很难找到哪个地方是可以找到拿分的一个结果。</p>
+<ol type="1">
+<li>随机初始化所有的状态和动作对应的价值 Q，对于终止状态其 Q 值初始化为
+0。</li>
+<li>for i in range(0, T) 进行迭代：
+<ol type="1">
+<li>初始化 S 为当前状态序列的第一个状态</li>
+<li>用 <span class="math inline">\(\epsilon\)</span> - 贪婪法在当前状态
+S 选择出动作 A</li>
+<li>在状态 S 执行当前动作 A，得到新状态 S’ 和奖励 R</li>
+<li>更新价值函数: <span class="math inline">\(Q(S, A) + \alpha(R +
+\gamma max_aQ(S’, a) - Q(S, A))\)</span>​</li>
+<li>S = S’</li>
+<li>如果 S’是种植状态，当前轮迭代完毕，否则转到步骤 b</li>
+</ol></li>
+</ol>
+<p>最终选择动作比较简单，就直接用 action
+选择最大的就好了。假设你已经训练好了，那大家都是独立的，按照训练好的指示去走就
+OK 了。</p>
+<p>接着我们来看看我训练好之后的一个结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 将 force_fps 设置为 True 进行快速 fps</span><br>env = PLE(game, fps = <span class="hljs-number">30</span>, display_screen = <span class="hljs-literal">True</span>, force_fps = <span class="hljs-literal">True</span>)<br><br><span class="hljs-comment"># 运行结果</span><br>Episodes: <span class="hljs-number">0</span>, Current score: -<span class="hljs-number">5.0</span>, Max score: <span class="hljs-number">0</span><br>...<br>Episodes: <span class="hljs-number">30</span>, Current score: -<span class="hljs-number">3.0</span>, Max score: <span class="hljs-number">0</span><br>Episodes: <span class="hljs-number">31</span>, Current score: <span class="hljs-number">18.0</span>, Max score: <span class="hljs-number">18.0</span><br>...<br>Episodes: <span class="hljs-number">33</span>, Current score: <span class="hljs-number">8.0</span>, Max score: <span class="hljs-number">18.0</span><br>Episodes: <span class="hljs-number">34</span>, Current score: <span class="hljs-number">69.0</span>, Max score: <span class="hljs-number">69.0</span><br>...<br>Episodes: <span class="hljs-number">62</span>, Current score: <span class="hljs-number">8.0</span>, Max score: <span class="hljs-number">69.0</span><br>Episodes: <span class="hljs-number">63</span>, Current score: <span class="hljs-number">113.0</span>, Max score: <span class="hljs-number">113.0</span><br>...<br>Episodes: <span class="hljs-number">126</span>, Current score: <span class="hljs-number">52.0</span>, Max score: <span class="hljs-number">113.0</span><br>Episodes: <span class="hljs-number">127</span>, Current score: <span class="hljs-number">138.0</span>, Max score: <span class="hljs-number">138.0</span><br>...<br>Episodes: <span class="hljs-number">949</span>, Current score: <span class="hljs-number">0.0</span>, Max score: <span class="hljs-number">138.0</span><br>Episodes: <span class="hljs-number">950</span>, Current score: <span class="hljs-number">174.0</span>, Max score: <span class="hljs-number">174.0</span><br>...<br>Episodes: <span class="hljs-number">3246</span>, Current score: <span class="hljs-number">12.0</span>, Max score: <span class="hljs-number">174.0</span><br>Episodes: <span class="hljs-number">3247</span>, Current score: <span class="hljs-number">217.0</span>, Max score: <span class="hljs-number">217.0</span><br>...<br>Episodes: <span class="hljs-number">4675</span>, Current score: <span class="hljs-number">8.0</span>, Max score: <span class="hljs-number">217.0</span><br>Episodes: <span class="hljs-number">4676</span>, Current score: <span class="hljs-number">256.0</span>, Max score: <span class="hljs-number">256.0</span><br>...<br>Episodes: <span class="hljs-number">9813</span>, Current score: <span class="hljs-number">18.0</span>, Max score: <span class="hljs-number">256.0</span><br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/Flappy%20Bird.gif"
+alt="Flappy Bird" /></p>
+<p>学习的轮次太多，这里我只是贴了一些关键的轮次，大体上可以看一看整个这套流程，还有一个学习过程中的
+GIF
+动画，如果在文内无法正常观看，可以到这里查看：https://cdn.jsdelivr.net/gh/hivandu/notes/img/Flappy%20Bird.gif</p>
+<p>完整的代码可以去代码仓库里寻找并下载，下载之后大家可以自己去跑一跑，最好是自己完整的去看一遍逻辑，然后自己写一写。</p>
+<p>整个流程跟之前的流程实际上也是大同小异的过程，最开始的时候，这个撞上墙的反馈就是一个负分。从
+-5 开始，通过了 5
+关就认为他已经达到一个还可以的智力。如果他通了一关，更有可能学到东西。如果之前一直没有通关，其实找不到通关的方向，一旦通关了，很快的就更容易拿到一些分数。因为他能学到一些内容，至少按照原来的策略可以得到一些分数。</p>
+<p>来看代码，一开始是定义一个智能体 Agent:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Agent</span>():<br>  ...<br></code></pre></td></tr></table></figure>
+<p>在智能体的 <code>__init__</code> 内做一些初始化的设计：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, action_space</span>):<br>    <span class="hljs-comment"># 获得游戏支持的动作集合</span><br>    self.action_set = action_space<br>    <span class="hljs-comment"># 创建q-table</span><br>    self.q_table = np.zeros((<span class="hljs-number">6</span>, <span class="hljs-number">6</span>, <span class="hljs-number">6</span>, <span class="hljs-number">2</span>))<br>    <span class="hljs-comment"># 学习率</span><br>    self.alpha = <span class="hljs-number">0.7</span><br>    <span class="hljs-comment"># 折现因子</span><br>    self.gamma = <span class="hljs-number">0.8</span><br>    <span class="hljs-comment"># 贪婪率</span><br>    self.greedy = <span class="hljs-number">0.8</span><br></code></pre></td></tr></table></figure>
+<p>然后我们做了一些分段，写一个
+<code>get_state</code>，将之前我们设计的分段，包括速度的等级，高度等级以及
+distance 等级都写进去:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_state</span>(<span class="hljs-params">self, state</span>):<br>    return_state = np.zeros((<span class="hljs-number">3</span>,), dtype=<span class="hljs-built_in">int</span>)<br>    <span class="hljs-comment"># x距离</span><br>    dist_to_pipe_horz = state[<span class="hljs-string">&quot;next_pipe_dist_to_player&quot;</span>]<br>    <span class="hljs-comment"># y距离</span><br>    dist_to_pipe_bottom = state[<span class="hljs-string">&quot;player_y&quot;</span>] - state[<span class="hljs-string">&quot;next_pipe_top_y&quot;</span>]<br>    <span class="hljs-comment"># 小鸟的速度</span><br>    velocity = state[<span class="hljs-string">&#x27;player_vel&#x27;</span>]<br>    <span class="hljs-comment"># 设置小鸟速度的等级</span><br>    <span class="hljs-keyword">if</span> velocity &lt; -<span class="hljs-number">15</span>:<br>        ...<br><br>    <span class="hljs-comment"># 设置小鸟高度等级</span><br>    <span class="hljs-keyword">if</span> dist_to_pipe_bottom &lt; <span class="hljs-number">8</span>:  <span class="hljs-comment"># very close</span><br>        ...<br><br>    <span class="hljs-comment"># 设置distance等级</span><br>    <span class="hljs-keyword">if</span> dist_to_pipe_horz &lt; <span class="hljs-number">8</span>:  <span class="hljs-comment"># very close</span><br>        ...<br><br>    <span class="hljs-comment"># 返回等级参数</span><br>    return_state[<span class="hljs-number">0</span>] = height_category<br>    return_state[<span class="hljs-number">1</span>] = dist_category<br>    return_state[<span class="hljs-number">2</span>] = velocity_category<br>    <span class="hljs-keyword">return</span> return_state<br></code></pre></td></tr></table></figure>
+<p>原来的 state 是来自于 PLE 这个环境给你的
+state，我们只取了三个参数，还对这三个参数做了一个分段处理，这个前面已经讲过了。</p>
+<p>在训练过程中我还采用一个策略 greedy，greedy
+实际上是一种贪婪的方法。有时候我们并不是完全的采用最大化，还是有一定小的概率去跳脱出来去做一些随机数，随机数就是更有可能发现新大陆。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_best_action</span>(<span class="hljs-params">self, state, greedy=<span class="hljs-literal">False</span></span>):<br>    ...<br>    <span class="hljs-comment"># 是否执行策略</span><br>    <span class="hljs-keyword">if</span> greedy:<br>        <span class="hljs-keyword">if</span> np.random.rand(<span class="hljs-number">1</span>) &lt; self.greedy:<br>            <span class="hljs-keyword">return</span> np.random.choice([<span class="hljs-number">0</span>, <span class="hljs-number">1</span>])<br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-keyword">if</span> jump &gt; no_jump:<br>                <span class="hljs-keyword">return</span> <span class="hljs-number">0</span><br>            <span class="hljs-keyword">else</span>:<br>                <span class="hljs-keyword">return</span> <span class="hljs-number">1</span><br>    <span class="hljs-keyword">else</span>:<br>        <span class="hljs-keyword">if</span> jump &gt; no_jump:<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span><br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+<p>如果之前已经把它定义好了，那它每次都是采用这种决策。所以我们用 greedy
+去做个限制。greedy 是一个比较小的值，如果它有 greedy
+的策略，比如说我们假设 1%，那你有1%的概率是做 random choice。0 和 1
+代表要么就是往上，要么就是不动，有 1% 的概率是在 0 和 1
+之间来做一个随机数。否则我们就看一看，到底是 jump 还是
+no_jump，按照它原来的 Q-table 里面的最好值。如果前面 jump 那就为
+0，否则就为 1。这个是 action 的一些决策。所以这个决策是带有随机数，这是
+epsilon greedy 的一种方法。greedy
+这种方式其实随着训练次数，随机数也是个动态的调整。</p>
+<h2 id="基于-dqn-的强化学习">基于 DQN 的强化学习</h2>
+<p>Q-table 是有局限性的，使用表格来表示 Q(s,
+a)，但是现实问题中状态太多，使用表格根本存不下。Q-table
+的这个过程，计算是
+Q-Learning，我们想要对这个价值函数去做一个评估，有没有一些其他的计算的方法？这里的计算方法实际上还可以给他用一个神经网络的方式来去完成。</p>
+<p>我们可以对值去做一个近似的处理。来去预估可以得到这样的一个值。</p>
+<p>价值函数近似 Value Function Approximation</p>
+<p><span class="math display">\[
+\begin{align*}
+&amp; Q(s, a) = f(s, a) &amp; 这里 f 可以是任意函数，比如线性函数 \\
+&amp; Q(s, a) = \omega_1s + \omega_2a + b &amp; 我们用 w 来表示函数 f
+的参数，即 \\
+&amp; Q(s, a) = f(s, a, w)
+\end{align*}
+\]</span></p>
+<p>因为我们并不知道 Q 值的实际分布情况，本质上是用一个函数来近似 Q
+值的分布：</p>
+<p><span class="math display">\[
+\begin{align*}
+Q(s, a) = f(s, a, w)
+\end{align*}
+\]</span></p>
+<p>其实它本身就是个函数，它的 Q 值实际上就是 state（s），采用一个
+action（a），然后传入神经网络（w），通过一个 function 得到一个结果。</p>
+<p><span class="math display">\[
+\begin{align*}
+Q(s) \approx f(s, w)
+\end{align*}
+\]</span></p>
+<p>输入的是一个 s，可以知道它每一个动作的 Q 值，即输出一个向量，得到 Q
+的所有取值。</p>
+<p><span class="math display">\[
+\begin{align*}
+\left[ Q(s, a_1), Q(s, a_2), Q(s, a_3), ..., Q(s, a_n) \right]
+\end{align*}
+\]</span></p>
+<p>使用 DQN 进行 Q(s, a)值预测:</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240301010607.png"
+alt="使用 DQN 进行 Q(s, a)值预测" /></p>
+<p>那怎么样去训练 DQN 呢？ 其实 DQN 就等于 Q-learning
+的一个深度版本，它的公式原理都是一样的，只不过用 DQN
+去输出一个结果，得出来了我们预估的结果。</p>
+<p>每个 episode 都会根据公式更新 Q-Table <span class="math display">\[
+\begin{align*} \\
+&amp; Q(S_t, A_t) \gets Q(S_t, A_t) + \alpha \left [ R_{t+1} + \gamma
+max_a Q(S_{t+1}, a) - Q(S_t. A_t)\right ] \\
+\end{align*}
+\]</span></p>
+<p>为了简化，将学习率 <span class="math inline">\(\alpha\)</span> 设置为
+1，更新公式为 :</p>
+<p><span class="math display">\[
+\begin{align*}
+Q(S_t, A_t) \gets R_{t+1} + \gamma max_a Q(S_{t+1}, a)
+\end{align*}
+\]</span></p>
+<p>所以 DQN 的 Loss function 为：</p>
+<p><span class="math display">\[
+\begin{align*}
+L(w) = E \left[\underbrace{(\tau + \gamma max_{a&#39;}Q(s&#39;, a&#39;,
+w) - Q(s, a, w))^2}  \right]
+\end{align*}
+\]</span></p>
+<p>DQN 实际上就是 Q-Learning 的一个神经网络版本。它通过神经网络来得出来
+value 的取值。通过 Q-Learning
+获取无限量的训练样本，然后对神经网络进行训练。样本之间具有连续性，如果每次得到样本就更新
+Q 值，效果会不好。类似于人的大脑的学习机制，在回忆中学习。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202403011037898.jpg"
+alt="截屏 2024-03-01 09.43.43" /></p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202403011037899.png"
+alt="image-20240301094525271" /></p>
+<p>其实这种框架还是有很多人去做，很多套件里也会给你生成这样一个框架，我们通过调用框架的一个
+agent 的结构去完成整个的过程。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202403011037900.png"
+alt="image-20240301095229253" /></p>
+<p>agent
+是智能体，可以做一些决策。他的决策是可以通过神经网络来去做判断决策的。agent
+负责直接与环境交互，sample() 在训练时使用 e-greedy 策略采样， predict()
+为训练完成后实际根据环境的决策，learn()
+负责调用更新算法，控制训练的过程。algorithm
+负责神经网络模型的训练，目标模型的同步，model
+是整个神经网络的具体结构。</p>
+<p>我们训练一个 learning 就是逐渐让预测的 loss 跟实际 loss
+会更小一点，通过它去完成一个实际的判断。</p>
+<p>在之前我们说到很多套件都有 DQN
+的一个使用，飞桨就是其中之一。大家可以去官网看看这个工具套件：https://www.paddlepaddle.org.cn/，这是百度开发的开源深度学习平台。</p>
+<p>如果你未来去百度工作，基本上神经神经网络只能用飞桨，Tensorflow 和
+PyTorch
+都用不了。好的地方就是他做了一些优化的处理，会有一些统一框架，而且还加了一些新的一些功能。有的时候同样一篇论文，百度上面加了一些新的算法，它可能跑出来的结果比原作者的准确性还要高一点。</p>
+<p>那 DQN
+也有一些挑战，因为需要用一些新的经验把原来那些经验的来去做一些覆盖，所以我们要存储它，会设一个
+memory 去做一个经验之间的一个存储。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">memory = [(state, action, reward, next_state, done)...]<br></code></pre></td></tr></table></figure>
+<p>学习过程实际上就称为「经验回放」，使用 memory 来训练神经网络。</p>
+<p>学的过程实际上就是给他很多的样本集，从这里面去不断地去学，回放就是从
+memory 一个大的数据库里面去抽样，随机的抽取这样的一个 batch_size
+的一个个数，传完以后去做一个学习。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">minibatch = random.sample(self.memory, batch_size)<br>target = reward + gamma * np.amax(model.predict(next_state))<br></code></pre></td></tr></table></figure>
+<p>然后模型通过 <code>fit()</code> 方法学习输入输出数据对</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">model.fit(state, reward_value, epochs=<span class="hljs-number">1</span>, verbose=<span class="hljs-number">0</span>)<br></code></pre></td></tr></table></figure>
+<h2 id="小结">小结</h2>
+<p>那整个的强化学习的内容通过这几节课的内容基本就给大家讲完了，强化学习就是机器学习的一个分支，除此之外，机器学习还包括了监督学习和无监督学习。</p>
+<p>我们通过两个例子，迷宫问题和 Flappy Bird
+来让大家去了解，它本身不需要人打标签，通过环境，智能体可以自己来进行学习。因为它有一个目标奖励最大化的一个机制。如果他得到了正向反馈那在智能体的后续过程中这种决策的可能性就会越来越强。</p>
+<p>强化学习也是我们最接近自然的学习的方法，未来会有越来越多的一些难题会采用强化学习。其实不光是一些难题，包括推荐系统也有一些人在去尝试使用它，因为强化学习的空间上限会比较高。我们也可以把它跟深度学习来进行结合，比如说
+AlphaGo 等等。</p>
+<p>最后也给大家看一看一些强化学习的其他场景。举个生产的例子，日本公司
+Fanuc，工厂的机器人在拿起一个物体时，会捕捉这个过程的视频，记住它每次操作的行动（成功
+or 失败），不断积累经验，下一次可以更快更准的行动。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202403011037901.png"
+alt="image-20240301102030550" /></p>
+<p>这个其实就是强化学习，任何以前人的行为现在机器来去做，而且人并不直接教他怎么做，只是给他一个裁判的情况，机器就要想方设法去达到更好的一个奖励。</p>
+<p>还有库存管理也可以使用强化学习来完成，在库存管理中，库存量大，库存需求波动较大，而库存补货速度缓慢，通过建立强化学习算法来减少库存周转时间，提高空间利用率。这里也有一些
+action，实际上就是通过 action 来进行完成。</p>
+<p>还有动态定价，强化学习中的 Q-Learning 可以用来处理动态定价问题。</p>
+<p>运输行业中，制造商在各个客户运输时，想要在满足客户的所有需求的同时降低车队总成本，通过
+multi-agents 和
+Q-learning，可以降低时间，减少车辆数量。运输公司也可以根据交通、天气和安全状况的变化实时优化旅行路线。</p>
+<p>电商的个性化推荐，可以用强化学习算法来学习和分析顾客行为，定制产品和服务以满足客户的个性化需求。</p>
+<p>还有像广告服务，LinUCB算法，属于强化学习算法 bandit
+的一种算法，它会尝试投放更广泛为的广告（尽管过去还没有被浏览很多）。这个其实研究的人会更多一点，就是大部分的比例个人感觉还是其他机器学习在推荐系统里面用的会更多一些，不过强化学习也有也有一些场景在去做一些尝试。比如说以阿里的双11为例，他们就建立了这样一些模型帮助人们快速的去发现一些感兴趣的一些商品。</p>
+<p>金融也是一样的，实际上环境只要创建好了，那么机器就会在环境中得到更高的一个奖励。所以强化学习的难点是在于环境如何去做一些搭建。此外就是你的空间如果特别多的话，如何来进行一些降维的处理，让它可以在一个可行的时间范围之内得到一个结果。</p>
+<p>那咱们到这里为止，整个 核心 BI
+的课程也就结束了。希望大家在整个课程中有所，也希望大家后续能继续支持我的公众号，以及一些收费课程。</p>
+<p>感谢，我们之后的课程中再见。</p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>37. BI - 强化学习案例：自动完成游戏 Flappy Bird</p><p><a href="https://hivan.me/37. BI - 强化学习案例：自动完成游戏 Flappy Bird-1/">https://hivan.me/37. BI - 强化学习案例：自动完成游戏 Flappy Bird-1/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2024-05-05</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2024-06-01</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a><a class="link-muted mr-2" rel="tag" href="/tags/BI/">BI</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/36.%20BI%20-%20%E8%AF%A6%E7%BB%86%E8%AE%B2%E8%A7%A3%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%88%86%E6%94%AF%E4%B9%8B%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%9A%84%E6%A6%82%E5%BF%B5%E5%92%8C%E5%AE%9E%E9%99%85%E6%A1%88%E4%BE%8B%EF%BC%9A%E8%BF%B7%E5%AE%AB%E9%97%AE%E9%A2%98-1/"><span class="level-item">36. BI - 详细讲解机器学习分支之强化学习的概念和实际案例：迷宫问题</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/37.%20BI%20-%20%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%A1%88%E4%BE%8B%EF%BC%9A%E8%87%AA%E5%8A%A8%E5%AE%8C%E6%88%90%E6%B8%B8%E6%88%8F%20Flappy%20Bird-1/';
+            this.page.identifier = '37. BI - 强化学习案例：自动完成游戏 Flappy Bird-1/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI 游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">243</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">6</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">22</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI 秘籍</span></span><span class="level-end"><span class="level-item tag">101</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/"><span class="level-start"><span class="level-item">BI</span></span><span class="level-end"><span class="level-item tag">37</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">33</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-05-04T23:30:00.000Z">2024-05-05</time></p><p class="title"><a href="/37.%20BI%20-%20%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%A1%88%E4%BE%8B%EF%BC%9A%E8%87%AA%E5%8A%A8%E5%AE%8C%E6%88%90%E6%B8%B8%E6%88%8F%20Flappy%20Bird-1/">37. BI - 强化学习案例：自动完成游戏 Flappy Bird</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-04-30T23:30:00.000Z">2024-05-01</time></p><p class="title"><a href="/36.%20BI%20-%20%E8%AF%A6%E7%BB%86%E8%AE%B2%E8%A7%A3%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%88%86%E6%94%AF%E4%B9%8B%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%9A%84%E6%A6%82%E5%BF%B5%E5%92%8C%E5%AE%9E%E9%99%85%E6%A1%88%E4%BE%8B%EF%BC%9A%E8%BF%B7%E5%AE%AB%E9%97%AE%E9%A2%98-1/">36. BI - 详细讲解机器学习分支之强化学习的概念和实际案例：迷宫问题</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-04-27T23:30:00.000Z">2024-04-28</time></p><p class="title"><a href="/35.%20BI%20-%20%E5%88%A9%E7%94%A8%E9%A1%B9%E7%9B%AE%E3%80%8C%E6%81%B6%E6%84%8F%E8%BD%AF%E4%BB%B6%E6%A3%80%E6%B5%8B%E3%80%8D%E6%9D%A5%E7%9C%8B%20GCN%20%E5%92%8C%20LSTM%20%E7%9A%84%E5%AF%B9%E6%AF%94-1/">35. BI - 利用项目「恶意软件检测」来看 GCN 和 LSTM 的对比</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-04-23T23:30:00.000Z">2024-04-24</time></p><p class="title"><a href="/34.%20BI%20-%20%E7%BE%8E%E5%9B%BD%E5%A4%A7%E5%AD%A6%E7%94%9F%E8%B6%B3%E7%90%83%E9%98%9F%E7%9A%84%20GCN%20%E6%A1%88%E4%BE%8B-1/">34. BI - 美国大学生足球队的 GCN 案例</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-04-20T23:30:00.000Z">2024-04-21</time></p><p class="title"><a href="/33.%20BI%20-%20Graph%20Embedding%20%E5%9B%9E%E9%A1%BE%E4%BB%A5%E5%8F%8A%20GCN%20%E7%AE%97%E6%B3%95%E4%BB%8B%E7%BB%8D-1/">33. BI - Graph Embedding 回顾以及 GCN 算法介绍</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2024 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
