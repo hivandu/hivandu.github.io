@@ -40,233 +40,38 @@
       window.addEventListener('hashchange', switchTab, false);
   })();
   </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
-</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-08-31T14:21:07.783Z" title="8/31/2021, 10:21:07 PM">2021-08-31</time>发表</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/simulator-app2sd/">模拟器的 app2sd</a></p><div class="content"><p>一个读者<strong><span class="citation"
-data-cites="XXX">@XXX</span>(因为个人意愿隐掉名字)</strong> 发 mail
-询问我关于 windows 下模拟器 app2sd
-的问题,先不说有没有必要,说一下我测试的结果! 本来我给他回邮件是让他试一下
-apptosd.apk 的,后来越想越不对劲,所以自己做了下测试!结果如下:</p>
-<p><img
-src="http://farm3.static.flickr.com/2654/3806259231_f347d9ba50.jpg" /></p>
-<p>然后通过 adb shell 也无法操作. # mkdir /system/sd/app mkdir
-/system/sd/app mkdir failed for /system/sd/app, No such file or
-directory 不过仔细想想,app2sd 必须满足的条件我们在 windows
-上根本就不存在,首先我们必须要一个 app2sd 的支援固件!然后我们需要 sdcard
-分出一个 ext2 的分区...
-而这两个条件全部都不满足!那基本上可以说没有办法!</p>
-<p>看以后有没有高手可以实现模拟器上安装修改固件,那么可以安装一个 app2sd
-的固件,而另外一个必须满足的条件就是必须将建立的虚拟 sdcard 分出一个 ext2
-分区来!</p>
-<p>满足了这两个条件,那么所有的都会水到渠成!</p>
-<p>BTW:下午这位读者给我的回复:</p>
-<p>非常感谢！
-我测试的结果跟您是一样的，不过后面那个建目录的不一样。下面是我对您博文上的一点分析。
-然后通过 adb shell 也无法操作. 【XXX】google 好象改过 linux 内核，adb
-shell 登录以后几种命令都有权限限制。在虚拟 sd
-卡上建立文件夹有所有权限，然而用 adb push
-传上去的就没有可执行的权限，使用 chmod 命令修改权限也不成功。
-<code># mkdir /system/sd/app</code></p>
-<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs stata"><span class="hljs-keyword">mkdir</span> /system/sd/<span class="hljs-keyword">app</span><br><span class="hljs-keyword">mkdir</span> failed <span class="hljs-keyword">for</span> /system/sd/<span class="hljs-keyword">app</span>, <span class="hljs-keyword">No</span> such <span class="hljs-keyword">file</span> or directory <br></code></pre></td></tr></table></figure>
-<p>【XXX】在 system 目录下 adb shell
-命令是没有写权限的。你这个尝试如果是 mkdir /system/sd 就会报“mkdir
-failed for sd, Read-only file system”的错误，但是在 data
-目录下就能够创建目录。 不过仔细想想,app2sd 必须满足的条件我们在 windows
-上根本就不存在,首先我们必须要一个 app2sd 的支援固件!然后我们需要 sdcard
-分出一个 ext2 的分区… 而这两个条件全部都不满足!那基本上可以说没有办法!
-看以后有没有高手可以实现模拟器上安装修改固件,那么可以安装一个 app2sd
-的固件,而另外一个必须满足的条件就是必须将建立的虚拟 sdcard 分出一个 ext2
-分区来! 【XXX】appsd 的固件这个是什么概念？用 mksdcard 创建的虚拟 sdcard
-不就是对应的手机上的 sdcard 么？虚拟 sdcard 为什么要分出一个 ext2
-分区呢？ext2 分区一个什么概念，sdcard 要分出 ext2 分区的原理是什么？
-能否简单介绍一下？或者介绍一下相关的资料？谢谢。 另：对您给我传的那个
-apk 我不是很了解，这个文件从哪里来的，它都做了些什么事？ 下面是我 adb
-shell 后 ls –l 查看到的各文件夹权限，是有加载虚拟 sdcard 的。</p>
-<figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs subunit">drwxrwxrwt root root 2009<span class="hljs-string">-08</span><span class="hljs-string">-10</span> 04:45 sqlite_stmt_journals<br>drwxrwx--- system cache 2009<span class="hljs-string">-07</span><span class="hljs-string">-21</span> 09:01 cache<br>d---rwxrwx system system 2009<span class="hljs-string">-08</span><span class="hljs-string">-10</span> 04:52 sdcard<br>lrwxrwxrwx root root 2009<span class="hljs-string">-08</span><span class="hljs-string">-10</span> 04:45 etc -&gt; /system/etc<br>drwxr-xr-x root root 2009<span class="hljs-string">-05</span><span class="hljs-string">-15</span> 00:53 system<br>drwxr-xr-x root root 1970<span class="hljs-string">-01</span><span class="hljs-string">-01</span> 00:00 sys<br>drwxr-x--- root root 1970<span class="hljs-string">-01</span><span class="hljs-string">-01</span> 00:00 sbin<br>dr-xr-xr-x root root 1970<span class="hljs-string">-01</span><span class="hljs-string">-01</span> 00:00 proc<br>-rwxr-x--- root root 9075 1970<span class="hljs-string">-01</span><span class="hljs-string">-01</span> 00:00 init.rc<br>-rwxr-x--- root root 1677 1970<span class="hljs-string">-01</span><span class="hljs-string">-01</span> 00:00 init.goldfish.rc<br>-rwxr-x--- root root 106568 1970<span class="hljs-string">-01</span><span class="hljs-string">-01</span> 00:00 init<br>-rw-r--r-- root root 118 1970<span class="hljs-string">-01</span><span class="hljs-string">-01</span> 00:00 default.prop<br>drwxrwx--x system system 2009<span class="hljs-string">-05</span><span class="hljs-string">-15</span> 00:58 data<br>drwx------ root root 1970<span class="hljs-string">-01</span><span class="hljs-string">-01</span> 00:00 root<br>drwxr-xr-x root root 2009<span class="hljs-string">-08</span><span class="hljs-string">-10</span> 04:46 dev<br></code></pre></td></tr></table></figure>
-<p>这里请注意 system，sdcard 和 data 它们的权限以及各自的意义。</p>
-<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">d</span>---rwxrwx system system <span class="hljs-number">2009</span>-<span class="hljs-number">08</span>-<span class="hljs-number">10</span> <span class="hljs-number">04</span>:<span class="hljs-number">52</span> sdcard<br><span class="hljs-attribute">drwxr</span>-xr-x root root <span class="hljs-number">2009</span>-<span class="hljs-number">05</span>-<span class="hljs-number">15</span> <span class="hljs-number">00</span>:<span class="hljs-number">53</span> system<br><span class="hljs-attribute">drwxrwx</span>--x system system <span class="hljs-number">2009</span>-<span class="hljs-number">05</span>-<span class="hljs-number">15</span> <span class="hljs-number">00</span>:<span class="hljs-number">58</span> data<br></code></pre></td></tr></table></figure>
-<p>下面说下我对各个信息的理解。首先第一列这是表示的各用户的权限，d
-代表这是文件夹，rwx 分别代表读、写、执行权限。 d
-后面第一组三个字符表示当前用户的读写执行权限，第二组代表 group
-用户的权限，第三组表示 other 用户的权限。
-然后是第二列，表示当前用户对该文件夹的权限级别，第三列代表该文件夹的当前用户。
-如果我对这组信息的含义理解方式正确的话，那么这里我就有疑问了： 1. linux
-下面有 system 这个权限级别吗？我有个同事说只有 root、group 和
-other，所以我很奇怪这里的 system
-这个权限级别是怎么回事，它有什么样的权限，能做到怎么样。 2. sdcard
-这个目录非常奇怪，自己的用户权限都没有，group 和 other
-用户却有所有权限，在 sdcard 目录里面建立的目录权限跟 sdcard 的权限一样。
-3.
-我们自己写的应用程序，不知道是属于什么样的权限级别，是作为什么样的用户来访问各目录包括
-sd 卡的，手机 sd 卡和虚拟 sd 卡。</p>
-</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-08-31T14:21:07.782Z" title="8/31/2021, 10:21:07 PM">2021-08-31</time>发表</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/android-g1-optimization/">Android G1 的优化</a></p><div class="content"><p>
-我是第一批使用 android 的用户,那个时候没有别的选择,只有 G1
-好选择.所幸买的是英版全白.这个机型据说是很少的.包装里带彩贴的那种!
-</p>
-<p>
-可是时间长了,G1
-的诟病也就出现了,系统不断升级,虽然有很多自制包提供下载,解决了官方不在支持
-G1 的问题,可是速度上和原来的设计问题没有办法解决!
-</p>
-<p>
-不过好在网民的智慧是无穷的,今天带给大家三个特殊的小东西,用来优化你得 G1.
-</p>
-<p>
-<strong>10m rom HACK </strong> 刷新方法，拷贝
-boot-cm_2629-dp_mem-xtra.img 文件到 sd 卡，启动到 recovery 模式下，进入
-console：
-<blockquote>
-mount -a<br /> flash_image boot /sdcard/boot-cm_2629-dp_mem-xtra.img
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-09-02T12:59:46.686Z" title="9/2/2021, 8:59:46 PM">2021-09-02</time>发表</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/example_04/">Machine Learning Part-02</a></p><div class="content"><ul>
+<li>Data</li>
+<li>Pre-processing</li>
+<li>Feature-Extractor</li>
+<li>Split Training, Test, Validation</li>
+<li>Build Model</li>
+<li>Gradient Descent</li>
+<li>Evaluation</li>
+<li>Predicat</li>
+<li>Analysis</li>
+</ul></div><a class="article-more button is-small is-size-7" href="/example_04/#more">阅读更多</a></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-09-02T12:59:46.686Z" title="9/2/2021, 8:59:46 PM">2021-09-02</time>发表</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/example_05/">Machine Learning Part-03</a></p><div class="content"><h2 id="decision-trees">Decision trees</h2>
+<p>Machine learning basics - use decision trees to make predictions
+about coupons</p>
+<p>In order to get close to real life and applications, the processing
+of actual data sets is the main focus. From January 1, 2016 to June 30,
+2016, real online and offline consumption behaviors are predicted to be
+used by users within 15 days after receiving coupons in July 2016. Note:
+In order to protect the privacy of users and businesses, all data is
+anonymized, and biased sampling and necessary filtering are used.</p></div><a class="article-more button is-small is-size-7" href="/example_05/#more">阅读更多</a></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-09-02T12:59:46.686Z" title="9/2/2021, 8:59:46 PM">2021-09-02</time>发表</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/example_06/">Machine Learning Part-04</a></p><div class="content"><h2 id="svm">SVM</h2></div><a class="article-more button is-small is-size-7" href="/example_06/#more">阅读更多</a></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-09-02T12:59:46.686Z" title="9/2/2021, 8:59:46 PM">2021-09-02</time>发表</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/example_07/">Advanced Deep Learning</a></p><div class="content"><h2 id="different-optimer">Different optimer</h2></div><a class="article-more button is-small is-size-7" href="/example_07/#more">阅读更多</a></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-09-02T12:59:46.686Z" title="9/2/2021, 8:59:46 PM">2021-09-02</time>发表</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/example_08/">RNN</a></p><div class="content"><h2 id="simple-rnn">Simple RNN</h2></div><a class="article-more button is-small is-size-7" href="/example_08/#more">阅读更多</a></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-09-02T12:59:46.685Z" title="9/2/2021, 8:59:46 PM">2021-09-02</time>发表</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/example_02/">Initial exploration of machine learning</a></p><div class="content"><blockquote>
+<p>The code address of this article is: <a
+target="_blank" rel="noopener" href="https://github.com/hivandu/practise/blob/master/AI-basic/example_02.ipynb">Example
+02</a></p>
 </blockquote>
-<strong>JIT enabled Dalvik VM </strong> 进入 recovery 直接升级 zip
-文件就好了 <strong>Audio Hack v3.2 apk</strong> 这个是 mark 里 2
-欧元的付费软件.用来加大默认铃音.
-</p>
-<p>
-下载地址: [download id="1"]
-</p>
-</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-08-31T14:21:07.782Z" title="8/31/2021, 10:21:07 PM">2021-08-31</time>发表</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/android-4-contacts-the-depth-integration-with-google-plus/">Android 4.0 通讯录与 Google+的深度整合</a></p><div class="content"><p>在 4.0 以前,我记得 Android 里的通讯录名称是“contact”.而在 4.0
-之后,我的手机上是 4.0.3,将其更改为“people”了.</p>
-<p>而更改的不仅仅是这小小的名称!大家都记得在之前版本的 contact
-里,拨打界面和通讯录界面是整合在一起的.所以那个时候我第一屏单单放一个拨打电话就
-OK 了.需要查找通讯录的话,可以切换 tab.</p>
-<p><img
-src="http://farm8.staticflickr.com/7173/6774975553_9920907f85_z.jpg"
-alt="image" /></p></div><a class="article-more button is-small is-size-7" href="/android-4-contacts-the-depth-integration-with-google-plus/#more">阅读更多</a></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-08-31T14:21:07.782Z" title="8/31/2021, 10:21:07 PM">2021-08-31</time>发表</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/android-ownandroidify/">Make Android Your Own-Androidify</a></p><div class="content"><p>Androidify,由 Google 推出的一个 app，可以让 Android
-使用者在手机上创造属于自己的形象
-Android。是一套单纯的纸娃娃系统,可以自定义包括肤色、发色、衣服、裤子、鞋子、饰品等众多套件，还可变更身体的比例，其实还颇好玩的哩。只要直接在
-Android Market 搜寻 Androidify 就能找到这个可爱的小软件。</p>
-<p>跳转有 Google 针对这个 app
-推出的小短片。不过还不如自己赶快下载回来玩比较实在。</p>
-<div class="video-container">
-<embed src="http://www.tudou.com/v/xmAwwxbn0Tw/&amp;rpid=2060991/v.swf" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" wmode="opaque" width="480" height="400">
-</embed>
-</div>
-</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-08-31T14:21:07.782Z" title="8/31/2021, 10:21:07 PM">2021-08-31</time>发表</span></div></div><div class="content"><p>
-在安卓中叫兽曾经写过两个换肤教程.而教程中写的是替换原文件包...其实这个完全没必要.只要在模拟器的快捷方式中加入一段代码就好了...
-</p>
-<p>
-<code>-avd avdname <strong>-skin skinname</strong></code>
-</p>
-<p>
-而皮肤文件可以分开来放.如图:</div><a class="article-more button is-small is-size-7" href="/android-skin/#more">阅读更多</a></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-08-31T14:21:07.782Z" title="8/31/2021, 10:21:07 PM">2021-08-31</time>发表</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/android-twitteryoutubefacebook/">Android 简易访问 Twitter,youtube,facebook 方法</a></p><div class="content"><p>
-其实就是修改 hosts 文件.<br /> 而这个 hosts
-文件我是已经修改完毕的...直接 cat 到手机内覆盖原文件就可以了!
-</p>
-<p>
-执行之前请将 hosts 复制到 sdcard 的根目录,然后 cmd,cd 如 adb
-目录,然后执行其下代码:
-</p>
-<p>
-adb remount<br /> cat /sdcard/hosts &gt; /etc/hosts
-</p>
-<p>
-一切搞定! <strong>请对于 hosts 上的 IP 地址低调传播,谢谢!</strong>
-</p>
-<p>
-PS:本 hosts 修改大法已经基本完全失效,基本所有有效果的 IP
-地址都被屏蔽,如果有条件,自己建立一个 VPN
-吧!不过对于联通的用户我要给你一个大大的警告:联通屏蔽 VPN.....
-</p>
-</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-08-31T14:21:07.782Z" title="8/31/2021, 10:21:07 PM">2021-08-31</time>发表</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/cm6-test0-32b/">CM6 test0 32b</a></p><div class="content"><p>
-好吧,熟悉的人看到标题应该能猜到这就是 Android 2.2 的 CM
-版本.没想到这么快会出现,和之前发布的版本不同,这次编译与 CM
-大神的版本!没想到在和儿子过生的当间就发布了...
-<ul>
-<li>
-基于 7 月 5 日最新 CM6 源码编译，新增了电池百分比显示的开关，在
-Cyanogenmod 设置里进行更改
-</li>
-<li>
-默认关闭 jit，在 32a/32b 等低端机上开启 jit
-对性能没有改善，反倒更占内存，故在这个版本中关闭 jit
-</li>
-<li>
-修改 ADW 的默认设置，使其常驻内存，改善从其它程序退回桌面的速度
-</li>
-<li>
-修改 ADW 的壁纸图库，用 AOSP 的图库替换了 CM 的图库
-</li>
-<li>
-修改了 framework.jar，使用了 geesun 的代码试其支持中文运营商显示
-</li>
-<li>
-使用了最新的 FRF91 的 GAPPS
-</li>
-<li>
-CM6 自带的 contact 文件有不少 bug，故换成了 aosp 的 contact，虽然相对
-cm6 的功能更少，但非常稳定
-</li>
-<li>
-重新编译了 kernel，个人感觉比默认的 kernel 更稳定
-</li>
-<li>
-进一步汉化了 framework 和 superuser 等程序
-</li>
-<li>
-新增 32a 的支持，32a 的用户也可以使用
-</li>
-</ul>
-Known Issues：
-<ul>
-<li>
-第一次启动时可能会意外重启，完成设置后就不会出现这个问题
-</li>
-<li>
-相机中按 0x 变焦按键会使相机 fc
-</li>
-<li>
-摄像无法正常使用
-</li>
-<li>
-由于 Gapps 都是 Nexus 专用的，故其素材的尺寸都很大，特别是
-gmail，显示出来很大，这个暂时无法解决
-</li>
-<li>
-Dream 和 Magic 因为性能问题，不支持 flash，即便刷了 2.2 也不可能运行
-flash，所以不要去市场下载 flash 程序了，不会起作用的，另外也不要再求使用
-flash 的方法了，在地球上不存在解决方法，除非你换手机
-</li>
-</ul>
-App2sd：<br /> rom 支持 app2sd，但默认没有开启。<br /> 开启方法：<br />
-在超级终端中输入：<br /> su<br /> pm setInstallLocation 2<br /> 即可开启
-app2sd，不需要有 ext 分区就可以使用，但官方的这个 app2sd
-还不太稳定，不建议使用。<br /> Download：<br /> Dream/Magic
-32b:http://thesoloblack.com/rom/cm6-test0-32b-0705-fixed.zip<br /> Magic
-32a:http://thesoloblack.com/rom/cm6-test0-32a-0705-fixed.zip
-</p>
-<p>
-<strong>本更新信息和下载链接均来源于机锋网!</strong>
-</p>
-</div></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-08-31T14:21:07.782Z" title="8/31/2021, 10:21:07 PM">2021-08-31</time>发表</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/g1-app2sd/">G1 app2sd 完全教程</a></p><div class="content"><p>
-声明
-1:你所需要的软件在<a href="http://hivan.me/2009/04/23/g1%E5%88%B7%E6%9C%BA%E9%A1%BA%E5%BA%8F%E6%8C%87%E5%8D%97.html">这里可以下载</a>的到!<br />
-声明 2.app2sd 虽然可以省却手机内存,但是也有许多不便的地方!操作后 SDcard
-就是机子的一部分,不能随便摘取.我用的 4G
-的卡,在机子挂在后存储有问题!不知道其他卡如何.所以在存储文件和音乐的时候还是需要用到读卡器,而这个时候我必须选择关机!直接卸载
-SDcard 会造成机子程序出错!而不得不从新执行一遍 app2sd
-的过程!并且执行过后也会存在一些不可知的问题!如果对稳定性比较看重的人这里可以飘过了!<span
-style="color: #000000;"> <del datetime="2009-04-24T08:21:41+00:00">声明
-3.我的 sdcard 已经在手机内通过!懒得再刷,所以没有用我的 card
-抓图!本教程图片多为网上现成图片来完成!而图片不是一个地方抓取的!所以图片上的容量会有差距.但是刷机过程没有错</del></span>
-</p>
-<p>
-<span style="color: #ff0000;">从新格盘,正好用自己的图!顺便说一下,ubuntu
-下的默认抓图真恶心!每抓一张都要从新启动一次程序!</span>
-</p>
-<p></div><a class="article-more button is-small is-size-7" href="/g1-app2sd/#more">阅读更多</a></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-08-31T14:21:07.782Z" title="8/31/2021, 10:21:07 PM">2021-08-31</time>发表</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/g1-bluetooth-file-transfer-1-4/">G1 蓝牙传输更新 Bluetooth File Transfer 1.4</a></p><div class="content"><p>
-不知道有没有人和我遇到了一样的问题!在 G1rom 更新到固件 1.6 以后,app2sd
-的 Bluex1.12 版本无法安装,而无 app2sd
-版本的在安装后只能发送文件而无法打开蓝牙端口接收!
-</p>
-<p>
-有兴趣的朋友可以<a target="_blank" rel="noopener" href="http://doo.hivan.net/archives/967.html">到这里下载</a>以后试试.</div><a class="article-more button is-small is-size-7" href="/g1-bluetooth-file-transfer-1-4/#more">阅读更多</a></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-08-31T14:21:07.782Z" title="8/31/2021, 10:21:07 PM">2021-08-31</time>发表</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/g1-hero-tipsapp/">G1 上打造 Hero!(更新 tips&amp;app)</a></p><div class="content"><p>
-这本来是安卓上发布的一片帖子,我写在这里主要是为了为自己增加点浏览量!顺便解解眼馋.但是我并不打算在这里提供教程和下载!
-<del datetime="2009-08-28T10:24:55+00:00">(由于 flickr
-最近不稳定,所以图片显现不出来!)</del>是由于博客上的 flickr 插件的原因..
-</p>
-<p>
-<img style="border: initial none initial;" src="http://farm3.static.flickr.com/2574/3863652647_61e6de9ece.jpg" alt="你拍攝的 hero for g1。" width="320" height="478" />
-</p>
-<p></div><a class="article-more button is-small is-size-7" href="/g1-hero-tipsapp/#more">阅读更多</a></article></div><nav class="pagination" role="navigation" aria-label="pagination"><div class="pagination-previous"><a href="/page/19/">上一页</a></div><div class="pagination-next"><a href="/page/21/">下一页</a></div><ul class="pagination-list is-hidden-mobile"><li><a class="pagination-link" href="/">1</a></li><li><span class="pagination-ellipsis">&hellip;</span></li><li><a class="pagination-link" href="/page/19/">19</a></li><li><a class="pagination-link is-current" href="/page/20/">20</a></li><li><a class="pagination-link" href="/page/21/">21</a></li><li><span class="pagination-ellipsis">&hellip;</span></li><li><a class="pagination-link" href="/page/25/">25</a></li></ul></nav></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI 游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">250</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">7</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">24</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI/"><span class="level-start"><span class="level-item">AI</span></span><span class="level-end"><span class="level-item tag">7</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI 秘籍</span></span><span class="level-end"><span class="level-item tag">101</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/"><span class="level-start"><span class="level-item">BI</span></span><span class="level-end"><span class="level-item tag">37</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">33</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-05-23T23:30:00.000Z">2024-05-24</time></p><p class="title"><a href="/%E6%9F%8F%E6%8B%89%E5%9B%BE%E5%BC%8F%E8%A1%A8%E5%BE%81%EF%BC%9A%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%B7%B1%E5%BA%A6%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B%E6%98%AF%E5%90%A6%E8%B6%8B%E4%BA%8E%E4%B8%80%E8%87%B4%EF%BC%9F/">柏拉图式表征：人工智能深度网络模型是否趋于一致？</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-05-21T23:30:00.000Z">2024-05-22</time></p><p class="title"><a href="/LSTM%20%E5%8D%87%E7%BA%A7%E4%BA%86%EF%BC%9F%20xLSTM%20%E6%9D%A5%E6%8C%91%E6%88%98%E7%8E%B0%E7%8A%B6%E4%BA%86/">LSTM 升级了？ xLSTM 来挑战现状了</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-05-11T23:30:00.000Z">2024-05-12</time></p><p class="title"><a href="/11%20%E6%9C%AC%20AI%20%E7%9B%B8%E5%85%B3%E4%B9%A6%E7%B1%8D%E5%8F%8A%E4%B8%8B%E8%BD%BD%20%E4%B8%8B/">11 本 AI 相关书籍及下载（下）</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-05-07T23:30:00.000Z">2024-05-08</time></p><p class="title"><a href="/11%20%E6%9C%AC%20AI%20%E7%9B%B8%E5%85%B3%E4%B9%A6%E7%B1%8D%E5%8F%8A%E4%B8%8B%E8%BD%BD%20%E4%B8%8A/">11 本 AI 相关书籍及下载（上）</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-05-04T23:30:00.000Z">2024-05-05</time></p><p class="title"><a href="/37.%20BI%20-%20%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%A1%88%E4%BE%8B%EF%BC%9A%E8%87%AA%E5%8A%A8%E5%AE%8C%E6%88%90%E6%B8%B8%E6%88%8F%20Flappy%20Bird-1/">37. BI - 强化学习案例：自动完成游戏 Flappy Bird</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/">BI</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2024 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+<blockquote>
+<p>The source code is in ipynb format, and the output content can be
+viewed.</div><a class="article-more button is-small is-size-7" href="/example_02/#more">阅读更多</a></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-09-02T12:59:46.685Z" title="9/2/2021, 8:59:46 PM">2021-09-02</time>发表</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/example_03/">Machine Learning Part-01</a></p><div class="content"><h2 id="linear-regression-example">Linear Regression Example</h2>
+<p>Implement Linear Regression for Boston House Price Problem</div><a class="article-more button is-small is-size-7" href="/example_03/#more">阅读更多</a></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-08-31T14:21:07.801Z" title="8/31/2021, 10:21:07 PM">2021-08-31</time>发表</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/cnbloggercon-20/">CnBloggerCon 2012</a></p><div class="content"><p>一年一度的中文网志年会与今晨八点开始，不过没想到的是昨晚就已经完成了开幕式。在
+Google+上由<a
+target="_blank" rel="noopener" href="https://plus.google.com/u/0/108255121787158995006/posts">Isaac
+Mao</a>主持开幕 Hangout 视频。可惜我没有看到！ <img
+src="http://farm8.staticflickr.com/7248/7482001638_741df3dc29_z.jpg"
+alt="CBC ShangHai" /></p></div><a class="article-more button is-small is-size-7" href="/cnbloggercon-20/#more">阅读更多</a></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-08-31T14:21:07.801Z" title="8/31/2021, 10:21:07 PM">2021-08-31</time>发表</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/freedom/">FREEDOM</a></p><div class="content"><p>许很多的影片我都应该从新温习一遍。不只是因为我学的就是这个，更重要的是每次看一遍都能理解一些新的东西。</p></div><a class="article-more button is-small is-size-7" href="/freedom/#more">阅读更多</a></article></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-08-31T14:21:07.801Z" title="8/31/2021, 10:21:07 PM">2021-08-31</time>发表</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/hello-2012/">Hello 2012</a></p><div class="content"><p>以 2012 起头,其实主要是想要写 2011</p></div><a class="article-more button is-small is-size-7" href="/hello-2012/#more">阅读更多</a></article></div><nav class="pagination" role="navigation" aria-label="pagination"><div class="pagination-previous"><a href="/page/19/">上一页</a></div><div class="pagination-next"><a href="/page/21/">下一页</a></div><ul class="pagination-list is-hidden-mobile"><li><a class="pagination-link" href="/">1</a></li><li><span class="pagination-ellipsis">&hellip;</span></li><li><a class="pagination-link" href="/page/19/">19</a></li><li><a class="pagination-link is-current" href="/page/20/">20</a></li><li><a class="pagination-link" href="/page/21/">21</a></li><li><span class="pagination-ellipsis">&hellip;</span></li><li><a class="pagination-link" href="/page/28/">28</a></li></ul></nav></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI 游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">279</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">8</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">31</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI/"><span class="level-start"><span class="level-item">AI</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI 秘籍</span></span><span class="level-end"><span class="level-item tag">109</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/"><span class="level-start"><span class="level-item">BI</span></span><span class="level-end"><span class="level-item tag">37</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/CV/"><span class="level-start"><span class="level-item">CV</span></span><span class="level-end"><span class="level-item tag">8</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">33</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-07-14T23:30:00.000Z">2024-07-15</time></p><p class="title"><a href="/%E5%88%86%E6%9E%90%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%85%AC%E5%B9%B3%E6%80%A7/">分析机器学习的公平性</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-07-13T23:30:00.000Z">2024-07-14</time></p><p class="title"><a href="/07.%20%E4%BD%9C%E4%B8%9A%EF%BC%9A%E4%BA%BA%E5%83%8F%E6%BB%A4%E6%B3%A2%E5%8E%BB%E5%99%AA/">作业：人像滤波去噪</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/CV/">CV</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-07-12T23:30:00.000Z">2024-07-13</time></p><p class="title"><a href="/%E4%BD%BF%E7%94%A8%20Python%20%E5%88%9B%E5%BB%BA%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%83%85%E7%BB%AA%E5%88%86%E6%9E%90%E6%A8%A1%E5%9E%8B/">使用 Python 创建你的第一个情绪分析模型</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-07-11T23:30:00.000Z">2024-07-12</time></p><p class="title"><a href="/%E5%AF%BB%E6%89%BE%E5%B9%B6%E5%8F%AF%E8%A7%86%E5%8C%96%E4%BA%A4%E4%BA%92/">寻找并可视化交互</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-07-10T23:30:00.000Z">2024-07-11</time></p><p class="title"><a href="/%E4%BD%BF%E7%94%A8%20Python%20%E7%BB%98%E5%88%B6%E7%BE%8E%E5%9B%BD%E9%80%89%E4%B8%BE%E5%88%86%E7%BA%A7%E7%BB%9F%E8%AE%A1%E5%9B%BE/">使用 Python 绘制美国选举分级统计图</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2024 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
             article: {
                 highlight: {
                     clipboard: true,

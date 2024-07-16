@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>Interpretability 与 Explainability 机器学习 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="Interpretability 模型和 Explainability 模型之间的区别以及为什么它可能不那么重要"><meta property="og:type" content="blog"><meta property="og:title" content="Interpretability 与 Explainability 机器学习"><meta property="og:url" content="https://hivan.me/%E5%8F%AF%E8%A7%A3%E8%AF%BB%E4%B8%8E%E5%8F%AF%E8%A7%A3%E9%87%8A%E7%9A%84%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="Interpretability 模型和 Explainability 模型之间的区别以及为什么它可能不那么重要"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2024-07-05T23:30:00.000Z"><meta property="article:modified_time" content="2024-07-16T07:01:02.243Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="article:tag" content="ML"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/%E5%8F%AF%E8%A7%A3%E8%AF%BB%E4%B8%8E%E5%8F%AF%E8%A7%A3%E9%87%8A%E7%9A%84%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"},"headline":"Interpretability 与 Explainability 机器学习","image":[],"datePublished":"2024-07-05T23:30:00.000Z","dateModified":"2024-07-16T07:01:02.243Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"Interpretability 模型和 Explainability 模型之间的区别以及为什么它可能不那么重要"}</script><link rel="canonical" href="https://hivan.me/%E5%8F%AF%E8%A7%A3%E8%AF%BB%E4%B8%8E%E5%8F%AF%E8%A7%A3%E9%87%8A%E7%9A%84%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><script>var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?f91b64734fdc7bfb999e48f9248d44dd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-ZFB6CVWZFJ" async></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-ZFB6CVWZFJ');</script><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2024-07-05T23:30:00.000Z" title="7/6/2024, 7:30:00 AM">2024-07-06</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI/">AI</a></span></div></div><h1 class="title is-3 is-size-4-mobile">Interpretability 与 Explainability 机器学习</h1><div class="content"><blockquote>
+<p>Interpretability 模型和 Explainability
+模型之间的区别以及为什么它可能不那么重要</p>
+</blockquote>
+<span id="more"></span>
+<p><strong>「AI秘籍」系列课程：</strong></p>
+<ul>
+<li><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3074770001140400130&amp;scene=173&amp;subscene=227&amp;sessionid=undefined&amp;enterid=1717956640&amp;from_msgid=2648748678&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">人工智能应用数学基础</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3035995870421073928&amp;scene=126&amp;uin=&amp;key=&amp;devicetype=iMac+MacBookPro17%2C1+OSX+OSX+14.5+build(23F79)&amp;version=13080710&amp;lang=zh_CN&amp;nettype=WIFI&amp;ascene=78&amp;fontScale=100">人工智能Python基础</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3123885735829061633&amp;scene=173&amp;subscene=227&amp;sessionid=1717956706&amp;enterid=1717956713&amp;from_msgid=2648751062&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">人工智能基础核心知识</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg%3D%3D&amp;action=getalbum&amp;album_id=3193965113967132673&amp;subscene=&amp;sessionid=svr_548800ce471&amp;enterid=1704001437&amp;from_msgid=2648751621&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;scene=21#wechat_redirect">人工智能BI核心知识</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3503005363236880386&amp;from_itemidx=1&amp;from_msgid=2648753419#wechat_redirect">人工智能CV核心知识</a></li>
+</ul>
+<p><img
+src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*c_qv5gCkdUL9JlEonkYOwg.png"
+alt="img" /></p>
+<p>当你第一次深入可解释机器学习领域时，你会注意到类似的术语随处可见。Interpretability
+与Explainability。解释与说明。我们甚至无法决定该领域的名称——是可解释机器学习
+(interpretable machine learning - IML) 还是可解释人工智能 (explainable
+AI - XAI)？</p>
+<p>我们将讨论一个定义，并希望澄清一些事情。这就是 Interpretability
+模型和 Explainability 模型之间的区别。不过，我们应该警告你……</p>
+<p><strong>没有共性！</strong></p>
+<p>部分问题在于 IML
+是一个新领域。定义仍在提出和争论中。机器学习研究人员也很快为已经存在的概念创造新术语。因此，我们将重点关注一个潜在的定义
+<a href="#fn1" class="footnote-ref" id="fnref1"
+role="doc-noteref"><sup>1</sup></a>。</p>
+<p>Interpretability
+与机器学习模型将原因和结果练习起来的准确性有关，指在机器学习中可以观察到系统中因果关系（先验推导）的程度。</p>
+<p>Explainability
+与隐藏在深层网络中的参数证明结果的能力有关，是指机器学习的内部机制可以用人类语言解释（后验解释）的程度。</p>
+<p>具体来说，我们将：</p>
+<ul>
+<li>了解如何将模型分类为 <strong>interpretable</strong> 或者
+<strong>explainable</strong>。</li>
+<li>讨论 <strong>interpretability</strong> 的概念及其与此定义的关系</li>
+<li>了解<strong>该定义的问题</strong>以及为什么可能没有必要使用它来对模型进行分类</li>
+</ul>
+<h1 id="interpretable-机器学习">Interpretable 机器学习</h1>
+<p>如果某事物能够被理解，我们就说它是可解释的。考虑到这一点，如果一个模型能够<strong>被人类自己理解，</strong>我们就说它是可解释的。我们可以查看模型参数或模型摘要，并准确了解预测是如何做出的。这类模型的另一个术语是<strong>intrinsically
+interpretable model</strong>(本质上可解释的模型)<a href="#fn2"
+class="footnote-ref" id="fnref2"
+role="doc-noteref"><sup>2</sup></a>。</p>
+<p>Interpretable 模型可以被人类理解，无需任何其他辅助/技术。</p>
+<p>决策树是此类模型的一个很好的例子。<strong>图
+1</strong>给出了一棵经过训练的树，用于预测某人是否会拖欠（是）或不会拖欠（否）汽车贷款。要了解如何做出预测，我们只需遍历树的节点即可。</p>
+<p>例如，假设一名<strong>29 岁</strong>、月收入<strong>3000
+美元</strong>的女子提出申请。我们想了解为什么她会通过基于此模型的自动承保系统获得贷款。此人超过<strong>25
+岁</strong>，所以我们直接进入第一个节点。然后，她的收入<strong>≥2000</strong>，所以我们再次直接进入
+<strong>“No”</strong>
+叶节点。换句话说，该模型预测该学生<strong>不会违约</strong>，贷款将获得批准。</p>
+<p><img
+src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*OoCbJ_wVR9_AmpoBPcwW7Q.png"
+alt="图 1：默认预测的决策树" /></p>
+<p>假设我们还想要一个模型来预测一个人的<strong>最大贷款额度</strong>（Y）。我们使用一个人的年龄和收入作为特征。使用线性回归，我们得到以下等式：</p>
+<p><span class="math display">\[
+Y = 100 \times age + 10 \times income + 200
+\]</span></p>
+<p>我们可以很容易地看出为什么上述学生的预计最高贷款额为<strong>33,100
+美元</strong>。也就是说，贷款额增加了：</p>
+<ul>
+<li>每增加一岁，需支付 100 美元</li>
+<li>每增加 1 美元收入就增加 10 美元</li>
+</ul>
+<p>因此，就像决策树一样，我们可以查看该模型的参数并了解它如何进行预测。这是因为这些模型相对简单。决策树有几个节点，线性回归模型有
+3 个参数。随着模型变得越来越复杂，我们不再能以这种方式理解它们。</p>
+<h1 id="explainable-机器学习">Explainable 机器学习</h1>
+<p>您可以将 ML 模型视为一个函数。模型特征是输入，预测是输出。Explainable
+模型是一种人类无法理解的复杂函数。这种模型的另一个名称是黑盒模型。我们需要一种额外的方法/技术才能窥视黑盒并了解模型的工作原理。</p>
+<p>Explainable 模型需要额外的技术才能被人类理解</p>
+<p>这种模型的一个例子是随机森林。随机森林由许多决策树组成。在做出最终预测时，会考虑所有单个树的预测。要了解随机森林的工作原理，我们必须同时了解所有单个树的工作原理。即使只有少量的树，人类也做不到这一点。</p>
+<p><img
+src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*P1p6ubyxUATVoI_fceandQ.png"
+alt="AlexNet 的架构" /></p>
+<p>图片来源：<a
+target="_blank" rel="noopener" href="https://www.learnopencv.com/number-of-parameters-and-tensor-sizes-in-convolutional-neural-network/">Satya
+Mallick &amp; Sunita Nayak</a></p>
+<p>当我们开始研究神经网络等算法时，事情变得更加复杂。具体来说，用于图像识别的卷积神经网络
+<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/AlexNet">AlexNet</a><a
+href="#fn3" class="footnote-ref" id="fnref3"
+role="doc-noteref"><sup>3</sup></a> 有<strong>62,378,344 个</strong>参数
+<a href="#fn4" class="footnote-ref" id="fnref4"
+role="doc-noteref"><sup>4</sup></a>。相比之下，我们上面的回归模型只有<strong>3
+个</strong>参数。人类不可能仅通过查看参数权重来理解 AlexNet
+之类的模型的工作原理。</p>
+<h2 id="用于理解-explainable-模型的技术">用于理解 explainable
+模型的技术</h2>
+<p>因此，我们需要一些额外的技术来理解这些算法的工作原理。这些包括为特定模型创建的方法。例如，DeepLIFT:
+https://github.com/kundajelab/deeplift
+就是为解释神经网络而创建的。它们还包括可应用于任何模型的模型无关方法。这些方法包括
+LIME:https://github.com/marcotcr/lime、SHAP:
+https://github.com/slundberg/shap、PDPs 和 ICE Plots。</p>
+<p><img
+src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/0*VNXuKZKde-0wOJLW.png"
+alt="SHAP 蜂群图" /></p>
+<p>请记住，即使有了这些技术，我们也无法像使用i nterpretable
+模型那样确定模型的工作原理。这些技术只能提供模型如何进行预测的近似值。它们都有自己的假设和局限性。</p>
+<p>这意味着在使用任何技术得出结论时都应保持一定程度的谨慎。如果可能，应结合使用多种技术。还应使用数据可视化和领域知识来验证结论。</p>
+<h1 id="interpretability">Interpretability</h1>
+<p>到目前为止，我们已经讨论了模型是 interpretable 还是
+explainable。然而，应用这个二元标志可能并不总是有意义的。模型的
+Interpretability
+是一个范围。如果一个模型比另一个模型更容易让人理解它的预测方式，那么这个模型就比另一个模型更容易解释。</p>
+<p>Interpretability 是指模型能被人类理解的程度<a href="#fn5"
+class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
+<p><strong>图
+2</strong>给出了可解释性频谱。卷积神经网络的可解释性不如随机森林，而随机森林的可解释性又不如决策树。大多数模型通常可以归类为可解释或可解释的。然而，存在一个灰色区域，人们对此的分类意见不一。</p>
+<p><img
+src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*6-QWLr9obdDlUmVLtDXPrQ.png"
+alt="图 2：可解释性范围" /></p>
+<h1 id="定义问题">定义问题</h1>
+<p>这个灰色区域是我们发现这个定义的第一个问题。我们可能同意，一个有 2
+棵树的随机森林是可解释的。然而，一个有 100
+棵树的随机森林是不可解释的。在什么时候（即有多少棵树），模型从
+interpretable 变为 explainable
+？即使是具有许多节点的决策树或具有许多参数的回归，如果没有额外的技术，也可能变得过于复杂，人类无法理解。</p>
+<p>问题是我们试图根据<em>人类的理解</em>能力对模型进行分类。没有正式的方法来衡量这一点。你理解模型的能力取决于你的技术技能和专业经验。即使在专业人士中，也会有分歧。</p>
+<p>另一个问题是我们定义什么为附加技术。为了理解哪怕是最简单的模型，我们也会寻求其他方法的帮助。例如，在解释线性回归的权重时，通常使用相关矩阵。这是否意味着回归现在是一个
+explainable 模型？</p>
+<p><img
+src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/0*9eWZZbSal2BeXs64.png"
+alt="显示高度相关特征的相关热图" /></p>
+<p>这就引出了一个问题：我们真的需要这个定义吗？IML
+的目标是理解和解释我们的模型。我们不需要将它们归类为 interpretable 或
+explainable。我们选择的方法最终将取决于模型的类型和我们寻求回答的具体问题。</p>
+<h2 id="参考">参考</h2>
+<section id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p>C. Rudin, <strong>Stop explaining black-box machine
+learning models for high stakes decisions and use interpretable models
+instead</strong> (2019), https://arxiv.org/abs/1811.10154<a
+href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>C. Molnar, <strong>Interpretable Machine
+Learning:</strong> <em>A Guide for Making Black Box Models
+Explainable</em> (2023), Chapter 3: Interpretability,
+https://christophm.github.io/interpretable-ml-book/taxonomy-of-interpretability-methods.html<a
+href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>AlexNet, https://en.wikipedia.org/wiki/AlexNet<a
+href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>S. Mallick &amp; S. Nayak, <strong>Number of Parameters
+and Tensor Sizes in a Convolutional Neural Network (CNN)</strong>
+(2018),
+https://www.learnopencv.com/number-of-parameters-and-tensor-sizes-in-convolutional-neural-network/<a
+href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>C. Molnar, <strong>Interpretable Machine
+Learning:</strong> <em>A Guide for Making Black Box Models
+Explainable</em> (2023), Chapter 3: Interpretability,
+https://christophm.github.io/interpretable-ml-book/taxonomy-of-interpretability-methods.html<a
+href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+</div><div class="article-licensing box"><div class="licensing-title"><p>Interpretability 与 Explainability 机器学习</p><p><a href="https://hivan.me/可解读与可解释的机器学习/">https://hivan.me/可解读与可解释的机器学习/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2024-07-06</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2024-07-16</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a><a class="link-muted mr-2" rel="tag" href="/tags/ML/">ML</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/05.%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%A4%84%E7%90%86%E5%9B%BE%E5%83%8F%E7%9A%84%E6%96%B9%E5%BC%8F%E6%96%B9%E6%B3%95_1/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">计算机处理图像的方式方法（上）</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%AF%AD%E8%A8%80%E8%AF%86%E5%88%AB/"><span class="level-item">深度神经网络语言识别</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/%E5%8F%AF%E8%A7%A3%E8%AF%BB%E4%B8%8E%E5%8F%AF%E8%A7%A3%E9%87%8A%E7%9A%84%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/';
+            this.page.identifier = '可解读与可解释的机器学习/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI 游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">279</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">8</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">31</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI/"><span class="level-start"><span class="level-item">AI</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI 秘籍</span></span><span class="level-end"><span class="level-item tag">109</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/"><span class="level-start"><span class="level-item">BI</span></span><span class="level-end"><span class="level-item tag">37</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/CV/"><span class="level-start"><span class="level-item">CV</span></span><span class="level-end"><span class="level-item tag">8</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">33</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-07-14T23:30:00.000Z">2024-07-15</time></p><p class="title"><a href="/%E5%88%86%E6%9E%90%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%85%AC%E5%B9%B3%E6%80%A7/">分析机器学习的公平性</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-07-13T23:30:00.000Z">2024-07-14</time></p><p class="title"><a href="/07.%20%E4%BD%9C%E4%B8%9A%EF%BC%9A%E4%BA%BA%E5%83%8F%E6%BB%A4%E6%B3%A2%E5%8E%BB%E5%99%AA/">作业：人像滤波去噪</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/CV/">CV</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-07-12T23:30:00.000Z">2024-07-13</time></p><p class="title"><a href="/%E4%BD%BF%E7%94%A8%20Python%20%E5%88%9B%E5%BB%BA%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%83%85%E7%BB%AA%E5%88%86%E6%9E%90%E6%A8%A1%E5%9E%8B/">使用 Python 创建你的第一个情绪分析模型</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-07-11T23:30:00.000Z">2024-07-12</time></p><p class="title"><a href="/%E5%AF%BB%E6%89%BE%E5%B9%B6%E5%8F%AF%E8%A7%86%E5%8C%96%E4%BA%A4%E4%BA%92/">寻找并可视化交互</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-07-10T23:30:00.000Z">2024-07-11</time></p><p class="title"><a href="/%E4%BD%BF%E7%94%A8%20Python%20%E7%BB%98%E5%88%B6%E7%BE%8E%E5%9B%BD%E9%80%89%E4%B8%BE%E5%88%86%E7%BA%A7%E7%BB%9F%E8%AE%A1%E5%9B%BE/">使用 Python 绘制美国选举分级统计图</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2024 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

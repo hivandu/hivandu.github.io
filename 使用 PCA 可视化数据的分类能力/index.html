@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>使用 PCA 可视化数据的分类能力 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="使用 PCA 探索数据分类的效果（使用 Python 代码）"><meta property="og:type" content="blog"><meta property="og:title" content="使用 PCA 可视化数据的分类能力"><meta property="og:url" content="https://hivan.me/%E4%BD%BF%E7%94%A8%20PCA%20%E5%8F%AF%E8%A7%86%E5%8C%96%E6%95%B0%E6%8D%AE%E7%9A%84%E5%88%86%E7%B1%BB%E8%83%BD%E5%8A%9B/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="使用 PCA 探索数据分类的效果（使用 Python 代码）"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2024-07-03T23:30:00.000Z"><meta property="article:modified_time" content="2024-07-16T06:58:56.967Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="article:tag" content="ML"><meta property="article:tag" content="PCA"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/%E4%BD%BF%E7%94%A8%20PCA%20%E5%8F%AF%E8%A7%86%E5%8C%96%E6%95%B0%E6%8D%AE%E7%9A%84%E5%88%86%E7%B1%BB%E8%83%BD%E5%8A%9B/"},"headline":"使用 PCA 可视化数据的分类能力","image":[],"datePublished":"2024-07-03T23:30:00.000Z","dateModified":"2024-07-16T06:58:56.967Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"使用 PCA 探索数据分类的效果（使用 Python 代码）"}</script><link rel="canonical" href="https://hivan.me/%E4%BD%BF%E7%94%A8%20PCA%20%E5%8F%AF%E8%A7%86%E5%8C%96%E6%95%B0%E6%8D%AE%E7%9A%84%E5%88%86%E7%B1%BB%E8%83%BD%E5%8A%9B/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><script>var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?f91b64734fdc7bfb999e48f9248d44dd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-ZFB6CVWZFJ" async></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-ZFB6CVWZFJ');</script><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2024-07-03T23:30:00.000Z" title="7/4/2024, 7:30:00 AM">2024-07-04</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI/">AI</a></span></div></div><h1 class="title is-3 is-size-4-mobile">使用 PCA 可视化数据的分类能力</h1><div class="content"><blockquote>
+<p>使用 PCA 探索数据分类的效果（使用 Python 代码）</p>
+</blockquote>
+<span id="more"></span>
+<p><strong>「AI秘籍」系列课程：</strong></p>
+<ul>
+<li><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3074770001140400130&amp;scene=173&amp;subscene=227&amp;sessionid=undefined&amp;enterid=1717956640&amp;from_msgid=2648748678&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">人工智能应用数学基础</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3035995870421073928&amp;scene=126&amp;uin=&amp;key=&amp;devicetype=iMac+MacBookPro17%2C1+OSX+OSX+14.5+build(23F79)&amp;version=13080710&amp;lang=zh_CN&amp;nettype=WIFI&amp;ascene=78&amp;fontScale=100">人工智能Python基础</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3123885735829061633&amp;scene=173&amp;subscene=227&amp;sessionid=1717956706&amp;enterid=1717956713&amp;from_msgid=2648751062&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">人工智能基础核心知识</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg%3D%3D&amp;action=getalbum&amp;album_id=3193965113967132673&amp;subscene=&amp;sessionid=svr_548800ce471&amp;enterid=1704001437&amp;from_msgid=2648751621&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;scene=21#wechat_redirect">人工智能BI核心知识</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3503005363236880386&amp;from_itemidx=1&amp;from_msgid=2648753419#wechat_redirect">人工智能CV核心知识</a></li>
+</ul>
+<p>主成分分析 (PCA)
+是数据科学家使用的绝佳工具。它可用于降低特征空间维数并生成不相关的特征。正如我们将看到的，它还可以帮助你深入了解数据的分类能力。我们将带你了解如何以这种方式使用
+PCA。提供了 Python 代码片段，完整项目可在<a
+target="_blank" rel="noopener" href="https://github.com/hivandu/public_articles">GitHub</a><a
+href="#fn1" class="footnote-ref" id="fnref1"
+role="doc-noteref"><sup>1</sup></a>上找到。</p>
+<h2 id="什么是-pca">什么是 PCA？</h2>
+<p>我们先从理论开始。我不会深入讲解太多细节，因为如果你想了解 PCA
+的工作原理，有很多很好的资源<a href="#fn2" class="footnote-ref"
+id="fnref2"
+role="doc-noteref"><sup>2</sup></a>(https://towardsdatascience.com/a-one-stop-shop-for-principal-component-analysis-5582fb7e0a9c)<a
+href="#fn3" class="footnote-ref" id="fnref3"
+role="doc-noteref"><sup>3</sup></a>(https://liorpachter.wordpress.com/2014/05/26/what-is-principal-component-analysis/)。重要的是要知道
+PCA
+是一种降维算法。这意味着它用于减少用于训练模型的特征数量。它通过从许多特征中构建主成分
+(PC) 来实现这一点。</p>
+<p>PC 的构造方式是，第一个 PC（即
+PC1）尽可能解释特征中的大部分变化。然后 PC2
+尽可能解释剩余变化中的大部分变化，依此类推。PC1 和 PC2
+通常可以解释总特征变化的很大一部分。另一种思考方式是，前两个 PC
+可以很好地总结特征。这很重要，因为它使我们能够在二维平面上直观地看到数据的分类能力。</p>
+<p><img
+src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*p4V1czhFcaITCragtOKrrg.png"
+alt="img" /></p>
+<h2 id="数据集">数据集</h2>
+<p>好的，让我们深入研究一个实际的例子。我们将使用 PCA
+来探索乳腺癌数据集<a href="#fn4" class="footnote-ref" id="fnref4"
+role="doc-noteref"><sup>4</sup></a>(http://archive.ics.uci.edu/ml/datasets/breast+cancer+wisconsin+(diagnostic))，我们使用以下代码导入该数据集。目标变量是乳腺癌测试的结果
+- 恶性或良性。每次测试都会取出许多癌细胞。然后从每个癌细胞中采取 10
+个不同的测量值。这些包括细胞半径和细胞对称性等测量值。为了获得 30
+个特征的最终列表，我们以 3
+种方式汇总这些测量值。也就是说，我们计算每个测量值的平均值、标准误差和最大值（“最差”值）。在图
+1 中，我们仔细研究了其中两个特征
+-细胞的<em>平均对称性</em>和<em>最差平滑度。</em></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><span class="hljs-keyword">from</span> sklearn.datasets <span class="hljs-keyword">import</span> load_breast_cancer<br>cancer = load_breast_cancer()<br><br>data = pd.DataFrame(cancer[<span class="hljs-string">&#x27;data&#x27;</span>],columns=cancer[<span class="hljs-string">&#x27;feature_names&#x27;</span>])<br>data[<span class="hljs-string">&#x27;y&#x27;</span>] = cancer[<span class="hljs-string">&#x27;target&#x27;</span>]<br></code></pre></td></tr></table></figure>
+<p>在图 1
+中，我们可以看到这两个特征有助于区分这两个类别。也就是说，良性肿瘤往往更对称、更光滑。重叠部分仍然很多，因此仅使用这些特征的模型效果不会很好。我们可以创建这样的图表来了解每个单独特征的预测能力。尽管有
+30
+个特征，但需要分析的图表还是很多。它们也没有告诉我们整个数据集的预测能力。这就是
+PCA 发挥作用的地方。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240703155920.png"
+alt="图 1：使用两个特征的散点图" /></p>
+<h2 id="pca整个数据集">PCA——整个数据集</h2>
+<p>让我们首先对整个数据集进行
+PCA。我们使用下面的代码来执行此操作。我们首先缩放特征，使它们都具有均值为
+0 和方差为 1。这很重要，因为 PCA 通过最大化 PC
+解释的方差来工作。由于其规模，某些特征往往会具有更高的方差。例如，以厘米为单位测量的距离的方差将高于以公里为单位测量的相同距离。如果不进行缩放，PCA
+将被那些方差较大的特征“压倒”。</p>
+<p>缩放完成后，我们拟合 PCA 模型并将特征转换为 PC。由于我们有 30
+个特征，因此最多可以有 30 个
+PC。对于我们的可视化，我们只对前两个感兴趣。你可以在图 2
+中看到这一点，其中使用 PC1 和 PC2
+创建了散点图。我们现在可以看到两个不同的集群，它们比图 1 中更清晰。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> sklearn.preprocessing <span class="hljs-keyword">import</span> StandardScaler<br><span class="hljs-keyword">from</span> sklearn.decomposition <span class="hljs-keyword">import</span> PCA<br><br><span class="hljs-comment">#Scale the data</span><br>scaler = StandardScaler()<br>scaler.fit(data)<br>scaled = scaler.transform(data)<br><br><span class="hljs-comment">#Obtain principal components</span><br>pca = PCA().fit(scaled)<br><br>pc = pca.transform(scaled)<br>pc1 = pc[:,<span class="hljs-number">0</span>]<br>pc2 = pc[:,<span class="hljs-number">1</span>]<br><br><span class="hljs-comment">#Plot principal components</span><br>plt.figure(figsize=(<span class="hljs-number">10</span>,<span class="hljs-number">10</span>))<br><br>colour = [<span class="hljs-string">&#x27;#ff2121&#x27;</span> <span class="hljs-keyword">if</span> y == <span class="hljs-number">1</span> <span class="hljs-keyword">else</span> <span class="hljs-string">&#x27;#2176ff&#x27;</span> <span class="hljs-keyword">for</span> y <span class="hljs-keyword">in</span> data[<span class="hljs-string">&#x27;y&#x27;</span>]]<br>plt.scatter(pc1,pc2 ,c=colour,edgecolors=<span class="hljs-string">&#x27;#000000&#x27;</span>)<br>plt.ylabel(<span class="hljs-string">&quot;Glucose&quot;</span>,size=<span class="hljs-number">20</span>)<br>plt.xlabel(<span class="hljs-string">&#x27;Age&#x27;</span>,size=<span class="hljs-number">20</span>)<br>plt.yticks(size=<span class="hljs-number">12</span>)<br>plt.xticks(size=<span class="hljs-number">12</span>)<br>plt.xlabel(<span class="hljs-string">&#x27;PC1&#x27;</span>)<br>plt.ylabel(<span class="hljs-string">&#x27;PC2&#x27;</span>)<br></code></pre></td></tr></table></figure>
+<p>该图可用于直观地了解数据的预测强度。在本例中，它表明使用整个数据集将使我们能够区分恶性肿瘤和良性肿瘤。但是，仍然有一些异常值（即不明确位于群集中的点）。这并不意味着我们会对这些情况做出错误的预测。我们应该记住，并非所有特征方差都会在前两个
+PC 中捕获。在完整特征集上训练的模型可以产生更好的预测。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240703155947.png"
+alt="图 2：使用所有特征的 PCA 散点图" /></p>
+<p>此时，我们应该提到这种方法的一个注意事项。PC1 和 PC2
+可以解释特征中很大一部分方差。然而，这并不总是正确的。在某些情况下，PC
+可能被认为是特征的糟糕总结。这意味着，即使你的数据可以很好地分离类别，你也可能无法获得清晰的聚类，如图
+2 所示。</p>
+<p>我们可以使用 PCA
+碎石图来确定这是否会是一个问题。我们使用下面的代码创建了此分析的碎石图，如图
+3 所示。这是一个条形图，其中每个条形的高度是相关 PC
+解释的方差百分比。我们看到，PC1 和 PC2 总共只解释了约 20%
+的特征方差。即使只有 20%
+的解释，我们仍然得到两个不同的聚类。这强调了数据的预测强度。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">var = pca.explained_variance_[<span class="hljs-number">0</span>:<span class="hljs-number">10</span>] <span class="hljs-comment">#percentage of variance explained</span><br>labels = [<span class="hljs-string">&#x27;PC1&#x27;</span>,<span class="hljs-string">&#x27;PC2&#x27;</span>,<span class="hljs-string">&#x27;PC3&#x27;</span>,<span class="hljs-string">&#x27;PC4&#x27;</span>,<span class="hljs-string">&#x27;PC5&#x27;</span>,<span class="hljs-string">&#x27;PC6&#x27;</span>,<span class="hljs-string">&#x27;PC7&#x27;</span>,<span class="hljs-string">&#x27;PC8&#x27;</span>,<span class="hljs-string">&#x27;PC9&#x27;</span>,<span class="hljs-string">&#x27;PC10&#x27;</span>]<br><br>plt.figure(figsize=(<span class="hljs-number">15</span>,<span class="hljs-number">7</span>))<br>plt.bar(labels,var,)<br>plt.xlabel(<span class="hljs-string">&#x27;Pricipal Component&#x27;</span>)<br>plt.ylabel(<span class="hljs-string">&#x27;Proportion of Variance Explained&#x27;</span>)<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240703160015.png"
+alt="图 3. 碎石图" /></p>
+<p>#小程序://海豚知道/qwC6nIDbKMKYKmx</p>
+<h2 id="pca特征组">PCA——特征组</h2>
+<p>我们还可以使用此过程来比较不同的特征组。例如，假设我们有两组特征。第
+1 组具有基于细胞对称性和平滑度特征的所有特征。而第 2
+组具有基于周长和凹度的所有特征。我们可以使用 PCA
+来直观地了解哪组更适合进行预测。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">group_1 = [<span class="hljs-string">&#x27;mean symmetry&#x27;</span>, <span class="hljs-string">&#x27;symmetry error&#x27;</span>,<span class="hljs-string">&#x27;worst symmetry&#x27;</span>,<br><span class="hljs-string">&#x27;mean smoothness&#x27;</span>,<span class="hljs-string">&#x27;smoothness error&#x27;</span>,<span class="hljs-string">&#x27;worst smoothness&#x27;</span>]<br>        <br>group_2 = [<span class="hljs-string">&#x27;mean perimeter&#x27;</span>,<span class="hljs-string">&#x27;perimeter error&#x27;</span>,<span class="hljs-string">&#x27;worst perimeter&#x27;</span>, <br><span class="hljs-string">&#x27;mean concavity&#x27;</span>,<span class="hljs-string">&#x27;concavity error&#x27;</span>,<span class="hljs-string">&#x27;worst concavity&#x27;</span>]<br></code></pre></td></tr></table></figure>
+<p>我们首先创建两组特征。然后分别对每组进行 PCA。这将为我们提供两组
+PC，我们选择 PC1 和 PC2 来代表每个特征组。该过程的结果可以在图 4
+中看到。</p>
+<p>对于第 1 组，我们可以看到有一些分离，但仍然有很多重叠。相比之下，第 2
+组有两个不同的簇。因此，从这些图中，我们预计第 2
+组中的特征是更好的预测因子。使用第 2 组特征训练的模型应该比使用第 1
+组特征训练的模型具有更高的准确率。现在，让我们来测试一下这个假设。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240703160105.png"
+alt="图 4：使用特征组的 PCA 散点图" /></p>
+<p>我们使用下面的代码来训练使用两组特征的逻辑回归模型。在每种情况下，我们使用
+70% 的数据来训练模型，其余 30% 的数据来测试模型。第 1 组的测试集准确率为
+74%，相比之下，第 2 组的准确率为 97%。因此，第 2
+组中的特征是更好的预测因子，这正是我们从 PCA 结果中预期的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> sklearn.model_selection <span class="hljs-keyword">import</span> train_test_split<br><span class="hljs-keyword">import</span> sklearn.metrics <span class="hljs-keyword">as</span> metric<br><span class="hljs-keyword">import</span> statsmodels.api <span class="hljs-keyword">as</span> sm<br><br><span class="hljs-keyword">for</span> i,g <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(group):<br><br>    x = data[g]<br>    x = sm.add_constant(x)<br>    y = data[<span class="hljs-string">&#x27;y&#x27;</span>]<br>    x_train, x_test, y_train, y_test = train_test_split(x,y,test_size=<span class="hljs-number">0.3</span>, <br>                                                        random_state = <span class="hljs-number">101</span>)<br><br>    model = sm.Logit(y_train,x_train).fit() <span class="hljs-comment">#fit logistic regression model</span><br><br>    predictions = np.around(model.predict(x_test)) <br>    accuracy = metric.accuracy_score(y_test,predictions)<br>    <br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Accuracy of Group &#123;&#125;: &#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(i+<span class="hljs-number">1</span>,accuracy))<br><br>---<br>Optimization terminated successfully.<br>         Current function value: <span class="hljs-number">0.458884</span><br>         Iterations <span class="hljs-number">7</span><br>Accuracy of Group <span class="hljs-number">1</span>: <span class="hljs-number">0.7368421052631579</span><br>Optimization terminated successfully.<br>         Current function value: <span class="hljs-number">0.103458</span><br>         Iterations <span class="hljs-number">10</span><br>Accuracy of Group <span class="hljs-number">2</span>: <span class="hljs-number">0.9707602339181286</span><br></code></pre></td></tr></table></figure>
+<p>最后，我们将了解如何在开始建模之前使用 PCA
+来更深入地了解数据。它将让你了解预期的分类准确度。你还将对哪些特征具有预测性建立直觉。这可以让你在特征选择方面占据优势。</p>
+<p>如上所述，这种方法并非万无一失。它应该与其他数据探索图和汇总统计数据一起使用。对于分类问题，这些可能包括信息值和箱线图。一般来说，在开始建模之前，从尽可能多的不同角度查看数据是个好主意。</p>
+<h2 id="参考">参考</h2>
+<section id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p>https://github.com/hivandu/public_articles<a
+href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p><a target="_blank" rel="noopener" href="https://readmedium.com/undefined">Matt
+Brems</a>, A One-Stop Shop for Principal Component Analysis (2017),
+https://towardsdatascience.com/a-one-stop-shop-for-principal-component-analysis-5582fb7e0a9c<a
+href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>L. Pachter, What is principal component analysis?
+(2014),
+https://liorpachter.wordpress.com/2014/05/26/what-is-principal-component-analysis/<a
+href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>UCI, Breast Cancer Wisconsin (Diagnostic) Dataset
+(2020),
+http://archive.ics.uci.edu/ml/datasets/breast+cancer+wisconsin+(diagnostic)<a
+href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+</div><div class="article-licensing box"><div class="licensing-title"><p>使用 PCA 可视化数据的分类能力</p><p><a href="https://hivan.me/使用 PCA 可视化数据的分类能力/">https://hivan.me/使用 PCA 可视化数据的分类能力/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2024-07-04</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2024-07-16</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a><a class="link-muted mr-2" rel="tag" href="/tags/ML/">ML</a><a class="link-muted mr-2" rel="tag" href="/tags/PCA/">PCA</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%AF%AD%E8%A8%80%E8%AF%86%E5%88%AB/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">深度神经网络语言识别</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/04.%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%98%AF%E5%A6%82%E4%BD%95%E7%9C%8B%E5%88%B0%E5%9B%BE%E5%83%8F%E7%9A%84/"><span class="level-item">计算机是如何看到图像的</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/%E4%BD%BF%E7%94%A8%20PCA%20%E5%8F%AF%E8%A7%86%E5%8C%96%E6%95%B0%E6%8D%AE%E7%9A%84%E5%88%86%E7%B1%BB%E8%83%BD%E5%8A%9B/';
+            this.page.identifier = '使用 PCA 可视化数据的分类能力/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI 游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">279</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">8</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">31</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI/"><span class="level-start"><span class="level-item">AI</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI 秘籍</span></span><span class="level-end"><span class="level-item tag">109</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/"><span class="level-start"><span class="level-item">BI</span></span><span class="level-end"><span class="level-item tag">37</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/CV/"><span class="level-start"><span class="level-item">CV</span></span><span class="level-end"><span class="level-item tag">8</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">33</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-07-14T23:30:00.000Z">2024-07-15</time></p><p class="title"><a href="/%E5%88%86%E6%9E%90%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%85%AC%E5%B9%B3%E6%80%A7/">分析机器学习的公平性</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-07-13T23:30:00.000Z">2024-07-14</time></p><p class="title"><a href="/07.%20%E4%BD%9C%E4%B8%9A%EF%BC%9A%E4%BA%BA%E5%83%8F%E6%BB%A4%E6%B3%A2%E5%8E%BB%E5%99%AA/">作业：人像滤波去噪</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/CV/">CV</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-07-12T23:30:00.000Z">2024-07-13</time></p><p class="title"><a href="/%E4%BD%BF%E7%94%A8%20Python%20%E5%88%9B%E5%BB%BA%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%83%85%E7%BB%AA%E5%88%86%E6%9E%90%E6%A8%A1%E5%9E%8B/">使用 Python 创建你的第一个情绪分析模型</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-07-11T23:30:00.000Z">2024-07-12</time></p><p class="title"><a href="/%E5%AF%BB%E6%89%BE%E5%B9%B6%E5%8F%AF%E8%A7%86%E5%8C%96%E4%BA%A4%E4%BA%92/">寻找并可视化交互</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-07-10T23:30:00.000Z">2024-07-11</time></p><p class="title"><a href="/%E4%BD%BF%E7%94%A8%20Python%20%E7%BB%98%E5%88%B6%E7%BE%8E%E5%9B%BD%E9%80%89%E4%B8%BE%E5%88%86%E7%BA%A7%E7%BB%9F%E8%AE%A1%E5%9B%BE/">使用 Python 绘制美国选举分级统计图</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2024 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

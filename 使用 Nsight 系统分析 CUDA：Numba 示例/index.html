@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>使用 Nsight 系统分析 CUDA：Numba 示例 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="通过检查 Nsight 系统中的并发和并行 Numba CUDA 代码了解性能分析。  介绍 优化是编写高性能代码的关键部分，无论你是在编写 Web 服务器还是计算流体力学模拟软件。分析功能可让你对代码做出明智的决策。从某种意义上说，没有分析功能的优化就像盲目飞行：对于拥有专业知识和敏锐直觉的经验丰富的专业人士来说，这基本上没问题，但对于几乎所有其他人来说，这都是灾难的根源。"><meta property="og:type" content="blog"><meta property="og:title" content="使用 Nsight 系统分析 CUDA：Numba 示例"><meta property="og:url" content="https://hivan.me/%E4%BD%BF%E7%94%A8%20Nsight%20%E7%B3%BB%E7%BB%9F%E5%88%86%E6%9E%90%20CUDA%EF%BC%9ANumba%20%E7%A4%BA%E4%BE%8B/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="通过检查 Nsight 系统中的并发和并行 Numba CUDA 代码了解性能分析。  介绍 优化是编写高性能代码的关键部分，无论你是在编写 Web 服务器还是计算流体力学模拟软件。分析功能可让你对代码做出明智的决策。从某种意义上说，没有分析功能的优化就像盲目飞行：对于拥有专业知识和敏锐直觉的经验丰富的专业人士来说，这基本上没问题，但对于几乎所有其他人来说，这都是灾难的根源。"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2024-06-11T23:30:00.000Z"><meta property="article:modified_time" content="2024-07-16T06:29:32.464Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="article:tag" content="CUDA"><meta property="article:tag" content="Numba"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/%E4%BD%BF%E7%94%A8%20Nsight%20%E7%B3%BB%E7%BB%9F%E5%88%86%E6%9E%90%20CUDA%EF%BC%9ANumba%20%E7%A4%BA%E4%BE%8B/"},"headline":"使用 Nsight 系统分析 CUDA：Numba 示例","image":[],"datePublished":"2024-06-11T23:30:00.000Z","dateModified":"2024-07-16T06:29:32.464Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"通过检查 Nsight 系统中的并发和并行 Numba CUDA 代码了解性能分析。  介绍 优化是编写高性能代码的关键部分，无论你是在编写 Web 服务器还是计算流体力学模拟软件。分析功能可让你对代码做出明智的决策。从某种意义上说，没有分析功能的优化就像盲目飞行：对于拥有专业知识和敏锐直觉的经验丰富的专业人士来说，这基本上没问题，但对于几乎所有其他人来说，这都是灾难的根源。"}</script><link rel="canonical" href="https://hivan.me/%E4%BD%BF%E7%94%A8%20Nsight%20%E7%B3%BB%E7%BB%9F%E5%88%86%E6%9E%90%20CUDA%EF%BC%9ANumba%20%E7%A4%BA%E4%BE%8B/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><script>var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?f91b64734fdc7bfb999e48f9248d44dd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-ZFB6CVWZFJ" async></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-ZFB6CVWZFJ');</script><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2024-06-11T23:30:00.000Z" title="6/12/2024, 7:30:00 AM">2024-06-12</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI/">AI</a></span></div></div><h1 class="title is-3 is-size-4-mobile">使用 Nsight 系统分析 CUDA：Numba 示例</h1><div class="content"><blockquote>
+<p>通过检查 Nsight 系统中的并发和并行 Numba CUDA 代码了解性能分析。</p>
+</blockquote>
+<h2 id="介绍">介绍</h2>
+<p>优化是编写高性能代码的关键部分，无论你是在编写 Web
+服务器还是计算流体力学模拟软件。分析功能可让你对代码做出明智的决策。从某种意义上说，没有分析功能的优化就像盲目飞行：对于拥有专业知识和敏锐直觉的经验丰富的专业人士来说，这基本上没问题，但对于几乎所有其他人来说，这都是灾难的根源。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202406051639257.png"
+alt="image-20240605162936964" /></p>
+<span id="more"></span>
+<h2 id="在本教程中">在本教程中</h2>
+<p>在我最初的系列 <a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3478311056533995521&amp;scene=21#wechat_redirect">Numba
+CUDA 示例</a> （参见第 <a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/LdLEhntmiHewB5z2-NjAqg">1</a>、<a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/w4qpHO7hVSZhgr0C6ZzDyQ">2</a>、<a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/NJngSLe8CZ-IQ9sVOrA3fg">3</a> 和 <a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/hZ_sJSaTHBCQd6HPtnWo5A">4</a>
+部分）之后，我们将研究未经优化的单流代码与使用流并发和其他优化的稍好版本之间的比较。我们将从头开始学习如何使用<a
+target="_blank" rel="noopener" href="https://developer.nvidia.com/nsight-systems">英伟达 Nsight
+系统</a>来剖析和分析 CUDA 代码。本教程中包含 5 段代码，所有代码都可以在
+https://colab.research.google.com/drive/1dY6l4HOfQwzmnbdzZRw6z0Lpb9FN1kM3?usp=sharing
+中找到。</p>
+<h2 id="nsight-系统">Nsight 系统</h2>
+<p>NVIDIA 建议最佳实践是遵循<a
+target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/index.html#assess-parallelize-optimize-deploy">APOD
+框架</a>（<em>评估、并行化、优化、部署</em>）。有各种专有、开源、免费和商业软件可用于不同类型的评估和分析。资深
+Python
+用户可能熟悉基本分析器，例如、<code>cProfile</code>，<code>line_profiler</code>，<code>memory_profiler</code>（不幸的是，截至
+2024 年已不再维护）和更高级的工具，例如<a
+target="_blank" rel="noopener" href="https://pyinstrument.readthedocs.io/en/latest/">PyInstrument</a>和<a
+target="_blank" rel="noopener" href="https://bloomberg.github.io/memray/">Memray</a>。这些分析器针对“主机”的特定方面，例如
+CPU 和 RAM 使用情况。</p>
+<p>但是，分析“设备”（例如
+GPU）代码及其与主机的交互需要设备供应商提供的专用工具。对于 NVIDIA
+GPU，Nsight Systems、Nsight Compute 和 Nsight Graphics
+可用于分析计算的不同方面。在本教程中，我们将重点介绍如何使用 Nsight
+Systems，这是一个系统范围的分析器。我们将使用它来分析通过 Numba CUDA 与
+GPU 交互的 Python 代码。</p>
+<p>首先，你需要 Nsight Systems CLI 和 GUI。CLI 可以单独安装，用于在支持
+GPGPU 的系统中分析代码。完整版包括 CLI 和
+GUI。请注意，这两个版本都可以安装在没有 GPU 的系统中。从 <a
+target="_blank" rel="noopener" href="https://developer.nvidia.com/nsight-systems/get-started">NVIDIA
+网站</a>获取你需要的版本。</p>
+<p>为了更容易在 GUI 中可视化代码段，NVIDIA 还提供了 Python
+<code>pip</code>和<code>conda-installable</code>
+库<code>nvtx</code>，我们将使用它来注释代码段。稍后将详细介绍。</p>
+<h2 id="设置一切一个简单的例子">设置一切：一个简单的例子</h2>
+<p>在本节中，我们将设置开发和分析环境。下面是两个非常简单的 Python
+脚本：<code>kernels</code>和 <code>run_v1</code>。前者将包含所有 CUDA
+内核，后者将作为运行示例的入口点。在此示例中，我们遵循文章<a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/NJngSLe8CZ-IQ9sVOrA3fg">CUDA by Numba
+示例第 3 部分：流和事件</a> 中介绍的“reduce”模式来计算数组的总和。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#%%writefile kernels</span><br><br><span class="hljs-keyword">import</span> numba<br><span class="hljs-keyword">from</span> numba <span class="hljs-keyword">import</span> cuda<br><br>THREADS_PER_BLOCK = <span class="hljs-number">256</span><br>BLOCKS_PER_GRID = <span class="hljs-number">32</span> * <span class="hljs-number">40</span><br><br><br><span class="hljs-meta">@cuda.jit</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">partial_reduce</span>(<span class="hljs-params">array, partial_reduction</span>):<br>    i_start = cuda.grid(<span class="hljs-number">1</span>)<br>    threads_per_grid = cuda.blockDim.x * cuda.gridDim.x<br>    s_thread = numba.float32(<span class="hljs-number">0.0</span>)<br>    <span class="hljs-keyword">for</span> i_arr <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(i_start, array.size, threads_per_grid):<br>        s_thread += array[i_arr]<br><br>    s_block = cuda.shared.array((THREADS_PER_BLOCK,), numba.float32)<br>    tid = cuda.threadIdx.x<br>    s_block[tid] = s_thread<br>    cuda.syncthreads()<br><br>    i = cuda.blockDim.x // <span class="hljs-number">2</span><br>    <span class="hljs-keyword">while</span> i &gt; <span class="hljs-number">0</span>:<br>        <span class="hljs-keyword">if</span> tid &lt; i:<br>            s_block[tid] += s_block[tid + i]<br>        cuda.syncthreads()<br>        i //= <span class="hljs-number">2</span><br><br>    <span class="hljs-keyword">if</span> tid == <span class="hljs-number">0</span>:<br>        partial_reduction[cuda.blockIdx.x] = s_block[<span class="hljs-number">0</span>]<br><br><br><span class="hljs-meta">@cuda.jit</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">single_thread_sum</span>(<span class="hljs-params">partial_reduction, <span class="hljs-built_in">sum</span></span>):<br>    <span class="hljs-built_in">sum</span>[<span class="hljs-number">0</span>] = numba.float32(<span class="hljs-number">0.0</span>)<br>    <span class="hljs-keyword">for</span> element <span class="hljs-keyword">in</span> partial_reduction:<br>        <span class="hljs-built_in">sum</span>[<span class="hljs-number">0</span>] += element<br><br><br><span class="hljs-meta">@cuda.jit</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">divide_by</span>(<span class="hljs-params">array, val_array</span>):<br>    i_start = cuda.grid(<span class="hljs-number">1</span>)<br>    threads_per_grid = cuda.gridsize(<span class="hljs-number">1</span>)<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(i_start, array.size, threads_per_grid):<br>        array[i] /= val_array[<span class="hljs-number">0</span>]<br></code></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#%%writefile run_v1</span><br><br><span class="hljs-keyword">import</span> argparse<br><span class="hljs-keyword">import</span> warnings<br><br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">from</span> numba <span class="hljs-keyword">import</span> cuda<br><span class="hljs-keyword">from</span> numba.core.errors <span class="hljs-keyword">import</span> NumbaPerformanceWarning<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">run</span>(<span class="hljs-params">size: <span class="hljs-built_in">int</span></span>):<br>    <span class="hljs-comment"># Define host array</span><br>    a = np.ones(size, dtype=np.float32)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Old sum: <span class="hljs-subst">&#123;a.<span class="hljs-built_in">sum</span>():<span class="hljs-number">.3</span>f&#125;</span>&quot;</span>)<br><br>    <span class="hljs-comment"># Array copy to device and array creation on the device.</span><br>    dev_a = cuda.to_device(a)<br>    dev_a_reduce = cuda.device_array((BLOCKS_PER_GRID,), dtype=dev_a.dtype)<br>    dev_a_sum = cuda.device_array((<span class="hljs-number">1</span>,), dtype=dev_a.dtype)<br><br>    <span class="hljs-comment"># Launching kernels to normalize array</span><br>    partial_reduce[BLOCKS_PER_GRID, THREADS_PER_BLOCK](dev_a, dev_a_reduce)<br>    single_thread_sum[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>](dev_a_reduce, dev_a_sum)<br>    divide_by[BLOCKS_PER_GRID, THREADS_PER_BLOCK](dev_a, dev_a_sum)<br><br>    <span class="hljs-comment"># Array copy to host</span><br>    dev_a.copy_to_host(a)<br>    cuda.synchronize()<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;New sum: <span class="hljs-subst">&#123;a.<span class="hljs-built_in">sum</span>():<span class="hljs-number">.3</span>f&#125;</span>&quot;</span>)<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">main</span>():<br>    argv = sys.argv<br>    sys.argv = [argv[<span class="hljs-number">0</span>]]<br><br>    parser = argparse.ArgumentParser(description = <span class="hljs-string">&#x27;Simple Example V1&#x27;</span>)<br>    parser.add_argument(<br>        <span class="hljs-string">&quot;-n&quot;</span>,<br>        <span class="hljs-string">&quot;--array-size&quot;</span>,<br>        <span class="hljs-built_in">type</span> = <span class="hljs-built_in">int</span>,<br>        default = <span class="hljs-number">100_000_000</span>,<br>        metavar = <span class="hljs-string">&quot;N&quot;</span>,<br>        <span class="hljs-built_in">help</span> = <span class="hljs-string">&quot;Array size&quot;</span><br>    )<br><br>    args = parser.parse_args()<br>    run(size = args.array_size)<br><br><br>main()<br></code></pre></td></tr></table></figure>
+<p>这是一个简单的脚本，可以直接运行：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">---<br>Old <span class="hljs-built_in">sum</span>: <span class="hljs-number">100000000.000</span><br>New <span class="hljs-built_in">sum</span>: <span class="hljs-number">1.000</span><br></code></pre></td></tr></table></figure>
+<p>我们还通过分析器运行了这段代码，这只需要在调用脚本之前调用带有一些选项的
+nsys，假如我们在本地将其分别保存为<code>Kernels.py</code>和<code>run_v1.py</code>
+，然后执行：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python">$ nsys profile \<br>  --trace cuda,osrt,nvtx \<br>  --gpu-metrics-device=<span class="hljs-built_in">all</span> \<br>  --cuda-memory-usage true \<br>  --force-overwrite true \<br>  --output profile_run_v1 \<br>  python run_v1.py<br>GPU <span class="hljs-number">0</span>: General Metrics <span class="hljs-keyword">for</span> NVIDIA TU10x (<span class="hljs-built_in">any</span> frequency)<br>Old <span class="hljs-built_in">sum</span>: <span class="hljs-number">100000000.000</span><br>New <span class="hljs-built_in">sum</span>: <span class="hljs-number">1.000</span><br>Generating <span class="hljs-string">&#x27;/tmp/nsys-report-fb78.qdstrm&#x27;</span><br>[<span class="hljs-number">1</span>/<span class="hljs-number">1</span>] [========================<span class="hljs-number">100</span>%] profile_run_v1.nsys-rep<br>Generated:<br>    /content/profile_run_v1.nsys-rep<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>⚠️ 注意：</p>
+<p>保存为文件在 <code>run_v1.py</code>中需要引入 <code>Kernels.py</code>
+中的方法和变量:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> kernels <span class="hljs-keyword">import</span> (<br>    BLOCKS_PER_GRID,<br>    THREADS_PER_BLOCK,<br>    divide_by,<br>    partial_reduce,<br>    single_thread_sum,<br>)<br></code></pre></td></tr></table></figure>
+</blockquote>
+<p>你可以查阅 <a
+target="_blank" rel="noopener" href="https://docs.nvidia.com/nsight-systems/UserGuide/index.html">Nsight
+CLI 文档:
+https://docs.nvidia.com/nsight-systems/UserGuide/index.html</a>，了解
+nsys CLI
+的所有可用选项。在本教程中，我们将始终使用上述选项。让我们来分析一下这条命令：</p>
+<ul>
+<li><code>profile</code> 将 <code>nsys</code>
+置于配置文件模式。还有许多其他模式，如 <code>export</code> 和
+<code>launch</code>。</li>
+<li><code>--trace cuda,osrt,nvtx</code> 确保我们 "监听
+"所有CUDA调用（cuda）、操作系统运行库调用（osrt）和 <code>nvtx</code>
+注释（本例中没有）。还有更多跟踪选项，如
+<code>cublas</code>、<code>cudnn</code>、<code>mpi</code>、<code>dx11</code>
+和其他一些选项。请<a
+target="_blank" rel="noopener" href="https://docs.nvidia.com/nsight-systems/UserGuide/index.html">查看文档:
+https://docs.nvidia.com/nsight-systems/UserGuide/index.html</a>了解所有选项。</li>
+<li><code>--gpu-metrics-device=all</code> 记录所有 GPU 的 GPU 指标，包括
+<a target="_blank" rel="noopener" href="https://www.nvidia.com/en-us/data-center/tensor-cores/">Tensor
+Core:https://www.nvidia.com/en-us/data-center/tensor-cores/</a>
+的使用情况。</li>
+<li><code>--cuda-memory-usage</code>
+跟踪内核的GPU内存使用情况。它可能会大大降低执行速度，需要使用
+<code>--trace=cuda</code>。我们使用它是因为我们的脚本速度很快。</li>
+</ul>
+<h2 id="导航-nsight-系统图形用户界面">导航 Nsight 系统图形用户界面</h2>
+<p>如果命令成功退出，我们将在当前文件夹中找到
+profile_run_v1.nsys-rep。我们将通过启动 Nsight 系统图形用户界面（文件
+&gt; 打开）打开该文件。初始视图略显混乱。因此，我们首先要整理一下：将
+"事件视图 "端口调整到底部，并将 "时间轴视图 "端口下的 CPU、GPU
+和进程最小化。现在只展开
+<code>Processes &gt; python &gt; CUDA HW</code>。请参见图 1a 和图
+1b。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202406051814514.gif"
+alt="图 1a：打开 nsys 报告并整理界面。" /></p>
+<p><img
+src="https://miro.medium.com/v2/resize:fit:700/1*OutMPsLu1zdFXy6h7Im-Ig.png"
+alt="图 1b：显示主机到设备内存操作（绿色）、设备到主机内存操作（红色）和 CUDA 内核（蓝色）的 nsys 报告" /></p>
+<p>首先，让我们找到内核。在 <code>CUDA HW</code>
+一行，你会发现绿色和红色的圆球，以及极小的浅蓝色片段（见图
+1b）。如果将鼠标悬停在它们上面，就会看到工具提示，红色和绿色的提示是
+"CUDA 内存操作正在进行中"，浅蓝色的提示是 "CUDA
+内核正在运行（89.7%）"。这些将是我们分析的主要内容。通过这一行，我们可以了解内存传输的时间和方式（红色和绿色），以及内核运行的时间和方式（浅蓝色）。</p>
+<p>让我们再深入研究一下我们的内核。你会看到三个非常小的蓝色片段，每个片段代表一个内核调用。点击并拖动鼠标，从第一个内核调用开始前拖动到最后一个内核调用结束后，然后按下
+Shift + Z 键，即可放大该区域。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202406051814515.gif"
+alt="图 2：浏览 nsys 报告并放大到感兴趣的区域" /></p>
+<p>现在我们已经找到了内核，让我们来看看一些指标。为此，我们打开
+<code>GPU &gt; GPU Metrics</code>
+选项卡。在这个面板中，可以找到计算内核的 "Warp Occupancy（ warp
+占用率）"（米色）。优化 CUDA 代码的一种方法是确保 warp
+占用率在尽可能长的时间内接近 100%。这意味着我们的 GPU
+不会闲置。我们注意到第一个和最后一个内核会出现这种情况，但中间的内核不会。这在意料之中，因为中间内核启动的是单线程。本节最后需要注意的是
+"<code>GPU &gt; GPU Metrics &gt; SMs Active &gt; Tensor Active / FP16 Active</code>"
+行。该行将显示是否正在使用张量内核。在这种情况下，你应该确认它们没有被使用。</p>
+<p>现在让我们简要查看一下事件视图。右键单击
+<code>Processes &gt; python &gt; CUDA HW</code>，然后单击 "Show in
+Events View （在事件视图中显示）"。然后按持续时间从长到短排序。在图 3
+中，我们可以看到最慢的事件是两次可翻页内存传输。我们在《<a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/NJngSLe8CZ-IQ9sVOrA3fg">CUDA by Numba
+示例第 3
+部分：流与事件</a>》中看到，可翻页内存传输可能不是最佳选择，我们应该优先选择页面锁定或
+"钉住"
+内存传输。如果由于使用可分页内存导致内存传输速度变慢，那么事件视图就能很好地识别出这些慢速传输的位置。</p>
+<blockquote>
+<p>专业建议：你可以通过右键单击
+"<code>Processes &gt; python &gt; CUDA HW &gt; XX% Memory</code>"来隔离内存传输。</p>
+</blockquote>
+<p><img
+src="https://miro.medium.com/v2/resize:fit:700/1*IX26V774LTQEI48ttyTecQ.png"
+alt="图 3.Nsight 系统中的事件视图，显示可翻页（非钉接式）内存传输" /></p>
+<p>在本节中，我们学习了如何分析一个使用 CUDA 的 Python 程序，以及如何在
+Nsight Systems GUI
+中可视化该程序的基本信息。我们还注意到，在这个简单的程序中，我们使用的是可翻页内存而不是钉式内存，我们的一个内核没有占用所有
+warp（即 CUDA 中的线程束） ，GPU
+在内核运行之间有相当长的空闲时间，而且我们没有使用张量内核。</p>
+<h2 id="使用-nvtx-进行注释">使用 NVTX 进行注释</h2>
+<p>在本节中，我们将学习如何通过使用 NVTX 对 Nsight
+系统中的部分进行注释来改善我们的分析体验。NVTX
+允许我们标记代码的不同区域。它可以标记范围和瞬时事件。如需深入了解，请查看<a
+target="_blank" rel="noopener" href="https://nvtx.readthedocs.io/en/latest/index.html">文档：https://nvtx.readthedocs.io/en/latest/index.html</a>。我们的Colab
+里有一段代码： <code>run_v2</code>， 我们将其在本地保存为
+<code>run_v2.py</code>，除了注释 <code>run_v1.py</code>
+之外，还更改了这一行：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">a = np.ones(size, dtype=np.float32)<br></code></pre></td></tr></table></figure>
+<p>到这些：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">a = cuda.pinned_array(size, dtype=np.float32)<br>a[...] = <span class="hljs-number">1.0</span><br></code></pre></td></tr></table></figure>
+<p>因此，除了注释外，我们现在还使用了钉状内存。如果你想了解更多有关 CUDA
+支持的不同类型内存的信息，请参阅《<a
+target="_blank" rel="noopener" href="https://developer.nvidia.com/blog/how-optimize-data-transfers-cuda-cc/">CUDA
+C++ 编程指南:
+https://developer.nvidia.com/blog/how-optimize-data-transfers-cuda-cc/</a>》。值得注意的是，这并不是在
+Numba
+中钉住数组的唯一方法。之前创建的Numpy数组也可以通过上下文创建，这在Numba文档中有解释。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#%%writefile run_v2.py</span><br><span class="hljs-keyword">import</span> argparse<br><span class="hljs-keyword">import</span> warnings<br><br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> nvtx<br><span class="hljs-keyword">from</span> numba <span class="hljs-keyword">import</span> cuda<br><span class="hljs-keyword">from</span> numba.core.errors <span class="hljs-keyword">import</span> NumbaPerformanceWarning<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">run</span>(<span class="hljs-params">size</span>):<br>    <span class="hljs-keyword">with</span> nvtx.annotate(<span class="hljs-string">&quot;Compilation&quot;</span>, color=<span class="hljs-string">&quot;red&quot;</span>):<br>        dev_a = cuda.device_array((BLOCKS_PER_GRID,), dtype=np.float32)<br>        dev_a_reduce = cuda.device_array((BLOCKS_PER_GRID,), dtype=dev_a.dtype)<br>        dev_a_sum = cuda.device_array((<span class="hljs-number">1</span>,), dtype=dev_a.dtype)<br>        partial_reduce[BLOCKS_PER_GRID, THREADS_PER_BLOCK](dev_a, dev_a_reduce)<br>        single_thread_sum[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>](dev_a_reduce, dev_a_sum)<br>        divide_by[BLOCKS_PER_GRID, THREADS_PER_BLOCK](dev_a, dev_a_sum)<br><br>    <span class="hljs-comment"># Define host array</span><br>    a = cuda.pinned_array(size, dtype=np.float32)<br>    a[...]  = <span class="hljs-number">1.0</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Old sum: <span class="hljs-subst">&#123;a.<span class="hljs-built_in">sum</span>():<span class="hljs-number">.3</span>f&#125;</span>&quot;</span>)<br><br>    <span class="hljs-comment"># Array copy to device and array creation on the device.</span><br>    <span class="hljs-keyword">with</span> nvtx.annotate(<span class="hljs-string">&quot;H2D Memory&quot;</span>, color=<span class="hljs-string">&quot;yellow&quot;</span>):<br>        dev_a = cuda.to_device(a)<br>        dev_a_reduce = cuda.device_array((BLOCKS_PER_GRID,), dtype=dev_a.dtype)<br>        dev_a_sum = cuda.device_array((<span class="hljs-number">1</span>,), dtype=dev_a.dtype)<br><br>    <span class="hljs-comment"># Launching kernels to normalize array</span><br>    <span class="hljs-keyword">with</span> nvtx.annotate(<span class="hljs-string">&quot;Kernels&quot;</span>, color=<span class="hljs-string">&quot;green&quot;</span>):<br>        partial_reduce[BLOCKS_PER_GRID, THREADS_PER_BLOCK](dev_a, dev_a_reduce)<br>        single_thread_sum[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>](dev_a_reduce, dev_a_sum)<br>        divide_by[BLOCKS_PER_GRID, THREADS_PER_BLOCK](dev_a, dev_a_sum)<br><br>    <span class="hljs-comment"># Array copy to host</span><br>    <span class="hljs-keyword">with</span> nvtx.annotate(<span class="hljs-string">&quot;D2H Memory&quot;</span>, color=<span class="hljs-string">&quot;orange&quot;</span>):<br>        dev_a.copy_to_host(a)<br>    cuda.synchronize()<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;New sum: <span class="hljs-subst">&#123;a.<span class="hljs-built_in">sum</span>():<span class="hljs-number">.3</span>f&#125;</span>&quot;</span>)<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">main</span>():<br>  	argv = sys.argv<br>    sys.argv = [argv[<span class="hljs-number">0</span>]]<br>    <br>    parser = argparse.ArgumentParser(description=<span class="hljs-string">&quot;Simple Example v2&quot;</span>)<br>    parser.add_argument(<br>        <span class="hljs-string">&quot;-n&quot;</span>,<br>        <span class="hljs-string">&quot;--array-size&quot;</span>,<br>        <span class="hljs-built_in">type</span>=<span class="hljs-built_in">int</span>,<br>        default=<span class="hljs-number">100_000_000</span>,<br>        metavar=<span class="hljs-string">&quot;N&quot;</span>,<br>        <span class="hljs-built_in">help</span>=<span class="hljs-string">&quot;Array size&quot;</span>,<br>    )<br><br>    args = parser.parse_args()<br>    run(size=args.array_size)<br><br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    main()<br></code></pre></td></tr></table></figure>
+<p>对比这两个文件，你会发现，只需将一些 GPU 内核调用:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">with</span> nvtx.annotate(<span class="hljs-string">&quot;Region Title&quot;</span>, color=<span class="hljs-string">&quot;red&quot;</span>):<br>    ...<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>专业提示：你还可以通过在函数定义上方放置 <code>@nvtx.annotate</code>
+装饰器来注释函数，通过使用 <code>python -m nvtx run_v2.py</code>
+调用脚本来自动注释所有内容，或通过启用或禁用 <code>nvtx.Profile()</code>
+在代码中选择性地应用自动注释器。请参阅<a
+target="_blank" rel="noopener" href="https://nvtx.readthedocs.io/en/latest/index.html">文档:
+https://nvtx.readthedocs.io/en/latest/index.html</a>！</p>
+</blockquote>
+<p>让我们运行这个新脚本并在 Nsight 系统中打开结果。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python">$ nsys profile \<br>  --trace cuda,osrt,nvtx \<br>  --gpu-metrics-device=<span class="hljs-built_in">all</span> \<br>  --cuda-memory-usage true \<br>  --force-overwrite true \<br>  --output profile_run_v2 \<br>  python run_v2.py<br>GPU <span class="hljs-number">0</span>: General Metrics <span class="hljs-keyword">for</span> NVIDIA TU10x (<span class="hljs-built_in">any</span> frequency)<br>Old <span class="hljs-built_in">sum</span>: <span class="hljs-number">100000000.000</span><br>New <span class="hljs-built_in">sum</span>: <span class="hljs-number">1.000</span><br>Generating <span class="hljs-string">&#x27;/tmp/nsys-report-69ab.qdstrm&#x27;</span><br>[<span class="hljs-number">1</span>/<span class="hljs-number">1</span>] [========================<span class="hljs-number">100</span>%] profile_run_v2.nsys-rep<br>Generated:<br>    /content/profile_run_v2.nsys-rep<br></code></pre></td></tr></table></figure>
+<p>同样，我们先将所有内容最小化，只打开
+"<code>Processes &gt; python &gt; CUDA HW</code>"。参见图
+4。请注意，我们现在有了一条新线
+<code>NVTX</code>。在时间线窗口的这一行中，我们可以看到不同颜色的区块，它们与我们在代码中创建的注释区域相对应。它们分别是
+<code>Compilation</code>（编译）、<code>H2D Memory</code>（H2D
+内存）、<code>Kernels</code>（内核）和 <code>D2H Memory</code>（D2H
+内存）。其中有些区域可能太小，无法阅读，但如果放大该区域，则可以清晰地看到。</p>
+<p><img
+src="https://miro.medium.com/v2/resize:fit:700/1*TTkJTvyy5IdyCWlLoOYFgQ.png"
+alt="图 4.NVTX 注释和带固定内存的事件视图示例" /></p>
+<p>分析器确认了这些内存被钉住，从而确保我们的代码真正使用了钉住的内存。此外，<code>H2D Memory</code>
+和 <code>D2H Memory</code>
+现在所花费的时间不到之前的一半。一般来说，我们可以期待使用固定内存或预取映射阵列（Numba
+不支持）能获得更好的性能。</p>
+<h2 id="流并发">流并发</h2>
+<p>现在，我们将研究是否可以通过引入流来改进这段代码。我们的想法是，在进行内存传输的同时，GPU
+可以开始处理数据。这样就可以实现一定程度的并发，从而确保我们尽可能充分地利用经线。</p>
+<p><img
+src="https://miro.medium.com/v2/resize:fit:700/1*c8Wo1hky73axTxWbGfv2Fg.png"
+alt="图 5.使用不同的数据流可实现并发执行" /></p>
+<p>在下面的代码中，我们将把数组的处理分成大致相同的部分。每个部分将在单独的流中运行，包括传输数据和计算数组的总和。然后，我们同步所有流，并求和它们的部分和。此时，我们就可以为每个流独立启动规范化内核。</p>
+<p>我们想回答几个问题：</p>
+<ol type="1">
+<li>下面的代码真的会产生并发性吗？我们是否会引入错误？</li>
+<li>是否比使用单流的代码更快？</li>
+<li>warp 占用率是否更好？</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#%%writefile run_v3</span><br><span class="hljs-keyword">import</span> argparse<br><span class="hljs-keyword">import</span> warnings<br><span class="hljs-keyword">from</span> math <span class="hljs-keyword">import</span> ceil<br><br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> nvtx<br><span class="hljs-keyword">from</span> numba <span class="hljs-keyword">import</span> cuda<br><span class="hljs-keyword">from</span> numba.core.errors <span class="hljs-keyword">import</span> NumbaPerformanceWarning<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">run</span>(<span class="hljs-params">size, nstreams</span>):<br>    <span class="hljs-keyword">with</span> nvtx.annotate(<span class="hljs-string">&quot;Compilation&quot;</span>, color=<span class="hljs-string">&quot;red&quot;</span>):<br>        dev_a = cuda.device_array((BLOCKS_PER_GRID,), dtype=np.float32)<br>        dev_a_reduce = cuda.device_array((BLOCKS_PER_GRID,), dtype=dev_a.dtype)<br>        dev_a_sum = cuda.device_array((<span class="hljs-number">1</span>,), dtype=dev_a.dtype)<br>        partial_reduce[BLOCKS_PER_GRID, THREADS_PER_BLOCK](dev_a, dev_a_reduce)<br>        single_thread_sum[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>](dev_a_reduce, dev_a_sum)<br>        divide_by[BLOCKS_PER_GRID, THREADS_PER_BLOCK](dev_a, dev_a_sum)<br><br>    <span class="hljs-comment"># Define host array</span><br>    a = cuda.pinned_array(size, dtype=np.float32)<br>    a[...] = <span class="hljs-number">1.0</span><br><br>    <span class="hljs-comment"># Define regions for streams</span><br>    step = ceil(size / nstreams)<br>    starts = [i * step <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(nstreams)]<br>    ends = [<span class="hljs-built_in">min</span>(s + step, size) <span class="hljs-keyword">for</span> s <span class="hljs-keyword">in</span> starts]<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Old sum: <span class="hljs-subst">&#123;a.<span class="hljs-built_in">sum</span>():<span class="hljs-number">.3</span>f&#125;</span>&quot;</span>)<br><br>    <span class="hljs-comment"># Create streams</span><br>    streams = [cuda.stream()] * nstreams<br><br>    cpu_sums = [cuda.pinned_array(<span class="hljs-number">1</span>, dtype=np.float32) <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(nstreams)]<br>    devs_a = []<br>    <span class="hljs-keyword">with</span> cuda.defer_cleanup():<br>        <span class="hljs-keyword">for</span> i, (stream, start, end) <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(<span class="hljs-built_in">zip</span>(streams, starts, ends)):<br>            cpu_sums[i][...] = np.nan<br><br>            <span class="hljs-comment"># Array copy to device and array creation on the device.</span><br>            <span class="hljs-keyword">with</span> nvtx.annotate(<span class="hljs-string">f&quot;H2D Memory Stream <span class="hljs-subst">&#123;i&#125;</span>&quot;</span>, color=<span class="hljs-string">&quot;yellow&quot;</span>):<br>                dev_a = cuda.to_device(a[start:end], stream=stream)<br>                dev_a_reduce = cuda.device_array(<br>                    (BLOCKS_PER_GRID,), dtype=dev_a.dtype, stream=stream<br>                )<br>                dev_a_sum = cuda.device_array((<span class="hljs-number">1</span>,), dtype=dev_a.dtype, stream=stream)<br>            devs_a.append(dev_a)<br><br>            <span class="hljs-comment"># Launching kernels to sum array</span><br>            <span class="hljs-keyword">with</span> nvtx.annotate(<span class="hljs-string">f&quot;Sum Kernels Stream <span class="hljs-subst">&#123;i&#125;</span>&quot;</span>, color=<span class="hljs-string">&quot;green&quot;</span>):<br>                <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">50</span>):  <span class="hljs-comment"># Make it spend more time in compute</span><br>                    partial_reduce[BLOCKS_PER_GRID, THREADS_PER_BLOCK, stream](<br>                    dev_a, dev_a_reduce<br>                )<br>                    single_thread_sum[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, stream](dev_a_reduce, dev_a_sum)<br>            <span class="hljs-keyword">with</span> nvtx.annotate(<span class="hljs-string">f&quot;D2H Memory Stream <span class="hljs-subst">&#123;i&#125;</span>&quot;</span>, color=<span class="hljs-string">&quot;orange&quot;</span>):<br>                dev_a_sum.copy_to_host(cpu_sums[i], stream=stream)<br><br>        <span class="hljs-comment"># Ensure all streams are caught up</span><br>        cuda.synchronize()<br><br>        <span class="hljs-comment"># Aggregate all 1D arrays into a single 1D array</span><br>        a_sum_all = <span class="hljs-built_in">sum</span>(cpu_sums)<br><br>        <span class="hljs-comment"># Send it to the GPU</span><br>        <span class="hljs-keyword">with</span> cuda.pinned(a_sum_all):<br>            <span class="hljs-keyword">with</span> nvtx.annotate(<span class="hljs-string">&quot;D2H Memory Default Stream&quot;</span>, color=<span class="hljs-string">&quot;orange&quot;</span>):<br>                dev_a_sum_all = cuda.to_device(a_sum_all)<br><br>        <span class="hljs-comment"># Normalize via streams</span><br>        <span class="hljs-keyword">for</span> i, (stream, start, end, dev_a) <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(<br>            <span class="hljs-built_in">zip</span>(streams, starts, ends, devs_a)<br>        ):<br>            <span class="hljs-keyword">with</span> nvtx.annotate(<span class="hljs-string">f&quot;Divide Kernel Stream <span class="hljs-subst">&#123;i&#125;</span>&quot;</span>, color=<span class="hljs-string">&quot;green&quot;</span>):<br>                divide_by[BLOCKS_PER_GRID, THREADS_PER_BLOCK, stream](<br>                    dev_a, dev_a_sum_all<br>                )<br><br>            <span class="hljs-comment"># Array copy to host</span><br>            <span class="hljs-keyword">with</span> nvtx.annotate(<span class="hljs-string">f&quot;D2H Memory Stream <span class="hljs-subst">&#123;i&#125;</span>&quot;</span>, color=<span class="hljs-string">&quot;orange&quot;</span>):<br>                dev_a.copy_to_host(a[start:end], stream=stream)<br><br>        cuda.synchronize()<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;New sum: <span class="hljs-subst">&#123;a.<span class="hljs-built_in">sum</span>():<span class="hljs-number">.3</span>f&#125;</span>&quot;</span>)<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">main</span>():<br>	  argv = sys.argv<br>    sys.argv = [argv[<span class="hljs-number">0</span>]]<br>    <br>    parser = argparse.ArgumentParser(description=<span class="hljs-string">&quot;Simple Example v3&quot;</span>)<br>    parser.add_argument(<br>        <span class="hljs-string">&quot;-n&quot;</span>,<br>        <span class="hljs-string">&quot;--array-size&quot;</span>,<br>        <span class="hljs-built_in">type</span>=<span class="hljs-built_in">int</span>,<br>        default=<span class="hljs-number">100_000_000</span>,<br>        metavar=<span class="hljs-string">&quot;N&quot;</span>,<br>        <span class="hljs-built_in">help</span>=<span class="hljs-string">&quot;Array size&quot;</span>,<br>    )<br>    parser.add_argument(<br>        <span class="hljs-string">&quot;-s&quot;</span>,<br>        <span class="hljs-string">&quot;--streams&quot;</span>,<br>        <span class="hljs-built_in">type</span>=<span class="hljs-built_in">int</span>,<br>        default=<span class="hljs-number">4</span>,<br>        metavar=<span class="hljs-string">&quot;N&quot;</span>,<br>        <span class="hljs-built_in">help</span>=<span class="hljs-string">&quot;Array size&quot;</span>,<br>    )<br><br>    args = parser.parse_args()<br>    run(size=args.array_size, nstreams=args.streams)<br><br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    main()<br></code></pre></td></tr></table></figure>
+<p>让我们运行代码并收集结果。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python">$ nsys profile \<br>  --trace cuda,osrt,nvtx \<br>  --gpu-metrics-device=<span class="hljs-built_in">all</span> \<br>  --cuda-memory-usage true \<br>  --force-overwrite true \<br>  --output profile_run_v3_4streams \<br>  python run_v3.py -s <span class="hljs-number">4</span><br>GPU <span class="hljs-number">0</span>: General Metrics <span class="hljs-keyword">for</span> NVIDIA TU10x (<span class="hljs-built_in">any</span> frequency)<br>Old <span class="hljs-built_in">sum</span>: <span class="hljs-number">100000000.000</span><br>New <span class="hljs-built_in">sum</span>: <span class="hljs-number">1.000</span><br>Generating <span class="hljs-string">&#x27;/tmp/nsys-report-a666.qdstrm&#x27;</span><br>[<span class="hljs-number">1</span>/<span class="hljs-number">1</span>] [========================<span class="hljs-number">100</span>%] profile_run_v3_4streams.nsys-rep<br>Generated:<br>    /content/profile_run_v3_4streams.nsys-rep<br></code></pre></td></tr></table></figure>
+<p>程序运行后得到了正确答案。但当我们打开分析文件时（见图
+6），我们会发现有两个数据流，而不是 4
+个！其中一个基本上完全处于空闲状态！这到底是怎么回事？</p>
+<p><img
+src="https://miro.medium.com/v2/resize:fit:700/1*LKQIb0cooHl_7F0UhTplBA.png"
+alt="图 6.多流代码错误示例" /></p>
+<p>在创建数据流时存在一个错误。通过</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">streams = [cuda.stream()] * nstreams<br></code></pre></td></tr></table></figure>
+<p>我们实际上是在创建一个单一的数据流，并将其重复 n
+次。那么，为什么我们看到的是两个数据流而不是一个呢？事实上，其中一个流的计算量并不大，这说明有一个流我们并没有使用。这个流就是默认流，我们在代码中完全没有使用它，因为所有
+GPU 交互都有一个流，也就是我们创建的流。</p>
+<p>我们可以通过以下方法修复这个错误:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">streams = [cuda.stream() <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(nstreams)]<br><span class="hljs-comment"># Ensure they are all different</span><br><span class="hljs-keyword">assert</span> <span class="hljs-built_in">all</span>(s1.handle != s2.handle <span class="hljs-keyword">for</span> s1, s2 <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(streams[:-<span class="hljs-number">1</span>], streams[<span class="hljs-number">1</span>:]))<br></code></pre></td></tr></table></figure>
+<p>上述代码还将确保它们确实是不同的数据流，因此如果我们在代码中设置了这一功能，它就能捕捉到错误。它通过检查数据流指针值来做到这一点。</p>
+<p>现在，我们可以使用 1 个数据流和 8
+个数据流运行修正后的代码进行比较。分别见图 7 和图 8。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python">$  nsys profile \<br>  --trace cuda,osrt,nvtx \<br>  --gpu-metrics-device=<span class="hljs-built_in">all</span> \<br>  --cuda-memory-usage true \<br>  --force-overwrite true \<br>  --output profile_run_v3_1stream \<br>  python run_v3.py -s <span class="hljs-number">1</span><br>GPU <span class="hljs-number">0</span>: General Metrics <span class="hljs-keyword">for</span> NVIDIA TU10x (<span class="hljs-built_in">any</span> frequency)<br>Old <span class="hljs-built_in">sum</span>: <span class="hljs-number">100000000.000</span><br>New <span class="hljs-built_in">sum</span>: <span class="hljs-number">1.000</span><br>Generating <span class="hljs-string">&#x27;/tmp/nsys-report-de65.qdstrm&#x27;</span><br>[<span class="hljs-number">1</span>/<span class="hljs-number">1</span>] [========================<span class="hljs-number">100</span>%] profile_run_v3_1stream.nsys-rep<br>Generated:<br>    /content/profile_run_v3_1stream.nsys-rep<br></code></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python">$ nsys profile \<br>  --trace cuda,osrt,nvtx \<br>  --gpu-metrics-device=<span class="hljs-built_in">all</span> \<br>  --cuda-memory-usage true \<br>  --force-overwrite true \<br>  --output profile_run_v3_8streams \<br>  python run_v3.py -s <span class="hljs-number">8</span><br>GPU <span class="hljs-number">0</span>: General Metrics <span class="hljs-keyword">for</span> NVIDIA TU10x (<span class="hljs-built_in">any</span> frequency)<br>Old <span class="hljs-built_in">sum</span>: <span class="hljs-number">100000000.000</span><br>New <span class="hljs-built_in">sum</span>: <span class="hljs-number">1.000</span><br>Generating <span class="hljs-string">&#x27;/tmp/nsys-report-1fb7.qdstrm&#x27;</span><br>[<span class="hljs-number">1</span>/<span class="hljs-number">1</span>] [========================<span class="hljs-number">100</span>%] profile_run_v3_8streams.nsys-rep<br>Generated:<br>    /content/profile_run_v3_8streams.nsys-rep<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://miro.medium.com/v2/resize:fit:700/1*o3mOmOq5d5FSdjqbQuvpUA.png"
+alt="图 7.单流代码示例" /></p>
+<p><img
+src="https://miro.medium.com/v2/resize:fit:700/1*1uO_aHzWHtu7UAEiamUqWg.png"
+alt="图 8.正确的多流代码示例" /></p>
+<p>同样，两个结果都是正确的。打开有 8
+个数据流的数据流，我们可以看到错误已被修复（图
+7）。事实上，我们现在可以看到 9 个数据流（8 个已创建数据流 +
+默认数据流）。此外，我们还看到它们同时工作！因此，我们实现了并发！</p>
+<p>遗憾的是，如果我们再深入研究一下，就会发现并发代码的速度并不一定更快。在我的机器上，两个版本的关键部分，从内存传输开始到最后一次
+GPU-CPU 复制大约需要 160 毫秒。</p>
+<p>罪魁祸首很可能是 warp 占用率。我们注意到，单流版本的 warp
+占用率明显更高。在这个例子中，我们在计算方面获得的收益很可能因为没有有效占用
+GPU
+而损失掉了。这可能与代码结构有关，因为代码（人为地）调用了太多内核。此外，如果所有线程都被单个流填满，并发性就不会提高，因为其他流必须闲置，直到资源释放。</p>
+<p>这个例子很重要，因为它表明我们对性能的先入为主的概念只是假设。它们需要验证。</p>
+<p>目前，我们已经对 APOD
+进行了评估和并行化（通过线程和并发），因此下一步就是部署。我们还注意到并发时性能略有下降，因此在本例中，部署的可能是单流版本。在生产中，下一步将是遵循最适合并行化的下一段代码，并重新启动
+APOD。</p>
+<h2 id="结尾">结尾</h2>
+<p>在本文中，我们介绍了如何在NVIDIA Nsight 系统中设置、使用和解释 Python
+代码的分析结果。C 和 C++
+代码的分析方法非常相似，事实上，大多数资料都使用了 C 和 C++ 示例。</p>
+<p>我们还展示了分析如何让我们捕捉错误并测试程序性能，确保我们引入的功能确实提高了性能，如果没有，原因何在。</p>
+<blockquote>
+<p>最后， 我所有代码都是放在了 Colab 的一个文件中，其中：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">argv = sys.argv<br>    sys.argv = [argv[<span class="hljs-number">0</span>]]<br></code></pre></td></tr></table></figure>
+<p>这一段是因为要兼容 Jupyter Notebook 才写的，否则如果只是执行 Python
+文件的话可以去掉。</p>
+<p>另外，如果你不太明白怎么讲这个文件拆成独立的<code>Kernels.py</code>,
+<code>run_v1.py</code>, <code>run_v2.py</code>, <code>run_v3.py</code>，
+可以去这里下载源码：</p>
+<p>链接: https://pan.baidu.com/s/1gqN3Cza0h4oZoPvzJqKMaw?pwd=euvg
+提取码: euvg --来自百度网盘超级会员v8的分享</p>
+</blockquote>
+</div><div class="article-licensing box"><div class="licensing-title"><p>使用 Nsight 系统分析 CUDA：Numba 示例</p><p><a href="https://hivan.me/使用 Nsight 系统分析 CUDA：Numba 示例/">https://hivan.me/使用 Nsight 系统分析 CUDA：Numba 示例/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2024-06-12</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2024-07-16</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a><a class="link-muted mr-2" rel="tag" href="/tags/CUDA/">CUDA</a><a class="link-muted mr-2" rel="tag" href="/tags/Numba/">Numba</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/Stable%20Diffusion%203%20%E5%BC%80%E6%BA%90%E4%BA%86%EF%BC%8C%E5%AE%8C%E5%85%A8%E4%B8%8D%E8%BE%93%20Midjourney/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">Stable Diffusion 3 开源了，完全不输 Midjourney</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/Numba%20%E7%9A%84%20CUDA%20%E7%A4%BA%E4%BE%8B%EF%BC%884-4%EF%BC%89%EF%BC%9A%E5%8E%9F%E5%AD%90%E5%92%8C%E4%BA%92%E6%96%A5/"><span class="level-item">Numba 的 CUDA 示例：原子和互斥</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/%E4%BD%BF%E7%94%A8%20Nsight%20%E7%B3%BB%E7%BB%9F%E5%88%86%E6%9E%90%20CUDA%EF%BC%9ANumba%20%E7%A4%BA%E4%BE%8B/';
+            this.page.identifier = '使用 Nsight 系统分析 CUDA：Numba 示例/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI 游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">279</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">8</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">31</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI/"><span class="level-start"><span class="level-item">AI</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI 秘籍</span></span><span class="level-end"><span class="level-item tag">109</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/"><span class="level-start"><span class="level-item">BI</span></span><span class="level-end"><span class="level-item tag">37</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/CV/"><span class="level-start"><span class="level-item">CV</span></span><span class="level-end"><span class="level-item tag">8</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">33</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-07-14T23:30:00.000Z">2024-07-15</time></p><p class="title"><a href="/%E5%88%86%E6%9E%90%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%85%AC%E5%B9%B3%E6%80%A7/">分析机器学习的公平性</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-07-13T23:30:00.000Z">2024-07-14</time></p><p class="title"><a href="/07.%20%E4%BD%9C%E4%B8%9A%EF%BC%9A%E4%BA%BA%E5%83%8F%E6%BB%A4%E6%B3%A2%E5%8E%BB%E5%99%AA/">作业：人像滤波去噪</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/CV/">CV</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-07-12T23:30:00.000Z">2024-07-13</time></p><p class="title"><a href="/%E4%BD%BF%E7%94%A8%20Python%20%E5%88%9B%E5%BB%BA%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%83%85%E7%BB%AA%E5%88%86%E6%9E%90%E6%A8%A1%E5%9E%8B/">使用 Python 创建你的第一个情绪分析模型</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-07-11T23:30:00.000Z">2024-07-12</time></p><p class="title"><a href="/%E5%AF%BB%E6%89%BE%E5%B9%B6%E5%8F%AF%E8%A7%86%E5%8C%96%E4%BA%A4%E4%BA%92/">寻找并可视化交互</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-07-10T23:30:00.000Z">2024-07-11</time></p><p class="title"><a href="/%E4%BD%BF%E7%94%A8%20Python%20%E7%BB%98%E5%88%B6%E7%BE%8E%E5%9B%BD%E9%80%89%E4%B8%BE%E5%88%86%E7%BA%A7%E7%BB%9F%E8%AE%A1%E5%9B%BE/">使用 Python 绘制美国选举分级统计图</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2024 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

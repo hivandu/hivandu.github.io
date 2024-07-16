@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>Computer Vision 的由来 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="本节课为「计算机视觉 CV 核心知识」第 3 节课；"><meta property="og:type" content="blog"><meta property="og:title" content="Computer Vision 的由来"><meta property="og:url" content="https://hivan.me/03.%20Computer%20Vision%20%E7%9A%84%E7%94%B1%E6%9D%A5/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="本节课为「计算机视觉 CV 核心知识」第 3 节课；"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/hivandu/notes/img/未命名.png"><meta property="article:published_time" content="2024-06-29T23:30:00.000Z"><meta property="article:modified_time" content="2024-07-16T07:15:08.422Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="article:tag" content="CV"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://cdn.jsdelivr.net/gh/hivandu/notes/img/未命名.png"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/03.%20Computer%20Vision%20%E7%9A%84%E7%94%B1%E6%9D%A5/"},"headline":"Computer Vision 的由来","image":["https://cdn.jsdelivr.net/gh/hivandu/notes/img/未命名.png"],"datePublished":"2024-06-29T23:30:00.000Z","dateModified":"2024-07-16T07:15:08.422Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"本节课为「计算机视觉 CV 核心知识」第 3 节课；"}</script><link rel="canonical" href="https://hivan.me/03.%20Computer%20Vision%20%E7%9A%84%E7%94%B1%E6%9D%A5/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><script>var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?f91b64734fdc7bfb999e48f9248d44dd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-ZFB6CVWZFJ" async></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-ZFB6CVWZFJ');</script><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2024-06-29T23:30:00.000Z" title="6/30/2024, 7:30:00 AM">2024-06-30</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a><span> / </span><a class="link-muted" href="/categories/AI-%E7%A7%98%E7%B1%8D/CV/">CV</a></span></div></div><h1 class="title is-3 is-size-4-mobile">Computer Vision 的由来</h1><div class="content"><p>本节课为「<a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3503005363236880386&amp;from_itemidx=1&amp;from_msgid=2648753419#wechat_redirect">计算机视觉
+CV 核心知识</a>」第 3 节课；</p>
+<span id="more"></span>
+<p><strong>「AI秘籍」系列课程：</strong></p>
+<ul>
+<li><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3074770001140400130&amp;scene=173&amp;subscene=227&amp;sessionid=undefined&amp;enterid=1717956640&amp;from_msgid=2648748678&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">人工智能应用数学基础</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3035995870421073928&amp;scene=126&amp;uin=&amp;key=&amp;devicetype=iMac+MacBookPro17%2C1+OSX+OSX+14.5+build(23F79)&amp;version=13080710&amp;lang=zh_CN&amp;nettype=WIFI&amp;ascene=78&amp;fontScale=100">人工智能Python基础</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3123885735829061633&amp;scene=173&amp;subscene=227&amp;sessionid=1717956706&amp;enterid=1717956713&amp;from_msgid=2648751062&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">人工智能基础核心知识</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg%3D%3D&amp;action=getalbum&amp;album_id=3193965113967132673&amp;subscene=&amp;sessionid=svr_548800ce471&amp;enterid=1704001437&amp;from_msgid=2648751621&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;scene=21#wechat_redirect">人工智能BI核心知识</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3503005363236880386&amp;from_itemidx=1&amp;from_msgid=2648753419#wechat_redirect">人工智能CV核心知识</a></li>
+</ul>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/%E8%8C%B6%E6%A1%81%E7%9A%84AI%E7%A7%98%E7%B1%8D-CV%2003.png"
+alt="茶桁的AI秘籍-CV 03" /></p>
+<p>Hi, 大家好。我是茶桁。</p>
+<p>咱们这节课来讨论一下计算机视觉的发展过程。</p>
+<p>我们想看它的由来，首先看一下计算机视觉这个名字。计算机视觉，computer
+vision，把这两个单词拆解来看：computer 就是计算机的意思，vision
+就是视觉的意思，所以我们下面就计算机和视觉两个角度去看一下计算机视觉。</p>
+<p>那么从计算机出发，最早的计算机是什么？最早的计算机就是算盘，再到后面是计算器，再到后面有了专门进行大量、高速计算的机器，也就是计算机出现了。那么再到后面是专门提供计算服务的服务器，CPU
+服务器，甚至于是 GPU 服务器、TPU 服务器。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240627171317.png"
+alt="Colab 运行类型" /></p>
+<p>OK，那这个计算机和 CPU
+服务器有什么区别呢？计算机通常我们指的是个人电脑，个人的PC。服务器呢？专门计算的，它不需要显示器。个人的PC是要交互的，有个显示器。</p>
+<p>那么这是从计算机方面去认识，计算机视觉就是从计算机出现之后才开始出现的一个议题，用计算机去代替我们人的视觉去做一些事情，类似于这样的一个意思。所以说你看那个计算机、再到专门提供计算服务的服务器等等，我们看到算力是提升了，从这个角度来看，是我们计算机视觉能够代替人视觉的方面也是越来越多了。抖音的计算能力越来越强了吧？从这方面我们可以大概的去估计一个状况。</p>
+<p>然后我们从视觉出发来认识一下计算机视觉。</p>
+<p>由视觉出发，最早的人类的视觉的延伸就是用绘画。我们想告诉别人一个事情，通过声音是吧？其实通过声音是需要大量的积累和学习，才能通过声音去传递一个事情。想象一下遥远的远古时期，我看到一只老虎，要告诉另外一个人这边有个老虎，我要通过声音，就学老虎叫一下，他可能知道这边有个老虎。或者说我描绘一下老虎在做什么事情，老虎朝哪个方向走了，通过声音描述没办法了，我只有通过指向，通过动作。那通过动作其实在别人看来它就是一幅画了，就是一个图像了。</p>
+<p>当然我要告诉第三人，或者说这个人没有出现在我面前，我要告诉我的后代，几百年之后的人，我需要把它刻画下来，画到岩石上，比如说现在一些岩壁上的岩画。你会发现它都是几千年前画的。</p>
+<p>这就是我们视觉的延伸，他看到什么，把它记录下来，然后告诉我们了。这是最早的视觉的延伸。</p>
+<p>到后面，就有了照相机，它可以把现实世界原原本本的copy下来，我们再看到的就非常真实了。比如说我们通过留存的照片能看到晚清，能看到世界各个地方的一些事情。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240627222021.png"
+alt="宫娥 北京" /></p>
+<p>至于 17
+世纪的那些事我们无法通过相机看到，就只能通过绘画了。所以说古代历史故事要是能copy，有像照相机这样的功能多好。所以说，到照相机这里，我们就认为机器是有了视觉了。照相机也是一种机器，它可以看到世界并且记住，记在胶片上，这是我们人视觉功能的一个基础。所以说什么叫计算机视觉，可以理解为照相机就是计算机视觉，它是一个最基础的计算机视觉。</p>
+<p>那么计算机视觉主要的内容是不是指的照相机这个功能？不是的对吧？主要的功能不是，但是它也属于。那么我们讨论一下视觉能力到底是什么。其实视觉能力就是会看，会展示，还要会处理，会思考。不过当前我们照相机这个计算机视觉它是会看会展示，但是不会处理，不会思考。那视觉的主要功能，我们希望它会处理，会思考。看到什么，比如是个
+100 元纸币，不要把它当成是 1 元纸币花了，那就行了。</p>
+<p>我们来看一些照片</p>
+<p><img src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/未命名.png"
+alt="老照片" /></p>
+<p>可以看到，这些照片都是老照片，像这些照片呢，就是我们这个计算机视觉的内容，就是我们照相机拍的内容。我为什么选了一些老照片，我们看下老照片的特点，可以看到这些照片上的人脸上基本都没有瑕疵，比如痘痘啊，黑头啊之类的。这是照相机拍出来的，非常的真实，但是又非常的不真实。我们人的脸上总会有一些绒毛、痘痘等等，男生可能还会有一些胡须。但这些个照片里好像没有似的。那是发生了什么作用呢？</p>
+<p>照相机它是个视觉，它会看、会记、会展示，但是这个中间发挥了什么事情呢？这些人脸上基本上都非常的光滑，他做了一些滤波操作。我们后面要讲到这个滤波操作，滤波操作其实呢就是我们的卷积操作。卷积神经网络中的卷积，想想我们卷积做的这些操作，你看这个滤波操作或者卷积操作，它能让人皮肤上原来有的一些细节消失了，这个滤波叫平滑滤波。</p>
+<p>我们当时照相机的平滑滤波是通过什么实现？是镜片实现的。讲到后面我们会布置个作业，让大家去通过数字计算的方式去实现滤波，实现这种老照片的效果。</p>
+<p>那么这是照相机的视觉能力。我们通过照片分析了它的视觉能力的一个优点和缺点。优点就是会看、会记；缺点就是间接美颜了一下，或者说直接用镜头、镜片美颜一下，而不是用我们现在的现代的美颜技术，这样我们也无法恢复其本来的信息，这是老照相机。到后面计算机视觉的发展，视觉方向发展就是数码照相机了，数码照相机除了会看、会记，还会更多的处理。主要数码照相机都加了一个数码，加了一个数码是什么意思呢？等一下还可以讨论一下。那么这个数码摄像机呢，等于说它主要是多了更多的图像处理的技术的集合。就是每个数码照相机里面好像都有一个阉割版的
+Photoshop，小型的PS。最后把一些图像处理的功能综合整理一下放到我们电脑的软件上，就是
+Photoshop。</p>
+<p>不过我们摄像、数码照相机里面的图像处理技术它都是手动处理的，虽然说它能够对图像做一些去红眼啊，调些色调啊等等，但它都是手动处理，需要人去按按钮的，PS也是需要人去操作的对吧？那么与手动处理对应的就是自动的处理了，自动处理就是自动的检测图片上到底有没有需要处理的地方，这个图片是不是过暗了，自动调亮这个图片上这个人。照的时候眼睛是不是有红点了，自动把红眼的红点去除。</p>
+<p>那么自动的处理，比如说自动化的去美颜就是一张图片进来之后，我们如果说用
+Photoshop
+去处理的话需要找着人眼的位置加一下睫毛，把眼睛调大一点。那如果自动化的去美颜的话，首先我们要找到人脸的位置，这个算法叫人脸检测对吧？第二个我们定位五官的具体位置，这个算法叫人脸关键点检测对吧？然后再第三个就是对相应的位置进行磨皮、瘦脸、大眼、然后涂口红，然后白牙等等。就是你先定位，定完位之后，相应的区域定出来之后就对这个区域进行处理，调色调啊等等，去达到一个磨皮、瘦脸、大眼。这种功能就是自动化的去PS，自动化去美颜的一个技术。那么我们的数码相机上是没有这种功能的，那自动化来去处理，就是我们的计算机视觉自动部分的内容了。</p>
+<p>所以计算机视觉部分它是包含两个部分的，一个是你找到定位，这是什么呀？做决策对吧？要做决策。我要对哪里进行处理，我要对应处理。后面这些磨皮、瘦脸、大眼就是
+PS，就是图像处理做的事情。我们说 PS
+是图像处理技术的集合，里头的各种技术都是图像处理的技术。</p>
+<p>OK，这是自动化去美颜的一个具体的算法的解析。比如说找到人脸的位置，是用人脸检测算法，然后五官定位是人脸关键点检测算法，磨皮是用的是模糊滤波，瘦脸和大眼用的是仿射变换，瘦脸和大眼是使脸部变小、眼睛变大，这是仿射变化。之后呢我们会讲，磨皮这个我们也会讲具体的方法，就是用的
+OpenCV 去做的。</p>
+<p>口红和白牙都是色彩变化，下一个单元会去讲，「中阶计算机视觉」会去讲色彩的变化。</p>
+<p>那么我们在做这个自动化的去美颜的过程中，我们要去做决策是吧？要做出决策，那决策找到人脸的位置，定位这个人脸位置，这是我们算法或者模型的核心内容，或者计算机视觉的核心内容。那么做计算机视觉决策的时候我们就碰到一个问题，碰到什么问题呢？我们通过这个例子来看一下。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/%E6%88%AA%E5%B1%8F%202024-06-28%2000.05.19.jpg"
+alt="截屏 2024-06-28 00.05.19" /></p>
+<p>这个例子我们是要做一个人脸检测的功能，这是个图片，我黑笔勾出来的这个大的矩形是个图片，那么这个区域我要求把这个图片上的两个人脸给检测出来，或者说这个图片有多少个人脸我的模型是不知道的，我希望把它检测出来。这时我检测的方法是什么呀？检测方法就是拿一个窗口，类似于这个橙色矩形这个窗口在这个图片上滑动，滑动到某个位置，把这个位置的图片抠出来做一个分类，做个二分类，看它是不是人脸。不是人脸就继续滑动，一直滑动，一直滑动到第二行，滑动到第三行....滑动到人脸区域了，一分类是人脸，OK，就把这个框返回过来，把这个框的位置返回回来，这就是我们对人脸进行定位了。</p>
+<p>那这个过程中我们滑动一圈了之后，滑动到头了之后发现没有怎么办呢？我们会把框调整大小，把框变大，因为它可能存在大的人脸，可能我们刚才框太小了。可能还有更大的人脸没有检测到，所以我们就拿这个大的人脸去图片上滑动，同样滑动之后，到了大一点的那个人形的脸部，检测到一个大的人脸了。这就是人脸检测这个过程或者人脸检测的一个思路过程，这个思路叫
+sliding window，也叫滑窗分类。滑窗分类的思路做目标检测，做人脸检测。</p>
+<p>那么这个思路呢，你发现做这个思路中如果我要想这个图片上两个人脸都检测出来，我就需要这个小框滑动一遍，大框滑动一遍。那么小框滑动一遍，大框滑动一遍，我就可以保证这两个人脸都检测出来，这个算法准确率就高了。那么准确率高它会造成一个什么问题？造成我们速度下降。</p>
+<p>我们对一张图片做目标检测的时候，这个人脸检测的速度就下降了，速度就没有那么快了，就要慢一些了。因为他做两个窗口的滑动，两个窗口都在图片上进行搜索。那甚至有些时候因为我不知道这个图片上到底有多少个人脸，这人脸的尺寸是什么，所以说这时候我这个窗口可能要从
+1*1
+像素的窗口一直要上升到这个图片大小的窗口了。非常小，非常大的窗口都要包含，想让这个模型检测算法的精度越来越高，所以我就需要花更多的时间去做。</p>
+<p>如果说我由于实际的要求，比如说在自动驾驶的汽车上。汽车上搭载的电脑计算能力不强对吧？由于现实环境的因素计算能力没有那么强，只能提供少量的计算，那么这时候如果只能少量计算，搜索的框大小就少了，可能就只有一个框和两个框了，这是必然影响。我这个人脸检测的精度，有很多人脸就检测不出来对吧？所以这个例子就体现出来我们做模型，做算法的一个难点了。就是说，做算法其实我们是想它越准越好、越快越好，但实际上呢，准和快之间是要有取舍的，要有
+trade off
+的。要么你要求准，要么你要求快，你要求又准又快，这个要求是比较难的。</p>
+<p>那什么情况下能达到又快又准呢？就是你的算力要足够强，算法模型本身的计算思路要足够优秀就可以了。所以说无论怎么样，你要做到又快又准，你计算的平台是最重要的。平台是最主要的，它是一个基础性的决定的作用。计算平台都不够，我们算法的一个自由度，就设计具体算法模型的计算方法的自由度就没有那么高了。</p>
+<p>比如说我们刚才那个这种策略，滑动分类这种做人脸检测的算法模型策略，当然效率比较低。我们后续讲目标检测模型的时候，会有更加高效的一些策略。这就是我们这个策略方面，或者模型方面。</p>
+<p>那么我们这个算法，最后我们使用产生它的准确度和速度，有决定性要求的其实还是计算平台。计算平台如果能做的很快，那我们这个算法就要求不那么高了，或者我们可选的算法就更多了。所以说，现实世界会催生我们这个计算能力方面有更大的发展，有更强的计算能力。</p>
+<p>计算机后面就应该是采用 GPU 或者 TPU 来处理图像。GPU
+来处理图像之后我们算法模型，或者我们人工智能又进一步的发展。特别是我们这一波人工智能大火，人工智能的岗位这么多，现在很多人都拿着几十万、百万的薪资，那其实都是因为
+GPU
+出现了。我们这个算法模型又有非常多的事情可以做，并且很多事情就可以落地了。这就是算法平台给我们带来的一些效果，带来的一些现实的一些好的影响。</p>
+<p>那 GPU 的名字，我们要和 CPU 来讲，稍微说一下硬件的知识。CPU
+是我们最早的计算机里面，个人PC里面的中央处理器，GPU
+其实之前是没有的，后来是晚于 CPU 出现的。</p>
+<p>CPU 这个名字是 center process unit，从这名字看它是中央处理单元，然后
+GPU 呢，它是 Graphic process unit，就是图像处理单元。那么 CPU
+呢就在我们电脑出现之时，CPU 就设计出来，就有了。那
+GPU是什么时候出现？就是电脑出现之后，我们人和电脑交互，我们要知道电脑它发生了什么事情就必须有一个显示屏。</p>
+<p>我们最早的显示屏就显示些文字，电脑有个 DOS
+系统，你输入一个命令，电脑返回一个内容，我们通过文字去跟电脑沟通。但是文字沟通的效率低，图像沟通的效率高。比如我们汉字，为什么汉字优秀呢？就是因为每个汉字其实都是一幅图画，包括我们最开始要跟人说明一个问题的时候就是用图画的方式。用文字其实描述起来需要大量的学习，大家有共识了之后才能去沟通。所以说我们人和计算机沟通其实图像很重要。</p>
+<p>那图的话，计算机它到底内部运行什么状况？你以图形的方式显出来，让我们人拿着鼠标去点，而不是只是会用键盘去输，效率要高很多。所以说计算机要和人交互，或者计算机要想发展，计算机要想卖给客户，卖给我们普通人，那必须把跟人的图形交互要做起来。做起来之后发现这个效果就很好了，人就非常容易接受了，个人PC就出现了。</p>
+<p>那么图形交互的过程中我们发现
+CPU，中心处理单元处理图形的能力相当弱。因为图形它涉及到是个矩阵，那么矩阵的计算量是非常大的，那
+CPU
+它主要是计算机的各种外设，各种芯片，各种外设之间术语的沟通和交流，逻辑计算。中间留的纯计算单元，纯的加乘单元是不多的，所以说为了缓解
+CPU，或者帮助 CPU 去做这种大量的矩阵
+计算，单有一个单元，把这个单元用于图像处理或矩阵处理。这个单元因为它的计算量太多了，在
+CPU 的任务中太多，就把它专门分割出来专门做了一个单元叫 Graphic
+Processing unit，也就是 GPU，我们称呼它为显示卡。</p>
+<p>显示卡做出来，电脑就可以更好、更快的显示了，就更容易处理矩阵。我们图片本来就是矩阵，所以计算机视觉这块也就发展起来了。</p>
+<p>OK，那说到这里我们要总结一下。计算机视觉是什么？计算机视觉是自动化的完成图像的采集、决策、处理、保存、显示这个过程。像视觉一样看到并决策，我们这样去定义。别人问你做计算机视觉是什么，你也可以去告诉别人是自动化完成图像的采集、决策、处理、保存和显示过程。</p>
+<p>它决策什么？就比如说人脸的位置在哪里，比如说这个人眼的位置在哪里，比如说你是谁等等。就像人一样利用图像去做决策。OK，这是计算机视觉的由来。并且我们也回答了我们最初提出的一个问题：「计算机视觉是什么」。</p>
+<p>那到这里呢，这节课也就结束了，咱们下一节课来讲讲计算机到底是如何看到图像的，会涉及到代码的部分了。</p>
+<p>那咱们下节课再见，拜拜。</p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>Computer Vision 的由来</p><p><a href="https://hivan.me/03. Computer Vision 的由来/">https://hivan.me/03. Computer Vision 的由来/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2024-06-30</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2024-07-16</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a><a class="link-muted mr-2" rel="tag" href="/tags/CV/">CV</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B%E7%9A%84%E5%8A%9B%E9%87%8F/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">特征工程的力量</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/%E6%B7%B1%E5%85%A5%E7%A0%94%E7%A9%B6%20LIME%20%E7%9A%84%E6%9C%AC%E5%9C%B0%E8%A7%A3%E9%87%8A/"><span class="level-item">深入研究 LIME 的本地解释</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/03.%20Computer%20Vision%20%E7%9A%84%E7%94%B1%E6%9D%A5/';
+            this.page.identifier = '03. Computer Vision 的由来/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI 游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">279</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">8</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">31</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI/"><span class="level-start"><span class="level-item">AI</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI 秘籍</span></span><span class="level-end"><span class="level-item tag">109</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/"><span class="level-start"><span class="level-item">BI</span></span><span class="level-end"><span class="level-item tag">37</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/CV/"><span class="level-start"><span class="level-item">CV</span></span><span class="level-end"><span class="level-item tag">8</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">33</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-07-14T23:30:00.000Z">2024-07-15</time></p><p class="title"><a href="/%E5%88%86%E6%9E%90%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%85%AC%E5%B9%B3%E6%80%A7/">分析机器学习的公平性</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-07-13T23:30:00.000Z">2024-07-14</time></p><p class="title"><a href="/07.%20%E4%BD%9C%E4%B8%9A%EF%BC%9A%E4%BA%BA%E5%83%8F%E6%BB%A4%E6%B3%A2%E5%8E%BB%E5%99%AA/">作业：人像滤波去噪</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/CV/">CV</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-07-12T23:30:00.000Z">2024-07-13</time></p><p class="title"><a href="/%E4%BD%BF%E7%94%A8%20Python%20%E5%88%9B%E5%BB%BA%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%83%85%E7%BB%AA%E5%88%86%E6%9E%90%E6%A8%A1%E5%9E%8B/">使用 Python 创建你的第一个情绪分析模型</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-07-11T23:30:00.000Z">2024-07-12</time></p><p class="title"><a href="/%E5%AF%BB%E6%89%BE%E5%B9%B6%E5%8F%AF%E8%A7%86%E5%8C%96%E4%BA%A4%E4%BA%92/">寻找并可视化交互</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-07-10T23:30:00.000Z">2024-07-11</time></p><p class="title"><a href="/%E4%BD%BF%E7%94%A8%20Python%20%E7%BB%98%E5%88%B6%E7%BE%8E%E5%9B%BD%E9%80%89%E4%B8%BE%E5%88%86%E7%BA%A7%E7%BB%9F%E8%AE%A1%E5%9B%BE/">使用 Python 绘制美国选举分级统计图</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2024 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

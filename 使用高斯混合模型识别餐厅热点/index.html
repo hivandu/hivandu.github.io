@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>使用高斯混合模型识别餐厅热点 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="原文：https:&amp;#x2F;&amp;#x2F;towardsdatascience.com&amp;#x2F;identifying-restaurant-hotspots-with-a-gaussian-mixture-model-2a840ab0c782  使用 GMM 识别加拿大多伦多的直观餐厅集群（附 Python 代码）  聚类算法（例如 GMM）是一种有用的工具，可帮助识别数据中的模式。它们使我们能够识别数据集中的子组，从而提"><meta property="og:type" content="blog"><meta property="og:title" content="使用高斯混合模型识别餐厅热点"><meta property="og:url" content="https://hivan.me/%E4%BD%BF%E7%94%A8%E9%AB%98%E6%96%AF%E6%B7%B7%E5%90%88%E6%A8%A1%E5%9E%8B%E8%AF%86%E5%88%AB%E9%A4%90%E5%8E%85%E7%83%AD%E7%82%B9/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="原文：https:&amp;#x2F;&amp;#x2F;towardsdatascience.com&amp;#x2F;identifying-restaurant-hotspots-with-a-gaussian-mixture-model-2a840ab0c782  使用 GMM 识别加拿大多伦多的直观餐厅集群（附 Python 代码）  聚类算法（例如 GMM）是一种有用的工具，可帮助识别数据中的模式。它们使我们能够识别数据集中的子组，从而提"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2024-07-01T23:30:00.000Z"><meta property="article:modified_time" content="2024-07-16T06:58:06.162Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="article:tag" content="ML"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/%E4%BD%BF%E7%94%A8%E9%AB%98%E6%96%AF%E6%B7%B7%E5%90%88%E6%A8%A1%E5%9E%8B%E8%AF%86%E5%88%AB%E9%A4%90%E5%8E%85%E7%83%AD%E7%82%B9/"},"headline":"使用高斯混合模型识别餐厅热点","image":[],"datePublished":"2024-07-01T23:30:00.000Z","dateModified":"2024-07-16T06:58:06.162Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"原文：https:&#x2F;&#x2F;towardsdatascience.com&#x2F;identifying-restaurant-hotspots-with-a-gaussian-mixture-model-2a840ab0c782  使用 GMM 识别加拿大多伦多的直观餐厅集群（附 Python 代码）  聚类算法（例如 GMM）是一种有用的工具，可帮助识别数据中的模式。它们使我们能够识别数据集中的子组，从而提"}</script><link rel="canonical" href="https://hivan.me/%E4%BD%BF%E7%94%A8%E9%AB%98%E6%96%AF%E6%B7%B7%E5%90%88%E6%A8%A1%E5%9E%8B%E8%AF%86%E5%88%AB%E9%A4%90%E5%8E%85%E7%83%AD%E7%82%B9/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><script>var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?f91b64734fdc7bfb999e48f9248d44dd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-ZFB6CVWZFJ" async></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-ZFB6CVWZFJ');</script><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2024-07-01T23:30:00.000Z" title="7/2/2024, 7:30:00 AM">2024-07-02</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI/">AI</a></span></div></div><h1 class="title is-3 is-size-4-mobile">使用高斯混合模型识别餐厅热点</h1><div class="content"><p>原文：https://towardsdatascience.com/identifying-restaurant-hotspots-with-a-gaussian-mixture-model-2a840ab0c782</p>
+<blockquote>
+<p>使用 GMM 识别加拿大多伦多的直观餐厅集群（附 Python 代码）</p>
+</blockquote>
+<p>聚类算法（例如
+GMM）是一种有用的工具，可帮助识别数据中的模式。它们使我们能够识别数据集中的子组，从而提高你的理解或增强预测模型。在本文中，借助
+GMM，我们将尝试使用位置数据识别多伦多的餐厅集群。目标是找到在地理上合理但在其他特征（例如餐厅评级）方面具有不同特征的集群。我们将讨论关键代码，你可以在<a
+target="_blank" rel="noopener" href="https://github.com/hivandu/public_articles">GitHub</a><a
+href="#fn1" class="footnote-ref" id="fnref1"
+role="doc-noteref"><sup>1</sup></a>上找到完整的项目。</p>
+<p><img
+src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*JzEI1jMp1wcx5GU1RTfUvQ.png"
+alt="img" /></p>
+<span id="more"></span>
+<h2 id="什么是-gmm">什么是 GMM</h2>
+<p>如上所述，GMM
+是一种聚类算法。这意味着它可用于根据特征对数据集中的元素进行分组。例如，假设我们有一个客户收入和年龄的数据集。聚类算法可以识别
+4 个组：老年高收入者、老年低收入者、年轻高收入者和年轻低收入者。这 4
+个群体可能具有非常不同的特征/行为。我们不会详细介绍 GMM
+如何创建这些聚类，因为有很多很好的资料来源<a href="#fn2"
+class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a><a
+href="#fn3" class="footnote-ref" id="fnref3"
+role="doc-noteref"><sup>3</sup></a>。重要的是为什么我们要使用 GMM
+而不是其他聚类算法（例如 K-means）。</p>
+<p>对于我们的问题，GMM
+最重要的优势是它在聚类方差和协方差方面更加灵活。首先，更大的方差灵活性意味着
+GMM
+可以更好地识别方差不等的聚类。换句话说，当我们既有密集的聚类又有分散的聚类时，它将产生更好的结果。我们可以在下面的图
+1 中看到这一点，其中我们将 K-means 和 GMM
+应用于一些测试数据。这里每个点的颜色由相关算法分配的聚类决定。在这种情况下，GMM
+聚类似乎更合适。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407011651493.png"
+alt="图1：不同方差的聚类算法比较" /></p>
+<p>其次，协方差灵活性越高，我们就能识别出更细长/椭圆形的簇。相比之下，K
+均值只能真正识别球形簇。我们可以在图 2 中看到这一点，GMM
+簇再次更合适。当我们将 GMM
+的这些属性应用于我们的餐厅数据集时，我们就会明白为什么它们如此重要。最终，它将使我们能够找到更有趣的簇。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407011651494.png"
+alt="图2：非球形聚类算法比较" /></p>
+<h2 id="数据集">数据集</h2>
+<p>为了训练 GMM，我们将使用 Yelp 开放数据集<a href="#fn4"
+class="footnote-ref" id="fnref4"
+role="doc-noteref"><sup>4</sup></a>餐馆的大量信息。我们对其进行了预处理，以便获得多伦多每家餐馆的名称、纬度和经度。我们还包括评论数量（<code>review_count</code>）和餐馆评级（星级），稍后将用于分析聚类。其他特征（例如餐馆的街区和类别）已被排除。我们使用下面的代码读取数据集，我们可以在表
+1 中看到一个示例。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><br>data = pd.read_csv(data_path + <span class="hljs-string">&quot;/yelp_data/toronto_restaurant.csv&quot;</span>,usecols=[<span class="hljs-string">&#x27;name&#x27;</span>,<span class="hljs-string">&#x27;latitude&#x27;</span>,<span class="hljs-string">&#x27;longitude&#x27;</span>,<span class="hljs-string">&#x27;stars&#x27;</span>,<span class="hljs-string">&#x27;review_count&#x27;</span>])<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">len</span>(data))<br>data.head()<br><br>---<br><span class="hljs-number">7148</span><br>	name	latitude	longitude	review_count	stars<br><span class="hljs-number">0</span>	Alize Catering	<span class="hljs-number">43.71140</span>	-<span class="hljs-number">79.39934</span>	<span class="hljs-number">12</span>	<span class="hljs-number">3.0</span><br><span class="hljs-number">1</span>	Chula Taberna Mexicana	<span class="hljs-number">43.66926</span>	-<span class="hljs-number">79.33590</span>	<span class="hljs-number">39</span>	<span class="hljs-number">3.5</span><br><span class="hljs-number">2</span>	Sunnyside Grill	<span class="hljs-number">43.78182</span>	-<span class="hljs-number">79.49043</span>	<span class="hljs-number">3</span>	<span class="hljs-number">5.0</span><br><span class="hljs-number">3</span>	Bampot House of Tea &amp; Board Games	<span class="hljs-number">43.66158</span>	-<span class="hljs-number">79.40888</span>	<span class="hljs-number">55</span>	<span class="hljs-number">4.0</span><br><span class="hljs-number">4</span>	Thai Express	<span class="hljs-number">43.77488</span>	-<span class="hljs-number">79.49462</span>	<span class="hljs-number">5</span>	<span class="hljs-number">3.0</span><br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*0kfVSVpXP3MsP43XT3z3tw.png"
+alt="表 1：餐厅数据集示例" /></p>
+<p>在图 3 中，我们用经纬度标出了所有餐厅。每个点代表一家餐厅，总共有
+7148
+多家餐厅。餐厅的位置可以告诉我们一些信息。例如，某些位置的餐厅可能评级较高。因此，我们可能能够在试图预测餐厅评级等信息的模型中使用位置。但是，仅输入原始的经纬度数据可能不会给我们带来好的结果——尤其是在使用线性模型的情况下。这意味着我们必须对经纬度特征执行某种形式的特征工程。</p>
+<p><img
+src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*Ey7qn5aGihajUcdFHkHMkA.png"
+alt="3：使用餐厅经纬度的散点图" />图</p>
+<p>在某些方面，考虑到我们有餐厅社区，这已经完成了。换句话说，餐厅已经根据其纬度和经度被分组为集群（即社区）。问题是多伦多有
+71
+个不同的社区，需要估计很多系数。你可能可以根据某些社区的特点将它们分组在一起，但这需要多伦多餐厅领域的专业知识。我们将尝试一种替代方法，即使用
+GMM 对餐厅进行分组。</p>
+<h2 id="拟合-gmm">拟合 GMM</h2>
+<p>在下面的 Python 函数的第一部分中，我们训练 GMM。GMM
+的一个问题是它们会收敛到局部最优点。为了避免这种情况，我们将“n_init”参数设置为
+5。这将随机初始化和训练 5 个
+GMM，最后，我们将最佳模型作为最终模型。我们使用此模型获得每家餐厅的标签/预测。然后，如图
+3 所示，我们绘制餐厅，但这次我们根据 GMM 标签分配颜色。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> sklearn.mixture <span class="hljs-keyword">as</span> sm<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br>%matplotlib inline<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">plot_gmm</span>(<span class="hljs-params">n</span>):<br>      <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    Train a GMM and plot the results</span><br><span class="hljs-string">    </span><br><span class="hljs-string">    Parameters</span><br><span class="hljs-string">    ----------</span><br><span class="hljs-string">    n : int</span><br><span class="hljs-string">        Number of clusters</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <br>    <span class="hljs-comment">#Fit gmm and get labels</span><br>    x = data[[<span class="hljs-string">&#x27;longitude&#x27;</span>,<span class="hljs-string">&#x27;latitude&#x27;</span>]].values<br>    gmm = sm.GaussianMixture(n_components=n, random_state=<span class="hljs-number">11</span>,n_init=<span class="hljs-number">5</span>)<br>    labels = gmm.fit(x).predict(x)<br>    <br>    <span class="hljs-comment">#assign a colour to each label</span><br>    colour = [<span class="hljs-string">&#x27;#f54242&#x27;</span>,<span class="hljs-string">&#x27;#4287f5&#x27;</span>,<span class="hljs-string">&#x27;#f59942&#x27;</span>,<span class="hljs-string">&#x27;#f5f242&#x27;</span>,<span class="hljs-string">&#x27;#69f542&#x27;</span>,<span class="hljs-string">&#x27;#b342f5&#x27;</span>]<br>    c = [colour[l] <span class="hljs-keyword">for</span> l <span class="hljs-keyword">in</span> labels]<br>    <br>    <span class="hljs-comment">#scatter plot</span><br>    plt.figure(figsize=(<span class="hljs-number">20</span>, <span class="hljs-number">12</span>))<br>    plt.scatter(x=x[:, <span class="hljs-number">0</span>], y=x[:, <span class="hljs-number">1</span>], c=c, s=<span class="hljs-number">40</span>, cmap=<span class="hljs-string">&#x27;Set1&#x27;</span>, zorder=<span class="hljs-number">1</span>)<br>    plt.title(<span class="hljs-string">&#x27;Number of Clusters: &#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(n),size=<span class="hljs-number">25</span>)<br>    plt.xlabel(<span class="hljs-string">&#x27;Longitude&#x27;</span>,size=<span class="hljs-number">20</span>)<br>    plt.ylabel(<span class="hljs-string">&#x27;Latitude&#x27;</span>,size=<span class="hljs-number">20</span>)<br>    <br>plot_gmm(<span class="hljs-number">5</span>)<br></code></pre></td></tr></table></figure>
+<p>你可能已经注意到，此函数采用一个参数 — 聚类数。这被视为 GMM
+的超参数，我们必须选择它。如果我们决定使用过多的聚类，模型将过度拟合数据。这意味着我们将识别出没有意义的聚类或拆分更适合集中在一起的聚类。如果我们决定使用过少的聚类，模型可能会对数据产生欠拟合。这意味着我们可能会错过一些重要的聚类。问题是我们如何决定聚类的数量？</p>
+<p>有几种不同的方法可以帮助确定适当的聚类数量。这些方法包括使用轮廓分数或模型
+BIC 值<a href="#fn5" class="footnote-ref" id="fnref5"
+role="doc-noteref"><sup>5</sup></a>(https://towardsdatascience.com/gaussian-mixture-model-clusterization-how-to-select-the-number-of-components-clusters-553bef45f6e4)。这些只是有用的指导方针，不一定能为你提供最佳的聚类数量。由于我们仅使用
+2 个特征来训练我们的
+GMM，因此我们可以轻松地可视化结果并了解聚类是否合适。例如，如图 5
+所示，我们使用上面的 Python 函数绘制具有 5 个聚类的 GMM 的结果。</p>
+<p><img
+src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*-iaGiEbJxDCOdhL1K862Hw.png"
+alt="图 5：使用 5 个聚类的 GMM 标签散点图" /></p>
+<p>GMM
+已识别出一些有趣的聚类。例如，蓝色聚类似乎非常密集，附近有许多餐馆。长红色聚类似乎是一条道路。在图
+6 中，我们分别使用 4 个和 6
+个聚类看到了类似的图。在这两种情况下，我们都看到 GMM 已识别出与图 5
+中类似的聚类。所以，让我们继续使用 5
+个聚类。我们可以进一步分析它们，以更好地了解它们是否合适。</p>
+<p><img
+src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*W3GBuOZsQxy9v3_DkV5INQ.png"
+alt="img" /></p>
+<p><img
+src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*omEyKOG8O7OIIMGBbHlYJw.png"
+alt="图 6：使用替代数量的聚类的 GMM 标签散点图" /></p>
+<h2 id="分析集群">分析集群</h2>
+<p>如果我们看一下多伦多的地图，我们可以更好地理解这些集群。我们使用下面的代码来做到这一点。首先，我们从具有
+5 个集群的 GMM
+中获取标签。然后我们创建一个以多伦多为中心的叶状图。最后，我们将每个点叠加在地图上。像以前一样，每个点的颜色由其标签决定。我们可以在图
+7 中看到这个过程的结果。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> folium<br><br><span class="hljs-comment">#Get gmm predictions</span><br>x = data[[<span class="hljs-string">&#x27;longitude&#x27;</span>,<span class="hljs-string">&#x27;latitude&#x27;</span>]].values<br>gmm = sm.GaussianMixture(n_components=<span class="hljs-number">5</span>, random_state=<span class="hljs-number">11</span>,n_init=<span class="hljs-number">5</span>)<br>labels = gmm.fit(x).predict(x)<br><br><span class="hljs-comment">#create folium map </span><br>m = folium.Map(<br>    location=[<span class="hljs-number">43.77923</span>, -<span class="hljs-number">79.41731999999998</span>],<br>    zoom_start=<span class="hljs-number">12</span>,<br>    tiles=<span class="hljs-string">&#x27;Stamen Terrain&#x27;</span><br>)<br><br>colour = [<span class="hljs-string">&#x27;#f54242&#x27;</span>,<span class="hljs-string">&#x27;#4287f5&#x27;</span>,<span class="hljs-string">&#x27;#f59942&#x27;</span>,<span class="hljs-string">&#x27;#f5f242&#x27;</span>,<span class="hljs-string">&#x27;#69f542&#x27;</span>,<span class="hljs-string">&#x27;#b342f5&#x27;</span>]<br><br><span class="hljs-comment">#add markers to map </span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(x)):<br>    lon = x[i][<span class="hljs-number">0</span>]<br>    lat = x[i][<span class="hljs-number">1</span>]<br>    label = labels[i]<br>    <br>    <span class="hljs-comment">#assign colour based on label </span><br>    c = colour[label]<br>    <br>    <span class="hljs-comment">#add marker</span><br>    folium.CircleMarker(location=[lat,lon],<br>                        radius=<span class="hljs-number">2</span>,<br>                        color=c,<br>                        fill_color=c).add_to(m) <br><br><span class="hljs-comment">#display map</span><br>m<br></code></pre></td></tr></table></figure>
+<p>看一看地图，这些聚类开始变得更有意义了。蓝色和绿色聚类位于多伦多港周围人口更密集的城市地区。这些聚类大致被一条高速公路隔开，这似乎是划分餐厅群体的相当自然的方式。黄色和橙色聚类密度较低，它们由郊区的餐厅组成。长长的红色聚类特别有趣。几乎所有这些点都落在央街上。快速搜索显示，这实际上是多伦多最著名的街道。考虑到这一点，将这些餐厅归入自己的组是有意义的。</p>
+<p><img
+src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*YnhQ4cS-4z_5I0niiHH41w.png"
+alt="图 7：GMM 聚类覆盖多伦多地图" /></p>
+<p>这些聚类并不完美。有一些不规则的红点可能适合成为蓝色聚类的一部分。同样，高速公路右侧的一些蓝点可能应该属于绿色聚类。在很大程度上，GMM
+已经识别出在地理上有意义的聚类。我们可以预期它们具有不同的特征，但事实并非如此。</p>
+<p>我们可以通过考虑餐厅的评论和评分来研究这些特征。在表 2
+中，我们可以看到每个集群中餐厅的平均评论数量。我们看到蓝色集群中的评论数量往往更高。事实上，平均评论数量是黄色和橙色集群的两倍多。这可能是有道理的，因为我们可以预期密集地区的餐厅会有更多的顾客。</p>
+<p><img
+src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*27agvwoRvFsnwE_t122Rng.png"
+alt="表 2：集群评审和评级分析" /></p>
+<p>我们还可以看到平均评分和至少有 4
+星评分的餐厅百分比（高评分百分比）。绿色集群中的餐厅平均评分最高，高评分餐厅比例最高。也许这是多伦多一个更高档的地区？同样在评分方面，两个郊区集群（黄色和橙色）往往相差很大。</p>
+<p>这只是我们可以用来比较聚类的两个特征。我们可以一直分析下去。归根结底，聚类的适用性取决于你想用它们做什么。一般的想法是，也许经过一些微调后，你可以用它的聚类来标记每家餐厅，并将其用作分析或模型中的一个特征。你也可以使用这些聚类作为类似地理标签的起点。</p>
+<h2 id="参考">参考</h2>
+<hr />
+<p><strong>「AI秘籍」系列课程：</strong></p>
+<ul>
+<li><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3074770001140400130&amp;scene=173&amp;subscene=227&amp;sessionid=undefined&amp;enterid=1717956640&amp;from_msgid=2648748678&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">人工智能应用数学基础</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3035995870421073928&amp;scene=126&amp;uin=&amp;key=&amp;devicetype=iMac+MacBookPro17%2C1+OSX+OSX+14.5+build(23F79)&amp;version=13080710&amp;lang=zh_CN&amp;nettype=WIFI&amp;ascene=78&amp;fontScale=100">人工智能Python基础</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3123885735829061633&amp;scene=173&amp;subscene=227&amp;sessionid=1717956706&amp;enterid=1717956713&amp;from_msgid=2648751062&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">人工智能基础核心知识</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg%3D%3D&amp;action=getalbum&amp;album_id=3193965113967132673&amp;subscene=&amp;sessionid=svr_548800ce471&amp;enterid=1704001437&amp;from_msgid=2648751621&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;scene=21#wechat_redirect">人工智能BI核心知识</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3503005363236880386&amp;from_itemidx=1&amp;from_msgid=2648753419#wechat_redirect">人工智能CV核心知识</a></li>
+</ul>
+<section id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
+<ol>
+<li
+id="fn1"><p>茶桁的公开文章代码库：https://github.com/hivandu/public_articles<a
+href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Cory Maklin (2019), Mixture Models Clustering Algorithm
+Explained (2019),
+https://towardsdatascience.com/gaussian-mixture-models-d13a5e915c8e<a
+href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Ribhu Nirek, Gaussian Mixture Models (2020),
+https://towardsdatascience.com/gaussian-mixture-models-gmm-6e95cbc38e6e<a
+href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Yelp, Yelp open dataset (2019),
+https://www.yelp.com/dataset<a href="#fnref4" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>Vincenzo Lavorini, Gaussian Mixture Model clustering:
+how to select the number of components (2018),
+https://towardsdatascience.com/gaussian-mixture-model-clusterization-how-to-select-the-number-of-components-clusters-553bef45f6e4<a
+href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+</div><div class="article-licensing box"><div class="licensing-title"><p>使用高斯混合模型识别餐厅热点</p><p><a href="https://hivan.me/使用高斯混合模型识别餐厅热点/">https://hivan.me/使用高斯混合模型识别餐厅热点/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2024-07-02</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2024-07-16</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a><a class="link-muted mr-2" rel="tag" href="/tags/ML/">ML</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/04.%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%98%AF%E5%A6%82%E4%BD%95%E7%9C%8B%E5%88%B0%E5%9B%BE%E5%83%8F%E7%9A%84/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">计算机是如何看到图像的</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B%E7%9A%84%E5%8A%9B%E9%87%8F/"><span class="level-item">特征工程的力量</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/%E4%BD%BF%E7%94%A8%E9%AB%98%E6%96%AF%E6%B7%B7%E5%90%88%E6%A8%A1%E5%9E%8B%E8%AF%86%E5%88%AB%E9%A4%90%E5%8E%85%E7%83%AD%E7%82%B9/';
+            this.page.identifier = '使用高斯混合模型识别餐厅热点/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI 游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">279</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">8</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">31</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI/"><span class="level-start"><span class="level-item">AI</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI 秘籍</span></span><span class="level-end"><span class="level-item tag">109</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/"><span class="level-start"><span class="level-item">BI</span></span><span class="level-end"><span class="level-item tag">37</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/CV/"><span class="level-start"><span class="level-item">CV</span></span><span class="level-end"><span class="level-item tag">8</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">28</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">33</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-07-14T23:30:00.000Z">2024-07-15</time></p><p class="title"><a href="/%E5%88%86%E6%9E%90%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%85%AC%E5%B9%B3%E6%80%A7/">分析机器学习的公平性</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-07-13T23:30:00.000Z">2024-07-14</time></p><p class="title"><a href="/07.%20%E4%BD%9C%E4%B8%9A%EF%BC%9A%E4%BA%BA%E5%83%8F%E6%BB%A4%E6%B3%A2%E5%8E%BB%E5%99%AA/">作业：人像滤波去噪</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/CV/">CV</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-07-12T23:30:00.000Z">2024-07-13</time></p><p class="title"><a href="/%E4%BD%BF%E7%94%A8%20Python%20%E5%88%9B%E5%BB%BA%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%83%85%E7%BB%AA%E5%88%86%E6%9E%90%E6%A8%A1%E5%9E%8B/">使用 Python 创建你的第一个情绪分析模型</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-07-11T23:30:00.000Z">2024-07-12</time></p><p class="title"><a href="/%E5%AF%BB%E6%89%BE%E5%B9%B6%E5%8F%AF%E8%A7%86%E5%8C%96%E4%BA%A4%E4%BA%92/">寻找并可视化交互</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-07-10T23:30:00.000Z">2024-07-11</time></p><p class="title"><a href="/%E4%BD%BF%E7%94%A8%20Python%20%E7%BB%98%E5%88%B6%E7%BE%8E%E5%9B%BD%E9%80%89%E4%B8%BE%E5%88%86%E7%BA%A7%E7%BB%9F%E8%AE%A1%E5%9B%BE/">使用 Python 绘制美国选举分级统计图</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2024 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
