@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>良好功能的特征 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="为什么选择模型特征时预测能力并不是最重要的"><meta property="og:type" content="blog"><meta property="og:title" content="良好功能的特征"><meta property="og:url" content="https://hivan.me/%E8%89%AF%E5%A5%BD%E5%8A%9F%E8%83%BD%E7%9A%84%E7%89%B9%E5%BE%81/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="为什么选择模型特征时预测能力并不是最重要的"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2024-08-08T23:30:00.000Z"><meta property="article:modified_time" content="2024-07-29T11:44:23.039Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="ML"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/%E8%89%AF%E5%A5%BD%E5%8A%9F%E8%83%BD%E7%9A%84%E7%89%B9%E5%BE%81/"},"headline":"良好功能的特征","image":[],"datePublished":"2024-08-08T23:30:00.000Z","dateModified":"2024-07-29T11:44:23.039Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"为什么选择模型特征时预测能力并不是最重要的"}</script><link rel="canonical" href="https://hivan.me/%E8%89%AF%E5%A5%BD%E5%8A%9F%E8%83%BD%E7%9A%84%E7%89%B9%E5%BE%81/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><script>var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?f91b64734fdc7bfb999e48f9248d44dd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-ZFB6CVWZFJ" async></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-ZFB6CVWZFJ');</script><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2024-08-08T23:30:00.000Z" title="8/9/2024, 7:30:00 AM">2024-08-09</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI/">AI</a></span></div></div><h1 class="title is-3 is-size-4-mobile">良好功能的特征</h1><div class="content"><blockquote>
+<p>为什么选择模型特征时预测能力并不是最重要的</p>
+</blockquote>
+<span id="more"></span>
+<p>可直接在橱窗里购买，或者到文末领取优惠后购买：</p>
+<p><img
+src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*sfbcPN_7PwRjuYD5ubTwYg.png"
+alt="img" /></p>
+<p>在保险业中，过去的索赔行为对未来的索赔行为具有很强的预测性。它可能是用于确定客户是否会提出索赔的唯一最具预测性的信息来源。但是，如果我们仅使用索赔历史来构建模型，它就不会很好。一般来说，模型特征应该来自各种不同的信息源。你的特征选择方法应该旨在从每个不同的信息源中创建最具预测性的特征的候选名单。</p>
+<p>在本文中，我们将解释如何使用变量聚类和特征重要性的组合来创建这样的候选列表。我们还讨论了可能导致添加或删除特征的其他考虑因素。这些因素包括数据质量和可用性、特征稳定性、可解释性和法律/道德。最后，我们将讨论如何在特征选择框架中整合所有这些考虑因素。让我们首先准确定义特征选择的含义。</p>
+<h2 id="什么是特征选择">什么是特征选择？</h2>
+<p>在模型开发过程中，特征选择发生在特征工程之后、开始拟合模型之前。在特征工程期间，我们将原始数据转换为模型特征列表。根据你的问题，此列表可能很大（即超过
+1000 个特征）。特征选择涉及将其缩小到一个候选列表（即 20-40
+个特征）。根据你的模型，可能还有另一个特征选择阶段，你将在此选择模型特征的最终列表（即
+8-10 个特征）。在本文中，我们重点介绍第一阶段 — 创建候选列表。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240729185648.png"
+alt="图 1：特征工程和选择概述" /></p>
+<p>我们出于一些原因创建了一个候选名单。在模型训练阶段，使用完整的特征列表在计算上是昂贵的。甚至在开始训练模型之前，我们就会想要探索这些特征以了解它们与目标变量的关系。测试这些特征也需要大量工作。没有必要对所有特征都进行这项工作。这是因为完整列表将包含冗余/不相关的特征。</p>
+<h3 id="冗余功能">冗余功能</h3>
+<p>为了更好地理解这一点，假设你想要创建一个模型来预测某人是否会拖欠汽车贷款。假设对于每个客户，我们都可以访问有关月收入、违约和欠款历史、现有债务义务和一些个人信息的数据。在特征工程期间，你将使用不同时间段的不同聚合从每个来源创建许多特征。在图
+2 中，你可以看到一些示例。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240729191122.png"
+alt="图 2：特征工程示例" /></p>
+<p>对于收入，我们预计上述 3
+个特征非常相似。我们也可以预期它们可以预测违约。但是，它们都会捕捉到收入和违约之间相同的潜在关系。这意味着，一旦我们的模型中有了一个收入特征，再增加一个特征并不会提高模型的准确性。我们说其余的收入特征是多余的。我们希望将多余的特征从我们的候选名单中排除，即使它们具有预测性。</p>
+<h3 id="不相关的特征">不相关的特征</h3>
+<p>我们还希望删除任何不具有预测性或由于其他原因不应考虑的特征（例如，在模型中使用该特征是非法的）。这些被称为不相关特征。例如，假设我们使用客户
+20
+年前的收入创建了一个特征。这些信息已经过时，不会告诉我们有关他们当前财务状况的任何信息。换句话说，这个特征不会帮助我们预测客户是否会拖欠汽车贷款。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240729191433.png"
+alt="图 3：冗余和不相关特征的总结" /></p>
+<p>特征选择的目标是通过删除尽可能多的冗余和不相关的特征来缩小列表。为此，我们需要考虑各个特征的预测能力以及特征之间的差异（即预测变量多样性）。这些是主要考虑因素，我们将在下面深入讨论它们。</p>
+<h2 id="预测能力">预测能力</h2>
+<p><img
+src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*L3FHVLh0oz2H6T08IlF7CA.png"
+alt="img" /></p>
+<p>我们可以大致将预测能力定义为特征预测目标变量的能力。实际上，我们需要使用一些度量/统计数据来估计这一点。一个常见的度量是特征与目标变量之间的相关性。较大的正相关或负相关表示存在很强的关系，换句话说，该特征具有预测性。其他度量包括信息值、互信息和特征重要性分数。</p>
+<p>不同的衡量标准各有优缺点。重要的是，它们允许我们比较特征并优先考虑那些最具预测性的特征。但是，如果这是我们唯一考虑的事情，我们可能不会得到一个很好的候选名单。继续我们的汽车贷款示例，假设我们已经创建了表
+1
+中的特征列表。这是我们的完整特征列表，我们已根据特征重要性对它们进行了排序。</p>
+<p><img
+src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*6TPEU2j7eY9cllks2cT-fg.png"
+alt="表 1：潜在模型特征的完整列表" /></p>
+<p>总体而言，我们可以看到基于违约历史的特征最具预测性。这是因为客户过去的违约历史将告诉我们很多有关他们将来是否会违约的信息。因此，假设我们只将
+20
+个最具预测性的特征作为最终候选名单。我们最终会得到许多违约特征。换句话说，候选名单中会有许多冗余特征。</p>
+<h2 id="预测变量">预测变量</h2>
+<p>这个问题引出了我们应该考虑的第二个因素——预测变量的多样性。为了避免出现过多的冗余特征，我们需要考虑这些特征之间的差异。为此，我们应该首先从完整列表中创建特征组。这些组的构建方式应使组内的特征彼此相似，而与其他组中的特征不同。现在，如果我们从每个组/子列表中提取最具预测性的特征，我们最终会得到更少的冗余特征。</p>
+<h2 id="img"><img
+src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*F7DQkORzWhBr1sMgewBaCg.png"
+alt="img" /></h2>
+<h3 id="变量聚类">变量聚类</h3>
+<p>问题是我们如何创建这些特征组。我们可以使用领域知识手动完成，或者可能已经存在固有的分组。对于我们的汽车贷款示例，我们可以创建
+6 个组（5 个主要数据源和 1 个收入和债务组合）。例如，你可以在图 4
+中看到违约和收入组。在这两个组中，特征都按特征重要性排序。然后，我们可以从每个组中选取
+3/4 个最具预测性的特征，从而为我们提供 18 到 24 个特征的候选名单。</p>
+<p><img
+src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*DtJty35xk_fCEI8jdFZsGw.png"
+alt="图 4：默认和收入特征组" /></p>
+<p>对于许多问题，手动对特征进行分组可能很困难。你可能有太多特征无法手动分组。底层数据源也可能更复杂。即使对于我们的汽车贷款示例，也不清楚
+6
+个组是否是最佳分组。例如，个人组中的特征之一是“当前职业”。最好将其与收入特征一起包含在内。</p>
+<p>为了解决这些问题，我们需要一种统计方法来创建相似的组。这些方法称为<strong>变量聚类</strong>方法。例如，你可以使用Python
+中的 VarClusHi<a href="#fn1" class="footnote-ref" id="fnref1"
+role="doc-noteref"><sup>1</sup></a>
+包。此方法旨在对高度相关的变量进行分组。组内的变量应该高度相关，同时不与其他组中的变量相关。你还可以重新设计
+K-means 等聚类方法，使它们对变量而不是观测值进行聚类。</p>
+<h2 id="其他特征和注意事项">其他特征和注意事项</h2>
+<p>使用变量聚类将帮助我们删除冗余特征。使用特征重要性将帮助我们删除不相关的特征，因为它们不具有预测性。在使用这些方法之前，我们可能首先要删除由于其他原因而不相关的特征。同样，我们可能希望包含某些特征，即使它们不具有预测性。这些额外的原因总结在图
+5 中，我们将在下面详细介绍。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240729192347.png"
+alt="图 5：良好特征的特征" /></p>
+<h3 id="数据质量">数据质量</h3>
+<p>如果某个特征的数据质量较差，则可能被视为不相关。每当我们预期数据集中的记录值与真实值不同时，我们就应该担心。例如，数据可能丢失或输入错误。数据质量差通常意味着某个特征无法预测，无论如何都会被排除。情况并非总是如此，尤其是当错误是系统性的或数据不是随机丢失时。</p>
+<p>在某些情况下，数据可能会被用户或第三方操纵。以我们的汽车贷款模型为例，用户可能会被要求提供自己的个人信息（例如原籍国、职业）。用户可能会倾向于提供能让他们更有可能获得贷款的信息。例如，他们可能会谎称自己有一份高薪工作，比如医生或软件开发人员。我们需要独立验证这些类型的特征是否正确。</p>
+<h3 id="数据可用性">数据可用性</h3>
+<p>模型通常是在开发环境中创建的。要实际使用模型，它们需要转移到生产环境中。由于各种技术问题和成本，某些功能可能无法在生产环境中使用。换句话说，数据可用于训练模型，但不能供模型进行实时预测。要获得有效的模型，我们需要排除这些功能中的任何一个。</p>
+<p>即使这些特征被排除在最终模型之外，我们可能仍希望将它们纳入我们的候选名单。这将使我们能够继续探索这些特征。如果我们能够证明它们具有预测性，这将有助于证明生产这些特征所涉及的工作和成本是合理的。然后它们可以用于未来的模型。</p>
+<h3 id="稳定性过去和未来的表现">稳定性（过去和未来的表现）</h3>
+<p>你的特征现在具有预测性并不意味着它们将来也具有预测性。随着时间的推移，特征与目标变量之间的关系可能会发生变化，并且模型中捕获的关系可能会过时。这些变化是由各种内部和外部力量驱动的。例如，COVID
+疫情导致客户行为突然发生变化，从而影响试图预测该行为的模型。</p>
+<p>为了更好地理解这一点，让我们回到汽车贷款的例子。假设在疫情爆发之前，我们用
+PERS7（过去 12
+个月实体分行访问次数）建立一个模型。当时，更频繁去银行的客户拖欠汽车贷款的可能性较小。换句话说，PERS7
+值越高，拖欠的可能性就越低。疫情爆发后，封锁意味着许多互动转移到了线上。这意味着更少的分行访问，我们会看到所有客户的
+PERS7 值下降。</p>
+<p><img
+src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*CwPXiJ4AEz_4iut0q8lW8w.png"
+alt="img" /></p>
+<p>从我们的模型来看， PERS7
+的下降表明违约风险更高。尽管许多客户的违约风险不会改变，但该模型现在会预测更高的违约概率。贵组织内部和外部还有许多其他潜在变化可能会以这种方式影响你的模型。你需要尽力考虑所有这些变化，并选择能够抵御这些变化的特征。</p>
+<h3 id="可解释性">可解释性</h3>
+<p>可解释性
+到目前为止，我们已经讨论过使用平均值和最小值等简单的聚合方法来创建特征。
+还有更复杂的特征工程技术，如<a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/C4mNMI3h3K9NABzMaZPI9A">主成分分析
+(PCA)</a>。 例如，从图 4 中，我们可以提取收入组中的所有特征并计算 PCs。
+简单来说，可以将 PCs 视为收入特征的汇总。 我们可以考虑将第 1 款 PC
+列入候选名单。</p>
+<p>第一个主成分可能比任何单个收入特征都更具预测性。然而，我们可能仍然只将简单的收入汇总纳入我们的候选名单。这是因为违约和总收入之间的关系比主成分的关系更容易理解和解释。最终，我们可以优先考虑某些特征，以提高我们模型的可解释性。如果你想了解为什么可解释性很重要，你可以阅读这篇文章：<a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/I-Hk82hj4dL28OfGF3u6ng">机器学习中的可解释性</a>。</p>
+<h3 id="法律与道德">法律与道德</h3>
+<p>某些类型的信息可能不适合用来建立模型。例如，为了避免贷款中的性别歧视，
+PERS65
+（客户性别）的使用可能是非法的。即使法律目前没有涵盖这些类型的信息，你可能仍希望避免使用它们。它们可能会导致不道德的后果和公众的强烈反对。</p>
+<p><img
+src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*_Bb3bS3NxEIFPw0L7mVkUg.png"
+alt="img" /></p>
+<p>与直觉相反，你可能仍希望将这些特征纳入候选名单。这样才能进行<a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/jrRvA0MwzF-T9UiJ02ofVg">算法公平性</a>评估。如果不将性别作为特征，你就无法确定模型是否偏向某一性别。这些类型的特征称为受保护特征，不应用于构建模型。</p>
+<h3 id="具体问题">具体问题</h3>
+<p>最后要考虑的是，模型通常包含大量分析。有时，这些分析与模型构建没有直接关系，相反，我们想要回答具体的问题。例如，某些地区的客户违约率是否不同？或者，倾向于在线互动的客户的违约率是否高于访问分支机构的客户的违约率？将回答这些类型问题所需的任何功能纳入你的候选名单会很方便。</p>
+<h2 id="特征选择框架">特征选择框架</h2>
+<p>最后，所有上述考虑都需要以某种方式形式化。这就是特征选择框架的作用所在。它将概述选择特征的方法的技术细节，包括特征重要性的度量和变量聚类方法。它还可以定义处理其他考虑因素的方法（例如，需要进行哪些分析来确定特征是否稳定）。你可以在图
+6 中看到此类框架的概述。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240729194018.png"
+alt="图 6：特征选择框架概述" /></p>
+<p>这个框架可能会成为更大的建模框架的一部分。除了特征选择之外，它还将定义特征工程的方法和使用的模型类型。建模框架可以再次成为更大的治理框架的一部分。这就是负责任的人工智能框架。我们曾在文章《[[什么是负责任的人工智能]]》中讨论负责任的人工智能及其目标。</p>
+<p>AI 进阶：企业项目实战<a href="#fn2" class="footnote-ref" id="fnref2"
+role="doc-noteref"><sup>2</sup></a></p>
+<h2 id="参考">参考</h2>
+<p>N. Siddiqi, Credit Risk Scorecards: Developing and Implementing
+Intelligent Credit Scoring (2006)</p>
+<p>J. Brownlee, How to Choose a Feature Selection Method For Machine
+Learning (2020)
+https://machinelearningmastery.com/feature-selection-with-real-and-categorical-data/</p>
+<p>R Doucmentation, Variable Clustering (2021)
+http://math.furman.edu/~dcs/courses/math47/R/library/Hmisc/html/varclus.html</p>
+<p>Open Risk Manual, Model Decay (2021)
+https://www.openriskmanual.org/wiki/Model_Decay</p>
+<hr />
+<p>希望这篇文章对你有所帮助！你还可以阅读我的其他文章，或者查看有关企业
+AI 实战项目的教程，相信会让你拥有更多收获。</p>
+<p><strong>「AI秘籍」系列课程：</strong></p>
+<ul>
+<li><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3074770001140400130&amp;scene=173&amp;subscene=227&amp;sessionid=undefined&amp;enterid=1717956640&amp;from_msgid=2648748678&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">人工智能应用数学基础</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3035995870421073928&amp;scene=126&amp;uin=&amp;key=&amp;devicetype=iMac+MacBookPro17%2C1+OSX+OSX+14.5+build(23F79)&amp;version=13080710&amp;lang=zh_CN&amp;nettype=WIFI&amp;ascene=78&amp;fontScale=100">人工智能Python基础</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3123885735829061633&amp;scene=173&amp;subscene=227&amp;sessionid=1717956706&amp;enterid=1717956713&amp;from_msgid=2648751062&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">人工智能基础核心知识</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg%3D%3D&amp;action=getalbum&amp;album_id=3193965113967132673&amp;subscene=&amp;sessionid=svr_548800ce471&amp;enterid=1704001437&amp;from_msgid=2648751621&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;scene=21#wechat_redirect">人工智能BI核心知识</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3503005363236880386&amp;from_itemidx=1&amp;from_msgid=2648753419#wechat_redirect">人工智能CV核心知识</a></li>
+</ul>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407252125233.png"
+alt="AI企业项目实战课优惠二维码" /></p>
+<section id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p>VarClusHi, https://github.com/jingtt/varclushi<a
+href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>AI 进阶：企业项目实战,
+https://www.sanjieke.cn/course/detail/sjk/8005780<a href="#fnref2"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+</div><div class="article-licensing box"><div class="licensing-title"><p>良好功能的特征</p><p><a href="https://hivan.me/良好功能的特征/">https://hivan.me/良好功能的特征/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2024-08-09</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2024-07-29</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/ML/">ML</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/%E6%9F%A5%E6%89%BE%E5%B9%B6%E5%8F%AF%E8%A7%86%E5%8C%96%E9%9D%9E%E7%BA%BF%E6%80%A7%E5%85%B3%E7%B3%BB/"><span class="level-item">查找并可视化非线性关系</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/%E8%89%AF%E5%A5%BD%E5%8A%9F%E8%83%BD%E7%9A%84%E7%89%B9%E5%BE%81/';
+            this.page.identifier = '良好功能的特征/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI 游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">223</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">8</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">27</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI/"><span class="level-start"><span class="level-item">AI</span></span><span class="level-end"><span class="level-item tag">37</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI 秘籍</span></span><span class="level-end"><span class="level-item tag">107</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/"><span class="level-start"><span class="level-item">BI</span></span><span class="level-end"><span class="level-item tag">37</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/CV/"><span class="level-start"><span class="level-item">CV</span></span><span class="level-end"><span class="level-item tag">11</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">24</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">32</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-08-08T23:30:00.000Z">2024-08-09</time></p><p class="title"><a href="/%E8%89%AF%E5%A5%BD%E5%8A%9F%E8%83%BD%E7%9A%84%E7%89%B9%E5%BE%81/">良好功能的特征</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-08-05T23:30:00.000Z">2024-08-06</time></p><p class="title"><a href="/%E6%9F%A5%E6%89%BE%E5%B9%B6%E5%8F%AF%E8%A7%86%E5%8C%96%E9%9D%9E%E7%BA%BF%E6%80%A7%E5%85%B3%E7%B3%BB/">查找并可视化非线性关系</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-08-03T23:30:00.000Z">2024-08-04</time></p><p class="title"><a href="/10.%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E6%A0%B8%E5%BF%83%E6%AD%A5%E9%AA%A4/">计算机视觉核心步骤</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/CV/">CV</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-08-01T23:30:00.000Z">2024-08-02</time></p><p class="title"><a href="/%E4%BB%80%E4%B9%88%E6%98%AF%E8%B4%9F%E8%B4%A3%E4%BB%BB%E7%9A%84%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">什么是负责任的人工智能</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-07-29T23:30:00.000Z">2024-07-30</time></p><p class="title"><a href="/GitEval%20%E2%80%94%20%E9%A2%84%E6%B5%8B%E4%BD%A0%E7%9A%84%20GitHub%20%E4%B8%AA%E4%BA%BA%E8%B5%84%E6%96%99%E7%9A%84%E8%B4%A8%E9%87%8F/">GitEval — 预测你的 GitHub 个人资料的质量</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2024 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
