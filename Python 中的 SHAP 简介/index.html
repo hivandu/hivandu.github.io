@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>Python 中的 SHAP 简介 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="本文中有多篇计划文章，后期会补充相关链接。鉴于公众号内无法后期修改文章，请关注原文链接。 如何创建和解释 SHAP 图：瀑布图、力图、平均 SHAP 图、蜂群图和依赖图"><meta property="og:type" content="blog"><meta property="og:title" content="Python 中的 SHAP 简介"><meta property="og:url" content="https://hivan.me/Python%20%E4%B8%AD%E7%9A%84%20SHAP%20%E7%AE%80%E4%BB%8B/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="本文中有多篇计划文章，后期会补充相关链接。鉴于公众号内无法后期修改文章，请关注原文链接。 如何创建和解释 SHAP 图：瀑布图、力图、平均 SHAP 图、蜂群图和依赖图"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2024-08-15T23:30:00.000Z"><meta property="article:modified_time" content="2024-07-30T02:38:03.152Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="Python"><meta property="article:tag" content="SHAP"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/Python%20%E4%B8%AD%E7%9A%84%20SHAP%20%E7%AE%80%E4%BB%8B/"},"headline":"Python 中的 SHAP 简介","image":[],"datePublished":"2024-08-15T23:30:00.000Z","dateModified":"2024-07-30T02:38:03.152Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"本文中有多篇计划文章，后期会补充相关链接。鉴于公众号内无法后期修改文章，请关注原文链接。 如何创建和解释 SHAP 图：瀑布图、力图、平均 SHAP 图、蜂群图和依赖图"}</script><link rel="canonical" href="https://hivan.me/Python%20%E4%B8%AD%E7%9A%84%20SHAP%20%E7%AE%80%E4%BB%8B/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><script>var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?f91b64734fdc7bfb999e48f9248d44dd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-ZFB6CVWZFJ" async></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-ZFB6CVWZFJ');</script><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2024-08-15T23:30:00.000Z" title="8/16/2024, 7:30:00 AM">2024-08-16</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI/">AI</a></span></div></div><h1 class="title is-3 is-size-4-mobile">Python 中的 SHAP 简介</h1><div class="content"><blockquote>
+<p>本文中有多篇计划文章，后期会补充相关链接。鉴于公众号内无法后期修改文章，请关注原文链接。</p>
+<p>如何创建和解释 SHAP 图：瀑布图、力图、平均 SHAP
+图、蜂群图和依赖图</p>
+</blockquote>
+<span id="more"></span>
+<p>可直接在橱窗里购买，或者到文末领取优惠后购买：</p>
+<p><img
+src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*fi77jD4p5krQzRRtH7HhKA.png"
+alt="img" /></p>
+<p>SHAP 是用于理解和调试模型的最强大的 Python
+包。它可以告诉我们每个模型特征对单个预测的贡献。通过汇总 SHAP
+值，我们还可以了解多个预测的趋势。只需几行代码，我们就能识别和可视化模型中的重要关系。</p>
+<p>我们将介绍用于计算和显示 SHAP 值的代码。其中包括对以下 SHAP
+图的解释：</p>
+<ul>
+<li>Waterfall Plot</li>
+<li>Force Plot</li>
+<li>Mean SHAP Plot</li>
+<li>Beeswarm Plot</li>
+<li>Dependence Plot</li>
+</ul>
+<p>我们针对预测连续目标变量的模型执行此操作。如果你需要分类的解释，日后会专门写相关文章，届时可以参阅
+[[二元和多类目标变量的 SHAP]]，你可以在 GitHub<a href="#fn1"
+class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>
+上找到完整的项目。</p>
+<h2 id="数据集">数据集</h2>
+<p>为了演示 SHAP 包，我们将使用包含 4,177 个观测值的「鲍鱼数据集」<a
+href="#fn2" class="footnote-ref" id="fnref2"
+role="doc-noteref"><sup>2</sup></a>。下面，你可以看到我们的数据集的快照。鲍鱼是一种贝类美食。我们想使用数据集来预测它们的年龄。更具体地说，我们的目标变量是鲍鱼壳中的环数。我们将使用<code>shell length</code>、<code>shell diameter</code>
+和鲍鱼的 <code>whole weight</code> 等特征。</p>
+<p><img
+src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*FHLG0i7AKGeauDVmuk8mBA.png" /></p>
+<p>在下图中，我们直观地展示了一些特征与目标变量之间的关系。
+<code>Shucked weight</code>
+是鲍鱼肉的重量（即从壳中取出后的重量）。我们可以看到，去壳重量增加时，环的数量往往会增加。这是有道理的，因为我们认为年龄较大的鲍鱼会更大，肉也更多。</p>
+<p><img
+src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*oo6l5s3w6WIc6wQh2OYGXA.png"
+alt="图1：吸吮体重和性别特征的数据探索" /></p>
+<p>我们还可视化了鲍鱼的性别，这是一个分类特征。在模型中使用此功能之前，我们需要使用
+One-Hot
+编码对其进行转换。正如你所看到的，这会导致每个生成的二进制特征都有一个单独的
+SHAP
+值。这使得很难理解原始分类特征的整体贡献。我们将在后面专门写一篇文章「[[分类特征的
+SHAP]]」探讨一种解决方案。</p>
+<p>对于最后一点数据探索，我们为连续特征创建一个相关矩阵。
+可以看到，我们正在处理高度相关的特征。 长度和直径完全相关。
+同样，全重与其他重量测量值也高度相关。
+例如肉的重量（去壳重量）和除去肉的外壳重量（外壳重量）。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407272143283.png"
+alt="image-20240727212937534" /></p>
+<h2 id="包">包</h2>
+<p>我们在下面导入必要的 Python
+包。我们有一些用于管理和可视化数据的标准库（第 4-9 行）。XGBoost
+用于对目标变量进行建模（第 13 行），我们导入一些包来评估我们的模型（第
+14 行）。最后，我们导入 SHAP 包（第 16 行）。我们初始化包（第 17
+行）。这样我们就可以在笔记本中显示一些 SHAP 图。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> warnings<br>warnings.filterwarnings(<span class="hljs-string">&quot;ignore&quot;</span>)<br><br><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br>%matplotlib inline<br>plt.style.use(<span class="hljs-string">&#x27;default&#x27;</span>)<br><br><span class="hljs-keyword">import</span> seaborn <span class="hljs-keyword">as</span> sns<br><br><span class="hljs-keyword">import</span> xgboost <span class="hljs-keyword">as</span> xgb<br><span class="hljs-keyword">from</span> sklearn.metrics <span class="hljs-keyword">import</span> accuracy_score,confusion_matrix<br><br><span class="hljs-keyword">import</span> shap<br>shap.initjs()<br><br><span class="hljs-keyword">import</span> os<br>dp = os.environ.get(<span class="hljs-string">&#x27;pub_data&#x27;</span>)<br></code></pre></td></tr></table></figure>
+<h2 id="建模">建模</h2>
+<p>我们使用数据探索来指导特征工程。首先，我们从 X
+特征矩阵中删除长度和整体重量（第 10-11
+行）。我们发现这些与其他特征完美相关。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># import dataset</span><br>df = pd.read_csv(dp + <br><span class="hljs-string">&#x27;Abalone dataset/abalone.data&#x27;</span>,<br>names=[<br><span class="hljs-string">&quot;sex&quot;</span>,<br><span class="hljs-string">&quot;length&quot;</span>,<br><span class="hljs-string">&quot;diameter&quot;</span>,<br><span class="hljs-string">&quot;height&quot;</span>,<br><span class="hljs-string">&quot;whole weight&quot;</span>,<br><span class="hljs-string">&quot;shucked weight&quot;</span>,<br><span class="hljs-string">&quot;viscera weight&quot;</span>,<br><span class="hljs-string">&quot;shell weight&quot;</span>,<br><span class="hljs-string">&quot;rings&quot;</span>,<br>],<br>)<br><br><span class="hljs-comment"># Get features</span><br>y = df[<span class="hljs-string">&quot;rings&quot;</span>]<br>X = df[[<span class="hljs-string">&quot;sex&quot;</span>, <span class="hljs-string">&quot;length&quot;</span>, <span class="hljs-string">&quot;height&quot;</span>, <span class="hljs-string">&quot;shucked weight&quot;</span>, <span class="hljs-string">&quot;viscera weight&quot;</span>, <span class="hljs-string">&quot;shell weight&quot;</span>]]<br></code></pre></td></tr></table></figure>
+<p>我们看到<strong>性别</strong>是一个分类特征。在将其用于模型之前，我们需要将其转换为
+3 个虚拟变量（第 2-4 行）。然后，我们从特征矩阵中删除原始特征（第 5
+行）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># create dummy variables</span><br>y = y.copy()<br>X = X.copy()<br><br>X.loc[:, <span class="hljs-string">&#x27;sex.M&#x27;</span>] = X[<span class="hljs-string">&#x27;sex&#x27;</span>].apply(<span class="hljs-keyword">lambda</span> s: <span class="hljs-number">1</span> <span class="hljs-keyword">if</span> s == <span class="hljs-string">&#x27;M&#x27;</span> <span class="hljs-keyword">else</span> <span class="hljs-number">0</span>)<br>X.loc[:, <span class="hljs-string">&#x27;sex.F&#x27;</span>] = X[<span class="hljs-string">&#x27;sex&#x27;</span>].apply(<span class="hljs-keyword">lambda</span> s: <span class="hljs-number">1</span> <span class="hljs-keyword">if</span> s == <span class="hljs-string">&#x27;F&#x27;</span> <span class="hljs-keyword">else</span> <span class="hljs-number">0</span>)<br>X.loc[:, <span class="hljs-string">&#x27;sex.I&#x27;</span>] = X[<span class="hljs-string">&#x27;sex&#x27;</span>].apply(<span class="hljs-keyword">lambda</span> s: <span class="hljs-number">1</span> <span class="hljs-keyword">if</span> s == <span class="hljs-string">&#x27;I&#x27;</span> <span class="hljs-keyword">else</span> <span class="hljs-number">0</span>)<br>X = X.drop(<span class="hljs-string">&quot;sex&quot;</span>, axis=<span class="hljs-number">1</span>)<br></code></pre></td></tr></table></figure>
+<p>我们现在有 8 个模型特征。你可以在下面看到这些特征的快照。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407272143284.png"
+alt="image-20240727211024925" /></p>
+<p>现在，我们可以训练一个用于预测鲍鱼壳环数的模型。由于我们的目标变量是连续的，因此我们使用<code>XGBRegressor</code>（第
+2 行）。我们在整个特征集上训练模型（第 3 行）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># train model</span><br>model = xgb.XGBRegressor(objective=<span class="hljs-string">&quot;reg:squarederror&quot;</span>)<br>model.fit(X, y)<br></code></pre></td></tr></table></figure>
+<p>这个模型应该足以演示 SHAP 包。我们可以通过使用图 3
+中的散点图对其进行评估来看到这一点。我们正在将模型的预测（第 2
+行）与实际环数进行比较。红线给出了如果我们有完美预测的值。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407272143285.png"
+alt="图 3：实际环数与预测环数的散点图" /></p>
+<blockquote>
+<p><strong>注意：</strong>我们没有在模型上投入太多精力。除非你使用 SHAP
+进行数据探索，否则你应该始终使用最佳实践。你的模型越好，你的 SHAP
+分析就越可靠。</p>
+</blockquote>
+<h2 id="shap-图">SHAP 图</h2>
+<p>最后，我们可以使用 SHAP 值来解释这个模型。为此，我们将模型传递给
+<code>shap.Explainer</code>器函数（第 2
+行）。这将创建一个解释器对象。我们使用它来计算特征矩阵中每个观测值的
+SHAP 值（第 3 行）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># get shap values</span><br>explainer = shap.Explainer(model)<br>shap_values = explainer(X)<br></code></pre></td></tr></table></figure>
+<h3 id="图-1waterfall">图 1：Waterfall</h3>
+<p>特征矩阵中的 4,177 个观测值中的每一个都有 8 个 SHAP
+值。也就是说，我们模型中的每个特征都有一个 SHAP 值。我们可以使用
+<code>waterfall</code> 函数来可视化第一个观测值的 SHAP 值（第 2
+行）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># Waterfall plot for first observation</span><br>shap.plots.waterfall(shap_values[<span class="hljs-number">0</span>])<br></code></pre></td></tr></table></figure>
+<p><code>E[f(x)] = 9.933</code> 给出了所有 4,177
+只鲍鱼的平均预测环数。<code>f (x) = 12.668</code>是这只鲍鱼的预测环数。SHAP
+值是介于两者之间的所有值。例如，去壳重量使预测环数增加了<code>1.68</code></p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407272143287.png"
+alt="图 4：第一次观察的瀑布图" /></p>
+<p>我们数据集中的每个观测/鲍鱼都会有一个独特的瀑布图。它们都可以用与上述相同的方式进行解释。在每种情况下，SHAP
+值告诉我们与平均预测相比，特征对预测的贡献如何。较大的正/负值表示该特征对模型的预测有显著影响。</p>
+<h3 id="图-2force-plot">图 2：Force Plot</h3>
+<p>另一种可视化方法是使用力图。你可以将其视为浓缩的瀑布图。我们从相同的基值<code>9.933</code>开始，你可以看到每个特征对最终预测
+<code>13.04</code> 的贡献。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># Forceplot for first observation</span><br>shap.plots.force(shap_values[<span class="hljs-number">0</span>])<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*G-6hPIwTxFRkUx6IM3HASQ.png"
+alt="图 5：第一次观察的力图" /></p>
+<h3 id="图-3叠加-force-plot">图 3：叠加 Force Plot</h3>
+<p>瀑布图和力图非常适合解释单个预测。要了解我们的模型如何进行总体预测，我们需要汇总
+SHAP 值。一种方法是使用堆叠力图</p>
+<p>我们可以将多个力图组合在一起以创建堆叠力图。在这里，我们在力图函数中传递前
+100 个观测值的 SHAP 值。每个单独的力图现在都是垂直的并且并排堆叠。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">shap.plots.force(shap_values[<span class="hljs-number">0</span>:<span class="hljs-number">100</span>])<br></code></pre></td></tr></table></figure>
+<p>你可以在下面看到此图是交互式的。我们还可以更改图的顺序并选择要显示的特征贡献。</p>
+<p><img
+src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*Vdt1l1rhvZ51MEhSsvOvJQ.gif"
+alt="图 6：交互式堆叠力图" /></p>
+<p>例如，在下面的图中我们有：</p>
+<h2 id="仅显示壳重量的-shap-值y-轴-shell-weight-effects">仅显示壳重量的
+SHAP 值（y 轴 = <code>**shell weight effects</code> ）</h2>
+<p>按壳重量特征值对力图进行排序（x 轴 =
+<code>**shell weight</code>）</p>
+<p>从该图中我们可以看出，随着壳重的增加，SHAP
+值也会增加。换句话说，年龄较大的鲍鱼壳往往更重。</p>
+<p><img
+src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*AoaUkqCN7GpZMEeeV9KFow.png"
+alt="图 7：壳体重量的堆叠力图" /></p>
+<p>这是了解我们的模型所捕获关系的性质的一种方法。我们将看到蜂群图和依赖图也可以以这种方式使用。</p>
+<h3 id="图-4mean-shap">图 4：Mean SHAP</h3>
+<p>下一个图将告诉我们哪些特征最重要。对于每个特征，我们计算所有观测值的平均
+SHAP
+值。具体来说，我们取绝对值的平均值，因为我们不希望正值和负值相互抵消。最后，我们得到下面的条形图。每个特征都有一个条形图。例如，我们可以看到<strong>壳重量</strong>具有最大的平均
+SHAP 值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># Mean SHAP</span><br>shap.plots.bar(shap_values)<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407272143288.png"
+alt="图 8：绝对均值图" /></p>
+<p>具有较大正/负贡献的特征将具有较大的平均 SHAP
+值。换句话说，这些特征对模型的预测产生了重大影响。从这个意义上讲，此图的使用方式与特征重要性图相同。</p>
+<h3 id="图-5beeswarm">图 5：Beeswarm</h3>
+<p>接下来，我们得到了最有用的图表。蜂群将所有 SHAP 值可视化。在 y
+轴上，这些值按特征分组。对于每个组，点的颜色由特征值决定（即，特征值越高，颜色越红）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># Beeswarm plot</span><br>shap.plots.beeswarm(shap_values)<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407272143289.png"
+alt="图 7：蜂群图" /></p>
+<p>与平均 SHAP
+一样，蜂群可用于突出重要关系。事实上，上图中的特征是按平均 SHAP
+排序的。</p>
+<p>我们也可以开始理解这些关系的性质。对于<strong>壳重</strong>，请注意
+SHAP
+值如何随着特征值的增加而增加。我们在堆叠力图中看到了类似的关系。它告诉我们，壳重值越大，预测的环数也就越多。</p>
+<p>你可能已经注意到，<strong>去壳重量</strong>具有相反的关系。查看蜂群图，我们可以看到此特征的较大值与较小的
+SHAP 值相关。我们可以使用依赖图仔细研究这些关系。</p>
+<h3 id="图-6dependence-plot">图 6：Dependence Plot</h3>
+<p>依赖图是单个特征的 SHAP
+值与特征值的散点图。如果特征与目标变量具有非线性关系，则它们特别有用。</p>
+<p>例如，以壳重的依赖关系图为例。查看蜂群图，我们可能假设 SHAP
+值随特征值线性增加。依赖关系图告诉我们，这种关系并不是完全线性的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#Plot 1: shell weight</span><br>shap.plots.scatter(shap_values[:,<span class="hljs-string">&quot;shell weight&quot;</span>])<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407272143290.png"
+alt="图 8：壳重依赖性图" /></p>
+<p>我们还可以使用第二个特征的值来为散点图着色。现在我们有了相同的图，去壳重量越大，点越红。我们可以看到，当壳重和去壳重量都很大时，SHAP
+值也很大。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">shap.plots.scatter(shap_values[:,<span class="hljs-string">&quot;shell weight&quot;</span>],<br>color=shap_values[:,<span class="hljs-string">&quot;shucked weight&quot;</span>])<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407272143291.png"
+alt="图 9：壳重与去壳重量的关系图" /></p>
+<p>这些图可用于可视化特征之间的相互作用，但要小心！在我们的例子中，该图是两个特征之间相关性的结果。</p>
+<p>我们还有<strong>去壳重量</strong>（即鲍鱼肉的重量）的依赖关系图。使用此图，我们可以确认我们在蜂群图中看到的关系。SHAP
+值确实会随着<strong>去壳重量的</strong>增加而下降。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># Plot 2: shucked weight</span><br>shap.plots.scatter(shap_values[:,<span class="hljs-string">&quot;shucked weight&quot;</span>])<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407272143293.png"
+alt="图 10：去壳重量的依赖关系图" /></p>
+<p>直观地看，这种关系似乎很奇怪。我们不是希望年龄较大的鲍鱼更大、肉更多吗？事实上，这是壳重和去壳重量<strong>相互作用</strong>的结果。由于相关性，我们在依赖图中看不到它。在文章《[[分析与
+SHAP 的相互作用]]》中，我们探讨了如何使用 SHAP
+交互值来识别此类相互作用。</p>
+<h2 id="shap-用于分类">SHAP 用于分类</h2>
+<p>你会很高兴地知道，分类问题的 SHAP
+图与上面的非常相似。除了二元目标变量之外，我们根据对数几率来解释 SHAP
+值。对于多类目标，我们使用softmax。一个缺点是我们最终会为多类目标中的每个类绘制单独的
+SHAP
+图。我们将在后面一篇文章中讨论了一些更好的聚合值的方法，暂定标题为[[二元和多类目标变量的
+SHAP]]，当你的模型预测分类目标变量时，代码和 SHAP 图的解释指南。</p>
+<p>我们可以看到，SHAP
+值是一种有用的工具，可用于了解我们的模型如何进行预测。然而，我们只是触及了该软件包所能提供内容的表面。如果你想了解更多信息，我日后将会写一些有关
+SHAP 的文章，用于更深入地探讨了 SHAP 和 Shapley 值的某些方面，包括：</p>
+<p>[[从 Shapley 到 SHAP — 数学理解]], 如何计算 SHAP 特征贡献的概述</p>
+<p>[[KernelSHAP 与 TreeSHAP]], 根据速度、复杂性和其他考虑因素比较 SHAP
+近似方法</p>
+<p>[[使用 SHAP 调试 PyTorch 图像回归模型]], 使用 DeepShap
+理解和改进自动驾驶汽车模型</p>
+<blockquote>
+<p>由于本人常年使用双向链接软件写文，在粘贴的时候会时常有类似[[XXX
+文章名]]的样式，这只是我文章相互连接的格式，如若不能链接到别处大概率就是还未成文发布。</p>
+</blockquote>
+<p>AI 进阶：企业项目实战<a href="#fn3" class="footnote-ref" id="fnref3"
+role="doc-noteref"><sup>3</sup></a></p>
+<h2 id="参考">参考</h2>
+<p>S. Lundberg, <em>SHAP Python package</em> (2021)<em>,</em>
+https://github.com/slundberg/shap</p>
+<p>S. Lundberg &amp; S. Lee, <em>A Unified Approach to Interpreting
+Model Predictions</em> (2017), https://arxiv.org/pdf/1705.07874.pdf</p>
+<p>C. Molnar, <em>Interpretable Machine Learning</em> (2021)
+https://christophm.github.io/interpretable-ml-book/shap.html</p>
+<hr />
+<p>希望这篇文章对你有所帮助！你还可以阅读我的其他文章，或者查看有关企业
+AI 实战项目的教程，相信会让你拥有更多收获。</p>
+<p><strong>「AI秘籍」系列课程：</strong></p>
+<p><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3074770001140400130&amp;scene=173&amp;subscene=227&amp;sessionid=undefined&amp;enterid=1717956640&amp;from_msgid=2648748678&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">人工智能应用数学基础</a></p>
+<p><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3035995870421073928&amp;scene=126&amp;uin=&amp;key=&amp;devicetype=iMac+MacBookPro17%2C1+OSX+OSX+14.5+build(23F79)&amp;version=13080710&amp;lang=zh_CN&amp;nettype=WIFI&amp;ascene=78&amp;fontScale=100">人工智能Python基础</a></p>
+<p><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3123885735829061633&amp;scene=173&amp;subscene=227&amp;sessionid=1717956706&amp;enterid=1717956713&amp;from_msgid=2648751062&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">人工智能基础核心知识</a></p>
+<p><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg%3D%3D&amp;action=getalbum&amp;album_id=3193965113967132673&amp;subscene=&amp;sessionid=svr_548800ce471&amp;enterid=1704001437&amp;from_msgid=2648751621&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;scene=21#wechat_redirect">人工智能BI核心知识</a></p>
+<p><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3503005363236880386&amp;from_itemidx=1&amp;from_msgid=2648753419#wechat_redirect">人工智能CV核心知识</a></p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407252125233.png"
+alt="AI企业项目实战课优惠二维码" /></p>
+<section id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Github,
+https://github.com/hivandu/public_articles/blob/main/src/SHAP/shap_tutorial.ipynb<a
+href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Abalone Dataset,
+https://archive.ics.uci.edu/dataset/1/abalone<a href="#fnref2"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>AI 企业项目实战,
+https://www.sanjieke.cn/course/detail/sjk/8005780<a href="#fnref3"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+</div><div class="article-licensing box"><div class="licensing-title"><p>Python 中的 SHAP 简介</p><p><a href="https://hivan.me/Python 中的 SHAP 简介/">https://hivan.me/Python 中的 SHAP 简介/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2024-08-16</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2024-07-30</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/Python/">Python</a><a class="link-muted mr-2" rel="tag" href="/tags/SHAP/">SHAP</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/%E5%88%86%E6%9E%90%E4%B8%8E%20SHAP%20%E7%9A%84%E7%9B%B8%E4%BA%92%E4%BD%9C%E7%94%A8/"><span class="level-item">分析与 SHAP 的相互作用</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/Python%20%E4%B8%AD%E7%9A%84%20SHAP%20%E7%AE%80%E4%BB%8B/';
+            this.page.identifier = 'Python 中的 SHAP 简介/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI 游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">226</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">8</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">28</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI/"><span class="level-start"><span class="level-item">AI</span></span><span class="level-end"><span class="level-item tag">38</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI 秘籍</span></span><span class="level-end"><span class="level-item tag">108</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/"><span class="level-start"><span class="level-item">BI</span></span><span class="level-end"><span class="level-item tag">37</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/CV/"><span class="level-start"><span class="level-item">CV</span></span><span class="level-end"><span class="level-item tag">12</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">24</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">32</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-08-15T23:30:00.000Z">2024-08-16</time></p><p class="title"><a href="/Python%20%E4%B8%AD%E7%9A%84%20SHAP%20%E7%AE%80%E4%BB%8B/">Python 中的 SHAP 简介</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-08-12T23:30:00.000Z">2024-08-13</time></p><p class="title"><a href="/%E5%88%86%E6%9E%90%E4%B8%8E%20SHAP%20%E7%9A%84%E7%9B%B8%E4%BA%92%E4%BD%9C%E7%94%A8/">分析与 SHAP 的相互作用</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-08-10T23:30:00.000Z">2024-08-11</time></p><p class="title"><a href="/11.%20%E7%89%B9%E5%BE%81%E5%8F%8A%E5%86%B3%E7%AD%96%E5%87%BD%E6%95%B0/">特征及决策函数</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/CV/">CV</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-08-08T23:30:00.000Z">2024-08-09</time></p><p class="title"><a href="/%E8%89%AF%E5%A5%BD%E5%8A%9F%E8%83%BD%E7%9A%84%E7%89%B9%E5%BE%81/">良好功能的特征</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-08-05T23:30:00.000Z">2024-08-06</time></p><p class="title"><a href="/%E6%9F%A5%E6%89%BE%E5%B9%B6%E5%8F%AF%E8%A7%86%E5%8C%96%E9%9D%9E%E7%BA%BF%E6%80%A7%E5%85%B3%E7%B3%BB/">查找并可视化非线性关系</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2024 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
