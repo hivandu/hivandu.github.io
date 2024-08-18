@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>计算机是如何看到图像的 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="本节课为「计算机视觉 CV 核心知识」第 4 节；"><meta property="og:type" content="blog"><meta property="og:title" content="计算机是如何看到图像的"><meta property="og:url" content="https://hivan.me/04.%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%98%AF%E5%A6%82%E4%BD%95%E7%9C%8B%E5%88%B0%E5%9B%BE%E5%83%8F%E7%9A%84/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="本节课为「计算机视觉 CV 核心知识」第 4 节；"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2024-07-02T23:30:00.000Z"><meta property="article:modified_time" content="2024-07-16T07:15:35.249Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="article:tag" content="CV"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/04.%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%98%AF%E5%A6%82%E4%BD%95%E7%9C%8B%E5%88%B0%E5%9B%BE%E5%83%8F%E7%9A%84/"},"headline":"计算机是如何看到图像的","image":[],"datePublished":"2024-07-02T23:30:00.000Z","dateModified":"2024-07-16T07:15:35.249Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"本节课为「计算机视觉 CV 核心知识」第 4 节；"}</script><link rel="canonical" href="https://hivan.me/04.%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%98%AF%E5%A6%82%E4%BD%95%E7%9C%8B%E5%88%B0%E5%9B%BE%E5%83%8F%E7%9A%84/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><script>var _hmt = _hmt || [];
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>计算机是如何看到图像的 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="本节课为「计算机视觉 CV 核心知识」第 4 节；"><meta property="og:type" content="blog"><meta property="og:title" content="计算机是如何看到图像的"><meta property="og:url" content="https://hivan.me/04.%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%98%AF%E5%A6%82%E4%BD%95%E7%9C%8B%E5%88%B0%E5%9B%BE%E5%83%8F%E7%9A%84/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="本节课为「计算机视觉 CV 核心知识」第 4 节；"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2024-07-02T23:30:00.000Z"><meta property="article:modified_time" content="2024-08-18T05:14:57.797Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="article:tag" content="CV"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/04.%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%98%AF%E5%A6%82%E4%BD%95%E7%9C%8B%E5%88%B0%E5%9B%BE%E5%83%8F%E7%9A%84/"},"headline":"计算机是如何看到图像的","image":[],"datePublished":"2024-07-02T23:30:00.000Z","dateModified":"2024-08-18T05:14:57.797Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"本节课为「计算机视觉 CV 核心知识」第 4 节；"}</script><link rel="canonical" href="https://hivan.me/04.%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%98%AF%E5%A6%82%E4%BD%95%E7%9C%8B%E5%88%B0%E5%9B%BE%E5%83%8F%E7%9A%84/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><script>var _hmt = _hmt || [];
         (function() {
             var hm = document.createElement("script");
             hm.src = "//hm.baidu.com/hm.js?f91b64734fdc7bfb999e48f9248d44dd";
@@ -79,115 +79,14 @@ CCD 和 CMOS 在这方面也是有一些区别的，像元信号 CCD 是电荷�
 <p><img
 src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240701171616.png"
 alt="CMOS传感器示意图：各个像元内包含感光元件和电压转换器，可以在像元内把光子转换成电压" /></p>
-<p>那么你看，因为它每个位置都存储有一个值，要存储的值也就非常多。到底有多少个值，要涉及到多少个位置。那么多少个位置呢，因为光线有无数，感光器的最小感光单元也是有无数条光线的，这是一个区域内的光线。我们这个感光元器件只能看它的分辨率是多少，就是它的最小的感光元器件多少，它测的是最小的感光元器件的区域所有的光线之和的强度。</p>
-<p>也就是说这个感光元件上有多少个最小单位的感光单元，排列成 N 行 M
-列的这种形式，最后存储的数字就是 N 行 M
-列。把光线的明暗存储成数字来表达，最后存储的数字就是一个图片了，就用矩阵来表示图片。</p>
-<p>另外，射入这个感光元件的每个感光单元的光线一定是垂直的。在现实中，各种方向都有可能让这个感光元件发生反应。因为垂直的我们好衡量，所以就有了透镜。透镜的作用是什么，最后你都是这个方向来，朝这个方向走，加这样的一个镜片。就这是摄像头内部的一个结构，我们大概理解一下是如何成像的。</p>
-<p>之前讲过，感光器这个矩阵后面每个位置都有个值，这个值并不是直接成像的。这个值有高有低，它是电压值的范围。比如说零点几伏，或者是零点几微伏。计算机视觉这个程序中处理的图像，我们看到这个图像的取值都是
-0-255
-这样的数字，实际上这就是电压的值。后面还是要经过一些处理，做一下归一化，把它归一化到
-0-1 范围内然后输出出来，保存成图片。</p>
-<p>这个归一化后输出的范围是个矩阵，再保存为图片，比如说保存成 jpg、png
-等各种格式。而大部分图片格式几乎都是用了一种压缩办法，jpg
-就是其中最流行的，压缩之后将图片保存下来。</p>
-<p>这个原因是因为图片如果直接保存的话矩阵量非常大，比如说 600*800
-的图片，48万的数字。48万的数字保存的 txt
-文件那是非常大的，所以才需要压缩一下，一是为了压缩后便于保存，占用更小的磁盘或者硬盘空间，也是为了便于传输。特别是互联网最初拨号上网的年代。在以前，磁盘和带宽都是非常费钱的。</p>
-<p>当然，现阶段咱们手机流量已经很便宜了，手机的内存空间也再渐渐增加。还记得刚拿到第一款
-Android 手机——HTC G1， 那会儿我尝试着跑了一下 Google Earth，前后没 1
-分钟，就跑了 10
-多块钱，而且那龟速的移动网络，地图都还没完全打开。说回正题，由于存储以及传输的需求，我们就用压缩办法把这个矩阵存储下来。</p>
-<p>总结一下，图片从摄像头采集成电压的值，然后进行传输和存储，再进行归一化，然后再用压缩办法把它压缩成图片。关于图片格式，目前不进行图片压缩进行存储的格式有
-BMP 和 TIF，其中 TIF 和 Photoshop
-的源文件有点类似，包含了分层信息以及透明通道信息。这就是图片为什么存储矩阵，以及大体的流程。</p>
-<p>那么存完之后如何显示呢？我们用显像管或者显示屏显示。现在图片存储为了一个矩阵，显示的时候怎么办呢？</p>
-<p>我们来想象有一盏灯，现在有三个电压经过它，电压为 1
-的时候，这个灯就是最亮的，电压为 0 的时候，这盏灯就是暗的，如果是 0.5
-呢？那这盏灯就没那么亮，也就是给它的电压小一些，灯就稍微暗一些，不那么亮，也不那么暗。</p>
-<p>在这个显示屏上有无数的灯，每个灯其实都对应的有它的一个像素值，就是它亮度值对应它灯的亮度值。所有灯排列起来就是一幅图像。不过这个显示出来之后是一个黑白的图像，如果我们最后存到的值只有
-0，1
-这两个值，这时候的图片我们叫它二值图，它显示出来就是非黑即白的这种图片。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">data = [[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>], [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>], [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>], [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>], [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>], [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>]]<br><br>plt.imshow(data, cmap=<span class="hljs-string">&#x27;Greys_r&#x27;</span>)<br>plt.show()<br></code></pre></td></tr></table></figure>
-<p><img
-src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240701235840.png"
-alt="20240701235840" /></p>
-<p>如果我们的值是在 0 ~ 255 范围内，或者在 0~1
-之间有浮点值，我们称呼其为灰度图。这个和二值图的区别在于，灰度信息就不只是
-2 个值了，而是灰度级更多了。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">data2 = [[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>], [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">0</span>], [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">1</span>], [<span class="hljs-number">0</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">1</span>], [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>], [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>]]<br>plt.imshow(data2,  cmap=<span class="hljs-string">&#x27;Greys_r&#x27;</span>)<br>plt.show()<br></code></pre></td></tr></table></figure>
-<p><img
-src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240702000409.png"
-alt="20240702000409" /></p>
-<p>注意到「灰度级」这个概念。二值图中，灰度级就只有两个，一个 0，一个
-1，中间没有任何值。而如果是 0~255，或者是 0~1
-之间加上浮点值，那么这个灰度级就多了，也就更细腻一点了。我可以表示黑，也可以表示白，也可以表示中间的灰度。
-0～1 中间的灰度级就是无数个。</p>
-<p>这里补充一下，0~1 表示图像和 0～255
-表示图像，这两种方法在我们是初学者的时候，显示图像通常会遇到一些问题。如果一个图像矩阵的取值范围是
-0～255，那么它就必须都是一个整数值，如果出现浮点数值，比如说 1.025,
-255.0 这种，它是一个 float
-型的。那这个时候直接去显示这样一个矩阵，你就会发现很多程序内图片会是全白的，当然并不是所有的程序中都会如此。这是为什么呢？是因为我们显示软件中如果是
-float 型的，就默认你的取值范围是 0～1， 如果你是 0 的话就是黑色，如果是
-1 的话就是白色。</p>
-<p>部分程序中，就自动做一次归一化，就是将 1.0 ~ 255.0 的数值归一到 0~1
-的范围之内，然后再做显示。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">data4 = [[<span class="hljs-number">0.0</span>, <span class="hljs-number">255.0</span>, <span class="hljs-number">255.0</span>, <span class="hljs-number">255.0</span>, <span class="hljs-number">255.0</span>, <span class="hljs-number">255.0</span>], [<span class="hljs-number">255.0</span>, <span class="hljs-number">255.0</span>, <span class="hljs-number">255.0</span>, <span class="hljs-number">255.0</span>, <span class="hljs-number">255.0</span>, <span class="hljs-number">255.0</span>], [<span class="hljs-number">255.0</span>, <span class="hljs-number">255.0</span>, <span class="hljs-number">255.0</span>, <span class="hljs-number">255.0</span>, <span class="hljs-number">255.0</span>, <span class="hljs-number">255.0</span>], [<span class="hljs-number">255.0</span>, <span class="hljs-number">255.0</span>, <span class="hljs-number">255.0</span>, <span class="hljs-number">255.0</span>, <span class="hljs-number">255.0</span>, <span class="hljs-number">255.0</span>], [<span class="hljs-number">255.0</span>, <span class="hljs-number">255.0</span>, <span class="hljs-number">255.0</span>, <span class="hljs-number">255.0</span>, <span class="hljs-number">255.0</span>, <span class="hljs-number">255.0</span>], [<span class="hljs-number">255.0</span>, <span class="hljs-number">255.0</span>, <span class="hljs-number">255.0</span>, <span class="hljs-number">255.0</span>, <span class="hljs-number">255.0</span>, <span class="hljs-number">125.0</span>]]<br>plt.imshow(data4,  cmap=<span class="hljs-string">&#x27;Greys_r&#x27;</span>)<br>plt.show()<br></code></pre></td></tr></table></figure>
-<p><img
-src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240702111930.png"
-alt="20240702111930" /></p>
-<p>如果矩阵中的数据是 0.0~255.0
-的浮点数从而导致了图片显示不正常，就需要先将所有数值都改为整数型，这样正常的灰度级就有了。所以如果你拿到一张图片，处理完之后显示出来发现不正常，要么是全黑，要么是全白，这时候你就需要去看一下你的数据类型对不对了。</p>
-<p>接下来咱们一起看一个视频，这个视频充分说明了像素矩阵来表示图像这个例子：</p>
-<iframe src="//player.bilibili.com/player.html?isOutside=true&amp;aid=763249072&amp;bvid=BV1b64y187tN&amp;cid=413617550&amp;p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true">
-</iframe>
-<p>视频中可以看到，每个同学其实就代表矩阵中的一个元素，这个元素是包含了两种颜色，也是二值图。白和红这两色，其实就对应咱们的
-1 和
-0。这个以方阵的形式表示矩阵，以每个同学作为一个像素来表示图像的方法就体现出来了。现在我问你，如果让你去当一个教官，去设计这样的一个方阵表演，你会<strong>怎么去协调每个同学</strong>呢？</p>
-<p>实际上每个同学，不管是喊口令，数拍子，其实就只需要知道自己当前是举 0
-还是举 1
-就行了，对吧？也就是说，这个看着好像蛮复杂的，实际上这个表演起来如果是学计算机的人去设计，就不那么困难了。比如咱们左下角的同学，他基本上就是举白的，也就是大部分时间内就举个0就行了。</p>
-<p>中间有些同学可能一会要举 0，一会要举
-1，但基本上每个同学的工作量其实并不大。就告诉你，你数到几的时候举什么牌子就行了。</p>
-<p>大概看一下，这个其实看起来比较抓眼球，我们知道它是用矩阵表示图像就行了。</p>
-<p>OK，我们刚才看这个图片呢，介绍了二值图像，黑白图像，因为只有两个值。也介绍了灰度图，一共包含了
-256 个灰度级。</p>
-<p>现在，我来问你们一个问题：<strong>彩色图像如何表示</strong>？</p>
-<p>彩色图像其实跟我们二值图像的显示方法是一样的，显像管和显示屏来显示，显然我们一个采样图像最终是要通过显像管和显示屏来显示出来的。那么通过显示屏来显示的时候，显示屏中每个位置还是有灯对吧？那现在咱们的电脑屏幕不像刚才是一样是灰度图了，而是彩色的，那么彩色显示它是什么原理呢？</p>
-<p>彩色显示是因为每个像素内我有三个值，蓝灯、绿灯、红灯。这三个值就是我们所熟知的RGB，即是三原色，那这三个值就可以合成任意颜色。也就是说，你想让这个像素显示成任意颜色都可以，这个像素发出来的光是任意颜色的光。只需要调整红，绿，蓝之间的比值就可以了。</p>
-<p><img
-src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240702204909.png"
-alt="20240702204909" /></p>
-<p>所以我们在每一个像素的位置都放三个灯，然后调整亮度值就可以了，这样我们就可以用来显示这个彩色图像了。那显示这个彩色图像的时候我们是需要数据来支撑的，就是说这个位置这个蓝色的灯到底要亮多少，这个红色灯要亮多少，绿色灯到底它亮度给多少。这些呢，都是有值的。</p>
-<p>所以说每个像素的位置我们有3个值，R 值是多少，G 值是多少，B
-值是多少。我们如果这样一个位置三个值写一行的话，比如这是 m 乘 n
-的图像，那它就是 <span class="math inline">\(3 * m * n\)</span>
-这样的一个矩阵了。但这种表示方式其实不是那么直观，更直观的方式是什么？我们把所有位置的
-R 作为一个 m * n 的矩阵，然后 G 也如此，B
-也如此，于是就有了如下三个矩阵：</p>
-<p><img
-src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240702211956.png"
-alt="20240702211956" /></p>
-<p>因为彩色图像显示每个位置要用3个灯来显示，所以彩色图像的表示就用 3
-个矩阵来表示，这样就表示了彩色的图片了。</p>
-<p>那为什么一定是红、绿、蓝作为三原色而不是其他的呢？原因是因为咱们现实世界中生产红、绿、蓝色的灯相对容易些，造价也更低一些，技术相对更成熟一些，生产其他颜色的灯技术不成熟。就这么个原因。这就是为什么我们现实中常常说RGB的原因。</p>
-<p>OK，这是彩色图像。到现在为止，我们图像的显示方式讲了几种：一个是二值图，这个图的取值方式是
-0 和 1，数据类型是整型，然后是灰度图，每个像素的取值范围是 0～1
-的浮点数，或者是 0~255
-的整型。其实这两种统称为灰度图，可以表示同样的内容。但是你要注意它的数据类型，显示不正常的时候就看一下数据类型对不对。</p>
-<p>接着是第三种，我们讲了彩色图形的显示，表示方式为
-RGB。原来表示灰度图、二值图用一个矩阵就行了，现在表示彩色图我就需要三个矩阵了。因为什么？我要三原色合成任意颜色。</p>
-<p>除此之外，我们还讲了为什么图像要用矩阵的表示方式。理解了图像的矩阵表示方式之后，接着我们来整理一下计算机视觉整体的一个流程和表现。</p>
-<p><img
-src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240702214529.png"
-alt="20240702214529" /></p>
-<p>首先，镜头完成一个图像的采集，采集的是电压的值。这个电压的值我们需要对其进行归一化，得到一个数字的矩阵。然后我们将这个矩阵进行存储、修改并显示。当然这样一个数字化的矩阵我们还可以进行
-copy，转移。其实老式相机也几乎是这样一个过程，可以这样去理解，只是我们现在是将这个矩阵存储到存储设备上，而老式相机是将其存储到了底片上。</p>
-<p>因为是这样一个过程，采集完成之后是用矩阵来显示的，所以我们最后对图像进行处理其实就是对这个矩阵进行处理了。所以，我们可以得出一个结论：<strong>计算机视觉它主要是处理矩阵的</strong>。因为处理图像就是处理矩阵，计算机视觉可以视为就是在处理图像，所以计算机视觉本质上就是在处理矩阵。</p>
-<p>现在我们来看，咱们之前说的所有的内容：人脸检测、人脸识别、美颜功能，手势检测、换脸换妆、自动驾驶、活体检测等等这些应用，它其实都是在对矩阵进行处理。那我们以后要讲的计算视觉的各种模型，它的分类模型、检测模型、分割模型、跟踪模型等等，还有一些其他的模型，这些也都是对矩阵的处理。</p>
+<p>...</p>
 <p>好，到此，今天我们所要讨论的，计算机视觉到底是如何看到并显示图像的我们也就有了一个清晰的概念。下一节课，咱们来讲讲计算机处理图像的方式和方法。</p>
 <p>好，下节课再见，大家拜拜。</p>
-</div><div class="article-licensing box"><div class="licensing-title"><p>计算机是如何看到图像的</p><p><a href="https://hivan.me/04. 计算机是如何看到图像的/">https://hivan.me/04. 计算机是如何看到图像的/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2024-07-03</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2024-07-16</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a><a class="link-muted mr-2" rel="tag" href="/tags/CV/">CV</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/%E4%BD%BF%E7%94%A8%20PCA%20%E5%8F%AF%E8%A7%86%E5%8C%96%E6%95%B0%E6%8D%AE%E7%9A%84%E5%88%86%E7%B1%BB%E8%83%BD%E5%8A%9B/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">使用 PCA 可视化数据的分类能力</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/%E4%BD%BF%E7%94%A8%E9%AB%98%E6%96%AF%E6%B7%B7%E5%90%88%E6%A8%A1%E5%9E%8B%E8%AF%86%E5%88%AB%E9%A4%90%E5%8E%85%E7%83%AD%E7%82%B9/"><span class="level-item">使用高斯混合模型识别餐厅热点</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+<blockquote>
+<p>收费文章，<a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/BjBQPOW5aGYRLNeG5LKFhQ">请查看原文</a></p>
+</blockquote>
+</div><div class="article-licensing box"><div class="licensing-title"><p>计算机是如何看到图像的</p><p><a href="https://hivan.me/04. 计算机是如何看到图像的/">https://hivan.me/04. 计算机是如何看到图像的/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2024-07-03</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2024-08-18</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a><a class="link-muted mr-2" rel="tag" href="/tags/CV/">CV</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/%E4%BD%BF%E7%94%A8%20PCA%20%E5%8F%AF%E8%A7%86%E5%8C%96%E6%95%B0%E6%8D%AE%E7%9A%84%E5%88%86%E7%B1%BB%E8%83%BD%E5%8A%9B/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">使用 PCA 可视化数据的分类能力</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/%E4%BD%BF%E7%94%A8%E9%AB%98%E6%96%AF%E6%B7%B7%E5%90%88%E6%A8%A1%E5%9E%8B%E8%AF%86%E5%88%AB%E9%A4%90%E5%8E%85%E7%83%AD%E7%82%B9/"><span class="level-item">使用高斯混合模型识别餐厅热点</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
             this.page.url = 'https://hivan.me/04.%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%98%AF%E5%A6%82%E4%BD%95%E7%9C%8B%E5%88%B0%E5%9B%BE%E5%83%8F%E7%9A%84/';
             this.page.identifier = '04. 计算机是如何看到图像的/';
         };
