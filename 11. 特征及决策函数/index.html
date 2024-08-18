@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>特征及决策函数 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="本节课为「计算机视觉 CV 核心知识」第 11 节；"><meta property="og:type" content="blog"><meta property="og:title" content="特征及决策函数"><meta property="og:url" content="https://hivan.me/11.%20%E7%89%B9%E5%BE%81%E5%8F%8A%E5%86%B3%E7%AD%96%E5%87%BD%E6%95%B0/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="本节课为「计算机视觉 CV 核心知识」第 11 节；"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2024-08-10T23:30:00.000Z"><meta property="article:modified_time" content="2024-07-29T10:34:46.629Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="article:tag" content="CV"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/11.%20%E7%89%B9%E5%BE%81%E5%8F%8A%E5%86%B3%E7%AD%96%E5%87%BD%E6%95%B0/"},"headline":"特征及决策函数","image":[],"datePublished":"2024-08-10T23:30:00.000Z","dateModified":"2024-07-29T10:34:46.629Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"本节课为「计算机视觉 CV 核心知识」第 11 节；"}</script><link rel="canonical" href="https://hivan.me/11.%20%E7%89%B9%E5%BE%81%E5%8F%8A%E5%86%B3%E7%AD%96%E5%87%BD%E6%95%B0/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><script>var _hmt = _hmt || [];
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>特征及决策函数 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="本节课为「计算机视觉 CV 核心知识」第 11 节；"><meta property="og:type" content="blog"><meta property="og:title" content="特征及决策函数"><meta property="og:url" content="https://hivan.me/11.%20%E7%89%B9%E5%BE%81%E5%8F%8A%E5%86%B3%E7%AD%96%E5%87%BD%E6%95%B0/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="本节课为「计算机视觉 CV 核心知识」第 11 节；"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2024-08-10T23:30:00.000Z"><meta property="article:modified_time" content="2024-08-18T05:08:46.873Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="AI"><meta property="article:tag" content="CV"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/11.%20%E7%89%B9%E5%BE%81%E5%8F%8A%E5%86%B3%E7%AD%96%E5%87%BD%E6%95%B0/"},"headline":"特征及决策函数","image":[],"datePublished":"2024-08-10T23:30:00.000Z","dateModified":"2024-08-18T05:08:46.873Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"本节课为「计算机视觉 CV 核心知识」第 11 节；"}</script><link rel="canonical" href="https://hivan.me/11.%20%E7%89%B9%E5%BE%81%E5%8F%8A%E5%86%B3%E7%AD%96%E5%87%BD%E6%95%B0/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><script>var _hmt = _hmt || [];
         (function() {
             var hm = document.createElement("script");
             hm.src = "//hm.baidu.com/hm.js?f91b64734fdc7bfb999e48f9248d44dd";
@@ -94,133 +94,9 @@ alt="20240718152836" /></p>
 \end{bmatrix}
 \end{align*}
 \]</span></p>
-<p>比如说这样一个矩阵，投影法就是把每一列的值加起来做一个值，<code>0+0+1</code>
-是 1，<code>1 +1+1</code> 是 3，<code>0+0+0</code> 是
-0。投影法得到这个向量是
-<code>[1, 3, 0]</code>，就代表这个图像的特征了。这是列投影。</p>
-<p>然后行投影呢？实际上是横向方向的一个投影，<code>0+1+0</code> 是
-1，<code>0+1+0</code> 是 1， <code>1+1+0</code> 是
-2，那行投影得到的向量就是 <code>[1, 1, 2]</code>。</p>
-<p>那除了这三种方法之外，还能想到其他方法吗？其实还有一个方法，就比如说把图像分块，比如左上角
-<code>2*2</code> 的小矩阵，右上角 <code>2*2</code>
-的小矩阵，还有左下角，右下角，来多少块加起来多少。</p>
-<p>以上的特征设计和特征提取的过程能否解决问题，把 100 张图片、1
-万张图片分开，这个是需要去实验的，我们就要去试。</p>
-<p>总之，我们去做这个问题首先是提特征，然后再去判断。feature
-会在一定程度上使问题简单化，但是 feature
-它不能解决所有的问题。这是因为我们 feature 只是提特征，并且我们提这个
-feature 是希望这个 feature
-有位置不变性，大小不变性、角度不变性、灰度不变性。但是只是理想状态下，很多情况下我们的
-feature
-它就是会有一些变化，因为你本身像素灰度值就变化了、位置确实变化了、大小确实变化了、角度比也确实变化了。</p>
-<p>所以你想单纯通过图像处理得到一个特征不变，就是凡是所有的 1
-都提到一个固定的特征，那是理想状态下，现实不可能的。所以要解决好我们计算机视觉的问题，除了依赖特征之外我们还需要判断。</p>
-<h2 id="决策函数">决策函数</h2>
-<p>判断这一步我们之前只是举例 <code>if else</code>
-这个判断，就是直接判断。所以解决这个问题还是需要我们后续步骤的处理，后续步骤的改进，就是判断这步的改进。直接判断不行，我们就想别的方法去判断，模型的复杂度增加一些。</p>
-<p>比如说我们用线性模型，用非线性模型，用神经网络等等。那么如何去改进这个判断呢？就需要我们改进一下直接判断。</p>
-<p>我原来判断是等于第 i 个
-feature，实际上就是模板匹配法。现在把它改进，待判断这个 feature
-减去我们的模板，然后看减去它之差是不是等于
-0，或者说是不是小于一个范围。</p>
-<p><span class="math display">\[
-f == f_i =&gt; f - f_i == 0
-\]</span></p>
-<p>现在我们条件放宽一些，只要看两个向量相似即可，不需要这两个完全一样，相似即可就是我们自己去定义，求这两个向量之间的相似度。</p>
-<p>我们可以直接求两个向量的一个模，L1模、L2模、L3模，我们可以求它距离等等，两个向量之间的距离。很多方法吧？</p>
-<p>等于说，我们只要求这两个向量相似即可。</p>
-<p>我举个例子，比如说这两个向量 L1 模，就两个向量直接做差，然后再
-abs，再 sum一下，这就是L1模。如果这个 L1
-模小于一个范围，小于3，我们就认为它俩足够相似。大于3我们就认为它俩不足够相似。</p>
-<p><span class="math display">\[
-sum(abs(f - f_i)) &lt; 3 \\
-\]</span></p>
-<p>这样的话我们等于决策的时候放宽一些条件，不再要求完全相等，完全相等需要的模板太多了。就是决策只要变化不大，在一个范围就行了。就说我们之前的图像处理进行提取特征那里，不变性就没有那么高要求，只要不变性达到一定程度，提到的特征都在一个范围内就行了。通过这种方法我们就可以大概完成一种简单的数字分类的方法，对它做一些提升。</p>
-<p>所以总结下来，我们要对图片进行分类需要两步，首先要提特征，用图像处理的方法，也就是
-image
-process。提完特征之后再对特征利用，来做判断。然后得出最后的图片的类别号。做判断利用的是函数，这个函数我们称为模型。比如我们对距离去做判断的函数：
-<span class="math display">\[
-distance(f, f_i): Model
-\]</span></p>
-<p>当然后面的模型更复杂一些，这是一个简单的模型。我们通常设计的模型会有个概念叫模型的参数，所谓模型的参数就是模型要完成判断，把我们的待判断量
-feature 输入到模型中计算必不可少的变量。</p>
-<p>要想对输入的 feature
-进行计算得到最终的结果，必不可少的那些值就是模型的参数。</p>
-<p>这里我们讲了一个模型的概念以及模型的参数，模型这里你会看到它其实就是相当于函数了。我们这里的决策函数，或者决策模型
-distance，可以是L1 distance，也可以是L2
-distance，也可以是欧式距离、曼哈顿距离，各种距离都可以用。</p>
-<p><span class="math display">\[
-\begin{align*}
-&amp; L1 Distance: |x_1 - y_1| + |x_2 - y_2| \\
-&amp; L2 Distance: d(x, y)  = \sqrt{(x_1 - y_1)^2 + (x_2-y_2)^2+...+(x_n
-- y_n)^2} \\
-&amp; ...
-\end{align*}
-\]</span></p>
-<p>那么这个决策函数不仅可以用距离，还可以自己去设计。比如说你可以用
-distance：</p>
-<p><span class="math display">\[
-\begin{align*}
-&amp; f(x) = distance(x) \\
-\end{align*}
-\]</span></p>
-<p>也可以去求最小值，比如说当前这个
-f，它的最近的距离是哪一个，而不是说它小于某个值。它和这 10 个模板、和
-100 个模板最近的是哪一个，那它的就属于第几类。 <span
-class="math display">\[
-\begin{align*}
-&amp; f(x) = min(distance(f, [y_1, y_2, y_3, ...])) \\
-\end{align*}
-\]</span></p>
-<p>还可以用第三种形式。 <span class="math display">\[
-\begin{align*}
-&amp; f(x) = w_1x_1 + w_2x_2 + w_3x_3 + w_4x_4
-\end{align*}
-\]</span></p>
-<p>我们提特征， feature 是个向量，它是 x1、x2、x3、
-x4，那么我们就用x1、x2、 x3、 x4乘以 w1、 w2、 w3、 w4，让它等于这个 y
-值，等于 ID 号，然后等于 i 号。这样的话我们就只要求出来 w1、 w2、 w3、
-w4，有个合适的值的时候我们就可以对它完成判断了，不用再求距离了。</p>
-<p>这样的模型，我们是称为线性模型。这种线性模型其实我们可以进一步表示
-x1、x X 、x3、x4，我把它表示成大 X，w1、w2、w3、w4 我表示成 W:</p>
-<p>$$ <span class="math display">\[\begin{align*}
-f(x) &amp; = w_1x_1 + w_2x_2 + w_3x_3 + w_4x_4 \\
-&amp; = W \times X^T \\
-
-&amp; W = [w_1, w_2, w_3, w_4] \\
-&amp; X = [x_1, x_2, x_3, x_4] \\
-
-&amp; \begin{cases}
-&amp; WX_0 = 0 \\
-&amp; WX_1 = 1 \\
-&amp; WX_2 = 2 \\
-&amp; \vdots
-\end{cases}
-\end{align*}\]</span> $$</p>
-<p>这样的模型如何去解呢？如何去求解出这个参数。模型的参数就是
-w1、w2、w3、w4。实际上是我们要列方程组，列方程组怎么列呢？其实就是 <span
-class="math inline">\(f(x) = W \times X^T\)</span>。那么当我们 x0 是数字
-0 的时候输出的结果是 0，当 X 是 x1 的时候就是数字 1...</p>
-<p>这样我们列很多方程，就你有几张图片就列几个方程。有 100 张图片就列 100
-个方程，有 1 万张图片就列 1
-万个方程。这样我们就解方程组就行了。也就是求出来
-w1、w2、w3、w4就行了，其实就是利用已知求出 W。</p>
-<p>如果方程组未知数的个数等于方程组的个数的话，这个是有唯一解的。未知数的个数如果是小于方程组的个数的话，有无数解，未知数的个数大于方程组的个数的话就无解。</p>
-<p>比如说我们会列出这样的一个方程组</p>
-<p><span class="math display">\[
-\begin{align*}
-&amp; w_1x_{01} + w_1x_{02} + w_1x_{03} + w_1x_{04} = 0 \\
-&amp; w_1x_{11} + w_1x_{12} + w_1x_{13} + w_1x_{14} = 1 \\
-&amp; \vdots \\
-&amp; w_1x_{91} + w_1x_{92} + w_1x_{93} + w_1x_{94} = 9
-\end{align*}
-\]</span></p>
-<p>然后解这个方程组就行了。</p>
-<p>如果说方程组过多，我们这个未知量很少，那我们在解析解上它是无数解的。因为现实情况就是这样，没办法。那我们可以求近似解，求近似解用梯度下降法去求这个方程组就行了。</p>
-<p>综合来说，我们要做好计算机视觉两个关键。一个是提取好的特征，灵活的使用图像处理，然后提取好特征。另外一个，设计一个比较好的决策函数，就是设计好一个模型。比如说我们可以用距离做模板匹配也是可以的，用线性模型也可以，或者机器学习，用SVM、用决策树、用逻辑回归、分类模型，等等。</p>
-<p>那整体来说，计算机视觉和图像处理之间的关系就是图像经过图像处理提取特征，然后特征再经过模型做出判断得到结果。这整个过程中，图像处理在计算机视觉发挥的是提取特征的作用，所以图像处理也是计算机视觉的一个基础。</p>
-<p>OK，既然我们大致了解了计算机视觉的两个关键点，需要从这两个方面去考虑，一个是「决策函数」方面，一个就是「描述子」方面。决策函数我们讲了一些改进的方法，包括模板匹配改进为线性模型或者其他机器学习的模型。那么下一节课，咱们就来看看描述子的改进方法。</p>
-</div><div class="article-licensing box"><div class="licensing-title"><p>特征及决策函数</p><p><a href="https://hivan.me/11. 特征及决策函数/">https://hivan.me/11. 特征及决策函数/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2024-08-11</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2024-07-29</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a><a class="link-muted mr-2" rel="tag" href="/tags/CV/">CV</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/%E5%88%86%E6%9E%90%E4%B8%8E%20SHAP%20%E7%9A%84%E7%9B%B8%E4%BA%92%E4%BD%9C%E7%94%A8/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">分析与 SHAP 的相互作用</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/%E8%89%AF%E5%A5%BD%E5%8A%9F%E8%83%BD%E7%9A%84%E7%89%B9%E5%BE%81/"><span class="level-item">良好功能的特征</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+<p>收费文章，<a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/a4QEzaqSEA11c1OfIcpzaQ">请至此处查看原文</a></p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>特征及决策函数</p><p><a href="https://hivan.me/11. 特征及决策函数/">https://hivan.me/11. 特征及决策函数/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2024-08-11</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2024-08-18</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/AI/">AI</a><a class="link-muted mr-2" rel="tag" href="/tags/CV/">CV</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/%E5%88%86%E6%9E%90%E4%B8%8E%20SHAP%20%E7%9A%84%E7%9B%B8%E4%BA%92%E4%BD%9C%E7%94%A8/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">分析与 SHAP 的相互作用</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/%E8%89%AF%E5%A5%BD%E5%8A%9F%E8%83%BD%E7%9A%84%E7%89%B9%E5%BE%81/"><span class="level-item">良好功能的特征</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
             this.page.url = 'https://hivan.me/11.%20%E7%89%B9%E5%BE%81%E5%8F%8A%E5%86%B3%E7%AD%96%E5%87%BD%E6%95%B0/';
             this.page.identifier = '11. 特征及决策函数/';
         };
