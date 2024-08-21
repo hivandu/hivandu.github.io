@@ -6,7 +6,7 @@
   <link href="https://hivan.me/atom.xml" rel="self"/>
   
   <link href="https://hivan.me/"/>
-  <updated>2024-08-18T05:10:07.729Z</updated>
+  <updated>2024-08-21T09:36:06.863Z</updated>
   <id>https://hivan.me/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>四个自定义 SHAP 图</title>
+    <link href="https://hivan.me/%E5%9B%9B%E4%B8%AA%E8%87%AA%E5%AE%9A%E4%B9%89%20SHAP%20%E5%9B%BE/"/>
+    <id>https://hivan.me/%E5%9B%9B%E4%B8%AA%E8%87%AA%E5%AE%9A%E4%B9%89%20SHAP%20%E5%9B%BE/</id>
+    <published>2024-08-19T23:30:00.000Z</published>
+    <updated>2024-08-21T09:36:06.863Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>超越 Python 包，创建 SHAP 值的定制可视化</p></blockquote><span id="more"></span><p><imgsrc="https://miro.medium.com/v2/resize:fit:700/1*_8JOEHnp4VZiUjKh7aqAnQ.png"alt="img" /></p><p>SHAP 值是了解模型如何进行预测的绝佳工具。SHAP包提供了许多可视化效果，使这个过程更加简单。话虽如此，我们不必完全依赖这个包。我们可以通过创建自己的SHAP 图来进一步了解模型的工作原理。在本文中，我们将解释四个定制的 SHAP图以及您可以从中学到什么。您可以在GitHub<a href="#fn1"class="footnote-ref" id="fnref1"role="doc-noteref"><sup>1</sup></a>上找到用于创建这些图的代码。</p><p>讨论的图表之一是图 1 中的瀑布图。这是一种可视化单个预测的 SHAP值的好方法。模型做出的每个预测都会有自己的瀑布图。它可以用来准确解释每个特征对最终预测的贡献。例如，这只鲍鱼的壳重量使预测的环数减少了1.82。</p><p><imgsrc="https://miro.medium.com/v2/resize:fit:661/1*7dwToLGpWD9GWEWjO5lDgA.png"alt="图 1：使用鲍鱼数据集和 XGBoost 创建的瀑布图" /></p><p>要创建此图，我们首先必须使用 SHAP 包计算 SHAP值。然后我们将这些值传递到提供的瀑布图函数中。还有许多其他可用的图，但我们不一定非要使用它们。一旦我们有了SHAP值，我们就可以自由地创建自己的可视化效果。现在，让我们深入研究第一个。</p><h2 id="图-1shap-相关热图">图 1：SHAP 相关热图</h2><p>正如我们在瀑布图中看到的，对于给定的预测，模型中的每个特征都会有一个SHAP 值。我们能够计算这些 SHAP值在所有预测中的相关性。对每个成对特征组合执行此操作，我们可以构建一个SHAP 相关性热图，如图 2所示。在这里我们可以看到，例如，鲍鱼壳直径(<code>diameter</code>)和高度(<code>height</code>)的SHAP 值的相关性为 0.4。</p><p><imgsrc="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407280123686.png"alt="图2：SHAP相关矩阵" /></p><p>我们可以将其与图 3所示的标准相关性热图进行比较。这是使用特征值创建的，可以告诉我们特征是否相关。换句话说，它可以告诉我们两个特征是否倾向于朝相同方向或相反方向移动。另一方面，SHAP值给出了特征对预测的贡献。因此，SHAP相关性将告诉我们两个特征是否倾向于将预测移向同一方向。</p><p><imgsrc="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407280123687.png"alt="图3：标准相关矩阵" /></p><p>我们已经看到一些差异。请注意，在图 3 中，整重和去壳重呈正相关(1)。相比之下，这些特征的 SHAP 值呈负相关(-0.5)。即使这些特征朝同一方向移动，它们的贡献也倾向于将预测朝相反的方向移动。直观地看，这可能看起来很奇怪。一个可能的原因是这两个特征之间存在相互作用。</p><p>另一个区别是 SHAP相关性可以针对连续变量和分类变量进行计算。这是因为无论针对哪个特征计算SHAP 值，它们始终都是连续的。这就是为什么三个二元变量（即 sex.I、sex.M和 sex.F）包含在 SHAP 相关性热图中，而不是标准相关性热图中的原因。</p><h2 id="图2调整后的瀑布图">图<strong>2：调整后的瀑布图</strong></h2><p>下一个图更像是对现有 SHAP 图的补充。在文章开头的图 1中，我们查看了瀑布图。我们可以通过添加一些其他信息来了解有关预测的更多信息。查看图4，我们添加了该鲍鱼的实际环数（即y=7）。我们还为每个特征添加了分布图。红线表示该特征的平均值。虚线表示用于进行预测的实际特征值。</p><p><imgsrc="https://miro.medium.com/v2/resize:fit:700/1*NhHl-xjuCEj4U2QADsxCHA.png"alt="图 4：具有特征分布的瀑布图" /></p><p>图 5是可视化此信息的另一种方式。此处，特征被色块包围，其中颜色由特征的值决定。我们坚持SHAP包使用的惯例。如果特征的值相对于该特征的平均值较低，则该块将更蓝。如果特征值较高，则该块将为红色。在图4 中，我们可以看到大多数特征值低于平均值（即红线左侧）。这对应于您在图 5中看到的所有蓝色块。</p><p><imgsrc="https://miro.medium.com/v2/resize:fit:700/1*mZsmXjtPtiY3SRmVvQCP8g.png"alt="图 5：带有特征颜色的瀑布图" /></p><p>通过在上图中包括实际环数y，我们能够看到模型对这只鲍鱼的准确度。如果我们发现预测与实际值有很大差异，我们对SHAP值的解释可能会改变。在我们的例子中，预测值非常接近实际值。如果它们不同，我们可能会查看瀑布图以了解是否有任何特征导致了错误的预测。</p><p>通过添加分布图或色块，我们为特征值提供了背景信息。这使我们能够更全面地解释模型做出该预测的原因。之前我们可以看到哪个因素对预测贡献最大。现在，我们可以开始理解为什么该特征如此重要。为了更好地理解这一点，让我们使用银行业的一个示例。</p><p><imgsrc="https://miro.medium.com/v2/resize:fit:256/1*RI39dea1C1Z4BMcKQ5xBnQ.png"alt="img" /></p><p>假设我们建立一个用于接受/拒绝贷款申请的模型。月收入可能是一个重要因素。随着这一特征的下降，您更有可能拖欠贷款。假设该模型拒绝了一项申请。之前我们可以说，“我们拒绝了您的申请，您的月收入是这一决定的主要驱动因素”。现在，通过调整后的瀑布图之一，我们可以说，“我们拒绝了您的申请。这是因为您的月收入远低于我们的平均客户。”</p><h2 id="图-3交互热图">图 3：交互热图</h2><p>接下来我们将要看的两个图是 SHAP交互值的可视化。如果您不熟悉这些，我建议您阅读一下<ahref="https://mp.weixin.qq.com/s/AZ01JC1tbhkKXRpZBiSaPg">分析与 SHAP的相互作用</a>这篇文章。我们将更深入地介绍如何解释这些值。总而言之，对于给定的预测，我们将有一个SHAP交互值矩阵。矩阵的对角线给出主效应，非对角线给出交互效应。每个预测都会有一个这样的矩阵。</p><p>为了创建第三个图，我们首先计算所有交互值矩阵中每个单元格的绝对平均值。交互效应减半，因此我们还将对角线外的数值乘以2。然后我们可以将其显示为热图，如图 6所示。热图将围绕对角线对称，因此我们仅显示下半部分。</p><p><imgsrc="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407282044174.png"alt="图 6：SHAP 相互作用值热图" /></p><p>该图与均值 SHAP图类似，因为它可以突出显示重要特征。但现在，我们可以突出显示重要的主效应和交互效应。例如，我们可以看到经验、学位、绩效和销售额的平均主效应很大。这告诉我们，这些特征往往会对模型的预测产生重大影响。同样，我们可以看到经验.学位和绩效.销售额交互效应很显著。</p><h2 id="图-4交互瀑布图"><strong>图 4：交互瀑布图</strong></h2><p>我们的最后一张图是 SHAP交互值的瀑布图。这可以以与普通瀑布图相同的方式进行解释。但现在我们无法看到主效应和交互效应如何对预测做出贡献。例如，经验主效应使预测奖金增加了35.99 美元。同样，经验.程度交互效应使预测奖金增加了 13.76 美元。</p><p><imgsrc="https://miro.medium.com/v2/resize:fit:700/1*Y-7UAHpI4-uqWfnJq6mwmQ.png"alt="图 7：交互瀑布图" /></p><p>如果您查看用于创建此图的代码，您会发现我们非常狡猾。问题是 SHAP包没有提供可视化预测交互值的方法。经过一些工作，我们就可以使用为正常SHAP 值创建瀑布图的函数。如图 8所示，这涉及将二维矩阵中的交互值转换为一维数组。一旦我们有了这个数组，我们就可以将其传递给瀑布函数，SHAP会将其视为一组正常的 SHAP 值。</p><p><imgsrc="https://miro.medium.com/v2/resize:fit:700/1*abJok0ZnZ6MkSgTJ2KFuhw.png"alt="图 8：相互作用矩阵到相互作用阵列" /></p><h2 id="参考">参考</h2><p>S. Lundberg, <em>SHAP Python package</em> (2021)<em>,</em>https://github.com/slundberg/shap</p><p>S. Lundberg &amp; S. Lee, <em>A Unified Approach to InterpretingModel Predictions</em> (2017), https://arxiv.org/pdf/1705.07874.pdf</p><hr /><p><strong>「AI秘籍」系列课程：</strong></p><ul><li><ahref="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3074770001140400130&amp;scene=173&amp;subscene=227&amp;sessionid=undefined&amp;enterid=1717956640&amp;from_msgid=2648748678&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">人工智能应用数学基础</a></li><li><ahref="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3035995870421073928&amp;scene=126&amp;uin=&amp;key=&amp;devicetype=iMac+MacBookPro17%2C1+OSX+OSX+14.5+build(23F79)&amp;version=13080710&amp;lang=zh_CN&amp;nettype=WIFI&amp;ascene=78&amp;fontScale=100">人工智能Python基础</a></li><li><ahref="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3123885735829061633&amp;scene=173&amp;subscene=227&amp;sessionid=1717956706&amp;enterid=1717956713&amp;from_msgid=2648751062&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">人工智能基础核心知识</a></li><li><ahref="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg%3D%3D&amp;action=getalbum&amp;album_id=3193965113967132673&amp;subscene=&amp;sessionid=svr_548800ce471&amp;enterid=1704001437&amp;from_msgid=2648751621&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;scene=21#wechat_redirect">人工智能BI核心知识</a></li><li><ahref="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3503005363236880386&amp;from_itemidx=1&amp;from_msgid=2648753419#wechat_redirect">人工智能CV核心知识</a></li></ul><p><imgsrc="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407252125233.png"alt="AI企业项目实战课优惠二维码" /></p><section id="footnotes" class="footnotes footnotes-end-of-document"role="doc-endnotes"><hr /><ol><li id="fn1"><p>Github,https://github.com/hivandu/public_articles/blob/main/src/interpretable_ml/SHAP/shap_custom.ipynb<ahref="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li></ol></section>]]></content>
+    
+    
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;超越 Python 包，创建 SHAP 值的定制可视化&lt;/p&gt;
+&lt;/blockquote&gt;</summary>
+    
+    
+    
+    <category term="AI" scheme="https://hivan.me/categories/AI/"/>
+    
+    
+    <category term="SHAP" scheme="https://hivan.me/tags/SHAP/"/>
+    
+  </entry>
   
   <entry>
     <title>图像特征描述子</title>
@@ -481,33 +504,6 @@ CV 核心知识&lt;/a&gt;」第 8 节；&lt;/p&gt;</summary>
     <category term="AI" scheme="https://hivan.me/tags/AI/"/>
     
     <category term="ML" scheme="https://hivan.me/tags/ML/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>作业：人像滤波去噪</title>
-    <link href="https://hivan.me/07.%20%E4%BD%9C%E4%B8%9A%EF%BC%9A%E4%BA%BA%E5%83%8F%E6%BB%A4%E6%B3%A2%E5%8E%BB%E5%99%AA/"/>
-    <id>https://hivan.me/07.%20%E4%BD%9C%E4%B8%9A%EF%BC%9A%E4%BA%BA%E5%83%8F%E6%BB%A4%E6%B3%A2%E5%8E%BB%E5%99%AA/</id>
-    <published>2024-07-13T23:30:00.000Z</published>
-    <updated>2024-07-16T08:57:58.505Z</updated>
-    
-    <content type="html"><![CDATA[<p>本节课为「<ahref="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3503005363236880386&amp;from_itemidx=1&amp;from_msgid=2648753419#wechat_redirect">计算机视觉CV 核心知识</a>」第 7 节；</p><span id="more"></span><p><strong>「AI秘籍」系列课程：</strong></p><ul><li><p><ahref="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3074770001140400130&amp;scene=173&amp;subscene=227&amp;sessionid=undefined&amp;enterid=1717956640&amp;from_msgid=2648748678&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">人工智能应用数学基础</a></p></li><li><p><ahref="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3035995870421073928&amp;scene=126&amp;uin=&amp;key=&amp;devicetype=iMac+MacBookPro17%2C1+OSX+OSX+14.5+build(23F79)&amp;version=13080710&amp;lang=zh_CN&amp;nettype=WIFI&amp;ascene=78&amp;fontScale=100">人工智能Python基础</a></p></li><li><p><ahref="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3123885735829061633&amp;scene=173&amp;subscene=227&amp;sessionid=1717956706&amp;enterid=1717956713&amp;from_msgid=2648751062&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">人工智能基础核心知识</a></p></li><li><p><ahref="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg%3D%3D&amp;action=getalbum&amp;album_id=3193965113967132673&amp;subscene=&amp;sessionid=svr_548800ce471&amp;enterid=1704001437&amp;from_msgid=2648751621&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;scene=21#wechat_redirect">人工智能BI核心知识</a></p></li><li><p><ahref="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3503005363236880386&amp;from_itemidx=1&amp;from_msgid=2648753419#wechat_redirect">人工智能CV核心知识</a></p></li></ul><p><imgsrc="https://cdn.jsdelivr.net/gh/hivandu/notes/img/茶桁的AI秘籍CV_07.png"alt="茶桁的AI秘籍CV_07" /></p><p>Hi，大家好。我是茶桁。</p><p>这一节课算是承上启下的一节课，我们将要从图像处理讲解到计算机视觉。那首先咱们要先来讲解一下上节课的作业内容。</p><p>上节课的作业是让大家找一张人物照片，然后对她进行去噪处理。那我这里从网上随便找出来一张照片，然后我们看一下，把她脸上的斑点给去掉。</p><p><imgsrc="https://cdn.jsdelivr.net/gh/hivandu/notes/img/Chapter-1_homework.png"alt="Chapter-1_homework" /></p><p>就这样的一个模特，要求是要对它进行滤波去噪，就是希望把她脸上的斑点给去掉。不知道这个作业大家有没有自己去做做试试，效果是怎样的。做好的同学，你们都用怎样的方法呢？是否理想，效果怎么样。</p><p>那么这个题，其实我出题的初衷是让大家去理解一下卷积核的大小，理解一下卷积这个过程。然后初步从我们感官上去认知一下卷积过后图片的样子，输出的图片是什么样子的。也就是说我们说卷积是滤波，就是图片经过滤波之后它到底滤掉了什么，剩下了什么。那么这个滤波它到底滤了些什么信息呢？主要是依靠这个卷积本身的每个卷积核内部的每个值来决定的。所以我就布置个作业，让大家去调整一下卷积核的大小和值，尝试去把卷积核的大小调成一个合适的值，然后对这个模特的脸上的一些斑点进行一个过滤，只剩下模特除了斑点之外的其他的部分。</p><p>不知道各位同学做的效果是怎样的，有没有比较好的效果？那么现在就来好好说一下这个作业。</p><p>首先咱们先来看效果：</p><p>...</p><p>更多内容还请查看原文：《<ahref="https://mp.weixin.qq.com/s/4mTOk0RoaiKn2D6y9Q1E4A">作业：人像滤波去噪</a>》</p>]]></content>
-    
-    
-    <summary type="html">&lt;p&gt;本节课为「&lt;a
-href=&quot;https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;amp;action=getalbum&amp;amp;album_id=3503005363236880386&amp;amp;from_itemidx=1&amp;amp;from_msgid=2648753419#wechat_redirect&quot;&gt;计算机视觉
-CV 核心知识&lt;/a&gt;」第 7 节；&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="AI 秘籍" scheme="https://hivan.me/categories/AI-%E7%A7%98%E7%B1%8D/"/>
-    
-    <category term="CV" scheme="https://hivan.me/categories/AI-%E7%A7%98%E7%B1%8D/CV/"/>
-    
-    
-    <category term="AI" scheme="https://hivan.me/tags/AI/"/>
-    
-    <category term="CV" scheme="https://hivan.me/tags/CV/"/>
     
   </entry>
   
