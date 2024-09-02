@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>什么是 MLOps？ - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="DevOps 与数据和机器学习相遇"><meta property="og:type" content="blog"><meta property="og:title" content="什么是 MLOps？"><meta property="og:url" content="https://hivan.me/%E4%BB%80%E4%B9%88%E6%98%AF%20MLOps%EF%BC%9F/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="DevOps 与数据和机器学习相遇"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2024-08-22T23:30:00.000Z"><meta property="article:modified_time" content="2024-09-02T05:47:34.801Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="DevOps"><meta property="article:tag" content="MLOps"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/%E4%BB%80%E4%B9%88%E6%98%AF%20MLOps%EF%BC%9F/"},"headline":"什么是 MLOps？","image":[],"datePublished":"2024-08-22T23:30:00.000Z","dateModified":"2024-09-02T05:47:34.801Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"DevOps 与数据和机器学习相遇"}</script><link rel="canonical" href="https://hivan.me/%E4%BB%80%E4%B9%88%E6%98%AF%20MLOps%EF%BC%9F/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><script>var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?f91b64734fdc7bfb999e48f9248d44dd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-ZFB6CVWZFJ" async></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-ZFB6CVWZFJ');</script><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2024-08-22T23:30:00.000Z" title="8/23/2024, 7:30:00 AM">2024-08-23</time>发表</span></div></div><h1 class="title is-3 is-size-4-mobile">什么是 MLOps？</h1><div class="content"><blockquote>
+<p>DevOps 与数据和机器学习相遇</p>
+</blockquote>
+<span id="more"></span>
+<p>你是否曾经在微博上点赞某件事，然后几乎立刻在动态中看到相关内容？或者在
+Google
+上搜索某件事，然后几分钟后就会收到大量与该事相关的广告？这些都是日益自动化的世界的症状。在幕后，它们是先进的
+MLOps 管道的结果。我们来看看 MLOps
+以及有效部署机器学习模型需要什么。</p>
+<p><img
+src="https://miro.medium.com/v2/resize:fit:700/1*TjDv5dfQoU0gHovD7WDr0g.png"
+alt="img" /></p>
+<p>我们首先讨论 DevOps
+的一些关键方面。然后我们解释引入数据和模型如何颠覆标准实践。这导致了
+MLOps 的出现。现有实践（如 CI/CD
+管道）需要调整。引入新实践（如持续训练）。最后，我们讨论受监管环境中的
+MLOps 以及它与模型可解释性的关系。</p>
+<h2 id="devops">DevOps</h2>
+<p>DevOps
+是一套最佳实践、工具和公司文化，旨在提高软件开发、测试、部署和监控的效率。你可以拥有一个专门的
+DevOps
+团队来实施最佳实践。然而，它需要许多团队之间的参与和有效沟通。每家公司对
+DevOps 的方法都不同。目标始终是相同的 - 快速部署优质软件。</p>
+<h3 id="cicd-管道">CI/CD 管道</h3>
+<p>所有软件在使用之前都需要开发、彻底测试和部署。DevOps
+试图通过构建和自动化 CI/CD 管道来提高此过程的效率。持续集成 (CI)
+涉及开发软件的流程。持续部署/交付 (CD)
+涉及将软件转移到生产环境的流程。最佳实践和文化嵌入在这些管道的管理中。</p>
+<p>让我们考虑如何处理第一个方面，即持续集成。通常，这要求开发人员定期将代码更改推送到远程存储库。然后，运行自动单元和集成测试以立即识别代码中的任何问题。
+DevOps 将定义实施这些步骤的最佳实践。我们使用 git 等工具来推送更改或使用
+junit
+来运行单元测试来实现它们。要做到这一点，需要形成定期提交代码的文化。这对大多数人来说并不自然。</p>
+<h3 id="监控">监控</h3>
+<p>一旦软件投入使用，我们就需要确保它运行良好。这涉及根据系统延迟数据创建指标。DevOps
+旨在自动化此过程，并使开发人员可以轻松访问这些指标。它还可以涉及使用预定义的指标截止值创建自动警告。最终目标是建立一个持续的监控系统。这将实时提供所有应用程序的指标。</p>
+<p><img
+src="https://miro.medium.com/v2/resize:fit:700/1*-0Ll6t8ALDjJ3jv3tUX26A.png"
+alt="img" /></p>
+<h3 id="沟通">沟通</h3>
+<p>传统上，开发人员和运营团队是孤立的。在这种情况下，开发人员将合作开发软件。完成后，他们会将其交给运营团队进行部署。开发和生产环境并不相同。这可能会导致交接过程中出现大量问题。最糟糕的情况是，你可能会发现软件根本无法部署。DevOps
+旨在打破这些团队之间的隔阂，建立一种沟通文化。</p>
+<h2 id="mlops-devops-数据-模型">MLOps = DevOps + 数据 + 模型</h2>
+<p>MLOps 源于
+DevOps。上面讨论的许多方面都会延续下来。关键的区别在于，对于机器学习应用程序，我们需要数据和模型。这意味着我们不能再依赖现有的实践和工具。在图
+1 中，你可以看到数据和模型如何与现有的 DevOps
+管道相适应的概述。我们将讨论这些新方面以及它们如何影响现有的 DevOps
+实践。</p>
+<p><img
+src="https://miro.medium.com/v2/resize:fit:700/1*8-YT0Mcf_rflVHrPUzMFgg.png"
+alt="图 1：MLOps 概述" /></p>
+<h3 id="数据和模型开发">数据和模型开发</h3>
+<p>没有数据，就没有机器学习。数据需要在正确的时间出现在正确的位置。对于数据科学家来说，这意味着需要有足够的历史数据来训练模型。我们还需要更多最新数据来做出预测。在极端情况下，我们可能需要实时数据。数据工程师负责管理数据流入数据仓库。使用
+MLOps，可以使用 CI/CD
+数据管道来完成此操作。数据工程师将需要新工具来开发这些工具。</p>
+<p>数据为生产工作流程添加了新元素。同样，开发模型不同于开发软件。在确定最终模型之前，通常需要进行数千次迭代。我们在模型开发流程中进行这些迭代。该流程应使数据科学家能够轻松评估模型。它还应有助于跟踪所有不同的模型版本。应该很容易比较模型以决定最佳模型。</p>
+<h3 id="cicd-管道-1">CI/CD 管道</h3>
+<p>模型可能看起来像一个神秘的东西，但一旦训练完成，它就与普通代码没有什么不同。它是一组指令，可以接受输入（即数据）并给出输出（即预测）。开发完成后，我们可以将最终模型推送到主
+CI/CD 管道。然后运行自动单元测试和集成测试，以确保新模型没有问题。</p>
+<p><img
+src="https://miro.medium.com/v2/resize:fit:700/1*M1DAT2L-VcRY7Dgro2CNPA.png"
+alt="img" /></p>
+<p>CI/CD
+管道的设计使得如果新代码出现问题，我们可以轻松恢复到旧版本。同样，我们应该能够恢复到模型的旧版本。如果我们发现模型的表现不如预期，我们就会这样做。也就是说，如果它在新数据上表现不佳或做出有偏差的预测。为了保护公司和客户，我们必须能够快速恢复到旧模型。</p>
+<h3 id="监控-1">监控</h3>
+<p>对于计算资源，监控模型类似于监控软件。我们需要确保模型按预期使用
+CPU、RAM、带宽和磁盘空间。模型预测不应产生任何延迟问题。大多数这些挑战都已通过现有的
+DevOps 实践得到解决。监控模型准确性方面的性能带来了新的挑战。</p>
+<p>与软件不同，模型会退化。模型捕获的底层关系会随着时间的推移而变化。这将导致模型的预测不太准确。我们需要引入新的指标来监控数据和模型准确性的变化。与典型的系统指标不同，最终用户将是数据科学家。他们将使用这些指标来帮助决定我们何时需要重新开发模型。</p>
+<h3 id="持续训练ct">持续训练（CT）</h3>
+<p>一旦我们标记一个模型需要重新开发，数据科学家就会介入。通常，会有一个手动过程来收集训练数据、创建特征并重新训练模型。在某些情况下，这个过程可以完全自动化。这让我们回到了文章开头的反问。没有人参与更新你的微博动态。当你喜欢新内容时，支持你推荐帖子的模型会自动更新。</p>
+<p>这被称为持续训练。在这里，MLOps
+不仅寻求自动化模型的部署，还寻求自动化模型的训练。某些事件将启动模型的重新开发。这可能是因为有新数据可用，或者模型性能可能下降。在这种情况下，CI/CD
+管道看起来可能非常不同。我们不再只是部署代码。我们正在部署另一项服务（即模型）的系统（即
+ML 管道）。</p>
+<h3 id="沟通-1">沟通</h3>
+<p>与 DevOps 一样，我们无法仅使用花哨的工具来实现有效的
+MLOps。这也不是单个团队的责任。它需要许多团队之间的协作。这些团队包括领域专家、数据科学家、数据工程师、软件开发人员和
+DevOps 团队。使用
+MLOps，现在有更多的团队参与其中。这会使有效沟通更具挑战性。</p>
+<p><img
+src="https://miro.medium.com/v2/resize:fit:700/1*DM_xaJkgZuaEOm-nv8bE-w.png"
+alt="img" /></p>
+<h2 id="监管与可解释性">监管与可解释性</h2>
+<p>有效的 MLOps
+是一个目标。组织需要不断改进系统、工具和沟通才能实现这一目标。不同的组织将面临不同的挑战。较老的组织将不得不改进或替换现有流程。较新的组织具有能够立即实施最佳实践的优势。对于某些行业来说，不仅存在技术挑战，还存在法律和道德挑战。</p>
+<p>例如，保险业和银行业都受到严格监管。在这种环境下开发的模型将受到严格审查。在部署模型之前，需要其他团队（例如合规团队）和外部监管机构的批准。你需要向这些团队报告并向他们解释模型。这将为模型开发过程添加手动步骤。最终，从技术上讲，自动化模型训练和部署可能是可行的，但这样做是违法的。</p>
+<p><img
+src="https://miro.medium.com/v2/resize:fit:700/1*_Bb3bS3NxEIFPw0L7mVkUg.png"
+alt="img" /></p>
+<p>你可以使用的模型类型也可以进行监管。这会影响你自动化模型开发过程的能力。使用
+XGBoost
+和随机森林等模型更容易做到这一点。在这里，你可以通过调整超参数来自动化模型选择过程。在保险或银行业，你可能需要使用回归。要建立一个好的回归模型，你需要选择一组最好的
+8 到 10
+个不相关的特征。这个过程更难自动化，我们在文章[[良好功能的特征]]中有详细讨论它。</p>
+<p><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/I-Hk82hj4dL28OfGF3u6ng">对可解释性</a>的需求通常是模型以这种方式进行监管的原因。如果你没有彻底解释你的模型，它们可能会产生意想不到的结果。同样，如果你没有进行彻底的<a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/jrRvA0MwzF-T9UiJ02ofVg">算法公平性</a>分析，它们可能会产生有偏见的结果。解释模型和公平性总是需要一些人工干预。对于影响较大的模型，自动化这些过程的好处被风险所抵消。</p>
+<h2 id="参考">参考</h2>
+<p>M. Treveil, et. al., <em>Introducing MLOps: How to Scale Machine
+Learning in the Enterprise</em> (2020),
+https://www.oreilly.com/library/view/introducing-mlops/9781492083283/</p>
+<p>AWS, <em>What is DevOps?</em>(2022),
+https://aws.amazon.com/devops/what-is-devops/</p>
+<p>AWS, <em>What is Continuous Integration? (</em>2022),
+https://aws.amazon.com/devops/continuous-integration/</p>
+<p>AWS, <em>What is Continuous Delivery?</em> (2022),
+https://aws.amazon.com/devops/continuous-delivery/</p>
+<p>IBM, <em>What Is the CI/CD Pipeline?</em> (2021)
+https://www.ibm.com/cloud/blog/ci-cd-pipeline</p>
+<p>RevDeBug, <em>Unit Tests Vs. Integration Tests</em> (2021)
+https://revdebug.com/blog/unit-tests-vs-integration-tests/</p>
+<p>M. Anastasov, <em>CD Pipeline: A Gentle Introduction</em> (2022),
+https://semaphoreci.com/blog/cicd-pipeline</p>
+<p>O. Itzary and L. Nahum, <em>Continuous Training for Machine Learning
+— a Framework for a Successful Strategy</em> (2021),
+https://www.kdnuggets.com/2021/04/continuous-training-machine-learning.html</p>
+<hr />
+<p><strong>「AI秘籍」系列课程：</strong> - <a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3074770001140400130&amp;scene=173&amp;subscene=227&amp;sessionid=undefined&amp;enterid=1717956640&amp;from_msgid=2648748678&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">人工智能应用数学基础</a>
+- <a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3035995870421073928&amp;scene=126&amp;uin=&amp;key=&amp;devicetype=iMac+MacBookPro17%2C1+OSX+OSX+14.5+build(23F79)&amp;version=13080710&amp;lang=zh_CN&amp;nettype=WIFI&amp;ascene=78&amp;fontScale=100">人工智能Python基础</a>
+- <a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3123885735829061633&amp;scene=173&amp;subscene=227&amp;sessionid=1717956706&amp;enterid=1717956713&amp;from_msgid=2648751062&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">人工智能基础核心知识</a>
+- <a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg%3D%3D&amp;action=getalbum&amp;album_id=3193965113967132673&amp;subscene=&amp;sessionid=svr_548800ce471&amp;enterid=1704001437&amp;from_msgid=2648751621&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;scene=21#wechat_redirect">人工智能BI核心知识</a>
+- <a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3503005363236880386&amp;from_itemidx=1&amp;from_msgid=2648753419#wechat_redirect">人工智能CV核心知识</a></p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>什么是 MLOps？</p><p><a href="https://hivan.me/什么是 MLOps？/">https://hivan.me/什么是 MLOps？/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2024-08-23</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2024-09-02</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/DevOps/">DevOps</a><a class="link-muted mr-2" rel="tag" href="/tags/MLOps/">MLOps</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/13.%20%E4%BD%9C%E4%B8%9A-%20%E8%AF%86%E5%88%AB%E5%9B%BE%E5%83%8F%E6%95%B0%E5%AD%97/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">作业, 识别图像数字</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/%E5%9B%9B%E4%B8%AA%E8%87%AA%E5%AE%9A%E4%B9%89%20SHAP%20%E5%9B%BE/"><span class="level-item">四个自定义 SHAP 图</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/%E4%BB%80%E4%B9%88%E6%98%AF%20MLOps%EF%BC%9F/';
+            this.page.identifier = '什么是 MLOps？/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI 游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">233</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">8</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">32</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI/"><span class="level-start"><span class="level-item">AI</span></span><span class="level-end"><span class="level-item tag">41</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI 秘籍</span></span><span class="level-end"><span class="level-item tag">111</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/"><span class="level-start"><span class="level-item">BI</span></span><span class="level-end"><span class="level-item tag">37</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/CV/"><span class="level-start"><span class="level-item">CV</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">24</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">32</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-08-31T23:30:00.000Z">2024-09-01</time></p><p class="title"><a href="/14.%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E7%9A%84%E5%B8%B8%E7%94%A8%E6%A8%A1%E5%9E%8B/">计算机视觉的常用模型</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/CV/">CV</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-08-29T23:30:00.000Z">2024-08-30</time></p><p class="title"><a href="/%E8%A7%A3%E9%87%8A%E9%A2%84%E6%B5%8B%E7%9A%84%E8%89%BA%E6%9C%AF/">解释预测的艺术</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-08-26T23:30:00.000Z">2024-08-27</time></p><p class="title"><a href="/%E4%BD%BF%E7%94%A8%20Pandas%20%E6%89%B9%E9%87%8F%E5%A4%84%E7%90%86%2022GB%20%E4%BA%A4%E6%98%93%E6%95%B0%E6%8D%AE/">使用 Pandas 批量处理 22GB 交易数据</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-08-24T23:30:00.000Z">2024-08-25</time></p><p class="title"><a href="/13.%20%E4%BD%9C%E4%B8%9A-%20%E8%AF%86%E5%88%AB%E5%9B%BE%E5%83%8F%E6%95%B0%E5%AD%97/">作业, 识别图像数字</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/CV/">CV</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-08-22T23:30:00.000Z">2024-08-23</time></p><p class="title"><a href="/%E4%BB%80%E4%B9%88%E6%98%AF%20MLOps%EF%BC%9F/">什么是 MLOps？</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2024 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
