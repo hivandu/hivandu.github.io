@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>可解释性与公平性的关系 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="可解释模型更有可能公平的三个原因"><meta property="og:type" content="blog"><meta property="og:title" content="可解释性与公平性的关系"><meta property="og:url" content="https://hivan.me/%E5%8F%AF%E8%A7%A3%E9%87%8A%E6%80%A7%E4%B8%8E%E5%85%AC%E5%B9%B3%E6%80%A7%E7%9A%84%E5%85%B3%E7%B3%BB/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="可解释模型更有可能公平的三个原因"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2024-09-02T23:30:00.000Z"><meta property="article:modified_time" content="2024-09-02T05:48:07.157Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="ML"><meta property="article:tag" content="可解释"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/%E5%8F%AF%E8%A7%A3%E9%87%8A%E6%80%A7%E4%B8%8E%E5%85%AC%E5%B9%B3%E6%80%A7%E7%9A%84%E5%85%B3%E7%B3%BB/"},"headline":"可解释性与公平性的关系","image":[],"datePublished":"2024-09-02T23:30:00.000Z","dateModified":"2024-09-02T05:48:07.157Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"可解释模型更有可能公平的三个原因"}</script><link rel="canonical" href="https://hivan.me/%E5%8F%AF%E8%A7%A3%E9%87%8A%E6%80%A7%E4%B8%8E%E5%85%AC%E5%B9%B3%E6%80%A7%E7%9A%84%E5%85%B3%E7%B3%BB/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><script>var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?f91b64734fdc7bfb999e48f9248d44dd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-ZFB6CVWZFJ" async></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-ZFB6CVWZFJ');</script><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2024-09-02T23:30:00.000Z" title="9/3/2024, 7:30:00 AM">2024-09-03</time>发表</span><span class="level-item"><a class="link-muted" href="/categories/AI/">AI</a></span></div></div><h1 class="title is-3 is-size-4-mobile">可解释性与公平性的关系</h1><div class="content"><blockquote>
+<p>可解释模型更有可能公平的三个原因</p>
+</blockquote>
+<span id="more"></span>
+<p>``<img
+src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*p0CQDBWcDf92baLincQrUw.png"
+alt="img" /></p>
+<p>可解释性和公平性似乎是相辅相成的。<a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/I-Hk82hj4dL28OfGF3u6ng">可解释性</a>涉及理解模型如何进行预测。<a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/jrRvA0MwzF-T9UiJ02ofVg">公平性</a>涉及理解预测是否偏向某些群体。负责任的人工智能框架和机器学习会议始终将这两个特征一起提及。然而，可解释性并不一定意味着公平。</p>
+<p>话虽如此，可解释的模型仍然更有可能是公平的。这种关联有 3
+个主要原因。对于可解释的模型，更容易识别不公平的原因。在可解释的模型中纠正不公平也更容易。一些方法，例如证明解释，甚至依赖于可解释性。最后，这两个特征都与建立对
+AI 系统的信任的目标相关。我们将深入讨论这些原因。</p>
+<h2 id="使用不可知论方法测量偏见">使用不可知论方法测量偏见</h2>
+<p>在深入探讨这些问题之前，让我们先讨论一下如何<a
+href="分析机器学习的公平性">分析公平性</a>。这也有助于我们理解为什么这不是可解释性和公平性相关的原因之一。通常，公平性的衡量标准与<a
+href="什么是模型无关方法">模型无关</a>。这意味着它们可以用于任何模型。这包括线性回归和决策树等固有可解释的模型。它还包括随机森林甚至神经网络等不太可解释的模型。</p>
+<p><img
+src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*rJypRcPEOK_s-madSvNl4g.png"
+alt="img" /></p>
+<p>准确度是衡量公平性的一个简单例子。具体来说，我们将比较模型对不同人群的准确度。这里的人群由种族或性别等敏感特征定义。如果某个人群的准确度明显较低，则表明该模型对该人群不公平。</p>
+<p>要计算公平性指标，我们只需要模型的预测和实际目标变量。我们不需要研究模型本身的内部工作原理。这意味着，对于可解释的模型和不太可解释的模型，计算指标同样容易。换句话说，可解释性并不能让我们更容易理解一个模型是否不公平。问题是，这样的指标并不能告诉我们为什么一个模型不公平。</p>
+<h2
+id="原因一更容易识别不公平的原因">原因一：更容易识别不公平的原因</h2>
+<p><a
+href="不公平的预测：机器学习中的%205%20种常见偏见来源">造成不公平的原因</a>各有不同其中包括用于训练模型的数据中的偏见。具体来说，历史偏见、代理变量和不平衡的数据集可能会导致不公平的预测。我们对算法的选择以及用户与模型的交互方式也会带来偏见。对于可解释的模型，识别这些来源更容易。</p>
+<p>这是因为，对于可解释的模型，更容易理解模型的工作原理。这意味着我们清楚地了解哪些特征是重要的。我们还了解这些特征与目标变量之间的关系。通常，与神经网络等模型相比，算法和成本函数也简单得多。所有这些都让我们更容易找出导致模型不公平的原因。</p>
+<p><img
+src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*dHM_-NvGJXx2sywlkVldqQ.png"
+alt="img" /></p>
+<p>与此原因相关的是模型的构建方式。通常，当您构建可解释的模型（例如线性回归）时，您最终会手工挑选
+8 到 12
+个模型特征的最终集合。您还将花时间使用该领域的领域知识将特征趋势与预期进行比较。实际上，在<a
+href="良好功能的特征">特征选择</a>上投入了更多的思考。只要我们考虑到公平性，我们就可以在模型开发过程的早期提出问题。这意味着您甚至可以在将偏见引入模型之前识别出偏见来源。</p>
+<h2 id="原因-2更容易纠正偏见">原因 2：更容易纠正偏见</h2>
+<p>对于可解释的模型，<a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/Pp72LQ8l5-MaheQves1Y0g">纠正不公平现象</a>也更容易。这部分源于上面讨论的第一个原因。我们采取的纠正不公平的方法可能取决于不公平的原因。由于更容易确定原因，因此更容易选择最佳方法来纠正它。例如，我们可以纠正不公平模型的方法之一是删除代理变量。这些特征与种族或性别等敏感特征高度相关。</p>
+<p><img
+src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*HDEep7bnzCP-7x6fLyaQJg.png"
+alt="img" /></p>
+<p>随机森林等模型最多可以有 30-40 个特征。模型结构还允许特征之间的<a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/16vQ34gurxBmOs62njGhjw">交互</a>。这种复杂性使得很难理解任何代理变量与目标变量之间的关系。如果这种关系导致不公平的决策，就更难理解了。最终，决定删除哪些代理变量变得更加困难。</p>
+<p>算法本身还可以进行其他修正。例如，我们可以调整成本函数以考虑公平性。这可能涉及添加惩罚参数来惩罚不公平的决策。换句话说，模型的目标不仅是做出准确的预测，而且是公平的预测。可解释模型的算法和成本函数通常更简单。这使得调整它们更容易。</p>
+<p>确保公平的方法也可以超越上述定量方法。对抗不公平的一个重要方法是向用户提供<a
+href="解释预测的艺术">预测的解释</a>。然后让用户有权挑战这些预测。我们越了解模型的工作原理，就越容易以人性化的方式进行解释。换句话说，可解释性使得给出好的解释变得更容易。</p>
+<h2 id="原因-3它们都是为了建立信任">原因 3：它们都是为了建立信任</h2>
+<p>最重要的原因是可解释性和公平性的共同目标。它们都是为了建立对人工智能系统的信任。这主要通过减少这些系统可能造成的伤害来实现。也就是说，我们不会相信我们认为会对我们造成伤害的东西。</p>
+<p>我们更有可能相信我们理解的东西。此外，我们对某件事了解得越多，我们就越能确定它不会造成伤害。从这个意义上说，可解释性可以建立信任。公平的目标更直接。它旨在减少不公平决策带来的伤害。最终，一个关心人工智能系统信任的组织会同时关心可解释性和公平性。</p>
+<p><img
+src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*j9eSKrPOLQ8ilxH8cO1kPg.png"
+alt="img" /></p>
+<p>这就是为什么您经常会在<a href="什么是负责任的人工智能">负责任的
+AI</a>框架中看到公平性和可解释性一起提及。这些治理框架旨在定义开发 AI
+系统的道德准则和最佳实践。除了公平性和可解释性之外，这些框架还涵盖了安全性、保障性和隐私等主题。Google<a
+href="#fn1" class="footnote-ref" id="fnref1"
+role="doc-noteref"><sup>1</sup></a>、微软<a href="#fn2"
+class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>和
+IBM<a href="#fn3" class="footnote-ref" id="fnref3"
+role="doc-noteref"><sup>3</sup></a>
+等公司都有自己的框架。他们明白，客户不会使用他们不信任的系统。</p>
+<blockquote>
+<p>人工智能的发展为改善全球人民的生活创造了新的机会，从商业到医疗保健再到教育。它也提出了新的问题，即如何在这些系统中实现公平性、可解释性、隐私性和安全性。</p>
+</blockquote>
+<blockquote>
+<p>— Google AI 谈 responsible AI practices<a href="#fn4"
+class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
+</blockquote>
+<p>出于类似的原因，公平性和可解释性是相关的研究主题。例如，下面您可以看到FAccT
+2022会议论文的一些感兴趣领域。这是关于公平、问责和透明度的会议。公平性和可解释性是算法开发中提到的第一个主题。有兴趣减少人工智能系统危害的研究人员会对这两个主题感兴趣。</p>
+<p><img
+src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*YUUlKjEHumziZes0_Qye1Q.png"
+alt="FAccT 2022 征文通知（来源：ACM FAccT）" /></p>
+<p>信任的需求是公平性和可解释性之间关系的真正驱动力。我们看到，可解释模型的特征也使这种关系更加紧密。在此过程中，我们触及了一些与公平相关的主题。即不公平的原因、分析公平和确保公平的方法。以下三篇文章深入探讨了这些主题。</p>
+<p><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/2gEqzVIbBlKx8RCTYa6QvA">不公平的预测：机器学习中的
+5 种常见偏见来源</a></p>
+<blockquote>
+<p>常见的偏见来源——历史偏见、代理变量、不平衡数据集、算法选择和用户交互</p>
+</blockquote>
+<p><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/NqKdrDlY0D-E6YbvD9Ye2g">分析机器学习的公平性</a></p>
+<blockquote>
+<p>进行探索性公平性分析，并利用平等机会、均等几率和不同的因素来衡量公平性……</p>
+</blockquote>
+<p><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/Pp72LQ8l5-MaheQves1Y0g">纠正和防止机器学习中的不公平现象</a></p>
+<blockquote>
+<p>预处理、处理中和处理后定量方法。以及非定量方法……</p>
+</blockquote>
+<h2 id="参考">参考</h2>
+<p>Birhane, A., (2021)算法不公正：一种关系伦理学方法。https <a
+target="_blank" rel="noopener" href="https://www.sciencedirect.com/science/article/pii/S2666389921000155">://www.sciencedirect.com/science/article/pii/S2666389921000155</a></p>
+<p>Pessach, D. 和 Shmueli, E., (2020)，算法公平性。https <a
+target="_blank" rel="noopener" href="https://arxiv.org/abs/2001.09784">://arxiv.org/abs/2001.09784</a></p>
+<p>Mehrabi, N.、Morstatter, F.、Saxena, N.、Lerman, K. 和 Galstyan, A.,
+(2021)，机器学习中的偏见和公平性调查。https <a
+target="_blank" rel="noopener" href="https://arxiv.org/abs/1908.09635">://arxiv.org/abs/1908.09635</a></p>
+<hr />
+<p>希望这篇文章对你有所帮助！你还可以阅读我的其他文章，或者查看有关企业
+AI 实战项目的教程，相信会让你拥有更多收获。</p>
+<p><strong>「AI秘籍」系列课程：</strong></p>
+<ul>
+<li><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3074770001140400130&amp;scene=173&amp;subscene=227&amp;sessionid=undefined&amp;enterid=1717956640&amp;from_msgid=2648748678&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">人工智能应用数学基础</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3035995870421073928&amp;scene=126&amp;uin=&amp;key=&amp;devicetype=iMac+MacBookPro17%2C1+OSX+OSX+14.5+build(23F79)&amp;version=13080710&amp;lang=zh_CN&amp;nettype=WIFI&amp;ascene=78&amp;fontScale=100">人工智能Python基础</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3123885735829061633&amp;scene=173&amp;subscene=227&amp;sessionid=1717956706&amp;enterid=1717956713&amp;from_msgid=2648751062&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">人工智能基础核心知识</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg%3D%3D&amp;action=getalbum&amp;album_id=3193965113967132673&amp;subscene=&amp;sessionid=svr_548800ce471&amp;enterid=1704001437&amp;from_msgid=2648751621&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;scene=21#wechat_redirect">人工智能BI核心知识</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3503005363236880386&amp;from_itemidx=1&amp;from_msgid=2648753419#wechat_redirect">人工智能CV核心知识</a></li>
+</ul>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407252125233.png"
+alt="AI企业项目实战课优惠二维码" /></p>
+<section id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Google,
+https://ai.google/responsibilities/responsible-ai-practices/<a
+href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>微软,
+https://www.microsoft.com/en-us/ai/responsible-ai?activetab=pivot1:primaryr6<a
+href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>IBM,
+https://www.ibm.com/artificial-intelligence/ethics<a href="#fnref3"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Google, responsible AI practices,
+https://ai.google/responsibilities/responsible-ai-practices/<a
+href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+</div><div class="article-licensing box"><div class="licensing-title"><p>可解释性与公平性的关系</p><p><a href="https://hivan.me/可解释性与公平性的关系/">https://hivan.me/可解释性与公平性的关系/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2024-09-03</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2024-09-02</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/ML/">ML</a><a class="link-muted mr-2" rel="tag" href="/tags/%E5%8F%AF%E8%A7%A3%E9%87%8A/">可解释</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/14.%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E7%9A%84%E5%B8%B8%E7%94%A8%E6%A8%A1%E5%9E%8B/"><span class="level-item">计算机视觉的常用模型</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/%E5%8F%AF%E8%A7%A3%E9%87%8A%E6%80%A7%E4%B8%8E%E5%85%AC%E5%B9%B3%E6%80%A7%E7%9A%84%E5%85%B3%E7%B3%BB/';
+            this.page.identifier = '可解释性与公平性的关系/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI 游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">234</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">8</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">32</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI/"><span class="level-start"><span class="level-item">AI</span></span><span class="level-end"><span class="level-item tag">42</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI 秘籍</span></span><span class="level-end"><span class="level-item tag">111</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/"><span class="level-start"><span class="level-item">BI</span></span><span class="level-end"><span class="level-item tag">37</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/CV/"><span class="level-start"><span class="level-item">CV</span></span><span class="level-end"><span class="level-item tag">15</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">24</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">32</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-09-02T23:30:00.000Z">2024-09-03</time></p><p class="title"><a href="/%E5%8F%AF%E8%A7%A3%E9%87%8A%E6%80%A7%E4%B8%8E%E5%85%AC%E5%B9%B3%E6%80%A7%E7%9A%84%E5%85%B3%E7%B3%BB/">可解释性与公平性的关系</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-08-31T23:30:00.000Z">2024-09-01</time></p><p class="title"><a href="/14.%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E7%9A%84%E5%B8%B8%E7%94%A8%E6%A8%A1%E5%9E%8B/">计算机视觉的常用模型</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/CV/">CV</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-08-29T23:30:00.000Z">2024-08-30</time></p><p class="title"><a href="/%E8%A7%A3%E9%87%8A%E9%A2%84%E6%B5%8B%E7%9A%84%E8%89%BA%E6%9C%AF/">解释预测的艺术</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-08-26T23:30:00.000Z">2024-08-27</time></p><p class="title"><a href="/%E4%BD%BF%E7%94%A8%20Pandas%20%E6%89%B9%E9%87%8F%E5%A4%84%E7%90%86%2022GB%20%E4%BA%A4%E6%98%93%E6%95%B0%E6%8D%AE/">使用 Pandas 批量处理 22GB 交易数据</a></p><p class="categories"><a href="/categories/AI/">AI</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-08-24T23:30:00.000Z">2024-08-25</time></p><p class="title"><a href="/13.%20%E4%BD%9C%E4%B8%9A-%20%E8%AF%86%E5%88%AB%E5%9B%BE%E5%83%8F%E6%95%B0%E5%AD%97/">作业, 识别图像数字</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a> / <a href="/categories/AI-%E7%A7%98%E7%B1%8D/CV/">CV</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2024 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
