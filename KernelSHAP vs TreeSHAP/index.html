@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>KernelSHAP vs TreeSHAP - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="根据速度、复杂性和其他考虑因素比较 SHAP 近似方法"><meta property="og:type" content="blog"><meta property="og:title" content="KernelSHAP vs TreeSHAP"><meta property="og:url" content="https://hivan.me/KernelSHAP%20vs%20TreeSHAP/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="根据速度、复杂性和其他考虑因素比较 SHAP 近似方法"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2024-09-09T23:30:00.000Z"><meta property="article:modified_time" content="2024-09-12T12:07:30.098Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="Python"><meta property="article:tag" content="SHAP"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/KernelSHAP%20vs%20TreeSHAP/"},"headline":"KernelSHAP vs TreeSHAP","image":[],"datePublished":"2024-09-09T23:30:00.000Z","dateModified":"2024-09-12T12:07:30.098Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"根据速度、复杂性和其他考虑因素比较 SHAP 近似方法"}</script><link rel="canonical" href="https://hivan.me/KernelSHAP%20vs%20TreeSHAP/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><script>var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?f91b64734fdc7bfb999e48f9248d44dd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-ZFB6CVWZFJ" async></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-ZFB6CVWZFJ');</script><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2024-09-09T23:30:00.000Z" title="9/10/2024, 7:30:00 AM">2024-09-10</time>发表</span></div></div><h1 class="title is-3 is-size-4-mobile">KernelSHAP vs TreeSHAP</h1><div class="content"><blockquote>
+<p>根据速度、复杂性和其他考虑因素比较 SHAP 近似方法</p>
+</blockquote>
+<span id="more"></span>
+<p><img
+src="https://miro.medium.com/v2/resize:fit:700/1*qAfrQhk6zlFT9yyvhNalig.png"
+alt="img" /></p>
+<p>[[KernelSHAP]] 和 [[TreeSHAP]] 都用于近似 [[Shapley]]
+值。TreeSHAP速度更快。缺点是它只能与基于树的算法（如[[随机森林]]和
+[[xgboost]]）一起使用。另一方面，KernelSHAP
+与模型无关。这意味着它可以与任何机器学习算法一起使用。我们将比较这两种近似方法。</p>
+<p>为此，我们将进行一项实验。这将向我们展示 TreeSHAP
+实际上有多快。我们还将探讨树算法的参数如何影响时间复杂度。这些包括树的数量、
+深度和特征的数量。在使用 TreeSHAP
+进行数据探索时，这些知识非常有用。最后，我们将讨论其他考虑因素（如特征依赖性）如何影响方法。</p>
+<h2 id="每次观察的时间">每次观察的时间</h2>
+<p>对于第一个实验，我们想看看这些方法计算 [[SHAP]]
+值需要多少时间。我们不会介绍用于获取结果的代码，但你可以在 GitHub<a
+href="#fn1" class="footnote-ref" id="fnref1"
+role="doc-noteref"><sup>1</sup></a>
+上找到它。总而言之，我们首先模拟回归数据。它有 10000 个样本、 10
+个特征和 1
+个连续目标变量。使用这些数据，我们训练一个随机森林。具体来说，该模型有
+100 棵树，最大深度为 4 。</p>
+<p>现在，我们可以使用该模型来计算 SHAP 值。我们使用 KernelSHAP 和
+TreeSHAP 方法进行此操作。对于每种方法，我们计算
+10、100、1000、2000、5000 和 10000 个 SHAP值。对于 每个金额，
+我们记录计算所花费的时间。我们确保对每个金额重复此过程 3
+次。然后，我们将平均值作为最终时间。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python">results = []<br><span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> [<span class="hljs-number">10</span>,<span class="hljs-number">100</span>,<span class="hljs-number">1000</span>,<span class="hljs-number">2000</span>,<span class="hljs-number">5000</span>,<span class="hljs-number">10000</span>]*<span class="hljs-number">3</span>:<br><span class="hljs-comment"># Calculate SHAP Values</span><br>kernel_time = runSHAP(n=n)<br>tree_time = runSHAP(n=n,kernel=<span class="hljs-literal">False</span>)<br><br>result = [n,kernel_time,tree_time]<br>results.append(result)<br><br>results_1 = pd.DataFrame(results,columns = [<span class="hljs-string">&#x27;n&#x27;</span>,<span class="hljs-string">&#x27;kernelSHAP&#x27;</span>,<span class="hljs-string">&#x27;treeSHAP&#x27;</span>])<br><br>---<br>Kernel <span class="hljs-number">10000</span>:  <span class="hljs-number">0</span>:07:<span class="hljs-number">48.051865</span><br>Tree <span class="hljs-number">10000</span>:  <span class="hljs-number">0</span>:<span class="hljs-number">00</span>:<span class="hljs-number">00.747681</span><br></code></pre></td></tr></table></figure>
+<p>你可以在图 1 中看到此过程的结果。你可以看到 TreeSHAP
+的速度明显更快。对于 10,000 个 SHAP 值，该方法耗时 0.74 秒
+。相比之下，KernelSHAP 耗时 7 分 48.05 秒。这是 KernelSHAP 的 630 倍
+。这些计算的速度取决于你的设备，但你应该会遇到类似的差异。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407301739835.png"
+alt="图 1：每次观察的时间" /></p>
+<p>上面的 TreeSHAP 线看起来很平坦。这是因为它与 KernelSHAP
+线相比显得矮小。在 图 2 中，我们只有 TreeSHAP
+的线。你可以看到它也随着观察次数的增加而线性增加。这告诉我们每个 SHAP
+值的计算时间都差不多。我们将在下一节探讨原因。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407301739836.png"
+alt="图 2：TreeSHAP 每次观察的时间" />-</p>
+<h2 id="时间复杂度">时间复杂度</h2>
+<p>两种方法的时间复杂度如下所示。这是在树算法中计算特征的 SHAP
+值时的复杂度。T 是 单个树的数量。L 是 每棵树中的最大叶子数。D 是
+每棵树的最大深度。最后， M
+是每棵树中的最大特征数。对于这些方法，这些参数将以不同的方式影响近似时间。</p>
+<p><span class="math display">\[
+\begin{align*}
+&amp; KernelSHAP: O(TL2^M) \\
+&amp; TreeSHAP: O(TLD^2)
+\end{align*}
+\]</span></p>
+<p>只有 TreeSHAP 的复杂度受深度 (D) 的影响。另一方面，只有 KernelSHAP
+受特征数量 (M) 的影响。不同之处在于 KernelSHAP 复杂度相对于 M 呈指数增长
+，而 TreeSHAP 相对于 D 呈二次增长。考虑到我们的特征 (M = 10)
+也多于树深度 (D = 4)，我们可以看出为什么 KernelSHAP 更慢。</p>
+<p>需要明确的是，这是每个 SHAP
+值的时间复杂度。我们应该期望每个值都需要相似的时间来计算。这就是为什么我们看到时间与观察次数之间存在线性关系。我们现在将探讨时间与其他参数
+T 、 L 、 D 和 M
+之间的关系。然后我们将讨论结果对模型验证和数据探索的意义。</p>
+<h3 id="树的数量t">树的数量（T）</h3>
+<p>对于这两种方法，复杂度与树的数量 (T)
+呈线性关系。我们预计此参数会以类似的方式影响近似时间。为了看到这一点，我们进行了与之前类似的实验。这一次，我们通过增加树的数量来训练不同的模型。我们使用每个模型来计算
+100 个 SHAP 值。</p>
+<p>你可以在图 3
+中看到结果。对于这两种方法，时间都随着树的数量线性增加。这是我们在查看时间复杂度时所预期的。这告诉我们，通过限制树的数量，我们可以减少计算
+SHAP 值所需的时间。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407301739837.png"
+alt="图 3：每棵树所花的时间" /></p>
+<h3 id="特征数量-m">特征数量 (M)</h3>
+<p>只有 KernelSHAP 受到特征数量（ M
+）的影响。这次我们在不同数量的特征上训练模型。同时，我们保持其他参数（
+T、L 和 D ）不变。在 图 4 中，我们可以看到 KernelSHAP 的时间随着 M 的
+增加而呈指数增加。相比之下，TreeSHAP 的时间受到的影响并不大。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407301739838.png"
+alt="图 4：每个特征数的时间" /></p>
+<p>你可能已经注意到 TreeSHAP
+的时间逐渐增加。这可能会令人困惑，因为我们看到复杂性并不依赖于
+M。要清楚的是，这是计算单个特征的 SHAP 值时的复杂性。随着 M
+的增加，我们需要为每个观察计算更多的 SHAP 值。</p>
+<h3 id="树的深度d">树的深度（D）</h3>
+<p>最后，我们改变树的深度。我们确保森林中每棵树的深度始终是最大深度。在图
+5 中，你可以看到当我们增加深度时会发生什么。TreeSHAP
+的时间增加得更为剧烈。甚至有一点 TreeSHAP 的计算成本快要比 KernelSHAP
+还高了。我们可能已经预料到了这一点，因为我们看到只有 TreeSHAP 复杂性是 D
+的函数。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407301739839.png"
+alt="图 5：每棵树深度的时间" /></p>
+<p>你可能会问为什么 KernelSHAP 时间也会增加。这是因为特征 (M) 和叶子 (L)
+的数量会根据树的深度而变化。随着深度的增加，会有更多的分裂，因此我们会有更多的叶子。更多的分裂也意味着树可以使用更多的特征。你可以在
+图 6 中看到这一点。这里我们计算了森林中所有树的平均特征和叶子数量。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407301739840.png"
+alt="图 6：每棵树深度的特征和叶子" /></p>
+<h3 id="模型验证和数据探索的要点">模型验证和数据探索的要点</h3>
+<p>通过改变深度，我们发现在某些情况下 TreeSHAP
+的计算成本更高。但是，这些情况不太可能发生。我们发现，只有当树的深度为
+20
+时才会发生这种情况。使用这么深的树并不常见。在实践中，我们通常会拥有比树深度
+(D) 更多的特征 (M)。 这意味着，在使用 SHAP 验证树模型时，TreeSHAP
+通常是更好的选择。我们能够更快地计算 SHAP
+值。这可以同时进行，尤其是当你需要比较多个模型时。对于模型验证，我们对参数
+T 、 L 、 D 和 M 没有太多选择。这是因为我们只想验证表现最佳的模型。
+对于数据探索，我们拥有更多的灵活性。树算法可用于查找重要的非线性关系和相互作用。为此，我们的模型只需足够好以捕捉数据中的潜在趋势即可。我们可以通过减少树的数量
+(T) 和树的深度 (D) 来使用 TreeSHAP
+加速此过程。同时，我们能够探索许多模型特征 (M)，而无需大幅提高速度。</p>
+<h2 id="其他考虑因素">其他考虑因素</h2>
+<p>在选择方法时，时间复杂度是一个重要因素。在做出选择之前，你可能还需要考虑其他一些差异。其中包括
+KernelSHAP 与模型无关、方法受特征依赖性的影响，并且只有 TreeSHAP
+可用于计算交互效应。</p>
+<h3 id="与模型无关">与模型无关</h3>
+<p>一开始，我们提到 TreeSHAP
+最大的限制是它不是模型无关的。如果你正在使用非基于树的算法，你将无法使用它。神经网络也有自己的近似方法。你可以将
+DeepSHAP 用于这些算法。然而，KernelSHAP
+是唯一可以与所有算法一起使用的方法。</p>
+<h3 id="功能依赖项">功能依赖项</h3>
+<p>特征依赖性可能会扭曲 KernelSHAP
+的近似值。该算法通过随机采样特征值来估计 SHAP
+值。问题是，当特征相关时，采样值可能不太可能。这意味着在使用 SHAP
+值时，我们可能会过分重视不太可能的观察结果。 TreeSHAP
+没有这个问题。但是，由于特征依赖性，该算法存在不同的问题。即对预测没有影响的特征可以获得非零的
+SHAP
+值。当该特征与另一个确实影响预测的特征相关时，就会发生这种情况。在这种情况下，我们可以错误地得出某个特征对预测有贡献的结论。</p>
+<h3 id="分析互动">分析互动</h3>
+<p>SHAP 交互值是 SHAP
+值的扩展。它们的工作原理是将特征的贡献分解为其主要影响和交互影响。对于给定的特征，交互影响是它与其他特征的所有联合贡献。在突出显示和可视化数据中的交互时，这些非常有用。我们将在文章《[<a
+href="../分析与%20SHAP%20的相互作用">分析与 SHAP
+的相互作用</a>]》中深入探讨这一点。</p>
+<p>如果你想使用 SHAP 交互值，则必须使用
+TreeSHAP。这是因为它是唯一已实现交互值的近似方法。这与 SHAP
+交互值的复杂性有关。KernelSHAP 需要更长的时间来估计这些值。</p>
+<p>最后，你应该尽可能使用
+TreeSHAP。它速度更快，并能让你分析交互。对于数据探索，你可能希望坚持使用树算法来获得这些好处。如果你正在使用其他类型的算法，那么你必须坚持使用
+KernelSHAP。它仍然是一种比蒙特卡罗采样等其他方法更快的近似方法。</p>
+<h2 id="参考">参考</h2>
+<p>S. Lundberg, SHAP Python package (2021)<em>,</em>
+https://github.com/slundberg/shap</p>
+<p>S. Lundberg &amp; S. Lee, A Unified Approach to Interpreting Model
+Predictions (2017), https://arxiv.org/pdf/1705.07874.pdf</p>
+<p>S. Lundberg, S.M., G. Erion, G.G. and Lee, S.I., (2018). Consistent
+individualized feature attribution for tree ensembles. <em>arXiv
+preprint arXiv:1802.03888</em>.</p>
+<p>C. Molnar, Interpretable Machine Learning (2021)
+https://christophm.github.io/interpretable-ml-book/shap.html</p>
+<p>S. Masís, Interpretable Machine Learning with Python (2021)</p>
+<hr />
+<p>希望这篇文章对你有所帮助！你还可以阅读我的其他文章，或者查看有关企业
+AI 实战项目的教程，相信会让你拥有更多收获。</p>
+<p><strong>「AI秘籍」系列课程：</strong></p>
+<ul>
+<li><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3074770001140400130&amp;scene=173&amp;subscene=227&amp;sessionid=undefined&amp;enterid=1717956640&amp;from_msgid=2648748678&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">人工智能应用数学基础</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3035995870421073928&amp;scene=126&amp;uin=&amp;key=&amp;devicetype=iMac+MacBookPro17%2C1+OSX+OSX+14.5+build(23F79)&amp;version=13080710&amp;lang=zh_CN&amp;nettype=WIFI&amp;ascene=78&amp;fontScale=100">人工智能Python基础</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3123885735829061633&amp;scene=173&amp;subscene=227&amp;sessionid=1717956706&amp;enterid=1717956713&amp;from_msgid=2648751062&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">人工智能基础核心知识</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg%3D%3D&amp;action=getalbum&amp;album_id=3193965113967132673&amp;subscene=&amp;sessionid=svr_548800ce471&amp;enterid=1704001437&amp;from_msgid=2648751621&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;scene=21#wechat_redirect">人工智能BI核心知识</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3503005363236880386&amp;from_itemidx=1&amp;from_msgid=2648753419#wechat_redirect">人工智能CV核心知识</a></li>
+</ul>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407252125233.png"
+alt="AI企业项目实战课优惠二维码" /></p>
+<section id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Github, <a
+target="_blank" rel="noopener" href="https://github.com/hivandu/public_articles/blob/main/src/interpretable_ml/SHAP/kernelSHAP_vs_treeSHAP.ipynb">https://github.com/hivandu/public_articles/blob/main/src/interpretable_ml/SHAP/kernelSHAP_vs_treeSHAP.ipynb</a><a
+href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+</div><div class="article-licensing box"><div class="licensing-title"><p>KernelSHAP vs TreeSHAP</p><p><a href="https://hivan.me/KernelSHAP vs TreeSHAP/">https://hivan.me/KernelSHAP vs TreeSHAP/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2024-09-10</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2024-09-12</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/Python/">Python</a><a class="link-muted mr-2" rel="tag" href="/tags/SHAP/">SHAP</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/%E6%88%91%E4%BB%AC%E5%8F%AF%E4%BB%A5%E4%BB%8E%E9%BB%91%E7%9B%92%E6%A8%A1%E5%9E%8B%E4%B8%AD%E5%AD%A6%E5%88%B0%E4%BB%80%E4%B9%88-1/"><i class="level-item fas fa-chevron-left"></i><span class="level-item"> </span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/15.%20%E5%AF%B9%E5%AE%A2%E8%A7%82%E4%B8%96%E7%95%8C%E7%9A%84%E5%BB%BA%E6%A8%A1%EF%BC%9A%E5%8D%B7%E7%A7%AF/"><span class="level-item">对客观世界的建模：卷积</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/KernelSHAP%20vs%20TreeSHAP/';
+            this.page.identifier = 'KernelSHAP vs TreeSHAP/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI 游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">241</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">8</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">35</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI/"><span class="level-start"><span class="level-item">AI</span></span><span class="level-end"><span class="level-item tag">43</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI 秘籍</span></span><span class="level-end"><span class="level-item tag">113</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/"><span class="level-start"><span class="level-item">BI</span></span><span class="level-end"><span class="level-item tag">37</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/CV/"><span class="level-start"><span class="level-item">CV</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">24</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">32</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-09-16T23:30:00.000Z">2024-09-17</time></p><p class="title"><a href="/%E4%BD%BF%E7%94%A8%20CatBoost%20%E5%AE%9E%E7%8E%B0%E5%88%86%E7%B1%BB%E7%89%B9%E5%BE%81%E7%9A%84%20SHAP/">使用 CatBoost 实现分类特征的 SHAP</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-09-14T23:30:00.000Z">2024-09-15</time></p><p class="title"><a href="/16.%20%E4%BB%8E%20MLP%20%E5%88%B0%20CNN/">16 从 MLP 到 CNN，以及 CNN 统一提特征及决策</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-09-12T23:30:00.000Z">2024-09-13</time></p><p class="title"><a href="/%E6%88%91%E4%BB%AC%E5%8F%AF%E4%BB%A5%E4%BB%8E%E9%BB%91%E7%9B%92%E6%A8%A1%E5%9E%8B%E4%B8%AD%E5%AD%A6%E5%88%B0%E4%BB%80%E4%B9%88/">我们可以从黑盒模型中学到什么</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-09-10T06:51:48.675Z">2024-09-10</time></p><p class="title"><a href="/%E6%88%91%E4%BB%AC%E5%8F%AF%E4%BB%A5%E4%BB%8E%E9%BB%91%E7%9B%92%E6%A8%A1%E5%9E%8B%E4%B8%AD%E5%AD%A6%E5%88%B0%E4%BB%80%E4%B9%88-1/"> </a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-09-09T23:30:00.000Z">2024-09-10</time></p><p class="title"><a href="/KernelSHAP%20vs%20TreeSHAP/">KernelSHAP vs TreeSHAP</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2024 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

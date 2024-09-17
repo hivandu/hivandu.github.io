@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>我们可以从黑盒模型中学到什么 - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="使用非线性模型进行数据探索和知识生成"><meta property="og:type" content="blog"><meta property="og:title" content="我们可以从黑盒模型中学到什么"><meta property="og:url" content="https://hivan.me/%E6%88%91%E4%BB%AC%E5%8F%AF%E4%BB%A5%E4%BB%8E%E9%BB%91%E7%9B%92%E6%A8%A1%E5%9E%8B%E4%B8%AD%E5%AD%A6%E5%88%B0%E4%BB%80%E4%B9%88/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="使用非线性模型进行数据探索和知识生成"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2024-09-12T23:30:00.000Z"><meta property="article:modified_time" content="2024-09-10T06:53:32.425Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="Model"><meta property="article:tag" content="IML"><meta property="article:tag" content="black-box"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/%E6%88%91%E4%BB%AC%E5%8F%AF%E4%BB%A5%E4%BB%8E%E9%BB%91%E7%9B%92%E6%A8%A1%E5%9E%8B%E4%B8%AD%E5%AD%A6%E5%88%B0%E4%BB%80%E4%B9%88/"},"headline":"我们可以从黑盒模型中学到什么","image":[],"datePublished":"2024-09-12T23:30:00.000Z","dateModified":"2024-09-10T06:53:32.425Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"使用非线性模型进行数据探索和知识生成"}</script><link rel="canonical" href="https://hivan.me/%E6%88%91%E4%BB%AC%E5%8F%AF%E4%BB%A5%E4%BB%8E%E9%BB%91%E7%9B%92%E6%A8%A1%E5%9E%8B%E4%B8%AD%E5%AD%A6%E5%88%B0%E4%BB%80%E4%B9%88/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><script>var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?f91b64734fdc7bfb999e48f9248d44dd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-ZFB6CVWZFJ" async></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-ZFB6CVWZFJ');</script><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2024-09-12T23:30:00.000Z" title="9/13/2024, 7:30:00 AM">2024-09-13</time>发表</span></div></div><h1 class="title is-3 is-size-4-mobile">我们可以从黑盒模型中学到什么</h1><div class="content"><blockquote>
+<p>使用非线性模型进行数据探索和知识生成</p>
+</blockquote>
+<span id="more"></span>
+<p><img
+src="https://miro.medium.com/v2/resize:fit:700/1*DRqLM0jXNHPWtXWd6it8CQ.png"
+alt="img" /></p>
+<p>黑盒模型可以自动模拟复杂的关系。与线性模型相比，捕捉数据中的这些趋势可以提高其准确性。</p>
+<p>然而，准确性只是好处之一。</p>
+<p>我们可以分析模型，了解它们如何做出这些预测。这可以揭示数据集中的潜在关系。在某些情况下，这些关系对我们来说可能是全新的。这就是机器学习如何成为<strong>数据探索</strong>和<strong>知识生成</strong>的工具。</p>
+<p>此外，提供<strong>感知检查</strong>以帮助调试模型。这些知识可用于</p>
+<ul>
+<li>为非线性模型提供<strong>特征工程</strong>信息。</li>
+<li>在做出超越模型的<strong>决策</strong>时提供帮助。</li>
+</ul>
+<p>我们将讨论如何从黑盒模型中学习。其中包括理解数据中的<strong>重要关系</strong>及其<strong>性质。</strong></p>
+<h2
+id="为什么我们可以从非线性模型中学习">为什么我们可以从非线性模型中学习？</h2>
+<p>在深入探讨之前，让我们先讨论一下为什么我们可以从这些模型中学习。非线性模型可以模拟我们数据中的非线性关系和相互作用。例如，以图
+1
+中的二手车价格散点图为例。汽车价格(<code>price</code>)并不总是随着车龄(<code>age</code>)的增加而下降。对于经典汽车（classic
+=
+1），价格会增加。我们说我们的数据中存在相互作用。价格和车龄之间的关系取决于第三个特征——<code>classic</code>。</p>
+<p><img
+src="https://miro.medium.com/v2/resize:fit:700/1*m5NTDYNDzq7j12SWQZvPhw.jpeg"
+alt="图 1：交互示例" /></p>
+<p>非线性模型可以自动模拟此类关系。让我们以图 2
+中的简单决策树为例。首先将汽车分为普通 (0) 和经典
+(1)。对于普通汽车，如果汽车车龄不到 15
+年，则价格较高。对于经典汽车，价格较低。这并不能完全捕捉我们在图 1
+中看到的关系。为此，我们可以向决策树添加更多层。我们还可以使用更复杂的算法，如随机森林、XGBoost
+或神经网络。</p>
+<p><img
+src="https://miro.medium.com/v2/resize:fit:700/1*xpY-URNGZRsUMZ3wtxkriA.png"
+alt="图 2：决策树建模交互" /></p>
+<p>当我们谈论数据探索/知识生成时，我们通常会依赖这些更复杂的算法。它们有时被称为可解释模型或黑盒模型。它们能够捕捉数据中的复杂关系。同时，我们不需要“告诉”它们这些关系存在。就像决策树一样，我们可以只给它们经典和年龄特征。模型会在进行预测时自动利用特征之间的相互作用。</p>
+<p>相比之下，线性模型（即线性和逻辑回归）不太复杂。要用这些模型捕捉非线性关系，我们需要进行<a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/OvJA094xt0yr8b2F0DubMA">特征工程</a>。使用新特征，我们可以将非线性关系表示为线性关系。要了解要创建什么特征，我们需要探索我们的数据。我们可能还需要相关领域的领域知识。</p>
+<p>从某种意义上说，黑盒模型在模型结构内进行特征工程。它们非常擅长在数据中发现模式。问题是模型的内部工作原理太复杂了。我们无法仅通过查看模型参数/结构来了解它们如何进行预测。我们需要使用其他技术来了解它们的工作原理。</p>
+<h2 id="我们能学到什么如何学到">我们能学到什么？如何学到？</h2>
+<p>这就是可解释机器学习 (IML)
+领域的用武之地。除其他外，它旨在开发我们可以用来理解黑盒模型如何进行预测的方法。我们讨论其中一些技术以及它们可以教给我们关于模型/数据的知识。</p>
+<h3 id="提供基准">提供基准</h3>
+<p>首先，黑盒模型可以提供的一个有价值的信息是基准。通过捕捉非线性关系和相互作用，这些模型可以提高预测的准确性。要确定性能，我们实际上并不需要
+IML 方法。我们可以依靠准确率、精确率或召回率等指标或 ROC
+曲线等可视化。</p>
+<p>使用黑盒模型可以告诉我们我们能够多好地预测目标变量。我们可以将这些结果与不太复杂的线性模型的性能进行比较。假设我们发现黑盒模型明显更准确。这告诉我们线性模型缺少我们数据中的重要关系。此时，我们可以使用
+IML 方法来了解这些关系是什么。</p>
+<h3 id="重要关系">重要关系</h3>
+<p>首先，我们可以了解数据中的哪些特征是重要的。这些特征可用于预测目标变量。大多数非线性模型能够处理大量特征（超过
+50
+个）。这些特征是否高度相关也没关系。这意味着，通过使用非线性模型，我们可以了解大量特征的重要性。相比之下，线性回归等模型需要一组较小的（8-10
+个）不相关的特征。</p>
+<p>我们可以使用的一个度量是<strong>排列特征重要性</strong>。在图 3
+中，您可以看到用于预测鲍鱼年龄的 xgboost
+模型的得分。我们可以看到，鲍鱼壳的长度在预测年龄时很重要。接下来的三个特征基于鲍鱼的重量。虽然这些特征高度相关，但它们对模型没有负面影响。我们可以理解，所有这些特征都可以用来预测年龄。</p>
+<p><img
+src="https://miro.medium.com/v2/resize:fit:700/1*LGc4BHEzuKWTjl9CUaamNg.png"
+alt="图 3：特征重要性得分示例" /></p>
+<p>如果我们使用相关性来识别重要关系，我们可能会错过其中一些特征。这是因为相关性仅提供线性关联的度量。换句话说，该度量只能突出显示具有显着线性关系的特征。相比之下，特征重要性告诉我们特征对模型预测的重要性。模型的预测能力可能来自相互作用和非线性关系。这些将反映在特征重要性分数中。</p>
+<p><a href="Python%20中的%20SHAP%20简介">SHAP
+值</a>可以提供另一种衡量标准。我们可以使用这些值来找到每个特征的绝对平均
+[[SHAP
+值]]。与特征重要性类似，这可以说明哪些特征对预测做出了巨大贡献。这两个衡量标准的问题是，它们没有告诉我们模型捕获的关系的性质。</p>
+<h3 id="非线性关系">非线性关系</h3>
+<p>如果特征与目标变量有任何关系，则可以使用该特征进行预测。它可以是线性的，也可以是图
+4
+中所示的非线性关系之一。为了找到并可视化黑盒模型捕获的非线性关系，我们可以使用其他
+IML 方法。</p>
+<p><img
+src="https://miro.medium.com/v2/resize:fit:700/1*ZfRwj4W2fSZr3qRWITCC2A.jpeg"
+alt="图 4：非线性关系示例" /></p>
+<p>可视化的示例包括<a
+href="PDP%20和%20ICE%20图的终极指南">部分依赖图(PDP)</a>和累积局部效应(ALE)
+图。这两种方法都显示了特征与模型预测之间的一般关系。PDP
+易于理解，但可能会受到特征依赖性的负面影响。ALE
+图没有这个问题，但它们更复杂，更难解释。</p>
+<p>另一种方法是使用 <a href="Python%20中的%20SHAP%20简介">SHAP
+值</a>。我们上面提到过这些。对于给定的预测，它们给出了每个特征对该预测的贡献。我们可以绘制
+SHAP
+值与特征值的关系图。这被称为依赖关系图。它可以向我们展示特征值与其对预测的贡献之间的关系。</p>
+<p>我们一些文章中讨论这些方法和更多方法。在《[[查找并可视化非线性关系]]》中深入探讨了如何查找和可视化非线性关系。在《[[Python
+中的 SHAP 简介]]》重点介绍SHAP 值和用于应用它们的 Python
+代码。我们还讨论了这些值的不同聚合。其中包括上面提到的平均 SHAP
+和依赖关系图。</p>
+<h3 id="互动">互动</h3>
+<p>交互实际上被认为是一种非线性关系。它们相对于一个特征是非线性的。该特征的关系将取决于第三个特征的值。事实上，交互可能更加复杂。一个特征的关系可能取决于两个或多个特征的值。对于大多数应用，我们只关心两个特征之间的关系。</p>
+<p>一种可视化交互的方法是<a href="PDP%20和%20ICE%20图的终极指南">ICE
+图</a>。您可以在图 5
+中看到一个示例。这里，我们数据集中的每个观察值都用一条线表示。此数据集包含二手车销售的详细信息（例如价格、车龄和车型）。对于每个观察值，该线显示预测价格（部分
+yhat）如何随车龄变化。粗体黄色是我们上面讨论的 PDP
+的一个示例。它给出了所有单个预测线的平均值。</p>
+<p><img
+src="https://miro.medium.com/v2/resize:fit:700/1*kA6kHUJw9CIbNh9oaGMmqQ.jpeg"
+alt="图 5：冰图示例" /></p>
+<p>我们根据汽车类型对上面的线条进行了着色。蓝色代表经典汽车，红色代表普通汽车。您可以看到经典汽车的关系偏离了平均趋势。直观地说，经典汽车的价格会随着年龄的增长而上涨，这是有道理的。ICE
+图向我们展示了汽车年龄和价格之间的关系取决于汽车的类型。换句话说，汽车年龄和汽车类型之间存在相互作用。</p>
+<p>另一种方法是使用<a href="分析与%20SHAP%20的相互作用">SHAP
+交互值</a>。这些是 SHAP
+值的扩展，其中考虑了主效应和交互效应。我们可以使用这些来可视化交互。我们还可以计算平均绝对交互效应以突出显示重要的交互。这类似于特征重要性得分，但针对的是交互。用于突出显示交互的另一个指标是
+Friedman 的 h 统计量。</p>
+<p>同样，我们也在一些文章中更深入地讨论过所有这些方法。在《<a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/16vQ34gurxBmOs62njGhjw">寻找并可视化交互</a>》中更深入地介绍了如何查找和可视化交互。还有《[[分析与
+SHAP 的相互作用]]》中重点介绍如何使用SHAP
+分析交互。我们还讨论了用于应用此方法的 Python 代码。</p>
+<h2 id="我们可以用这些知识做什么">我们可以用这些知识做什么？</h2>
+<p>所有这些 IML
+方法都可以帮助我们了解模型如何进行预测。一个直接的好处是它们可以帮助我们感知检查我们的模型。我们可以将模型捕获的关系与我们使用领域知识所预期的关系进行比较。这些方法还使我们能够向客户或同事解释我们的模型。</p>
+<p>在本节中，我们将集中讨论间接好处。通过理解模型，我们可以了解数据中的潜在关系。我们可以利用这些知识来改进线性模型或实现超越模型的决策。</p>
+<h3 id="改进线性模型">改进线性模型</h3>
+<p>我们提到，黑盒模型可以提供基准。它们可能优于线性模型，但这并不意味着这些模型的终结。这是因为我们可以利用所获得的知识来指导我们的特征工程。我们可以创建新的特征来提高线性模型的性能。</p>
+<p>例如，假设我们想使用线性回归对二手车的价格进行建模。使用
+PDP，我们发现价格与汽车年龄呈二次关系。同样，使用 ICE
+图，我们发现汽车年龄和汽车类型之间存在相互作用。我们可以通过向数据集添加新特征来捕获这些非线性关系。</p>
+<p>具体来说，在下面的等式中，我们添加了 <span
+class="math inline">\(age^2\)</span> 和交互项 <span
+class="math inline">\(age*classic\)</span>​。其中 classic = 1
+表示经典汽车，否则为 0。 <span class="math display">\[
+\begin{align*}
+&amp; \gamma  = \beta_0 + \beta_1(age) + \beta_2(age^2) +
+\beta_3(age*classic) + \beta_4(classic) \\
+&amp; \gamma = \beta_0 + \beta_1(age) + \beta_2(age\_sqrd) +
+\beta_3(age\_classic\_int) + \beta_4(classic)
+\end{align*}
+\]</span> 在第一个方程中，Y 由两个特征（age 和
+classic）的非线性方程建模。现在，它由四个特征的线性方程建模。特征工程甚至可以帮助决策树等简单的非线性模型。最终，它使我们能够使用简单的模型捕获复杂的关系。我们曾在文章《<a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/OvJA094xt0yr8b2F0DubMA">特征工程的力量</a>》中更实际地演示此过程。</p>
+<p>问题是我们为什么要这样做？非线性模型同样准确。那么为什么不使用它们并避免额外特征工程的麻烦呢？这是因为拥有一个简单的模型有<a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/I-Hk82hj4dL28OfGF3u6ng">很多好处</a>。首先，在许多行业中，对可以使用的模型类型有规定。也就是说，在银行和保险等行业中，您可能需要使用线性模型。</p>
+<p>即使没有规定，您可能仍然更喜欢线性模型。黑盒模型很复杂。即使使用 IML
+方法，我们也可能不能 100%
+确定它们的工作原理。这可能会在投入生产时带来意外。相比之下，回归和决策树本质上是可解释的。我们可以通过直接查看它们的参数来了解它们的工作原理。这增加了它们对它们在野外行为的确定性。</p>
+<h3 id="实现决策">实现决策</h3>
+<p>模型用于自动化决策。有了
+IML，它们的影响不再仅限于这些决策。我们获得的知识可以为更广泛的组织提供决策信息。以前未知的关系可以提供巨大的价值。例如，我们探索的互动告诉我们，经典汽车的价格会随着年龄的增长而上涨。这可能为投资经典汽车的策略提供参考。</p>
+<p>话虽如此，我们还是应该避免过于复杂的解决方案。使用数据来指导决策对数据科学家来说并不是什么新鲜事。我们有许多技术和工具可以用来帮助探索数据。它们大多数都比使用黑盒模型简单得多。缺点是它们确实需要一些指导。我们需要知道我们想在数据中找到什么。使用
+IML 方法，黑盒模型可以为我们找到新的重要模式。</p>
+<h2 id="参考">参考</h2>
+<p>C. Molnar, <strong>Interpretable Machine Learning</strong> (2021)
+https://christophm.github.io/interpretable-ml-book/shap.html</p>
+<p>S. Masís, <strong>Interpretable Machine Learning with Python</strong>
+(2021)</p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>我们可以从黑盒模型中学到什么</p><p><a href="https://hivan.me/我们可以从黑盒模型中学到什么/">https://hivan.me/我们可以从黑盒模型中学到什么/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2024-09-13</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2024-09-10</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/Model/">Model</a><a class="link-muted mr-2" rel="tag" href="/tags/IML/">IML</a><a class="link-muted mr-2" rel="tag" href="/tags/black-box/">black-box</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/16.%20%E4%BB%8E%20MLP%20%E5%88%B0%20CNN/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">16 从 MLP 到 CNN，以及 CNN 统一提特征及决策</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/%E6%88%91%E4%BB%AC%E5%8F%AF%E4%BB%A5%E4%BB%8E%E9%BB%91%E7%9B%92%E6%A8%A1%E5%9E%8B%E4%B8%AD%E5%AD%A6%E5%88%B0%E4%BB%80%E4%B9%88-1/"><span class="level-item"> </span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/%E6%88%91%E4%BB%AC%E5%8F%AF%E4%BB%A5%E4%BB%8E%E9%BB%91%E7%9B%92%E6%A8%A1%E5%9E%8B%E4%B8%AD%E5%AD%A6%E5%88%B0%E4%BB%80%E4%B9%88/';
+            this.page.identifier = '我们可以从黑盒模型中学到什么/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI 游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">241</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">8</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">35</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI/"><span class="level-start"><span class="level-item">AI</span></span><span class="level-end"><span class="level-item tag">43</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI 秘籍</span></span><span class="level-end"><span class="level-item tag">113</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/"><span class="level-start"><span class="level-item">BI</span></span><span class="level-end"><span class="level-item tag">37</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/CV/"><span class="level-start"><span class="level-item">CV</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">24</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">32</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-09-16T23:30:00.000Z">2024-09-17</time></p><p class="title"><a href="/%E4%BD%BF%E7%94%A8%20CatBoost%20%E5%AE%9E%E7%8E%B0%E5%88%86%E7%B1%BB%E7%89%B9%E5%BE%81%E7%9A%84%20SHAP/">使用 CatBoost 实现分类特征的 SHAP</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-09-14T23:30:00.000Z">2024-09-15</time></p><p class="title"><a href="/16.%20%E4%BB%8E%20MLP%20%E5%88%B0%20CNN/">16 从 MLP 到 CNN，以及 CNN 统一提特征及决策</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-09-12T23:30:00.000Z">2024-09-13</time></p><p class="title"><a href="/%E6%88%91%E4%BB%AC%E5%8F%AF%E4%BB%A5%E4%BB%8E%E9%BB%91%E7%9B%92%E6%A8%A1%E5%9E%8B%E4%B8%AD%E5%AD%A6%E5%88%B0%E4%BB%80%E4%B9%88/">我们可以从黑盒模型中学到什么</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-09-10T06:51:48.675Z">2024-09-10</time></p><p class="title"><a href="/%E6%88%91%E4%BB%AC%E5%8F%AF%E4%BB%A5%E4%BB%8E%E9%BB%91%E7%9B%92%E6%A8%A1%E5%9E%8B%E4%B8%AD%E5%AD%A6%E5%88%B0%E4%BB%80%E4%B9%88-1/"> </a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-09-09T23:30:00.000Z">2024-09-10</time></p><p class="title"><a href="/KernelSHAP%20vs%20TreeSHAP/">KernelSHAP vs TreeSHAP</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2024 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>

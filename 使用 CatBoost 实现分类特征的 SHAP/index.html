@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>使用 CatBoost 实现分类特征的 SHAP - 茶桁.MAMT</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="茶桁.MAMT"><meta name="msapplication-TileImage" content="https://qiniu.hivan.me/picGo/20230601174411.png?imgNote"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="茶桁.MAMT"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="避免对分类特征的 SHAP 值进行后处理"><meta property="og:type" content="blog"><meta property="og:title" content="使用 CatBoost 实现分类特征的 SHAP"><meta property="og:url" content="https://hivan.me/%E4%BD%BF%E7%94%A8%20CatBoost%20%E5%AE%9E%E7%8E%B0%E5%88%86%E7%B1%BB%E7%89%B9%E5%BE%81%E7%9A%84%20SHAP/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:description" content="避免对分类特征的 SHAP 值进行后处理"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2024-09-16T23:30:00.000Z"><meta property="article:modified_time" content="2024-09-17T05:14:20.254Z"><meta property="article:author" content="Hivan Du"><meta property="article:tag" content="ML"><meta property="article:tag" content="SHAP"><meta property="article:tag" content="CatBoost"><meta property="twitter:card" content="summary"><meta property="twitter:creator" content="@hivan"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/%E4%BD%BF%E7%94%A8%20CatBoost%20%E5%AE%9E%E7%8E%B0%E5%88%86%E7%B1%BB%E7%89%B9%E5%BE%81%E7%9A%84%20SHAP/"},"headline":"使用 CatBoost 实现分类特征的 SHAP","image":[],"datePublished":"2024-09-16T23:30:00.000Z","dateModified":"2024-09-17T05:14:20.254Z","author":{"@type":"Person","name":"Hivan Du"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/img/logo.svg"}},"description":"避免对分类特征的 SHAP 值进行后处理"}</script><link rel="canonical" href="https://hivan.me/%E4%BD%BF%E7%94%A8%20CatBoost%20%E5%AE%9E%E7%8E%B0%E5%88%86%E7%B1%BB%E7%89%B9%E5%BE%81%E7%9A%84%20SHAP/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><script>var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?f91b64734fdc7bfb999e48f9248d44dd";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><script src="https://www.googletagmanager.com/gtag/js?id=G-ZFB6CVWZFJ" async></script><script>window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    
+        gtag('config', 'G-ZFB6CVWZFJ');</script><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="茶桁.MAMT" type="application/atom+xml">
+</head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2024-09-16T23:30:00.000Z" title="9/17/2024, 7:30:00 AM">2024-09-17</time>发表</span></div></div><h1 class="title is-3 is-size-4-mobile">使用 CatBoost 实现分类特征的 SHAP</h1><div class="content"><blockquote>
+<p>避免对分类特征的 SHAP 值进行后处理</p>
+</blockquote>
+<span id="more"></span>
+<p><img
+src="https://miro.medium.com/v2/resize:fit:700/0*hL5vA5El5XQ8BU96"
+alt="img" /></p>
+<p>结合 [[CatBoost]] 和 [[SHAP]]
+可以提供强大的洞察力。特别是当你使用分类特征时。CatBoost
+处理这些特征的方式使你更容易理解使用 SHAP 的模型。</p>
+<p>对于其他建模包，我们需要先使用 One-Hot
+编码转换分类特征。问题是每个二进制变量都有自己的 SHAP
+值。这使得很难看到原始分类特征的整体贡献。</p>
+<p>在 <a href="../分类特征的%20SHAP">分类特征的 SHAP</a>
+中，我们探讨了一种解决方案。它涉及深入研究 SHAP 对象并手动添加各个 SHAP
+值。这可能很乏味！作为替代方案，我们可以使用 CatBoost。</p>
+<p><a target="_blank" rel="noopener" href="https://catboost.ai/">CatBoost</a>
+是一个梯度提升库。与其他库相比，它的一大优势是它可以处理非数值特征。无需转换分类特征即可使用它们。这意味着
+CatBoost 模型的 SHAP 值易于解释。每个分类特征只有一个 SHAP 值。</p>
+<p>我们将： - 计算并解释 CatBoost 模型的 SHAP 值 - 应用 SHAP 聚合
+——我们将看到，在理解分类特征的关系时，它们的作用是有限的 -
+为了解决这个限制，将为单个特征创建一个蜂群图 。 -
+在此过程中，我们将介绍用于获取这些结果的 [Python 代码]<a href="#fn1"
+class="footnote-ref" id="fnref1"
+role="doc-noteref"><sup>1</sup></a>。</p>
+<p>你可能会喜欢有关此主题。如果你想了解更多，请查看我的 <a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3565090901485387784&amp;scene=173&amp;subscene=&amp;sessionid=svr_c01833df02c&amp;enterid=1726459106&amp;from_msgid=2648754758&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">SHAP
+课程</a>。</p>
+<h1 id="数据集">数据集</h1>
+<p>对于此分析，我们将使用与之前相同的数据集。这是一个蘑菇分类数据集。你可以在
+图 1 中看到此数据集的快照。目标变量是蘑菇的 类别。 也就是说，蘑菇是有毒
+(p) 还是可食用 (e)。你可以在 [UCI 的 MLR]<a href="#fn2"
+class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>
+中找到此数据集。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240916115952.png"
+alt="图 1：蘑菇数据集快照" /></p>
+<p>对于模型特征，我们有 22
+个分类特征。对于每个特征，类别都用一个字母表示。例如， odor 有 9
+个独特的类别 - 杏仁 (a)、茴香 (l)、杂酚油 (c)、鱼腥味 (y)、恶臭
+(f)、霉味 (m)、无味 (n)、辛辣 (p)、辛辣 (s)。这就是蘑菇的气味。</p>
+<h1 id="建模">建模</h1>
+<p>我们将向你介绍用于分析此数据集的代码，你可以在 [GitHub]<a href="#fn3"
+class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>
+上找到完整的脚本。首先，我们将使用下面的 Python
+包。我们有一些用于处理和可视化数据的常用包（第 1-5 行）。我们使用
+CatBoostClassifier 进行建模（第 7 行）。最后，我们使用 shap
+来了解我们的模型如何工作（第 9 行）。确保你已安装所有这些包。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br>plt.style.use(<span class="hljs-string">&#x27;default&#x27;</span>)<br>%matplotlib inline<br><br><span class="hljs-keyword">from</span> catboost <span class="hljs-keyword">import</span> CatBoostClassifier<br><br><span class="hljs-keyword">import</span> shap<br><span class="hljs-comment"># %shap.initjs()</span><br><br><span class="hljs-keyword">from</span> sklearn.metrics <span class="hljs-keyword">import</span> accuracy_score,confusion_matrix<br><span class="hljs-keyword">import</span> os<br></code></pre></td></tr></table></figure>
+<p>我们导入数据集（第 2 行）。我们需要一个数值目标变量，因此我们通过设置
+<code>toxicous = 1</code> 和 <code>edible = 0</code>（第 6
+行）对其进行转换。我们还获得了分类特征（第 7
+行）。在上一篇文章的这一点上，我们需要转换这些特征。使用
+CatBoost，我们可以按原样使用它们。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># load data </span><br>data = pd.read_csv(dp + <span class="hljs-string">&#x27;/mushrooms.csv&#x27;</span>)<br><br><span class="hljs-comment"># get features</span><br>y = data[<span class="hljs-string">&#x27;class&#x27;</span>]<br>y = y.astype(<span class="hljs-string">&#x27;category&#x27;</span>).cat.codes<br>X = data.drop(<span class="hljs-string">&#x27;class&#x27;</span>, axis=<span class="hljs-number">1</span>)<br><br><br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">len</span>(data))<br>data.head()<br></code></pre></td></tr></table></figure>
+<p>在下面训练模型时，你可以看到这一点（第 7
+行）。我们传递非数值特征（X）、目标变量（y）和表示特征是分类的列表（
+<code>cat_features</code> ）。我们所有的特征都是分类的。这意味着
+<code>cat_features</code> 是一个从 0 到 21 的数字列表。最后，分类器由 20
+棵树组成，每棵树的最大深度为 3。它在训练集上的准确率为 98.7%。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs python">model = CatBoostClassifier(iterations=<span class="hljs-number">20</span>,<br>                          learning_rate=<span class="hljs-number">0.01</span>,<br>                          depth=<span class="hljs-number">3</span>)<br><br><span class="hljs-comment"># train model</span><br>cat_features = <span class="hljs-built_in">list</span>(<span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(X.columns)))<br>model.fit(X, y, cat_features)<br><br><span class="hljs-comment"># Get predictions</span><br>y_pred = model.predict(X)<br><br><span class="hljs-built_in">print</span>(confusion_matrix(y, y_pred))<br>accuracy_score(y, y_pred)<br><br>---<br><span class="hljs-number">0</span>:	learn: <span class="hljs-number">0.6660194</span>	total: <span class="hljs-number">62.8</span>ms	remaining: <span class="hljs-number">1.19</span>s<br><span class="hljs-number">1</span>:	learn: <span class="hljs-number">0.6373576</span>	total: 67ms	remaining: 603ms<br>...<br><span class="hljs-number">19</span>:	learn: <span class="hljs-number">0.3218024</span>	total: 141ms	remaining: 0us<br>[[<span class="hljs-number">4208</span>    <span class="hljs-number">0</span>]<br>[ <span class="hljs-number">120</span> <span class="hljs-number">3796</span>]]<br><span class="hljs-number">0.9852289512555391</span><br></code></pre></td></tr></table></figure>
+<h1 id="shap-图">SHAP 图</h1>
+<p>现在我们可以继续了解我们的模型是如何做出这些预测的。如果你不熟悉 SHAP
+或 Python 包，我建议你阅读下文章<a
+href="../Python%20中的%20SHAP%20简介">Python 中的 SHAP
+简介</a>。我们深入探讨了如何解释 SHAP
+值。我们还探讨了本文中使用的一些聚合。</p>
+<h2 id="瀑布图">瀑布图</h2>
+<p>我们首先计算 SHAP 值（第 2-3 行）。然后，我们使用瀑布图（第 6
+行）将第一个预测的 SHAP 值可视化。你可以在图 2
+中看到此图。这告诉我们每个分类特征值对预测的贡献。例如，我们可以看到这种蘑菇有杏仁（a）的气味。这使对数几率降低了0.85。换句话说，它降低了蘑菇有毒的可能性。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># get shap values</span><br>explainer = shap.Explainer(model)<br>shap_values = explainer(X)<br><br><span class="hljs-comment"># waterfall plot for first observation</span><br>shap.plots.waterfall(shap_values[<span class="hljs-number">1</span>],show=<span class="hljs-literal">False</span>)<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240916120904.png"
+alt="图 2：CatBoost 的 SHAP 瀑布图" /></p>
+<p>从上图中，很容易看出每个特征的贡献。相比之下，我们在图 3
+中有一个瀑布图。如前所述，这是在上一篇文章中创建的。为了对分类特征进行建模，我们首先使用
+One-Hot 编码对它们进行转换。这意味着每个二进制特征都有自己的 SHAP
+值。例如，气味将有 9 个 SHAP
+值。每个独特类别都有一个。因此，很难理解气味对预测的整体贡献。</p>
+<p><img
+src="https://miro.medium.com/v2/resize:fit:700/0*xk7Vt3uiaMppYXoq.png"
+alt="图 3： One-Hot 编码的 SHAP 瀑布图" /></p>
+<p>我们能够利用图 3 中的 SHAP 值来创建类似于图 2
+的图。这样，每个分类特征就只有一个 SHAP
+值。为此，我们需要通过将一个分类特征的所有值加在一起来“后处理” SHAP
+值。不幸的是，没有直接的方法可以做到这一点。我们需要自己手动更新 SHAP
+值对象。我们已经看到，通过使用 CatBoost，可以避免这个过程。</p>
+<h2 id="绝对平均-shap">绝对平均 SHAP</h2>
+<p>SHAP 聚合也适用于 CatBoost。例如，我们在下面的代码中使用平均 SHAP
+图。查看图
+5，我们可以使用此图突出显示重要的分类特征。例如，我们可以看到气味往往具有较大的正/负
+SHAP 值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># Mean SHAP</span><br>shap.plots.bar(shap_values,show=<span class="hljs-literal">False</span>)<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240916121159.png"
+alt="图 4：平均 SHAP 图" /></p>
+<h2 id="蜂群">蜂群</h2>
+<p>另一种常见的聚合是蜂群图。对于连续变量，此图很有用，因为它可以帮助解释关系的性质。也就是说，我们可以看到
+SHAP
+值如何与特征值相关联。但是，对于分类特征，特征值不是数字。因此，在图 6
+中，你可以看到 SHAP
+值都被赋予了相同的颜色。我们需要创建自己的图来了解这些关系的性质。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">shap.plots.beeswarm(shap_values, show=<span class="hljs-literal">False</span>)<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240916121413.png"
+alt="图 5：蜂群图" /></p>
+<h2 id="beeswarm-的一个功能">Beeswarm 的一个功能</h2>
+<p>一种方法是对单个特征使用蜂群图。你可以在图 6
+中看到我们的意思。在这里，我们根据气味类别对气味特征的 SHAP
+值进行了分组。例如，你可以看到难闻的气味会导致更高的 SHAP
+值。这些蘑菇更有可能有毒。在上一篇文章中，我们使用箱线图得到了类似的结果。</p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240916121438.png"
+alt="图 6：用于检测气味的蜂群" /></p>
+<p>我们不会详细讨论此图的代码。简而言之，我们需要创建一个新的 SHAP
+值对象 <code>shap_values_odor</code>。这是通过“后处理” SHAP
+值来完成的，因此它们处于我们想要的形式。我们用气味的 SHAP 值替换原始
+SHAP 值（第 24 行）。我们还用气味类别替换特征名称（第 43
+行）。如果我们正确创建了 <code>shap_values_odor</code>，我们可以使用
+beeswarm 函数来创建图（第 46 行）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># Create for placeholder SHAP values</span><br>shap_values_odor = explainer(X)<br><br><span class="hljs-comment"># Get shaply values and feature values for odor</span><br>odor_values = np.array(shap_values[:,<span class="hljs-number">4</span>].values) <br>odor_data = X[<span class="hljs-string">&#x27;odor&#x27;</span>]<br><br><span class="hljs-comment"># Create new SHAP values array</span><br><br><span class="hljs-comment"># Split odor SHAP values by unique odor categories</span><br>unique_odor = [<span class="hljs-string">&#x27;a&#x27;</span>,<span class="hljs-string">&#x27;l&#x27;</span>,<span class="hljs-string">&#x27;c&#x27;</span>,<span class="hljs-string">&#x27;y&#x27;</span>,<span class="hljs-string">&#x27;f&#x27;</span>,<span class="hljs-string">&#x27;m&#x27;</span>,<span class="hljs-string">&#x27;n&#x27;</span>,<span class="hljs-string">&#x27;p&#x27;</span>,<span class="hljs-string">&#x27;s&#x27;</span>]<br>new_shap_values = [np.array(pd.Series(odor_values)[odor_data==odor]) <span class="hljs-keyword">for</span> odor <span class="hljs-keyword">in</span> unique_odor]<br><br><span class="hljs-comment"># Each sublist needs to be the same length</span><br>max_len = <span class="hljs-built_in">max</span>([<span class="hljs-built_in">len</span>(v) <span class="hljs-keyword">for</span> v <span class="hljs-keyword">in</span> new_shap_values])<br>new_shap_values = [np.append(vs,[np.nan]*(max_len - <span class="hljs-built_in">len</span>(vs))) <span class="hljs-keyword">for</span> vs <span class="hljs-keyword">in</span> new_shap_values]<br>new_shap_values = np.array(new_shap_values)<br><br><span class="hljs-comment"># transpost matrix so categories are columns and SHAP values are rows</span><br>new_shap_values = new_shap_values.transpose()<br><br><span class="hljs-comment"># replace shap values</span><br>shap_values_odor.values = np.array(new_shap_values)<br><br><span class="hljs-comment"># replace data with placeholder array</span><br>shap_values_odor.data = np.array([[<span class="hljs-number">0</span>]*<span class="hljs-built_in">len</span>(unique_odor)]*max_len)<br><br><span class="hljs-comment"># replace base data with placeholder array</span><br>shap_values_odor.base = np.array([<span class="hljs-number">0</span>]*max_len)<br><br><span class="hljs-comment"># replace feature names with category labels</span><br>odor_labels = &#123;<span class="hljs-string">&#x27;a&#x27;</span>:<span class="hljs-string">&#x27;almond&#x27;</span>,<br>              <span class="hljs-string">&#x27;l&#x27;</span>:<span class="hljs-string">&#x27;anise&#x27;</span>, <br>              <span class="hljs-string">&#x27;c&#x27;</span>:<span class="hljs-string">&#x27;creosote&#x27;</span>, <br>              <span class="hljs-string">&#x27;y&#x27;</span>:<span class="hljs-string">&#x27;fishy&#x27;</span>, <br>              <span class="hljs-string">&#x27;f&#x27;</span>:<span class="hljs-string">&#x27;foul&#x27;</span>, <br>              <span class="hljs-string">&#x27;m&#x27;</span>:<span class="hljs-string">&#x27;musty&#x27;</span>, <br>              <span class="hljs-string">&#x27;n&#x27;</span>:<span class="hljs-string">&#x27;none&#x27;</span>, <br>              <span class="hljs-string">&#x27;p&#x27;</span>:<span class="hljs-string">&#x27;pungent&#x27;</span>, <br>              <span class="hljs-string">&#x27;s&#x27;</span>:<span class="hljs-string">&#x27;spicy&#x27;</span>&#125;<br>labels = [<span class="hljs-string">&quot;&#123;&#125; (&#123;&#125;)&quot;</span>.<span class="hljs-built_in">format</span>(odor_labels[u],u) <span class="hljs-keyword">for</span> u <span class="hljs-keyword">in</span> unique_odor]<br>shap_values_odor.feature_names = <span class="hljs-built_in">list</span>(labels)<br><br><span class="hljs-comment"># Use besswarm as before</span><br>shap.plots.beeswarm(shap_values_odor,color_bar=<span class="hljs-literal">False</span>,show=<span class="hljs-literal">False</span>)<br></code></pre></td></tr></table></figure>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240916122812.png"
+alt="20240916122812" /></p>
+<p>最后，SHAP 和 CatBoost
+是分析分类特征的强大工具。这两个软件包可以无缝协作。缺点是你可能不想使用
+CatBoost。如果你正在使用 RandomForest、XGBoost
+或神经网络等模型，则需要使用替代解决方案。你可以在文章<a
+href="../分类特征的%20SHAP">分类特征的
+SHAP</a>中找到它。我们还将更详细地介绍如何对 SHAP 值进行后处理。</p>
+<p>希望这篇文章对你有所帮助！如果你想了解更多，可以关注「坍缩的奇点」，阅读我更多其他文章。以下为一些系列文章，你可以系统的学习机器学习的相关核心知识。</p>
+<p><strong>「AI秘籍」系列课程：</strong></p>
+<p><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3074770001140400130&amp;scene=173&amp;subscene=227&amp;sessionid=undefined&amp;enterid=1717956640&amp;from_msgid=2648748678&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">人工智能应用数学基础</a></p>
+<p><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3035995870421073928&amp;scene=126&amp;uin=&amp;key=&amp;devicetype=iMac+MacBookPro17%2C1+OSX+OSX+14.5+build(23F79)&amp;version=13080710&amp;lang=zh_CN&amp;nettype=WIFI&amp;ascene=78&amp;fontScale=100">人工智能Python基础</a></p>
+<p><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3123885735829061633&amp;scene=173&amp;subscene=227&amp;sessionid=1717956706&amp;enterid=1717956713&amp;from_msgid=2648751062&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">人工智能基础核心知识</a></p>
+<p><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg%3D%3D&amp;action=getalbum&amp;album_id=3193965113967132673&amp;subscene=&amp;sessionid=svr_548800ce471&amp;enterid=1704001437&amp;from_msgid=2648751621&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;scene=21#wechat_redirect">人工智能BI核心知识</a></p>
+<p><a
+target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3503005363236880386&amp;from_itemidx=1&amp;from_msgid=2648753419#wechat_redirect">人工智能CV核心知识</a></p>
+<p><img
+src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407252125233.png"
+alt="AI企业项目实战课优惠二维码" /></p>
+<h2 id="参考">参考</h2>
+<p>S. Lundberg, SHAP Python package (2021),
+https://github.com/slundberg/shap</p>
+<p>S. Lundberg &amp; S. Lee, A Unified Approach to Interpreting Model
+Predictions (2017), https://arxiv.org/pdf/1705.07874.pdf</p>
+<section id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Github,
+https://github.com/hivandu/public_articles/blob/main/src/interpretable_ml/SHAP/SHAP_catboost.ipynb<a
+href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Dataset，
+https://archive.ics.uci.edu/ml/datasets/Mushroom<a href="#fnref2"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Github,
+https://github.com/hivandu/public_articles/blob/main/src/interpretable_ml/SHAP/SHAP_catboost.ipynb<a
+href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+</div><div class="article-licensing box"><div class="licensing-title"><p>使用 CatBoost 实现分类特征的 SHAP</p><p><a href="https://hivan.me/使用 CatBoost 实现分类特征的 SHAP/">https://hivan.me/使用 CatBoost 实现分类特征的 SHAP/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>Hivan Du</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2024-09-17</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2024-09-17</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/ML/">ML</a><a class="link-muted mr-2" rel="tag" href="/tags/SHAP/">SHAP</a><a class="link-muted mr-2" rel="tag" href="/tags/CatBoost/">CatBoost</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=6479444288ae9600196fa98e&amp;product=inline-share-buttons" defer></script></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3><div class="buttons is-centered"><a class="button donate" data-type="alipay"><span class="icon is-small"><i class="fab fa-alipay"></i></span><span>支付宝</span><span class="qrcode"><img src="https://qiniu.hivan.me/picGo/20230601221633.jpeg" alt="支付宝"></span></a><a class="button donate" href="https://patreon.com/user?u=89473430" target="_blank" rel="noopener" data-type="patreon"><span class="icon is-small"><i class="fab fa-patreon"></i></span><span>Patreon</span></a><a class="button donate" data-type="wechat"><span class="icon is-small"><i class="fab fa-weixin"></i></span><span>微信</span><span class="qrcode"><img src="https://qiniu.hivan.me/IMG_4603.JPG" alt="微信"></span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/16.%20%E4%BB%8E%20MLP%20%E5%88%B0%20CNN/"><span class="level-item">16 从 MLP 到 CNN，以及 CNN 统一提特征及决策</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'https://hivan.me/%E4%BD%BF%E7%94%A8%20CatBoost%20%E5%AE%9E%E7%8E%B0%E5%88%86%E7%B1%BB%E7%89%B9%E5%BE%81%E7%9A%84%20SHAP/';
+            this.page.identifier = '使用 CatBoost 实现分类特征的 SHAP/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'hivan' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="https://www.gravatar.com/avatar/bdff168cf8a71c11d2712a1679a00c54?s=128" alt="茶桁"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">茶桁</p><p class="is-size-6 is-block">AI 游民</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Shang Hai</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">241</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">8</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">35</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/hivandu" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile is-multiline"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/hivandu"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Facebook" href="https://facebook.com/hivan"><i class="fab fa-facebook"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/hivan"><i class="fab fa-twitter"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Dribbble" href="https://dribbble.com/hivan"><i class="fab fa-dribbble"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=2932504849574543360&amp;scene=173&amp;from_msgid=2648747980&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;token=1758883909&amp;lang=zh_CN#wechat_redirect"><i class="fas fa-rss"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://www.zhihu.com/column/c_1424326166602178560" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">塌缩的奇点</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li><li><a class="level is-mobile" href="https://www.zhihu.com/column/hivandu" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">茶桁-知乎</span></span><span class="level-right"><span class="level-item tag">www.zhihu.com</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/AI/"><span class="level-start"><span class="level-item">AI</span></span><span class="level-end"><span class="level-item tag">43</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/"><span class="level-start"><span class="level-item">AI 秘籍</span></span><span class="level-end"><span class="level-item tag">113</span></span></a><ul><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/BI/"><span class="level-start"><span class="level-item">BI</span></span><span class="level-end"><span class="level-item tag">37</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/CV/"><span class="level-start"><span class="level-item">CV</span></span><span class="level-end"><span class="level-item tag">16</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Math/"><span class="level-start"><span class="level-item">Math</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/Python/"><span class="level-start"><span class="level-item">Python</span></span><span class="level-end"><span class="level-item tag">24</span></span></a></li><li><a class="level is-mobile" href="/categories/AI-%E7%A7%98%E7%B1%8D/%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B%E5%9F%BA%E7%A1%80/"><span class="level-start"><span class="level-item">核心能力基础</span></span><span class="level-end"><span class="level-item tag">32</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%8E%A5%E8%A7%A6%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%A4%A7%E6%A8%A1%E5%9E%8B/"><span class="level-start"><span class="level-item">从零开始接触人工智能大模型</span></span><span class="level-end"><span class="level-item tag">23</span></span></a></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-09-16T23:30:00.000Z">2024-09-17</time></p><p class="title"><a href="/%E4%BD%BF%E7%94%A8%20CatBoost%20%E5%AE%9E%E7%8E%B0%E5%88%86%E7%B1%BB%E7%89%B9%E5%BE%81%E7%9A%84%20SHAP/">使用 CatBoost 实现分类特征的 SHAP</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-09-14T23:30:00.000Z">2024-09-15</time></p><p class="title"><a href="/16.%20%E4%BB%8E%20MLP%20%E5%88%B0%20CNN/">16 从 MLP 到 CNN，以及 CNN 统一提特征及决策</a></p><p class="categories"><a href="/categories/AI-%E7%A7%98%E7%B1%8D/">AI 秘籍</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-09-12T23:30:00.000Z">2024-09-13</time></p><p class="title"><a href="/%E6%88%91%E4%BB%AC%E5%8F%AF%E4%BB%A5%E4%BB%8E%E9%BB%91%E7%9B%92%E6%A8%A1%E5%9E%8B%E4%B8%AD%E5%AD%A6%E5%88%B0%E4%BB%80%E4%B9%88/">我们可以从黑盒模型中学到什么</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-09-10T06:51:48.675Z">2024-09-10</time></p><p class="title"><a href="/%E6%88%91%E4%BB%AC%E5%8F%AF%E4%BB%A5%E4%BB%8E%E9%BB%91%E7%9B%92%E6%A8%A1%E5%9E%8B%E4%B8%AD%E5%AD%A6%E5%88%B0%E4%BB%80%E4%B9%88-1/"> </a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2024-09-09T23:30:00.000Z">2024-09-10</time></p><p class="title"><a href="/KernelSHAP%20vs%20TreeSHAP/">KernelSHAP vs TreeSHAP</a></p></div></article></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="茶桁.MAMT" height="28"></a><p class="is-size-7"><span>&copy; 2024 Hivan Du</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/hivandu"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/mhchem.min.js" defer></script><script>window.addEventListener("load", function() {
+            document.querySelectorAll('[role="article"] > .content').forEach(function(element) {
+                renderMathInElement(element);
+            });
+        });</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
