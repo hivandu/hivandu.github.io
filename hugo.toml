@@ -1,0 +1,84 @@
+baseURL = 'https://hivan.me/'
+locale = 'zh-CN'
+title = '茶桁.MAMT'
+theme = 'PaperMod'
+
+[params]
+  author = 'Hivan Du'
+  description = 'ChaHeng Notes，codding and writting ~'
+  defaultTheme = 'auto'
+  ShowReadingTime = true
+  ShowShareButtons = false
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+  ShowCodeCopyButtons = true
+  ShowToc = true
+  TocOpen = false
+  comments = false
+
+  [params.homeInfoParams]
+    Title = '茶桁.MAMT'
+    Content = 'ChaHeng Notes，codding and writting ~'
+
+  [[params.socialIcons]]
+    name = 'github'
+    url = 'https://github.com/'
+
+  [params.label]
+    text = '茶桁.MAMT'
+    icon = '🧠'
+
+  [params.assets]
+    disableHLJS = false
+
+  [params.KaTeX]
+    enable = true
+    autoRender = true
+    delimiters = [
+      {left = "$$", right = "$$", display = true},
+      {left = "$", right = "$", display = false},
+      {left = "\\(", right = "\\)", display = false},
+      {left = "\\[", right = "\\]", display = true}
+    ]
+
+  [params.cover]
+    hiddenInList = false
+    hiddenInSingle = false
+
+[markup]
+  [markup.highlight]
+    codeFences = true
+    lineNos = false
+    style = 'monokai'
+  [markup.goldmark.renderer]
+    unsafe = true
+
+[outputs]
+  home = ['HTML', 'RSS', 'JSON']
+
+[menu]
+  [[menu.main]]
+    identifier = 'posts'
+    name = '文章'
+    url = '/posts/'
+    weight = 1
+  [[menu.main]]
+    identifier = 'categories'
+    name = '分类'
+    url = '/categories/'
+    weight = 2
+  [[menu.main]]
+    identifier = 'tags'
+    name = '标签'
+    url = '/tags/'
+    weight = 3
+  [[menu.main]]
+    identifier = 'archives'
+    name = '归档'
+    url = '/archives/'
+    weight = 4
+  [[menu.main]]
+    identifier = 'search'
+    name = '搜索'
+    url = '/search/'
+    weight = 5
