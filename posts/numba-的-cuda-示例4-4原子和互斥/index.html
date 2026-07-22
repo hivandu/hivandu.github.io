@@ -1,0 +1,474 @@
+<!doctype html><html lang=en dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>Numba 的 CUDA 示例：原子和互斥 | 茶桁.MAMT</title>
+<meta name=keywords content><meta name=description content="
+本教程为 Numba CUDA 示例 第 4 部分。 > > 本系列第 4 部分总结了使用 Python 从头开始学习 CUDA 编程的旅程
+介绍
+在本系列的前三部分（第 1 部分，第 2 部分，第 3 部分）中，我们介绍了 CUDA 开发的大部分基础知识，例如启动内核来执行高度并行的任务、利用共享内存执行快速缩减、将可重用逻辑封装为设备功能，以及如何使用事件和流来组织和控制内核执行。
+"><meta name=author content="Hivan Du"><link rel=canonical href=https://hivan.me/posts/numba-%E7%9A%84-cuda-%E7%A4%BA%E4%BE%8B4-4%E5%8E%9F%E5%AD%90%E5%92%8C%E4%BA%92%E6%96%A5/><link crossorigin=anonymous href=/assets/css/stylesheet.6ff46447b1fa3f8a5cc0bcae48088decc3ae37f5fbc99406a3aefc3bf0e6044a.css integrity="sha256-b/RkR7H6P4pcwLyuSAiN7MOuN/X7yZQGo678O/DmBEo=" rel="preload stylesheet" as=style><link rel=icon href=https://hivan.me/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://hivan.me/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://hivan.me/favicon-32x32.png><link rel=apple-touch-icon href=https://hivan.me/apple-touch-icon.png><link rel=mask-icon href=https://hivan.me/safari-pinned-tab.svg><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=en href=https://hivan.me/posts/numba-%E7%9A%84-cuda-%E7%A4%BA%E4%BE%8B4-4%E5%8E%9F%E5%AD%90%E5%92%8C%E4%BA%92%E6%96%A5/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><meta property="og:url" content="https://hivan.me/posts/numba-%E7%9A%84-cuda-%E7%A4%BA%E4%BE%8B4-4%E5%8E%9F%E5%AD%90%E5%92%8C%E4%BA%92%E6%96%A5/"><meta property="og:site_name" content="茶桁.MAMT"><meta property="og:title" content="Numba 的 CUDA 示例：原子和互斥"><meta property="og:description" content="本教程为 Numba CUDA 示例 第 4 部分。 > > 本系列第 4 部分总结了使用 Python 从头开始学习 CUDA 编程的旅程
+介绍 在本系列的前三部分（第 1 部分，第 2 部分，第 3 部分）中，我们介绍了 CUDA 开发的大部分基础知识，例如启动内核来执行高度并行的任务、利用共享内存执行快速缩减、将可重用逻辑封装为设备功能，以及如何使用事件和流来组织和控制内核执行。"><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2024-06-09T07:03:00+08:00"><meta property="article:modified_time" content="2024-06-09T07:03:00+08:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Numba 的 CUDA 示例：原子和互斥"><meta name=twitter:description content="本教程为 Numba CUDA 示例 第 4 部分。 > > 本系列第 4 部分总结了使用 Python 从头开始学习 CUDA 编程的旅程
+介绍 在本系列的前三部分（第 1 部分，第 2 部分，第 3 部分）中，我们介绍了 CUDA 开发的大部分基础知识，例如启动内核来执行高度并行的任务、利用共享内存执行快速缩减、将可重用逻辑封装为设备功能，以及如何使用事件和流来组织和控制内核执行。"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"文章","item":"https://hivan.me/posts/"},{"@type":"ListItem","position":2,"name":"Numba 的 CUDA 示例：原子和互斥","item":"https://hivan.me/posts/numba-%E7%9A%84-cuda-%E7%A4%BA%E4%BE%8B4-4%E5%8E%9F%E5%AD%90%E5%92%8C%E4%BA%92%E6%96%A5/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Numba 的 CUDA 示例：原子和互斥","name":"Numba 的 CUDA 示例：原子和互斥","description":" 本教程为 Numba CUDA 示例 第 4 部分。 \u0026gt; \u0026gt; 本系列第 4 部分总结了使用 Python 从头开始学习 CUDA 编程的旅程\n介绍 在本系列的前三部分（第 1 部分，第 2 部分，第 3 部分）中，我们介绍了 CUDA 开发的大部分基础知识，例如启动内核来执行高度并行的任务、利用共享内存执行快速缩减、将可重用逻辑封装为设备功能，以及如何使用事件和流来组织和控制内核执行。 ","keywords":[],"articleBody":"在本节中 在本系列的最后一部分中，我们将介绍原子指令，这些指令允许我们安全地从多个线程对同一内存进行操作。我们还将学习如何利用这些操作来创建互斥锁，这是一种编码模式，允许我们“锁定”某个资源，以便每次只能由一个线程使用。\n单击此处获取 Google colab 中的代码：https://colab.research.google.com/drive/1umKcslGW6gpynEfvk79i-jV08uB8_njc?usp=sharing\n入门 导入并加载库，确保你有 GPU。\nimport warnings from datetime import datetime from time import perf_counter import matplotlib as mpl import matplotlib.pyplot as plt import matplotlib.ticker as ticker import numpy as np import requests import numba from numba import cuda from numba.core.errors import NumbaPerformanceWarning from tqdm.auto import trange print(np.__version__) print(numba.__version__) print(mpl.__version__) # Ignore NumbaPerformanceWarning warnings.simplefilter(\"ignore\", category=NumbaPerformanceWarning) --- 1.25.2 0.59.1 3.7.1 cuda.detect() --- Found 1 CUDA devices id 0 b'Tesla T4' [SUPPORTED] Compute Capability: 7.5 PCI Device ID: 4 PCI Bus ID: 0 UUID: GPU-5569b5a1-ca7b-e1b7-79fc-851c80063714 Watchdog: Disabled FP32/FP64 Performance Ratio: 32 Summary: 1/1 devices are supported True 原子 GPU 编程完全基于尽可能并行化相同的指令。对于许多 “令人尴尬的并行 “任务，线程不需要合作，也不需要使用其他线程使用的资源。其他模式，如还原，则通过算法设计确保同一资源只被一部分线程使用。在这种情况下，我们通过使用同步线程来确保所有其他线程都能及时更新。\n在某些情况下，许多线程必须读取和写入同一个数组。如果试图同时进行读取或写入操作，就会出现问题。假设我们有一个内核，它将单个值递增 1。\n# Example 4.1: A data race condition. @cuda.jit def add_one(x): x[0] = x[0] + 1 当我们使用线程单个块启动该内核时，我们将获得存储在输入数组中的值 1。\ndev_val = cuda.to_device(np.zeros((1,))) add_one[1, 1](dev_val) dev_val.copy_to_host() --- array([1.]) 现在，如果我们启动 10 个区块，每个区块有 16 个线程，会发生什么情况？我们将 10 × 16 × 1 的总和存储到同一个内存元素中，因此我们希望 dev_val 中存储的值是 160。对吗？\ndev_val = cuda.to_device(np.zeros((1,))) add_one[10, 16](dev_val) dev_val.copy_to_host() --- array([1.]) 实际上，我们的 dev_val 值不可能达到 160。为什么？因为线程会同时读写同一个内存变量！\n下面是四个线程试图读写同一个全局存储器时可能发生的情况示意图。线程 1-3 在不同时间（分别为 t=0、2、2）从全局寄存器读取相同的 0 值。它们都递增 1，并在 t=4、7 和 8 时写回全局存储器。线程 4 的启动时间稍晚，为 t=5。此时，线程 1 已经写入全局存储器，因此线程 4 将读取 1 的值，并最终在 t=12 时将全局变量覆盖为 2。\n","wordCount":"180","inLanguage":"en","datePublished":"2024-06-09T07:03:00+08:00","dateModified":"2024-06-09T07:03:00+08:00","author":{"@type":"Person","name":"Hivan Du"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://hivan.me/posts/numba-%E7%9A%84-cuda-%E7%A4%BA%E4%BE%8B4-4%E5%8E%9F%E5%AD%90%E5%92%8C%E4%BA%92%E6%96%A5/"},"publisher":{"@type":"Organization","name":"茶桁.MAMT","logo":{"@type":"ImageObject","url":"https://hivan.me/favicon.ico"}}}</script></head><body id=top><header class=header><nav class=header-nav><div class=logo><a href=https://hivan.me/ accesskey=h title="茶桁.MAMT (Alt + H)"><img src=https://hivan.me/%F0%9F%A7%A0 alt aria-label=logo height=30>茶桁.MAMT</a><div class=logo-switches><button id=theme-toggle class=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme"><svg class="moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg class="sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu class=menu><li><a href=https://hivan.me/posts/ title=文章><span>文章</span></a></li><li><a href=https://hivan.me/categories/ title=分类><span>分类</span></a></li><li><a href=https://hivan.me/tags/ title=标签><span>标签</span></a></li><li><a href=https://hivan.me/archives/ title=归档><span>归档</span></a></li><li><a href=https://hivan.me/search/ title="搜索 (Alt + /)" accesskey=/><span>搜索</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><nav class=breadcrumbs role=navigation aria-label=Breadcrumb><a href=/>Home</a>
+<svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"/></svg>
+<a href=/posts/>文章</a><svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"/></svg></nav><h1 class="post-title entry-hint-parent">Numba 的 CUDA 示例：原子和互斥</h1><div class=post-meta><span title='2024-06-09 07:03:00 +0800 CST'>June 9, 2024</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>Hivan Du</span></div></header><details class=toc><summary accesskey=c title="(Alt + C)"><span class=title>Table of Contents</span></summary><div class=inner><ul><li><a href=#%e5%9c%a8%e6%9c%ac%e8%8a%82%e4%b8%ad aria-label=在本节中>在本节中</a></li><li><a href=#%e5%85%a5%e9%97%a8 aria-label=入门>入门</a></li><li><a href=#%e5%8e%9f%e5%ad%90 aria-label=原子>原子</a></li><li><a href=#%e5%8e%9f%e5%ad%90%e5%8a%a0%e6%b3%95%e8%ae%a1%e7%ae%97%e7%9b%b4%e6%96%b9%e5%9b%be aria-label=原子加法：计算直方图>原子加法：计算直方图</a></li><li><a href=#%e4%bd%bf%e7%94%a8%e4%ba%92%e6%96%a5%e9%94%81%e9%94%81%e5%ae%9a%e8%b5%84%e6%ba%90 aria-label=使用互斥锁锁定资源>使用互斥锁锁定资源</a></li><li><a href=#%e4%ba%92%e6%96%a5%e7%82%b9%e4%b9%98 aria-label=互斥点乘>互斥点乘</a></li><li><a href=#%e5%b0%8f%e7%bb%93 aria-label=小结>小结</a></li><li><a href=#%e6%9c%80%e5%90%8e aria-label=最后：>最后：</a></li></ul></div></details><div class="post-content md-content"><h2 id=在本节中>在本节中<a hidden class=anchor aria-hidden=true href=#在本节中>#</a></h2><p>在本系列的最后一部分中，我们将介绍原子指令，这些指令允许我们安全地从多个线程对同一内存进行操作。我们还将学习如何利用这些操作来创建互斥锁，这是一种编码模式，允许我们“锁定”某个资源，以便每次只能由一个线程使用。</p><p>单击此处获取 Google colab 中的代码：https://colab.research.google.com/drive/1umKcslGW6gpynEfvk79i-jV08uB8_njc?usp=sharing</p><h2 id=入门>入门<a hidden class=anchor aria-hidden=true href=#入门>#</a></h2><p>导入并加载库，确保你有 GPU。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> warnings
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> datetime <span style=color:#f92672>import</span> datetime
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> time <span style=color:#f92672>import</span> perf_counter
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> matplotlib <span style=color:#66d9ef>as</span> mpl
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> matplotlib.pyplot <span style=color:#66d9ef>as</span> plt
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> matplotlib.ticker <span style=color:#66d9ef>as</span> ticker
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> numpy <span style=color:#66d9ef>as</span> np
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> requests
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> numba
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> numba <span style=color:#f92672>import</span> cuda
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> numba.core.errors <span style=color:#f92672>import</span> NumbaPerformanceWarning
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> tqdm.auto <span style=color:#f92672>import</span> trange
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>print(np<span style=color:#f92672>.</span>__version__)
+</span></span><span style=display:flex><span>print(numba<span style=color:#f92672>.</span>__version__)
+</span></span><span style=display:flex><span>print(mpl<span style=color:#f92672>.</span>__version__)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Ignore NumbaPerformanceWarning</span>
+</span></span><span style=display:flex><span>warnings<span style=color:#f92672>.</span>simplefilter(<span style=color:#e6db74>&#34;ignore&#34;</span>, category<span style=color:#f92672>=</span>NumbaPerformanceWarning)
+</span></span><span style=display:flex><span><span style=color:#f92672>---</span>
+</span></span><span style=display:flex><span><span style=color:#ae81ff>1.25.2</span>
+</span></span><span style=display:flex><span><span style=color:#ae81ff>0.59.1</span>
+</span></span><span style=display:flex><span><span style=color:#ae81ff>3.7.1</span>
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>cuda<span style=color:#f92672>.</span>detect()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>---</span>
+</span></span><span style=display:flex><span>Found <span style=color:#ae81ff>1</span> CUDA devices
+</span></span><span style=display:flex><span>id <span style=color:#ae81ff>0</span>             <span style=color:#e6db74>b</span><span style=color:#e6db74>&#39;Tesla T4&#39;</span>                              [SUPPORTED]
+</span></span><span style=display:flex><span>                      Compute Capability: <span style=color:#ae81ff>7.5</span>
+</span></span><span style=display:flex><span>                           PCI Device ID: <span style=color:#ae81ff>4</span>
+</span></span><span style=display:flex><span>                              PCI Bus ID: <span style=color:#ae81ff>0</span>
+</span></span><span style=display:flex><span>                                    UUID: GPU<span style=color:#f92672>-</span><span style=color:#ae81ff>5569</span>b5a1<span style=color:#f92672>-</span>ca7b<span style=color:#f92672>-</span>e1b7<span style=color:#f92672>-</span><span style=color:#ae81ff>79</span>fc<span style=color:#f92672>-</span><span style=color:#ae81ff>851</span>c80063714
+</span></span><span style=display:flex><span>                                Watchdog: Disabled
+</span></span><span style=display:flex><span>             FP32<span style=color:#f92672>/</span>FP64 Performance Ratio: <span style=color:#ae81ff>32</span>
+</span></span><span style=display:flex><span>Summary:
+</span></span><span style=display:flex><span>	<span style=color:#ae81ff>1</span><span style=color:#f92672>/</span><span style=color:#ae81ff>1</span> devices are supported
+</span></span><span style=display:flex><span><span style=color:#66d9ef>True</span>
+</span></span></code></pre></div><h2 id=原子>原子<a hidden class=anchor aria-hidden=true href=#原子>#</a></h2><p>GPU 编程完全基于尽可能并行化相同的指令。对于许多 &ldquo;令人尴尬的并行 &ldquo;任务，线程不需要合作，也不需要使用其他线程使用的资源。其他模式，如还原，则通过算法设计确保同一资源只被一部分线程使用。在这种情况下，我们通过使用同步线程来确保所有其他线程都能及时更新。</p><p>在某些情况下，许多线程必须读取和写入同一个数组。如果试图同时进行读取或写入操作，就会出现问题。假设我们有一个内核，它将单个值递增 1。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># Example 4.1: A data race condition.</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@cuda.jit</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>add_one</span>(x):
+</span></span><span style=display:flex><span>    x[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>=</span> x[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>
+</span></span></code></pre></div><p>当我们使用线程单个块启动该内核时，我们将获得存储在输入数组中的值 1。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>dev_val <span style=color:#f92672>=</span> cuda<span style=color:#f92672>.</span>to_device(np<span style=color:#f92672>.</span>zeros((<span style=color:#ae81ff>1</span>,)))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>add_one[<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>1</span>](dev_val)
+</span></span><span style=display:flex><span>dev_val<span style=color:#f92672>.</span>copy_to_host()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>---</span>
+</span></span><span style=display:flex><span>array([<span style=color:#ae81ff>1.</span>])
+</span></span></code></pre></div><p>现在，如果我们启动 10 个区块，每个区块有 16 个线程，会发生什么情况？我们将 10 × 16 × 1 的总和存储到同一个内存元素中，因此我们希望 <code>dev_val</code> 中存储的值是 160。对吗？</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>dev_val <span style=color:#f92672>=</span> cuda<span style=color:#f92672>.</span>to_device(np<span style=color:#f92672>.</span>zeros((<span style=color:#ae81ff>1</span>,)))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>add_one[<span style=color:#ae81ff>10</span>, <span style=color:#ae81ff>16</span>](dev_val)
+</span></span><span style=display:flex><span>dev_val<span style=color:#f92672>.</span>copy_to_host()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>---</span>
+</span></span><span style=display:flex><span>array([<span style=color:#ae81ff>1.</span>])
+</span></span></code></pre></div><p>实际上，我们的 <code>dev_val</code> 值不可能达到 160。为什么？因为线程会同时读写同一个内存变量！</p><p>下面是四个线程试图读写同一个全局存储器时可能发生的情况示意图。线程 1-3 在不同时间（分别为 t=0、2、2）从全局寄存器读取相同的 0 值。它们都递增 1，并在 t=4、7 和 8 时写回全局存储器。线程 4 的启动时间稍晚，为 t=5。此时，线程 1 已经写入全局存储器，因此线程 4 将读取 1 的值，并最终在 t=12 时将全局变量覆盖为 2。</p><p><img alt="图 4.1。多个线程尝试从同一全局内存进行读写可能会导致<a href=\" https://en.wikipedia.org/wiki/race_condition#computing\">竞争条件</a>" loading="lazy" src="https://miro.medium.com/v2/resize:fit:700/1*lhgO-McHWkorkrDGELHF0g.png"></p><p><img alt="图 4.2。当线程正在操作内容时，资源被锁定，无法读写，我们确保每个线程在读取时都会获得更新的值，并且其他线程可以看到其写入。原子操作通常较慢。" loading=lazy src=https://miro.medium.com/v2/resize:fit:700/1*vkE70sAHWKKcX08zc41c-g.png></p><p>如果我们想得到最初预期的结果（如图 4.2 所示），就应该用原子操作代替非原子加法操作。原子操作将确保每次只由一个线程读/写内存。下面我们来详细谈谈原子操作。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># Example 4.2: An atomic add without race conditions.</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@cuda.jit</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>add_one_atomic</span>(x):
+</span></span><span style=display:flex><span>    cuda<span style=color:#f92672>.</span>atomic<span style=color:#f92672>.</span>add(x, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>1</span>)  <span style=color:#75715e># Arguments are array, array index, value to add</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>dev_val <span style=color:#f92672>=</span> cuda<span style=color:#f92672>.</span>to_device(np<span style=color:#f92672>.</span>zeros((<span style=color:#ae81ff>1</span>,)))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>add_one_atomic[<span style=color:#ae81ff>10</span>, <span style=color:#ae81ff>16</span>](dev_val)
+</span></span><span style=display:flex><span>dev_val<span style=color:#f92672>.</span>copy_to_host()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>---</span>
+</span></span><span style=display:flex><span>array([<span style=color:#ae81ff>160.</span>])
+</span></span></code></pre></div><h2 id=原子加法计算直方图>原子加法：计算直方图<a hidden class=anchor aria-hidden=true href=#原子加法计算直方图>#</a></h2><p>为了更好地理解原子序数在哪里以及如何使用，我们将使用直方图计算。假设我们想计算某个文本中每个字母的数量。实现这一目的的简单算法是创建 26 个 &ldquo;桶&rdquo;，每个桶对应一个英文字母。然后，我们将遍历文本中的字母，每当遇到一个 &ldquo;a&rdquo;，我们就会将第一个 &ldquo;桶 &ldquo;递增一个，每当遇到一个 &ldquo;b&rdquo;，我们就会将第二个 &ldquo;桶 &ldquo;递增一个，以此类推。</p><p>在标准 Python 中，这些 &ldquo;桶 &ldquo;可以是字典，每个字典将一个字母与一个数字连接起来。由于我们喜欢在数组上进行 GPU 编程操作，因此我们将使用数组来代替。我们将使用全部 128 个 ASCII 字符，而不是 26 个字母。</p><p>在此之前，我们需要将字符串转换为 &ldquo;数字 &ldquo;数组。在这种情况下，将 UTF-8 字符串转换为 <code>uint8</code> 数据类型是合理的。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>str_to_array</span>(x):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> np<span style=color:#f92672>.</span>frombuffer(bytes(x, <span style=color:#e6db74>&#34;utf-8&#34;</span>), dtype<span style=color:#f92672>=</span>np<span style=color:#f92672>.</span>uint8)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>grab_uppercase</span>(x):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> x[<span style=color:#ae81ff>65</span> : <span style=color:#ae81ff>65</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>26</span>]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>grab_lowercase</span>(x):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> x[<span style=color:#ae81ff>97</span> : <span style=color:#ae81ff>97</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>26</span>]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>my_str <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;CUDA by Numba Examples&#34;</span>
+</span></span><span style=display:flex><span>my_str_array <span style=color:#f92672>=</span> str_to_array(my_str)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>---</span>
+</span></span><span style=display:flex><span>array([ <span style=color:#ae81ff>67</span>,  <span style=color:#ae81ff>85</span>,  <span style=color:#ae81ff>68</span>,  <span style=color:#ae81ff>65</span>,  <span style=color:#ae81ff>32</span>,  <span style=color:#ae81ff>98</span>, <span style=color:#ae81ff>121</span>,  <span style=color:#ae81ff>32</span>,  <span style=color:#ae81ff>78</span>, <span style=color:#ae81ff>117</span>, <span style=color:#ae81ff>109</span>,  <span style=color:#ae81ff>98</span>,  <span style=color:#ae81ff>97</span>,
+</span></span><span style=display:flex><span>        <span style=color:#ae81ff>32</span>,  <span style=color:#ae81ff>69</span>, <span style=color:#ae81ff>120</span>,  <span style=color:#ae81ff>97</span>, <span style=color:#ae81ff>109</span>, <span style=color:#ae81ff>112</span>, <span style=color:#ae81ff>108</span>, <span style=color:#ae81ff>101</span>, <span style=color:#ae81ff>115</span>], dtype<span style=color:#f92672>=</span>uint8)
+</span></span></code></pre></div><p>请注意，小写字母和大写字母的编码是不同的。因此，我们将使用几个实用功能来选择小写字母或大写字母。</p><p>此外，Numpy 已经提供了一个直方图函数，我们将用它来验证结果并比较运行时间。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>histo_np, bin_edges <span style=color:#f92672>=</span> np<span style=color:#f92672>.</span>histogram(my_str_array, bins<span style=color:#f92672>=</span><span style=color:#ae81ff>128</span>, range<span style=color:#f92672>=</span>(<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>128</span>))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>np<span style=color:#f92672>.</span>testing<span style=color:#f92672>.</span>assert_allclose(bin_edges, np<span style=color:#f92672>.</span>arange(<span style=color:#ae81ff>129</span>))  <span style=color:#75715e># Bin edges are 1 more than bins</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>plot_letter_histogram</span>(hist, bin_edges, kind<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;percent&#34;</span>, ax<span style=color:#f92672>=</span><span style=color:#66d9ef>None</span>):
+</span></span><span style=display:flex><span>    width <span style=color:#f92672>=</span> <span style=color:#ae81ff>0.8</span>
+</span></span><span style=display:flex><span>    start <span style=color:#f92672>=</span> bin_edges[<span style=color:#ae81ff>0</span>]
+</span></span><span style=display:flex><span>    stop <span style=color:#f92672>=</span> bin_edges[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>+</span> hist<span style=color:#f92672>.</span>shape[<span style=color:#ae81ff>0</span>]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> ax <span style=color:#f92672>is</span> <span style=color:#66d9ef>None</span>:
+</span></span><span style=display:flex><span>        ax <span style=color:#f92672>=</span> plt<span style=color:#f92672>.</span>gca()
+</span></span><span style=display:flex><span>    ax<span style=color:#f92672>.</span>bar(np<span style=color:#f92672>.</span>arange(start, stop), hist, width<span style=color:#f92672>=</span>width)
+</span></span><span style=display:flex><span>    ax<span style=color:#f92672>.</span>xaxis<span style=color:#f92672>.</span>set_major_locator(ticker<span style=color:#f92672>.</span>MultipleLocator(<span style=color:#ae81ff>1</span>))
+</span></span><span style=display:flex><span>    ax<span style=color:#f92672>.</span>xaxis<span style=color:#f92672>.</span>set_major_formatter(ticker<span style=color:#f92672>.</span>FuncFormatter(<span style=color:#66d9ef>lambda</span> x, pos: <span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;</span><span style=color:#e6db74>{</span>int(x)<span style=color:#e6db74>:</span><span style=color:#e6db74>c</span><span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>))
+</span></span><span style=display:flex><span>    ax<span style=color:#f92672>.</span>set(xlim<span style=color:#f92672>=</span>[start <span style=color:#f92672>-</span> width, stop <span style=color:#f92672>-</span> <span style=color:#ae81ff>1</span> <span style=color:#f92672>+</span> width], ylabel<span style=color:#f92672>=</span>kind<span style=color:#f92672>.</span>title())
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> kind <span style=color:#f92672>==</span> <span style=color:#e6db74>&#34;count&#34;</span>:
+</span></span><span style=display:flex><span>        ax<span style=color:#f92672>.</span>yaxis<span style=color:#f92672>.</span>set_major_formatter(ticker<span style=color:#f92672>.</span>FuncFormatter(<span style=color:#66d9ef>lambda</span> x, pos: <span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;</span><span style=color:#e6db74>{</span>x<span style=color:#e6db74>:</span><span style=color:#e6db74>.0f</span><span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>))
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>else</span>:
+</span></span><span style=display:flex><span>        sum_hist <span style=color:#f92672>=</span> hist<span style=color:#f92672>.</span>sum()
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> kind <span style=color:#f92672>==</span> <span style=color:#e6db74>&#34;probability&#34;</span>:
+</span></span><span style=display:flex><span>            ax<span style=color:#f92672>.</span>yaxis<span style=color:#f92672>.</span>set_major_formatter(
+</span></span><span style=display:flex><span>                ticker<span style=color:#f92672>.</span>FuncFormatter(<span style=color:#66d9ef>lambda</span> x, pos: <span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;</span><span style=color:#e6db74>{</span>x<span style=color:#f92672>/</span>sum_hist<span style=color:#e6db74>:</span><span style=color:#e6db74>.2f</span><span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
+</span></span><span style=display:flex><span>            )
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>else</span>:
+</span></span><span style=display:flex><span>            ax<span style=color:#f92672>.</span>yaxis<span style=color:#f92672>.</span>set_major_formatter(
+</span></span><span style=display:flex><span>                ticker<span style=color:#f92672>.</span>FuncFormatter(<span style=color:#66d9ef>lambda</span> x, pos: <span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;</span><span style=color:#e6db74>{</span>x<span style=color:#f92672>/</span>sum_hist<span style=color:#e6db74>:</span><span style=color:#e6db74>.0%</span><span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
+</span></span><span style=display:flex><span>            )
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>fig, axs <span style=color:#f92672>=</span> plt<span style=color:#f92672>.</span>subplots(<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>2</span>, figsize<span style=color:#f92672>=</span>(<span style=color:#ae81ff>10</span>, <span style=color:#ae81ff>3</span>), sharey<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>)
+</span></span><span style=display:flex><span>plot_letter_histogram(
+</span></span><span style=display:flex><span>    grab_lowercase(histo_np), grab_lowercase(bin_edges), kind<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;count&#34;</span>, ax<span style=color:#f92672>=</span>axs[<span style=color:#ae81ff>0</span>]
+</span></span><span style=display:flex><span>)
+</span></span><span style=display:flex><span>plot_letter_histogram(
+</span></span><span style=display:flex><span>    grab_uppercase(histo_np), grab_uppercase(bin_edges), kind<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;count&#34;</span>, ax<span style=color:#f92672>=</span>axs[<span style=color:#ae81ff>1</span>]
+</span></span><span style=display:flex><span>)
+</span></span><span style=display:flex><span>axs[<span style=color:#ae81ff>0</span>]<span style=color:#f92672>.</span>set(title<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Lowercase&#34;</span>)
+</span></span><span style=display:flex><span>axs[<span style=color:#ae81ff>1</span>]<span style=color:#f92672>.</span>set(title<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Uppercase&#34;</span>);
+</span></span></code></pre></div><p><img alt="“Numba 示例” 的 CUDA 直方图。" loading=lazy src=https://cdn.jsdelivr.net/gh/hivandu/notes/img/202406051430517.png></p><p>让我们自己编写 CPU 版本的函数，以了解其中的机制。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>histogram_cpu</span>(arr):
+</span></span><span style=display:flex><span>    histo <span style=color:#f92672>=</span> np<span style=color:#f92672>.</span>zeros(<span style=color:#ae81ff>128</span>, dtype<span style=color:#f92672>=</span>np<span style=color:#f92672>.</span>int64)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>for</span> char <span style=color:#f92672>in</span> arr:
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> char <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>128</span>:
+</span></span><span style=display:flex><span>            histo[char] <span style=color:#f92672>+=</span> <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> histo
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>histo_cpu <span style=color:#f92672>=</span> histogram_cpu(my_str_array)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>assert</span> (histo_cpu <span style=color:#f92672>-</span> histo_np)<span style=color:#f92672>.</span>sum() <span style=color:#f92672>==</span> <span style=color:#ae81ff>0</span>  <span style=color:#75715e># Matches numpy version</span>
+</span></span></code></pre></div><p>由于每个 ASCII 字符都映射到 128 元素数组中的一个容器，我们需要做的就是找到它的容器并加 1，只要该容器在 0 到 127（包括 0 和 127）之内。</p><p>我们已经为第一个 GPU 版本做好了准备。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># Example 4.3: A GPU histogram</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@cuda.jit</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>kernel_histogram</span>(arr, histo):
+</span></span><span style=display:flex><span>    i <span style=color:#f92672>=</span> cuda<span style=color:#f92672>.</span>grid(<span style=color:#ae81ff>1</span>)
+</span></span><span style=display:flex><span>    threads_per_grid <span style=color:#f92672>=</span> cuda<span style=color:#f92672>.</span>gridsize(<span style=color:#ae81ff>1</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>for</span> iarr <span style=color:#f92672>in</span> range(i, arr<span style=color:#f92672>.</span>size, threads_per_grid):
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> arr[iarr] <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>128</span>:
+</span></span><span style=display:flex><span>            cuda<span style=color:#f92672>.</span>atomic<span style=color:#f92672>.</span>add(histo, arr[iarr], <span style=color:#ae81ff>1</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@cuda.jit</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>kernel_zero_init</span>(arr):
+</span></span><span style=display:flex><span>    i <span style=color:#f92672>=</span> cuda<span style=color:#f92672>.</span>grid(<span style=color:#ae81ff>1</span>)
+</span></span><span style=display:flex><span>    threads_per_grid <span style=color:#f92672>=</span> cuda<span style=color:#f92672>.</span>gridsize(<span style=color:#ae81ff>1</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>for</span> iarr <span style=color:#f92672>in</span> range(i, arr<span style=color:#f92672>.</span>size, threads_per_grid):
+</span></span><span style=display:flex><span>        arr[iarr] <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>threads_per_block <span style=color:#f92672>=</span> <span style=color:#ae81ff>128</span>
+</span></span><span style=display:flex><span>blocks_per_grid <span style=color:#f92672>=</span> <span style=color:#ae81ff>32</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>my_str_array_gpu <span style=color:#f92672>=</span> cuda<span style=color:#f92672>.</span>to_device(my_str_array)
+</span></span><span style=display:flex><span>histo_gpu <span style=color:#f92672>=</span> cuda<span style=color:#f92672>.</span>device_array((<span style=color:#ae81ff>128</span>,), dtype<span style=color:#f92672>=</span>np<span style=color:#f92672>.</span>int64)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>kernel_zero_init[<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>128</span>](histo_gpu)
+</span></span><span style=display:flex><span>kernel_histogram[blocks_per_grid, threads_per_block](my_str_array_gpu, histo_gpu)
+</span></span><span style=display:flex><span>histo_cuda <span style=color:#f92672>=</span> histo_gpu<span style=color:#f92672>.</span>copy_to_host()
+</span></span></code></pre></div><p>太棒了！所以至少我们的函数是可以工作的。内核非常简单，并且具有与串行版本相同的结构。它以标准的 1D 网格步长循环结构开始，并且与串行版本不同，它使用原子添加。Numba 中的原子添加采用三个参数：将被递增的数组（<code>histo</code>）、将被递增的数组位置（<code>arr[iarr]</code>，相当于串行版本中的 <code>char</code>），以及 <code>histo[arr[iarr]] </code>将被递增的值（即本例中的 1）。</p><p>现在让我们加大赌注并将其应用于更大的数据集。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># Get the complete works of William Shakespeare</span>
+</span></span><span style=display:flex><span>URL <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;https://www.gutenberg.org/cache/epub/100/pg100.txt&#34;</span>
+</span></span><span style=display:flex><span>response <span style=color:#f92672>=</span> requests<span style=color:#f92672>.</span>get(URL)
+</span></span><span style=display:flex><span>str_bill <span style=color:#f92672>=</span> response<span style=color:#f92672>.</span>text
+</span></span><span style=display:flex><span>print(str_bill<span style=color:#f92672>.</span>split(<span style=color:#e6db74>&#34;</span><span style=color:#ae81ff>\r</span><span style=color:#e6db74>&#34;</span>)[<span style=color:#ae81ff>0</span>])
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>---</span>
+</span></span><span style=display:flex><span>The Project Gutenberg eBook of The Complete Works of William Shakespeare, by William Shakespeare
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>str_bill_array <span style=color:#f92672>=</span> np<span style=color:#f92672>.</span>frombuffer(bytes(str_bill, <span style=color:#e6db74>&#34;utf-8&#34;</span>), dtype<span style=color:#f92672>=</span>np<span style=color:#f92672>.</span>uint8)
+</span></span><span style=display:flex><span>str_bill_array<span style=color:#f92672>.</span>size
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>---</span>
+</span></span><span style=display:flex><span><span style=color:#ae81ff>5638519</span>
+</span></span></code></pre></div><p>我们要处理的字符数约为 570 万个。让我们运行并记录迄今为止的三个版本。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>histo_bill_np, _ <span style=color:#f92672>=</span> np<span style=color:#f92672>.</span>histogram(str_bill_array, bins<span style=color:#f92672>=</span><span style=color:#ae81ff>128</span>, range<span style=color:#f92672>=</span>(<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>128</span>))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>niter <span style=color:#f92672>=</span> <span style=color:#ae81ff>10</span>
+</span></span><span style=display:flex><span>elapsed_np <span style=color:#f92672>=</span> <span style=color:#ae81ff>0.0</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>for</span> i <span style=color:#f92672>in</span> trange(niter):
+</span></span><span style=display:flex><span>    tic <span style=color:#f92672>=</span> perf_counter()
+</span></span><span style=display:flex><span>    np<span style=color:#f92672>.</span>histogram(str_bill_array, bins<span style=color:#f92672>=</span><span style=color:#ae81ff>128</span>, range<span style=color:#f92672>=</span>(<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>128</span>))
+</span></span><span style=display:flex><span>    toc <span style=color:#f92672>=</span> perf_counter()
+</span></span><span style=display:flex><span>    elapsed_np <span style=color:#f92672>+=</span> <span style=color:#ae81ff>1e3</span> <span style=color:#f92672>*</span> (toc <span style=color:#f92672>-</span> tic)  <span style=color:#75715e># Convert to ms</span>
+</span></span><span style=display:flex><span>elapsed_np <span style=color:#f92672>/=</span> niter
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>niter <span style=color:#f92672>=</span> <span style=color:#ae81ff>2</span>  <span style=color:#75715e># very slow!</span>
+</span></span><span style=display:flex><span>elapsed_cpu <span style=color:#f92672>=</span> <span style=color:#ae81ff>0.0</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>for</span> i <span style=color:#f92672>in</span> trange(niter):
+</span></span><span style=display:flex><span>    tic <span style=color:#f92672>=</span> perf_counter()
+</span></span><span style=display:flex><span>    histogram_cpu(str_bill_array)
+</span></span><span style=display:flex><span>    toc <span style=color:#f92672>=</span> perf_counter()
+</span></span><span style=display:flex><span>    elapsed_cpu <span style=color:#f92672>+=</span> <span style=color:#ae81ff>1e3</span> <span style=color:#f92672>*</span> (toc <span style=color:#f92672>-</span> tic)  <span style=color:#75715e># in ms</span>
+</span></span><span style=display:flex><span>elapsed_cpu <span style=color:#f92672>/=</span> niter
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>CUDATimer</span>:
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> __init__(self, stream):
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>stream <span style=color:#f92672>=</span> stream
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>elapsed <span style=color:#f92672>=</span> <span style=color:#66d9ef>None</span>  <span style=color:#75715e># in ms</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> __enter__(self):
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>event_beg <span style=color:#f92672>=</span> cuda<span style=color:#f92672>.</span>event()
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>event_end <span style=color:#f92672>=</span> cuda<span style=color:#f92672>.</span>event()
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>event_beg<span style=color:#f92672>.</span>record(stream<span style=color:#f92672>=</span>self<span style=color:#f92672>.</span>stream)
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> self
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> __exit__(self, type, value, traceback):
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>event_end<span style=color:#f92672>.</span>record(stream<span style=color:#f92672>=</span>self<span style=color:#f92672>.</span>stream)
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>event_end<span style=color:#f92672>.</span>wait(stream<span style=color:#f92672>=</span>self<span style=color:#f92672>.</span>stream)
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>event_end<span style=color:#f92672>.</span>synchronize()
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>elapsed <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>event_beg<span style=color:#f92672>.</span>elapsed_time(self<span style=color:#f92672>.</span>event_end)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>threads_per_block <span style=color:#f92672>=</span> <span style=color:#ae81ff>128</span>
+</span></span><span style=display:flex><span>blocks_per_grid <span style=color:#f92672>=</span> <span style=color:#ae81ff>32</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>80</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>str_bill_array_gpu <span style=color:#f92672>=</span> cuda<span style=color:#f92672>.</span>to_device(str_bill_array)
+</span></span><span style=display:flex><span>histo_gpu <span style=color:#f92672>=</span> cuda<span style=color:#f92672>.</span>device_array((<span style=color:#ae81ff>128</span>,), dtype<span style=color:#f92672>=</span>np<span style=color:#f92672>.</span>int64)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>stream <span style=color:#f92672>=</span> cuda<span style=color:#f92672>.</span>stream()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>niter <span style=color:#f92672>=</span> <span style=color:#ae81ff>100</span>
+</span></span><span style=display:flex><span>elapsed_gpu <span style=color:#f92672>=</span> <span style=color:#ae81ff>0.0</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>for</span> i <span style=color:#f92672>in</span> trange(niter):
+</span></span><span style=display:flex><span>    kernel_zero_init[<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>128</span>, stream](histo_gpu)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>with</span> CUDATimer(stream<span style=color:#f92672>=</span>stream) <span style=color:#66d9ef>as</span> ct:
+</span></span><span style=display:flex><span>        kernel_histogram[blocks_per_grid, threads_per_block, stream](
+</span></span><span style=display:flex><span>            str_bill_array_gpu, histo_gpu
+</span></span><span style=display:flex><span>        )
+</span></span><span style=display:flex><span>    elapsed_gpu <span style=color:#f92672>+=</span> ct<span style=color:#f92672>.</span>elapsed
+</span></span><span style=display:flex><span>elapsed_gpu <span style=color:#f92672>/=</span> niter
+</span></span><span style=display:flex><span>cuda<span style=color:#f92672>.</span>synchronize()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>fig, ax <span style=color:#f92672>=</span> plt<span style=color:#f92672>.</span>subplots()
+</span></span><span style=display:flex><span>rects <span style=color:#f92672>=</span> ax<span style=color:#f92672>.</span>bar(
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;NumPy&#34;</span>, <span style=color:#e6db74>&#34;Naive CPU&#34;</span>, <span style=color:#e6db74>&#34;GPU&#34;</span>],
+</span></span><span style=display:flex><span>    [elapsed_np <span style=color:#f92672>/</span> elapsed_gpu, elapsed_cpu <span style=color:#f92672>/</span> elapsed_gpu, elapsed_gpu <span style=color:#f92672>/</span> elapsed_gpu],
+</span></span><span style=display:flex><span>)
+</span></span><span style=display:flex><span>ax<span style=color:#f92672>.</span>bar_label(rects, padding<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>, fmt<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;</span><span style=color:#e6db74>%.0f</span><span style=color:#e6db74>x&#34;</span>)
+</span></span><span style=display:flex><span>ax<span style=color:#f92672>.</span>set(title<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Performance relative to GPU version&#34;</span>, ylabel<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Times slower&#34;</span>)
+</span></span><span style=display:flex><span>ax<span style=color:#f92672>.</span>yaxis<span style=color:#f92672>.</span>set_major_formatter(ticker<span style=color:#f92672>.</span>StrMethodFormatter(<span style=color:#e6db74>&#34;</span><span style=color:#e6db74>{x:.0f}</span><span style=color:#e6db74>x&#34;</span>))
+</span></span></code></pre></div><p><img alt=image-20240604181327011 loading=lazy src=https://cdn.jsdelivr.net/gh/hivandu/notes/img/202406051430518.png></p><p>以我们的 GPU 版本为基准，我们发现 NumPy 版本至少要慢 40 倍，而我们天真的 CPU 版本要慢数千倍。我们可以在几毫秒内处理这个 570 万字符的数据集，而传统的 CPU 解决方案则需要 10 多秒钟。这意味着我们有可能在几秒钟内处理 200 亿字符的数据集（如果我们有一个超过 20GB RAM 的 GPU），而我们最慢的版本需要一个多小时。因此，我们已经做得很不错了！</p><p>我们可以改进它吗？好吧，让我们重新审视一下这个内核的内存访问模式。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>...</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>for</span> iarr <span style=color:#f92672>in</span> range(i, arr<span style=color:#f92672>.</span>size, threads_per_grid):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> arr[iarr] <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>128</span>:
+</span></span><span style=display:flex><span>        cuda<span style=color:#f92672>.</span>atomic<span style=color:#f92672>.</span>add(histo, arr[iarr], <span style=color:#ae81ff>1</span>)
+</span></span></code></pre></div><p><code>histo</code> 是一个 128 元素的数组，位于 GPU 的全局内存中。在任何一个点上启动的每个线程都在尝试访问这个数组中的某些元素（即元素 <code>arr[iarr]</code>）。因此，在任何一个点上，我们都有大约 128 × 32 × 80 = 327,680 个线程试图访问 128 个元素。因此，平均约有 32 × 80 = 2,560 个线程在竞争同一个全局内存地址。</p><p>为了缓解这种情况，我们在共享内存阵列中计算局部直方图。这是因为</p><ol><li>共享阵列位于芯片上，因此读写速度更快</li><li>共享数组对于每个线程块来说都是本地的，因此只有较少的线程可以访问并因此争夺其资源。</li></ol><blockquote><p>信息：我们的计算假设字符是均匀分布的。请谨慎对待此类假设，因为自然数据集可能不符合这些假设。例如，自然语言文本中的大多数字符都是小写字母，因此我们将有 128 × 32 × 80 ÷ 26 ≈ 12,603 个线程竞争，而不是平均有 2,560 个线程竞争，这会带来更多问题！</p></blockquote><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># Example 4.4: A GPU histogram without as many memory conflicts</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@cuda.jit</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>kernel_histogram_shared</span>(arr, histo):
+</span></span><span style=display:flex><span>    <span style=color:#75715e># Create shared array to hold local histogram</span>
+</span></span><span style=display:flex><span>    histo_local <span style=color:#f92672>=</span> cuda<span style=color:#f92672>.</span>shared<span style=color:#f92672>.</span>array((<span style=color:#ae81ff>128</span>,), numba<span style=color:#f92672>.</span>int64)
+</span></span><span style=display:flex><span>    histo_local[cuda<span style=color:#f92672>.</span>threadIdx<span style=color:#f92672>.</span>x] <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>  <span style=color:#75715e># initialize to zero</span>
+</span></span><span style=display:flex><span>    cuda<span style=color:#f92672>.</span>syncthreads()  <span style=color:#75715e># 确保同一块中的所有线程“注册”初始化</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    i <span style=color:#f92672>=</span> cuda<span style=color:#f92672>.</span>grid(<span style=color:#ae81ff>1</span>)
+</span></span><span style=display:flex><span>    threads_per_grid <span style=color:#f92672>=</span> cuda<span style=color:#f92672>.</span>gridsize(<span style=color:#ae81ff>1</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>for</span> iarr <span style=color:#f92672>in</span> range(i, arr<span style=color:#f92672>.</span>size, threads_per_grid):
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> arr[iarr] <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>128</span>:
+</span></span><span style=display:flex><span>            cuda<span style=color:#f92672>.</span>atomic<span style=color:#f92672>.</span>add(
+</span></span><span style=display:flex><span>                histo_local, arr[iarr], <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>            )  <span style=color:#75715e># 竞争相同内存的线程更少</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 确保块中的所有线程都是最新的</span>
+</span></span><span style=display:flex><span>    cuda<span style=color:#f92672>.</span>syncthreads()
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 使用本地直方图的值更新全局内存直方图</span>
+</span></span><span style=display:flex><span>    cuda<span style=color:#f92672>.</span>atomic<span style=color:#f92672>.</span>add(histo, cuda<span style=color:#f92672>.</span>threadIdx<span style=color:#f92672>.</span>x, histo_local[cuda<span style=color:#f92672>.</span>threadIdx<span style=color:#f92672>.</span>x])
+</span></span></code></pre></div><p>之前有 2,560 个线程在竞争相同的内存，现在则有 2,560 ÷ 128 = 20 个线程。内核结束时，我们需要汇总所有本地结果。由于有 32 × 80 = 2,560 个区块，这意味着有 2,560 个线程在竞争写入全局内存。不过，我们确保每个线程只写一次，而之前我们必须写完输入数组的所有元素。</p><p>让我们看看新版本与旧版本的对比情况！</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>str_bill_array_gpu <span style=color:#f92672>=</span> cuda<span style=color:#f92672>.</span>to_device(str_bill_array)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>niter <span style=color:#f92672>=</span> <span style=color:#ae81ff>100</span>
+</span></span><span style=display:flex><span>elapsed_gpu_shared <span style=color:#f92672>=</span> <span style=color:#ae81ff>0.0</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>for</span> i <span style=color:#f92672>in</span> trange(niter):
+</span></span><span style=display:flex><span>    kernel_zero_init[<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>128</span>, stream](histo_gpu)
+</span></span><span style=display:flex><span>    cuda<span style=color:#f92672>.</span>synchronize()
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>with</span> CUDATimer(stream<span style=color:#f92672>=</span>stream) <span style=color:#66d9ef>as</span> ct:
+</span></span><span style=display:flex><span>        kernel_histogram_shared[blocks_per_grid, threads_per_block, stream](
+</span></span><span style=display:flex><span>            str_bill_array_gpu, histo_gpu
+</span></span><span style=display:flex><span>        )
+</span></span><span style=display:flex><span>    elapsed_gpu_shared <span style=color:#f92672>+=</span> ct<span style=color:#f92672>.</span>elapsed
+</span></span><span style=display:flex><span>elapsed_gpu_shared <span style=color:#f92672>/=</span> niter
+</span></span><span style=display:flex><span>cuda<span style=color:#f92672>.</span>synchronize()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>fig, ax <span style=color:#f92672>=</span> plt<span style=color:#f92672>.</span>subplots()
+</span></span><span style=display:flex><span>rects <span style=color:#f92672>=</span> ax<span style=color:#f92672>.</span>bar(
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;NumPy&#34;</span>, <span style=color:#e6db74>&#34;Naive GPU&#34;</span>, <span style=color:#e6db74>&#34;GPU&#34;</span>],
+</span></span><span style=display:flex><span>    [
+</span></span><span style=display:flex><span>        elapsed_np <span style=color:#f92672>/</span> elapsed_gpu_shared,
+</span></span><span style=display:flex><span>        elapsed_gpu <span style=color:#f92672>/</span> elapsed_gpu_shared,
+</span></span><span style=display:flex><span>        elapsed_gpu_shared <span style=color:#f92672>/</span> elapsed_gpu_shared,
+</span></span><span style=display:flex><span>    ],
+</span></span><span style=display:flex><span>)
+</span></span><span style=display:flex><span>ax<span style=color:#f92672>.</span>bar_label(rects, padding<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>, fmt<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;</span><span style=color:#e6db74>%.1f</span><span style=color:#e6db74>x&#34;</span>)
+</span></span><span style=display:flex><span>ax<span style=color:#f92672>.</span>set(title<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Performance relative to improved GPU version&#34;</span>, ylabel<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Times slower&#34;</span>)
+</span></span><span style=display:flex><span>ax<span style=color:#f92672>.</span>yaxis<span style=color:#f92672>.</span>set_major_formatter(ticker<span style=color:#f92672>.</span>StrMethodFormatter(<span style=color:#e6db74>&#34;</span><span style=color:#e6db74>{x:.0f}</span><span style=color:#e6db74>x&#34;</span>))
+</span></span></code></pre></div><p><img alt=image-20240604181503751 loading=lazy src=https://cdn.jsdelivr.net/gh/hivandu/notes/img/202406051430519.png></p><p>因此，这比原始版本提高了约 3 倍！</p><p>我们将块数设置为 32 × SM 数量的倍数，如上一个教程中建议的那样。但是哪个倍数呢？让我们来计算一下！</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>threads_per_block <span style=color:#f92672>=</span> <span style=color:#ae81ff>128</span>
+</span></span><span style=display:flex><span>elapsed_conflict <span style=color:#f92672>=</span> []
+</span></span><span style=display:flex><span>elapsed_shared <span style=color:#f92672>=</span> []
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>block_range <span style=color:#f92672>=</span> range(<span style=color:#ae81ff>10</span>, <span style=color:#ae81ff>1000</span>, <span style=color:#ae81ff>5</span>)
+</span></span><span style=display:flex><span>histo_gpu <span style=color:#f92672>=</span> cuda<span style=color:#f92672>.</span>device_array((<span style=color:#ae81ff>128</span>,), np<span style=color:#f92672>.</span>int64, stream<span style=color:#f92672>=</span>stream)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>for</span> i <span style=color:#f92672>in</span> trange(block_range<span style=color:#f92672>.</span>start, block_range<span style=color:#f92672>.</span>stop, block_range<span style=color:#f92672>.</span>step):
+</span></span><span style=display:flex><span>    blocks_per_grid <span style=color:#f92672>=</span> <span style=color:#ae81ff>32</span> <span style=color:#f92672>*</span> i
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    elapsed1 <span style=color:#f92672>=</span> <span style=color:#ae81ff>0.0</span>
+</span></span><span style=display:flex><span>    elapsed2 <span style=color:#f92672>=</span> <span style=color:#ae81ff>0.0</span>
+</span></span><span style=display:flex><span>    niter <span style=color:#f92672>=</span> <span style=color:#ae81ff>50</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>for</span> i <span style=color:#f92672>in</span> range(niter):
+</span></span><span style=display:flex><span>        kernel_zero_init[<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>128</span>, stream](histo_gpu)
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>with</span> CUDATimer(stream) <span style=color:#66d9ef>as</span> ct1:
+</span></span><span style=display:flex><span>            kernel_histogram[blocks_per_grid, threads_per_block, stream](
+</span></span><span style=display:flex><span>                str_bill_array_gpu, histo_gpu
+</span></span><span style=display:flex><span>            )
+</span></span><span style=display:flex><span>        elapsed1 <span style=color:#f92672>+=</span> ct1<span style=color:#f92672>.</span>elapsed
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        kernel_zero_init[<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>128</span>, stream](histo_gpu)
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>with</span> CUDATimer(stream) <span style=color:#66d9ef>as</span> ct2:
+</span></span><span style=display:flex><span>            kernel_histogram_shared[blocks_per_grid, threads_per_block, stream](
+</span></span><span style=display:flex><span>                str_bill_array_gpu, histo_gpu
+</span></span><span style=display:flex><span>            )
+</span></span><span style=display:flex><span>        elapsed2 <span style=color:#f92672>+=</span> ct2<span style=color:#f92672>.</span>elapsed
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    elapsed_conflict<span style=color:#f92672>.</span>append(elapsed1 <span style=color:#f92672>/</span> niter)
+</span></span><span style=display:flex><span>    elapsed_shared<span style=color:#f92672>.</span>append(elapsed2 <span style=color:#f92672>/</span> niter)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>fastest_sm_conflict <span style=color:#f92672>=</span> list(block_range)[np<span style=color:#f92672>.</span>argmin(elapsed_conflict)]
+</span></span><span style=display:flex><span>fastest_sm_shared <span style=color:#f92672>=</span> list(block_range)[np<span style=color:#f92672>.</span>argmin(elapsed_shared)]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>fig, ax <span style=color:#f92672>=</span> plt<span style=color:#f92672>.</span>subplots()
+</span></span><span style=display:flex><span>ax<span style=color:#f92672>.</span>plot(block_range, elapsed_conflict, color<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;C0&#34;</span>)
+</span></span><span style=display:flex><span>ax<span style=color:#f92672>.</span>axvline(fastest_sm_conflict, ls<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;--&#34;</span>, color<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;C0&#34;</span>)
+</span></span><span style=display:flex><span>ax<span style=color:#f92672>.</span>yaxis<span style=color:#f92672>.</span>label<span style=color:#f92672>.</span>set_color(<span style=color:#e6db74>&#34;C0&#34;</span>)
+</span></span><span style=display:flex><span>ax<span style=color:#f92672>.</span>tick_params(axis<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;y&#34;</span>, colors<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;C0&#34;</span>)
+</span></span><span style=display:flex><span>ax<span style=color:#f92672>.</span>set(ylabel<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Time of conflicted version [ms]&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>ax2 <span style=color:#f92672>=</span> ax<span style=color:#f92672>.</span>twinx()
+</span></span><span style=display:flex><span>ax2<span style=color:#f92672>.</span>plot(block_range, elapsed_shared, color<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;C3&#34;</span>)
+</span></span><span style=display:flex><span>ax2<span style=color:#f92672>.</span>axvline(fastest_sm_shared, ls<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;--&#34;</span>, color<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;C3&#34;</span>)
+</span></span><span style=display:flex><span>ax2<span style=color:#f92672>.</span>yaxis<span style=color:#f92672>.</span>label<span style=color:#f92672>.</span>set_color(<span style=color:#e6db74>&#34;C3&#34;</span>)
+</span></span><span style=display:flex><span>ax2<span style=color:#f92672>.</span>tick_params(axis<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;y&#34;</span>, colors<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;C3&#34;</span>)
+</span></span><span style=display:flex><span>ax2<span style=color:#f92672>.</span>set(ylabel<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Time of shared version [ms]&#34;</span>);
+</span></span></code></pre></div><p><img alt=image-20240604181531033 loading=lazy src=https://cdn.jsdelivr.net/gh/hivandu/notes/img/202406051430520.png></p><p>有两点：首先，我们需要两个轴来显示数据，因为原始版本（蓝色）的速度要慢得多。其次，垂直线显示对于某个函数来说，最佳的 SM 数量是多少。最后，虽然原始版本不会随着添加更多块而变得更糟，但共享版本并非如此。要理解为什么会这样，请记住共享数组版本有两个部分</p><ul><li>第一部分，少数线程竞争相同（快速）内存（共享数组部分）。</li><li>第二部分，许多线程竞争相同的（慢速）内存（最后的原子添加）。</li></ul><p>随着更多块的添加，在简单版本中，它很快就会遇到瓶颈，而且情况不会变得更糟，而在共享阵列版本中，第一部分的竞争保持不变，但第二部分的竞争<em>会增加</em>。另一方面，太少的块不会产生足够的并行化（对于任何一个版本而言）。上图找到了这两个极端之间的“最佳点”。</p><h2 id=使用互斥锁锁定资源>使用互斥锁锁定资源<a hidden class=anchor aria-hidden=true href=#使用互斥锁锁定资源>#</a></h2><p>在前面的例子中，我们使用了整数值的原子加法运算来锁定某些资源，并确保一次只有一个线程控制它们。加法不是唯一的原子操作，也不必应用于整数值。Numba CUDA 支持<a href=https://numba.readthedocs.io/en/stable/cuda/intrinsics.html>对整数和浮点数的各种原子操作</a>。但曾几何时（CUDA 计算 1.x），浮点原子并不存在。因此，如果我们想使用浮点数的原子来编写一个归约，我们就需要另一个结构。</p><p>虽然现在原子确实支持浮点数，但允许我们应用任意原子操作的“互斥”代码模式在某些情况下仍然有用。</p><p>mutex，即互斥锁，是一种向试图访问某个资源的其他线程发出信号，表明该资源是否可用。可以使用可以采用两个值的变量来创建互斥锁：</p><ul><li><strong>0</strong>：🟢 绿灯，继续使用特定内存/资源</li><li><strong>1</strong>：🔴 红灯，停止，请勿尝试使用/访问某个内存/资源</li></ul><p>要锁定内存，应该将 1 写入互斥锁，要解锁，应该写入 0。但需要小心，如果将互斥锁（非原子性地）写入，其他线程可能正在访问该资源，至少会创建错误的值，甚至更糟的是，造成死锁。另一个问题是，只有在之前未锁定的情况下才能锁定互斥锁。因此，在写入 1（锁定）之前，我们需要读取互斥锁并确保其为 0（解锁）。CUDA 提供了一种特殊操作来原子地执行这两件事：atomicCAS。在 Numba CUDA 中，它更明确地命名为：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>cuda<span style=color:#f92672>.</span>atomic<span style=color:#f92672>.</span>compare_and_swap(array, old, val)
+</span></span></code></pre></div><p>如果 <code>array[0]</code> 的当前值等于 <code>old</code>（这是“比较”部分），则此函数将仅以原子方式分配<code>val</code>给<code>array[0]</code>（这是“交换”部分）；否则它现在将交换。此外，它以原子方式返回 <code>array[0]</code> 的当前值。因此，要锁定互斥锁，我们可以使用:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>cuda<span style=color:#f92672>.</span>atomic<span style=color:#f92672>.</span>compare_and_swap(mutex, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>1</span>)
+</span></span></code></pre></div><p>因此，我们只会在 unlocked(0) 时分配一个 lock(1)。上面这行代码的一个问题是，如果线程到达它并读取到 1（锁定），它就会继续执行，这可能不是我们想要的。我们理想情况下希望线程停止执行，直到我们可以锁定互斥锁。因此，我们改为执行以下操作：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#66d9ef>while</span> cuda<span style=color:#f92672>.</span>atomic<span style=color:#f92672>.</span>compare_and_swap(mutex, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>1</span>) <span style=color:#f92672>!=</span> <span style=color:#ae81ff>0</span>:
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>pass</span>
+</span></span></code></pre></div><p>在这种情况下，线程将一直持续，直到它能够正确锁定线程。假设线程到达先前锁定的互斥锁，其当前值为 1。因此，我们首先注意到，<code>compare_and_swap</code>无法<em>锁定</em>它， 因为 <code>curr = 1 != old = 0</code>。它也不会退出<code>while</code>循环，因为当前值 1 与 0（while 条件）不同。它将一直停留在这个循环中，直到它最终能够读取当前值为 0 的未锁定互斥锁。在这种情况下，它还将能够将 1 分配给互斥锁，因为<code>curr = 0 == old = 0</code>。</p><p>要解锁，我们只需原子地为互斥锁分配一个 0。我们将使用</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>cuda<span style=color:#f92672>.</span>atomic<span style=color:#f92672>.</span>exch(array, idx, val)
+</span></span></code></pre></div><p>它只是原子赋值 <code>array[idx] = val</code>，返回 <code>array[idx]</code> 的旧值（原子加载）。由于我们不会使用这个函数的返回值，在这种情况下，你可以把它看作是一个原子赋值（即 <code>atomic_add(array, idx, val)</code> 对 <code>array[idx] += val</code> 的赋值与 <code>exch(array, idx, val)</code> 对 <code>array[idx] = val</code> 的赋值一样）。</p><p>现在我们有了锁定和解锁机制，让我们重试原子“加一”，但使用互斥锁。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># Example 4.5: An atomic add with mutex.</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@cuda.jit</span>(device<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>lock</span>(mutex):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>while</span> cuda<span style=color:#f92672>.</span>atomic<span style=color:#f92672>.</span>compare_and_swap(mutex, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>1</span>) <span style=color:#f92672>!=</span> <span style=color:#ae81ff>0</span>:
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>pass</span>
+</span></span><span style=display:flex><span>    cuda<span style=color:#f92672>.</span>threadfence()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@cuda.jit</span>(device<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>unlock</span>(mutex):
+</span></span><span style=display:flex><span>    cuda<span style=color:#f92672>.</span>threadfence()
+</span></span><span style=display:flex><span>    cuda<span style=color:#f92672>.</span>atomic<span style=color:#f92672>.</span>exch(mutex, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@cuda.jit</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>add_one_mutex</span>(x, mutex):
+</span></span><span style=display:flex><span>    lock(mutex)  <span style=color:#75715e># 线程将在此停止，直到它们可以自动读取 0 互斥，此时他们将自动向其写入 1</span>
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    x[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>+=</span> <span style=color:#ae81ff>1</span>  <span style=color:#75715e># 一次只有一个线程会访问该资源，其他所有线程将在上面的队列中等待</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    unlock(mutex)  <span style=color:#75715e># 线程原子地将 0 写入互斥锁，并释放它，所有其他线程都在尝试获取锁</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>dev_val <span style=color:#f92672>=</span> cuda<span style=color:#f92672>.</span>to_device(np<span style=color:#f92672>.</span>zeros((<span style=color:#ae81ff>1</span>,)))
+</span></span><span style=display:flex><span>mutex <span style=color:#f92672>=</span> cuda<span style=color:#f92672>.</span>to_device(np<span style=color:#f92672>.</span>zeros((<span style=color:#ae81ff>1</span>,), dtype<span style=color:#f92672>=</span>np<span style=color:#f92672>.</span>int64))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>add_one_mutex[<span style=color:#ae81ff>10</span>, <span style=color:#ae81ff>16</span>](dev_val, mutex)
+</span></span><span style=display:flex><span>dev_val<span style=color:#f92672>.</span>copy_to_host()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>---</span>
+</span></span><span style=display:flex><span>array([<span style=color:#ae81ff>160.</span>])
+</span></span></code></pre></div><p>上面的代码非常简单，我们有一个内核，它可以锁定线程的执行，直到它们自己可以获得解锁的互斥。此时，它们将更新 <code>x[0]</code> 的值并解锁互斥。任何时候都不会有多个线程读取或写入 <code>x[0]</code>，从而实现了原子性！</p><p>上述代码中只有一个细节我们没有涉及，那就是 <code>cuda.threadfence()</code> 的使用。本例中并不需要它，但它能确保锁定和解锁机制的正确性。我们很快就会知道原因！</p><h2 id=互斥点乘>互斥点乘<a hidden class=anchor aria-hidden=true href=#互斥点乘>#</a></h2><p>在<a href=https://mp.weixin.qq.com/s/w4qpHO7hVSZhgr0C6ZzDyQ>本系列的第 2 部分</a>中，我们学习了如何在 GPU 中应用缩减。我们使用它们来计算数组的总和。我们的代码不够优雅的一点是，我们将部分求和留给了 CPU。我们当时缺乏的是应用原子操作的能力。</p><p>我们将该示例重新解释为点乘，但这次是将求和进行到底。这意味着我们不会返回 &ldquo;部分 &ldquo;点乘，而是通过使用 mutex 在 GPU 中使用原子求和。首先，让我们将 reduce 重新解释为点乘：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>threads_per_block <span style=color:#f92672>=</span> <span style=color:#ae81ff>256</span>
+</span></span><span style=display:flex><span>blocks_per_grid <span style=color:#f92672>=</span> <span style=color:#ae81ff>32</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>20</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Example 4.6: A partial dot product</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@cuda.jit</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>dot_partial</span>(a, b, partial_c):
+</span></span><span style=display:flex><span>    igrid <span style=color:#f92672>=</span> cuda<span style=color:#f92672>.</span>grid(<span style=color:#ae81ff>1</span>)
+</span></span><span style=display:flex><span>    threads_per_grid <span style=color:#f92672>=</span> cuda<span style=color:#f92672>.</span>gridsize(<span style=color:#ae81ff>1</span>)
+</span></span><span style=display:flex><span>    s_thread <span style=color:#f92672>=</span> <span style=color:#ae81ff>0.0</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>for</span> iarr <span style=color:#f92672>in</span> range(igrid, a<span style=color:#f92672>.</span>size, threads_per_grid):
+</span></span><span style=display:flex><span>        s_thread <span style=color:#f92672>+=</span> a[iarr] <span style=color:#f92672>*</span> b[iarr]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    s_block <span style=color:#f92672>=</span> cuda<span style=color:#f92672>.</span>shared<span style=color:#f92672>.</span>array((threads_per_block,), numba<span style=color:#f92672>.</span>float32)
+</span></span><span style=display:flex><span>    tid <span style=color:#f92672>=</span> cuda<span style=color:#f92672>.</span>threadIdx<span style=color:#f92672>.</span>x
+</span></span><span style=display:flex><span>    s_block[tid] <span style=color:#f92672>=</span> s_thread
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    cuda<span style=color:#f92672>.</span>syncthreads()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    i <span style=color:#f92672>=</span> cuda<span style=color:#f92672>.</span>blockDim<span style=color:#f92672>.</span>x <span style=color:#f92672>//</span> <span style=color:#ae81ff>2</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>while</span> i <span style=color:#f92672>&gt;</span> <span style=color:#ae81ff>0</span>:
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> tid <span style=color:#f92672>&lt;</span> i:
+</span></span><span style=display:flex><span>            s_block[tid] <span style=color:#f92672>+=</span> s_block[tid <span style=color:#f92672>+</span> i]
+</span></span><span style=display:flex><span>        cuda<span style=color:#f92672>.</span>syncthreads()
+</span></span><span style=display:flex><span>        i <span style=color:#f92672>//=</span> <span style=color:#ae81ff>2</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 此行以上的代码在下一个版本中将保持完全相同</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> tid <span style=color:#f92672>==</span> <span style=color:#ae81ff>0</span>:
+</span></span><span style=display:flex><span>        partial_c[cuda<span style=color:#f92672>.</span>blockIdx<span style=color:#f92672>.</span>x] <span style=color:#f92672>=</span> s_block[<span style=color:#ae81ff>0</span>]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Example 4.6: A full dot product with mutex</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@cuda.jit</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>dot_mutex</span>(mutex, a, b, c):
+</span></span><span style=display:flex><span>    igrid <span style=color:#f92672>=</span> cuda<span style=color:#f92672>.</span>grid(<span style=color:#ae81ff>1</span>)
+</span></span><span style=display:flex><span>    threads_per_grid <span style=color:#f92672>=</span> cuda<span style=color:#f92672>.</span>gridsize(<span style=color:#ae81ff>1</span>)
+</span></span><span style=display:flex><span>    s_thread <span style=color:#f92672>=</span> <span style=color:#ae81ff>0.0</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>for</span> iarr <span style=color:#f92672>in</span> range(igrid, a<span style=color:#f92672>.</span>size, threads_per_grid):
+</span></span><span style=display:flex><span>        s_thread <span style=color:#f92672>+=</span> a[iarr] <span style=color:#f92672>*</span> b[iarr]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    s_block <span style=color:#f92672>=</span> cuda<span style=color:#f92672>.</span>shared<span style=color:#f92672>.</span>array((threads_per_block,), numba<span style=color:#f92672>.</span>float32)
+</span></span><span style=display:flex><span>    tid <span style=color:#f92672>=</span> cuda<span style=color:#f92672>.</span>threadIdx<span style=color:#f92672>.</span>x
+</span></span><span style=display:flex><span>    s_block[tid] <span style=color:#f92672>=</span> s_thread
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    cuda<span style=color:#f92672>.</span>syncthreads()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    i <span style=color:#f92672>=</span> cuda<span style=color:#f92672>.</span>blockDim<span style=color:#f92672>.</span>x <span style=color:#f92672>//</span> <span style=color:#ae81ff>2</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>while</span> i <span style=color:#f92672>&gt;</span> <span style=color:#ae81ff>0</span>:
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> tid <span style=color:#f92672>&lt;</span> i:
+</span></span><span style=display:flex><span>            s_block[tid] <span style=color:#f92672>+=</span> s_block[tid <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>]
+</span></span><span style=display:flex><span>        cuda<span style=color:#f92672>.</span>syncthreads()
+</span></span><span style=display:flex><span>        i <span style=color:#f92672>//=</span> <span style=color:#ae81ff>2</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># 我们没有将部分归约分配给全局内存数组，而是将自动将其添加到 c[0]。</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> tid <span style=color:#f92672>==</span> <span style=color:#ae81ff>0</span>:
+</span></span><span style=display:flex><span>        lock(mutex)
+</span></span><span style=display:flex><span>        c[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>+=</span> s_block[<span style=color:#ae81ff>0</span>]
+</span></span><span style=display:flex><span>        unlock(mutex)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>N <span style=color:#f92672>=</span> <span style=color:#ae81ff>10_000_000</span>
+</span></span><span style=display:flex><span>a <span style=color:#f92672>=</span> np<span style=color:#f92672>.</span>ones(N, dtype<span style=color:#f92672>=</span>np<span style=color:#f92672>.</span>float32)
+</span></span><span style=display:flex><span>b <span style=color:#f92672>=</span> (np<span style=color:#f92672>.</span>ones(N) <span style=color:#f92672>/</span> N)<span style=color:#f92672>.</span>astype(np<span style=color:#f92672>.</span>float32)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>dev_a <span style=color:#f92672>=</span> cuda<span style=color:#f92672>.</span>to_device(a)
+</span></span><span style=display:flex><span>dev_b <span style=color:#f92672>=</span> cuda<span style=color:#f92672>.</span>to_device(b)
+</span></span><span style=display:flex><span>dev_c <span style=color:#f92672>=</span> cuda<span style=color:#f92672>.</span>device_array((<span style=color:#ae81ff>1</span>,), dtype<span style=color:#f92672>=</span>a<span style=color:#f92672>.</span>dtype)
+</span></span><span style=display:flex><span>dev_partial_c <span style=color:#f92672>=</span> cuda<span style=color:#f92672>.</span>device_array((blocks_per_grid,), dtype<span style=color:#f92672>=</span>a<span style=color:#f92672>.</span>dtype)
+</span></span><span style=display:flex><span>dev_mutex <span style=color:#f92672>=</span> cuda<span style=color:#f92672>.</span>device_array((<span style=color:#ae81ff>1</span>,), dtype<span style=color:#f92672>=</span>np<span style=color:#f92672>.</span>int32)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>dot_partial[blocks_per_grid, threads_per_block](dev_a, dev_b, dev_partial_c)
+</span></span><span style=display:flex><span>dev_partial_c<span style=color:#f92672>.</span>copy_to_host()<span style=color:#f92672>.</span>sum()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>---</span>
+</span></span><span style=display:flex><span><span style=color:#ae81ff>0.9999999</span>
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>kernel_zero_init[<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>1</span>](dev_c)
+</span></span><span style=display:flex><span>dot_mutex[blocks_per_grid, threads_per_block](dev_mutex, dev_a, dev_b, dev_c)
+</span></span><span style=display:flex><span>dev_c<span style=color:#f92672>.</span>copy_to_host()<span style=color:#f92672>.</span>item()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>---</span>
+</span></span><span style=display:flex><span><span style=color:#ae81ff>1.0000088214874268</span>
+</span></span></code></pre></div><p>一切顺利！</p><p>在结束之前，我答应过要重温一下 <code>cuda.threadfence</code>。</p><blockquote><p>摘自 CUDA &ldquo;圣经&rdquo;（<a href=https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#memory-fence-functions>B.5.内存栅栏函数</a>）：</p><p><code>__threadfence()</code> <em>ensures that no writes to all memory made by the calling thread after the call to</em> <code>__threadfence()</code> <em>are observed by any thread in the device as occurring before any write to all memory made by the calling thread before the call to</em> <code>__threadfence()</code><em>.</em></p></blockquote><blockquote><p>尝试翻译一下：</p><p><code>__threadfence()</code> 确保调用线程在调用 <code>__threadfence()</code> 之后对所有内存的写入操作，不会被设备中任何线程视为发生在调用 <code>__threadfence()</code> 的任何写入操作之前。</p></blockquote><p>如果我们在解锁互斥锁之前忽略线程隔离，<em>那么即使使用原子操作</em>，我们也可能会读取过时的信息，因为其他线程可能尚未写入内存。同样，在解锁之前，我们必须确保更新内存引用。这一切都不明显，而且早在<a href=https://johnwickerson.github.io/papers/gpuconcurrency.pdf>2015 年 Alglave</a>等人首次提出之前就已经存在了。最终，此修复程序发布在 CUDA by Examples 的勘误表中，这启发了本系列教程。</p><h2 id=小结>小结<a hidden class=anchor aria-hidden=true href=#小结>#</a></h2><p>在本系列的最后一篇教程中，你学习了如何使用<em>原子</em>操作，这是协调线程的一个基本要素。你还学习了<em>互斥</em>模式，该模式利用原子来创建自定义区域，每次只有一个线程可以访问这些区域。</p><h2 id=最后>最后：<a hidden class=anchor aria-hidden=true href=#最后>#</a></h2><p>在本系列的四期中，我们涵盖了足够的内容，让你能够在各种常见情况下使用 Numba CUDA。这些教程并非详尽无遗，旨在介绍和激发读者对 CUDA 编程的兴趣。</p><p>我们尚未涉及的一些主题包括：动态并行（让内核启动内核）、复杂同步（例如，warp 级别、协作组）、复杂内存隔离（我们上面提到过）、多 GPU、纹理和许多其他主题。其中一些目前不受 Numba CUDA 支持，其中一些被认为对于入门教程来说太高级了。</p><p>为了进一步提高你的 CUDA 技能，强烈推荐<a href=https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html>《CUDA C++ 编程指南》</a>以及<a href="https://developer.nvidia.com/blog/?tags=cuda&amp;categories=">Nvidia 博客文章</a>。</p><p>在 Python 生态系统中，需要强调的是，除了 Numba 之外，还有许多可以利用 GPU 的解决方案。而且它们大多可以互操作，因此不必只选择一个。<a href=https://documen.tician.de/pycuda/>PyCUDA</a>, <a href=https://nvidia.github.io/cuda-python/>CUDA Python</a>, <a href=https://rapids.ai/>RAPIDS</a>, <a href=https://github.com/ozen/PyOptiX>PyOptix</a>, <a href=https://cupy.dev/>CuPy</a> 和 <a href=https://pytorch.org/>PyTorch</a>是正在积极开发的库的示例。</p></div><footer class=post-footer><ul class=post-tags></ul><nav class=paginav><a class=prev href=https://hivan.me/posts/%E4%BD%BF%E7%94%A8-nsight-%E7%B3%BB%E7%BB%9F%E5%88%86%E6%9E%90-cudanumba-%E7%A4%BA%E4%BE%8B/><span class=title>« Prev</span>
+<span>使用 Nsight 系统分析 CUDA：Numba 示例</span>
+</a><a class=next href=https://hivan.me/posts/numba-%E7%9A%84-cuda-%E7%A4%BA%E4%BE%8B3-4%E6%B5%81%E5%92%8C%E4%BA%8B%E4%BB%B6/><span class=title>Next »</span>
+<span>Numba 的 CUDA 示例(3/4)：流和事件</span></a></nav></footer></article></main><footer class=footer><span>&copy; 2026 <a href=https://hivan.me/>茶桁.MAMT</a></span> ·
+<span>Powered by
+<a href="https://gohugo.io/?utm_source=papermod" rel=noopener target=_blank>Hugo</a> &
+        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top id=top-link class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey=g><svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>
+</a><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var toplink=document.getElementById("top-link");window.onscroll=function(){const e=window.innerHeight;document.body.scrollTop>e||document.documentElement.scrollTop>e?toplink.classList.remove("hidden"):toplink.classList.add("hidden")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="copy";function s(){t.innerHTML="copied!",setTimeout(()=>{t.innerHTML="copy"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>
