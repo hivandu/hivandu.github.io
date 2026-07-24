@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>Python 中的 SHAP 简介 | 茶桁.MAMT</title>
+<meta name="keywords" content="">
+<meta name="description" content="
+本文中有多篇计划文章，后期会补充相关链接。鉴于公众号内无法后期修改文章，请关注原文链接。 &gt; &gt; 如何创建和解释 SHAP 图：瀑布图、力图、平均 SHAP 图、蜂群图和依赖图
+">
+<meta name="author" content="Hivan Du">
+<link rel="canonical" href="http://localhost:1313/posts/python-%E4%B8%AD%E7%9A%84-shap-%E7%AE%80%E4%BB%8B/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.cd9298b33628769aa1bc1acebbbfd7aa11ce81dfe03484d479e1907760249a1d.css" integrity="sha256-zZKYszYodpqhvBrOu7/XqhHOgd/gNITUeeGQd2Akmh0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/python-%E4%B8%AD%E7%9A%84-shap-%E7%AE%80%E4%BB%8B/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="茶桁.MAMT (Alt + H)">
+                <img src="http://localhost:1313/%F0%9F%A7%A0" alt="" aria-label="logo"
+                    height="30">茶桁.MAMT</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="http://localhost:1313/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/posts/">文章</a>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+</nav>
+    <h1 class="post-title entry-hint-parent">
+      Python 中的 SHAP 简介
+    </h1>
+    <div class="post-meta">
+
+<span title='2024-08-16 07:03:00 +0800 CST'>August 16, 2024</span>&nbsp;·&nbsp;<span>3 min</span>&nbsp;·&nbsp;<span>Hivan Du</span>
+
+</div>
+  </header> <details class="toc" >
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">Table of Contents</span>
+    </summary>
+
+    <div class="inner"><ul>
+            <li>
+                <a href="#%e6%95%b0%e6%8d%ae%e9%9b%86" aria-label="数据集">数据集</a></li>
+            <li>
+                <a href="#%e5%8c%85" aria-label="包">包</a></li>
+            <li>
+                <a href="#%e5%bb%ba%e6%a8%a1" aria-label="建模">建模</a></li>
+            <li>
+                <a href="#shap-%e5%9b%be" aria-label="SHAP 图">SHAP 图</a><ul>
+                    
+            <li>
+                <a href="#%e5%9b%be-1waterfall" aria-label="图 1：Waterfall">图 1：Waterfall</a></li>
+            <li>
+                <a href="#%e5%9b%be-2force-plot" aria-label="图 2：Force Plot">图 2：Force Plot</a></li>
+            <li>
+                <a href="#%e5%9b%be-3%e5%8f%a0%e5%8a%a0-force-plot" aria-label="图 3：叠加 Force Plot">图 3：叠加 Force Plot</a></li></ul>
+            </li>
+            <li>
+                <a href="#%e4%bb%85%e6%98%be%e7%a4%ba%e5%a3%b3%e9%87%8d%e9%87%8f%e7%9a%84-shap-%e5%80%bcy-%e8%bd%b4--shell-weight-effects--" aria-label="仅显示壳重量的 SHAP 值（y 轴 = **shell weight effects ）">仅显示壳重量的 SHAP 值（y 轴 = **shell weight effects ）</a><ul>
+                    
+            <li>
+                <a href="#%e5%9b%be-4mean-shap" aria-label="图 4：Mean SHAP">图 4：Mean SHAP</a></li>
+            <li>
+                <a href="#%e5%9b%be-5beeswarm" aria-label="图 5：Beeswarm">图 5：Beeswarm</a></li>
+            <li>
+                <a href="#%e5%9b%be-6dependence-plot" aria-label="图 6：Dependence Plot">图 6：Dependence Plot</a></li></ul>
+            </li>
+            <li>
+                <a href="#shap-%e7%94%a8%e4%ba%8e%e5%88%86%e7%b1%bb" aria-label="SHAP 用于分类">SHAP 用于分类</a></li>
+            <li>
+                <a href="#%e5%8f%82%e8%80%83" aria-label="参考">参考</a>
+            </li>
+        </ul>
+    </div>
+</details>
+
+  <div class="post-content md-content"><p>可直接在橱窗里购买，或者到文末领取优惠后购买：</p>
+<p><img alt="20240919200706" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240919200706.png"></p>
+<p>SHAP 是用于理解和调试模型的最强大的 Python 包。它可以告诉我们每个模型特征对单个预测的贡献。通过汇总 SHAP 值，我们还可以了解多个预测的趋势。只需几行代码，我们就能识别和可视化模型中的重要关系。</p>
+<p>我们将介绍用于计算和显示 SHAP 值的代码。其中包括对以下 SHAP 图的解释：</p>
+<ul>
+<li>Waterfall Plot</li>
+<li>Force Plot</li>
+<li>Mean SHAP Plot</li>
+<li>Beeswarm Plot</li>
+<li>Dependence Plot</li>
+</ul>
+<p>我们针对预测连续目标变量的模型执行此操作。如果你需要分类的解释，日后会专门写相关文章，届时可以参阅 [[二元和多类目标变量的 SHAP]]，你可以在 GitHub<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> 上找到完整的项目。</p>
+<h2 id="数据集">数据集<a hidden class="anchor" aria-hidden="true" href="#数据集">#</a></h2>
+<p>为了演示 SHAP 包，我们将使用包含 4,177 个观测值的「鲍鱼数据集」<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>。下面，你可以看到我们的数据集的快照。鲍鱼是一种贝类美食。我们想使用数据集来预测它们的年龄。更具体地说，我们的目标变量是鲍鱼壳中的环数。我们将使用<code>shell length</code>、<code>shell diameter</code> 和鲍鱼的 <code>whole weight</code> 等特征。</p>
+<p><img loading="lazy" src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*FHLG0i7AKGeauDVmuk8mBA.png"></p>
+<p>在下图中，我们直观地展示了一些特征与目标变量之间的关系。 <code>Shucked weight</code> 是鲍鱼肉的重量（即从壳中取出后的重量）。我们可以看到，去壳重量增加时，环的数量往往会增加。这是有道理的，因为我们认为年龄较大的鲍鱼会更大，肉也更多。</p>
+<p><img alt="图1：吸吮体重和性别特征的数据探索" loading="lazy" src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*oo6l5s3w6WIc6wQh2OYGXA.png"></p>
+<p>我们还可视化了鲍鱼的性别，这是一个分类特征。在模型中使用此功能之前，我们需要使用 One-Hot 编码对其进行转换。正如你所看到的，这会导致每个生成的二进制特征都有一个单独的 SHAP 值。这使得很难理解原始分类特征的整体贡献。我们将在后面专门写一篇文章「<a href="https://hivan.me/%E5%88%86%E7%B1%BB%E7%89%B9%E5%BE%81%E7%9A%84%20SHAP/">分类特征的 SHAP</a>」探讨一种解决方案。</p>
+<p>对于最后一点数据探索，我们为连续特征创建一个相关矩阵。 可以看到，我们正在处理高度相关的特征。 长度和直径完全相关。 同样，全重与其他重量测量值也高度相关。 例如肉的重量（去壳重量）和除去肉的外壳重量（外壳重量）。</p>
+<p><img alt="image-20240727212937534" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407272143283.png"></p>
+<h2 id="包">包<a hidden class="anchor" aria-hidden="true" href="#包">#</a></h2>
+<p>我们在下面导入必要的 Python 包。我们有一些用于管理和可视化数据的标准库（第 4-9 行）。XGBoost 用于对目标变量进行建模（第 13 行），我们导入一些包来评估我们的模型（第 14 行）。最后，我们导入 SHAP 包（第 16 行）。我们初始化包（第 17 行）。这样我们就可以在笔记本中显示一些 SHAP 图。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> warnings
+</span></span><span style="display:flex;"><span>warnings<span style="color:#f92672">.</span>filterwarnings(<span style="color:#e6db74">&#34;ignore&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> pandas <span style="color:#66d9ef">as</span> pd
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
+</span></span><span style="display:flex;"><span><span style="color:#f92672">%</span>matplotlib inline
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>style<span style="color:#f92672">.</span>use(<span style="color:#e6db74">&#39;default&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> seaborn <span style="color:#66d9ef">as</span> sns
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> xgboost <span style="color:#66d9ef">as</span> xgb
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> sklearn.metrics <span style="color:#f92672">import</span> accuracy_score,confusion_matrix
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> shap
+</span></span><span style="display:flex;"><span>shap<span style="color:#f92672">.</span>initjs()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> os
+</span></span><span style="display:flex;"><span>dp <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>environ<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;pub_data&#39;</span>)
+</span></span></code></pre></div><h2 id="建模">建模<a hidden class="anchor" aria-hidden="true" href="#建模">#</a></h2>
+<p>我们使用数据探索来指导特征工程。首先，我们从 X 特征矩阵中删除长度和整体重量（第 10-11 行）。我们发现这些与其他特征完美相关。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># import dataset</span>
+</span></span><span style="display:flex;"><span>df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(dp <span style="color:#f92672">+</span> 
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;Abalone dataset/abalone.data&#39;</span>,
+</span></span><span style="display:flex;"><span>names<span style="color:#f92672">=</span>[
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;sex&#34;</span>,
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;length&#34;</span>,
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;diameter&#34;</span>,
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;height&#34;</span>,
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;whole weight&#34;</span>,
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;shucked weight&#34;</span>,
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;viscera weight&#34;</span>,
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;shell weight&#34;</span>,
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;rings&#34;</span>,
+</span></span><span style="display:flex;"><span>],
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Get features</span>
+</span></span><span style="display:flex;"><span>y <span style="color:#f92672">=</span> df[<span style="color:#e6db74">&#34;rings&#34;</span>]
+</span></span><span style="display:flex;"><span>X <span style="color:#f92672">=</span> df[[<span style="color:#e6db74">&#34;sex&#34;</span>, <span style="color:#e6db74">&#34;length&#34;</span>, <span style="color:#e6db74">&#34;height&#34;</span>, <span style="color:#e6db74">&#34;shucked weight&#34;</span>, <span style="color:#e6db74">&#34;viscera weight&#34;</span>, <span style="color:#e6db74">&#34;shell weight&#34;</span>]]
+</span></span></code></pre></div><p>我们看到<strong>性别</strong>是一个分类特征。在将其用于模型之前，我们需要将其转换为 3 个虚拟变量（第 2-4 行）。然后，我们从特征矩阵中删除原始特征（第 5 行）。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># create dummy variables</span>
+</span></span><span style="display:flex;"><span>y <span style="color:#f92672">=</span> y<span style="color:#f92672">.</span>copy()
+</span></span><span style="display:flex;"><span>X <span style="color:#f92672">=</span> X<span style="color:#f92672">.</span>copy()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>X<span style="color:#f92672">.</span>loc[:, <span style="color:#e6db74">&#39;sex.M&#39;</span>] <span style="color:#f92672">=</span> X[<span style="color:#e6db74">&#39;sex&#39;</span>]<span style="color:#f92672">.</span>apply(<span style="color:#66d9ef">lambda</span> s: <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">if</span> s <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;M&#39;</span> <span style="color:#66d9ef">else</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>X<span style="color:#f92672">.</span>loc[:, <span style="color:#e6db74">&#39;sex.F&#39;</span>] <span style="color:#f92672">=</span> X[<span style="color:#e6db74">&#39;sex&#39;</span>]<span style="color:#f92672">.</span>apply(<span style="color:#66d9ef">lambda</span> s: <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">if</span> s <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;F&#39;</span> <span style="color:#66d9ef">else</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>X<span style="color:#f92672">.</span>loc[:, <span style="color:#e6db74">&#39;sex.I&#39;</span>] <span style="color:#f92672">=</span> X[<span style="color:#e6db74">&#39;sex&#39;</span>]<span style="color:#f92672">.</span>apply(<span style="color:#66d9ef">lambda</span> s: <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">if</span> s <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;I&#39;</span> <span style="color:#66d9ef">else</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>X <span style="color:#f92672">=</span> X<span style="color:#f92672">.</span>drop(<span style="color:#e6db74">&#34;sex&#34;</span>, axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+</span></span></code></pre></div><p>我们现在有 8 个模型特征。你可以在下面看到这些特征的快照。</p>
+<p><img alt="image-20240727211024925" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407272143284.png"></p>
+<p>现在，我们可以训练一个用于预测鲍鱼壳环数的模型。由于我们的目标变量是连续的，因此我们使用<code>XGBRegressor</code>（第 2 行）。我们在整个特征集上训练模型（第 3 行）。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># train model</span>
+</span></span><span style="display:flex;"><span>model <span style="color:#f92672">=</span> xgb<span style="color:#f92672">.</span>XGBRegressor(objective<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;reg:squarederror&#34;</span>)
+</span></span><span style="display:flex;"><span>model<span style="color:#f92672">.</span>fit(X, y)
+</span></span></code></pre></div><p>这个模型应该足以演示 SHAP 包。我们可以通过使用图 3 中的散点图对其进行评估来看到这一点。我们正在将模型的预测（第 2 行）与实际环数进行比较。红线给出了如果我们有完美预测的值。</p>
+<p><img alt="图 3：实际环数与预测环数的散点图" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407272143285.png"></p>
+<blockquote>
+<p>**注意：**我们没有在模型上投入太多精力。除非你使用 SHAP 进行数据探索，否则你应该始终使用最佳实践。你的模型越好，你的 SHAP 分析就越可靠。</p>
+</blockquote>
+<h2 id="shap-图">SHAP 图<a hidden class="anchor" aria-hidden="true" href="#shap-图">#</a></h2>
+<p>最后，我们可以使用 SHAP 值来解释这个模型。为此，我们将模型传递给 <code>shap.Explainer </code>器函数（第 2 行）。这将创建一个解释器对象。我们使用它来计算特征矩阵中每个观测值的 SHAP 值（第 3 行）。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># get shap values</span>
+</span></span><span style="display:flex;"><span>explainer <span style="color:#f92672">=</span> shap<span style="color:#f92672">.</span>Explainer(model)
+</span></span><span style="display:flex;"><span>shap_values <span style="color:#f92672">=</span> explainer(X)
+</span></span></code></pre></div><h3 id="图-1waterfall">图 1：Waterfall<a hidden class="anchor" aria-hidden="true" href="#图-1waterfall">#</a></h3>
+<p>特征矩阵中的 4,177 个观测值中的每一个都有 8 个 SHAP 值。也就是说，我们模型中的每个特征都有一个 SHAP 值。我们可以使用 <code>waterfall</code> 函数来可视化第一个观测值的 SHAP 值（第 2 行）。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Waterfall plot for first observation</span>
+</span></span><span style="display:flex;"><span>shap<span style="color:#f92672">.</span>plots<span style="color:#f92672">.</span>waterfall(shap_values[<span style="color:#ae81ff">0</span>])
+</span></span></code></pre></div><p><code>E[f(x)] = 9.933</code> 给出了所有 4,177 只鲍鱼的平均预测环数。<code>f (x) = 12.668</code>是这只鲍鱼的预测环数。SHAP 值是介于两者之间的所有值。例如，去壳重量使预测环数增加了<code>1.68</code></p>
+<p><img alt="图 4：第一次观察的瀑布图" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407272143287.png"></p>
+<p>我们数据集中的每个观测/鲍鱼都会有一个独特的瀑布图。它们都可以用与上述相同的方式进行解释。在每种情况下，SHAP 值告诉我们与平均预测相比，特征对预测的贡献如何。较大的正/负值表示该特征对模型的预测有显著影响。</p>
+<h3 id="图-2force-plot">图 2：Force Plot<a hidden class="anchor" aria-hidden="true" href="#图-2force-plot">#</a></h3>
+<p>另一种可视化方法是使用力图。你可以将其视为浓缩的瀑布图。我们从相同的基值<code>9.933</code>开始，你可以看到每个特征对最终预测 <code>13.04</code> 的贡献。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Forceplot for first observation</span>
+</span></span><span style="display:flex;"><span>shap<span style="color:#f92672">.</span>plots<span style="color:#f92672">.</span>force(shap_values[<span style="color:#ae81ff">0</span>])
+</span></span></code></pre></div><p><img alt="图 5：第一次观察的力图" loading="lazy" src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*G-6hPIwTxFRkUx6IM3HASQ.png"></p>
+<h3 id="图-3叠加-force-plot">图 3：叠加 Force Plot<a hidden class="anchor" aria-hidden="true" href="#图-3叠加-force-plot">#</a></h3>
+<p>瀑布图和力图非常适合解释单个预测。要了解我们的模型如何进行总体预测，我们需要汇总 SHAP 值。一种方法是使用堆叠力图</p>
+<p>我们可以将多个力图组合在一起以创建堆叠力图。在这里，我们在力图函数中传递前 100 个观测值的 SHAP 值。每个单独的力图现在都是垂直的并且并排堆叠。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>shap<span style="color:#f92672">.</span>plots<span style="color:#f92672">.</span>force(shap_values[<span style="color:#ae81ff">0</span>:<span style="color:#ae81ff">100</span>])
+</span></span></code></pre></div><p>你可以在下面看到此图是交互式的。我们还可以更改图的顺序并选择要显示的特征贡献。</p>
+<p><img alt="图 6：交互式堆叠力图" loading="lazy" src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*Vdt1l1rhvZ51MEhSsvOvJQ.gif"></p>
+<p>例如，在下面的图中我们有：</p>
+<h2 id="仅显示壳重量的-shap-值y-轴--shell-weight-effects--">仅显示壳重量的 SHAP 值（y 轴 = <code>**shell weight effects</code>  ）<a hidden class="anchor" aria-hidden="true" href="#仅显示壳重量的-shap-值y-轴--shell-weight-effects--">#</a></h2>
+<p>按壳重量特征值对力图进行排序（x 轴 = <code>**shell weight</code>）</p>
+<p>从该图中我们可以看出，随着壳重的增加，SHAP 值也会增加。换句话说，年龄较大的鲍鱼壳往往更重。</p>
+<p><img alt="图 7：壳体重量的堆叠力图" loading="lazy" src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*AoaUkqCN7GpZMEeeV9KFow.png"></p>
+<p>这是了解我们的模型所捕获关系的性质的一种方法。我们将看到蜂群图和依赖图也可以以这种方式使用。</p>
+<h3 id="图-4mean-shap">图 4：Mean SHAP<a hidden class="anchor" aria-hidden="true" href="#图-4mean-shap">#</a></h3>
+<p>下一个图将告诉我们哪些特征最重要。对于每个特征，我们计算所有观测值的平均 SHAP 值。具体来说，我们取绝对值的平均值，因为我们不希望正值和负值相互抵消。最后，我们得到下面的条形图。每个特征都有一个条形图。例如，我们可以看到<strong>壳重量</strong>具有最大的平均 SHAP 值。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Mean SHAP</span>
+</span></span><span style="display:flex;"><span>shap<span style="color:#f92672">.</span>plots<span style="color:#f92672">.</span>bar(shap_values)
+</span></span></code></pre></div><p><img alt="图 8：绝对均值图" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407272143288.png"></p>
+<p>具有较大正/负贡献的特征将具有较大的平均 SHAP 值。换句话说，这些特征对模型的预测产生了重大影响。从这个意义上讲，此图的使用方式与特征重要性图相同。</p>
+<h3 id="图-5beeswarm">图 5：Beeswarm<a hidden class="anchor" aria-hidden="true" href="#图-5beeswarm">#</a></h3>
+<p>接下来，我们得到了最有用的图表。蜂群将所有 SHAP 值可视化。在 y 轴上，这些值按特征分组。对于每个组，点的颜色由特征值决定（即，特征值越高，颜色越红）。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Beeswarm plot</span>
+</span></span><span style="display:flex;"><span>shap<span style="color:#f92672">.</span>plots<span style="color:#f92672">.</span>beeswarm(shap_values)
+</span></span></code></pre></div><p><img alt="图 7：蜂群图" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407272143289.png"></p>
+<p>与平均 SHAP 一样，蜂群可用于突出重要关系。事实上，上图中的特征是按平均 SHAP 排序的。</p>
+<p>我们也可以开始理解这些关系的性质。对于<strong>壳重</strong>，请注意 SHAP 值如何随着特征值的增加而增加。我们在堆叠力图中看到了类似的关系。它告诉我们，壳重值越大，预测的环数也就越多。</p>
+<p>你可能已经注意到，<strong>去壳重量</strong>具有相反的关系。查看蜂群图，我们可以看到此特征的较大值与较小的 SHAP 值相关。我们可以使用依赖图仔细研究这些关系。</p>
+<h3 id="图-6dependence-plot">图 6：Dependence Plot<a hidden class="anchor" aria-hidden="true" href="#图-6dependence-plot">#</a></h3>
+<p>依赖图是单个特征的 SHAP 值与特征值的散点图。如果特征与目标变量具有非线性关系，则它们特别有用。</p>
+<p>例如，以壳重的依赖关系图为例。查看蜂群图，我们可能假设 SHAP 值随特征值线性增加。依赖关系图告诉我们，这种关系并不是完全线性的。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#Plot 1: shell weight</span>
+</span></span><span style="display:flex;"><span>shap<span style="color:#f92672">.</span>plots<span style="color:#f92672">.</span>scatter(shap_values[:,<span style="color:#e6db74">&#34;shell weight&#34;</span>])
+</span></span></code></pre></div><p><img alt="图 8：壳重依赖性图" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407272143290.png"></p>
+<p>我们还可以使用第二个特征的值来为散点图着色。现在我们有了相同的图，去壳重量越大，点越红。我们可以看到，当壳重和去壳重量都很大时，SHAP 值也很大。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>shap<span style="color:#f92672">.</span>plots<span style="color:#f92672">.</span>scatter(shap_values[:,<span style="color:#e6db74">&#34;shell weight&#34;</span>],
+</span></span><span style="display:flex;"><span>color<span style="color:#f92672">=</span>shap_values[:,<span style="color:#e6db74">&#34;shucked weight&#34;</span>])
+</span></span></code></pre></div><p><img alt="图 9：壳重与去壳重量的关系图" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407272143291.png"></p>
+<p>这些图可用于可视化特征之间的相互作用，但要小心！在我们的例子中，该图是两个特征之间相关性的结果。</p>
+<p>我们还有<strong>去壳重量</strong>（即鲍鱼肉的重量）的依赖关系图。使用此图，我们可以确认我们在蜂群图中看到的关系。SHAP 值确实会随着<strong>去壳重量的</strong>增加而下降。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Plot 2: shucked weight</span>
+</span></span><span style="display:flex;"><span>shap<span style="color:#f92672">.</span>plots<span style="color:#f92672">.</span>scatter(shap_values[:,<span style="color:#e6db74">&#34;shucked weight&#34;</span>])
+</span></span></code></pre></div><p><img alt="图 10：去壳重量的依赖关系图" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407272143293.png"></p>
+<p>直观地看，这种关系似乎很奇怪。我们不是希望年龄较大的鲍鱼更大、肉更多吗？事实上，这是壳重和去壳重量<strong>相互作用</strong>的结果。由于相关性，我们在依赖图中看不到它。在文章《[分析与 SHAP 的相互作用](../分析与 SHAP 的相互作用)》中，我们探讨了如何使用 SHAP 交互值来识别此类相互作用。</p>
+<h2 id="shap-用于分类">SHAP 用于分类<a hidden class="anchor" aria-hidden="true" href="#shap-用于分类">#</a></h2>
+<p>你会很高兴地知道，分类问题的 SHAP 图与上面的非常相似。除了二元目标变量之外，我们根据对数几率来解释 SHAP 值。对于多类目标，我们使用softmax。一个缺点是我们最终会为多类目标中的每个类绘制单独的 SHAP 图。我们将在后面一篇文章中讨论了一些更好的聚合值的方法，暂定标题为[[二元和多类目标变量的 SHAP](../二元和多类目标变量的 SHAP)]，当你的模型预测分类目标变量时，代码和 SHAP 图的解释指南。</p>
+<p>我们可以看到，SHAP 值是一种有用的工具，可用于了解我们的模型如何进行预测。然而，我们只是触及了该软件包所能提供内容的表面。如果你想了解更多信息，我日后将会写一些有关 SHAP 的文章，用于更深入地探讨了 SHAP 和 Shapley 值的某些方面，包括：</p>
+<p>[<a href="https://mp.weixin.qq.com/s/x5gLnpsbRdmi6aKZ33bdTQ">从 Shapley 到 SHAP — 数学理解</a>], 如何计算 SHAP 特征贡献的概述</p>
+<p>[[<a href="https://mp.weixin.qq.com/s/fTgXL5xWuCzNevSv2D9t5w">KernelSHAP 与 TreeSHAP</a>]], 根据速度、复杂性和其他考虑因素比较 SHAP 近似方法</p>
+<p>[[使用 SHAP 调试 PyTorch 图像回归模型](../使用 SHAP 调试 PyTorch 图像回归模型)], 使用 DeepShap 理解和改进自动驾驶汽车模型</p>
+<blockquote>
+<p>由于本人常年使用双向链接软件写文，在粘贴的时候会时常有类似[[XXX 文章名]]的样式，这只是我文章相互连接的格式，如若不能链接到别处大概率就是还未成文发布。</p>
+</blockquote>
+<p>AI 进阶：企业项目实战<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></p>
+<h2 id="参考">参考<a hidden class="anchor" aria-hidden="true" href="#参考">#</a></h2>
+<p>S. Lundberg, <em>SHAP Python package</em> (2021)<em>,</em> <a href="https://github.com/slundberg/shap">https://github.com/slundberg/shap</a></p>
+<p>S. Lundberg &amp; S. Lee, <em>A Unified Approach to Interpreting Model Predictions</em> (2017), <a href="https://arxiv.org/pdf/1705.07874.pdf">https://arxiv.org/pdf/1705.07874.pdf</a></p>
+<p>C. Molnar, <em>Interpretable Machine Learning</em> (2021) <a href="https://christophm.github.io/interpretable-ml-book/shap.html">https://christophm.github.io/interpretable-ml-book/shap.html</a></p>
+<hr>
+<p>希望这篇文章对你有所帮助！你还可以阅读我的其他文章，或者查看有关企业 AI 实战项目的教程，相信会让你拥有更多收获。</p>
+<p><strong>「AI秘籍」系列课程：</strong></p>
+<p><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3074770001140400130&amp;scene=173&amp;subscene=227&amp;sessionid=undefined&amp;enterid=1717956640&amp;from_msgid=2648748678&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">人工智能应用数学基础</a></p>
+<p><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3035995870421073928&amp;scene=126&amp;uin=&amp;key=&amp;devicetype=iMac+MacBookPro17%2C1+OSX+OSX+14.5+build(23F79)&amp;version=13080710&amp;lang=zh_CN&amp;nettype=WIFI&amp;ascene=78&amp;fontScale=100">人工智能Python基础</a></p>
+<p><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3123885735829061633&amp;scene=173&amp;subscene=227&amp;sessionid=1717956706&amp;enterid=1717956713&amp;from_msgid=2648751062&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">人工智能基础核心知识</a></p>
+<p><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg%3D%3D&amp;action=getalbum&amp;album_id=3193965113967132673&amp;subscene=&amp;sessionid=svr_548800ce471&amp;enterid=1704001437&amp;from_msgid=2648751621&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;scene=21#wechat_redirect">人工智能BI核心知识</a></p>
+<p><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3503005363236880386&amp;from_itemidx=1&amp;from_msgid=2648753419#wechat_redirect">人工智能CV核心知识</a></p>
+<p><img alt="AI企业项目实战课优惠二维码" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407252125233.png"></p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Github, <a href="https://github.com/hivandu/public_articles/blob/main/src/SHAP/shap_tutorial.ipynb">https://github.com/hivandu/public_articles/blob/main/src/SHAP/shap_tutorial.ipynb</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>Abalone Dataset, <a href="https://archive.ics.uci.edu/dataset/1/abalone">https://archive.ics.uci.edu/dataset/1/abalone</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>AI 企业项目实战, <a href="https://www.sanjieke.cn/course/detail/sjk/8005780">https://www.sanjieke.cn/course/detail/sjk/8005780</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/%E5%9B%9B%E4%B8%AA%E8%87%AA%E5%AE%9A%E4%B9%89-shap-%E5%9B%BE/">
+    <span class="title">« Prev</span>
+    <span>四个自定义 SHAP 图</span>
+  </a>
+  <a class="next" href="http://localhost:1313/posts/%E5%88%86%E6%9E%90%E4%B8%8E-shap-%E7%9A%84%E7%9B%B8%E4%BA%92%E4%BD%9C%E7%94%A8/">
+    <span class="title">Next »</span>
+    <span>分析与 SHAP 的相互作用</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">茶桁.MAMT</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

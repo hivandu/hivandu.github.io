@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>vue 2.0 自定义 filter 并挂载到全局使用 | 茶桁.MAMT</title>
+<meta name="keywords" content="">
+<meta name="description" content="其实早几天前就进入了第三部分,而因为第二部分面向对象程序设计糊里糊涂,搞得再接下来的学习里有很多实例根本看不懂,或者很难回忆起所学的知识点.不得不回头又一个字一个字的老老实实的看了一遍,并且将每个字都敲出来更新到了 Sites 上!至此算是比较牢固了..而更新的部分,相信对于想进入 Java 世界的新手们也算是一个好的参考.
+其中前两部分分为八章,第一部分为基础程序设计,第二部分为面向对象程序设计 ,第三部分则是实战的 Java 应用程序设计.我询问过一个朋友,说是对于 Android 开发来说,Java 的前两部分属于基础,非常重要.而第三部分也就无所谓了.不过想来,还是将所有的东西全部抓牢以后再开始.毕竟 Java 已经学到这一步,规规矩矩做一个 Java 开发者也未尝不可.下面给出 Java 前两部分的链接,算是再次推广我的 Learn Wiki.而第三部分将不会在此更新了.有兴趣的自己跟着我在 Sites 上的更新翻看吧,更新速度要视我自己的学习速度而定!现在手上的教程为:《Java 开发与实战经典》
+
+第一部分:Java 基础程序设计 1.Java 概述及开发环境搭建 2.简单的 Java 程序 3.Java 基础程序设计 4.数组与方法
+第二部分:Java 面向对象程序设计 5.面向对象(基础篇) 6.面向对象(高级篇) 7.异常的捕获与处理 8.包及访问控制权限
+第三部分将不会继续在这里给出链接.请自行查看 http://learn.hivan.me/index/home/java-learn/Java-DAP">
+<meta name="author" content="Hivan Du">
+<link rel="canonical" href="http://localhost:1313/posts/the-third-part-of-the-java-learning/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.cd9298b33628769aa1bc1acebbbfd7aa11ce81dfe03484d479e1907760249a1d.css" integrity="sha256-zZKYszYodpqhvBrOu7/XqhHOgd/gNITUeeGQd2Akmh0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/the-third-part-of-the-java-learning/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="茶桁.MAMT (Alt + H)">
+                <img src="http://localhost:1313/%F0%9F%A7%A0" alt="" aria-label="logo"
+                    height="30">茶桁.MAMT</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="http://localhost:1313/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/posts/">文章</a>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+</nav>
+    <h1 class="post-title entry-hint-parent">
+      vue 2.0 自定义 filter 并挂载到全局使用
+    </h1>
+    <div class="post-meta">
+
+<span title='2024-01-01 00:00:00 +0800 CST'>January 1, 2024</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>Hivan Du</span>
+
+</div>
+  </header> 
+
+  <div class="post-content md-content"><p>其实早几天前就进入了第三部分,而因为第二部分面向对象程序设计糊里糊涂,搞得再接下来的学习里有很多实例根本看不懂,或者很难回忆起所学的知识点.不得不回头又一个字一个字的老老实实的看了一遍,并且将每个字都敲出来更新到了 Sites 上!至此算是比较牢固了..而更新的部分,相信对于想进入 Java 世界的新手们也算是一个好的参考.</p>
+<p>其中前两部分分为八章,第一部分为基础程序设计,第二部分为面向对象程序设计 ,第三部分则是实战的 Java 应用程序设计.我询问过一个朋友,说是对于 Android 开发来说,Java 的前两部分属于基础,非常重要.而第三部分也就无所谓了.不过想来,还是将所有的东西全部抓牢以后再开始.毕竟 Java 已经学到这一步,规规矩矩做一个 Java 开发者也未尝不可.下面给出 Java 前两部分的链接,算是再次推广我的 Learn Wiki.而第三部分将不会在此更新了.有兴趣的自己跟着我在 Sites 上的更新翻看吧,更新速度要视我自己的学习速度而定!现在手上的教程为:<a href="http://www.amazon.cn/gp/product/B002IIE012/ref=as_li_tf_tl?ie=UTF8&amp;tag=duart-23&amp;linkCode=as2&amp;camp=536&amp;creative=3200&amp;creativeASIN=B002IIE012">《Java 开发与实战经典》</a></p>
+<p><img alt="image" loading="lazy" src="http://farm8.staticflickr.com/7153/6750793489_d9338b03b7_z.jpg"></p>
+<p>第一部分:Java 基础程序设计 <a href="http://learn.hivan.me/index/home/java-learn/Java-DAP/chapter1">1.Java 概述及开发环境搭建</a> <a href="http://learn.hivan.me/index/home/java-learn/Java-DAP/chapter2">2.简单的 Java 程序</a> <a href="http://learn.hivan.me/index/home/java-learn/Java-DAP/chapter3">3.Java 基础程序设计</a> <a href="http://learn.hivan.me/index/home/java-learn/Java-DAP/chapter4">4.数组与方法</a></p>
+<p>第二部分:Java 面向对象程序设计 <a href="http://learn.hivan.me/index/home/java-learn/Java-DAP/chapter5">5.面向对象(基础篇)</a> <a href="http://learn.hivan.me/index/home/java-learn/Java-DAP/chapter06">6.面向对象(高级篇)</a> <a href="http://learn.hivan.me/index/home/java-learn/Java-DAP/chapter07">7.异常的捕获与处理</a> <a href="http://learn.hivan.me/index/home/java-learn/Java-DAP/chapter08">8.包及访问控制权限</a></p>
+<p>第三部分将不会继续在这里给出链接.请自行查看 <a href="http://learn.hivan.me/index/home/java-learn/Java-DAP">http://learn.hivan.me/index/home/java-learn/Java-DAP</a></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/sketch-open-hight-version-file/">
+    <span class="title">« Prev</span>
+    <span>sketch 中打开高版本文件</span>
+  </a>
+  <a class="next" href="http://localhost:1313/posts/%E4%BB%80%E4%B9%88%E6%98%AF-mlops/">
+    <span class="title">Next »</span>
+    <span>什么是 MLOps？</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">茶桁.MAMT</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>使用 Plotnine 制作元素周期表 | 茶桁.MAMT</title>
+<meta name="keywords" content="">
+<meta name="description" content="首先需要了解元素周期表以及元素数据:
+维基百科的元素周期表词条
+元素数据">
+<meta name="author" content="Hivan Du">
+<link rel="canonical" href="http://localhost:1313/posts/elements_by_plotnine/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.cd9298b33628769aa1bc1acebbbfd7aa11ce81dfe03484d479e1907760249a1d.css" integrity="sha256-zZKYszYodpqhvBrOu7/XqhHOgd/gNITUeeGQd2Akmh0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/elements_by_plotnine/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="茶桁.MAMT (Alt + H)">
+                <img src="http://localhost:1313/%F0%9F%A7%A0" alt="" aria-label="logo"
+                    height="30">茶桁.MAMT</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="http://localhost:1313/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/posts/">文章</a>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+</nav>
+    <h1 class="post-title entry-hint-parent">
+      使用 Plotnine 制作元素周期表
+    </h1>
+    <div class="post-meta">
+
+<span title='2021-09-12 11:33:29 +0800 CST'>September 12, 2021</span>&nbsp;·&nbsp;<span>5 min</span>&nbsp;·&nbsp;<span>Hivan Du</span>
+
+</div>
+  </header> <details class="toc" >
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">Table of Contents</span>
+    </summary>
+
+    <div class="inner"><ul>
+            <li>
+                <a href="#%e5%af%bc%e5%85%a5%e5%92%8c%e5%a4%84%e7%90%86%e6%95%b0%e6%8d%ae" aria-label="导入和处理数据">导入和处理数据</a><ul>
+                    
+            <li>
+                <a href="#%e7%a0%94%e7%a9%b6%e6%95%b0%e6%8d%ae%e9%9b%86" aria-label="研究数据集">研究数据集</a></li>
+            <li>
+                <a href="#%e8%bd%ac%e5%8c%96%e6%95%b0%e6%8d%ae%e9%9b%86" aria-label="转化数据集">转化数据集</a></li></ul>
+            </li>
+            <li>
+                <a href="#%e5%bc%80%e5%a7%8b%e7%94%bb%e5%9b%be" aria-label="开始画图">开始画图</a>
+            </li>
+        </ul>
+    </div>
+</details>
+
+  <div class="post-content md-content"><p>元素周期表基本构成如下:</p>
+<ul>
+<li>族：表中的每一列就是一族，从左向右依次为 1、2……18 族。</li>
+<li>周期：表中的行。</li>
+<li>元素：每个方框表示一个元素，其中包括元素符号、名称、原子序数、原子量。</li>
+<li>在主表下面还有镧系元素和锕系元素表。</li>
+<li>用颜色区分金属、非金属等常见的物质状态。</li>
+</ul>
+<p>最终呈现:</p>
+<p><img alt="image-20210912211523771" loading="lazy" src="https://qiniu.hivan.me/picGo/20210912211523.png?imgNote"></p>
+<p><a href="https://www.zhihu.com/question/28828049">其他形状元素周期表</a></p>
+<h2 id="导入和处理数据">导入和处理数据<a hidden class="anchor" aria-hidden="true" href="#导入和处理数据">#</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 导入依赖</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> pandas <span style="color:#66d9ef">as</span> pd
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> plotnine <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 读取数据</span>
+</span></span><span style="display:flex;"><span>elements <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(<span style="color:#e6db74">&#39;~/data/cbcpv/elemanets/elements.csv&#39;</span>)
+</span></span></code></pre></div><h3 id="研究数据集">研究数据集<a hidden class="anchor" aria-hidden="true" href="#研究数据集">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>elements<span style="color:#f92672">.</span>info()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">RangeIndex: 118 entries, 0 to 117
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Data columns (total 21 columns):
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> #   Column                    Non-Null Count  Dtype  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">---  ------                    --------------  -----  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> 0   atomic number             118 non-null    int64  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> 1   symbol                    118 non-null    object 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> 2   name                      118 non-null    object 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> 3   atomic mass               118 non-null    object 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> 4   CPK                       118 non-null    object 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> 5   electronic configuration  118 non-null    object 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> 6   electronegativity         97 non-null     float64
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> 7   atomic radius             71 non-null     float64
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> 8   ion radius                92 non-null     object 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> 9   van der Waals radius      38 non-null     float64
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> 10  IE-1                      102 non-null    float64
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> 11  EA                        85 non-null     float64
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> 12  standard state            99 non-null     object 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> 13  bonding type              98 non-null     object 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> 14  melting point             101 non-null    float64
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> 15  boiling point             94 non-null     float64
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> 16  density                   96 non-null     float64
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> 17  metal                     118 non-null    object 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> 18  year discovered           118 non-null    object 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> 19  group                     118 non-null    object 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> 20  period                    118 non-null    int64  
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">dtypes: float64(8), int64(2), object(11)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">memory usage: 19.5+ KB
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+</span></span></code></pre></div><p>特征<code> group</code>就是该元素所在的族，但是，如果用<code> elements['group']</code> 查看所有内容，会发现有的记录中用 &lsquo;-&rsquo; 标记，说明它不属于任何族，说明它们应该是镧系元素或者锕系元素。根据数据分析的通常要求，&rsquo;-&rsquo; 符号最好用数字表示，这里用 ﹣1</p>
+<h3 id="转化数据集">转化数据集<a hidden class="anchor" aria-hidden="true" href="#转化数据集">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 转换族</span>
+</span></span><span style="display:flex;"><span>elements[<span style="color:#e6db74">&#39;group&#39;</span>]  <span style="color:#f92672">=</span> [<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#66d9ef">if</span> g<span style="color:#f92672">==</span><span style="color:#e6db74">&#39;-&#39;</span> <span style="color:#66d9ef">else</span> int(g) <span style="color:#66d9ef">for</span> g <span style="color:#f92672">in</span> elements[<span style="color:#e6db74">&#39;group&#39;</span>]]
+</span></span><span style="display:flex;"><span>elements[<span style="color:#e6db74">&#39;group&#39;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">0       1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">1      18
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">2       1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">3       2
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">4      13
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">       ..
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">113    14
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">114    15
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">115    16
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">116    17
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">117    18
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Name: group, Length: 118, dtype: int64
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+</span></span></code></pre></div><p>特征 bonding type、metal 都是分类数据，因此在类型上进行转化。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 转化分类数据</span>
+</span></span><span style="display:flex;"><span>elements[<span style="color:#e6db74">&#39;bonding type&#39;</span>] <span style="color:#f92672">=</span> elements[<span style="color:#e6db74">&#39;bonding type&#39;</span>]<span style="color:#f92672">.</span>astype(<span style="color:#e6db74">&#39;category&#39;</span>)
+</span></span><span style="display:flex;"><span>elements[<span style="color:#e6db74">&#39;metal&#39;</span>] <span style="color:#f92672">=</span> elements[<span style="color:#e6db74">&#39;metal&#39;</span>]<span style="color:#f92672">.</span>astype(<span style="color:#e6db74">&#39;category&#39;</span>)
+</span></span></code></pre></div><p>将原本的整数型 atomic number 特征,转化为字符串类型</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>elements[<span style="color:#e6db74">&#39;atomic_number&#39;</span>] <span style="color:#f92672">=</span> elements[<span style="color:#e6db74">&#39;atomic number&#39;</span>]<span style="color:#f92672">.</span>astype(str)
+</span></span></code></pre></div><p>元素周期表有两个部分,上面一部分每个元素是属于某一个族的,即 group 特征中的 1-18, 而对于值是-1 的则表示这些元素应该在下面的镧系或者锕系元素表中。下面分别用 top 变量和 bottom 变量引用这两部分元素集合.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">## 分别用 top 和 bottom 变量引用上下部分元素集合</span>
+</span></span><span style="display:flex;"><span>top <span style="color:#f92672">=</span> elements<span style="color:#f92672">.</span>query(<span style="color:#e6db74">&#39;group != -1&#39;</span>)<span style="color:#f92672">.</span>copy()
+</span></span><span style="display:flex;"><span>bottom <span style="color:#f92672">=</span> elements<span style="color:#f92672">.</span>query(<span style="color:#e6db74">&#39;group == -1&#39;</span>)<span style="color:#f92672">.</span>copy()
+</span></span></code></pre></div><p>元素周期表中横向表示的是族（group），纵向表示的是周期（period），用下面的方式在 top 中创建两个特征，分别为“族”和“周期”的值。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">## 在 top 中区分“族”(group)和“周期”(period)的值</span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">横向表示族,纵向表示周期
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>top[<span style="color:#e6db74">&#39;x&#39;</span>] <span style="color:#f92672">=</span> top<span style="color:#f92672">.</span>group
+</span></span><span style="display:flex;"><span>top[<span style="color:#e6db74">&#39;y&#39;</span>] <span style="color:#f92672">=</span> top<span style="color:#f92672">.</span>period
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>top[<span style="color:#e6db74">&#39;x&#39;</span>]
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">0       1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">1      18
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">2       1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">3       2
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">4      13
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">       ..
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">113    14
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">114    15
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">115    16
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">116    17
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">117    18
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Name: x, Length: 90, dtype: int64
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>top[<span style="color:#e6db74">&#39;y&#39;</span>]
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">0      1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">1      1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">2      2
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">3      2
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">4      2
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      ..
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">113    7
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">114    7
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">115    7
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">116    7
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">117    7
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Name: y, Length: 90, dtype: int64
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+</span></span></code></pre></div><p>除了上面的部分之外，下面的锕系和镧系元素也要做类似的配置。不过，横坐标不能用 group 特征的值，因为前面设置为 ﹣1。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>nrows <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">hshift 和 vshift 分别表示横、纵间距，这样就为每个锕系和镧系元素增加了横纵坐标值。
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>hshift <span style="color:#f92672">=</span> <span style="color:#ae81ff">3.5</span>
+</span></span><span style="display:flex;"><span>vshift <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>bottom[<span style="color:#e6db74">&#39;x&#39;</span>] <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>tile(np<span style="color:#f92672">.</span>arange(len(bottom) <span style="color:#f92672">//</span> nrows), nrows) <span style="color:#f92672">+</span> hshift
+</span></span><span style="display:flex;"><span>bottom[<span style="color:#e6db74">&#39;y&#39;</span>] <span style="color:#f92672">=</span> bottom<span style="color:#f92672">.</span>period <span style="color:#f92672">+</span> vshift
+</span></span></code></pre></div><p>每个元素都占了一个小方块,所以,这个小方块(元素块)的大小要设置一下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">## 设置元素占据的小矩形</span>
+</span></span><span style="display:flex;"><span>tile_width <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.95</span>
+</span></span><span style="display:flex;"><span>tile_height <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.95</span>
+</span></span></code></pre></div><h2 id="开始画图">开始画图<a hidden class="anchor" aria-hidden="true" href="#开始画图">#</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>(ggplot(aes(<span style="color:#e6db74">&#39;x&#39;</span>, <span style="color:#e6db74">&#39;y&#39;</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> geom_tile(top, aes(width<span style="color:#f92672">=</span>tile_width, height<span style="color:#f92672">=</span>tile_height))
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> geom_tile(bottom, aes(width<span style="color:#f92672">=</span>tile_width, height<span style="color:#f92672">=</span>tile_height))
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p><img alt="image-20210912212441644" loading="lazy" src="https://qiniu.hivan.me/picGo/20210912212441.png?imgNote"></p>
+<p>这里只有美学映射,没有传入数据集.因为在图层对象中,要传入不同的数据集: “top”和“bottom”.</p>
+<p>top 表示主表中的, bottom 表示下面的锕、镧系元素</p>
+<p><code>geom_tile</code>绘制安放元素块图层,并使用 top 数据集,在引入一个图层,绘制 bottom 对应的图层. 但是我们发现表反了, 所以需要实现在 Y 轴方向上的坐标轴翻转.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>(ggplot(aes(<span style="color:#e6db74">&#39;x&#39;</span>, <span style="color:#e6db74">&#39;y&#39;</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span>geom_tile(top, aes(width<span style="color:#f92672">=</span>tile_width, height<span style="color:#f92672">=</span>tile_height))
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span>geom_tile(bottom, aes(width<span style="color:#f92672">=</span>tile_width, height<span style="color:#f92672">=</span>tile_height))
+</span></span><span style="display:flex;"><span> 		<span style="color:#75715e"># 在 Y 轴上进行翻转</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span>scale_y_reverse() <span style="color:#75715e"># new</span>
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p><img alt="image-20210912212812483" loading="lazy" src="https://qiniu.hivan.me/picGo/20210912212812.png?imgNote"></p>
+<p>基本样式已经有了。</p>
+<p>前面已经把特征“metal”的数据转换为分类数据，下面用这些数据对不同元素的小矩形（以后简称“元素块”）上色。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>(ggplot(aes(<span style="color:#e6db74">&#39;x&#39;</span>, <span style="color:#e6db74">&#39;y&#39;</span>))
+</span></span><span style="display:flex;"><span> 		<span style="color:#75715e"># 对数据不同的元素块进行上色</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> aes(fill<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;metal&#39;</span>) <span style="color:#75715e"># new</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> geom_tile(top, aes(width<span style="color:#f92672">=</span>tile_width, height<span style="color:#f92672">=</span>tile_height))
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> geom_tile(bottom, aes(width<span style="color:#f92672">=</span>tile_width, height<span style="color:#f92672">=</span>tile_height))
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> scale_y_reverse() 
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p><img alt="image-20210912213102954" loading="lazy" src="https://qiniu.hivan.me/picGo/20210912213103.png?imgNote"></p>
+<p>然后,我们要将化学元素的有关信息写到这些元素块上,这里要写到元素块上的包括:</p>
+<ul>
+<li>原子序数，对应着数据集中的特征是“atomic number”；</li>
+<li>元素符号，对应着数据集中的特征是“symbol”；</li>
+<li>元素名称，对应着数据集中的特征是“name”；</li>
+<li>原子量，对应着数据集中的特征是“automic mass”</li>
+</ul>
+<p>在这里,我们要绘制四个图层,以便安放四个元素信息, 每个图层上面一个特征,并且每个图层的位置、字号大小等都不相同.</p>
+<p>为此我们写一个函数方法来实现:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">nudge_x: 文本在水平方向上的相对位置
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">nudge_y: 文本在竖直方向上的相对位置
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">ha: 可选&#39;left&#39;, &#39;center&#39;, &#39;right&#39;, 标示水平方向的对齐方式
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">va: 可选&#39;top&#39;, &#39;center&#39;, &#39;bottom&#39;, 表示竖直方向的堆砌方式
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">size: 字号大小
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">fontweight: 字族中的字体粗细
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">inner_text</span>(data):
+</span></span><span style="display:flex;"><span>    layers <span style="color:#f92672">=</span> [geom_text(data, aes(label<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;atomic_number&#39;</span>),
+</span></span><span style="display:flex;"><span>                            nudge_x<span style="color:#f92672">=-</span><span style="color:#ae81ff">0.40</span>, nudge_y<span style="color:#f92672">=-</span><span style="color:#ae81ff">.40</span>,
+</span></span><span style="display:flex;"><span>                            ha<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;left&#39;</span>, va<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;top&#39;</span>, fontweight<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;normal&#39;</span>, size<span style="color:#f92672">=</span><span style="color:#ae81ff">6</span>),
+</span></span><span style="display:flex;"><span>            geom_text(data, aes(label<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;symbol&#39;</span>),
+</span></span><span style="display:flex;"><span>                            nudge_y<span style="color:#f92672">=</span><span style="color:#ae81ff">.1</span>, size<span style="color:#f92672">=</span><span style="color:#ae81ff">9</span>),
+</span></span><span style="display:flex;"><span>            geom_text(data, aes(label<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;name&#39;</span>),
+</span></span><span style="display:flex;"><span>                            nudge_y<span style="color:#f92672">=-</span><span style="color:#ae81ff">0.125</span>, fontweight<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;normal&#39;</span>, size<span style="color:#f92672">=</span><span style="color:#ae81ff">4.5</span>),
+</span></span><span style="display:flex;"><span>            geom_text(data, aes(label<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;atomic mass&#39;</span>),
+</span></span><span style="display:flex;"><span>                            nudge_y<span style="color:#f92672">=-</span><span style="color:#ae81ff">.3</span>, fontweight<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;normal&#39;</span>, size<span style="color:#f92672">=</span><span style="color:#ae81ff">4.5</span>)
+</span></span><span style="display:flex;"><span>            ]
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> layers
+</span></span></code></pre></div><p>然后我们将函数<code>inner_text</code>应用到绘图流程中去</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">分别调用两次是因为有 top 和 bottom 两个数据
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>(ggplot(aes(<span style="color:#e6db74">&#39;x&#39;</span>, <span style="color:#e6db74">&#39;y&#39;</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> aes(fill<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;metal&#39;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> geom_tile(top, aes(width<span style="color:#f92672">=</span>tile_width, height<span style="color:#f92672">=</span>tile_height))
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> geom_tile(bottom, aes(width<span style="color:#f92672">=</span>tile_width, height<span style="color:#f92672">=</span>tile_height))
+</span></span><span style="display:flex;"><span> 		<span style="color:#75715e"># 绘制上部分图层</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> inner_text(top) <span style="color:#75715e"># new</span>
+</span></span><span style="display:flex;"><span> 		<span style="color:#75715e"># 绘制下部分图层</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> inner_text(bottom) <span style="color:#75715e"># new</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> scale_y_reverse()
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p><img alt="image-20210912213420444" loading="lazy" src="https://qiniu.hivan.me/picGo/20210912213420.png?imgNote"></p>
+<p>是不是觉得图很难看,原因在于我们还没对其进行调整,下面我们就要细微的调整图层,包括大小等</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>(ggplot(aes(<span style="color:#e6db74">&#39;x&#39;</span>, <span style="color:#e6db74">&#39;y&#39;</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> aes(fill<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;metal&#39;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> geom_tile(top, aes(width<span style="color:#f92672">=</span>tile_width, height<span style="color:#f92672">=</span>tile_height))
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> geom_tile(bottom, aes(width<span style="color:#f92672">=</span>tile_width, height<span style="color:#f92672">=</span>tile_height))
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> inner_text(top)
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> inner_text(bottom)
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> scale_y_reverse()
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># coord_equal 作用是设置坐标系的横轴和纵轴</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># expand=False, 意味着坐标系的大小由制图所用数据决定</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> coord_equal(expand<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>) <span style="color:#75715e"># new</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 一个新主题,规定了图纸的尺寸</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> theme(figure_size<span style="color:#f92672">=</span>(<span style="color:#ae81ff">12</span>,<span style="color:#ae81ff">6</span>)) <span style="color:#75715e"># new</span>
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p>在默认的主题中，横纵坐标的图上长度相等，也就是图像是呈现在一张正方形的图纸上，coord_equal 的作用就是设置坐标系的横轴和纵轴，它与 coord_fixed 是完全等效的，能够改变图纸的大小和长宽比例。参数 expand 的值是布尔值，如果为 False，则意味着坐标系的大小（即图纸的大小）由制图所用数据决定。</p>
+<p>新增的第二个图层对象是一个新的主题，在其中规定了图纸的尺寸。</p>
+<p><img alt="image-20210912213518732" loading="lazy" src="https://qiniu.hivan.me/picGo/20210912213518.png?imgNote"></p>
+<p>我们仔细研究元素周期表,发现 Lu 和 Lr 两个元素比较特殊,其实它们不是单独的元素,而是对应着下部分两行的,因此要对这两个进行处理,以区分出与其他元素的不同.</p>
+<p>我们将其分为两半,使用过 PS 作图的同学应该能想到两个不同颜色的图层叠加,上面的图层只有下面图层的一半,那么看起来就像是被分成了两半.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># split_df 是绘制新元素块所需要的数据集。</span>
+</span></span><span style="display:flex;"><span>split_df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame({
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;x&#39;</span>: <span style="color:#ae81ff">3</span><span style="color:#f92672">-</span>tile_width<span style="color:#f92672">/</span><span style="color:#ae81ff">4</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;y&#39;</span>: [<span style="color:#ae81ff">6</span>,<span style="color:#ae81ff">7</span>],
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;metal&#39;</span>: pd<span style="color:#f92672">.</span>Categorical([<span style="color:#e6db74">&#39;lanthanoid&#39;</span>, <span style="color:#e6db74">&#39;actinoid&#39;</span>])
+</span></span><span style="display:flex;"><span>})
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>(ggplot(aes(<span style="color:#e6db74">&#39;x&#39;</span>,<span style="color:#e6db74">&#39;y&#39;</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> aes(fill<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;metal&#39;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> geom_tile(top, aes(width<span style="color:#f92672">=</span>tile_width, height<span style="color:#f92672">=</span>tile_height))
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e"># 将新的数据集用于叠加 Lu 和 Lr 的图层上进行遮挡</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> geom_tile(split_df, aes(width<span style="color:#f92672">=</span>tile_width<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>, height<span style="color:#f92672">=</span>tile_height)) <span style="color:#75715e"># new</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> geom_tile(bottom, aes(width<span style="color:#f92672">=</span>tile_width, height<span style="color:#f92672">=</span>tile_height))
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> inner_text(top)
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> inner_text(bottom)
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> scale_y_reverse()
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> coord_equal(expand<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> theme(figure_size<span style="color:#f92672">=</span>(<span style="color:#ae81ff">12</span>, <span style="color:#ae81ff">6</span>))
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p><img alt="image-20210912213931384" loading="lazy" src="https://qiniu.hivan.me/picGo/20210912213931.png?imgNote"></p>
+<p>基本制作完成了,下面来美化一下:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>(ggplot(aes(<span style="color:#e6db74">&#39;x&#39;</span>, <span style="color:#e6db74">&#39;y&#39;</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> aes(fill<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;metal&#39;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> geom_tile(top, aes(width<span style="color:#f92672">=</span>tile_width, height<span style="color:#f92672">=</span>tile_height))
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> geom_tile(split_df, aes(width<span style="color:#f92672">=</span>tile_width<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>, height<span style="color:#f92672">=</span>tile_height))
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> geom_tile(bottom, aes(width<span style="color:#f92672">=</span>tile_width, height<span style="color:#f92672">=</span>tile_height))
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> inner_text(top)
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> inner_text(bottom)
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> scale_y_reverse()
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 对元素块填充色进行转换</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> scale_fill_brewer(type<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;qual&#39;</span>, palette<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> coord_equal(expand<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 增加了一个经典的主题图层对象</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> theme_void()
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> theme(figure_size<span style="color:#f92672">=</span>(<span style="color:#ae81ff">12</span>, <span style="color:#ae81ff">6</span>),
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 增加一个主题图层,并设置了该图层的尺寸和背景色</span>
+</span></span><span style="display:flex;"><span>        plot_background<span style="color:#f92672">=</span>element_rect(fill<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;white&#39;</span>)
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p><img alt="image-20210912214021589" loading="lazy" src="https://qiniu.hivan.me/picGo/20210912214021.png?imgNote"></p>
+<p>到最后了,我们要解决主表中的元素表上族和周期的问题</p>
+<p>观察主表中的每一列,注意我们已经把 Y 轴映射反序了,如果在 H 元素的元素块上标注族的序号为“1”, 那么这个“1”的 Y 轴坐标应该是 y=1, 同样,Sc 元素块上标注族的需要“3”, 那么“3”的 Y 轴坐标应该是 y=4.</p>
+<p>这样,我们就可以创建每列及其对应的 Y 轴坐标了.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">## 创建每列(即:族, 编号为 1-18)及其对应的 Y 轴坐标</span>
+</span></span><span style="display:flex;"><span>groupdf <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame({
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;group&#39;</span>: range(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">19</span>),
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;y&#39;</span>: np<span style="color:#f92672">.</span>repeat([<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">1</span>], [<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">1</span>])
+</span></span><span style="display:flex;"><span>})
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>groupdf
+</span></span></code></pre></div><table>
+	<thead>
+			<tr>
+					<th style="text-align: right"></th>
+					<th style="text-align: right">group</th>
+					<th style="text-align: right">y</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: right">0</td>
+					<td style="text-align: right">1</td>
+					<td style="text-align: right">1</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">1</td>
+					<td style="text-align: right">2</td>
+					<td style="text-align: right">2</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">2</td>
+					<td style="text-align: right">3</td>
+					<td style="text-align: right">4</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">3</td>
+					<td style="text-align: right">4</td>
+					<td style="text-align: right">4</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">4</td>
+					<td style="text-align: right">5</td>
+					<td style="text-align: right">4</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">5</td>
+					<td style="text-align: right">6</td>
+					<td style="text-align: right">4</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">6</td>
+					<td style="text-align: right">7</td>
+					<td style="text-align: right">4</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">7</td>
+					<td style="text-align: right">8</td>
+					<td style="text-align: right">4</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">8</td>
+					<td style="text-align: right">9</td>
+					<td style="text-align: right">4</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">9</td>
+					<td style="text-align: right">10</td>
+					<td style="text-align: right">4</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">10</td>
+					<td style="text-align: right">11</td>
+					<td style="text-align: right">4</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">11</td>
+					<td style="text-align: right">12</td>
+					<td style="text-align: right">4</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">12</td>
+					<td style="text-align: right">13</td>
+					<td style="text-align: right">2</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">13</td>
+					<td style="text-align: right">14</td>
+					<td style="text-align: right">2</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">14</td>
+					<td style="text-align: right">15</td>
+					<td style="text-align: right">2</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">15</td>
+					<td style="text-align: right">16</td>
+					<td style="text-align: right">2</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">16</td>
+					<td style="text-align: right">17</td>
+					<td style="text-align: right">2</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">17</td>
+					<td style="text-align: right">18</td>
+					<td style="text-align: right">1</td>
+			</tr>
+	</tbody>
+</table>
+<p>让我们来标注族的序号</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">## 标注族序号</span>
+</span></span><span style="display:flex;"><span>(ggplot(aes(<span style="color:#e6db74">&#39;x&#39;</span>,<span style="color:#e6db74">&#39;y&#39;</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> aes(fill<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;metal&#39;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> geom_tile(top, aes(width<span style="color:#f92672">=</span>tile_width, height<span style="color:#f92672">=</span>tile_height))
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> geom_tile(split_df, aes(width<span style="color:#f92672">=</span>tile_width<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>, height<span style="color:#f92672">=</span>tile_height))
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> geom_tile(bottom, aes(width<span style="color:#f92672">=</span>tile_width, height<span style="color:#f92672">=</span>tile_height))
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> inner_text(top)
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> inner_text(bottom)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 标注每一列族序号的文本图层</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># aes(&#39;group&#39;, &#39;y&#39;, label=&#39;group&#39;) 重写了 X 轴和 Y 轴的映射</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># inherit_aes=False, 不继承映射配置</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> geom_text(groupdf, aes(<span style="color:#e6db74">&#39;group&#39;</span>, <span style="color:#e6db74">&#39;y&#39;</span>, label<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;group&#39;</span>),
+</span></span><span style="display:flex;"><span>            color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;gray&#39;</span>, nudge_y<span style="color:#f92672">=</span><span style="color:#ae81ff">.525</span>, va<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;bottom&#39;</span>,
+</span></span><span style="display:flex;"><span>            fontweight<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;normal&#39;</span>, size<span style="color:#f92672">=</span><span style="color:#ae81ff">9</span>, inherit_aes<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>
+</span></span><span style="display:flex;"><span>        )
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 以 Y 轴调转坐标轴</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> scale_y_reverse()
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 对元素块填充色进行转换</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> scale_fill_brewer(type<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;qual&#39;</span>, palette<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> coord_equal(expand<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 增加了一个经典的主题图层对象</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> theme_void()
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> theme(figure_size<span style="color:#f92672">=</span>(<span style="color:#ae81ff">12</span>, <span style="color:#ae81ff">6</span>),
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># 增加一个主题图层,并设置了该图层的尺寸和背景色</span>
+</span></span><span style="display:flex;"><span>            plot_background<span style="color:#f92672">=</span>element_rect(fill<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;white&#39;</span>),
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p><img alt="image-20210912214448270" loading="lazy" src="https://qiniu.hivan.me/picGo/20210912214448.png?imgNote"></p>
+<p>最终,我们标注玩周期就完成了.</p>
+<p>周期是对每一行的标注,一共 7 行,因为标注在左侧,可以把它看成是左侧的 Y 轴标示,可以在图层上通过对 Y 轴标示的设置完成周期的标注.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">## 开始标注周期, 最终完成</span>
+</span></span><span style="display:flex;"><span>(ggplot(aes(<span style="color:#e6db74">&#39;x&#39;</span>, <span style="color:#e6db74">&#39;y&#39;</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 把特征&#39;metal&#39;的数据转换为分类数据,进行元素块上色    </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> aes(fill<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;metal&#39;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 创建上部元素块</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> geom_tile(top, aes(width<span style="color:#f92672">=</span>tile_width, height<span style="color:#f92672">=</span>tile_height))
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 创建 Lu 和 Lr 的半个元素块</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> geom_tile(split_df, aes(width<span style="color:#f92672">=</span>tile_width<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>, height<span style="color:#f92672">=</span>tile_height))
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 创建下部元素块</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> geom_tile(bottom, aes(width<span style="color:#f92672">=</span>tile_width, height<span style="color:#f92672">=</span>tile_height))
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 创建文字图层, 把化学元素的有关信息写到元素块中</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> inner_text(top)
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> inner_text(bottom)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 标注每一列族序号的文本图层</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># aes(&#39;group&#39;, &#39;y&#39;, label=&#39;group&#39;) 重写了 X 轴和 Y 轴的映射</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># inherit_aes=False, 不继承映射配置</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> geom_text(groupdf, aes(<span style="color:#e6db74">&#39;group&#39;</span>, <span style="color:#e6db74">&#39;y&#39;</span>, label<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;group&#39;</span>),
+</span></span><span style="display:flex;"><span>            color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;gray&#39;</span>, nudge_y<span style="color:#f92672">=</span><span style="color:#ae81ff">.525</span>,
+</span></span><span style="display:flex;"><span>            va<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;bottom&#39;</span>, fontweight<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;normal&#39;</span>, size<span style="color:#f92672">=</span><span style="color:#ae81ff">9</span>,
+</span></span><span style="display:flex;"><span>            inherit_aes<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 以 Y 轴调转坐标轴, 增加了纵坐标主刻度标示数字。</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> scale_y_reverse(breaks<span style="color:#f92672">=</span>range(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">8</span>), 
+</span></span><span style="display:flex;"><span>            limits<span style="color:#f92672">=</span>(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">10.5</span>)
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 对元素块填充色进行转换</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> scale_fill_brewer(type<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;qual&#39;</span>, palette<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> coord_equal(expand<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 增加了一个经典的主题图层对象</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> theme_void()
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> theme(figure_size<span style="color:#f92672">=</span>(<span style="color:#ae81ff">12</span>, <span style="color:#ae81ff">6</span>),
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># 增加一个主题图层,并设置了该图层的尺寸和背景色</span>
+</span></span><span style="display:flex;"><span>            plot_background<span style="color:#f92672">=</span>element_rect(fill<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;white&#39;</span>),
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># 增加了参数 axis_text_y，对 Y 轴标示的显示格式进行了设置。</span>
+</span></span><span style="display:flex;"><span>            axis_text_y<span style="color:#f92672">=</span>element_text(margin<span style="color:#f92672">=</span>{<span style="color:#e6db74">&#39;r&#39;</span>:<span style="color:#ae81ff">5</span>}, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;gray&#39;</span>,
+</span></span><span style="display:flex;"><span>            size<span style="color:#f92672">=</span><span style="color:#ae81ff">9</span>)
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p><img alt="image-20210912214640931" loading="lazy" src="https://qiniu.hivan.me/picGo/20210912214641.png?imgNote"></p>
+<p>完成&hellip;</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/marathon/">
+    <span class="title">« Prev</span>
+    <span>马拉松跑步数据</span>
+  </a>
+  <a class="next" href="http://localhost:1313/posts/avn-change-node-version-for-a-project/">
+    <span class="title">Next »</span>
+    <span>针对某一个项目自动切换 node 版本</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">茶桁.MAMT</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

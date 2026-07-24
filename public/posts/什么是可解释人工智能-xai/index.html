@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>什么是可解释人工智能:XAI | 茶桁.MAMT</title>
+<meta name="keywords" content="XAI, IML">
+<meta name="description" content="
+XAI 简介 — 旨在使机器学习模型为人类所理解的领域、
+">
+<meta name="author" content="Hivan Du">
+<link rel="canonical" href="http://localhost:1313/posts/%E4%BB%80%E4%B9%88%E6%98%AF%E5%8F%AF%E8%A7%A3%E9%87%8A%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD-xai/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.cd9298b33628769aa1bc1acebbbfd7aa11ce81dfe03484d479e1907760249a1d.css" integrity="sha256-zZKYszYodpqhvBrOu7/XqhHOgd/gNITUeeGQd2Akmh0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/%E4%BB%80%E4%B9%88%E6%98%AF%E5%8F%AF%E8%A7%A3%E9%87%8A%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD-xai/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="茶桁.MAMT (Alt + H)">
+                <img src="http://localhost:1313/%F0%9F%A7%A0" alt="" aria-label="logo"
+                    height="30">茶桁.MAMT</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="http://localhost:1313/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/posts/">文章</a>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+</nav>
+    <h1 class="post-title entry-hint-parent">
+      什么是可解释人工智能:XAI
+    </h1>
+    <div class="post-meta">
+
+<span title='2024-01-01 00:00:00 +0800 CST'>January 1, 2024</span>&nbsp;·&nbsp;<span>0 min</span>&nbsp;·&nbsp;<span>Hivan Du</span>
+
+</div>
+  </header> <details class="toc" >
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">Table of Contents</span>
+    </summary>
+
+    <div class="inner"><ul>
+            <li>
+                <a href="#%e4%bb%80%e4%b9%88%e6%98%afxai" aria-label="什么是XAI？">什么是XAI？</a></li>
+            <li>
+                <a href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e6%88%91%e4%bb%ac%e9%9c%80%e8%a6%81xai" aria-label="为什么我们需要XAI？">为什么我们需要XAI？</a></li>
+            <li>
+                <a href="#%e5%86%85%e5%9c%a8%e5%8f%af%e8%a7%a3%e9%87%8a%e7%9a%84%e6%a8%a1%e5%9e%8b" aria-label="内在可解释的模型">内在可解释的模型</a><ul>
+                    
+            <li>
+                <a href="#%e9%bb%91%e7%9b%92%e6%a8%a1%e5%9e%8b" aria-label="黑盒模型">黑盒模型</a></li></ul>
+            </li>
+            <li>
+                <a href="#%e6%a8%a1%e5%9e%8b%e6%97%a0%e5%85%b3%e6%96%b9%e6%b3%95" aria-label="模型无关方法">模型无关方法</a></li>
+            <li>
+                <a href="#%e9%99%84%e5%8a%a0-xai-%e6%96%b9%e6%b3%95" aria-label="附加 XAI 方法">附加 XAI 方法</a><ul>
+                    
+            <li>
+                <a href="#%e5%8f%8d%e4%ba%8b%e5%ae%9e%e8%a7%a3%e9%87%8a" aria-label="反事实解释">反事实解释</a></li>
+            <li>
+                <a href="#%e5%9b%a0%e6%9e%9c%e6%a8%a1%e5%9e%8b" aria-label="因果模型">因果模型</a></li>
+            <li>
+                <a href="#%e5%af%b9%e6%8a%97%e6%a0%b7%e6%9c%ac" aria-label="对抗样本">对抗样本</a></li>
+            <li>
+                <a href="#%e9%9d%9e%e4%b8%8d%e5%8f%af%e7%9f%a5%e8%ae%ba%e6%96%b9%e6%b3%95" aria-label="非不可知论方法">非不可知论方法</a></li></ul>
+            </li>
+            <li>
+                <a href="#%e4%bb%8e%e8%a7%a3%e8%af%bb%e5%88%b0%e8%a7%a3%e9%87%8a" aria-label="从解读到解释">从解读到解释</a></li>
+            <li>
+                <a href="#%e5%8f%82%e8%80%83" aria-label="参考">参考</a>
+            </li>
+        </ul>
+    </div>
+</details>
+
+  <div class="post-content md-content"><p><img alt="使用<a href=\"https://www.craiyon.com/\">Craiyon V4</a>创建）" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240929165132.png"></p>
+<p>我们应该始终信任表现良好的模型吗？</p>
+<p>模型可能会拒绝你的抵押贷款申请或诊断你患有癌症。这些决定会产生后果，严重的后果。即使它们是正确的，我们也希望得到解释。</p>
+<p>人类可以给出一个答案。人类可以告诉你你的收入太低，或者一组细胞是恶性的。为了从模型中获得类似的解释，我们研究了可解释人工智能领域。</p>
+<p>我们将探索这一领域并了解其目标。我们将在下面讨论 XAI 中的方法，重点讨论前两种方法。最后，我们将讨论从技术解释到人性化解释需要做些什么。</p>
+<p><img alt="XAI 方法总结" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240929111425.png"></p>
+<h2 id="什么是xai">什么是XAI？<a hidden class="anchor" aria-hidden="true" href="#什么是xai">#</a></h2>
+<p>XAI，也称为可解释机器学习 (IML)，旨在构建人类可以理解的机器学习模型。它是一个研究领域，也是该领域开发的一套现有工具和方法。这包括：</p>
+<ul>
+<li>解释黑盒模型的方法</li>
+<li>用于构建易于解释的模型的建模方法</li>
+</ul>
+<p>我们可以将 XAI 视为解释模型和使模型更易于解释。<a href="https://mp.weixin.qq.com/s/V5GMaLxshfZYlzQl1cE_vQ">向技术水平较低的受众解释预测</a>也属于这一领域。这就是我们如何从数据科学家可以理解的解释转变为人性化的解释。因此，实际上，XAI 涉及用于理解或解释模型如何进行预测的任何方法。</p>
+<blockquote>
+<p>XAI 旨在建立人类可以理解的模型</p>
+</blockquote>
+<p>理解模型意味着理解单个预测是如何做出的。我们称之为局部解释。通过局部解释，我们想知道每个模型特征对预测的贡献。它还意味着理解整个模型是如何运作的。我们称之为全局解释。</p>
+<h2 id="为什么我们需要xai">为什么我们需要XAI？<a hidden class="anchor" aria-hidden="true" href="#为什么我们需要xai">#</a></h2>
+<p>显而易见的好处是 XAI 的目标——对模型的理解。通过局部解释，我们可以理解使用机器学习做出的个别决策，并向客户解释这些决策。通过全局解释，我们可以了解模型使用哪些趋势进行预测。由此，许多其他好处也随之而来。</p>
+<p>它可以帮助提高人们对机器学习的信任度，并促进机器学习在其他领域的广泛应用。你还可以了解数据集并更好地讲述结果。你甚至可以提高生产中的准确性和性能。</p>
+<p>机器学习模型非常复杂。那么，我们该如何理解它们呢？我们有几种方法。</p>
+<h2 id="内在可解释的模型">内在可解释的模型<a hidden class="anchor" aria-hidden="true" href="#内在可解释的模型">#</a></h2>
+<p>第一种方法是构建<a href="https://mp.weixin.qq.com/s/3-GbOg7K_C6alGJTjAZhpQ">本质上可解释的</a>模型。这些是简单的模型，人类无需其他方法就可以理解<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>。我们只需要查看模型的参数或模型摘要。这些将告诉我们如何进行单个预测，甚至模型捕捉到了哪些趋势。</p>
+<blockquote>
+<p>可解释模型可以被人类理解，无需任何其他辅助/技术。</p>
+</blockquote>
+<p>决策树是此类模型的一个很好的例子。参见图 1，假设我们想了解为什么我们向一名29岁、月收入3000 元的学生提供贷款。该人超过25 岁，所以我们从第一个节点直接进入。然后，她的收入≥2000 元，所以我们直接进入“No” 叶节点。因此，该模型预测该学生不会违约，自动承保系统会批准该贷款。</p>
+<p><img alt="图 1：决策树的示例" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240929112023.png"></p>
+<p>其他示例包括线性和逻辑回归。要了解这些模型的工作原理，我们可以查看赋予每个模型特征的参数值。参数特征值给出了该特征对预测的贡献。参数的符号和大小告诉我们特征与目标变量之间的关系。</p>
+<p>使用这些模型会让我们远离机器学习。我们转向以更具统计性的思维方式构建模型。构建一个本质上可解释的模型需要更多的思考。我们需要花更多时间进行特征工程和选择——<a href="https://mp.weixin.qq.com/s/bYYl_LUbh86MFPJGxLKJkw">小组不相关的特征</a>。这样做的好处是可以得到一个易于解释的简单模型。</p>
+<h3 id="黑盒模型">黑盒模型<a hidden class="anchor" aria-hidden="true" href="#黑盒模型">#</a></h3>
+<p>有些问题无法用简单的模型解决。对于图像识别等任务，我们转向不太可解释的模型或黑盒模型。我们可以在图 2 中看到一些例子。</p>
+<p><img alt="图 2：内在可解释模型与黑盒模型（来源：作者）" loading="lazy" src="https://miro.medium.com/v2/resize:fit:700/1*gSwtFS4Qt3vHpFqbwNv_Wg.png"></p>
+<p>黑盒模型过于复杂，人类无法直接理解。要理解随机森林，我们需要同时理解所有决策树。同样，神经网络的参数太多，无法一次性理解。我们需要额外的方法来窥视黑盒。</p>
+<h2 id="模型无关方法">模型无关方法<a hidden class="anchor" aria-hidden="true" href="#模型无关方法">#</a></h2>
+<p>这给我们带来了<a href="https://mp.weixin.qq.com/s/GNdgkLUk1YZHvEoNjAPEnA">模型无关</a>方法。它们包括<a href="https://mp.weixin.qq.com/s/xfUlwsGbcIWYEYeepdl2xA">PDP、ICE 图</a>、ALE 图、<a href="https://mp.weixin.qq.com/s/qdzJN-A23OdP4DHnW4tJrw">SHAP</a>、<a href="https://mp.weixin.qq.com/s/6yFNA-o9_xjKTU6-3EP-uw">LIME</a> 和 Friedman 的 h 统计量等方法。这些方法可以解释任何模型。该算法实际上被视为一个黑匣子，可以替换为任何其他模型。这些可以根据它们旨在解释的内容和计算方式进行分类。</p>
+<p><img alt="模型无关方法概述" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240929112635.png"></p>
+<p>一种方法是使用替代模型。这些方法首先使用原始模型进行预测。然后我们在这些预测上训练另一个模型（即替代模型）。也就是说，我们使用原始模型的预测而不是目标变量。通过这种方式，替代模型可以学习原始模型使用哪些特征进行预测。替代模型必须是内在可解释的。这使我们能够通过直接查看替代模型来解释原始模型。</p>
+<p>另一种方法是使用排列。这涉及改变/排列模型特征。我们使用模型对这些排列的特征进行预测。然后我们可以了解特征值的变化如何导致预测的变化。</p>
+<p>置换法的一个很好的例子是<a href="https://mp.weixin.qq.com/s/xfUlwsGbcIWYEYeepdl2xA">PDP 和 ICE 图</a>。你可以在图 3 中看到其中之一。具体来说，ICE 图由所有单独的线条给出。我们的数据集中的每个观察值都有一条线。为了创建每条线，我们置换一个特征的值并记录结果预测。我们在保持其他特征的值不变的情况下执行此操作。粗黄线是 PDP 。这是所有单独线条的平均值。</p>
+<p><img alt="图 3：PDP 和 ICE 图示例（来源：作者）" loading="lazy" src="https://miro.medium.com/v2/resize:fit:700/1*gykLuefqIRVQe9459IBRMQ.jpeg"></p>
+<p>我们可以看到，平均而言，预测值随特征的增加而下降。查看 ICE 图，一些观察结果不符合这一趋势。这表明我们的数据中存在潜在的相互作用。PDP 和 ICE 图是全局解释方法的一个例子。我们可以用它们来了解模型捕获的趋势。它们不能用于了解单个预测是如何做出的。</p>
+<p><a href="https://mp.weixin.qq.com/s/x5gLnpsbRdmi6aKZ33bdTQ">Shapley 值</a>可以。如图 4 所示，每个模型特征都有一个值。它们告诉我们与平均预测 E[f(x)] 相比，每个特征对预测f(x)的贡献如何。</p>
+<p><img alt="图 4：Shapley 值的示例" loading="lazy" src="https://miro.medium.com/v2/resize:fit:700/1*pjv1tf23gv7TJj5BPusPCQ.png"></p>
+<p>过去，人们使用置换来近似 Shapley 值。一种较新的方法<a href="https://mp.weixin.qq.com/s/qdzJN-A23OdP4DHnW4tJrw">SHAP</a>显著提高了这些近似值的速度。它结合使用了置换和替代模型。对单个观察的特征值进行置换。然后根据这些值训练线性回归模型。该模型的权重给出了近似的 Shapley 值。</p>
+<p>一般来说，这种方法被称为局部替代模型。我们根据个别预测的排列而不是所有预测来训练替代模型。<a href="https://mp.weixin.qq.com/s/6yFNA-o9_xjKTU6-3EP-uw">LIME</a>是另一种使用这种方法的方法。</p>
+<h2 id="附加-xai-方法">附加 XAI 方法<a hidden class="anchor" aria-hidden="true" href="#附加-xai-方法">#</a></h2>
+<p>内在可解释模型和模型不可知论方法是 XAI 的主要方法。其他一些方法包括反事实 解释、 因果模型和对抗性示例。后两者实际上可以被视为自己的领域。但它们确实与 XAI 共享方法和目标。实际上，任何旨在了解模型如何进行预测的方法都属于 XAI。已经为特定模型开发了许多方法。我们称这些为非不可知论方法。</p>
+<blockquote>
+<p>XAI 包括用于理解模型如何进行预测的任何方法</p>
+</blockquote>
+<h3 id="反事实解释">反事实解释<a hidden class="anchor" aria-hidden="true" href="#反事实解释">#</a></h3>
+<p>反事实解释可以被视为一种置换方法。它们依赖于特征值的置换。重要的是，它们专注于寻找改变预测的特征值。例如，我们想看看从负面诊断到正面诊断需要什么。</p>
+<p>更具体地说，反事实解释是我们需要对特征值做出的最小更改，以改变预测。对于连续目标变量，更改将是预定义的百分比或数量。</p>
+<p>反事实解释对于回答对比问题很有用。客户将他们目前的情况与潜在的未来情况进行比较的问题。例如，在贷款申请被拒绝后，他们可以问：</p>
+<p>“我怎样才能被录取？”</p>
+<p>通过反事实的解释，我们可以回答：</p>
+<p>&ldquo;你需要将每月收入增加 200 元&rdquo; 或 &ldquo;你需要将现有债务减少 1 万元&rdquo;。</p>
+<h3 id="因果模型">因果模型<a hidden class="anchor" aria-hidden="true" href="#因果模型">#</a></h3>
+<p>机器学习只关心相关性。模型可以使用原籍国来预测患皮肤癌的几率。然而，真正的原因是每个国家的日照水平不同。我们将原籍国称为日照量的代表。</p>
+<p>在构建因果模型时，我们的目标是仅使用因果关系。我们不想包含任何代表真正原因的模型特征。为此，我们需要依靠领域知识并在特征选择上投入更多精力。</p>
+<p>建立因果模型并不意味着该模型更容易解释。它意味着任何解释都将符合现实。特征对预测的贡献将接近事件的真正原因。你给出的任何解释也将更有说服力。</p>
+<p>为什么诊断我患有皮肤癌？</p>
+<p>“因为你来自南非”，这并不是一个令人信服的理由。</p>
+<h3 id="对抗样本">对抗样本<a hidden class="anchor" aria-hidden="true" href="#对抗样本">#</a></h3>
+<p>对抗性样本是导致非直觉预测的观察结果。如果人类查看了这些数据，他们就会做出不同的预测。</p>
+<p>寻找对抗性例子与反事实解释类似。不同之处在于我们想要改变特征值来故意欺骗模型。我们仍在尝试了解模型的工作原理，但不提供解释。我们希望找到模型中的弱点并避免对抗性攻击。</p>
+<p>对抗样本在图像识别等应用中很常见。它可以创建在人类看来完全正常但会导致错误预测的图像。</p>
+<p>例如，谷歌的研究人员展示了如何引入一层噪声来改变图像识别模型的预测。从图 5 可以看出，对于人类来说，噪声层甚至无法察觉。然而，该模型现在预测熊猫是长臂猿。</p>
+<p><img alt="图 5：对抗性示例" loading="lazy" src="https://miro.medium.com/v2/resize:fit:700/0*6Nv_GFr2D5_z8xFX.png"></p>
+<p>来源：I. Goodfellow 等人: <a href="https://arxiv.org/pdf/1412.6572.pdf">https://arxiv.org/pdf/1412.6572.pdf</a></p>
+<h3 id="非不可知论方法">非不可知论方法<a hidden class="anchor" aria-hidden="true" href="#非不可知论方法">#</a></h3>
+<p>针对特定的黑盒模型，已经开发出了许多方法。对于基于树的方法，我们可以计算每个特征的分割次数。对于神经网络，我们有逐像素分解和 deepLIFT<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>等方法。</p>
+<p>尽管 SHAP 被认为是模型不可知的，但它也有非不可知的近似方法。例如，TreeSHAP 只能用于基于树的方法，而 DeepSHAP 则可用于神经网络。</p>
+<p>明显的缺点是非不可知论方法只能用于特定模型。这就是为什么研究一直针对不可知论方法。这让我们在算法选择方面拥有更大的灵活性。这也意味着我们的解释方法是面向未来的。它们可用于解释尚未开发的算法。</p>
+<h2 id="从解读到解释">从解读到解释<a hidden class="anchor" aria-hidden="true" href="#从解读到解释">#</a></h2>
+<p>我们讨论的方法都是技术性的。数据科学家使用它们向其他数据科学家解释模型。实际上，我们需要向非技术受众解释我们的模型。这包括同事、监管者或客户。为此，我们需要弥合技术解释和人性化解释之间的差距。</p>
+<p>你需要：</p>
+<ul>
+<li>根据观众的专业知识调整级别</li>
+<li>思考要解释哪些特征</li>
+</ul>
+<p>好的解释并不一定需要解释所有特征的贡献。</p>
+<p>我曾在文章《<a href="https://mp.weixin.qq.com/s/V5GMaLxshfZYlzQl1cE_vQ">解释预测的艺术</a>》中更深入地讨论这个过程。作为示例，我们将介绍如何使用 SHAP 特征贡献来给出令人信服的解释。</p>
+<p>XAI 是一个令人兴奋的领域。如果你想了解更多信息，请查看教程<a href="https://mp.weixin.qq.com/s/qdzJN-A23OdP4DHnW4tJrw">Python 中的 SHAP 简介</a>、<a href="https://mp.weixin.qq.com/s/xfUlwsGbcIWYEYeepdl2xA">PDP 和 ICE 图的终极指南</a>。</p>
+<h2 id="参考">参考<a hidden class="anchor" aria-hidden="true" href="#参考">#</a></h2>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Cynthia Rudin. Stop explaining black box machine learning models for high stakes decisions and use interpretable models instead, 2019.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>Deeplift, <a href="https://github.com/kundajelab/deeplift">https://github.com/kundajelab/deeplift</a>
+C. Molnar, Interpretable Machine Learning (2021), <a href="https://christophm.github.io/interpretable-ml-book/">https://christophm.github.io/interpretable-ml-book/</a>
+S. Masís, Interpretable Machine Learning with Python (2021)
+Moraffah, R., Karami, M., Guo, R., Raglin, A. and Liu, H., 2020. Causal interpretability for machine learning-problems, methods and evaluation. <a href="https://arxiv.org/abs/2003.03934">https://arxiv.org/abs/2003.03934</a>
+Microsoft, Causality and Machine Learning, <a href="https://www.microsoft.com/en-us/research/group/causal-inference/">https://www.microsoft.com/en-us/research/group/causal-inference/</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/xai/">XAI</a></li>
+      <li><a href="http://localhost:1313/tags/iml/">IML</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/%E4%BB%80%E4%B9%88%E6%98%AF-mlops/">
+    <span class="title">« Prev</span>
+    <span>什么是 MLOps？</span>
+  </a>
+  <a class="next" href="http://localhost:1313/posts/%E5%8D%9A%E5%AE%A2-post-%E6%B8%85%E7%90%86/">
+    <span class="title">Next »</span>
+    <span>博客 POST 清理</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">茶桁.MAMT</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

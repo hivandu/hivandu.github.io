@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>使用 CatBoost 实现分类特征的 SHAP | 茶桁.MAMT</title>
+<meta name="keywords" content="SHAP, CatBoost, ML">
+<meta name="description" content="
+避免对分类特征的 SHAP 值进行后处理
+">
+<meta name="author" content="Hivan Du">
+<link rel="canonical" href="http://localhost:1313/posts/%E4%BD%BF%E7%94%A8-catboost-%E5%AE%9E%E7%8E%B0%E5%88%86%E7%B1%BB%E7%89%B9%E5%BE%81%E7%9A%84-shap/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.cd9298b33628769aa1bc1acebbbfd7aa11ce81dfe03484d479e1907760249a1d.css" integrity="sha256-zZKYszYodpqhvBrOu7/XqhHOgd/gNITUeeGQd2Akmh0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/%E4%BD%BF%E7%94%A8-catboost-%E5%AE%9E%E7%8E%B0%E5%88%86%E7%B1%BB%E7%89%B9%E5%BE%81%E7%9A%84-shap/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="茶桁.MAMT (Alt + H)">
+                <img src="http://localhost:1313/%F0%9F%A7%A0" alt="" aria-label="logo"
+                    height="30">茶桁.MAMT</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="http://localhost:1313/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/posts/">文章</a>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+</nav>
+    <h1 class="post-title entry-hint-parent">
+      使用 CatBoost 实现分类特征的 SHAP
+    </h1>
+    <div class="post-meta">
+
+<span title='2024-09-17 07:03:00 +0800 CST'>September 17, 2024</span>&nbsp;·&nbsp;<span>3 min</span>&nbsp;·&nbsp;<span>Hivan Du</span>
+
+</div>
+  </header> <details class="toc" >
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">Table of Contents</span>
+    </summary>
+
+    <div class="inner"><ul>
+            <li>
+                <a href="#%e6%95%b0%e6%8d%ae%e9%9b%86" aria-label="数据集">数据集</a></li>
+            <li>
+                <a href="#%e5%bb%ba%e6%a8%a1" aria-label="建模">建模</a></li>
+            <li>
+                <a href="#shap-%e5%9b%be" aria-label="SHAP 图">SHAP 图</a><ul>
+                    
+            <li>
+                <a href="#%e7%80%91%e5%b8%83%e5%9b%be" aria-label="瀑布图">瀑布图</a></li>
+            <li>
+                <a href="#%e7%bb%9d%e5%af%b9%e5%b9%b3%e5%9d%87-shap" aria-label="绝对平均 SHAP">绝对平均 SHAP</a></li>
+            <li>
+                <a href="#%e8%9c%82%e7%be%a4" aria-label="蜂群">蜂群</a></li>
+            <li>
+                <a href="#beeswarm-%e7%9a%84%e4%b8%80%e4%b8%aa%e5%8a%9f%e8%83%bd" aria-label="Beeswarm 的一个功能">Beeswarm 的一个功能</a></li>
+            <li>
+                <a href="#%e5%8f%82%e8%80%83" aria-label="参考">参考</a>
+            </li>
+        </ul>
+        </li>
+        </ul>
+    </div>
+</details>
+
+  <div class="post-content md-content"><p><img alt="img" loading="lazy" src="https://miro.medium.com/v2/resize:fit:700/0*hL5vA5El5XQ8BU96"></p>
+<p>结合 [[CatBoost]] 和 [[SHAP]] 可以提供强大的洞察力。特别是当你使用分类特征时。CatBoost 处理这些特征的方式使你更容易理解使用 SHAP 的模型。</p>
+<p>对于其他建模包，我们需要先使用 One-Hot 编码转换分类特征。问题是每个二进制变量都有自己的 SHAP 值。这使得很难看到原始分类特征的整体贡献。</p>
+<p>在 [分类特征的 SHAP](../分类特征的 SHAP) 中，我们探讨了一种解决方案。它涉及深入研究 SHAP 对象并手动添加各个 SHAP 值。这可能很乏味！作为替代方案，我们可以使用 CatBoost。</p>
+<p><a href="https://catboost.ai/">CatBoost</a> 是一个梯度提升库。与其他库相比，它的一大优势是它可以处理非数值特征。无需转换分类特征即可使用它们。这意味着 CatBoost 模型的 SHAP 值易于解释。每个分类特征只有一个 SHAP 值。</p>
+<p>我们将：</p>
+<ul>
+<li>计算并解释 CatBoost 模型的 SHAP 值</li>
+<li>应用 SHAP 聚合 ——我们将看到，在理解分类特征的关系时，它们的作用是有限的</li>
+<li>为了解决这个限制，将为单个特征创建一个蜂群图 。</li>
+<li>在此过程中，我们将介绍用于获取这些结果的 [Python 代码]<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>。</li>
+</ul>
+<p>你可能会喜欢有关此主题。如果你想了解更多，请查看我的 <a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3565090901485387784&amp;scene=173&amp;subscene=&amp;sessionid=svr_c01833df02c&amp;enterid=1726459106&amp;from_msgid=2648754758&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">SHAP 课程</a>。</p>
+<h1 id="数据集">数据集<a hidden class="anchor" aria-hidden="true" href="#数据集">#</a></h1>
+<p>对于此分析，我们将使用与之前相同的数据集。这是一个蘑菇分类数据集。你可以在 图 1 中看到此数据集的快照。目标变量是蘑菇的 类别。 也就是说，蘑菇是有毒 (p) 还是可食用 (e)。你可以在 [UCI 的 MLR]<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> 中找到此数据集。</p>
+<p><img alt="图 1：蘑菇数据集快照" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240916115952.png"></p>
+<p>对于模型特征，我们有 22 个分类特征。对于每个特征，类别都用一个字母表示。例如， odor 有 9 个独特的类别 - 杏仁 (a)、茴香 (l)、杂酚油 (c)、鱼腥味 (y)、恶臭 (f)、霉味 (m)、无味 (n)、辛辣 (p)、辛辣 (s)。这就是蘑菇的气味。</p>
+<h1 id="建模">建模<a hidden class="anchor" aria-hidden="true" href="#建模">#</a></h1>
+<p>我们将向你介绍用于分析此数据集的代码，你可以在 [GitHub]<sup id="fnref1:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> 上找到完整的脚本。首先，我们将使用下面的 Python 包。我们有一些用于处理和可视化数据的常用包（第 1-5 行）。我们使用 CatBoostClassifier 进行建模（第 7 行）。最后，我们使用 shap 来了解我们的模型如何工作（第 9 行）。确保你已安装所有这些包。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> pandas <span style="color:#66d9ef">as</span> pd
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>style<span style="color:#f92672">.</span>use(<span style="color:#e6db74">&#39;default&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#f92672">%</span>matplotlib inline
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> catboost <span style="color:#f92672">import</span> CatBoostClassifier
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> shap
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># %shap.initjs()</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> sklearn.metrics <span style="color:#f92672">import</span> accuracy_score,confusion_matrix
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> os
+</span></span></code></pre></div><p>我们导入数据集（第 2 行）。我们需要一个数值目标变量，因此我们通过设置 <code>toxicous = 1</code> 和 <code>edible = 0</code>（第 6 行）对其进行转换。我们还获得了分类特征（第 7 行）。在上一篇文章的这一点上，我们需要转换这些特征。使用 CatBoost，我们可以按原样使用它们。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># load data </span>
+</span></span><span style="display:flex;"><span>data <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(dp <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;/mushrooms.csv&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># get features</span>
+</span></span><span style="display:flex;"><span>y <span style="color:#f92672">=</span> data[<span style="color:#e6db74">&#39;class&#39;</span>]
+</span></span><span style="display:flex;"><span>y <span style="color:#f92672">=</span> y<span style="color:#f92672">.</span>astype(<span style="color:#e6db74">&#39;category&#39;</span>)<span style="color:#f92672">.</span>cat<span style="color:#f92672">.</span>codes
+</span></span><span style="display:flex;"><span>X <span style="color:#f92672">=</span> data<span style="color:#f92672">.</span>drop(<span style="color:#e6db74">&#39;class&#39;</span>, axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(len(data))
+</span></span><span style="display:flex;"><span>data<span style="color:#f92672">.</span>head()
+</span></span></code></pre></div><p>在下面训练模型时，你可以看到这一点（第 7 行）。我们传递非数值特征（X）、目标变量（y）和表示特征是分类的列表（ <code>cat_features</code> ）。我们所有的特征都是分类的。这意味着 <code>cat_features</code> 是一个从 0 到 21 的数字列表。最后，分类器由 20 棵树组成，每棵树的最大深度为 3。它在训练集上的准确率为 98.7%。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>model <span style="color:#f92672">=</span> CatBoostClassifier(iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">20</span>,
+</span></span><span style="display:flex;"><span>                          learning_rate<span style="color:#f92672">=</span><span style="color:#ae81ff">0.01</span>,
+</span></span><span style="display:flex;"><span>                          depth<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># train model</span>
+</span></span><span style="display:flex;"><span>cat_features <span style="color:#f92672">=</span> list(range(len(X<span style="color:#f92672">.</span>columns)))
+</span></span><span style="display:flex;"><span>model<span style="color:#f92672">.</span>fit(X, y, cat_features)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Get predictions</span>
+</span></span><span style="display:flex;"><span>y_pred <span style="color:#f92672">=</span> model<span style="color:#f92672">.</span>predict(X)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(confusion_matrix(y, y_pred))
+</span></span><span style="display:flex;"><span>accuracy_score(y, y_pred)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">---</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0</span>:	learn: <span style="color:#ae81ff">0.6660194</span>	total: <span style="color:#ae81ff">62.8</span>ms	remaining: <span style="color:#ae81ff">1.19</span>s
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">1</span>:	learn: <span style="color:#ae81ff">0.6373576</span>	total: <span style="color:#ae81ff">67</span>ms	remaining: <span style="color:#ae81ff">603</span>ms
+</span></span><span style="display:flex;"><span><span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">19</span>:	learn: <span style="color:#ae81ff">0.3218024</span>	total: <span style="color:#ae81ff">141</span>ms	remaining: <span style="color:#ae81ff">0</span>us
+</span></span><span style="display:flex;"><span>[[<span style="color:#ae81ff">4208</span>    <span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>[ <span style="color:#ae81ff">120</span> <span style="color:#ae81ff">3796</span>]]
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0.9852289512555391</span>
+</span></span></code></pre></div><h1 id="shap-图">SHAP 图<a hidden class="anchor" aria-hidden="true" href="#shap-图">#</a></h1>
+<p>现在我们可以继续了解我们的模型是如何做出这些预测的。如果你不熟悉 SHAP 或 Python 包，我建议你阅读下文章[Python 中的 SHAP 简介](../Python 中的 SHAP 简介)。我们深入探讨了如何解释 SHAP 值。我们还探讨了本文中使用的一些聚合。</p>
+<h2 id="瀑布图">瀑布图<a hidden class="anchor" aria-hidden="true" href="#瀑布图">#</a></h2>
+<p>我们首先计算 SHAP 值（第 2-3 行）。然后，我们使用瀑布图（第 6 行）将第一个预测的 SHAP 值可视化。你可以在图 2 中看到此图。这告诉我们每个分类特征值对预测的贡献。例如，我们可以看到这种蘑菇有杏仁（a）的气味。这使对数几率降低了0.85。换句话说，它降低了蘑菇有毒的可能性。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># get shap values</span>
+</span></span><span style="display:flex;"><span>explainer <span style="color:#f92672">=</span> shap<span style="color:#f92672">.</span>Explainer(model)
+</span></span><span style="display:flex;"><span>shap_values <span style="color:#f92672">=</span> explainer(X)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># waterfall plot for first observation</span>
+</span></span><span style="display:flex;"><span>shap<span style="color:#f92672">.</span>plots<span style="color:#f92672">.</span>waterfall(shap_values[<span style="color:#ae81ff">1</span>],show<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+</span></span></code></pre></div><p><img alt="图 2：CatBoost 的 SHAP 瀑布图" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240916120904.png"></p>
+<p>从上图中，很容易看出每个特征的贡献。相比之下，我们在图 3 中有一个瀑布图。如前所述，这是在上一篇文章中创建的。为了对分类特征进行建模，我们首先使用 One-Hot 编码对它们进行转换。这意味着每个二进制特征都有自己的 SHAP 值。例如，气味将有 9 个 SHAP 值。每个独特类别都有一个。因此，很难理解气味对预测的整体贡献。</p>
+<p><img alt="图 3： One-Hot 编码的 SHAP 瀑布图" loading="lazy" src="https://miro.medium.com/v2/resize:fit:700/0*xk7Vt3uiaMppYXoq.png"></p>
+<p>我们能够利用图 3 中的 SHAP 值来创建类似于图 2 的图。这样，每个分类特征就只有一个 SHAP 值。为此，我们需要通过将一个分类特征的所有值加在一起来“后处理” SHAP 值。不幸的是，没有直接的方法可以做到这一点。我们需要自己手动更新 SHAP 值对象。我们已经看到，通过使用 CatBoost，可以避免这个过程。</p>
+<h2 id="绝对平均-shap">绝对平均 SHAP<a hidden class="anchor" aria-hidden="true" href="#绝对平均-shap">#</a></h2>
+<p>SHAP 聚合也适用于 CatBoost。例如，我们在下面的代码中使用平均 SHAP 图。查看图 5，我们可以使用此图突出显示重要的分类特征。例如，我们可以看到气味往往具有较大的正/负 SHAP 值。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Mean SHAP</span>
+</span></span><span style="display:flex;"><span>shap<span style="color:#f92672">.</span>plots<span style="color:#f92672">.</span>bar(shap_values,show<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+</span></span></code></pre></div><p><img alt="图 4：平均 SHAP 图" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240916121159.png"></p>
+<h2 id="蜂群">蜂群<a hidden class="anchor" aria-hidden="true" href="#蜂群">#</a></h2>
+<p>另一种常见的聚合是蜂群图。对于连续变量，此图很有用，因为它可以帮助解释关系的性质。也就是说，我们可以看到 SHAP 值如何与特征值相关联。但是，对于分类特征，特征值不是数字。因此，在图 6 中，你可以看到 SHAP 值都被赋予了相同的颜色。我们需要创建自己的图来了解这些关系的性质。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>shap<span style="color:#f92672">.</span>plots<span style="color:#f92672">.</span>beeswarm(shap_values, show<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+</span></span></code></pre></div><p><img alt="图 5：蜂群图" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240916121413.png"></p>
+<h2 id="beeswarm-的一个功能">Beeswarm 的一个功能<a hidden class="anchor" aria-hidden="true" href="#beeswarm-的一个功能">#</a></h2>
+<p>一种方法是对单个特征使用蜂群图。你可以在图 6 中看到我们的意思。在这里，我们根据气味类别对气味特征的 SHAP 值进行了分组。例如，你可以看到难闻的气味会导致更高的 SHAP 值。这些蘑菇更有可能有毒。在上一篇文章中，我们使用箱线图得到了类似的结果。</p>
+<p><img alt="图 6：用于检测气味的蜂群" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240916121438.png"></p>
+<p>我们不会详细讨论此图的代码。简而言之，我们需要创建一个新的 SHAP 值对象 <code>shap_values_odor</code>。这是通过“后处理” SHAP 值来完成的，因此它们处于我们想要的形式。我们用气味的 SHAP 值替换原始 SHAP 值（第 24 行）。我们还用气味类别替换特征名称（第 43 行）。如果我们正确创建了 <code>shap_values_odor</code>，我们可以使用 beeswarm 函数来创建图（第 46 行）。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Create for placeholder SHAP values</span>
+</span></span><span style="display:flex;"><span>shap_values_odor <span style="color:#f92672">=</span> explainer(X)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Get shaply values and feature values for odor</span>
+</span></span><span style="display:flex;"><span>odor_values <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array(shap_values[:,<span style="color:#ae81ff">4</span>]<span style="color:#f92672">.</span>values) 
+</span></span><span style="display:flex;"><span>odor_data <span style="color:#f92672">=</span> X[<span style="color:#e6db74">&#39;odor&#39;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Create new SHAP values array</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Split odor SHAP values by unique odor categories</span>
+</span></span><span style="display:flex;"><span>unique_odor <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;a&#39;</span>,<span style="color:#e6db74">&#39;l&#39;</span>,<span style="color:#e6db74">&#39;c&#39;</span>,<span style="color:#e6db74">&#39;y&#39;</span>,<span style="color:#e6db74">&#39;f&#39;</span>,<span style="color:#e6db74">&#39;m&#39;</span>,<span style="color:#e6db74">&#39;n&#39;</span>,<span style="color:#e6db74">&#39;p&#39;</span>,<span style="color:#e6db74">&#39;s&#39;</span>]
+</span></span><span style="display:flex;"><span>new_shap_values <span style="color:#f92672">=</span> [np<span style="color:#f92672">.</span>array(pd<span style="color:#f92672">.</span>Series(odor_values)[odor_data<span style="color:#f92672">==</span>odor]) <span style="color:#66d9ef">for</span> odor <span style="color:#f92672">in</span> unique_odor]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Each sublist needs to be the same length</span>
+</span></span><span style="display:flex;"><span>max_len <span style="color:#f92672">=</span> max([len(v) <span style="color:#66d9ef">for</span> v <span style="color:#f92672">in</span> new_shap_values])
+</span></span><span style="display:flex;"><span>new_shap_values <span style="color:#f92672">=</span> [np<span style="color:#f92672">.</span>append(vs,[np<span style="color:#f92672">.</span>nan]<span style="color:#f92672">*</span>(max_len <span style="color:#f92672">-</span> len(vs))) <span style="color:#66d9ef">for</span> vs <span style="color:#f92672">in</span> new_shap_values]
+</span></span><span style="display:flex;"><span>new_shap_values <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array(new_shap_values)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># transpost matrix so categories are columns and SHAP values are rows</span>
+</span></span><span style="display:flex;"><span>new_shap_values <span style="color:#f92672">=</span> new_shap_values<span style="color:#f92672">.</span>transpose()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># replace shap values</span>
+</span></span><span style="display:flex;"><span>shap_values_odor<span style="color:#f92672">.</span>values <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array(new_shap_values)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># replace data with placeholder array</span>
+</span></span><span style="display:flex;"><span>shap_values_odor<span style="color:#f92672">.</span>data <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array([[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">*</span>len(unique_odor)]<span style="color:#f92672">*</span>max_len)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># replace base data with placeholder array</span>
+</span></span><span style="display:flex;"><span>shap_values_odor<span style="color:#f92672">.</span>base <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array([<span style="color:#ae81ff">0</span>]<span style="color:#f92672">*</span>max_len)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># replace feature names with category labels</span>
+</span></span><span style="display:flex;"><span>odor_labels <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;a&#39;</span>:<span style="color:#e6db74">&#39;almond&#39;</span>,
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#39;l&#39;</span>:<span style="color:#e6db74">&#39;anise&#39;</span>, 
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#39;c&#39;</span>:<span style="color:#e6db74">&#39;creosote&#39;</span>, 
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#39;y&#39;</span>:<span style="color:#e6db74">&#39;fishy&#39;</span>, 
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#39;f&#39;</span>:<span style="color:#e6db74">&#39;foul&#39;</span>, 
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#39;m&#39;</span>:<span style="color:#e6db74">&#39;musty&#39;</span>, 
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#39;n&#39;</span>:<span style="color:#e6db74">&#39;none&#39;</span>, 
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#39;p&#39;</span>:<span style="color:#e6db74">&#39;pungent&#39;</span>, 
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#39;s&#39;</span>:<span style="color:#e6db74">&#39;spicy&#39;</span>}
+</span></span><span style="display:flex;"><span>labels <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{}</span><span style="color:#e6db74"> (</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">)&#34;</span><span style="color:#f92672">.</span>format(odor_labels[u],u) <span style="color:#66d9ef">for</span> u <span style="color:#f92672">in</span> unique_odor]
+</span></span><span style="display:flex;"><span>shap_values_odor<span style="color:#f92672">.</span>feature_names <span style="color:#f92672">=</span> list(labels)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Use besswarm as before</span>
+</span></span><span style="display:flex;"><span>shap<span style="color:#f92672">.</span>plots<span style="color:#f92672">.</span>beeswarm(shap_values_odor,color_bar<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>,show<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+</span></span></code></pre></div><p><img alt="20240916122812" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240916122812.png"></p>
+<p>最后，SHAP 和 CatBoost 是分析分类特征的强大工具。这两个软件包可以无缝协作。缺点是你可能不想使用 CatBoost。如果你正在使用 RandomForest、XGBoost 或神经网络等模型，则需要使用替代解决方案。你可以在文章[分类特征的 SHAP](../分类特征的 SHAP)中找到它。我们还将更详细地介绍如何对 SHAP 值进行后处理。</p>
+<p>希望这篇文章对你有所帮助！如果你想了解更多，可以关注「坍缩的奇点」，阅读我更多其他文章。以下为一些系列文章，你可以系统的学习机器学习的相关核心知识。</p>
+<p><strong>「AI秘籍」系列课程：</strong></p>
+<p><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3074770001140400130&amp;scene=173&amp;subscene=227&amp;sessionid=undefined&amp;enterid=1717956640&amp;from_msgid=2648748678&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">人工智能应用数学基础</a></p>
+<p><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3035995870421073928&amp;scene=126&amp;uin=&amp;key=&amp;devicetype=iMac+MacBookPro17%2C1+OSX+OSX+14.5+build(23F79)&amp;version=13080710&amp;lang=zh_CN&amp;nettype=WIFI&amp;ascene=78&amp;fontScale=100">人工智能Python基础</a></p>
+<p><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3123885735829061633&amp;scene=173&amp;subscene=227&amp;sessionid=1717956706&amp;enterid=1717956713&amp;from_msgid=2648751062&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">人工智能基础核心知识</a></p>
+<p><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg%3D%3D&amp;action=getalbum&amp;album_id=3193965113967132673&amp;subscene=&amp;sessionid=svr_548800ce471&amp;enterid=1704001437&amp;from_msgid=2648751621&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;scene=21#wechat_redirect">人工智能BI核心知识</a></p>
+<p><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3503005363236880386&amp;from_itemidx=1&amp;from_msgid=2648753419#wechat_redirect">人工智能CV核心知识</a></p>
+<p><img alt="AI企业项目实战课优惠二维码" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407252125233.png"></p>
+<h2 id="参考">参考<a hidden class="anchor" aria-hidden="true" href="#参考">#</a></h2>
+<p>S. Lundberg, SHAP Python package (2021), <a href="https://github.com/slundberg/shap">https://github.com/slundberg/shap</a></p>
+<p>S. Lundberg &amp; S. Lee, A Unified Approach to Interpreting Model Predictions (2017), <a href="https://arxiv.org/pdf/1705.07874.pdf">https://arxiv.org/pdf/1705.07874.pdf</a></p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Github, <a href="https://github.com/hivandu/public_articles/blob/main/src/interpretable_ml/SHAP/SHAP_catboost.ipynb">https://github.com/hivandu/public_articles/blob/main/src/interpretable_ml/SHAP/SHAP_catboost.ipynb</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>Dataset， <a href="https://archive.ics.uci.edu/ml/datasets/Mushroom">https://archive.ics.uci.edu/ml/datasets/Mushroom</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/shap/">SHAP</a></li>
+      <li><a href="http://localhost:1313/tags/catboost/">CatBoost</a></li>
+      <li><a href="http://localhost:1313/tags/ml/">ML</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/pdp-%E5%92%8C-ice-%E5%9B%BE%E7%9A%84%E7%BB%88%E6%9E%81%E6%8C%87%E5%8D%97/">
+    <span class="title">« Prev</span>
+    <span>PDP 和 ICE 图的终极指南</span>
+  </a>
+  <a class="next" href="http://localhost:1313/posts/%E6%88%91%E4%BB%AC%E5%8F%AF%E4%BB%A5%E4%BB%8E%E9%BB%91%E7%9B%92%E6%A8%A1%E5%9E%8B%E4%B8%AD%E5%AD%A6%E5%88%B0%E4%BB%80%E4%B9%88/">
+    <span class="title">Next »</span>
+    <span>我们可以从黑盒模型中学到什么</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">茶桁.MAMT</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

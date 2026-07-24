@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Pandas on 茶桁.MAMT</title>
+    <link>http://localhost:1313/tags/pandas/</link>
+    <description>Recent content in Pandas on 茶桁.MAMT</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Tue, 27 Aug 2024 07:03:00 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/pandas/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>使用 Pandas 批量处理 22GB 交易数据</title>
+      <link>http://localhost:1313/posts/%E4%BD%BF%E7%94%A8-pandas-%E6%89%B9%E9%87%8F%E5%A4%84%E7%90%86-22gb-%E4%BA%A4%E6%98%93%E6%95%B0%E6%8D%AE/</link>
+      <pubDate>Tue, 27 Aug 2024 07:03:00 +0800</pubDate>
+      <guid>http://localhost:1313/posts/%E4%BD%BF%E7%94%A8-pandas-%E6%89%B9%E9%87%8F%E5%A4%84%E7%90%86-22gb-%E4%BA%A4%E6%98%93%E6%95%B0%E6%8D%AE/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;如何利用有限的计算资源来处理大型数据集&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+  </channel>
+</rss>

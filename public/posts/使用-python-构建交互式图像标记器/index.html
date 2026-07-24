@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>使用 Python 构建交互式图像标记器 | 茶桁.MAMT</title>
+<meta name="keywords" content="">
+<meta name="description" content="
+使用鼠标或键盘标记图像数据
+">
+<meta name="author" content="Hivan Du">
+<link rel="canonical" href="http://localhost:1313/posts/%E4%BD%BF%E7%94%A8-python-%E6%9E%84%E5%BB%BA%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%9B%BE%E5%83%8F%E6%A0%87%E8%AE%B0%E5%99%A8/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.cd9298b33628769aa1bc1acebbbfd7aa11ce81dfe03484d479e1907760249a1d.css" integrity="sha256-zZKYszYodpqhvBrOu7/XqhHOgd/gNITUeeGQd2Akmh0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/%E4%BD%BF%E7%94%A8-python-%E6%9E%84%E5%BB%BA%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%9B%BE%E5%83%8F%E6%A0%87%E8%AE%B0%E5%99%A8/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="茶桁.MAMT (Alt + H)">
+                <img src="http://localhost:1313/%F0%9F%A7%A0" alt="" aria-label="logo"
+                    height="30">茶桁.MAMT</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="http://localhost:1313/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/posts/">文章</a>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+</nav>
+    <h1 class="post-title entry-hint-parent">
+      使用 Python 构建交互式图像标记器
+    </h1>
+    <div class="post-meta">
+
+<span title='2024-10-11 07:03:00 +0800 CST'>October 11, 2024</span>&nbsp;·&nbsp;<span>3 min</span>&nbsp;·&nbsp;<span>Hivan Du</span>
+
+</div>
+  </header> <details class="toc" >
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">Table of Contents</span>
+    </summary>
+
+    <div class="inner"><ul>
+            <li>
+                <a href="#%e6%a0%87%e7%ad%be%e5%99%a8-1%e9%bc%a0%e6%a0%87%e5%8d%95%e5%87%bb" aria-label="标签器 1：鼠标单击">标签器 1：鼠标单击</a></li>
+            <li>
+                <a href="#%e6%a0%87%e7%ad%be%e5%99%a8-2%e9%bc%a0%e6%a0%87%e5%8d%95%e5%87%bb" aria-label="标签器 2：鼠标单击">标签器 2：鼠标单击</a></li>
+            <li>
+                <a href="#%e8%b4%b4%e6%a0%87%e6%9c%ba-3%e9%94%ae%e7%9b%98%e6%8c%89%e5%8e%8b" aria-label="贴标机 3：键盘按压">贴标机 3：键盘按压</a><ul>
+                    
+            <li>
+                <a href="#%e5%8f%82%e8%80%83" aria-label="参考">参考</a>
+            </li>
+        </ul>
+        </li>
+        </ul>
+    </div>
+</details>
+
+  <div class="post-content md-content"><p><img alt="img" loading="lazy" src="https://miro.medium.com/v2/resize:fit:700/0*Aj-Xc7HikKcpPM3l"></p>
+<p>标记数据是一件麻烦事。然而，准确标记的数据是数据科学和机器学习的基础。那么，让我们看看如何使用 Python 加速这一过程。</p>
+<p>我们将构建两种类型的记录标签器：</p>
+<ul>
+<li>鼠标单击的位置</li>
+<li>键盘上按下的键</li>
+</ul>
+<p>这些可用于直接在笔记本中标记图像。我们将讨论用于创建这些的代码，您也可以在 GitHub<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> 上找到它。</p>
+<p>首先，我们将使用下面的导入。我们有一些标准包（第 1-3 行）。我们有一些用于处理图像的包（第 4-8 行）。最后一个用于处理文件路径（第 9 行）。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.image <span style="color:#66d9ef">as</span> mpimg
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>style<span style="color:#f92672">.</span>use(<span style="color:#e6db74">&#39;default&#39;</span>)
+</span></span><span style="display:flex;"><span>matplotlib<span style="color:#f92672">.</span>use(<span style="color:#e6db74">&#39;TkAgg&#39;</span>)  <span style="color:#75715e"># 强制使用 TkAgg</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> cv2
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> glob
+</span></span></code></pre></div><p>我们将使用图像来训练一个模型，该模型可以引导自动驾驶汽车在赛道上行驶。你可以在数据集中找到这些示例。记下图像名称：</p>
+<pre tabindex="0"><code>173_48_ffc63efc-40d3-11ed-81f8-a46bb6070c92.jpg
+</code></pre><p>图片尺寸为 224 x 224。名称中的前两个数字是此图片中的 X 和 Y 坐标。我们希望使用图片作为输入来预测此坐标。</p>
+<p>不清楚？让我们显示其中一张图片。这些图片存储在第 2 行的目录中**。**我们加载所有这些图片的路径（第 3 行）。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Load image paths</span>
+</span></span><span style="display:flex;"><span>data <span style="color:#f92672">=</span> dp <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;JatRacer_Images/direction/&#39;</span>
+</span></span><span style="display:flex;"><span>img_path <span style="color:#f92672">=</span> glob<span style="color:#f92672">.</span>glob(data <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;*.jpg&#39;</span>)
+</span></span></code></pre></div><p>我们取列表中的第一个路径（第 1 行），并从图像路径中获取 X 和 Y 坐标（第 4-6 行）。然后，我们将图像与坐标一起显示（第 9-11 行）。具体来说，我们使用 cv2 函数在给定的坐标处绘制一个圆圈（第 10 行）。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>path <span style="color:#f92672">=</span> img_path[<span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># get x and y pos from image name</span>
+</span></span><span style="display:flex;"><span>name <span style="color:#f92672">=</span> path<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;/&#34;</span>)[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> int(name<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;_&#34;</span>)[<span style="color:#ae81ff">0</span>])
+</span></span><span style="display:flex;"><span>y <span style="color:#f92672">=</span> int(name<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;_&#34;</span>)[<span style="color:#ae81ff">1</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># display image with x and y pos </span>
+</span></span><span style="display:flex;"><span>img <span style="color:#f92672">=</span> mpimg<span style="color:#f92672">.</span>imread(path)<span style="color:#f92672">.</span>copy()
+</span></span><span style="display:flex;"><span>img <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>circle(img, (x, y), <span style="color:#ae81ff">8</span>, (<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">0</span>), <span style="color:#ae81ff">3</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>imshow(img)
+</span></span></code></pre></div><p>您可以在图 1 中看到输出。自动驾驶汽车正在右转。理想的方向是朝着绿色圆圈给出的坐标行驶。</p>
+<p><img alt="图1：图像数据示例" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20241010143800.png"></p>
+<p>假设你花了几个小时收集数据，却发现数据被错误标记（我们确实遇到过这种情况）。尝试手动更改文件名中的 x/y 坐标将是一场噩梦。相反，我们将使用 Python。</p>
+<h1 id="标签器-1鼠标单击">标签器 1：鼠标单击<a hidden class="anchor" aria-hidden="true" href="#标签器-1鼠标单击">#</a></h1>
+<p>图 2 显示了我们的第一个标签器的工作情况。当您单击图像时，它会保存到名为“relabelled”的文件夹中。图像名称会使用鼠标单击的坐标进行更新。您可以看到如何使用类似的标签器来记录图像中对象的位置。</p>
+<p><img alt="图 2：贴标机 1 的演示" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/mouse_click_1.gif"></p>
+<p>要构建此标签机，我们首先要定义读取和写入路径。第一个是保存现有图像的位置（第 1 行）。第二个是保存更新图像的位置（第 2 行）。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>read_path <span style="color:#f92672">=</span> dp <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;JatRacer_Images/direction/&#34;</span>
+</span></span><span style="display:flex;"><span>write_path <span style="color:#f92672">=</span> dp <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;JatRacer_Images/relabelled/&#34;</span>
+</span></span></code></pre></div><p>然后我们定义一个函数 <code>onclick</code>，当我们点击图像时，该函数将运行。它获取鼠标点击的坐标（第 6 行 - 第 7 行）。我们用这些坐标创建一个新名称（第 10 行 - 第 12 行），并用这个名称将图像保存在新位置（第 14 行）。</p>
+<p>每次迭代后，都会清除绘图（第 17 行）。如果不这样做，您将遇到内存问题。然后，我们通过删除第一个实例（第 25 行）来更新路径列表，并显示列表中的下一个图像（第 25-29 行）。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">onclick</span>(event):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">global</span> img_path
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">global</span> img
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#Get x,y of click</span>
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> round(event<span style="color:#f92672">.</span>xdata)
+</span></span><span style="display:flex;"><span>    y <span style="color:#f92672">=</span> round(event<span style="color:#f92672">.</span>ydata)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#Save image with new x,y</span>
+</span></span><span style="display:flex;"><span>    path <span style="color:#f92672">=</span> img_path[<span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>    name <span style="color:#f92672">=</span> path<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;/&#34;</span>)[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;_&#34;</span>)[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>    new_name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">_</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">_</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">.</span>format(x,y,name)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    mpimg<span style="color:#f92672">.</span>imsave(write_path <span style="color:#f92672">+</span> new_name, img)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Clear plot</span>
+</span></span><span style="display:flex;"><span>    plt<span style="color:#f92672">.</span>clf()
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> len(img_path) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>:
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>         <span style="color:#75715e">#Remove first instance of img_path </span>
+</span></span><span style="display:flex;"><span>        img_path <span style="color:#f92672">=</span> img_path[<span style="color:#ae81ff">1</span>:]
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">#Display next image</span>
+</span></span><span style="display:flex;"><span>        path <span style="color:#f92672">=</span> img_path[<span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>        img <span style="color:#f92672">=</span>mpimg<span style="color:#f92672">.</span>imread(path)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        plt<span style="color:#f92672">.</span>imshow(img)
+</span></span><span style="display:flex;"><span>        plt<span style="color:#f92672">.</span>show()
+</span></span></code></pre></div><p>然后，您可以在下面看到我们如何使用这个函数。我们首先获取要重新标记的所有图像的路径（第 6 行）。我们加载第一张图像（第 9-10 行）并显示它（第 16-17 行）。重要的步骤是向图形添加点击功能（第 14 行）。为此，我们将 <code>onclick</code> 函数作为参数传递给 <code>mpl_connect</code> 函数。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">%</span>matplotlib tk
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">global</span> img_path
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">global</span> img
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#Get all image paths</span>
+</span></span><span style="display:flex;"><span>img_path <span style="color:#f92672">=</span> glob<span style="color:#f92672">.</span>glob(read_path <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;/*.jpg&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#Load first image</span>
+</span></span><span style="display:flex;"><span>path <span style="color:#f92672">=</span> img_path[<span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>img <span style="color:#f92672">=</span> mpimg<span style="color:#f92672">.</span>imread(path)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#Add an interactive widget to figure </span>
+</span></span><span style="display:flex;"><span>fig <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">5</span>))
+</span></span><span style="display:flex;"><span>cid <span style="color:#f92672">=</span> fig<span style="color:#f92672">.</span>canvas<span style="color:#f92672">.</span>mpl_connect(<span style="color:#e6db74">&#39;button_press_event&#39;</span>, onclick)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>imshow(img)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()
+</span></span></code></pre></div><p>另一件需要注意的事情是全局变量的使用（第 2-3 行）。这允许在 <code>onclick</code> 函数中更新这些变量。还有 <code>%matplotlib tk</code>（第 1 行）。这将在笔记本外的窗口中打开图形。</p>
+<h1 id="标签器-2鼠标单击">标签器 2：鼠标单击<a hidden class="anchor" aria-hidden="true" href="#标签器-2鼠标单击">#</a></h1>
+<p>现在，让我们给这个标签器添加一些趣味。在图 3 中，您可以看到我们在图像中添加了绿色圆圈。这些圆圈给出了先前标签的坐标。它们让我们看到哪些图像被错误地标记了。</p>
+<p><img alt="图 3：贴标机 2 的演示" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/mouse_click_2.gif"></p>
+<p>代码与我们之前看到的类似。最重要的是，我们将保存的图像（第 9 行）必须与我们显示的图像（第 32 行）不同。否则，我们的图像上都会有明亮的绿色圆圈。不过，这会让模型更容易做出预测！</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">onclick</span>(event):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">global</span> img_path
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 检查点击坐标是否有效</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> event<span style="color:#f92672">.</span>xdata <span style="color:#f92672">is</span> <span style="color:#f92672">not</span> <span style="color:#66d9ef">None</span> <span style="color:#f92672">and</span> event<span style="color:#f92672">.</span>ydata <span style="color:#f92672">is</span> <span style="color:#f92672">not</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>        x <span style="color:#f92672">=</span> round(event<span style="color:#f92672">.</span>xdata)
+</span></span><span style="display:flex;"><span>        y <span style="color:#f92672">=</span> round(event<span style="color:#f92672">.</span>ydata)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 读取图像</span>
+</span></span><span style="display:flex;"><span>        save_img <span style="color:#f92672">=</span> mpimg<span style="color:#f92672">.</span>imread(img_path[<span style="color:#ae81ff">0</span>])
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 保存新图像</span>
+</span></span><span style="display:flex;"><span>        path <span style="color:#f92672">=</span> img_path[<span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>        name <span style="color:#f92672">=</span> path<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;/&#34;</span>)[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;_&#34;</span>)[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>        new_name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">_</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">_</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">.</span>format(x, y, name)
+</span></span><span style="display:flex;"><span>        mpimg<span style="color:#f92672">.</span>imsave(write_path <span style="color:#f92672">+</span> new_name, save_img)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 清除图像</span>
+</span></span><span style="display:flex;"><span>        plt<span style="color:#f92672">.</span>clf()
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 加载下一个图像</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> len(img_path) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>:
+</span></span><span style="display:flex;"><span>            img_path <span style="color:#f92672">=</span> img_path[<span style="color:#ae81ff">1</span>:]
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># 获取新的 x, y</span>
+</span></span><span style="display:flex;"><span>            path <span style="color:#f92672">=</span> img_path[<span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>            name <span style="color:#f92672">=</span> path<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;/&#34;</span>)[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>            x <span style="color:#f92672">=</span> int(name<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;_&#34;</span>)[<span style="color:#ae81ff">0</span>])
+</span></span><span style="display:flex;"><span>            y <span style="color:#f92672">=</span> int(name<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;_&#34;</span>)[<span style="color:#ae81ff">1</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># 加载图像并画圆</span>
+</span></span><span style="display:flex;"><span>            img <span style="color:#f92672">=</span> mpimg<span style="color:#f92672">.</span>imread(path)<span style="color:#f92672">.</span>copy()  <span style="color:#75715e"># 确保图像为可写</span>
+</span></span><span style="display:flex;"><span>            img <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>circle(img, (x, y), <span style="color:#ae81ff">8</span>, (<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">0</span>), <span style="color:#ae81ff">3</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            plt<span style="color:#f92672">.</span>imshow(img)
+</span></span><span style="display:flex;"><span>            plt<span style="color:#f92672">.</span>show()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Invalid click, outside of image bounds.&#34;</span>)
+</span></span></code></pre></div><p>再次，我们以与以前相同的方式使用此函数。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 设置图形</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">%</span>matplotlib tk
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">global</span> img_path
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">global</span> img
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 获取所有图像路径</span>
+</span></span><span style="display:flex;"><span>img_path <span style="color:#f92672">=</span> glob<span style="color:#f92672">.</span>glob(read_path <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;/*.jpg&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>path <span style="color:#f92672">=</span> img_path[<span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>name <span style="color:#f92672">=</span> path<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;/&#34;</span>)[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> int(name<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;_&#34;</span>)[<span style="color:#ae81ff">0</span>])
+</span></span><span style="display:flex;"><span>y <span style="color:#f92672">=</span> int(name<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;_&#34;</span>)[<span style="color:#ae81ff">1</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 加载第一个图像并添加圆</span>
+</span></span><span style="display:flex;"><span>img <span style="color:#f92672">=</span> mpimg<span style="color:#f92672">.</span>imread(path)<span style="color:#f92672">.</span>copy()  <span style="color:#75715e"># 确保图像副本为可写</span>
+</span></span><span style="display:flex;"><span>img <span style="color:#f92672">=</span> cv2<span style="color:#f92672">.</span>circle(img, (x, y), <span style="color:#ae81ff">8</span>, (<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">0</span>), <span style="color:#ae81ff">3</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 添加交互式小部件</span>
+</span></span><span style="display:flex;"><span>fig <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">5</span>))
+</span></span><span style="display:flex;"><span>cid <span style="color:#f92672">=</span> fig<span style="color:#f92672">.</span>canvas<span style="color:#f92672">.</span>mpl_connect(<span style="color:#e6db74">&#39;button_press_event&#39;</span>, onclick)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>imshow(img)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()
+</span></span></code></pre></div><p>使用此标记器时，一个技巧是单击要从数据集中删除的图像的左上角。然后，您可以过滤掉所有 x &lt; 5 和 y &lt; 5 的图像。</p>
+<h1 id="贴标机-3键盘按压">贴标机 3：键盘按压<a hidden class="anchor" aria-hidden="true" href="#贴标机-3键盘按压">#</a></h1>
+<p>我们不用记录鼠标点击，而是使用键盘。如果你想对图像进行分组以完成分类任务，这尤其有用。</p>
+<p>在我们的示例中，我们将图像分为左转和右转。每次我们点击 <code>left</code>（左）、<code>right</code>（右）或 <code>d</code>（删除）键时，下面的图像都会发生变化。我们还在左上角添加了一个数字。这让我们知道还有多少图像需要标记。</p>
+<p><img alt="图 4：贴标机 3 的演示" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/key_1.gif"></p>
+<p>我们首先定义一个函数 <code>onpress</code>，该函数将在按下某个键时运行。我们获取该键（第 7 行），并使用图像名称作为 ID（第 10-11 行）。接下来发生什么取决于按下了哪个键：</p>
+<ul>
+<li>如果我们没有点击有效键，则会显示错误消息（第 14-16 行）</li>
+<li><code>left</code> 我们将 ID 附加到 ID 列表中，“left” 附加到标签列表中</li>
+<li><code>right</code> 我们附加 ID 和“right”</li>
+<li><code>d</code> 我们不添加任何内容</li>
+</ul>
+<p>图形被清除（第 27 行），我们更新图像（第 29-39 行）。我们将<strong>img_path</strong>列表的长度作为文本包含在左上角（第 36 行）。</p>
+<iframe src="https://towardsdatascience.com/media/44e40ed46debfe0600b2e2f5bfb8baa1" allowfullscreen="" frameborder="0" height="920" width="680" title="图像标签9.py" class="eo n fi ea bh" scrolling="no" style="box-sizing: inherit; top: 0px; width: 680px; height: 920px; left: 0px;"></iframe>
+<p>即使按下“d”键，图像也会更新。在收集这些数据时，有时会有一只流浪的手挡道。现在我们可以轻松地从分类数据集中移除/删除这些杂乱的图像。</p>
+<p>最后，我们将在下面看到如何使用此函数。我们将 ID 和标签列表定义为全局变量（第 3-6 行）。我们加载图像路径列表（第 9 行），并将第一幅图像加载为 matplotlib 图形（第 12-17 行）。与之前将按下功能添加到图形（第 20 行）类似。这次我们传入 <code>key_press_event</code> 和新函数 <code>onpress</code> 作为参数。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">onpress</span>(event):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">global</span> img_path
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">global</span> IDs
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">global</span> labels
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#Get key </span>
+</span></span><span style="display:flex;"><span>    key <span style="color:#f92672">=</span> event<span style="color:#f92672">.</span>key
+</span></span><span style="display:flex;"><span>    print(key)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#Get image name</span>
+</span></span><span style="display:flex;"><span>    path <span style="color:#f92672">=</span> img_path[<span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>    ID <span style="color:#f92672">=</span> path<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;/&#34;</span>)[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> key <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> [<span style="color:#e6db74">&#34;left&#34;</span>,<span style="color:#e6db74">&#34;right&#34;</span>,<span style="color:#e6db74">&#34;d&#34;</span>]:
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Invalid Key&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>: 
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;left&#34;</span>:
+</span></span><span style="display:flex;"><span>            IDs<span style="color:#f92672">.</span>append(ID)
+</span></span><span style="display:flex;"><span>            labels<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#34;left&#34;</span>)
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">elif</span> key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;right&#34;</span>:
+</span></span><span style="display:flex;"><span>            IDs<span style="color:#f92672">.</span>append(ID)
+</span></span><span style="display:flex;"><span>            labels<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#34;right&#34;</span>)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Clear plot </span>
+</span></span><span style="display:flex;"><span>        plt<span style="color:#f92672">.</span>clf()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> len(img_path) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>: 
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>            img_path <span style="color:#f92672">=</span> img_path[<span style="color:#ae81ff">1</span>:]
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">#Display next image with count </span>
+</span></span><span style="display:flex;"><span>            path <span style="color:#f92672">=</span> img_path[<span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>            img <span style="color:#f92672">=</span> mpimg<span style="color:#f92672">.</span>imread(path)
+</span></span><span style="display:flex;"><span>            plt<span style="color:#f92672">.</span>text(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">15</span>, len(img_path),color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;r&#39;</span>,size<span style="color:#f92672">=</span><span style="color:#ae81ff">20</span>)
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>            plt<span style="color:#f92672">.</span>imshow(img)
+</span></span><span style="display:flex;"><span>            plt<span style="color:#f92672">.</span>show()
+</span></span></code></pre></div><p>完成所有图像的标记后，您将获得以下类似的列表。对于您的任务，我强烈建议将它们保存为 csv。您不想再做所有这些标记！</p>
+<p><img alt="20241010181654" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20241010181654.png"></p>
+<h2 id="参考">参考<a hidden class="anchor" aria-hidden="true" href="#参考">#</a></h2>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Github, <a href="https://github.com/hivandu/public_articles/blob/main/src/image_tools/image_labelling.ipynb">https://github.com/hivandu/public_articles/blob/main/src/image_tools/image_labelling.ipynb</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/ai-cheats---catalogs/">
+    <span class="title">« Prev</span>
+    <span>《茶桁的 AI 秘籍》核心基础——目录</span>
+  </a>
+  <a class="next" href="http://localhost:1313/posts/shap-%E7%9A%84%E5%B1%80%E9%99%90%E6%80%A7/">
+    <span class="title">Next »</span>
+    <span>SHAP 的局限性</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">茶桁.MAMT</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

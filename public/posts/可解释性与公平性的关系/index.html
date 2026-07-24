@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>可解释性与公平性的关系 | 茶桁.MAMT</title>
+<meta name="keywords" content="">
+<meta name="description" content="
+可解释模型更有可能公平的三个原因
+">
+<meta name="author" content="Hivan Du">
+<link rel="canonical" href="http://localhost:1313/posts/%E5%8F%AF%E8%A7%A3%E9%87%8A%E6%80%A7%E4%B8%8E%E5%85%AC%E5%B9%B3%E6%80%A7%E7%9A%84%E5%85%B3%E7%B3%BB/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.cd9298b33628769aa1bc1acebbbfd7aa11ce81dfe03484d479e1907760249a1d.css" integrity="sha256-zZKYszYodpqhvBrOu7/XqhHOgd/gNITUeeGQd2Akmh0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/%E5%8F%AF%E8%A7%A3%E9%87%8A%E6%80%A7%E4%B8%8E%E5%85%AC%E5%B9%B3%E6%80%A7%E7%9A%84%E5%85%B3%E7%B3%BB/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="茶桁.MAMT (Alt + H)">
+                <img src="http://localhost:1313/%F0%9F%A7%A0" alt="" aria-label="logo"
+                    height="30">茶桁.MAMT</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="http://localhost:1313/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/posts/">文章</a>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+</nav>
+    <h1 class="post-title entry-hint-parent">
+      可解释性与公平性的关系
+    </h1>
+    <div class="post-meta">
+
+<span title='2024-09-03 07:03:00 +0800 CST'>September 3, 2024</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>Hivan Du</span>
+
+</div>
+  </header> <details class="toc" >
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">Table of Contents</span>
+    </summary>
+
+    <div class="inner"><ul>
+            <li>
+                <a href="#%e4%bd%bf%e7%94%a8%e4%b8%8d%e5%8f%af%e7%9f%a5%e8%ae%ba%e6%96%b9%e6%b3%95%e6%b5%8b%e9%87%8f%e5%81%8f%e8%a7%81" aria-label="使用不可知论方法测量偏见">使用不可知论方法测量偏见</a></li>
+            <li>
+                <a href="#%e5%8e%9f%e5%9b%a0%e4%b8%80%e6%9b%b4%e5%ae%b9%e6%98%93%e8%af%86%e5%88%ab%e4%b8%8d%e5%85%ac%e5%b9%b3%e7%9a%84%e5%8e%9f%e5%9b%a0" aria-label="原因一：更容易识别不公平的原因">原因一：更容易识别不公平的原因</a></li>
+            <li>
+                <a href="#%e5%8e%9f%e5%9b%a0-2%e6%9b%b4%e5%ae%b9%e6%98%93%e7%ba%a0%e6%ad%a3%e5%81%8f%e8%a7%81" aria-label="原因 2：更容易纠正偏见">原因 2：更容易纠正偏见</a></li>
+            <li>
+                <a href="#%e5%8e%9f%e5%9b%a0-3%e5%ae%83%e4%bb%ac%e9%83%bd%e6%98%af%e4%b8%ba%e4%ba%86%e5%bb%ba%e7%ab%8b%e4%bf%a1%e4%bb%bb" aria-label="原因 3：它们都是为了建立信任">原因 3：它们都是为了建立信任</a></li>
+            <li>
+                <a href="#%e5%8f%82%e8%80%83" aria-label="参考">参考</a>
+            </li>
+        </ul>
+    </div>
+</details>
+
+  <div class="post-content md-content"><p>``<img alt="img" loading="lazy" src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*p0CQDBWcDf92baLincQrUw.png"></p>
+<p>可解释性和公平性似乎是相辅相成的。<a href="https://mp.weixin.qq.com/s/I-Hk82hj4dL28OfGF3u6ng">可解释性</a>涉及理解模型如何进行预测。<a href="https://mp.weixin.qq.com/s/jrRvA0MwzF-T9UiJ02ofVg">公平性</a>涉及理解预测是否偏向某些群体。负责任的人工智能框架和机器学习会议始终将这两个特征一起提及。然而，可解释性并不一定意味着公平。</p>
+<p>话虽如此，可解释的模型仍然更有可能是公平的。这种关联有 3 个主要原因。对于可解释的模型，更容易识别不公平的原因。在可解释的模型中纠正不公平也更容易。一些方法，例如证明解释，甚至依赖于可解释性。最后，这两个特征都与建立对 AI 系统的信任的目标相关。我们将深入讨论这些原因。</p>
+<h2 id="使用不可知论方法测量偏见">使用不可知论方法测量偏见<a hidden class="anchor" aria-hidden="true" href="#使用不可知论方法测量偏见">#</a></h2>
+<p>在深入探讨这些问题之前，让我们先讨论一下如何<a href="%E5%88%86%E6%9E%90%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%85%AC%E5%B9%B3%E6%80%A7">分析公平性</a>。这也有助于我们理解为什么这不是可解释性和公平性相关的原因之一。通常，公平性的衡量标准与<a href="%E4%BB%80%E4%B9%88%E6%98%AF%E6%A8%A1%E5%9E%8B%E6%97%A0%E5%85%B3%E6%96%B9%E6%B3%95">模型无关</a>。这意味着它们可以用于任何模型。这包括线性回归和决策树等固有可解释的模型。它还包括随机森林甚至神经网络等不太可解释的模型。</p>
+<p><img alt="img" loading="lazy" src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*rJypRcPEOK_s-madSvNl4g.png"></p>
+<p>准确度是衡量公平性的一个简单例子。具体来说，我们将比较模型对不同人群的准确度。这里的人群由种族或性别等敏感特征定义。如果某个人群的准确度明显较低，则表明该模型对该人群不公平。</p>
+<p>要计算公平性指标，我们只需要模型的预测和实际目标变量。我们不需要研究模型本身的内部工作原理。这意味着，对于可解释的模型和不太可解释的模型，计算指标同样容易。换句话说，可解释性并不能让我们更容易理解一个模型是否不公平。问题是，这样的指标并不能告诉我们为什么一个模型不公平。</p>
+<h2 id="原因一更容易识别不公平的原因">原因一：更容易识别不公平的原因<a hidden class="anchor" aria-hidden="true" href="#原因一更容易识别不公平的原因">#</a></h2>
+<p>[造成不公平的原因](不公平的预测：机器学习中的 5 种常见偏见来源)各有不同其中包括用于训练模型的数据中的偏见。具体来说，历史偏见、代理变量和不平衡的数据集可能会导致不公平的预测。我们对算法的选择以及用户与模型的交互方式也会带来偏见。对于可解释的模型，识别这些来源更容易。</p>
+<p>这是因为，对于可解释的模型，更容易理解模型的工作原理。这意味着我们清楚地了解哪些特征是重要的。我们还了解这些特征与目标变量之间的关系。通常，与神经网络等模型相比，算法和成本函数也简单得多。所有这些都让我们更容易找出导致模型不公平的原因。</p>
+<p><img alt="img" loading="lazy" src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*dHM_-NvGJXx2sywlkVldqQ.png"></p>
+<p>与此原因相关的是模型的构建方式。通常，当您构建可解释的模型（例如线性回归）时，您最终会手工挑选 8 到 12 个模型特征的最终集合。您还将花时间使用该领域的领域知识将特征趋势与预期进行比较。实际上，在<a href="%E8%89%AF%E5%A5%BD%E5%8A%9F%E8%83%BD%E7%9A%84%E7%89%B9%E5%BE%81">特征选择</a>上投入了更多的思考。只要我们考虑到公平性，我们就可以在模型开发过程的早期提出问题。这意味着您甚至可以在将偏见引入模型之前识别出偏见来源。</p>
+<h2 id="原因-2更容易纠正偏见">原因 2：更容易纠正偏见<a hidden class="anchor" aria-hidden="true" href="#原因-2更容易纠正偏见">#</a></h2>
+<p>对于可解释的模型，<a href="https://mp.weixin.qq.com/s/Pp72LQ8l5-MaheQves1Y0g">纠正不公平现象</a>也更容易。这部分源于上面讨论的第一个原因。我们采取的纠正不公平的方法可能取决于不公平的原因。由于更容易确定原因，因此更容易选择最佳方法来纠正它。例如，我们可以纠正不公平模型的方法之一是删除代理变量。这些特征与种族或性别等敏感特征高度相关。</p>
+<p><img alt="img" loading="lazy" src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*HDEep7bnzCP-7x6fLyaQJg.png"></p>
+<p>随机森林等模型最多可以有 30-40 个特征。模型结构还允许特征之间的<a href="https://mp.weixin.qq.com/s/16vQ34gurxBmOs62njGhjw">交互</a>。这种复杂性使得很难理解任何代理变量与目标变量之间的关系。如果这种关系导致不公平的决策，就更难理解了。最终，决定删除哪些代理变量变得更加困难。</p>
+<p>算法本身还可以进行其他修正。例如，我们可以调整成本函数以考虑公平性。这可能涉及添加惩罚参数来惩罚不公平的决策。换句话说，模型的目标不仅是做出准确的预测，而且是公平的预测。可解释模型的算法和成本函数通常更简单。这使得调整它们更容易。</p>
+<p>确保公平的方法也可以超越上述定量方法。对抗不公平的一个重要方法是向用户提供<a href="%E8%A7%A3%E9%87%8A%E9%A2%84%E6%B5%8B%E7%9A%84%E8%89%BA%E6%9C%AF">预测的解释</a>。然后让用户有权挑战这些预测。我们越了解模型的工作原理，就越容易以人性化的方式进行解释。换句话说，可解释性使得给出好的解释变得更容易。</p>
+<h2 id="原因-3它们都是为了建立信任">原因 3：它们都是为了建立信任<a hidden class="anchor" aria-hidden="true" href="#原因-3它们都是为了建立信任">#</a></h2>
+<p>最重要的原因是可解释性和公平性的共同目标。它们都是为了建立对人工智能系统的信任。这主要通过减少这些系统可能造成的伤害来实现。也就是说，我们不会相信我们认为会对我们造成伤害的东西。</p>
+<p>我们更有可能相信我们理解的东西。此外，我们对某件事了解得越多，我们就越能确定它不会造成伤害。从这个意义上说，可解释性可以建立信任。公平的目标更直接。它旨在减少不公平决策带来的伤害。最终，一个关心人工智能系统信任的组织会同时关心可解释性和公平性。</p>
+<p><img alt="img" loading="lazy" src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*j9eSKrPOLQ8ilxH8cO1kPg.png"></p>
+<p>这就是为什么您经常会在<a href="%E4%BB%80%E4%B9%88%E6%98%AF%E8%B4%9F%E8%B4%A3%E4%BB%BB%E7%9A%84%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD">负责任的 AI</a>框架中看到公平性和可解释性一起提及。这些治理框架旨在定义开发 AI 系统的道德准则和最佳实践。除了公平性和可解释性之外，这些框架还涵盖了安全性、保障性和隐私等主题。Google<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>、微软<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>和 IBM<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup> 等公司都有自己的框架。他们明白，客户不会使用他们不信任的系统。</p>
+<blockquote>
+<p>人工智能的发展为改善全球人民的生活创造了新的机会，从商业到医疗保健再到教育。它也提出了新的问题，即如何在这些系统中实现公平性、可解释性、隐私性和安全性。</p>
+</blockquote>
+<blockquote>
+<p>— Google AI 谈 responsible AI practices<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup></p>
+</blockquote>
+<p>出于类似的原因，公平性和可解释性是相关的研究主题。例如，下面您可以看到FAccT 2022会议论文的一些感兴趣领域。这是关于公平、问责和透明度的会议。公平性和可解释性是算法开发中提到的第一个主题。有兴趣减少人工智能系统危害的研究人员会对这两个主题感兴趣。</p>
+<p><img alt="FAccT 2022 征文通知（来源：<a href=\"https://facctconference.org/2022/cfp.html\">ACM FAccT</a>）" loading="lazy" src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*YUUlKjEHumziZes0_Qye1Q.png"></p>
+<p>信任的需求是公平性和可解释性之间关系的真正驱动力。我们看到，可解释模型的特征也使这种关系更加紧密。在此过程中，我们触及了一些与公平相关的主题。即不公平的原因、分析公平和确保公平的方法。以下三篇文章深入探讨了这些主题。</p>
+<p><a href="https://mp.weixin.qq.com/s/2gEqzVIbBlKx8RCTYa6QvA">不公平的预测：机器学习中的 5 种常见偏见来源</a></p>
+<blockquote>
+<p>常见的偏见来源——历史偏见、代理变量、不平衡数据集、算法选择和用户交互</p>
+</blockquote>
+<p><a href="https://mp.weixin.qq.com/s/NqKdrDlY0D-E6YbvD9Ye2g">分析机器学习的公平性</a></p>
+<blockquote>
+<p>进行探索性公平性分析，并利用平等机会、均等几率和不同的因素来衡量公平性……</p>
+</blockquote>
+<p><a href="https://mp.weixin.qq.com/s/Pp72LQ8l5-MaheQves1Y0g">纠正和防止机器学习中的不公平现象</a></p>
+<blockquote>
+<p>预处理、处理中和处理后定量方法。以及非定量方法……</p>
+</blockquote>
+<h2 id="参考">参考<a hidden class="anchor" aria-hidden="true" href="#参考">#</a></h2>
+<p>Birhane, A., (2021)算法不公正：一种关系伦理学方法。https <a href="https://www.sciencedirect.com/science/article/pii/S2666389921000155">://www.sciencedirect.com/science/article/pii/S2666389921000155</a></p>
+<p>Pessach, D. 和 Shmueli, E., (2020)，算法公平性。https <a href="https://arxiv.org/abs/2001.09784">://arxiv.org/abs/2001.09784</a></p>
+<p>Mehrabi, N.、Morstatter, F.、Saxena, N.、Lerman, K. 和 Galstyan, A., (2021)，机器学习中的偏见和公平性调查。https <a href="https://arxiv.org/abs/1908.09635">://arxiv.org/abs/1908.09635</a></p>
+<hr>
+<p>希望这篇文章对你有所帮助！你还可以阅读我的其他文章，或者查看有关企业 AI 实战项目的教程，相信会让你拥有更多收获。</p>
+<p><strong>「AI秘籍」系列课程：</strong></p>
+<ul>
+<li><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3074770001140400130&amp;scene=173&amp;subscene=227&amp;sessionid=undefined&amp;enterid=1717956640&amp;from_msgid=2648748678&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">人工智能应用数学基础</a></li>
+<li><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3035995870421073928&amp;scene=126&amp;uin=&amp;key=&amp;devicetype=iMac+MacBookPro17%2C1+OSX+OSX+14.5+build(23F79)&amp;version=13080710&amp;lang=zh_CN&amp;nettype=WIFI&amp;ascene=78&amp;fontScale=100">人工智能Python基础</a></li>
+<li><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3123885735829061633&amp;scene=173&amp;subscene=227&amp;sessionid=1717956706&amp;enterid=1717956713&amp;from_msgid=2648751062&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">人工智能基础核心知识</a></li>
+<li><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg%3D%3D&amp;action=getalbum&amp;album_id=3193965113967132673&amp;subscene=&amp;sessionid=svr_548800ce471&amp;enterid=1704001437&amp;from_msgid=2648751621&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;scene=21#wechat_redirect">人工智能BI核心知识</a></li>
+<li><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3503005363236880386&amp;from_itemidx=1&amp;from_msgid=2648753419#wechat_redirect">人工智能CV核心知识</a></li>
+</ul>
+<p><img alt="AI企业项目实战课优惠二维码" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407252125233.png"></p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Google, <a href="https://ai.google/responsibilities/responsible-ai-practices/">https://ai.google/responsibilities/responsible-ai-practices/</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>微软, <a href="https://www.microsoft.com/en-us/ai/responsible-ai?activetab=pivot1:primaryr6">https://www.microsoft.com/en-us/ai/responsible-ai?activetab=pivot1:primaryr6</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>IBM, <a href="https://www.ibm.com/artificial-intelligence/ethics">https://www.ibm.com/artificial-intelligence/ethics</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4">
+<p>Google, responsible AI practices, <a href="https://ai.google/responsibilities/responsible-ai-practices/">https://ai.google/responsibilities/responsible-ai-practices/</a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/%E5%88%86%E7%B1%BB%E7%89%B9%E5%BE%81%E7%9A%84-shap/">
+    <span class="title">« Prev</span>
+    <span>分类特征的 SHAP</span>
+  </a>
+  <a class="next" href="http://localhost:1313/posts/%E4%BD%BF%E7%94%A8-pandas-%E6%89%B9%E9%87%8F%E5%A4%84%E7%90%86-22gb-%E4%BA%A4%E6%98%93%E6%95%B0%E6%8D%AE/">
+    <span class="title">Next »</span>
+    <span>使用 Pandas 批量处理 22GB 交易数据</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">茶桁.MAMT</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

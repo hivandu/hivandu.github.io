@@ -1,6 +1,0 @@
-[submodule "themes/PaperMod"]
-	path = themes/PaperMod
-	url = https://github.com/adityatelange/hugo-PaperMod.git
-[submodule "themes/academic"]
-	path = themes/academic
-	url = https://github.com/wowchemy/wowchemy-hugo-themes.git

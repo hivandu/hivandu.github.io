@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>pokemon | 茶桁.MAMT</title>
+<meta name="keywords" content="">
+<meta name="description" content="引入依赖和数据
+">
+<meta name="author" content="Hivan Du">
+<link rel="canonical" href="http://localhost:1313/posts/pokemon/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.cd9298b33628769aa1bc1acebbbfd7aa11ce81dfe03484d479e1907760249a1d.css" integrity="sha256-zZKYszYodpqhvBrOu7/XqhHOgd/gNITUeeGQd2Akmh0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/pokemon/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="茶桁.MAMT (Alt + H)">
+                <img src="http://localhost:1313/%F0%9F%A7%A0" alt="" aria-label="logo"
+                    height="30">茶桁.MAMT</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="http://localhost:1313/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/posts/">文章</a>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+</nav>
+    <h1 class="post-title entry-hint-parent">
+      pokemon
+    </h1>
+    <div class="post-meta">
+
+<span title='2021-09-24 15:53:29 +0800 CST'>September 24, 2021</span>&nbsp;·&nbsp;<span>3 min</span>&nbsp;·&nbsp;<span>Hivan Du</span>
+
+</div>
+  </header> <details class="toc" >
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">Table of Contents</span>
+    </summary>
+
+    <div class="inner"><ul>
+            <li>
+                <a href="#%e6%8e%a2%e7%b4%a2%e6%95%b0%e6%8d%ae" aria-label="探索数据">探索数据</a>
+            </li>
+        </ul>
+    </div>
+</details>
+
+  <div class="post-content md-content"><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> pandas <span style="color:#66d9ef">as</span> pd
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> seaborn <span style="color:#66d9ef">as</span> sns
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> os
+</span></span><span style="display:flex;"><span>path <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>expanduser(<span style="color:#e6db74">&#39;~/data/cbcpv/pokemon/&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(path <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;pokemon.csv&#39;</span>, index_col<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, encoding<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;cp1252&#39;</span>)
+</span></span></code></pre></div><h2 id="探索数据">探索数据<a hidden class="anchor" aria-hidden="true" href="#探索数据">#</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>df<span style="color:#f92672">.</span>sample(<span style="color:#ae81ff">5</span>)
+</span></span></code></pre></div><p><strong>OUT:</strong></p>
+<table>
+	<thead>
+			<tr>
+					<th style="text-align: right"></th>
+					<th style="text-align: right">Name</th>
+					<th style="text-align: right">Type 1</th>
+					<th style="text-align: right">Type 2</th>
+					<th style="text-align: right">Total</th>
+					<th style="text-align: right">HP</th>
+					<th style="text-align: right">Attack</th>
+					<th style="text-align: right">Defense</th>
+					<th style="text-align: right">Sp. Atk</th>
+					<th style="text-align: right">Sp. Def</th>
+					<th style="text-align: right">Speed</th>
+					<th style="text-align: right">Stage</th>
+					<th style="text-align: right">Legendary</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: right">#</td>
+					<td style="text-align: right"></td>
+					<td style="text-align: right"></td>
+					<td style="text-align: right"></td>
+					<td style="text-align: right"></td>
+					<td style="text-align: right"></td>
+					<td style="text-align: right"></td>
+					<td style="text-align: right"></td>
+					<td style="text-align: right"></td>
+					<td style="text-align: right"></td>
+					<td style="text-align: right"></td>
+					<td style="text-align: right"></td>
+					<td style="text-align: right"></td>
+			</tr>
+			<tr>
+					<td style="text-align: right">75</td>
+					<td style="text-align: right">Graveler</td>
+					<td style="text-align: right">Rock</td>
+					<td style="text-align: right">Ground</td>
+					<td style="text-align: right">390</td>
+					<td style="text-align: right">55</td>
+					<td style="text-align: right">95</td>
+					<td style="text-align: right">115</td>
+					<td style="text-align: right">45</td>
+					<td style="text-align: right">45</td>
+					<td style="text-align: right">35</td>
+					<td style="text-align: right">2</td>
+					<td style="text-align: right">False</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">82</td>
+					<td style="text-align: right">Magneton</td>
+					<td style="text-align: right">Electric</td>
+					<td style="text-align: right">Steel</td>
+					<td style="text-align: right">465</td>
+					<td style="text-align: right">50</td>
+					<td style="text-align: right">60</td>
+					<td style="text-align: right">95</td>
+					<td style="text-align: right">120</td>
+					<td style="text-align: right">70</td>
+					<td style="text-align: right">70</td>
+					<td style="text-align: right">2</td>
+					<td style="text-align: right">False</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">79</td>
+					<td style="text-align: right">Slowpoke</td>
+					<td style="text-align: right">Water</td>
+					<td style="text-align: right">Psychic</td>
+					<td style="text-align: right">315</td>
+					<td style="text-align: right">90</td>
+					<td style="text-align: right">65</td>
+					<td style="text-align: right">65</td>
+					<td style="text-align: right">40</td>
+					<td style="text-align: right">40</td>
+					<td style="text-align: right">15</td>
+					<td style="text-align: right">1</td>
+					<td style="text-align: right">False</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">123</td>
+					<td style="text-align: right">Scyther</td>
+					<td style="text-align: right">Bug</td>
+					<td style="text-align: right">Flying</td>
+					<td style="text-align: right">500</td>
+					<td style="text-align: right">70</td>
+					<td style="text-align: right">110</td>
+					<td style="text-align: right">80</td>
+					<td style="text-align: right">55</td>
+					<td style="text-align: right">80</td>
+					<td style="text-align: right">105</td>
+					<td style="text-align: right">1</td>
+					<td style="text-align: right">False</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">9</td>
+					<td style="text-align: right">Blastoise</td>
+					<td style="text-align: right">Water</td>
+					<td style="text-align: right">NaN</td>
+					<td style="text-align: right">530</td>
+					<td style="text-align: right">79</td>
+					<td style="text-align: right">83</td>
+					<td style="text-align: right">100</td>
+					<td style="text-align: right">85</td>
+					<td style="text-align: right">105</td>
+					<td style="text-align: right">78</td>
+					<td style="text-align: right">3</td>
+					<td style="text-align: right">False</td>
+			</tr>
+	</tbody>
+</table>
+<p>对比并了解下数据集的各个特征类型:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>df<span style="color:#f92672">.</span>info()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># OUT</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#a6e22e">pandas</span><span style="color:#f92672">.</span>core<span style="color:#f92672">.</span>frame<span style="color:#f92672">.</span>DataFrame<span style="color:#e6db74">&#39;&gt;</span>
+</span></span><span style="display:flex;"><span>Int64Index: <span style="color:#ae81ff">151</span> entries, <span style="color:#ae81ff">1</span> to <span style="color:#ae81ff">151</span>
+</span></span><span style="display:flex;"><span>Data columns (total <span style="color:#ae81ff">12</span> columns):
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">#   Column     Non-Null Count  Dtype </span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">---</span>  <span style="color:#f92672">------</span>     <span style="color:#f92672">--------------</span>  <span style="color:#f92672">-----</span> 
+</span></span><span style="display:flex;"><span> <span style="color:#ae81ff">0</span>   Name       <span style="color:#ae81ff">151</span> non<span style="color:#f92672">-</span>null    object
+</span></span><span style="display:flex;"><span> <span style="color:#ae81ff">1</span>   Type <span style="color:#ae81ff">1</span>     <span style="color:#ae81ff">151</span> non<span style="color:#f92672">-</span>null    object
+</span></span><span style="display:flex;"><span> <span style="color:#ae81ff">2</span>   Type <span style="color:#ae81ff">2</span>     <span style="color:#ae81ff">67</span> non<span style="color:#f92672">-</span>null     object
+</span></span><span style="display:flex;"><span> <span style="color:#ae81ff">3</span>   Total      <span style="color:#ae81ff">151</span> non<span style="color:#f92672">-</span>null    int64 
+</span></span><span style="display:flex;"><span> <span style="color:#ae81ff">4</span>   HP         <span style="color:#ae81ff">151</span> non<span style="color:#f92672">-</span>null    int64 
+</span></span><span style="display:flex;"><span> <span style="color:#ae81ff">5</span>   Attack     <span style="color:#ae81ff">151</span> non<span style="color:#f92672">-</span>null    int64 
+</span></span><span style="display:flex;"><span> <span style="color:#ae81ff">6</span>   Defense    <span style="color:#ae81ff">151</span> non<span style="color:#f92672">-</span>null    int64 
+</span></span><span style="display:flex;"><span> <span style="color:#ae81ff">7</span>   Sp<span style="color:#f92672">.</span> Atk    <span style="color:#ae81ff">151</span> non<span style="color:#f92672">-</span>null    int64 
+</span></span><span style="display:flex;"><span> <span style="color:#ae81ff">8</span>   Sp<span style="color:#f92672">.</span> Def    <span style="color:#ae81ff">151</span> non<span style="color:#f92672">-</span>null    int64 
+</span></span><span style="display:flex;"><span> <span style="color:#ae81ff">9</span>   Speed      <span style="color:#ae81ff">151</span> non<span style="color:#f92672">-</span>null    int64 
+</span></span><span style="display:flex;"><span> <span style="color:#ae81ff">10</span>  Stage      <span style="color:#ae81ff">151</span> non<span style="color:#f92672">-</span>null    int64 
+</span></span><span style="display:flex;"><span> <span style="color:#ae81ff">11</span>  Legendary  <span style="color:#ae81ff">151</span> non<span style="color:#f92672">-</span>null    bool  
+</span></span><span style="display:flex;"><span>dtypes: bool(<span style="color:#ae81ff">1</span>), int64(<span style="color:#ae81ff">8</span>), object(<span style="color:#ae81ff">3</span>)
+</span></span><span style="display:flex;"><span>memory usage: <span style="color:#ae81ff">14.3</span><span style="color:#f92672">+</span> KB
+</span></span></code></pre></div><p>可以看到<code>Type 2</code>这个特征有缺失值, 其他的没有, 而且显示的为正数型, 很符合数据分析的要求.</p>
+<p>接下来用散点图研究特征<code>Attack</code>和 <code>Defense</code>的关系</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>sns<span style="color:#f92672">.</span>lmplot(
+</span></span><span style="display:flex;"><span>  x<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Attack&#39;</span>,
+</span></span><span style="display:flex;"><span>  y<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Defense&#39;</span>,
+</span></span><span style="display:flex;"><span>  data<span style="color:#f92672">=</span>df,
+</span></span><span style="display:flex;"><span>  fit_reg<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>,
+</span></span><span style="display:flex;"><span>  hude<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Stage&#39;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p><img alt="image-20210924232356749" loading="lazy" src="https://qiniu.hivan.me/picGo/20210924232356.png?imgNote"></p>
+<p>我们这里参数使用了<code>fit_reg=False</code>, 隐藏了回归线. 在 Seaborn 中是没有单独绘制散点图的方法的,但是通过参数设置,实现了散点图的绘制.如果此参数设置为<code>True</code></p>
+<p><img alt="image-20210924232544623" loading="lazy" src="https://qiniu.hivan.me/picGo/20210924232544.png?imgNote"></p>
+<p>接下来用箱线图看下各特征数据分布:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>sns<span style="color:#f92672">.</span>boxplot(data<span style="color:#f92672">=</span>df)
+</span></span></code></pre></div><p><img alt="image-20210924232632091" loading="lazy" src="https://qiniu.hivan.me/picGo/20210924232632.png?imgNote"></p>
+<p>这个结果显示出, <code>Total</code>, <code>Stage</code>以及<code>Legendary</code>特征的数据是不适合在这里绘制散点图的, 需要对特征进行适当选择</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>stats_df<span style="color:#f92672">=</span>df<span style="color:#f92672">.</span>drop([<span style="color:#e6db74">&#39;Total&#39;</span>, <span style="color:#e6db74">&#39;Stage&#39;</span>, <span style="color:#e6db74">&#39;Legendary&#39;</span>], axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>sns<span style="color:#f92672">.</span>boxplot(data<span style="color:#f92672">=</span>stats_df)
+</span></span></code></pre></div><p><img alt="image-20210924232804901" loading="lazy" src="https://qiniu.hivan.me/picGo/20210924232804.png?imgNote"></p>
+<p>这样,比较清晰的看出几个特征的数据分布情况了, 非数字的特征自动摒弃.</p>
+<p>在研究 Seaborn, 我们知道还有用 i 中研究数据分布的函数<code>sns.violinplot</code>,  我们尝试用它绘制特征<code>Attack</code>相对于特征<code>Type 1</code>的数据(这是一个分类行特征)的分布.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>df[<span style="color:#e6db74">&#39;Type 1&#39;</span>]<span style="color:#f92672">.</span>unique()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># OUT</span>
+</span></span><span style="display:flex;"><span>array([<span style="color:#e6db74">&#39;Grass&#39;</span>, <span style="color:#e6db74">&#39;Fire&#39;</span>, <span style="color:#e6db74">&#39;Water&#39;</span>, <span style="color:#e6db74">&#39;Bug&#39;</span>, <span style="color:#e6db74">&#39;Normal&#39;</span>, <span style="color:#e6db74">&#39;Poison&#39;</span>, <span style="color:#e6db74">&#39;Electric&#39;</span>,
+</span></span><span style="display:flex;"><span>       <span style="color:#e6db74">&#39;Ground&#39;</span>, <span style="color:#e6db74">&#39;Fairy&#39;</span>, <span style="color:#e6db74">&#39;Fighting&#39;</span>, <span style="color:#e6db74">&#39;Psychic&#39;</span>, <span style="color:#e6db74">&#39;Rock&#39;</span>, <span style="color:#e6db74">&#39;Ghost&#39;</span>, <span style="color:#e6db74">&#39;Ice&#39;</span>,
+</span></span><span style="display:flex;"><span>       <span style="color:#e6db74">&#39;Dragon&#39;</span>], dtype<span style="color:#f92672">=</span>object)
+</span></span></code></pre></div><p>上面显示了特征<code>Type 1</code>中唯一数据, 即数据的值.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>sns<span style="color:#f92672">.</span>set(
+</span></span><span style="display:flex;"><span>  style<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;whitegrid&#39;</span>,
+</span></span><span style="display:flex;"><span>  rc<span style="color:#f92672">=</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;rigure.figsize&#39;</span>:(<span style="color:#ae81ff">11.7</span>, <span style="color:#ae81ff">8.27</span>) <span style="color:#75715e"># 设置了画布的尺寸</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>pkmn_type_colors<span style="color:#f92672">=</span>[
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;#78C850&#39;</span>,  <span style="color:#75715e"># Grass</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;#F08030&#39;</span>,  <span style="color:#75715e"># Fire</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;#6890F0&#39;</span>,  <span style="color:#75715e"># Water</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;#A8B820&#39;</span>,  <span style="color:#75715e"># Bug</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;#A8A878&#39;</span>,  <span style="color:#75715e"># Normal</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;#A040A0&#39;</span>,  <span style="color:#75715e"># Poison</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;#F8D030&#39;</span>,  <span style="color:#75715e"># Electric</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;#E0C068&#39;</span>,  <span style="color:#75715e"># Ground</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;#EE99AC&#39;</span>,  <span style="color:#75715e"># Fairy</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;#C03028&#39;</span>,  <span style="color:#75715e"># Fighting</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;#F85888&#39;</span>,  <span style="color:#75715e"># Psychic</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;#B8A038&#39;</span>,  <span style="color:#75715e"># Rock</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;#705898&#39;</span>,  <span style="color:#75715e"># Ghost</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;#98D8D8&#39;</span>,  <span style="color:#75715e"># Ice</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;#7038F8&#39;</span>,  <span style="color:#75715e"># Dragon</span>
+</span></span><span style="display:flex;"><span>]
+</span></span><span style="display:flex;"><span>sns<span style="color:#f92672">.</span>violinplot(
+</span></span><span style="display:flex;"><span>  x<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Type 1&#39;</span>,
+</span></span><span style="display:flex;"><span>  y<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Attack&#39;</span>,
+</span></span><span style="display:flex;"><span>  data<span style="color:#f92672">=</span>df,
+</span></span><span style="display:flex;"><span>  inner<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, <span style="color:#75715e"># 去掉提琴图中的竖线</span>
+</span></span><span style="display:flex;"><span>  palette<span style="color:#f92672">=</span>pkmn_type_colors
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>sns<span style="color:#f92672">.</span>swarmplot(
+</span></span><span style="display:flex;"><span>  x<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Type 1&#39;</span>,
+</span></span><span style="display:flex;"><span>  y<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Attack&#39;</span>,
+</span></span><span style="display:flex;"><span>  color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;k&#39;</span>, <span style="color:#75715e"># 数据的点的颜色</span>
+</span></span><span style="display:flex;"><span>  alpha<span style="color:#f92672">=</span><span style="color:#ae81ff">0.7</span> 
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">&#39;Attack by Type&#39;</span>)
+</span></span></code></pre></div><p><img alt="image-20210924233358985" loading="lazy" src="https://qiniu.hivan.me/picGo/20210924233359.png?imgNote"></p>
+<p><code>pkmn_type_colors</code>是一个列表, 列出的颜色对应着特征<code>Type 1</code>中的唯一值.</p>
+<p>因为去掉了提琴图内部的竖线,所以整个图没有太乱, 想知道有竖线的是什么样子, 可以注释掉<code>inner=None</code>这个参数.</p>
+<p>之前我们删除了三个特征得到了一个变量<code>stats_df</code>引用的数据集:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>stats_df<span style="color:#f92672">.</span>sample()
+</span></span></code></pre></div><p><strong>OUT:</strong></p>
+<table>
+	<thead>
+			<tr>
+					<th style="text-align: right"></th>
+					<th style="text-align: right">Name</th>
+					<th style="text-align: right">Type 1</th>
+					<th style="text-align: right">Type 2</th>
+					<th style="text-align: right">HP</th>
+					<th style="text-align: right">Attack</th>
+					<th style="text-align: right">Defense</th>
+					<th style="text-align: right">Sp. Atk</th>
+					<th style="text-align: right">Sp. Def</th>
+					<th style="text-align: right">Speed</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: right">#</td>
+					<td style="text-align: right"></td>
+					<td style="text-align: right"></td>
+					<td style="text-align: right"></td>
+					<td style="text-align: right"></td>
+					<td style="text-align: right"></td>
+					<td style="text-align: right"></td>
+					<td style="text-align: right"></td>
+					<td style="text-align: right"></td>
+					<td style="text-align: right"></td>
+			</tr>
+			<tr>
+					<td style="text-align: right">128</td>
+					<td style="text-align: right">Tauros</td>
+					<td style="text-align: right">Normal</td>
+					<td style="text-align: right">NaN</td>
+					<td style="text-align: right">75</td>
+					<td style="text-align: right">100</td>
+					<td style="text-align: right">95</td>
+					<td style="text-align: right">40</td>
+					<td style="text-align: right">70</td>
+					<td style="text-align: right">110</td>
+			</tr>
+	</tbody>
+</table>
+<p>数据结果中看出来, 特征<code>HP</code> <code>Attack</code> <code>Defense</code> <code>Sp.Atk</code> <code>Sp.Def</code> <code>Speed</code>都是整数, 在<code>df.info()</code>中也能看出来.现在有需求, 如果把这些特征分布进行可视化, 而且要放到一个坐标系中进行比较?</p>
+<p><strong>参考:</strong></p>
+<p>先使用<code>pd.melt</code>函数, 将所指定的特征进行归并</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>melted_Df<span style="color:#f92672">=</span>pd<span style="color:#f92672">.</span>melt(
+</span></span><span style="display:flex;"><span>  stats_df,
+</span></span><span style="display:flex;"><span>  id_vars<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;Name&#39;</span>, <span style="color:#e6db74">&#39;Type 1&#39;</span>, <span style="color:#e6db74">&#39;Type 2&#39;</span>], <span style="color:#75715e"># 保留的特征</span>
+</span></span><span style="display:flex;"><span>  var_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Stat&#39;</span> <span style="color:#75715e"># 其余特征规定到这一列内</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>melted_df<span style="color:#f92672">.</span>sample(<span style="color:#ae81ff">10</span>)
+</span></span></code></pre></div><p><strong>OUT:</strong></p>
+<table>
+	<thead>
+			<tr>
+					<th style="text-align: right"></th>
+					<th style="text-align: right">Name</th>
+					<th style="text-align: right">Type 1</th>
+					<th style="text-align: right">Type 2</th>
+					<th style="text-align: right">Stat</th>
+					<th style="text-align: right">value</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: right">291</td>
+					<td style="text-align: right">Kabutops</td>
+					<td style="text-align: right">Rock</td>
+					<td style="text-align: right">Water</td>
+					<td style="text-align: right">Attack</td>
+					<td style="text-align: right">115</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">406</td>
+					<td style="text-align: right">Marowak</td>
+					<td style="text-align: right">Ground</td>
+					<td style="text-align: right">NaN</td>
+					<td style="text-align: right">Defense</td>
+					<td style="text-align: right">110</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">821</td>
+					<td style="text-align: right">Machoke</td>
+					<td style="text-align: right">Fighting</td>
+					<td style="text-align: right">NaN</td>
+					<td style="text-align: right">Speed</td>
+					<td style="text-align: right">45</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">129</td>
+					<td style="text-align: right">Gyarados</td>
+					<td style="text-align: right">Water</td>
+					<td style="text-align: right">Flying</td>
+					<td style="text-align: right">HP</td>
+					<td style="text-align: right">95</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">281</td>
+					<td style="text-align: right">Lapras</td>
+					<td style="text-align: right">Water</td>
+					<td style="text-align: right">Ice</td>
+					<td style="text-align: right">Attack</td>
+					<td style="text-align: right">85</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">586</td>
+					<td style="text-align: right">Vaporeon</td>
+					<td style="text-align: right">Water</td>
+					<td style="text-align: right">NaN</td>
+					<td style="text-align: right">Sp. Atk</td>
+					<td style="text-align: right">110</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">483</td>
+					<td style="text-align: right">Nidoqueen</td>
+					<td style="text-align: right">Poison</td>
+					<td style="text-align: right">Ground</td>
+					<td style="text-align: right">Sp. Atk</td>
+					<td style="text-align: right">75</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">93</td>
+					<td style="text-align: right">Gengar</td>
+					<td style="text-align: right">Ghost</td>
+					<td style="text-align: right">Poison</td>
+					<td style="text-align: right">HP</td>
+					<td style="text-align: right">60</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">791</td>
+					<td style="text-align: right">Vulpix</td>
+					<td style="text-align: right">Fire</td>
+					<td style="text-align: right">NaN</td>
+					<td style="text-align: right">Speed</td>
+					<td style="text-align: right">65</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">481</td>
+					<td style="text-align: right">Nidoran‰ªÛ</td>
+					<td style="text-align: right">Poison</td>
+					<td style="text-align: right">NaN</td>
+					<td style="text-align: right">Sp. Atk</td>
+					<td style="text-align: right">40</td>
+			</tr>
+	</tbody>
+</table>
+<p>这样,在<code>melted_df</code>数据集中的<code>Stat</code>特征中的数据就是分类数据, 值是<code>stats_df</code>中被归并的特征名称.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>melted_df[<span style="color:#e6db74">&#39;Stat&#39;</span>]<span style="color:#f92672">.</span>unique()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># OUT</span>
+</span></span><span style="display:flex;"><span>array([<span style="color:#e6db74">&#39;HP&#39;</span>, <span style="color:#e6db74">&#39;Attack&#39;</span>, <span style="color:#e6db74">&#39;Defense&#39;</span>, <span style="color:#e6db74">&#39;Sp. Atk&#39;</span>, <span style="color:#e6db74">&#39;Sp. Def&#39;</span>, <span style="color:#e6db74">&#39;Speed&#39;</span>],
+</span></span><span style="display:flex;"><span>      dtype<span style="color:#f92672">=</span>object)
+</span></span></code></pre></div><p>在此基础上, 我们绘制反应分类特征数据分布的图示.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>sns,swarmplot(
+</span></span><span style="display:flex;"><span>  x<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Stat&#39;</span>,
+</span></span><span style="display:flex;"><span>  y<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;value&#39;</span>,
+</span></span><span style="display:flex;"><span>  data<span style="color:#f92672">=</span>melted_df
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p><img alt="image-20210924234335100" loading="lazy" src="https://qiniu.hivan.me/picGo/20210924234335.png?imgNote"></p>
+<p>还可以在此基础上,再叠加一层分类:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>sns<span style="color:#f92672">.</span>swarmplot(
+</span></span><span style="display:flex;"><span>  x<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Stat&#39;</span>,
+</span></span><span style="display:flex;"><span>  y<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;value&#39;</span>,
+</span></span><span style="display:flex;"><span>  data<span style="color:#f92672">=</span>melted_df,
+</span></span><span style="display:flex;"><span>  hue<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Type 1&#39;</span> <span style="color:#75715e"># 叠加一层分类</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>legend(bbox_to_anchor<span style="color:#f92672">=</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>), loc<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>)
+</span></span></code></pre></div><p><img alt="image-20210924234603758" loading="lazy" src="https://qiniu.hivan.me/picGo/20210924234603.png?imgNote"></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/apple_m1_ai_environment_construction/">
+    <span class="title">« Prev</span>
+    <span>Apple M1 的 AI 环境搭建</span>
+  </a>
+  <a class="next" href="http://localhost:1313/posts/titanic/">
+    <span class="title">Next »</span>
+    <span>「泰坦尼克」生存预测</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">茶桁.MAMT</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>使用 Seaborn 热图的 5 种方法（Python 教程） | 茶桁.MAMT</title>
+<meta name="keywords" content="">
+<meta name="description" content="
+如何计算 SHAP 特征贡献的概述
+">
+<meta name="author" content="Hivan Du">
+<link rel="canonical" href="http://localhost:1313/posts/%E4%BD%BF%E7%94%A8-seaborn-%E7%83%AD%E5%9B%BE%E7%9A%84-5-%E7%A7%8D%E6%96%B9%E6%B3%95python-%E6%95%99%E7%A8%8B/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.cd9298b33628769aa1bc1acebbbfd7aa11ce81dfe03484d479e1907760249a1d.css" integrity="sha256-zZKYszYodpqhvBrOu7/XqhHOgd/gNITUeeGQd2Akmh0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/%E4%BD%BF%E7%94%A8-seaborn-%E7%83%AD%E5%9B%BE%E7%9A%84-5-%E7%A7%8D%E6%96%B9%E6%B3%95python-%E6%95%99%E7%A8%8B/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="茶桁.MAMT (Alt + H)">
+                <img src="http://localhost:1313/%F0%9F%A7%A0" alt="" aria-label="logo"
+                    height="30">茶桁.MAMT</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="http://localhost:1313/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/posts/">文章</a>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+</nav>
+    <h1 class="post-title entry-hint-parent">
+      使用 Seaborn 热图的 5 种方法（Python 教程）
+    </h1>
+    <div class="post-meta">
+
+<span title='2024-10-01 07:03:00 +0800 CST'>October 1, 2024</span>&nbsp;·&nbsp;<span>5 min</span>&nbsp;·&nbsp;<span>Hivan Du</span>
+
+</div>
+  </header> <details class="toc" >
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">Table of Contents</span>
+    </summary>
+
+    <div class="inner"><ul>
+            <li>
+                <a href="#%e4%bb%80%e4%b9%88%e6%98%af%e7%83%ad%e5%9b%be" aria-label="什么是热图？">什么是热图？</a></li>
+            <li>
+                <a href="#1-%e6%b7%b7%e6%b7%86%e7%9f%a9%e9%98%b5" aria-label="1 混淆矩阵">1 混淆矩阵</a><ul>
+                    
+            <li>
+                <a href="#%e7%83%ad%e5%9b%be%e4%bb%a3%e7%a0%81" aria-label="热图代码">热图代码</a></li>
+            <li>
+                <a href="#%e6%b7%b1%e5%ba%a6%e7%a5%9e%e7%bb%8f%e7%bd%91%e7%bb%9c%e8%af%ad%e8%a8%80%e8%af%86%e5%88%ab" aria-label="深度神经网络语言识别">深度神经网络语言识别</a></li></ul>
+            </li>
+            <li>
+                <a href="#2-%e7%be%a4%e4%bd%93%e9%97%b4%e6%b5%81%e5%8a%a8" aria-label="2 群体间流动">2 群体间流动</a></li>
+            <li>
+                <a href="#3-%e6%b8%a9%e5%ba%a6%e9%9a%8f%e6%97%b6%e9%97%b4%e5%8f%98%e5%8c%96" aria-label="3 温度随时间变化">3 温度随时间变化</a></li>
+            <li>
+                <a href="#4-%e7%9b%b8%e5%85%b3%e7%9f%a9%e9%98%b5" aria-label="4 相关矩阵">4 相关矩阵</a></li>
+            <li>
+                <a href="#5-shap%e7%9b%b8%e4%ba%92%e4%bd%9c%e7%94%a8%e5%80%bc" aria-label="5 SHAP相互作用值">5 SHAP相互作用值</a></li>
+            <li>
+                <a href="#%e5%8f%82%e8%80%83" aria-label="参考">参考</a>
+            </li>
+        </ul>
+    </div>
+</details>
+
+  <div class="post-content md-content"><p><img alt="img" loading="lazy" src="https://miro.medium.com/v2/resize:fit:1400/1*B8m3aVg6TDlPQKGVRqqKRQ.png"></p>
+<p>热图可以让你的数据变得生动。用途广泛且引人注目。在很多情况下，它们可以突出显示数据中的重要关系。具体来说，我们将讨论如何使用它们来可视化：</p>
+<ul>
+<li>模型准确度的混淆矩阵</li>
+<li>时间序列数据显示组间的变化</li>
+<li>时间序列数据显示温度变化</li>
+<li>相关矩阵</li>
+<li>平均SHAP 相互作用值</li>
+</ul>
+<p>在此过程中，你将学习自定义热图的不同方法。我们将讨论创建它们的代码，你可以在Github<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>找到完整的项目。</p>
+<h2 id="什么是热图">什么是热图？<a hidden class="anchor" aria-hidden="true" href="#什么是热图">#</a></h2>
+<p>我们先来讨论一下热图是什么以及为什么热图如此有用。你可以在图 1 中看到一个示例。y 轴上有变量 1。在这种情况下，变量 1 可以采用不同的 4 个值。也就是说，“V1-1”是变量 1 的第一个值。同样，y 轴上有变量 2。还有第三个变量。这是每个单元格内的值。每个单元格的颜色由这个变量的值决定。</p>
+<p><img alt="图 1：示例热图" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240927160821.png"></p>
+<p>因此，使用热图，我们可以在 2D 平面上直观地显示 3 个变量之间的关系。这些关系可能很复杂。这就是使用颜色的原因。它可以突出显示关系的重要方面，并使它们更容易理解。</p>
+<p>我们应该记住，热图仍然有局限性。变量 1 和变量 2 需要是离散的或分类的。或者，如果它们是连续的，我们需要能够将它们分组。另一方面，变量 3 需要是连续变量。希望当我们在下面讨论我们的 5 个热图时，这一点会很清楚。</p>
+<h2 id="1-混淆矩阵">1 混淆矩阵<a hidden class="anchor" aria-hidden="true" href="#1-混淆矩阵">#</a></h2>
+<p>图 2中的第一个热图是混淆矩阵的可视化。它来自用于预测一段文本语言的模型。y 轴表示文本的实际语言。x 轴表示模型预测的语言。对角线上的数字表示正确预测的数量。非对角线上的数字表示错误预测的数量。例如，英语 (eng) 被错误预测为德语 (deu) 11 次。</p>
+<p><img alt="图 2：相关矩阵" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240927162541.png"></p>
+<p>当你的目标变量有很多类别时，可视化这样的混淆矩阵很有用。它可以突出显示模型出错的地方。例如，我们发现模型最常将葡萄牙语（por）混淆为西班牙语（spa）（124 次）或将西班牙语混淆为葡萄牙语（84 次）。这是有道理的，因为在所有语言中，这两种语言在词汇上最相似。</p>
+<h3 id="热图代码">热图代码<a hidden class="anchor" aria-hidden="true" href="#热图代码">#</a></h3>
+<p>要创建此热图，我们首先导入以下包。热图函数来自 seaborn 包（第 6 行）。我们将对所有 5 个热图使用相同的包。确保已安装它们。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> pandas <span style="color:#66d9ef">as</span> pd
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>style<span style="color:#f92672">.</span>use(<span style="color:#e6db74">&#39;default&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#f92672">%</span>matplotlib inline
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> seaborn <span style="color:#66d9ef">as</span> sns
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> datetime <span style="color:#f92672">import</span> datetime
+</span></span></code></pre></div><p>我们有一个用于填充下面热图的二维数组。这些数组给出了正确和错误预测的数量。你可以看到第一个子数组（第 2 行）对应于图 2中热图第一行的值。所有热图都使用与此类似的二维数组填充。如果你需要将此代码用于另一个热图，则可以用你的二维数组替换此混淆矩阵。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Hard code confusion matrix</span>
+</span></span><span style="display:flex;"><span>conf_matrix <span style="color:#f92672">=</span> [[<span style="color:#ae81ff">4963</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">3</span>], [<span style="color:#ae81ff">11</span>, <span style="color:#ae81ff">4842</span>, <span style="color:#ae81ff">21</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">5</span>], [<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">4999</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">13</span>], [<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">25</span>, <span style="color:#ae81ff">4852</span>, <span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">96</span>], [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">15</span>, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">4873</span>, <span style="color:#ae81ff">124</span>], [<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">18</span>, <span style="color:#ae81ff">18</span>, <span style="color:#ae81ff">84</span>, <span style="color:#ae81ff">4943</span>]]
+</span></span></code></pre></div><p>目前，我们已经对 2D 数组进行了硬编码。文章《[[深度神经网络语言识别]]》将带你了解我们实际获取这些数字的过程。总而言之，我们使用 NLP 技术构建了一个神经网络。然后，我们使用此模型来预测测试数据集中文本的语言。你在上面看到的数字来自这些预测。</p>
+<h3 id="深度神经网络语言识别">深度神经网络语言识别<a hidden class="anchor" aria-hidden="true" href="#深度神经网络语言识别">#</a></h3>
+<p>使用这个二维数组，我们创建一个 pandas DataFrame ( <code>conf_matrix_df</code>)。我们使用不同的语言作为列名和行名。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Create pandas dataframe with confusion matrix</span>
+</span></span><span style="display:flex;"><span>lang <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;deu&#39;</span>, <span style="color:#e6db74">&#39;eng&#39;</span>, <span style="color:#e6db74">&#39;fra&#39;</span>, <span style="color:#e6db74">&#39;ita&#39;</span>, <span style="color:#e6db74">&#39;por&#39;</span>, <span style="color:#e6db74">&#39;spa&#39;</span>]
+</span></span><span style="display:flex;"><span>conf_matrix_df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame(conf_matrix, columns<span style="color:#f92672">=</span>lang, index<span style="color:#f92672">=</span>lang)
+</span></span></code></pre></div><p>最后，我们使用 seaborn heatmap 函数（第 5-9 行）可视化此 DataFrame。除了 <code>conf_matrix_df</code>，我们还传递了一些参数。<code>cmap</code> 提供配色方案。将其设置为 <code>coolwarm</code> 可获得红色和蓝色单元格。将<code>annot</code> 设置为 true 可获得每个单元格中的数字。如果没有它，我们将只有颜色。<code>fmt</code> 定义颜色的格式。在创建其他热图时，我们将看到这些参数的一些变化。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Plot confusion matrix heatmap</span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">10</span>))
+</span></span><span style="display:flex;"><span>sns<span style="color:#f92672">.</span>set(font_scale<span style="color:#f92672">=</span><span style="color:#ae81ff">1.5</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sns<span style="color:#f92672">.</span>heatmap(conf_matrix_df, cmap<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;coolwarm&#39;</span>, annot<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>, fmt<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;.5g&#39;</span>, vmax<span style="color:#f92672">=</span><span style="color:#ae81ff">200</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">&#39;Predicted&#39;</span>, fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">22</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">&#39;Actual&#39;</span>, fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">22</span>)
+</span></span></code></pre></div><p>最后一个参数是 <code>vmax</code>。它定义了颜色标度的最大值。如果你不为该参数传递值，它将默认为热图中的最大值。在本例中，它是正确的法语 (fra) 预测的数量（即 4999）。我们将该值设置为 200，因为这样可以更容易区分错误的预测。你可以在图 3 中看到我们的意思。此热图是使用 <code>vmax</code> 的默认值创建的。</p>
+<p><img alt="图 3：没有 vmax 的相关矩阵" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240927162208.png"></p>
+<h2 id="2-群体间流动">2 群体间流动<a hidden class="anchor" aria-hidden="true" href="#2-群体间流动">#</a></h2>
+<p>我们的第二张热图展示了如何可视化分类变量随时间的变化。具体来说，我们展示了美国城市的空气质量指数 (AQI)。y 轴表示 2010 年的 AQI 水平，x 轴表示 2016 年的水平。单元格值表示从一个级别升至另一个级别的城市数量。例如，我们可以看到 20 个城市从不健康（敏感人群）级别改善到了中等级别。</p>
+<p><img alt="图 4：不同时期的 AQI 水平" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240927162651.png"></p>
+<p>AQI 是介于 0 到 500 之间的值。值越高，空气污染程度越高。AQI 是使用 4 种不同的污染物计算得出的——二氧化氮 (NO2)、二氧化硫 (SO2)、一氧化碳 (CO) 和臭氧 (O3)。具体来说，为了得到最终的 AQI，我们取这 4 种污染物中的最大 AQI。在图 5中，你可以看到不同关注级别的 AQI 范围。我们在热图中使用了这些级别。</p>
+<p><img alt="图 5：AQI 水平" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240927162745.png"></p>
+<p>来源：[AirNow: https://www.airnow.gov/aqi/aqi-basics/]</p>
+<p>要创建热图，我们首先加载数据集（第 2 行）。你可以在 Kaggle<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> 上找到此数据集。阅读是按天进行的。我们只对阅读的年份感兴趣。因此，我们创建了一个包含阅读年份的列（第 5-6 行）。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Load dataset</span>
+</span></span><span style="display:flex;"><span>df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(dp <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;pollution_us_2000_2016.csv&#39;</span>, index_col<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Create column with year of reading</span>
+</span></span><span style="display:flex;"><span>date <span style="color:#f92672">=</span> [datetime<span style="color:#f92672">.</span>strptime(dt, <span style="color:#e6db74">&#39;%Y-%m-</span><span style="color:#e6db74">%d</span><span style="color:#e6db74">&#39;</span>) <span style="color:#66d9ef">for</span> dt <span style="color:#f92672">in</span> df[<span style="color:#e6db74">&#39;Date Local&#39;</span>]]
+</span></span><span style="display:flex;"><span>df[<span style="color:#e6db74">&#39;year&#39;</span>] <span style="color:#f92672">=</span> [dt<span style="color:#f92672">.</span>year <span style="color:#66d9ef">for</span> dt <span style="color:#f92672">in</span> date]
+</span></span></code></pre></div><p>这是 x 轴和 y 轴上的变量原本是连续变量的示例。如前所述，我们需要对该变量进行分组。下面的 <code>aqiGroup</code> 函数用于执行此操作。它将根据 AQI 值返回一个级别。它使用的范围与图 5 中相同。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">aqiGroup</span>(api):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;&#39;&#39;Return group name based on AQI values&#39;&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> api <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">50</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;Good&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> api <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">100</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;Moderate&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> api <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">150</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;Unhealthy </span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">(Sensitive Groups)&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> api <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">200</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;Unhealthy&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> api <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">300</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;Very Unhealthy&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> api <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">500</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;Hazardous&#39;</span>
+</span></span></code></pre></div><p>为了得到最终的 2D 矩阵，我们需要进行一些数据处理。我们首先使用 4 种污染物的值计算 AQI 值（第 2 行）。然后，对于每个城市，我们计算每年的最大 AQI（第 5 行）。因此，你在热图中看到的值实际上是基于 2010 年和 2016 年的最大 AQI 值。最后，我们使用 <code>aqiGroup</code> 函数对 AQI 值进行分组（第 8 行）。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Get maximum AQI across 4 pollution measures </span>
+</span></span><span style="display:flex;"><span>df[<span style="color:#e6db74">&#39;AQI&#39;</span>] <span style="color:#f92672">=</span> [np<span style="color:#f92672">.</span>nanmax(x) <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> df[[<span style="color:#e6db74">&#39;NO2 AQI&#39;</span>, <span style="color:#e6db74">&#39;O3 AQI&#39;</span>,<span style="color:#e6db74">&#39;SO2 AQI&#39;</span>,<span style="color:#e6db74">&#39;CO AQI&#39;</span>]]<span style="color:#f92672">.</span>values<span style="color:#f92672">.</span>tolist()]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Get maximum O3 AQI AQI for each city each year</span>
+</span></span><span style="display:flex;"><span>df_max <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>groupby([<span style="color:#e6db74">&#39;City&#39;</span>, <span style="color:#e6db74">&#39;year&#39;</span>], as_index<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)[<span style="color:#e6db74">&#39;O3 AQI&#39;</span>]<span style="color:#f92672">.</span>max()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Get AQI group of maximum AQI value</span>
+</span></span><span style="display:flex;"><span>df_max[<span style="color:#e6db74">&#39;AQI Group&#39;</span>] <span style="color:#f92672">=</span> [aqiGroup(aqi) <span style="color:#66d9ef">for</span> aqi <span style="color:#f92672">in</span> df_max[<span style="color:#e6db74">&#39;O3 AQI&#39;</span>]]
+</span></span></code></pre></div><p>我们获取了 2016 年（第 2-3 行）和 2010 年（第 6-7 行）的所有 AQI 值。然后，我们将这些表格合并起来（第 10 行）。在某些情况下，一个城市可能在某一年有读数，而在另一年没有。在这种情况下，我们将缺失值替换为 <code>Not operational</code>（第 11 行）。最终数据集AQI将包含每个城市在 2016 年和 2010 年的水平。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># AQI groups in 2016</span>
+</span></span><span style="display:flex;"><span>AQI_2016 <span style="color:#f92672">=</span> df_max[df_max<span style="color:#f92672">.</span>year<span style="color:#f92672">==</span><span style="color:#ae81ff">2016</span>][[<span style="color:#e6db74">&#39;City&#39;</span>, <span style="color:#e6db74">&#39;AQI Group&#39;</span>]]
+</span></span><span style="display:flex;"><span>AQI_2016<span style="color:#f92672">.</span>columns <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;City&#39;</span>, <span style="color:#e6db74">&#39;AQI 2016&#39;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># AQI groups in 2010</span>
+</span></span><span style="display:flex;"><span>AQI_2010 <span style="color:#f92672">=</span> df_max[df_max<span style="color:#f92672">.</span>year<span style="color:#f92672">==</span><span style="color:#ae81ff">2010</span>][[<span style="color:#e6db74">&#39;City&#39;</span>, <span style="color:#e6db74">&#39;AQI Group&#39;</span>]]
+</span></span><span style="display:flex;"><span>AQI_2010<span style="color:#f92672">.</span>columns <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;City&#39;</span>, <span style="color:#e6db74">&#39;AQI 2010&#39;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Join tables and replace missing values</span>
+</span></span><span style="display:flex;"><span>AQI <span style="color:#f92672">=</span> AQI_2016<span style="color:#f92672">.</span>join(AQI_2010<span style="color:#f92672">.</span>set_index([<span style="color:#e6db74">&#39;City&#39;</span>]), how<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;outer&#39;</span>, on<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;City&#39;</span>])
+</span></span><span style="display:flex;"><span>AQI<span style="color:#f92672">.</span>fillna(<span style="color:#e6db74">&#39;Not operational&#39;</span>, inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span></code></pre></div><p>好的，现在我们有了这个数据集，我们可以使用它来创建 2D 数组 <code>hm_array</code>。这用于填充热图。它将具有与我们在第一个热图中看到的硬编码数组相同的结构。该数组是在第 6 行到第 12 行中创建的。其中，对于每个级别组合，我们计算 AQI 数据集中的记录数（第 10-11 行）。和以前一样，我们使用这个 2D 数组创建一个 dataFrame。我们使用 AQI 级别作为列名和行名。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># NOTE: &#39;Very Unhealthy&#39; and &#39;Hazardous&#39; groups have been exluded</span>
+</span></span><span style="display:flex;"><span>groups <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;Good&#39;</span>, <span style="color:#e6db74">&#39;Moderate&#39;</span>, <span style="color:#e6db74">&#39;Unhealthy </span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">(Sensitive Groups)&#39;</span>, <span style="color:#e6db74">&#39;Unhealthy&#39;</span>, <span style="color:#e6db74">&#39;Not operational&#39;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Create matrix of group counts</span>
+</span></span><span style="display:flex;"><span>hm_array <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> groups:
+</span></span><span style="display:flex;"><span>    hm_array_i <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> j <span style="color:#f92672">in</span> groups:
+</span></span><span style="display:flex;"><span>        df <span style="color:#f92672">=</span> AQI[(AQI[<span style="color:#e6db74">&#39;AQI 2010&#39;</span>] <span style="color:#f92672">==</span> i)<span style="color:#f92672">&amp;</span>(AQI[<span style="color:#e6db74">&#39;AQI 2016&#39;</span>]<span style="color:#f92672">==</span>j)]
+</span></span><span style="display:flex;"><span>        hm_array_i<span style="color:#f92672">.</span>append(len(df))
+</span></span><span style="display:flex;"><span>    hm_array<span style="color:#f92672">.</span>append(hm_array_i)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Create dataframe from matrix</span>
+</span></span><span style="display:flex;"><span>hm_df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame(hm_array, columns<span style="color:#f92672">=</span>groups, index<span style="color:#f92672">=</span>groups)
+</span></span></code></pre></div><p>最后，我们像以前一样创建热图。这次我们有不同的参数值。我们使用了不同的配色方案 cmap 。我们将 <code>cbar</code> 设置为 false。这会隐藏颜色条。我们还使用了 <code>linewidths</code> 和 <code>linecolor</code> 参数为热图提供黑色网格线。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Plot confusion matrix heatmap</span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">10</span>), facecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;w&#39;</span>, edgecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;k&#39;</span>)
+</span></span><span style="display:flex;"><span>sns<span style="color:#f92672">.</span>set(font_scale<span style="color:#f92672">=</span><span style="color:#ae81ff">1.5</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sns<span style="color:#f92672">.</span>heatmap(hm_df, cmap<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;viridis&#39;</span>, annot<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>, fmt<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;.5g&#39;</span>, cbar<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>, linewidths<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, linecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;black&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">&#39;2016&#39;</span>, fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">22</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">&#39;2010&#39;</span>, fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">22</span>)
+</span></span></code></pre></div><h2 id="3-温度随时间变化">3 温度随时间变化<a hidden class="anchor" aria-hidden="true" href="#3-温度随时间变化">#</a></h2>
+<p>与上一张热图类似，我们用这张热图来可视化时间序列数据。只不过，现在我们展示的是连续变量随时间的变化。在图 4 中，你可以看到全球平均气温随时间的变化。从 1900 年到 2016 年，每个月都有读数。你可以清楚地看到气候变化对后续月份的影响。也许我们对热图一词的理解有点过于字面化了。</p>
+<p><img alt="图 6：随时间变化的平均温度" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240927162831.png"></p>
+<p>我们首先加载数据集（第 1 行）。你可以在 datahub<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup> 上找到它。数据集包含两个不同的温度读数来源。我们仅选择 GISTEMP 读数（第 4 行）。然后，我们为每个读数创建年份和月份的列（第 7-9 行）。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(dp <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;Global_Temp_Monthly.csv&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Only use GISTEMP record</span>
+</span></span><span style="display:flex;"><span>df <span style="color:#f92672">=</span> df[df<span style="color:#f92672">.</span>Source <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;GISTEMP&#39;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Get year and month of record</span>
+</span></span><span style="display:flex;"><span>date <span style="color:#f92672">=</span> [datetime<span style="color:#f92672">.</span>strptime(dt, <span style="color:#e6db74">&#39;%Y-%m&#39;</span>) <span style="color:#66d9ef">for</span> dt <span style="color:#f92672">in</span> df[<span style="color:#e6db74">&#39;Date&#39;</span>]]
+</span></span><span style="display:flex;"><span>df[<span style="color:#e6db74">&#39;year&#39;</span>] <span style="color:#f92672">=</span> [dt<span style="color:#f92672">.</span>year <span style="color:#66d9ef">for</span> dt <span style="color:#f92672">in</span> date]
+</span></span><span style="display:flex;"><span>df[<span style="color:#e6db74">&#39;month&#39;</span>] <span style="color:#f92672">=</span> [dt<span style="color:#f92672">.</span>month <span style="color:#66d9ef">for</span> dt <span style="color:#f92672">in</span> date]
+</span></span></code></pre></div><p>和之前一样，我们创建一个用于填充热图的 2D 数组。在之前的热图中，所有 2D 数组都是对称的。但情况并不总是如此。对于此热图，每个月都有一个子数组（即 1 到 12）。每个子数组都将包含 1900 年至 2016 年每年的温度值。因此，我们现在有一个 12x117 数组。我们使用年份作为列名、月份作为行名来创建一个 DataFrame。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>years <span style="color:#f92672">=</span> range(<span style="color:#ae81ff">1900</span>,<span style="color:#ae81ff">2017</span>)
+</span></span><span style="display:flex;"><span>months <span style="color:#f92672">=</span> range(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">13</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Create matrix of temprature values</span>
+</span></span><span style="display:flex;"><span>hm_array <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> m <span style="color:#f92672">in</span> months:
+</span></span><span style="display:flex;"><span>    hm_array_y <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> y <span style="color:#f92672">in</span> years:
+</span></span><span style="display:flex;"><span>        mean <span style="color:#f92672">=</span>  df[(df<span style="color:#f92672">.</span>year <span style="color:#f92672">==</span> y) <span style="color:#f92672">&amp;</span> (df<span style="color:#f92672">.</span>month <span style="color:#f92672">==</span> m)][<span style="color:#e6db74">&#39;Mean&#39;</span>] 
+</span></span><span style="display:flex;"><span>        mean <span style="color:#f92672">=</span> mean<span style="color:#f92672">.</span>to_numpy()[<span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>        hm_array_y<span style="color:#f92672">.</span>append(mean)  
+</span></span><span style="display:flex;"><span>    hm_array<span style="color:#f92672">.</span>append(hm_array_y)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Create dataframe from matrix</span>
+</span></span><span style="display:flex;"><span>hm_df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame(hm_array,columns<span style="color:#f92672">=</span>years,index<span style="color:#f92672">=</span>months)
+</span></span></code></pre></div><p>我们像之前一样可视化这个 DataFrame。最大的区别是我们将 x ticklabels 参数设置为 10。这意味着只显示 x 轴上的每 10 个标签。你可以在图 6中看到这一点，其中只显示了 1900、1910、1920 等标签。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Plot confusion matrix heatmap</span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">6</span>), facecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;w&#39;</span>, edgecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;k&#39;</span>)
+</span></span><span style="display:flex;"><span>sns<span style="color:#f92672">.</span>set(font_scale<span style="color:#f92672">=</span><span style="color:#ae81ff">1.5</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sns<span style="color:#f92672">.</span>heatmap(hm_df,
+</span></span><span style="display:flex;"><span>            cmap<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;coolwarm&#39;</span>,
+</span></span><span style="display:flex;"><span>            cbar<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>,
+</span></span><span style="display:flex;"><span>            xticklabels<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">&#39;Year&#39;</span>,fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">22</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">&#39;Month&#39;</span>,fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">22</span>)
+</span></span></code></pre></div><h2 id="4-相关矩阵">4 相关矩阵<a hidden class="anchor" aria-hidden="true" href="#4-相关矩阵">#</a></h2>
+<p>我们的第四张热图可能是你以前见过的。它的一个常见用途是可视化数据集中的相关性。例如，我们在图 7中有一个房价数据集的相关矩阵。我们可以使用它来识别可能导致模型出现问题的任何多重共线性。例如，X3 和 X4 呈负相关。最后一行还给出了与目标变量 Y 的相关性。我们可以使用它来了解任何特征是否与 Y 有显著关系。</p>
+<p><img alt="图 7：相关矩阵" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240927162856.png"></p>
+<p>要创建此热图，我们首先加载数据集（第 2 行）。你可以在 UCI 的 机器学习存储库<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup> 中找到它。然后，我们使用此数据集创建一个相关矩阵（第 5 行）。结果将是一个 pandas DataFrame。列和行名称将与数据集中特征的名称相同。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Load dataset</span>
+</span></span><span style="display:flex;"><span>df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(dp <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;Real_estate_valuation_data_set.csv&#39;</span>,index_col<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Create correlation matrix</span>
+</span></span><span style="display:flex;"><span>corr_matrix <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>corr()
+</span></span></code></pre></div><p>你可能已经注意到，在图 7中，对角线上方的单元格是空白的。为此，我们首先需要创建一个掩码。这是一个 2D 数组，类似于我们用来填充以前的热图的数组。对于要显示的单元格，数组的值应该是“True”。否则，对于空白单元格，它们应该是“False”。我们使用下面的代码来创建掩码。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Define mask used to cover squares above diagonal </span>
+</span></span><span style="display:flex;"><span>mask <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(corr_matrix<span style="color:#f92672">.</span>columns)):
+</span></span><span style="display:flex;"><span>    mask_i <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> j <span style="color:#f92672">in</span> range(len(corr_matrix<span style="color:#f92672">.</span>columns)):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> i<span style="color:#f92672">&lt;</span>j:
+</span></span><span style="display:flex;"><span>            mask_i<span style="color:#f92672">.</span>append(<span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>: 
+</span></span><span style="display:flex;"><span>            mask_i<span style="color:#f92672">.</span>append(<span style="color:#66d9ef">False</span>)
+</span></span><span style="display:flex;"><span>    mask<span style="color:#f92672">.</span>append(mask_i)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>mask <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array(mask)
+</span></span></code></pre></div><p>最后，我们可以显示热图。唯一的区别是我们需要将掩码作为参数传递（第 8 行）。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Display Correlations</span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">10</span>), facecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;w&#39;</span>, edgecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;k&#39;</span>)
+</span></span><span style="display:flex;"><span>sns<span style="color:#f92672">.</span>set(font_scale<span style="color:#f92672">=</span><span style="color:#ae81ff">1.2</span>)
+</span></span><span style="display:flex;"><span>sns<span style="color:#f92672">.</span>heatmap(corr_matrix,cmap<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;coolwarm&#39;</span>, center<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>,annot<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>, fmt<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;.1g&#39;</span>, mask<span style="color:#f92672">=</span>mask)
+</span></span></code></pre></div><h2 id="5-shap相互作用值">5 SHAP相互作用值<a hidden class="anchor" aria-hidden="true" href="#5-shap相互作用值">#</a></h2>
+<p>我们最后的热图可用于突出显示对模型预测很重要的特征。它是通过取平均 SHAP 交互值创建的。它显示了对角线上的平均主效应。例如，我们可以看到，经验、学位、绩效和销售额的主效应很大。同样，平均交互效应在非对角线上。我们可以看到，经验.学位和绩效.销售额的交互效应很显著。</p>
+<p><img alt="图 8：平均 SHAP 相互作用值" loading="lazy" src="https://miro.medium.com/v2/resize:fit:1400/1*qQB-lS3wq-743azbjv7hKQ.png"></p>
+<p>我们不会介绍用于创建此热图的代码。如果你有兴趣，可以在文章《[[分析与 SHAP 的相互作用]]》中找到它。我们深入探讨了 SHAP 交互值。我们还使用这些值创建和解释其他图。这些用于解释你的机器学习模型。</p>
+<p>希望这篇文章对你有所帮助！你还可以阅读我的其他文章，或者查看有关企业 AI 实战项目的教程，相信会让你拥有更多收获。</p>
+<p><strong>「AI秘籍」系列课程：</strong>
+<a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3074770001140400130&amp;scene=173&amp;subscene=227&amp;sessionid=undefined&amp;enterid=1717956640&amp;from_msgid=2648748678&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">人工智能应用数学基础</a></p>
+<p><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3035995870421073928&amp;scene=126&amp;uin=&amp;key=&amp;devicetype=iMac+MacBookPro17%2C1+OSX+OSX+14.5+build(23F79)&amp;version=13080710&amp;lang=zh_CN&amp;nettype=WIFI&amp;ascene=78&amp;fontScale=100">人工智能Python基础</a></p>
+<p><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3123885735829061633&amp;scene=173&amp;subscene=227&amp;sessionid=1717956706&amp;enterid=1717956713&amp;from_msgid=2648751062&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">人工智能基础核心知识</a></p>
+<p><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg%3D%3D&amp;action=getalbum&amp;album_id=3193965113967132673&amp;subscene=&amp;sessionid=svr_548800ce471&amp;enterid=1704001437&amp;from_msgid=2648751621&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;scene=21#wechat_redirect">人工智能BI核心知识</a></p>
+<p><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3503005363236880386&amp;from_itemidx=1&amp;from_msgid=2648753419#wechat_redirect">人工智能CV核心知识</a></p>
+<p><img alt="AI企业项目实战课优惠二维码" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407252125233.png"></p>
+<h2 id="参考">参考<a hidden class="anchor" aria-hidden="true" href="#参考">#</a></h2>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Github, <a href="https://github.com/hivandu/public_articles/tree/main/src/seaborn_heatmap.ipynb">https://github.com/hivandu/public_articles/tree/main/src/seaborn_heatmap.ipynb</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>Kaggle, U.S. Pollution Data, <a href="https://www.kaggle.com/datasets/sogun3/uspollution">https://www.kaggle.com/datasets/sogun3/uspollution</a>, Licence: Open Database License (ODbL) 1.0&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>Datahub, Global Temperature Time Series, <a href="https://datahub.io/core/global-temp">https://datahub.io/core/global-temp</a>, Licence: ODC-PDDL-1.0&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4">
+<p>机器学习存储库, Real estate valuation data set Data Set, <a href="http://archive.ics.uci.edu/ml/datasets/Real+estate+valuation+data+set">http://archive.ics.uci.edu/ml/datasets/Real+estate+valuation+data+set</a>, Licence: CC0: Public Domain&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/shap-%E7%9A%84%E5%B1%80%E9%99%90%E6%80%A7/">
+    <span class="title">« Prev</span>
+    <span>SHAP 的局限性</span>
+  </a>
+  <a class="next" href="http://localhost:1313/posts/%E4%BB%8E-shapley-%E5%88%B0-shap--%E6%95%B0%E5%AD%A6%E7%90%86%E8%A7%A3/">
+    <span class="title">Next »</span>
+    <span>从 Shapley 到 SHAP — 数学理解</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">茶桁.MAMT</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

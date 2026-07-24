@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Chrome on 茶桁.MAMT</title>
+    <link>http://localhost:1313/tags/chrome/</link>
+    <description>Recent content in Chrome on 茶桁.MAMT</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Wed, 10 May 2023 16:38:41 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/chrome/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>最佳 ChatGPT Chrome 扩展程序</title>
+      <link>http://localhost:1313/posts/best-chatgpt-chrome-extension/</link>
+      <pubDate>Wed, 10 May 2023 16:38:41 +0800</pubDate>
+      <guid>http://localhost:1313/posts/best-chatgpt-chrome-extension/</guid>
+      <description>想要轻松访问 ChatGPT 吗？其中一个最佳方式是通过其一系列 Chrome 扩展程序。这些扩展程序还为您提供更好的使用 ChatGPT 的方法，包括帮助您编写更好的提示以获得更好的响应，或为 ChatGPT 授予搜索互联网的能力，从而提供对更多最新信息的访问。
+这是您现在可以使用的最佳 ChatGPT Chrome 扩展程序。</description>
+    </item>
+  </channel>
+</rss>

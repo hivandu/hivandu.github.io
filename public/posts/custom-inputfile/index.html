@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>自定义文件上传框 | 茶桁.MAMT</title>
+<meta name="keywords" content="">
+<meta name="description" content="其实这根本就不值得写出来，只是可能前几步大家都做了，只是最后一步就忽略了。
+
+我们在自定义input:file的时候，一般来说都是外边包一层，里边在写一个&lt;input type=&quot;file&quot;&gt;, 然后将其透明值设置成0,然后再定义外层的样式来达到自定义的目的。">
+<meta name="author" content="Hivan Du">
+<link rel="canonical" href="http://localhost:1313/posts/custom-inputfile/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.cd9298b33628769aa1bc1acebbbfd7aa11ce81dfe03484d479e1907760249a1d.css" integrity="sha256-zZKYszYodpqhvBrOu7/XqhHOgd/gNITUeeGQd2Akmh0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/custom-inputfile/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="茶桁.MAMT (Alt + H)">
+                <img src="http://localhost:1313/%F0%9F%A7%A0" alt="" aria-label="logo"
+                    height="30">茶桁.MAMT</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="http://localhost:1313/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/posts/">文章</a>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+</nav>
+    <h1 class="post-title entry-hint-parent">
+      自定义文件上传框
+    </h1>
+    <div class="post-meta">
+
+<span title='2015-07-27 12:50:44 +0800 CST'>July 27, 2015</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>Hivan Du</span>
+
+</div>
+  </header> 
+
+  <div class="post-content md-content"><p>其实这根本就不值得写出来，只是可能前几步大家都做了，只是最后一步就忽略了。
+<img loading="lazy" src="https://farm6.staticflickr.com/5196/14320298586_2c05c821ac_o_d.png">
+我们在自定义<code>input:file</code>的时候，一般来说都是外边包一层，里边在写一个<code>&lt;input type=&quot;file&quot;&gt;</code>, 然后将其透明值设置成<code>0</code>,然后再定义外层的样式来达到自定义的目的。</p>
+<p>HTML：</p>
+<pre><code>&lt;div class=&quot;upfileOutWrap&quot;&gt;
+  &lt;div class=&quot;upfileWrap&quot;&gt;&lt;input type=&quot;file&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;upfileBG&quot;&gt;upload image&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<p><strong>CSS：</strong></p>
+<pre><code>.upfileOutWrap { 
+  cursor: pointer; 
+  width: 199px;  height: 42px; 
+  line-height: 42px; 
+  position: relative;
+}
+.upfileWrap{
+  width: 100%;  height: 100%; 
+  position: absolute; 
+  top:-1; left: -1; 
+  z-index:2;
+}
+.upfileWrap input{
+  opacity: 0; filter: alpha(opacity=0); 
+  cursor: pointer; 
+  width: 100%; height: 100%;
+  font-size: 32px;
+}
+.upfileBG{
+  width:100%; height:100%; 
+  background: url(./images/upload.png) no-repeat; 
+  font-size: 14px; 
+  color: white; 
+  position: absolute; 
+  top:-1; left: -1; 
+  padding-left:10px; 
+  z-index:1;
+}
+</code></pre>
+<p><img loading="lazy" src="https://farm4.staticflickr.com/3874/14156755400_e1e91a66b6_o_d.png"></p>
+<p>可是这个时候还是有点问题，就是万恶的 IE 下边。</p>
+<p>IE 下边的<code>input</code>标签默认都是有光标的，<code>:file</code>也不例外，而且 IE 下边必须要点击”Browse”或者双击<code>input</code>输入框才会有效果。那么这个时候在 IE 下就会出现如图的莫名其妙的问题，注意左边的光标，并且还需要双击才会弹出文件选择窗口。
+<img loading="lazy" src="https://farm4.staticflickr.com/3903/14343379175_89590a504f_o_d.png"></p>
+<p>这个时候如果你把 input 透明度设置成 100 显示出来，就会发现原来是这样的。</p>
+<p><img loading="lazy" src="https://farm4.staticflickr.com/3920/14342594154_1cb4af92b4_o_d.png"></p>
+<p>所以这个时候，如果是其他标准浏览器，那么设置好 input 的高宽就搞定了，而 IE 下边，还必须考虑如何让”Browse”按钮能铺满我们所自定的 div 样式。这样我们才能实现 IE 下不出现光标，而且单击弹出文件选择窗口。</p>
+<p>这个时候，看似毫无办法，其实我们可以选择增加字体的大小。当字体变成<code>32px</code>的时候，就是这个样子的。
+<img loading="lazy" src="https://farm4.staticflickr.com/3926/14156914197_ccb8fd7e43_o_d.png"></p>
+<p>好了，这样我们就搞定了，将<code>input:file</code> 继续设置为完全透明。那个可恶的光标不见了，我们也可以实现 IE 下单击。当然，字体到底用多大的，要视你自己定义的视觉效果来看，自己调试吧。</p>
+<p>** Final CSS: **</p>
+<pre><code>.upfileOutWrap { 
+  cursor: pointer; 
+  width: 199px;  height: 42px; 
+  line-height: 42px; 
+  position: relative;
+}
+.upfileWrap{
+  width: 100%;  height: 100%; 
+  position: absolute; 
+  top:-1; left: -1; 
+  z-index:2;
+}
+.upfileWrap input{
+  opacity: 0; filter: alpha(opacity=0); 
+  cursor: pointer; 
+  width: 100%; height: 100%;
+}
+.upfileBG{
+  width:100%; height:100%; 
+  background: url(./images/upload.png) no-repeat; 
+  font-size: 14px; 
+  color: white; 
+  position: absolute; 
+  top:-1; left: -1; 
+  padding-left:10px; 
+  z-index:1;
+}
+</code></pre>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/solove/">
+    <span class="title">« Prev</span>
+    <span>SOLOVE Air-M20000</span>
+  </a>
+  <a class="next" href="http://localhost:1313/posts/vsco-film-00-free-starter-pack/">
+    <span class="title">Next »</span>
+    <span>VSCO FILM 00 FREE STARTER PACK</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">茶桁.MAMT</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

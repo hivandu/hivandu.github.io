@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>如何将 ChatGPT 集成到你的应用中 | 茶桁.MAMT</title>
+<meta name="keywords" content="">
+<meta name="description" content="在当今快速发展的技术环境中，将人工智能聊天解决方案集成到你的应用程序中可以显著提升用户体验和参与度。OpenAI 的 ChatGPT 以其对话能力和高级语言理解而闻名，对于希望在其应用程序中实现智能聊天功能的开发人员来说是一个绝佳的选择。那我们今天就来引导你完成将 ChatGPT 集成到你的应用程序中的步骤和最佳实践，为你的用户提供无缝和交互式的体验。
+">
+<meta name="author" content="Hivan Du">
+<link rel="canonical" href="http://localhost:1313/posts/%E5%A6%82%E4%BD%95%E5%B0%86-chatgpt-%E9%9B%86%E6%88%90%E5%88%B0%E4%BD%A0%E7%9A%84%E5%BA%94%E7%94%A8%E4%B8%AD/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.cd9298b33628769aa1bc1acebbbfd7aa11ce81dfe03484d479e1907760249a1d.css" integrity="sha256-zZKYszYodpqhvBrOu7/XqhHOgd/gNITUeeGQd2Akmh0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/%E5%A6%82%E4%BD%95%E5%B0%86-chatgpt-%E9%9B%86%E6%88%90%E5%88%B0%E4%BD%A0%E7%9A%84%E5%BA%94%E7%94%A8%E4%B8%AD/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="茶桁.MAMT (Alt + H)">
+                <img src="http://localhost:1313/%F0%9F%A7%A0" alt="" aria-label="logo"
+                    height="30">茶桁.MAMT</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="http://localhost:1313/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/posts/">文章</a>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+</nav>
+    <h1 class="post-title entry-hint-parent">
+      如何将 ChatGPT 集成到你的应用中
+    </h1>
+    <div class="post-meta">
+
+<span title='2024-06-21 07:03:00 +0800 CST'>June 21, 2024</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>Hivan Du</span>
+
+</div>
+  </header> <details class="toc" >
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">Table of Contents</span>
+    </summary>
+
+    <div class="inner"><ul>
+            <li>
+                <a href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e9%9b%86%e6%88%90-chatgpt" aria-label="为什么要集成 ChatGPT？">为什么要集成 ChatGPT？</a></li>
+            <li>
+                <a href="#%e5%b0%86-chatgpt-%e9%9b%86%e6%88%90%e5%88%b0%e4%bd%a0%e7%9a%84%e5%ba%94%e7%94%a8%e4%b8%ad%e7%9a%84%e6%ad%a5%e9%aa%a4" aria-label="将 ChatGPT 集成到你的应用中的步骤">将 ChatGPT 集成到你的应用中的步骤</a><ul>
+                    
+            <li>
+                <a href="#%e8%ae%be%e7%bd%ae%e4%bd%a0%e7%9a%84-openai-%e5%b8%90%e6%88%b7" aria-label="设置你的 OpenAI 帐户">设置你的 OpenAI 帐户</a></li>
+            <li>
+                <a href="#%e8%8e%b7%e5%8f%96%e4%bd%a0%e7%9a%84-api-%e5%af%86%e9%92%a5" aria-label="获取你的 API 密钥">获取你的 API 密钥</a></li>
+            <li>
+                <a href="#3%e7%86%9f%e6%82%89-api-%e6%96%87%e6%a1%a3" aria-label="3.熟悉 API 文档">3.熟悉 API 文档</a></li>
+            <li>
+                <a href="#%e8%ae%be%e8%ae%a1%e8%81%8a%e5%a4%a9%e7%95%8c%e9%9d%a2" aria-label="设计聊天界面">设计聊天界面</a></li>
+            <li>
+                <a href="#%e5%ae%9e%e7%8e%b0-chatgpt-api" aria-label="实现 ChatGPT API">实现 ChatGPT API</a></li>
+            <li>
+                <a href="#%e7%a1%ae%e4%bf%9d%e5%ae%89%e5%85%a8%e5%92%8c%e9%9a%90%e7%a7%81" aria-label="确保安全和隐私">确保安全和隐私</a></li>
+            <li>
+                <a href="#%e5%bd%bb%e5%ba%95%e6%b5%8b%e8%af%95" aria-label="彻底测试">彻底测试</a></li>
+            <li>
+                <a href="#%e7%9b%91%e6%8e%a7%e5%92%8c%e4%bc%98%e5%8c%96" aria-label="监控和优化">监控和优化</a></li></ul>
+            </li>
+            <li>
+                <a href="#chatgpt-%e9%9b%86%e6%88%90%e7%9a%84%e6%9c%80%e4%bd%b3%e5%ae%9e%e8%b7%b5" aria-label="ChatGPT 集成的最佳实践">ChatGPT 集成的最佳实践</a><ul>
+                    
+            <li>
+                <a href="#%e9%ab%98%e7%ba%a7%e5%8a%9f%e8%83%bd%e5%92%8c%e5%ae%9a%e5%88%b6" aria-label="高级功能和定制">高级功能和定制</a></li>
+            <li>
+                <a href="#chatgpt-%e9%9b%86%e6%88%90%e7%9a%84%e7%94%a8%e4%be%8b" aria-label="ChatGPT 集成的用例">ChatGPT 集成的用例</a>
+            </li>
+        </ul>
+        </li>
+        </ul>
+    </div>
+</details>
+
+  <div class="post-content md-content"><h2 id="为什么要集成-chatgpt">为什么要集成 ChatGPT？<a hidden class="anchor" aria-hidden="true" href="#为什么要集成-chatgpt">#</a></h2>
+<p>将 ChatGPT 集成到你的应用中可以带来多种好处，可以提高用户互动性和满意度：</p>
+<ol>
+<li>
+<p>增强的用户体验：ChatGPT 提供自然、直观的对话体验，让用户更轻松地与你的应用进行交互。</p>
+</li>
+<li>
+<p>客户支持的自动化：使用 ChatGPT，你可以自动响应常见查询，减轻客户支持团队的负担并为用户提供即时帮助。</p>
+</li>
+<li>
+<p>个性化：ChatGPT 可以根据用户数据提供个性化响应，增强互动的相关性和参与度。</p>
+</li>
+<li>
+<p>可扩展性：作为一种 AI 解决方案，ChatGPT 可以同时处理多个对话，使其成为海量用户应用的理想选择。</p>
+</li>
+<li>
+<p>持续改进：OpenAI 不断更新和改进 ChatGPT，确保你能够获得 AI 和自然语言处理方面的最新进展。</p>
+</li>
+</ol>
+<h2 id="将-chatgpt-集成到你的应用中的步骤">将 ChatGPT 集成到你的应用中的步骤<a hidden class="anchor" aria-hidden="true" href="#将-chatgpt-集成到你的应用中的步骤">#</a></h2>
+<p>将 ChatGPT 集成到你的应用中涉及几个关键步骤，从设置你的 OpenAI 帐户到实现 API 并确保流畅的用户体验。以下是帮助你完成整个过程的详细指南：</p>
+<ol>
+<li>
+<h3 id="设置你的-openai-帐户">设置你的 OpenAI 帐户<a hidden class="anchor" aria-hidden="true" href="#设置你的-openai-帐户">#</a></h3>
+</li>
+</ol>
+<p>集成 ChatGPT 的第一步是设置 OpenAI 帐户。访问 OpenAI 网站并注册一个帐户。注册后，你需要订阅最适合你需求的 API 计划。OpenAI 根据使用情况提供各种定价层级，因此请选择符合你预期流量和互动量的定价层级。</p>
+<ol>
+<li>
+<h3 id="获取你的-api-密钥">获取你的 API 密钥<a hidden class="anchor" aria-hidden="true" href="#获取你的-api-密钥">#</a></h3>
+</li>
+</ol>
+<p>设置帐户和订阅后，你将收到一个 API 密钥。此密钥对于验证你的应用对 ChatGPT API 的请求至关重要。请确保安全存储此密钥，因为它授予你访问 OpenAI 帐户和使用权限的权限。</p>
+<h3 id="3熟悉-api-文档">3.熟悉 API 文档<a hidden class="anchor" aria-hidden="true" href="#3熟悉-api-文档">#</a></h3>
+<p>OpenAI 为ChatGPT API提供了全面的文档，详细介绍了端点、请求参数和响应格式。熟悉此文档可了解如何有效地与 API 交互。该文档还包括有关速率限制、错误处理和使用 API 的最佳实践的指南。</p>
+<ol start="4">
+<li>
+<h3 id="设计聊天界面">设计聊天界面<a hidden class="anchor" aria-hidden="true" href="#设计聊天界面">#</a></h3>
+</li>
+</ol>
+<p>精心设计的聊天界面对于提供无缝的用户体验至关重要。设计聊天界面时请考虑以下元素：</p>
+<ul>
+<li>输入字段：为用户提供清晰且易于使用的输入字段来输入他们的消息。</li>
+<li>聊天气泡：使用聊天气泡显示用户消息和 ChatGPT 响应，使对话自然流动。</li>
+<li>加载指示器：实现加载指示器，向用户显示应用程序正在处理他们的输入并生成响应。</li>
+<li>个性化：通过用户名、头像和其他上下文信息个性化聊天界面，以增强参与度。</li>
+</ul>
+<ol start="5">
+<li>
+<h3 id="实现-chatgpt-api">实现 ChatGPT API<a hidden class="anchor" aria-hidden="true" href="#实现-chatgpt-api">#</a></h3>
+</li>
+</ol>
+<p>设计完成后，你就可以开始实现 ChatGPT API。这涉及使用用户的输入向 API 端点发出 HTTP 请求，并在聊天界面中显示生成的响应。交互的基本流程通常包括：</p>
+<ul>
+<li>发送用户输入：从输入字段捕获用户的消息并将其发送到 ChatGPT API 端点。</li>
+<li>处理响应：从 API 接收响应并解析 JSON 数据以提取生成的文本。</li>
+<li>显示响应：使用生成的响应更新聊天界面，确保它以对话格式显示。</li>
+</ul>
+<ol start="6">
+<li>
+<h3 id="确保安全和隐私">确保安全和隐私<a hidden class="anchor" aria-hidden="true" href="#确保安全和隐私">#</a></h3>
+</li>
+</ol>
+<p>集成 ChatGPT 时，确保用户数据的安全性和隐私性非常重要。实施以下措施来保护用户信息：</p>
+<ul>
+<li>
+<p>加密：使用 HTTPS加密你的应用和 ChatGPT API 之间传输的数据。</p>
+</li>
+<li>
+<p>访问控制：保护你的 API 密钥并限制对它的访问。实施身份验证和授权机制来控制谁可以与 ChatGPT 集成进行交互。</p>
+</li>
+<li>
+<p>数据匿名化：避免向 ChatGPT API 发送敏感或个人身份信息。尽可能匿名化用户数据。</p>
+</li>
+</ul>
+<ol start="7">
+<li>
+<h3 id="彻底测试">彻底测试<a hidden class="anchor" aria-hidden="true" href="#彻底测试">#</a></h3>
+</li>
+</ol>
+<p>彻底的测试对于确保你的 ChatGPT 集成按预期工作至关重要。测试各种场景，包括不同类型的用户输入、边缘情况和错误处理。测试期间请注意以下方面：</p>
+<ul>
+<li>响应准确性：确保 ChatGPT 生成的响应相关且准确。</li>
+<li>性能：测试聊天界面的性能，包括响应时间和并发对话的处理。</li>
+<li>用户体验：评估整体用户体验，包括对话流程和界面可用性。</li>
+</ul>
+<ol start="8">
+<li>
+<h3 id="监控和优化">监控和优化<a hidden class="anchor" aria-hidden="true" href="#监控和优化">#</a></h3>
+</li>
+</ol>
+<p>ChatGPT 集成上线后，请持续监控其性能和用户交互。使用分析来跟踪使用模式、用户满意度以及出现的任何问题。根据这些数据，优化集成以提高性能和用户体验。定期更新你的实施，以利用 ChatGPT API 中的新功能和改进。</p>
+<p><img alt="图片-4" loading="lazy" src="https://www.datasciencecentral.com/wp-content/uploads/2024/06/image-4.png"></p>
+<h2 id="chatgpt-集成的最佳实践">ChatGPT 集成的最佳实践<a hidden class="anchor" aria-hidden="true" href="#chatgpt-集成的最佳实践">#</a></h2>
+<p>为确保将ChatGPT成功集成到你的应用中，请遵循以下最佳做法：</p>
+<ol>
+<li>提供清晰的说明：通过提供清晰的说明和示例，指导用户如何与 ChatGPT 进行交互。</li>
+<li>设定期望：告知用户 ChatGPT 的功能和局限性，以管理他们的期望并避免挫败感。</li>
+<li>妥善处理错误：实施错误处理来管理诸如 API 超时或无效响应等问题。向用户提供信息丰富的错误消息和后备选项。</li>
+<li>通过上下文增强：在可能的情况下，为 ChatGPT 提供有关对话或用户的上下文，以生成更相关的响应。</li>
+<li>收集反馈：鼓励用户提供有关聊天体验的反馈。利用这些反馈不断改进集成。</li>
+</ol>
+<h3 id="高级功能和定制">高级功能和定制<a hidden class="anchor" aria-hidden="true" href="#高级功能和定制">#</a></h3>
+<p>完成基本集成后，请考虑探索高级功能和自定义选项，以进一步增强 ChatGPT 实现：</p>
+<ul>
+<li>
+<p>自定义提示：自定义发送到 ChatGPT 的提示以指导其响应并根据应用的上下文定制对话。</p>
+</li>
+<li>
+<p>多语言支持：如果你的应用服务于全球受众，请实现多语言支持，以允许用户使用不同语言与 ChatGPT 进行交互。</p>
+</li>
+<li>
+<p>与其他服务集成：将 ChatGPT 与其他服务（如数据库或第三方 API）相结合，以提供丰富而动态的响应。</p>
+</li>
+<li>
+<p>上下文保存：实施在交互过程中保存对话上下文的机制，使 ChatGPT 能够在多次交流中保持一致的对话。</p>
+</li>
+</ul>
+<h3 id="chatgpt-集成的用例">ChatGPT 集成的用例<a hidden class="anchor" aria-hidden="true" href="#chatgpt-集成的用例">#</a></h3>
+<p>将 ChatGPT 集成到你的应用中，可在各个领域开辟广泛的可能性。以下是一些需要考虑的用例：</p>
+<ol>
+<li>
+<p>客户支持：自动响应常见的客户查询，提供即时帮助，并在必要时将复杂问题上报给人工代理。</p>
+</li>
+<li>
+<p>虚拟助手：创建可以帮助用户完成日程安排、提醒和信息检索等任务的虚拟助手。</p>
+</li>
+<li>
+<p>教育应用程序：通过互动辅导、个性化学习体验和即时反馈增强教育应用程序。</p>
+</li>
+<li>
+<p>电子商务：在电子商务应用中实现智能聊天功能，帮助用户进行产品推荐、订单跟踪和客户服务。</p>
+</li>
+<li>
+<p>社交媒体和社区应用程序：通过促进对话、回答问题和主持讨论，促进社交媒体和社区应用程序的参与。</p>
+</li>
+</ol>
+<p>将 ChatGPT 集成到你的应用中是增强用户互动和提供智能对话体验的有效方法。通过遵循本指南中概述的步骤并遵循最佳做法，你可以创建无缝且安全的聊天集成，从而为你的应用增加巨大的价值。</p>
+<p>ChatGPT 的高级语言理解和自然对话能力使其成为从客户支持到虚拟助手等各种应用的理想选择。在着手将 ChatGPT 集成到你的应用中时，请记住优先考虑用户体验、安全性和持续优化。</p>
+<p>有关 ChatGPT 集成的更多详细指南和最新更新，你可以访问 OpenAI 官方文档和资源。通过正确的方法和精心实施，ChatGPT 可以改变你应用的用户交互，提供动态且引人入胜的体验，让用户不断回头。</p>
+<p>当然，如果你作为一个中小型企业，不想支持 ChatGPT 高额的 Token 费用，想要在自己服务器上搭建一个小型的解决方案也是可以的，可以看看针对中小型企业的「企业项目 AI 实战」。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/%E6%B7%B1%E5%85%A5%E7%A0%94%E7%A9%B6-lime-%E7%9A%84%E6%9C%AC%E5%9C%B0%E8%A7%A3%E9%87%8A/">
+    <span class="title">« Prev</span>
+    <span>深入研究 LIME 的本地解释</span>
+  </a>
+  <a class="next" href="http://localhost:1313/posts/%E6%8E%8C%E6%8F%A1%E5%A4%A7%E5%9E%8B%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E7%9A%84-7-%E4%B8%AA%E5%9F%BA%E6%9C%AC%E6%AD%A5%E9%AA%A4/">
+    <span class="title">Next »</span>
+    <span>掌握大型语言模型的 7 个基本步骤</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">茶桁.MAMT</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

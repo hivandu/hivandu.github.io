@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>使用 PCA 可视化数据的分类能力 | 茶桁.MAMT</title>
+<meta name="keywords" content="">
+<meta name="description" content="
+使用 PCA 探索数据分类的效果（使用 Python 代码）
+">
+<meta name="author" content="Hivan Du">
+<link rel="canonical" href="http://localhost:1313/posts/%E4%BD%BF%E7%94%A8-pca-%E5%8F%AF%E8%A7%86%E5%8C%96%E6%95%B0%E6%8D%AE%E7%9A%84%E5%88%86%E7%B1%BB%E8%83%BD%E5%8A%9B/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.cd9298b33628769aa1bc1acebbbfd7aa11ce81dfe03484d479e1907760249a1d.css" integrity="sha256-zZKYszYodpqhvBrOu7/XqhHOgd/gNITUeeGQd2Akmh0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/%E4%BD%BF%E7%94%A8-pca-%E5%8F%AF%E8%A7%86%E5%8C%96%E6%95%B0%E6%8D%AE%E7%9A%84%E5%88%86%E7%B1%BB%E8%83%BD%E5%8A%9B/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="茶桁.MAMT (Alt + H)">
+                <img src="http://localhost:1313/%F0%9F%A7%A0" alt="" aria-label="logo"
+                    height="30">茶桁.MAMT</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="http://localhost:1313/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/posts/">文章</a>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+</nav>
+    <h1 class="post-title entry-hint-parent">
+      使用 PCA 可视化数据的分类能力
+    </h1>
+    <div class="post-meta">
+
+<span title='2024-07-04 07:03:00 +0800 CST'>July 4, 2024</span>&nbsp;·&nbsp;<span>2 min</span>&nbsp;·&nbsp;<span>Hivan Du</span>
+
+</div>
+  </header> <details class="toc" >
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">Table of Contents</span>
+    </summary>
+
+    <div class="inner"><ul>
+            <li>
+                <a href="#%e4%bb%80%e4%b9%88%e6%98%af-pca" aria-label="什么是 PCA？">什么是 PCA？</a></li>
+            <li>
+                <a href="#%e6%95%b0%e6%8d%ae%e9%9b%86" aria-label="数据集">数据集</a></li>
+            <li>
+                <a href="#pca%e6%95%b4%e4%b8%aa%e6%95%b0%e6%8d%ae%e9%9b%86" aria-label="PCA——整个数据集">PCA——整个数据集</a></li>
+            <li>
+                <a href="#pca%e7%89%b9%e5%be%81%e7%bb%84" aria-label="PCA——特征组">PCA——特征组</a></li>
+            <li>
+                <a href="#%e5%8f%82%e8%80%83" aria-label="参考">参考</a>
+            </li>
+        </ul>
+    </div>
+</details>
+
+  <div class="post-content md-content"><p><strong>「AI秘籍」系列课程：</strong></p>
+<ul>
+<li><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3074770001140400130&amp;scene=173&amp;subscene=227&amp;sessionid=undefined&amp;enterid=1717956640&amp;from_msgid=2648748678&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">人工智能应用数学基础</a></li>
+<li><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3035995870421073928&amp;scene=126&amp;uin=&amp;key=&amp;devicetype=iMac+MacBookPro17%2C1+OSX+OSX+14.5+build(23F79)&amp;version=13080710&amp;lang=zh_CN&amp;nettype=WIFI&amp;ascene=78&amp;fontScale=100">人工智能Python基础</a></li>
+<li><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3123885735829061633&amp;scene=173&amp;subscene=227&amp;sessionid=1717956706&amp;enterid=1717956713&amp;from_msgid=2648751062&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">人工智能基础核心知识</a></li>
+<li><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg%3D%3D&amp;action=getalbum&amp;album_id=3193965113967132673&amp;subscene=&amp;sessionid=svr_548800ce471&amp;enterid=1704001437&amp;from_msgid=2648751621&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;scene=21#wechat_redirect">人工智能BI核心知识</a></li>
+<li><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3503005363236880386&amp;from_itemidx=1&amp;from_msgid=2648753419#wechat_redirect">人工智能CV核心知识</a></li>
+</ul>
+<p>主成分分析 (PCA) 是数据科学家使用的绝佳工具。它可用于降低特征空间维数并生成不相关的特征。正如我们将看到的，它还可以帮助你深入了解数据的分类能力。我们将带你了解如何以这种方式使用 PCA。提供了 Python 代码片段，完整项目可在<a href="https://github.com/hivandu/public_articles">GitHub</a><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>上找到。</p>
+<h2 id="什么是-pca">什么是 PCA？<a hidden class="anchor" aria-hidden="true" href="#什么是-pca">#</a></h2>
+<p>我们先从理论开始。我不会深入讲解太多细节，因为如果你想了解 PCA 的工作原理，有很多很好的资源<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>(<a href="https://towardsdatascience.com/a-one-stop-shop-for-principal-component-analysis-5582fb7e0a9c)%5B%5E3%5D(https://liorpachter.wordpress.com/2014/05/26/what-is-principal-component-analysis/">https://towardsdatascience.com/a-one-stop-shop-for-principal-component-analysis-5582fb7e0a9c)[^3](https://liorpachter.wordpress.com/2014/05/26/what-is-principal-component-analysis/</a>)。重要的是要知道 PCA 是一种降维算法。这意味着它用于减少用于训练模型的特征数量。它通过从许多特征中构建主成分 (PC) 来实现这一点。</p>
+<p>PC 的构造方式是，第一个 PC（即 PC1）尽可能解释特征中的大部分变化。然后 PC2 尽可能解释剩余变化中的大部分变化，依此类推。PC1 和 PC2 通常可以解释总特征变化的很大一部分。另一种思考方式是，前两个 PC 可以很好地总结特征。这很重要，因为它使我们能够在二维平面上直观地看到数据的分类能力。</p>
+<p><img alt="img" loading="lazy" src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*p4V1czhFcaITCragtOKrrg.png"></p>
+<h2 id="数据集">数据集<a hidden class="anchor" aria-hidden="true" href="#数据集">#</a></h2>
+<p>好的，让我们深入研究一个实际的例子。我们将使用 PCA 来探索乳腺癌数据集<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>(<a href="http://archive.ics.uci.edu/ml/datasets/breast+cancer+wisconsin+(diagnostic)">http://archive.ics.uci.edu/ml/datasets/breast+cancer+wisconsin+(diagnostic)</a>)，我们使用以下代码导入该数据集。目标变量是乳腺癌测试的结果 - 恶性或良性。每次测试都会取出许多癌细胞。然后从每个癌细胞中采取 10 个不同的测量值。这些包括细胞半径和细胞对称性等测量值。为了获得 30 个特征的最终列表，我们以 3 种方式汇总这些测量值。也就是说，我们计算每个测量值的平均值、标准误差和最大值（“最差”值）。在图 1 中，我们仔细研究了其中两个特征 -细胞的<em>平均对称性</em>和<em>最差平滑度。</em></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> pandas <span style="color:#66d9ef">as</span> pd
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> sklearn.datasets <span style="color:#f92672">import</span> load_breast_cancer
+</span></span><span style="display:flex;"><span>cancer <span style="color:#f92672">=</span> load_breast_cancer()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>data <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame(cancer[<span style="color:#e6db74">&#39;data&#39;</span>],columns<span style="color:#f92672">=</span>cancer[<span style="color:#e6db74">&#39;feature_names&#39;</span>])
+</span></span><span style="display:flex;"><span>data[<span style="color:#e6db74">&#39;y&#39;</span>] <span style="color:#f92672">=</span> cancer[<span style="color:#e6db74">&#39;target&#39;</span>]
+</span></span></code></pre></div><p>在图 1 中，我们可以看到这两个特征有助于区分这两个类别。也就是说，良性肿瘤往往更对称、更光滑。重叠部分仍然很多，因此仅使用这些特征的模型效果不会很好。我们可以创建这样的图表来了解每个单独特征的预测能力。尽管有 30 个特征，但需要分析的图表还是很多。它们也没有告诉我们整个数据集的预测能力。这就是 PCA 发挥作用的地方。</p>
+<p><img alt="图 1：使用两个特征的散点图" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240703155920.png"></p>
+<h2 id="pca整个数据集">PCA——整个数据集<a hidden class="anchor" aria-hidden="true" href="#pca整个数据集">#</a></h2>
+<p>让我们首先对整个数据集进行 PCA。我们使用下面的代码来执行此操作。我们首先缩放特征，使它们都具有均值为 0 和方差为 1。这很重要，因为 PCA 通过最大化 PC 解释的方差来工作。由于其规模，某些特征往往会具有更高的方差。例如，以厘米为单位测量的距离的方差将高于以公里为单位测量的相同距离。如果不进行缩放，PCA 将被那些方差较大的特征“压倒”。</p>
+<p>缩放完成后，我们拟合 PCA 模型并将特征转换为 PC。由于我们有 30 个特征，因此最多可以有 30 个 PC。对于我们的可视化，我们只对前两个感兴趣。你可以在图 2 中看到这一点，其中使用 PC1 和 PC2 创建了散点图。我们现在可以看到两个不同的集群，它们比图 1 中更清晰。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> sklearn.preprocessing <span style="color:#f92672">import</span> StandardScaler
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> sklearn.decomposition <span style="color:#f92672">import</span> PCA
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#Scale the data</span>
+</span></span><span style="display:flex;"><span>scaler <span style="color:#f92672">=</span> StandardScaler()
+</span></span><span style="display:flex;"><span>scaler<span style="color:#f92672">.</span>fit(data)
+</span></span><span style="display:flex;"><span>scaled <span style="color:#f92672">=</span> scaler<span style="color:#f92672">.</span>transform(data)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#Obtain principal components</span>
+</span></span><span style="display:flex;"><span>pca <span style="color:#f92672">=</span> PCA()<span style="color:#f92672">.</span>fit(scaled)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>pc <span style="color:#f92672">=</span> pca<span style="color:#f92672">.</span>transform(scaled)
+</span></span><span style="display:flex;"><span>pc1 <span style="color:#f92672">=</span> pc[:,<span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>pc2 <span style="color:#f92672">=</span> pc[:,<span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#Plot principal components</span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">10</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>colour <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;#ff2121&#39;</span> <span style="color:#66d9ef">if</span> y <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">else</span> <span style="color:#e6db74">&#39;#2176ff&#39;</span> <span style="color:#66d9ef">for</span> y <span style="color:#f92672">in</span> data[<span style="color:#e6db74">&#39;y&#39;</span>]]
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>scatter(pc1,pc2 ,c<span style="color:#f92672">=</span>colour,edgecolors<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;#000000&#39;</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">&#34;Glucose&#34;</span>,size<span style="color:#f92672">=</span><span style="color:#ae81ff">20</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">&#39;Age&#39;</span>,size<span style="color:#f92672">=</span><span style="color:#ae81ff">20</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>yticks(size<span style="color:#f92672">=</span><span style="color:#ae81ff">12</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>xticks(size<span style="color:#f92672">=</span><span style="color:#ae81ff">12</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">&#39;PC1&#39;</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">&#39;PC2&#39;</span>)
+</span></span></code></pre></div><p>该图可用于直观地了解数据的预测强度。在本例中，它表明使用整个数据集将使我们能够区分恶性肿瘤和良性肿瘤。但是，仍然有一些异常值（即不明确位于群集中的点）。这并不意味着我们会对这些情况做出错误的预测。我们应该记住，并非所有特征方差都会在前两个 PC 中捕获。在完整特征集上训练的模型可以产生更好的预测。</p>
+<p><img alt="图 2：使用所有特征的 PCA 散点图" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240703155947.png"></p>
+<p>此时，我们应该提到这种方法的一个注意事项。PC1 和 PC2 可以解释特征中很大一部分方差。然而，这并不总是正确的。在某些情况下，PC 可能被认为是特征的糟糕总结。这意味着，即使你的数据可以很好地分离类别，你也可能无法获得清晰的聚类，如图 2 所示。</p>
+<p>我们可以使用 PCA 碎石图来确定这是否会是一个问题。我们使用下面的代码创建了此分析的碎石图，如图 3 所示。这是一个条形图，其中每个条形的高度是相关 PC 解释的方差百分比。我们看到，PC1 和 PC2 总共只解释了约 20% 的特征方差。即使只有 20% 的解释，我们仍然得到两个不同的聚类。这强调了数据的预测强度。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>var <span style="color:#f92672">=</span> pca<span style="color:#f92672">.</span>explained_variance_[<span style="color:#ae81ff">0</span>:<span style="color:#ae81ff">10</span>] <span style="color:#75715e">#percentage of variance explained</span>
+</span></span><span style="display:flex;"><span>labels <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;PC1&#39;</span>,<span style="color:#e6db74">&#39;PC2&#39;</span>,<span style="color:#e6db74">&#39;PC3&#39;</span>,<span style="color:#e6db74">&#39;PC4&#39;</span>,<span style="color:#e6db74">&#39;PC5&#39;</span>,<span style="color:#e6db74">&#39;PC6&#39;</span>,<span style="color:#e6db74">&#39;PC7&#39;</span>,<span style="color:#e6db74">&#39;PC8&#39;</span>,<span style="color:#e6db74">&#39;PC9&#39;</span>,<span style="color:#e6db74">&#39;PC10&#39;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">15</span>,<span style="color:#ae81ff">7</span>))
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>bar(labels,var,)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">&#39;Pricipal Component&#39;</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">&#39;Proportion of Variance Explained&#39;</span>)
+</span></span></code></pre></div><p><img alt="图 3. 碎石图" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240703160015.png"></p>
+<p>#小程序://海豚知道/qwC6nIDbKMKYKmx</p>
+<h2 id="pca特征组">PCA——特征组<a hidden class="anchor" aria-hidden="true" href="#pca特征组">#</a></h2>
+<p>我们还可以使用此过程来比较不同的特征组。例如，假设我们有两组特征。第 1 组具有基于细胞对称性和平滑度特征的所有特征。而第 2 组具有基于周长和凹度的所有特征。我们可以使用 PCA 来直观地了解哪组更适合进行预测。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>group_1 <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;mean symmetry&#39;</span>, <span style="color:#e6db74">&#39;symmetry error&#39;</span>,<span style="color:#e6db74">&#39;worst symmetry&#39;</span>,
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;mean smoothness&#39;</span>,<span style="color:#e6db74">&#39;smoothness error&#39;</span>,<span style="color:#e6db74">&#39;worst smoothness&#39;</span>]
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>group_2 <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;mean perimeter&#39;</span>,<span style="color:#e6db74">&#39;perimeter error&#39;</span>,<span style="color:#e6db74">&#39;worst perimeter&#39;</span>, 
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;mean concavity&#39;</span>,<span style="color:#e6db74">&#39;concavity error&#39;</span>,<span style="color:#e6db74">&#39;worst concavity&#39;</span>]
+</span></span></code></pre></div><p>我们首先创建两组特征。然后分别对每组进行 PCA。这将为我们提供两组 PC，我们选择 PC1 和 PC2 来代表每个特征组。该过程的结果可以在图 4 中看到。</p>
+<p>对于第 1 组，我们可以看到有一些分离，但仍然有很多重叠。相比之下，第 2 组有两个不同的簇。因此，从这些图中，我们预计第 2 组中的特征是更好的预测因子。使用第 2 组特征训练的模型应该比使用第 1 组特征训练的模型具有更高的准确率。现在，让我们来测试一下这个假设。</p>
+<p><img alt="图 4：使用特征组的 PCA 散点图" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240703160105.png"></p>
+<p>我们使用下面的代码来训练使用两组特征的逻辑回归模型。在每种情况下，我们使用 70% 的数据来训练模型，其余 30% 的数据来测试模型。第 1 组的测试集准确率为 74%，相比之下，第 2 组的准确率为 97%。因此，第 2 组中的特征是更好的预测因子，这正是我们从 PCA 结果中预期的。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> sklearn.model_selection <span style="color:#f92672">import</span> train_test_split
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> sklearn.metrics <span style="color:#66d9ef">as</span> metric
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> statsmodels.api <span style="color:#66d9ef">as</span> sm
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i,g <span style="color:#f92672">in</span> enumerate(group):
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> data[g]
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> sm<span style="color:#f92672">.</span>add_constant(x)
+</span></span><span style="display:flex;"><span>    y <span style="color:#f92672">=</span> data[<span style="color:#e6db74">&#39;y&#39;</span>]
+</span></span><span style="display:flex;"><span>    x_train, x_test, y_train, y_test <span style="color:#f92672">=</span> train_test_split(x,y,test_size<span style="color:#f92672">=</span><span style="color:#ae81ff">0.3</span>, 
+</span></span><span style="display:flex;"><span>                                                        random_state <span style="color:#f92672">=</span> <span style="color:#ae81ff">101</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    model <span style="color:#f92672">=</span> sm<span style="color:#f92672">.</span>Logit(y_train,x_train)<span style="color:#f92672">.</span>fit() <span style="color:#75715e">#fit logistic regression model</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    predictions <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>around(model<span style="color:#f92672">.</span>predict(x_test)) 
+</span></span><span style="display:flex;"><span>    accuracy <span style="color:#f92672">=</span> metric<span style="color:#f92672">.</span>accuracy_score(y_test,predictions)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;Accuracy of Group </span><span style="color:#e6db74">{}</span><span style="color:#e6db74">: </span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">.</span>format(i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>,accuracy))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">---</span>
+</span></span><span style="display:flex;"><span>Optimization terminated successfully<span style="color:#f92672">.</span>
+</span></span><span style="display:flex;"><span>         Current function value: <span style="color:#ae81ff">0.458884</span>
+</span></span><span style="display:flex;"><span>         Iterations <span style="color:#ae81ff">7</span>
+</span></span><span style="display:flex;"><span>Accuracy of Group <span style="color:#ae81ff">1</span>: <span style="color:#ae81ff">0.7368421052631579</span>
+</span></span><span style="display:flex;"><span>Optimization terminated successfully<span style="color:#f92672">.</span>
+</span></span><span style="display:flex;"><span>         Current function value: <span style="color:#ae81ff">0.103458</span>
+</span></span><span style="display:flex;"><span>         Iterations <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>Accuracy of Group <span style="color:#ae81ff">2</span>: <span style="color:#ae81ff">0.9707602339181286</span>
+</span></span></code></pre></div><p>最后，我们将了解如何在开始建模之前使用 PCA 来更深入地了解数据。它将让你了解预期的分类准确度。你还将对哪些特征具有预测性建立直觉。这可以让你在特征选择方面占据优势。</p>
+<p>如上所述，这种方法并非万无一失。它应该与其他数据探索图和汇总统计数据一起使用。对于分类问题，这些可能包括信息值和箱线图。一般来说，在开始建模之前，从尽可能多的不同角度查看数据是个好主意。</p>
+<h2 id="参考">参考<a hidden class="anchor" aria-hidden="true" href="#参考">#</a></h2>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p><a href="https://github.com/hivandu/public_articles">https://github.com/hivandu/public_articles</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p><a href="https://readmedium.com/undefined">Matt Brems</a>, A One-Stop Shop for Principal Component Analysis (2017), <a href="https://towardsdatascience.com/a-one-stop-shop-for-principal-component-analysis-5582fb7e0a9c">https://towardsdatascience.com/a-one-stop-shop-for-principal-component-analysis-5582fb7e0a9c</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>UCI, Breast Cancer Wisconsin (Diagnostic) Dataset (2020), <a href="http://archive.ics.uci.edu/ml/datasets/breast+cancer+wisconsin+(diagnostic)">http://archive.ics.uci.edu/ml/datasets/breast+cancer+wisconsin+(diagnostic)</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%AF%AD%E8%A8%80%E8%AF%86%E5%88%AB/">
+    <span class="title">« Prev</span>
+    <span>深度神经网络语言识别</span>
+  </a>
+  <a class="next" href="http://localhost:1313/posts/%E4%BD%BF%E7%94%A8%E9%AB%98%E6%96%AF%E6%B7%B7%E5%90%88%E6%A8%A1%E5%9E%8B%E8%AF%86%E5%88%AB%E9%A4%90%E5%8E%85%E7%83%AD%E7%82%B9/">
+    <span class="title">Next »</span>
+    <span>使用高斯混合模型识别餐厅热点</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">茶桁.MAMT</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

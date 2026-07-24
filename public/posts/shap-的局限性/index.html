@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>SHAP 的局限性 | 茶桁.MAMT</title>
+<meta name="keywords" content="">
+<meta name="description" content="
+SHAP 如何受到特征依赖性、因果推理和人为偏见的影响
+">
+<meta name="author" content="Hivan Du">
+<link rel="canonical" href="http://localhost:1313/posts/shap-%E7%9A%84%E5%B1%80%E9%99%90%E6%80%A7/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.cd9298b33628769aa1bc1acebbbfd7aa11ce81dfe03484d479e1907760249a1d.css" integrity="sha256-zZKYszYodpqhvBrOu7/XqhHOgd/gNITUeeGQd2Akmh0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/shap-%E7%9A%84%E5%B1%80%E9%99%90%E6%80%A7/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="茶桁.MAMT (Alt + H)">
+                <img src="http://localhost:1313/%F0%9F%A7%A0" alt="" aria-label="logo"
+                    height="30">茶桁.MAMT</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="http://localhost:1313/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/posts/">文章</a>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+</nav>
+    <h1 class="post-title entry-hint-parent">
+      SHAP 的局限性
+    </h1>
+    <div class="post-meta">
+
+<span title='2024-10-08 07:03:00 +0800 CST'>October 8, 2024</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>Hivan Du</span>
+
+</div>
+  </header> <details class="toc" >
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">Table of Contents</span>
+    </summary>
+
+    <div class="inner"><ul>
+            <li>
+                <a href="#1-shap-%e5%8c%85" aria-label="1 SHAP 包">1 SHAP 包</a></li>
+            <li>
+                <a href="#2-%e7%89%b9%e6%80%a7%e4%be%9d%e8%b5%96%e6%80%a7" aria-label="2 特性依赖性">2 特性依赖性</a></li>
+            <li>
+                <a href="#3-%e5%9b%a0%e6%9e%9c%e6%8e%a8%e7%90%86" aria-label="3 因果推理">3 因果推理</a></li>
+            <li>
+                <a href="#4-%e4%ba%ba%e4%b8%ba%e9%94%99%e8%af%af" aria-label="4 人为错误">4 人为错误</a></li>
+            <li>
+                <a href="#%e5%8f%82%e8%80%83" aria-label="参考">参考</a>
+            </li>
+        </ul>
+    </div>
+</details>
+
+  <div class="post-content md-content"><p><img alt="img" loading="lazy" src="https://miro.medium.com/v2/resize:fit:1400/0*nYIuuKdSmyAjDczz"></p>
+<p>SHAP 是最流行的 IML/XAI 方法。它是一种强大的方法，可用于了解我们的模型如何进行预测。</p>
+<p>但不要让受欢迎程度说服你。</p>
+<p>SHAP 仍有局限性。使用该方法得出结论时需要牢记这些局限性。</p>
+<p>我们将讨论 4 个重要的限制：</p>
+<ul>
+<li>第一个来自 SHAP 包本身</li>
+<li>第二个来自于 SHAP 值的计算方式——我们假设特征是独立的</li>
+<li>第三个是我们如何使用它们——不是为了因果推理</li>
+<li>最后一点来自于人类使用它们的方式——我们编造故事</li>
+</ul>
+<h2 id="1-shap-包">1 SHAP 包<a hidden class="anchor" aria-hidden="true" href="#1-shap-包">#</a></h2>
+<p>第一个与 SHAP 包本身有关。内核 SHAP 在理论上是一种与模型无关的方法，但这并不意味着它在实践中也是与模型无关的。为什么？因为它尚未在所有包中实现。</p>
+<p>就我个人而言，我已经将该软件包与 5 个建模软件包一起使用：Scikit learns、XGBoost、Catboost、PyTorch 和 Keras。请记住，如果你使用的是不太流行的建模框架，可能会遇到一些麻烦。即使是深度学习软件包，SHAP 也可能相当不稳定。我很难让它与 PyTorch 一起工作</p>
+<h2 id="2-特性依赖性">2 特性依赖性<a hidden class="anchor" aria-hidden="true" href="#2-特性依赖性">#</a></h2>
+<p>特征依赖性是指两个或多个模型特征相关联或相关。也就是说，一个特征的值取决于另一个特征的值。SHAP 以两种方式受到特征依赖性的影响。</p>
+<p>第一个问题来自于 SHAP 值的近似方法。以 KernelSHAP 为例。该方法通过排列特征值并对这些排列进行预测来工作。一旦我们有足够的排列，就可以使用线性回归来估计 Shapley 值。问题是，在排列特征时，我们假设它们是独立的。</p>
+<blockquote>
+<p>与许多其他基于排列的解释方法一样，当特征相关时，Shapley 值方法会包含不切实际的数据实例。</p>
+<p>— 克里斯托夫·莫尔纳</p>
+</blockquote>
+<p>这个假设并不总是正确的。以图 1 中的 <code>km_driven</code> 和 <code>car_age</code> 散点图为例。这些特征用于预测二手车的价格。它们之间存在明显的相关性。车越旧，我们增加其行驶里程的时间就越多。</p>
+<p><img alt="图 1：km_driven 与 car_age 的散点图" loading="lazy" src="https://miro.medium.com/v2/resize:fit:1120/0*e7U5SabS5HL5_CHy.jpeg"></p>
+<p>现在以图 2 中的红色观察结果为例。这辆车已有 10 年车龄。这个年龄的汽车将在实心椭圆内行驶距离。当模型经过训练时，它只会“看到”这些现实的观察结果。</p>
+<p><img alt="图 2：随机抽样的问题" loading="lazy" src="https://miro.medium.com/v2/resize:fit:1120/0*2l_naRsZG0RJqybX.jpeg"></p>
+<p>然而，在计算 SHAP 值时，我们会在整个范围内对特征进行置换。对于 <code>km_driven</code>, 这包括虚线内的不切实际的观察结果。我们期望模型对这些观察结果做出预测。这可能会导致不可靠的预测和 SHAP 值。</p>
+<p>在解释 SHAP 图时，特征依赖性也会导致一些混乱。例如，模型可以使用原籍国来预测患皮肤癌的几率。某些国家的人是否易患皮肤癌？防晒霜是否更贵？不，这是因为每个国家的日照水平不同。</p>
+<p>原籍国被称为代理变量。模型使用它们的原因可能并不明显。归根结底，这是因为机器学习只关心相关性，而代理变量与事件的真实原因相关。这引出了我们的第二个限制。</p>
+<h2 id="3-因果推理">3 因果推理<a hidden class="anchor" aria-hidden="true" href="#3-因果推理">#</a></h2>
+<p>SHAP 值不能用于因果推理。这是寻找事件/目标的真正原因的过程。SHAP 值告诉我们每个模型特征对预测的贡献。它们没有告诉我们特征对目标变量的贡献。这是因为模型不一定能很好地代表现实。</p>
+<blockquote>
+<p>Shap 不是衡量“现实世界中某个特征有多重要”的标准，它只是衡量“某个特征对模型有多重要”。—— Gianlucca Zuin</p>
+</blockquote>
+<p>预测可能不正确。在这种情况下，SHAP 值将对与真实目标不同的预测做出贡献。如前所述，即使模型 100% 准确，也可能使用代理变量。所有这些都意味着我们不应该得出超出模型范围的结论。即使这样做很诱人……</p>
+<h2 id="4-人为错误">4 人为错误<a hidden class="anchor" aria-hidden="true" href="#4-人为错误">#</a></h2>
+<p>从技术分析到占星术，人类喜欢寻找实际上并不存在的特征。数据科学也不例外。</p>
+<p>在分析 SHAP 值时，我们可能会产生错误的叙述。为什么该模型预测癌症发病率很高？一定是因为帽子不流行了！</p>
+<p>即使这些故事来自模型怪癖，我们也可以强行将这些故事强加到分析中。由于确认偏差，我们可以无意识地这样做。它也可以恶意地支持对某人有利的结论。这类似于 p-hacking 的过程。我们反复修改数据和模型，直到它们给我们想要的结果。</p>
+<blockquote>
+<p>确认偏差——无意识地偏向那些证实你先前信念的信息</p>
+</blockquote>
+<p>最后，所有这些限制都应该增加你对使用 SHAP 得出的结论的怀疑。结论可能基于对特征独立性的错误假设。永远不要接受超出模型范围的结论——尤其是当它支持别有用心时。</p>
+<p>我们总体上研究了 SHAP 的局限性。不同的近似方法会有各自的特定局限性。例如，KernelSHAP 速度很慢。TreeSHAP 速度更快，但它与模型无关。我们在文章《<a href="https://mp.weixin.qq.com/s/fTgXL5xWuCzNevSv2D9t5w">KernelSHAP 与 TreeSHAP</a>》中讨论这些和其他考虑因素。</p>
+<h2 id="参考">参考<a hidden class="anchor" aria-hidden="true" href="#参考">#</a></h2>
+<p>S. Lundberg, <strong>SHAP Python package</strong> (2021)<em>,</em> <a href="https://github.com/slundberg/shap">https://github.com/slundberg/shap</a></p>
+<p>S. Lundberg &amp; S. Lee, <strong>A Unified Approach to Interpreting Model Predictions</strong> (2017), <a href="https://arxiv.org/pdf/1705.07874.pdf">https://arxiv.org/pdf/1705.07874.pdf</a></p>
+<p>C. Molnar, <strong>Interpretable Machine Learning</strong> (2021), <a href="https://christophm.github.io/interpretable-ml-book/">https://christophm.github.io/interpretable-ml-book/</a></p>
+<p>S. Masís, <strong>Interpretable Machine Learning with Python</strong> (2021)</p>
+<p><a href="https://medium.com/u/25a92c29cc1?source=post_page-----703f34061d86--------------------------------">Chandan Durgia</a> <strong>Using SHAP for Explainability — Understand these Limitations First</strong> (2021) <a href="https://towardsdatascience.com/using-shap-for-explainability-understand-these-limitations-first-1bed91c9d21">https://towardsdatascience.com/using-shap-for-explainability-understand-these-limitations-first-1bed91c9d21</a></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/%E4%BD%BF%E7%94%A8-python-%E6%9E%84%E5%BB%BA%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%9B%BE%E5%83%8F%E6%A0%87%E8%AE%B0%E5%99%A8/">
+    <span class="title">« Prev</span>
+    <span>使用 Python 构建交互式图像标记器</span>
+  </a>
+  <a class="next" href="http://localhost:1313/posts/%E4%BD%BF%E7%94%A8-seaborn-%E7%83%AD%E5%9B%BE%E7%9A%84-5-%E7%A7%8D%E6%96%B9%E6%B3%95python-%E6%95%99%E7%A8%8B/">
+    <span class="title">Next »</span>
+    <span>使用 Seaborn 热图的 5 种方法（Python 教程）</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">茶桁.MAMT</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

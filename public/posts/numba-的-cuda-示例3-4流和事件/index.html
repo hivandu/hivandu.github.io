@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>Numba 的 CUDA 示例(3/4)：流和事件 | 茶桁.MAMT</title>
+<meta name="keywords" content="">
+<meta name="description" content="
+本教程为 Numba CUDA 示例 第 3 部分。 &gt; &gt; 按照本系列的第 3 部分，了解 Python CUDA 编程中的流和事件
+
+介绍
+在本系列的前两部分（第 1 部分，第 2 部分）中，我们学习了如何使用 GPU 编程执行简单的任务，例如高度并行的任务、使用共享内存的缩减以及设备功能。我们还学习了如何从主机对函数进行计时 — 以及为什么这可能不是对代码进行计时的最佳方式。
+
+">
+<meta name="author" content="Hivan Du">
+<link rel="canonical" href="http://localhost:1313/posts/numba-%E7%9A%84-cuda-%E7%A4%BA%E4%BE%8B3-4%E6%B5%81%E5%92%8C%E4%BA%8B%E4%BB%B6/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.cd9298b33628769aa1bc1acebbbfd7aa11ce81dfe03484d479e1907760249a1d.css" integrity="sha256-zZKYszYodpqhvBrOu7/XqhHOgd/gNITUeeGQd2Akmh0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/numba-%E7%9A%84-cuda-%E7%A4%BA%E4%BE%8B3-4%E6%B5%81%E5%92%8C%E4%BA%8B%E4%BB%B6/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="茶桁.MAMT (Alt + H)">
+                <img src="http://localhost:1313/%F0%9F%A7%A0" alt="" aria-label="logo"
+                    height="30">茶桁.MAMT</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="http://localhost:1313/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/posts/">文章</a>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+</nav>
+    <h1 class="post-title entry-hint-parent">
+      Numba 的 CUDA 示例(3/4)：流和事件
+    </h1>
+    <div class="post-meta">
+
+<span title='2024-06-05 07:03:00 +0800 CST'>June 5, 2024</span>&nbsp;·&nbsp;<span>8 min</span>&nbsp;·&nbsp;<span>Hivan Du</span>
+
+</div>
+  </header> <details class="toc" >
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">Table of Contents</span>
+    </summary>
+
+    <div class="inner"><ul>
+            <li>
+                <a href="#%e5%9c%a8%e6%9c%ac%e6%95%99%e7%a8%8b%e4%b8%ad" aria-label="在本教程中">在本教程中</a></li>
+            <li>
+                <a href="#%e5%85%a5%e9%97%a8" aria-label="入门">入门</a></li>
+            <li>
+                <a href="#%e6%b5%81streams" aria-label="流（Streams）">流（Streams）</a><ul>
+                    
+            <li>
+                <a href="#numba-cuda-%e4%b8%ad%e7%9a%84%e6%b5%81%e8%af%ad%e4%b9%89" aria-label="Numba CUDA 中的流语义">Numba CUDA 中的流语义</a></li></ul>
+            </li>
+            <li>
+                <a href="#%e5%b0%86%e7%8b%ac%e7%ab%8b%e5%86%85%e6%a0%b8%e4%b8%8e%e6%b5%81%e5%88%86%e7%a6%bb" aria-label="将独立内核与流分离">将独立内核与流分离</a></li>
+            <li>
+                <a href="#%e4%ba%8b%e4%bb%b6" aria-label="事件">事件</a><ul>
+                    
+            <li>
+                <a href="#%e5%86%85%e6%a0%b8%e6%89%a7%e8%a1%8c%e8%ae%a1%e6%97%b6%e4%ba%8b%e4%bb%b6" aria-label="内核执行计时事件">内核执行计时事件</a></li>
+            <li>
+                <a href="#%e6%97%b6%e9%97%b4%e6%b5%81%e4%ba%8b%e4%bb%b6" aria-label="时间流事件">时间流事件</a></li></ul>
+            </li>
+            <li>
+                <a href="#%e7%bb%93%e5%b0%be" aria-label="结尾">结尾</a>
+            </li>
+        </ul>
+    </div>
+</details>
+
+  <div class="post-content md-content"><h2 id="在本教程中">在本教程中<a hidden class="anchor" aria-hidden="true" href="#在本教程中">#</a></h2>
+<p>为了提高我们的计时能力，我们将介绍 CUDA 事件及其使用方法。但在深入研究之前，我们将讨论 CUDA 流及其重要性。</p>
+<p>Google colab 中的代码：https://colab.research.google.com/drive/1jujdw9f6rf0GoOGRHCvi82mAoXD3ufmt?usp=sharing</p>
+<h2 id="入门">入门<a hidden class="anchor" aria-hidden="true" href="#入门">#</a></h2>
+<p>导入并加载库，确保你有 GPU。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> warnings
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> time <span style="color:#f92672">import</span> perf_counter, sleep
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numba
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> numba <span style="color:#f92672">import</span> cuda
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> numba.core.errors <span style="color:#f92672">import</span> NumbaPerformanceWarning
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(np<span style="color:#f92672">.</span>__version__)
+</span></span><span style="display:flex;"><span>print(numba<span style="color:#f92672">.</span>__version__)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 忽略 NumbaPerformanceWarning</span>
+</span></span><span style="display:flex;"><span>warnings<span style="color:#f92672">.</span>simplefilter(<span style="color:#e6db74">&#34;ignore&#34;</span>, category<span style="color:#f92672">=</span>NumbaPerformanceWarning)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">---</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">1.25.2</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0.59.1</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>cuda<span style="color:#f92672">.</span>detect()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">---</span>
+</span></span><span style="display:flex;"><span>Found <span style="color:#ae81ff">1</span> CUDA devices
+</span></span><span style="display:flex;"><span>id <span style="color:#ae81ff">0</span>             <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;Tesla T4&#39;</span>                              [SUPPORTED]
+</span></span><span style="display:flex;"><span>                      Compute Capability: <span style="color:#ae81ff">7.5</span>
+</span></span><span style="display:flex;"><span>                           PCI Device ID: <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>                              PCI Bus ID: <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>                                    UUID: GPU<span style="color:#f92672">-</span><span style="color:#ae81ff">34</span>d689f4<span style="color:#f92672">-</span><span style="color:#ae81ff">4</span>c3c<span style="color:#f92672">-</span>eeb0<span style="color:#f92672">-</span>ecce<span style="color:#f92672">-</span>bbaabec33618
+</span></span><span style="display:flex;"><span>                                Watchdog: Disabled
+</span></span><span style="display:flex;"><span>             FP32<span style="color:#f92672">/</span>FP64 Performance Ratio: <span style="color:#ae81ff">32</span>
+</span></span><span style="display:flex;"><span>Summary:
+</span></span><span style="display:flex;"><span>	<span style="color:#ae81ff">1</span><span style="color:#f92672">/</span><span style="color:#ae81ff">1</span> devices are supported
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">True</span>
+</span></span></code></pre></div><h2 id="流streams">流（Streams）<a hidden class="anchor" aria-hidden="true" href="#流streams">#</a></h2>
+<p>当我们从主机启动内核时，它的执行会在 GPU 中排队，只要 GPU 完成了之前启动的所有任务就会执行。</p>
+<p>用户在设备中启动的许多任务可能依赖于先前的任务，因此“将它们放在同一个队列中”是有意义的。例如，如果你将数据异步复制到 GPU 以使用某个内核进行处理，则该副本必须在内核运行之前完成。</p>
+<p>但是，如果你有两个彼此独立的内核，将它们放在同一个队列中是否有意义？可能没有！对于这些情况，CUDA 有<em>流</em>。你可以将流视为彼此独立运行的单独队列。它们也可以并发运行，即同时运行。这可以在运行许多独立任务时大大加快总运行时间。</p>
+<p><img alt="图 3.1。使用不同的流可以实现并发执行，从而缩短运行时间。" loading="lazy" src="https://miro.medium.com/v2/resize:fit:700/0*mYDmxjFYQQ86Saw2.png"></p>
+<p>来源：<a href="https://www.mdpi.com/1045598">Zhang et al. 2021</a> (CC BY 4.0).</p>
+<h3 id="numba-cuda-中的流语义">Numba CUDA 中的流语义<a hidden class="anchor" aria-hidden="true" href="#numba-cuda-中的流语义">#</a></h3>
+<p>我们将采取迄今为止学到的两个任务并将它们排队以创建规范化管道。给定一个（主机）数组<code>a</code>，我们将用其规范化版本覆盖它：</p>
+<p>a ← a / ∑a[i]</p>
+<p>为此，我们将使用三个内核。第一个内核 <code>partial_reduce</code> 是第二部分中的部分还原。它将返回一个<code>threads_per_block</code>-sized 数组，我们将把它传递给另一个内核 <code>single_thread_sum</code>，后者将进一步将其还原为一个单子数组（大小为 1）。这个内核将在单个区块和单个线程上运行。最后，我们将使用 <code>divide_by</code> 对原始数组和之前计算出的总和进行就地分割。所有这些操作都将在 GPU 中进行，并且应该一个接一个地运行。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>threads_per_block <span style="color:#f92672">=</span> <span style="color:#ae81ff">256</span>
+</span></span><span style="display:flex;"><span>blocks_per_grid <span style="color:#f92672">=</span> <span style="color:#ae81ff">32</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">40</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@cuda.jit</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">partial_reduce</span>(array, partial_reduction):
+</span></span><span style="display:flex;"><span>    i_start <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>grid(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>    threads_per_grid <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>blockDim<span style="color:#f92672">.</span>x <span style="color:#f92672">*</span> cuda<span style="color:#f92672">.</span>gridDim<span style="color:#f92672">.</span>x
+</span></span><span style="display:flex;"><span>    s_thread <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i_arr <span style="color:#f92672">in</span> range(i_start, array<span style="color:#f92672">.</span>size, threads_per_grid):
+</span></span><span style="display:flex;"><span>        s_thread <span style="color:#f92672">+=</span> array[i_arr]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    s_block <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>shared<span style="color:#f92672">.</span>array((threads_per_block,), numba<span style="color:#f92672">.</span>float32)
+</span></span><span style="display:flex;"><span>    tid <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>threadIdx<span style="color:#f92672">.</span>x
+</span></span><span style="display:flex;"><span>    s_block[tid] <span style="color:#f92672">=</span> s_thread
+</span></span><span style="display:flex;"><span>    cuda<span style="color:#f92672">.</span>syncthreads()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    i <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>blockDim<span style="color:#f92672">.</span>x <span style="color:#f92672">//</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (i <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (tid <span style="color:#f92672">&lt;</span> i):
+</span></span><span style="display:flex;"><span>            s_block[tid] <span style="color:#f92672">+=</span> s_block[tid <span style="color:#f92672">+</span> i]
+</span></span><span style="display:flex;"><span>        cuda<span style="color:#f92672">.</span>syncthreads()
+</span></span><span style="display:flex;"><span>        i <span style="color:#f92672">//=</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> tid <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+</span></span><span style="display:flex;"><span>        partial_reduction[cuda<span style="color:#f92672">.</span>blockIdx<span style="color:#f92672">.</span>x] <span style="color:#f92672">=</span> s_block[<span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@cuda.jit</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">single_thread_sum</span>(partial_reduction, sum):
+</span></span><span style="display:flex;"><span>    sum[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> element <span style="color:#f92672">in</span> partial_reduction:
+</span></span><span style="display:flex;"><span>        sum[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">+=</span> element
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@cuda.jit</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">divide_by</span>(array, val_array):
+</span></span><span style="display:flex;"><span>    i_start <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>grid(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>    threads_per_grid <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>gridsize(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(i_start, array<span style="color:#f92672">.</span>size, threads_per_grid):
+</span></span><span style="display:flex;"><span>        array[i] <span style="color:#f92672">/=</span> val_array[<span style="color:#ae81ff">0</span>]
+</span></span></code></pre></div><p>当内核调用和其他操作没有指定流时，它们将在默认流中运行。默认流是一种特殊流，其行为取决于运行的是<a href="https://docs.nvidia.com/cuda/cuda-runtime-api/stream-sync-behavior.html">旧式流还是每个线程的流</a>。对我们来说，只要说如果你想实现并发，就应该在非默认流中运行任务就足够了。让我们看看如何对某些操作（例如内核启动、数组复制和数组创建复制）做到这一点。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Define host array</span>
+</span></span><span style="display:flex;"><span>a <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>ones(<span style="color:#ae81ff">10_000_000</span>, dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>float32)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Old sum: </span><span style="color:#e6db74">{</span>a<span style="color:#f92672">.</span>sum()<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Old sum: 10000000.00</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Example 3.1: Numba CUDA Stream Semantics</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Pin memory</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">with</span> cuda<span style="color:#f92672">.</span>pinned(a):
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Create a CUDA stream</span>
+</span></span><span style="display:flex;"><span>    stream <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>stream()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e"># 将数组复制到设备并在设备中创建。使用 Numba 时，可将数据流作为附加信息传递给 API 函数。</span>
+</span></span><span style="display:flex;"><span>    dev_a <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>to_device(a, stream<span style="color:#f92672">=</span>stream)
+</span></span><span style="display:flex;"><span>    dev_a_reduce <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>device_array((blocks_per_grid,), dtype<span style="color:#f92672">=</span>dev_a<span style="color:#f92672">.</span>dtype, stream<span style="color:#f92672">=</span>stream)
+</span></span><span style="display:flex;"><span>    dev_a_sum <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>device_array((<span style="color:#ae81ff">1</span>,), dtype<span style="color:#f92672">=</span>dev_a<span style="color:#f92672">.</span>dtype, stream<span style="color:#f92672">=</span>stream)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 在启动内核时，流会被传给内核启动器（&#34;dispatcher&#34;）配置，它位于块维度（`threads_per_block`）之后。</span>
+</span></span><span style="display:flex;"><span>    partial_reduce[blocks_per_grid, threads_per_block, stream](dev_a, dev_a_reduce)
+</span></span><span style="display:flex;"><span>    single_thread_sum[<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, stream](dev_a_reduce, dev_a_sum)
+</span></span><span style="display:flex;"><span>    divide_by[blocks_per_grid, threads_per_block, stream](dev_a, dev_a_sum)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 数组复制到主机：与复制到设备一样，当传递数据流时，复制是异步的。注意：由于写入尚未同步，打印输出很可能是无意义的。</span>
+</span></span><span style="display:flex;"><span>    dev_a<span style="color:#f92672">.</span>copy_to_host(a, stream<span style="color:#f92672">=</span>stream)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 无论何时，只要我们想确保从主机的角度来看，流中的所有操作都已完成，我们就会调用：</span>
+</span></span><span style="display:flex;"><span>stream<span style="color:#f92672">.</span>synchronize()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 调用后，我们可以确定 `a` 已被其规范化版本覆盖</span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;New sum: </span><span style="color:#e6db74">{</span>a<span style="color:#f92672">.</span>sum()<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">---</span>
+</span></span><span style="display:flex;"><span>New sum: <span style="color:#ae81ff">1.00</span>
+</span></span></code></pre></div><p>在我们真正谈论流之前，我们需要谈论房间里的大象：<code>cuda.pinned</code>。此上下文管理器创建一种称为<em>页面锁定</em>或<em>固定</em>内存的特殊类型的内存，CUDA 在将内存从主机传输到设备时将受益于这种内存。</p>
+<p>主机 RAM 中的内存可随时<a href="https://en.wikipedia.org/wiki/Memory_paging"><em>分页</em></a>，也就是说，操作系统可以秘密地将对象从 RAM 移动到硬盘。这样做的目的是将不经常使用的对象移动到较慢的内存位置，让较快的 RAM 内存可用于更急需的对象。对我们来说重要的是，CUDA 不允许从可分页对象到 GPU 的异步传输。这样做是为了防止出现持续的非常慢的传输流：磁盘（分页）→ RAM → GPU。</p>
+<p>要异步传输数据，我们必须确保数据<em>始终</em>位于 RAM 中，方法是以某种方式防止操作系统偷偷将数据隐藏在磁盘的某个地方。这就是内存固定发挥作用的地方，它创建了一个上下文，在该上下文中，参数将被“页面锁定”，即强制位于 RAM 中。参见图 3.2。</p>
+<p><img alt="图 3.2。可分页内存与固定（页面锁定）内存" loading="lazy" src="https://miro.medium.com/v2/resize:fit:700/0*ZrWF-XxN4bznjmS0.png"></p>
+<p>来源：<a href="https://www.mdpi.com/215954">Rizvi et al. 2017</a> (CC BY 4.0).</p>
+<p>从此以后，代码就变得非常简单了。创建一个流，然后将其传递给我们想要在该流上操作的每个 CUDA 函数。重要的是，Numba CUDA 内核配置（方括号）要求流位于块维度大小之后的第三个参数中。</p>
+<blockquote>
+<p>⚠️ 注意：</p>
+<p>通常，将流传递给 Numba CUDA API 函数不会改变其行为，只会改变其运行的流。从设备到主机的复制是一个例外。调用 <code>device_array.copy_to_host()</code>（不带参数）时，复制会同步进行。调用 <code>device_array.copy_to_host(stream=stream)</code>（带流）时，如果<code>device_array</code>未固定，则复制将同步进行。只有在<code>device_array</code>固定并传递流时，复制才会异步进行。</p>
+</blockquote>
+<blockquote>
+<p>信息：</p>
+<p>Numba 提供了一个有用的上下文管理器，用于在其上下文中排队所有操作；退出上下文时，操作将同步，包括内存传输。示例 3.1 也可以写成：</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">with</span> cuda<span style="color:#f92672">.</span>pinned(a):
+</span></span><span style="display:flex;"><span>    stream <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>stream()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">with</span> stream<span style="color:#f92672">.</span>auto_synchronize():
+</span></span><span style="display:flex;"><span>        dev_a <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>to_device(a, stream<span style="color:#f92672">=</span>stream)
+</span></span><span style="display:flex;"><span>        dev_a_reduce <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>device_array((blocks_per_grid,), dtype<span style="color:#f92672">=</span>dev_a<span style="color:#f92672">.</span>dtype, stream<span style="color:#f92672">=</span>stream)
+</span></span><span style="display:flex;"><span>        dev_a_sum <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>device_array((<span style="color:#ae81ff">1</span>,), dtype<span style="color:#f92672">=</span>dev_a<span style="color:#f92672">.</span>dtype, stream<span style="color:#f92672">=</span>stream)
+</span></span><span style="display:flex;"><span>        partial_reduce[blocks_per_grid, threads_per_block, stream](dev_a, dev_a_reduce)
+</span></span><span style="display:flex;"><span>        single_thread_sum[<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, stream](dev_a_reduce, dev_a_sum)
+</span></span><span style="display:flex;"><span>        divide_by[blocks_per_grid, threads_per_block, stream](dev_a, dev_a_sum)
+</span></span><span style="display:flex;"><span>        dev_a<span style="color:#f92672">.</span>copy_to_host(a, stream<span style="color:#f92672">=</span>stream)
+</span></span></code></pre></div><h2 id="将独立内核与流分离">将独立内核与流分离<a hidden class="anchor" aria-hidden="true" href="#将独立内核与流分离">#</a></h2>
+<p>假设我们要标准化的不是一个数组，而是多个数组。各个数组的标准化操作完全相互独立。因此，GPU 没有必要等到一个标准化结束之后再开始下一个标准化。因此，我们应该将这些任务分成单独的流。</p>
+<p>让我们看一个规范化 10 个数组的示例 —— 每个数组都使用自己的流。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Example 3.2: Multiple streams</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>N_streams <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 不要在此上下文中进行内存收集（去分配数组）</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">with</span> cuda<span style="color:#f92672">.</span>defer_cleanup():
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Create 10 streams</span>
+</span></span><span style="display:flex;"><span>    streams <span style="color:#f92672">=</span> [cuda<span style="color:#f92672">.</span>stream() <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>, N_streams <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Create base arrays</span>
+</span></span><span style="display:flex;"><span>    arrays <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>        i <span style="color:#f92672">*</span> np<span style="color:#f92672">.</span>ones(<span style="color:#ae81ff">10_000_000</span>, dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>float32) <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>, N_streams <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i, arr <span style="color:#f92672">in</span> enumerate(arrays):
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Old sum (array </span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">): </span><span style="color:#e6db74">{</span>arr<span style="color:#f92672">.</span>sum()<span style="color:#e6db74">:</span><span style="color:#e6db74">12.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    tics <span style="color:#f92672">=</span> []  <span style="color:#75715e"># Launch start times</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i, (stream, arr) <span style="color:#f92672">in</span> enumerate(zip(streams, arrays)):
+</span></span><span style="display:flex;"><span>        tic <span style="color:#f92672">=</span> perf_counter()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">with</span> cuda<span style="color:#f92672">.</span>pinned(arr):
+</span></span><span style="display:flex;"><span>            dev_a <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>to_device(arr, stream<span style="color:#f92672">=</span>stream)
+</span></span><span style="display:flex;"><span>            dev_a_reduce <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>device_array(
+</span></span><span style="display:flex;"><span>                (blocks_per_grid,), dtype<span style="color:#f92672">=</span>dev_a<span style="color:#f92672">.</span>dtype, stream<span style="color:#f92672">=</span>stream
+</span></span><span style="display:flex;"><span>            )
+</span></span><span style="display:flex;"><span>            dev_a_sum <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>device_array((<span style="color:#ae81ff">1</span>,), dtype<span style="color:#f92672">=</span>dev_a<span style="color:#f92672">.</span>dtype, stream<span style="color:#f92672">=</span>stream)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            partial_reduce[blocks_per_grid, threads_per_block, stream](dev_a, dev_a_reduce)
+</span></span><span style="display:flex;"><span>            single_thread_sum[<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, stream](dev_a_reduce, dev_a_sum)
+</span></span><span style="display:flex;"><span>            divide_by[blocks_per_grid, threads_per_block, stream](dev_a, dev_a_sum)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            dev_a<span style="color:#f92672">.</span>copy_to_host(arr, stream<span style="color:#f92672">=</span>stream)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        toc <span style="color:#f92672">=</span> perf_counter()  <span style="color:#75715e"># Stop time of launches</span>
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Launched processing </span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74"> in </span><span style="color:#e6db74">{</span><span style="color:#ae81ff">1e3</span> <span style="color:#f92672">*</span> (toc <span style="color:#f92672">-</span> tic)<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> ms&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 确保删除 GPU 数组的引用，这将确保在退出上下文时进行垃圾回收。</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">del</span> dev_a, dev_a_reduce, dev_a_sum
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        tics<span style="color:#f92672">.</span>append(tic)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    tocs <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i, (stream, arr) <span style="color:#f92672">in</span> enumerate(zip(streams, arrays)):
+</span></span><span style="display:flex;"><span>        stream<span style="color:#f92672">.</span>synchronize()
+</span></span><span style="display:flex;"><span>        toc <span style="color:#f92672">=</span> perf_counter()  <span style="color:#75715e"># Stop time of sync</span>
+</span></span><span style="display:flex;"><span>        tocs<span style="color:#f92672">.</span>append(toc)
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;New sum (array </span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">): </span><span style="color:#e6db74">{</span>arr<span style="color:#f92672">.</span>sum()<span style="color:#e6db74">:</span><span style="color:#e6db74">12.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">4</span>):
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Performed processing </span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74"> in </span><span style="color:#e6db74">{</span><span style="color:#ae81ff">1e3</span> <span style="color:#f92672">*</span> (tocs[i] <span style="color:#f92672">-</span> tics[i])<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> ms&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Total time </span><span style="color:#e6db74">{</span><span style="color:#ae81ff">1e3</span> <span style="color:#f92672">*</span> (tocs[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">-</span> tics[<span style="color:#ae81ff">0</span>])<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> ms&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">---</span>
+</span></span><span style="display:flex;"><span>Old sum (array <span style="color:#ae81ff">0</span>):  <span style="color:#ae81ff">10000000.00</span>
+</span></span><span style="display:flex;"><span>Old sum (array <span style="color:#ae81ff">1</span>):  <span style="color:#ae81ff">20000000.00</span>
+</span></span><span style="display:flex;"><span>Old sum (array <span style="color:#ae81ff">2</span>):  <span style="color:#ae81ff">30000000.00</span>
+</span></span><span style="display:flex;"><span>Old sum (array <span style="color:#ae81ff">3</span>):  <span style="color:#ae81ff">40000000.00</span>
+</span></span><span style="display:flex;"><span>Old sum (array <span style="color:#ae81ff">4</span>):  <span style="color:#ae81ff">50000000.00</span>
+</span></span><span style="display:flex;"><span>Old sum (array <span style="color:#ae81ff">5</span>):  <span style="color:#ae81ff">60000000.00</span>
+</span></span><span style="display:flex;"><span>Old sum (array <span style="color:#ae81ff">6</span>):  <span style="color:#ae81ff">70000000.00</span>
+</span></span><span style="display:flex;"><span>Old sum (array <span style="color:#ae81ff">7</span>):  <span style="color:#ae81ff">80000000.00</span>
+</span></span><span style="display:flex;"><span>Old sum (array <span style="color:#ae81ff">8</span>):  <span style="color:#ae81ff">90000000.00</span>
+</span></span><span style="display:flex;"><span>Old sum (array <span style="color:#ae81ff">9</span>): <span style="color:#ae81ff">100000000.00</span>
+</span></span><span style="display:flex;"><span>Launched processing <span style="color:#ae81ff">0</span> <span style="color:#f92672">in</span> <span style="color:#ae81ff">14.40</span> ms
+</span></span><span style="display:flex;"><span>Launched processing <span style="color:#ae81ff">1</span> <span style="color:#f92672">in</span> <span style="color:#ae81ff">13.89</span> ms
+</span></span><span style="display:flex;"><span>Launched processing <span style="color:#ae81ff">2</span> <span style="color:#f92672">in</span> <span style="color:#ae81ff">13.79</span> ms
+</span></span><span style="display:flex;"><span>Launched processing <span style="color:#ae81ff">3</span> <span style="color:#f92672">in</span> <span style="color:#ae81ff">13.75</span> ms
+</span></span><span style="display:flex;"><span>Launched processing <span style="color:#ae81ff">4</span> <span style="color:#f92672">in</span> <span style="color:#ae81ff">13.62</span> ms
+</span></span><span style="display:flex;"><span>Launched processing <span style="color:#ae81ff">5</span> <span style="color:#f92672">in</span> <span style="color:#ae81ff">13.95</span> ms
+</span></span><span style="display:flex;"><span>Launched processing <span style="color:#ae81ff">6</span> <span style="color:#f92672">in</span> <span style="color:#ae81ff">13.99</span> ms
+</span></span><span style="display:flex;"><span>Launched processing <span style="color:#ae81ff">7</span> <span style="color:#f92672">in</span> <span style="color:#ae81ff">14.32</span> ms
+</span></span><span style="display:flex;"><span>Launched processing <span style="color:#ae81ff">8</span> <span style="color:#f92672">in</span> <span style="color:#ae81ff">13.14</span> ms
+</span></span><span style="display:flex;"><span>Launched processing <span style="color:#ae81ff">9</span> <span style="color:#f92672">in</span> <span style="color:#ae81ff">13.47</span> ms
+</span></span><span style="display:flex;"><span>New sum (array <span style="color:#ae81ff">0</span>):         <span style="color:#ae81ff">1.00</span>
+</span></span><span style="display:flex;"><span>New sum (array <span style="color:#ae81ff">1</span>):         <span style="color:#ae81ff">1.00</span>
+</span></span><span style="display:flex;"><span>New sum (array <span style="color:#ae81ff">2</span>):         <span style="color:#ae81ff">1.00</span>
+</span></span><span style="display:flex;"><span>New sum (array <span style="color:#ae81ff">3</span>):         <span style="color:#ae81ff">1.00</span>
+</span></span><span style="display:flex;"><span>New sum (array <span style="color:#ae81ff">4</span>):         <span style="color:#ae81ff">1.00</span>
+</span></span><span style="display:flex;"><span>New sum (array <span style="color:#ae81ff">5</span>):         <span style="color:#ae81ff">1.00</span>
+</span></span><span style="display:flex;"><span>New sum (array <span style="color:#ae81ff">6</span>):         <span style="color:#ae81ff">1.00</span>
+</span></span><span style="display:flex;"><span>New sum (array <span style="color:#ae81ff">7</span>):         <span style="color:#ae81ff">1.00</span>
+</span></span><span style="display:flex;"><span>New sum (array <span style="color:#ae81ff">8</span>):         <span style="color:#ae81ff">1.00</span>
+</span></span><span style="display:flex;"><span>New sum (array <span style="color:#ae81ff">9</span>):         <span style="color:#ae81ff">1.00</span>
+</span></span><span style="display:flex;"><span>Performed processing <span style="color:#ae81ff">0</span> <span style="color:#f92672">in</span> <span style="color:#ae81ff">145.23</span> ms
+</span></span><span style="display:flex;"><span>Performed processing <span style="color:#ae81ff">1</span> <span style="color:#f92672">in</span> <span style="color:#ae81ff">137.10</span> ms
+</span></span><span style="display:flex;"><span>Performed processing <span style="color:#ae81ff">2</span> <span style="color:#f92672">in</span> <span style="color:#ae81ff">129.31</span> ms
+</span></span><span style="display:flex;"><span>Performed processing <span style="color:#ae81ff">3</span> <span style="color:#f92672">in</span> <span style="color:#ae81ff">121.48</span> ms
+</span></span><span style="display:flex;"><span>Total time <span style="color:#ae81ff">207.54</span> ms
+</span></span></code></pre></div><p>现在让我们与单个流进行比较。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Example 3.3: Single stream</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 不要在此上下文中进行内存收集（去分配数组）</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">with</span> cuda<span style="color:#f92672">.</span>defer_cleanup():
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Create 1 streams</span>
+</span></span><span style="display:flex;"><span>    streams <span style="color:#f92672">=</span> [cuda<span style="color:#f92672">.</span>stream()] <span style="color:#f92672">*</span> N_streams
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Create base arrays</span>
+</span></span><span style="display:flex;"><span>    arrays <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>        i <span style="color:#f92672">*</span> np<span style="color:#f92672">.</span>ones(<span style="color:#ae81ff">10_000_000</span>, dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>float32) <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>, N_streams <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i, arr <span style="color:#f92672">in</span> enumerate(arrays):
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Old sum (array </span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">): </span><span style="color:#e6db74">{</span>arr<span style="color:#f92672">.</span>sum()<span style="color:#e6db74">:</span><span style="color:#e6db74">12.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    tics <span style="color:#f92672">=</span> []  <span style="color:#75715e"># Launch start times</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i, (stream, arr) <span style="color:#f92672">in</span> enumerate(zip(streams, arrays)):
+</span></span><span style="display:flex;"><span>        tic <span style="color:#f92672">=</span> perf_counter()
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">with</span> cuda<span style="color:#f92672">.</span>pinned(arr):
+</span></span><span style="display:flex;"><span>            dev_a <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>to_device(arr, stream<span style="color:#f92672">=</span>stream)
+</span></span><span style="display:flex;"><span>            dev_a_reduce <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>device_array(
+</span></span><span style="display:flex;"><span>                (blocks_per_grid,), dtype<span style="color:#f92672">=</span>dev_a<span style="color:#f92672">.</span>dtype, stream<span style="color:#f92672">=</span>stream
+</span></span><span style="display:flex;"><span>            )
+</span></span><span style="display:flex;"><span>            dev_a_sum <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>device_array((<span style="color:#ae81ff">1</span>,), dtype<span style="color:#f92672">=</span>dev_a<span style="color:#f92672">.</span>dtype, stream<span style="color:#f92672">=</span>stream)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            partial_reduce[blocks_per_grid, threads_per_block, stream](dev_a, dev_a_reduce)
+</span></span><span style="display:flex;"><span>            single_thread_sum[<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, stream](dev_a_reduce, dev_a_sum)
+</span></span><span style="display:flex;"><span>            divide_by[blocks_per_grid, threads_per_block, stream](dev_a, dev_a_sum)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            dev_a<span style="color:#f92672">.</span>copy_to_host(arr, stream<span style="color:#f92672">=</span>stream)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        toc <span style="color:#f92672">=</span> perf_counter()  <span style="color:#75715e"># Stop time of launches</span>
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Launched processing </span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74"> in </span><span style="color:#e6db74">{</span><span style="color:#ae81ff">1e3</span> <span style="color:#f92672">*</span> (toc <span style="color:#f92672">-</span> tic)<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> ms&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 确保删除 GPU 数组的引用，这将确保在退出上下文时进行垃圾回收。</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">del</span> dev_a, dev_a_reduce, dev_a_sum
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        tics<span style="color:#f92672">.</span>append(tic)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    tocs <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i, (stream, arr) <span style="color:#f92672">in</span> enumerate(zip(streams, arrays)):
+</span></span><span style="display:flex;"><span>        stream<span style="color:#f92672">.</span>synchronize()
+</span></span><span style="display:flex;"><span>        toc <span style="color:#f92672">=</span> perf_counter()  <span style="color:#75715e"># Stop time of sync</span>
+</span></span><span style="display:flex;"><span>        tocs<span style="color:#f92672">.</span>append(toc)
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;New sum (array </span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">): </span><span style="color:#e6db74">{</span>arr<span style="color:#f92672">.</span>sum()<span style="color:#e6db74">:</span><span style="color:#e6db74">12.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">4</span>):
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Performed processing </span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74"> in </span><span style="color:#e6db74">{</span><span style="color:#ae81ff">1e3</span> <span style="color:#f92672">*</span> (tocs[i] <span style="color:#f92672">-</span> tics[i])<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> ms&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Total time </span><span style="color:#e6db74">{</span><span style="color:#ae81ff">1e3</span> <span style="color:#f92672">*</span> (tocs[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">-</span> tics[<span style="color:#ae81ff">0</span>])<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> ms&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">---</span>
+</span></span><span style="display:flex;"><span>Old sum (array <span style="color:#ae81ff">0</span>):  <span style="color:#ae81ff">10000000.00</span>
+</span></span><span style="display:flex;"><span>Old sum (array <span style="color:#ae81ff">1</span>):  <span style="color:#ae81ff">20000000.00</span>
+</span></span><span style="display:flex;"><span>Old sum (array <span style="color:#ae81ff">2</span>):  <span style="color:#ae81ff">30000000.00</span>
+</span></span><span style="display:flex;"><span>Old sum (array <span style="color:#ae81ff">3</span>):  <span style="color:#ae81ff">40000000.00</span>
+</span></span><span style="display:flex;"><span>Old sum (array <span style="color:#ae81ff">4</span>):  <span style="color:#ae81ff">50000000.00</span>
+</span></span><span style="display:flex;"><span>Old sum (array <span style="color:#ae81ff">5</span>):  <span style="color:#ae81ff">60000000.00</span>
+</span></span><span style="display:flex;"><span>Old sum (array <span style="color:#ae81ff">6</span>):  <span style="color:#ae81ff">70000000.00</span>
+</span></span><span style="display:flex;"><span>Old sum (array <span style="color:#ae81ff">7</span>):  <span style="color:#ae81ff">80000000.00</span>
+</span></span><span style="display:flex;"><span>Old sum (array <span style="color:#ae81ff">8</span>):  <span style="color:#ae81ff">90000000.00</span>
+</span></span><span style="display:flex;"><span>Old sum (array <span style="color:#ae81ff">9</span>): <span style="color:#ae81ff">100000000.00</span>
+</span></span><span style="display:flex;"><span>Launched processing <span style="color:#ae81ff">0</span> <span style="color:#f92672">in</span> <span style="color:#ae81ff">13.26</span> ms
+</span></span><span style="display:flex;"><span>Launched processing <span style="color:#ae81ff">1</span> <span style="color:#f92672">in</span> <span style="color:#ae81ff">11.84</span> ms
+</span></span><span style="display:flex;"><span>Launched processing <span style="color:#ae81ff">2</span> <span style="color:#f92672">in</span> <span style="color:#ae81ff">11.83</span> ms
+</span></span><span style="display:flex;"><span>Launched processing <span style="color:#ae81ff">3</span> <span style="color:#f92672">in</span> <span style="color:#ae81ff">12.08</span> ms
+</span></span><span style="display:flex;"><span>Launched processing <span style="color:#ae81ff">4</span> <span style="color:#f92672">in</span> <span style="color:#ae81ff">14.21</span> ms
+</span></span><span style="display:flex;"><span>Launched processing <span style="color:#ae81ff">5</span> <span style="color:#f92672">in</span> <span style="color:#ae81ff">11.98</span> ms
+</span></span><span style="display:flex;"><span>Launched processing <span style="color:#ae81ff">6</span> <span style="color:#f92672">in</span> <span style="color:#ae81ff">11.91</span> ms
+</span></span><span style="display:flex;"><span>Launched processing <span style="color:#ae81ff">7</span> <span style="color:#f92672">in</span> <span style="color:#ae81ff">12.08</span> ms
+</span></span><span style="display:flex;"><span>Launched processing <span style="color:#ae81ff">8</span> <span style="color:#f92672">in</span> <span style="color:#ae81ff">12.13</span> ms
+</span></span><span style="display:flex;"><span>Launched processing <span style="color:#ae81ff">9</span> <span style="color:#f92672">in</span> <span style="color:#ae81ff">11.80</span> ms
+</span></span><span style="display:flex;"><span>New sum (array <span style="color:#ae81ff">0</span>):         <span style="color:#ae81ff">1.00</span>
+</span></span><span style="display:flex;"><span>New sum (array <span style="color:#ae81ff">1</span>):         <span style="color:#ae81ff">1.00</span>
+</span></span><span style="display:flex;"><span>New sum (array <span style="color:#ae81ff">2</span>):         <span style="color:#ae81ff">1.00</span>
+</span></span><span style="display:flex;"><span>New sum (array <span style="color:#ae81ff">3</span>):         <span style="color:#ae81ff">1.00</span>
+</span></span><span style="display:flex;"><span>New sum (array <span style="color:#ae81ff">4</span>):         <span style="color:#ae81ff">1.00</span>
+</span></span><span style="display:flex;"><span>New sum (array <span style="color:#ae81ff">5</span>):         <span style="color:#ae81ff">1.00</span>
+</span></span><span style="display:flex;"><span>New sum (array <span style="color:#ae81ff">6</span>):         <span style="color:#ae81ff">1.00</span>
+</span></span><span style="display:flex;"><span>New sum (array <span style="color:#ae81ff">7</span>):         <span style="color:#ae81ff">1.00</span>
+</span></span><span style="display:flex;"><span>New sum (array <span style="color:#ae81ff">8</span>):         <span style="color:#ae81ff">1.00</span>
+</span></span><span style="display:flex;"><span>New sum (array <span style="color:#ae81ff">9</span>):         <span style="color:#ae81ff">1.00</span>
+</span></span><span style="display:flex;"><span>Performed processing <span style="color:#ae81ff">0</span> <span style="color:#f92672">in</span> <span style="color:#ae81ff">124.64</span> ms
+</span></span><span style="display:flex;"><span>Performed processing <span style="color:#ae81ff">1</span> <span style="color:#f92672">in</span> <span style="color:#ae81ff">115.35</span> ms
+</span></span><span style="display:flex;"><span>Performed processing <span style="color:#ae81ff">2</span> <span style="color:#f92672">in</span> <span style="color:#ae81ff">107.26</span> ms
+</span></span><span style="display:flex;"><span>Performed processing <span style="color:#ae81ff">3</span> <span style="color:#f92672">in</span> <span style="color:#ae81ff">99.11</span> ms
+</span></span><span style="display:flex;"><span>Total time <span style="color:#ae81ff">159.02</span> ms
+</span></span></code></pre></div><p>但是哪一个更快呢？运行这些示例时，使用多个流时，总时间并没有得到一致的改善。造成这种情况的原因有很多。例如，要使流并发运行，本地内存中必须有足够的空间。此外，我们从 CPU 进行计时。虽然很难知道本地内存中是否有足够的空间，但从 GPU 进行计时相对容易。让我们学习如何操作！</p>
+<blockquote>
+<p>信息：</p>
+<p>Nvidia 提供了多种用于调试 CUDA 的工具，包括用于调试 CUDA 流的工具。查看*<a href="https://developer.nvidia.com/nsight-systems"><em>Nsight Systems</em></a>*了解更多信息。</p>
+</blockquote>
+<h2 id="事件">事件<a hidden class="anchor" aria-hidden="true" href="#事件">#</a></h2>
+<p>CPU 计时代码的一个问题是，它将包含除 GPU 之外的更多操作。</p>
+<p>值得庆幸的是，通过 CUDA 事件可以直接从 GPU 获取时间。事件只是一个时间寄存器，它记录了 GPU 中发生的事情。在某种程度上，它类似于 <code>time.time</code> 和 <code>time.perf_counter</code>，但与之不同的是，我们需要处理这样一个事实：当我们在 CPU 上编程时，我们希望对来自 GPU 的事件进行计时。</p>
+<p>因此，除了创建时间戳（“记录”事件）之外，我们还需要确保事件与 CPU 同步，然后才能访问其值。让我们看一个简单的例子。</p>
+<h3 id="内核执行计时事件">内核执行计时事件<a hidden class="anchor" aria-hidden="true" href="#内核执行计时事件">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Example 3.4: Simple events</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 事件需要初始化，但这并不影响计时。</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 我们创建两个事件，一个在计算开始时，另一个在计算结束时。</span>
+</span></span><span style="display:flex;"><span>event_beg <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>event()
+</span></span><span style="display:flex;"><span>event_end <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>event()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Create CUDA stream</span>
+</span></span><span style="display:flex;"><span>stream <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>stream()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">with</span> cuda<span style="color:#f92672">.</span>pinned(arr):
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 在`stream`中复制/创建队列数组</span>
+</span></span><span style="display:flex;"><span>    dev_a <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>to_device(arr, stream<span style="color:#f92672">=</span>stream)
+</span></span><span style="display:flex;"><span>    dev_a_reduce <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>device_array((blocks_per_grid,), dtype<span style="color:#f92672">=</span>dev_a<span style="color:#f92672">.</span>dtype, stream<span style="color:#f92672">=</span>stream)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 从这一行开始，`event_beg` 将包含 GPU 中这一时刻的时间。</span>
+</span></span><span style="display:flex;"><span>    event_beg<span style="color:#f92672">.</span>record(stream<span style="color:#f92672">=</span>stream)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 异步启动内核</span>
+</span></span><span style="display:flex;"><span>    partial_reduce[blocks_per_grid, threads_per_block, stream](dev_a, dev_a_reduce)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 启动 &#34;记录&#34;，内核运行结束时触发该记录</span>
+</span></span><span style="display:flex;"><span>    event_end<span style="color:#f92672">.</span>record(stream<span style="color:#f92672">=</span>stream)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 未来提交到流的任务将等待 `event_end` 完成。</span>
+</span></span><span style="display:flex;"><span>    event_end<span style="color:#f92672">.</span>wait(stream<span style="color:#f92672">=</span>stream)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 将此事件与 CPU 同步，以便我们可以使用其值。</span>
+</span></span><span style="display:flex;"><span>    event_end<span style="color:#f92672">.</span>synchronize()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 现在我们来计算执行内核所需的时间。请注意，我们不需要等待/同步`event_beg`，因为它的执行取决于 event_end 是否等待/同步了`event_beg`。</span>
+</span></span><span style="display:flex;"><span>timing_ms <span style="color:#f92672">=</span> event_beg<span style="color:#f92672">.</span>elapsed_time(event_end)  <span style="color:#75715e"># in miliseconds</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Elapsed time </span><span style="color:#e6db74">{</span>timing_ms<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> ms&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">---</span>
+</span></span><span style="display:flex;"><span>Elapsed time <span style="color:#ae81ff">0.79</span> ms
+</span></span></code></pre></div><p>对 GPU 操作进行计时的一个有用方法是使用上下文管理器：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Example 3.5: Context Manager for CUDA Timer using Events</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CUDATimer</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">__init__</span>(self, stream):
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>stream <span style="color:#f92672">=</span> stream
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>event <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>  <span style="color:#75715e"># in ms</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">__enter__</span>(self):
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>event_beg <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>event()
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>event_end <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>event()
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>event_beg<span style="color:#f92672">.</span>record(stream<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>stream)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> self
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">__exit__</span>(self, type, value, traceback):
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>event_end<span style="color:#f92672">.</span>record(stream<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>stream)
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>event_end<span style="color:#f92672">.</span>wait(stream<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>stream)
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>event_end<span style="color:#f92672">.</span>synchronize()
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>elapsed <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>event_beg<span style="color:#f92672">.</span>elapsed_time(self<span style="color:#f92672">.</span>event_end)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>stream <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>stream()
+</span></span><span style="display:flex;"><span>dev_a <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>to_device(arrays[<span style="color:#ae81ff">0</span>], stream<span style="color:#f92672">=</span>stream)
+</span></span><span style="display:flex;"><span>dev_a_reduce <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>device_array((blocks_per_grid,), dtype<span style="color:#f92672">=</span>dev_a<span style="color:#f92672">.</span>dtype, stream<span style="color:#f92672">=</span>stream)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">with</span> CUDATimer(stream) <span style="color:#66d9ef">as</span> cudatimer:
+</span></span><span style="display:flex;"><span>    partial_reduce[blocks_per_grid, threads_per_block, stream](dev_a, dev_a_reduce)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Elapsed time </span><span style="color:#e6db74">{</span>cudatimer<span style="color:#f92672">.</span>elapsed<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> ms&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">---</span>
+</span></span><span style="display:flex;"><span>Elapsed time <span style="color:#ae81ff">0.65</span> ms
+</span></span></code></pre></div><h3 id="时间流事件">时间流事件<a hidden class="anchor" aria-hidden="true" href="#时间流事件">#</a></h3>
+<p>为了结束本系列的这一部分，我们将使用流来更好、更准确地了解我们的示例是否受益于流。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Example 3.6: Timing a single streams with events</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>N_streams <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 不要在此上下文中进行内存收集（去分配数组）</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">with</span> cuda<span style="color:#f92672">.</span>defer_cleanup():
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Create 1 stream</span>
+</span></span><span style="display:flex;"><span>    streams <span style="color:#f92672">=</span> [cuda<span style="color:#f92672">.</span>stream()] <span style="color:#f92672">*</span> N_streams
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Create base arrays</span>
+</span></span><span style="display:flex;"><span>    arrays <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>        i <span style="color:#f92672">*</span> np<span style="color:#f92672">.</span>ones(<span style="color:#ae81ff">10_000_000</span>, dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>float32) <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>, N_streams <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    events_beg <span style="color:#f92672">=</span> []  <span style="color:#75715e"># Launch start times</span>
+</span></span><span style="display:flex;"><span>    events_end <span style="color:#f92672">=</span> []  <span style="color:#75715e"># End start times</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i, (stream, arr) <span style="color:#f92672">in</span> enumerate(zip(streams, arrays)):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">with</span> cuda<span style="color:#f92672">.</span>pinned(arr):
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># 宣布事件并记录开始</span>
+</span></span><span style="display:flex;"><span>            event_beg <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>event()
+</span></span><span style="display:flex;"><span>            event_end <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>event()
+</span></span><span style="display:flex;"><span>            event_beg<span style="color:#f92672">.</span>record(stream<span style="color:#f92672">=</span>stream)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># 执行所有 CUDA 操作</span>
+</span></span><span style="display:flex;"><span>            dev_a <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>to_device(arr, stream<span style="color:#f92672">=</span>stream)
+</span></span><span style="display:flex;"><span>            dev_a_reduce <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>device_array(
+</span></span><span style="display:flex;"><span>                (blocks_per_grid,), dtype<span style="color:#f92672">=</span>dev_a<span style="color:#f92672">.</span>dtype, stream<span style="color:#f92672">=</span>stream
+</span></span><span style="display:flex;"><span>            )
+</span></span><span style="display:flex;"><span>            dev_a_sum <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>device_array((<span style="color:#ae81ff">1</span>,), dtype<span style="color:#f92672">=</span>dev_a<span style="color:#f92672">.</span>dtype, stream<span style="color:#f92672">=</span>stream)
+</span></span><span style="display:flex;"><span>            partial_reduce[blocks_per_grid, threads_per_block, stream](dev_a, dev_a_reduce)
+</span></span><span style="display:flex;"><span>            single_thread_sum[<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, stream](dev_a_reduce, dev_a_sum)
+</span></span><span style="display:flex;"><span>            divide_by[blocks_per_grid, threads_per_block, stream](dev_a, dev_a_sum)
+</span></span><span style="display:flex;"><span>            dev_a<span style="color:#f92672">.</span>copy_to_host(arr, stream<span style="color:#f92672">=</span>stream)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># Record end</span>
+</span></span><span style="display:flex;"><span>            event_end<span style="color:#f92672">.</span>record(stream<span style="color:#f92672">=</span>stream)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        events_beg<span style="color:#f92672">.</span>append(event_beg)
+</span></span><span style="display:flex;"><span>        events_end<span style="color:#f92672">.</span>append(event_end)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">del</span> dev_a, dev_a_reduce, dev_a_sum
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sleep(<span style="color:#ae81ff">5</span>)  <span style="color:#75715e"># 等待所有事件结束，不影响 GPU 计时</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> event_end <span style="color:#f92672">in</span> events_end:
+</span></span><span style="display:flex;"><span>    event_end<span style="color:#f92672">.</span>synchronize()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 启动的第一个 `event_beg` 是最早的事件。但最后一个 `event_end` 事件是事先不知道的。我们要找出是哪个事件：</span>
+</span></span><span style="display:flex;"><span>elapsed_times <span style="color:#f92672">=</span> [events_beg[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>elapsed_time(event_end) <span style="color:#66d9ef">for</span> event_end <span style="color:#f92672">in</span> events_end]
+</span></span><span style="display:flex;"><span>i_stream_last <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>argmax(elapsed_times)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Last stream: </span><span style="color:#e6db74">{</span>i_stream_last<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Total time </span><span style="color:#e6db74">{</span>elapsed_times[i_stream_last]<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> ms&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">---</span>
+</span></span><span style="display:flex;"><span>Last stream: <span style="color:#ae81ff">9</span>
+</span></span><span style="display:flex;"><span>Total time <span style="color:#ae81ff">117.90</span> ms
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Example 3.7: Timing multiple streams with events</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 不要在此上下文中进行内存收集（去分配数组）</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">with</span> cuda<span style="color:#f92672">.</span>defer_cleanup():
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Create 10 streams</span>
+</span></span><span style="display:flex;"><span>    streams <span style="color:#f92672">=</span> [cuda<span style="color:#f92672">.</span>stream() <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>, N_streams <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Create base arrays</span>
+</span></span><span style="display:flex;"><span>    arrays <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>        i <span style="color:#f92672">*</span> np<span style="color:#f92672">.</span>ones(<span style="color:#ae81ff">10_000_000</span>, dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>float32) <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>, N_streams <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    events_beg <span style="color:#f92672">=</span> []  <span style="color:#75715e"># Launch start times</span>
+</span></span><span style="display:flex;"><span>    events_end <span style="color:#f92672">=</span> []  <span style="color:#75715e"># End start times</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i, (stream, arr) <span style="color:#f92672">in</span> enumerate(zip(streams, arrays)):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">with</span> cuda<span style="color:#f92672">.</span>pinned(arr):
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># 宣布事件并记录开始</span>
+</span></span><span style="display:flex;"><span>            event_beg <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>event()
+</span></span><span style="display:flex;"><span>            event_end <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>event()
+</span></span><span style="display:flex;"><span>            event_beg<span style="color:#f92672">.</span>record(stream<span style="color:#f92672">=</span>stream)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># 执行所有 CUDA 操作</span>
+</span></span><span style="display:flex;"><span>            dev_a <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>to_device(arr, stream<span style="color:#f92672">=</span>stream)
+</span></span><span style="display:flex;"><span>            dev_a_reduce <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>device_array(
+</span></span><span style="display:flex;"><span>                (blocks_per_grid,), dtype<span style="color:#f92672">=</span>dev_a<span style="color:#f92672">.</span>dtype, stream<span style="color:#f92672">=</span>stream
+</span></span><span style="display:flex;"><span>            )
+</span></span><span style="display:flex;"><span>            dev_a_sum <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>device_array((<span style="color:#ae81ff">1</span>,), dtype<span style="color:#f92672">=</span>dev_a<span style="color:#f92672">.</span>dtype, stream<span style="color:#f92672">=</span>stream)
+</span></span><span style="display:flex;"><span>            partial_reduce[blocks_per_grid, threads_per_block, stream](dev_a, dev_a_reduce)
+</span></span><span style="display:flex;"><span>            single_thread_sum[<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, stream](dev_a_reduce, dev_a_sum)
+</span></span><span style="display:flex;"><span>            divide_by[blocks_per_grid, threads_per_block, stream](dev_a, dev_a_sum)
+</span></span><span style="display:flex;"><span>            dev_a<span style="color:#f92672">.</span>copy_to_host(arr, stream<span style="color:#f92672">=</span>stream)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># Record end</span>
+</span></span><span style="display:flex;"><span>            event_end<span style="color:#f92672">.</span>record(stream<span style="color:#f92672">=</span>stream)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        events_beg<span style="color:#f92672">.</span>append(event_beg)
+</span></span><span style="display:flex;"><span>        events_end<span style="color:#f92672">.</span>append(event_end)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">del</span> dev_a, dev_a_reduce, dev_a_sum
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sleep(<span style="color:#ae81ff">5</span>)  <span style="color:#75715e"># 等待所有事件完成，不影响 GPU 时序</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> event_end <span style="color:#f92672">in</span> events_end:
+</span></span><span style="display:flex;"><span>    event_end<span style="color:#f92672">.</span>synchronize()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 启动的第一个 `event_beg` 是最早的事件。但最后一个 `event_end` 事件是事先不知道的。我们要找出是哪个事件：</span>
+</span></span><span style="display:flex;"><span>elapsed_times <span style="color:#f92672">=</span> [events_beg[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>elapsed_time(event_end) <span style="color:#66d9ef">for</span> event_end <span style="color:#f92672">in</span> events_end]
+</span></span><span style="display:flex;"><span>i_stream_last <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>argmax(elapsed_times)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Last stream: </span><span style="color:#e6db74">{</span>i_stream_last<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Total time </span><span style="color:#e6db74">{</span>elapsed_times[i_stream_last]<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> ms&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">---</span>
+</span></span><span style="display:flex;"><span>Last stream: <span style="color:#ae81ff">9</span>
+</span></span><span style="display:flex;"><span>Total time <span style="color:#ae81ff">130.66</span> ms
+</span></span></code></pre></div><h2 id="结尾">结尾<a hidden class="anchor" aria-hidden="true" href="#结尾">#</a></h2>
+<p>CUDA 的核心在于性能。在本教程中，你学习了如何使用<em>Events</em>（事件）准确测量内核的执行时间，以便对代码进行分析。你还了解了<em>Streams</em>（流）以及如何使用它们来始终保持 GPU 忙碌，以及<em>pinned</em>（固定）或<em>mapped arrays</em>（映射数组），以及如何改善内存访问。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/numba-%E7%9A%84-cuda-%E7%A4%BA%E4%BE%8B4-4%E5%8E%9F%E5%AD%90%E5%92%8C%E4%BA%92%E6%96%A5/">
+    <span class="title">« Prev</span>
+    <span>Numba 的 CUDA 示例：原子和互斥</span>
+  </a>
+  <a class="next" href="http://localhost:1313/posts/numba-%E7%9A%84-cuda-%E7%A4%BA%E4%BE%8B-2-4%E7%A9%BF%E9%92%88%E5%BC%95%E7%BA%BF/">
+    <span class="title">Next »</span>
+    <span>Numba 的 CUDA 示例 (2/4)：穿针引线</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">茶桁.MAMT</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

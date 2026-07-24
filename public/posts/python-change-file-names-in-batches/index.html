@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>Python 批量修改文件名 | 茶桁.MAMT</title>
+<meta name="keywords" content="">
+<meta name="description" content="
+仅个人需求，有需要的可以自取。
+前段时间为家里孩子下载了一批课程，但是文件命名就很奇怪也很乱，就想着将文件名修改掉便于查看。
+">
+<meta name="author" content="Hivan Du">
+<link rel="canonical" href="http://localhost:1313/posts/python-change-file-names-in-batches/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.cd9298b33628769aa1bc1acebbbfd7aa11ce81dfe03484d479e1907760249a1d.css" integrity="sha256-zZKYszYodpqhvBrOu7/XqhHOgd/gNITUeeGQd2Akmh0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/python-change-file-names-in-batches/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="茶桁.MAMT (Alt + H)">
+                <img src="http://localhost:1313/%F0%9F%A7%A0" alt="" aria-label="logo"
+                    height="30">茶桁.MAMT</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="http://localhost:1313/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/posts/">文章</a>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+</nav>
+    <h1 class="post-title entry-hint-parent">
+      Python 批量修改文件名
+    </h1>
+    <div class="post-meta">
+
+<span title='2023-10-17 17:44:13 +0800 CST'>October 17, 2023</span>&nbsp;·&nbsp;<span>2 min</span>&nbsp;·&nbsp;<span>Hivan Du</span>
+
+</div>
+  </header> 
+
+  <div class="post-content md-content"><p>这批视频下载下来后前边都给了诸如<code>001</code>之类的编号，当然是序列。可是这批序列又非常的乱，比如，「数列」和「导数」给的是考前的编号，而课本上要先学习的「集合」，「逻辑」，「不等式」等又编号又很靠后。不仅如此，就算是同一部分，其中的编号也是混乱的。</p>
+<p><img alt="image-20231017172008515" loading="lazy" src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231017173523.png"></p>
+<p>那么就有了批量修改文件名的需求，当然我第一时间想到的是<code>Better rename</code>，已经是一个很古老的版本了：</p>
+<p><img loading="lazy" src="https://files.mdnice.com/user/43981/baf01bcb-fdf3-4150-97df-b99ed3b4a375.png"></p>
+<p>可是当我使用的时候才发现并不能满足我的个人需求，也许是我不太会用吧。起码，我是想删掉开头的那些序列以及其中重复不必要的内容。但是这玩意并不能支持正则或者相关的功能。没办法，眼见有几种方式去做，一种是 Mac 自带的「自动操作」，一种是「捷径」，还有就是干脆用 Python 写个脚本。</p>
+<p>所以，我使用了自己觉得最简便的方式，写了这样一个脚本：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> os
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> tkinter <span style="color:#66d9ef">as</span> tk
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> tkinter <span style="color:#f92672">import</span> filedialog
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> re
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>root <span style="color:#f92672">=</span> tk<span style="color:#f92672">.</span>Tk()
+</span></span><span style="display:flex;"><span>root<span style="color:#f92672">.</span>withdraw()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>folderPath <span style="color:#f92672">=</span> filedialog<span style="color:#f92672">.</span>askdirectory() <span style="color:#75715e"># 获得选择好的文件夹</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># filePath = filedialog.askopenfilename() # 获得选择好的文件</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(folderPath)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># print(filePath)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>files <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>listdir(folderPath)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>fileList <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>newFileList <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>oldStr <span style="color:#f92672">=</span> input(<span style="color:#e6db74">&#39;请输入要修改的内容或正则:&#39;</span>)
+</span></span><span style="display:flex;"><span>newStr <span style="color:#f92672">=</span> input(<span style="color:#e6db74">&#39;请输入要替换的内容，不修改只删除可留空:&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> files:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> i[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#39;.&#39;</span>:
+</span></span><span style="display:flex;"><span>        portion <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>splitext(i)
+</span></span><span style="display:flex;"><span>        newname <span style="color:#f92672">=</span> re<span style="color:#f92672">.</span>sub(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">.</span>format(oldStr), <span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">.</span>format(newStr), portion[<span style="color:#ae81ff">0</span>])
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># os.chdir(folderPath) # 测试完毕后要正式修改文件名取消这里注释</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># os.rename(portion[0]+portion[1], newname+portion[1]) # 测试完毕后要正式修改文件名取消这里注释</span>
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        fileList<span style="color:#f92672">.</span>append(portion[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">+</span>portion[<span style="color:#ae81ff">1</span>])
+</span></span><span style="display:flex;"><span>        newFileList<span style="color:#f92672">.</span>append(newname<span style="color:#f92672">+</span>portion[<span style="color:#ae81ff">1</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#39;修改前，一共有</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">个文件</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">  </span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">.</span>format(len(fileList), fileList))
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#39;修改后，一共有</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">个文件</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">  </span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">.</span>format(len(newFileList), newFileList))
+</span></span></code></pre></div><p>有需要的小伙伴可以自取了。代码执行后会让你选取你要修改的文件的目录，然后会让你输入你要修改的内容，可以是正则，然后输入你要修改成的内容。</p>
+<p><img alt="image-20231017173302128" loading="lazy" src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231017173524.png"></p>
+<p>比如，我需要修改标题：</p>
+<pre tabindex="0"><code># 输入需要替换的内容
+\d{3} - 
+</code></pre><p><img alt="image-20231017173338085" loading="lazy" src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231017173525.png"></p>
+<p>要替换的内容我直接留空回车，打印结果：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>修改前<span style="color:#960050;background-color:#1e0010">，</span>一共有 <span style="color:#ae81ff">16</span> 个文件
+</span></span><span style="display:flex;"><span>  [<span style="color:#e6db74">&#39;001 - 不等式 1.1 不等式的基本性质 高中数学.mp4&#39;</span>, <span style="color:#e6db74">&#39;016 - 不等式 4.4 恒成立与存在性问题 高中数学.mp4&#39;</span>, <span style="color:#e6db74">&#39;007 - 不等式 3.3 高次不等式 高中数学.mp4&#39;</span>, <span style="color:#e6db74">&#39;008 - 不等式 3.4 含参讨论 高中数学.mp4&#39;</span>, <span style="color:#e6db74">&#39;003 - 不等式 1.3 比大小思路 高中数学.mp4&#39;</span>, <span style="color:#e6db74">&#39;002 - 不等式 1.2 不等式证明思路 高中数学.mp4&#39;</span>, <span style="color:#e6db74">&#39;006 - 不等式 3.1 二次不等式 高中数学.mp4&#39;</span>, <span style="color:#e6db74">&#39;015 - 不等式 1.4 复杂证明题 高中数学.mp4&#39;</span>, <span style="color:#e6db74">&#39;005 - 不等式 2.3 基本不等式变式 高中数学.mp4&#39;</span>, <span style="color:#e6db74">&#39;011 - 不等式 2.4 不要过度放缩三元不等式 高中数学.mp4&#39;</span>, <span style="color:#e6db74">&#39;010 - 不等式 2.2 使用条件误区 高中数学.mp4&#39;</span>, <span style="color:#e6db74">&#39;009 - 不等式 4.1 对勾型函数最值 高中数学.mp4&#39;</span>, <span style="color:#e6db74">&#39;013 - 不等式 4.2 对称与均值 高中数学.mp4&#39;</span>, <span style="color:#e6db74">&#39;004 - 不等式 2.1 基本不等式均值不等式 高中数学.mp4&#39;</span>, <span style="color:#e6db74">&#39;014 - 不等式 4.3 齐次与均值 高中数学.mp4&#39;</span>, <span style="color:#e6db74">&#39;012 - 不等式 3.2 穿针引线法 高中数学.mp4&#39;</span>]
+</span></span><span style="display:flex;"><span>修改后<span style="color:#960050;background-color:#1e0010">，</span>一共有 <span style="color:#ae81ff">16</span> 个文件
+</span></span><span style="display:flex;"><span>  [<span style="color:#e6db74">&#39;不等式 1.1 不等式的基本性质 高中数学.mp4&#39;</span>, <span style="color:#e6db74">&#39;不等式 4.4 恒成立与存在性问题 高中数学.mp4&#39;</span>, <span style="color:#e6db74">&#39;不等式 3.3 高次不等式 高中数学.mp4&#39;</span>, <span style="color:#e6db74">&#39;不等式 3.4 含参讨论 高中数学.mp4&#39;</span>, <span style="color:#e6db74">&#39;不等式 1.3 比大小思路 高中数学.mp4&#39;</span>, <span style="color:#e6db74">&#39;不等式 1.2 不等式证明思路 高中数学.mp4&#39;</span>, <span style="color:#e6db74">&#39;不等式 3.1 二次不等式 高中数学.mp4&#39;</span>, <span style="color:#e6db74">&#39;不等式 1.4 复杂证明题 高中数学.mp4&#39;</span>, <span style="color:#e6db74">&#39;不等式 2.3 基本不等式变式 高中数学.mp4&#39;</span>, <span style="color:#e6db74">&#39;不等式 2.4 不要过度放缩三元不等式 高中数学.mp4&#39;</span>, <span style="color:#e6db74">&#39;不等式 2.2 使用条件误区 高中数学.mp4&#39;</span>, <span style="color:#e6db74">&#39;不等式 4.1 对勾型函数最值 高中数学.mp4&#39;</span>, <span style="color:#e6db74">&#39;不等式 4.2 对称与均值 高中数学.mp4&#39;</span>, <span style="color:#e6db74">&#39;不等式 2.1 基本不等式均值不等式 高中数学.mp4&#39;</span>, <span style="color:#e6db74">&#39;不等式 4.3 齐次与均值 高中数学.mp4&#39;</span>, <span style="color:#e6db74">&#39;不等式 3.2 穿针引线法 高中数学.mp4&#39;</span>]
+</span></span></code></pre></div><p>打印内容中查看自己修改前和修改后的文件对比，感觉没问题了，把其中注释的两行代码打开注释，就可以完成文件修改了。</p>
+<p><img alt="image-20231017173440797" loading="lazy" src="https://raw.githubusercontent.com/hivandu/notes/main/img/20231017173526.png"></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/mount-apfs-on-mac/">
+    <span class="title">« Prev</span>
+    <span>Mac 上挂载 APFS 移动硬盘</span>
+  </a>
+  <a class="next" href="http://localhost:1313/posts/math-introduction/">
+    <span class="title">Next »</span>
+    <span>茶桁的 AI 秘籍 - 人工智能数学基础篇 导言</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">茶桁.MAMT</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

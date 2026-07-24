@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>使用 Nsight 系统分析 CUDA：Numba 示例 | 茶桁.MAMT</title>
+<meta name="keywords" content="">
+<meta name="description" content="
+通过检查 Nsight 系统中的并发和并行 Numba CUDA 代码了解性能分析。
+
+介绍
+优化是编写高性能代码的关键部分，无论你是在编写 Web 服务器还是计算流体力学模拟软件。分析功能可让你对代码做出明智的决策。从某种意义上说，没有分析功能的优化就像盲目飞行：对于拥有专业知识和敏锐直觉的经验丰富的专业人士来说，这基本上没问题，但对于几乎所有其他人来说，这都是灾难的根源。
+
+">
+<meta name="author" content="Hivan Du">
+<link rel="canonical" href="http://localhost:1313/posts/%E4%BD%BF%E7%94%A8-nsight-%E7%B3%BB%E7%BB%9F%E5%88%86%E6%9E%90-cudanumba-%E7%A4%BA%E4%BE%8B/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.cd9298b33628769aa1bc1acebbbfd7aa11ce81dfe03484d479e1907760249a1d.css" integrity="sha256-zZKYszYodpqhvBrOu7/XqhHOgd/gNITUeeGQd2Akmh0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/%E4%BD%BF%E7%94%A8-nsight-%E7%B3%BB%E7%BB%9F%E5%88%86%E6%9E%90-cudanumba-%E7%A4%BA%E4%BE%8B/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="茶桁.MAMT (Alt + H)">
+                <img src="http://localhost:1313/%F0%9F%A7%A0" alt="" aria-label="logo"
+                    height="30">茶桁.MAMT</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="http://localhost:1313/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/posts/">文章</a>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+</nav>
+    <h1 class="post-title entry-hint-parent">
+      使用 Nsight 系统分析 CUDA：Numba 示例
+    </h1>
+    <div class="post-meta">
+
+<span title='2024-06-12 07:03:00 +0800 CST'>June 12, 2024</span>&nbsp;·&nbsp;<span>7 min</span>&nbsp;·&nbsp;<span>Hivan Du</span>
+
+</div>
+  </header> <details class="toc" >
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">Table of Contents</span>
+    </summary>
+
+    <div class="inner"><ul>
+            <li>
+                <a href="#%e5%9c%a8%e6%9c%ac%e6%95%99%e7%a8%8b%e4%b8%ad" aria-label="在本教程中">在本教程中</a></li>
+            <li>
+                <a href="#nsight-%e7%b3%bb%e7%bb%9f" aria-label="Nsight 系统">Nsight 系统</a></li>
+            <li>
+                <a href="#%e8%ae%be%e7%bd%ae%e4%b8%80%e5%88%87%e4%b8%80%e4%b8%aa%e7%ae%80%e5%8d%95%e7%9a%84%e4%be%8b%e5%ad%90" aria-label="设置一切：一个简单的例子">设置一切：一个简单的例子</a></li>
+            <li>
+                <a href="#%e5%af%bc%e8%88%aa-nsight-%e7%b3%bb%e7%bb%9f%e5%9b%be%e5%bd%a2%e7%94%a8%e6%88%b7%e7%95%8c%e9%9d%a2" aria-label="导航 Nsight 系统图形用户界面">导航 Nsight 系统图形用户界面</a></li>
+            <li>
+                <a href="#%e4%bd%bf%e7%94%a8-nvtx-%e8%bf%9b%e8%a1%8c%e6%b3%a8%e9%87%8a" aria-label="使用 NVTX 进行注释">使用 NVTX 进行注释</a></li>
+            <li>
+                <a href="#%e6%b5%81%e5%b9%b6%e5%8f%91" aria-label="流并发">流并发</a></li>
+            <li>
+                <a href="#%e7%bb%93%e5%b0%be" aria-label="结尾">结尾</a>
+            </li>
+        </ul>
+    </div>
+</details>
+
+  <div class="post-content md-content"><h2 id="在本教程中">在本教程中<a hidden class="anchor" aria-hidden="true" href="#在本教程中">#</a></h2>
+<p>在我最初的系列 <a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3478311056533995521&amp;scene=21#wechat_redirect">Numba CUDA 示例</a> （参见第 <a href="https://mp.weixin.qq.com/s/LdLEhntmiHewB5z2-NjAqg">1</a>、<a href="https://mp.weixin.qq.com/s/w4qpHO7hVSZhgr0C6ZzDyQ">2</a>、<a href="https://mp.weixin.qq.com/s/NJngSLe8CZ-IQ9sVOrA3fg">3</a> 和 <a href="https://mp.weixin.qq.com/s/hZ_sJSaTHBCQd6HPtnWo5A">4</a> 部分）之后，我们将研究未经优化的单流代码与使用流并发和其他优化的稍好版本之间的比较。我们将从头开始学习如何使用<a href="https://developer.nvidia.com/nsight-systems">英伟达 Nsight 系统</a>来剖析和分析 CUDA 代码。本教程中包含 5 段代码，所有代码都可以在 <a href="https://colab.research.google.com/drive/1dY6l4HOfQwzmnbdzZRw6z0Lpb9FN1kM3?usp=sharing">https://colab.research.google.com/drive/1dY6l4HOfQwzmnbdzZRw6z0Lpb9FN1kM3?usp=sharing</a> 中找到。</p>
+<h2 id="nsight-系统">Nsight 系统<a hidden class="anchor" aria-hidden="true" href="#nsight-系统">#</a></h2>
+<p>NVIDIA 建议最佳实践是遵循<a href="https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/index.html#assess-parallelize-optimize-deploy">APOD 框架</a>（<em>评估、并行化、优化、部署</em>）。有各种专有、开源、免费和商业软件可用于不同类型的评估和分析。资深 Python 用户可能熟悉基本分析器，例如、<code>cProfile</code>，<code>line_profiler</code>，<code>memory_profiler</code>（不幸的是，截至 2024 年已不再维护）和更高级的工具，例如<a href="https://pyinstrument.readthedocs.io/en/latest/">PyInstrument</a>和<a href="https://bloomberg.github.io/memray/">Memray</a>。这些分析器针对“主机”的特定方面，例如 CPU 和 RAM 使用情况。</p>
+<p>但是，分析“设备”（例如 GPU）代码及其与主机的交互需要设备供应商提供的专用工具。对于 NVIDIA GPU，Nsight Systems、Nsight Compute 和 Nsight Graphics 可用于分析计算的不同方面。在本教程中，我们将重点介绍如何使用 Nsight Systems，这是一个系统范围的分析器。我们将使用它来分析通过 Numba CUDA 与 GPU 交互的 Python 代码。</p>
+<p>首先，你需要 Nsight Systems CLI 和 GUI。CLI 可以单独安装，用于在支持 GPGPU 的系统中分析代码。完整版包括 CLI 和 GUI。请注意，这两个版本都可以安装在没有 GPU 的系统中。从 <a href="https://developer.nvidia.com/nsight-systems/get-started">NVIDIA 网站</a>获取你需要的版本。</p>
+<p>为了更容易在 GUI 中可视化代码段，NVIDIA 还提供了 Python <code>pip</code>和<code>conda-installable</code> 库<code>nvtx</code>，我们将使用它来注释代码段。稍后将详细介绍。</p>
+<h2 id="设置一切一个简单的例子">设置一切：一个简单的例子<a hidden class="anchor" aria-hidden="true" href="#设置一切一个简单的例子">#</a></h2>
+<p>在本节中，我们将设置开发和分析环境。下面是两个非常简单的 Python 脚本：<code>kernels</code>和 <code>run_v1</code>。前者将包含所有 CUDA 内核，后者将作为运行示例的入口点。在此示例中，我们遵循文章<a href="https://mp.weixin.qq.com/s/NJngSLe8CZ-IQ9sVOrA3fg">CUDA by Numba 示例第 3 部分：流和事件</a> 中介绍的“reduce”模式来计算数组的总和。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#%%writefile kernels</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numba
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> numba <span style="color:#f92672">import</span> cuda
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>THREADS_PER_BLOCK <span style="color:#f92672">=</span> <span style="color:#ae81ff">256</span>
+</span></span><span style="display:flex;"><span>BLOCKS_PER_GRID <span style="color:#f92672">=</span> <span style="color:#ae81ff">32</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">40</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@cuda.jit</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">partial_reduce</span>(array, partial_reduction):
+</span></span><span style="display:flex;"><span>    i_start <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>grid(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>    threads_per_grid <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>blockDim<span style="color:#f92672">.</span>x <span style="color:#f92672">*</span> cuda<span style="color:#f92672">.</span>gridDim<span style="color:#f92672">.</span>x
+</span></span><span style="display:flex;"><span>    s_thread <span style="color:#f92672">=</span> numba<span style="color:#f92672">.</span>float32(<span style="color:#ae81ff">0.0</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i_arr <span style="color:#f92672">in</span> range(i_start, array<span style="color:#f92672">.</span>size, threads_per_grid):
+</span></span><span style="display:flex;"><span>        s_thread <span style="color:#f92672">+=</span> array[i_arr]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    s_block <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>shared<span style="color:#f92672">.</span>array((THREADS_PER_BLOCK,), numba<span style="color:#f92672">.</span>float32)
+</span></span><span style="display:flex;"><span>    tid <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>threadIdx<span style="color:#f92672">.</span>x
+</span></span><span style="display:flex;"><span>    s_block[tid] <span style="color:#f92672">=</span> s_thread
+</span></span><span style="display:flex;"><span>    cuda<span style="color:#f92672">.</span>syncthreads()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    i <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>blockDim<span style="color:#f92672">.</span>x <span style="color:#f92672">//</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> i <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> tid <span style="color:#f92672">&lt;</span> i:
+</span></span><span style="display:flex;"><span>            s_block[tid] <span style="color:#f92672">+=</span> s_block[tid <span style="color:#f92672">+</span> i]
+</span></span><span style="display:flex;"><span>        cuda<span style="color:#f92672">.</span>syncthreads()
+</span></span><span style="display:flex;"><span>        i <span style="color:#f92672">//=</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> tid <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+</span></span><span style="display:flex;"><span>        partial_reduction[cuda<span style="color:#f92672">.</span>blockIdx<span style="color:#f92672">.</span>x] <span style="color:#f92672">=</span> s_block[<span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@cuda.jit</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">single_thread_sum</span>(partial_reduction, sum):
+</span></span><span style="display:flex;"><span>    sum[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> numba<span style="color:#f92672">.</span>float32(<span style="color:#ae81ff">0.0</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> element <span style="color:#f92672">in</span> partial_reduction:
+</span></span><span style="display:flex;"><span>        sum[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">+=</span> element
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@cuda.jit</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">divide_by</span>(array, val_array):
+</span></span><span style="display:flex;"><span>    i_start <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>grid(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>    threads_per_grid <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>gridsize(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(i_start, array<span style="color:#f92672">.</span>size, threads_per_grid):
+</span></span><span style="display:flex;"><span>        array[i] <span style="color:#f92672">/=</span> val_array[<span style="color:#ae81ff">0</span>]
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#%%writefile run_v1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> argparse
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> warnings
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> numba <span style="color:#f92672">import</span> cuda
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> numba.core.errors <span style="color:#f92672">import</span> NumbaPerformanceWarning
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run</span>(size: int):
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Define host array</span>
+</span></span><span style="display:flex;"><span>    a <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>ones(size, dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>float32)
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Old sum: </span><span style="color:#e6db74">{</span>a<span style="color:#f92672">.</span>sum()<span style="color:#e6db74">:</span><span style="color:#e6db74">.3f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Array copy to device and array creation on the device.</span>
+</span></span><span style="display:flex;"><span>    dev_a <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>to_device(a)
+</span></span><span style="display:flex;"><span>    dev_a_reduce <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>device_array((BLOCKS_PER_GRID,), dtype<span style="color:#f92672">=</span>dev_a<span style="color:#f92672">.</span>dtype)
+</span></span><span style="display:flex;"><span>    dev_a_sum <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>device_array((<span style="color:#ae81ff">1</span>,), dtype<span style="color:#f92672">=</span>dev_a<span style="color:#f92672">.</span>dtype)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Launching kernels to normalize array</span>
+</span></span><span style="display:flex;"><span>    partial_reduce[BLOCKS_PER_GRID, THREADS_PER_BLOCK](dev_a, dev_a_reduce)
+</span></span><span style="display:flex;"><span>    single_thread_sum[<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>](dev_a_reduce, dev_a_sum)
+</span></span><span style="display:flex;"><span>    divide_by[BLOCKS_PER_GRID, THREADS_PER_BLOCK](dev_a, dev_a_sum)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Array copy to host</span>
+</span></span><span style="display:flex;"><span>    dev_a<span style="color:#f92672">.</span>copy_to_host(a)
+</span></span><span style="display:flex;"><span>    cuda<span style="color:#f92672">.</span>synchronize()
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;New sum: </span><span style="color:#e6db74">{</span>a<span style="color:#f92672">.</span>sum()<span style="color:#e6db74">:</span><span style="color:#e6db74">.3f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+</span></span><span style="display:flex;"><span>    argv <span style="color:#f92672">=</span> sys<span style="color:#f92672">.</span>argv
+</span></span><span style="display:flex;"><span>    sys<span style="color:#f92672">.</span>argv <span style="color:#f92672">=</span> [argv[<span style="color:#ae81ff">0</span>]]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    parser <span style="color:#f92672">=</span> argparse<span style="color:#f92672">.</span>ArgumentParser(description <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Simple Example V1&#39;</span>)
+</span></span><span style="display:flex;"><span>    parser<span style="color:#f92672">.</span>add_argument(
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;-n&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;--array-size&#34;</span>,
+</span></span><span style="display:flex;"><span>        type <span style="color:#f92672">=</span> int,
+</span></span><span style="display:flex;"><span>        default <span style="color:#f92672">=</span> <span style="color:#ae81ff">100_000_000</span>,
+</span></span><span style="display:flex;"><span>        metavar <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;N&#34;</span>,
+</span></span><span style="display:flex;"><span>        help <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Array size&#34;</span>
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    args <span style="color:#f92672">=</span> parser<span style="color:#f92672">.</span>parse_args()
+</span></span><span style="display:flex;"><span>    run(size <span style="color:#f92672">=</span> args<span style="color:#f92672">.</span>array_size)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>main()
+</span></span></code></pre></div><p>这是一个简单的脚本，可以直接运行：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">---</span>
+</span></span><span style="display:flex;"><span>Old sum: <span style="color:#ae81ff">100000000.000</span>
+</span></span><span style="display:flex;"><span>New sum: <span style="color:#ae81ff">1.000</span>
+</span></span></code></pre></div><p>我们还通过分析器运行了这段代码，这只需要在调用脚本之前调用带有一些选项的 nsys，假如我们在本地将其分别保存为<code>Kernels.py</code>和<code>run_v1.py</code> ，然后执行：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">$</span> nsys profile \
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">--</span>trace cuda,osrt,nvtx \
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">--</span>gpu<span style="color:#f92672">-</span>metrics<span style="color:#f92672">-</span>device<span style="color:#f92672">=</span>all \
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">--</span>cuda<span style="color:#f92672">-</span>memory<span style="color:#f92672">-</span>usage true \
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">--</span>force<span style="color:#f92672">-</span>overwrite true \
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">--</span>output profile_run_v1 \
+</span></span><span style="display:flex;"><span>  python run_v1<span style="color:#f92672">.</span>py
+</span></span><span style="display:flex;"><span>GPU <span style="color:#ae81ff">0</span>: General Metrics <span style="color:#66d9ef">for</span> NVIDIA TU10x (any frequency)
+</span></span><span style="display:flex;"><span>Old sum: <span style="color:#ae81ff">100000000.000</span>
+</span></span><span style="display:flex;"><span>New sum: <span style="color:#ae81ff">1.000</span>
+</span></span><span style="display:flex;"><span>Generating <span style="color:#e6db74">&#39;/tmp/nsys-report-fb78.qdstrm&#39;</span>
+</span></span><span style="display:flex;"><span>[<span style="color:#ae81ff">1</span><span style="color:#f92672">/</span><span style="color:#ae81ff">1</span>] [<span style="color:#f92672">========================</span><span style="color:#ae81ff">100</span><span style="color:#f92672">%</span>] profile_run_v1<span style="color:#f92672">.</span>nsys<span style="color:#f92672">-</span>rep
+</span></span><span style="display:flex;"><span>Generated:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">/</span>content<span style="color:#f92672">/</span>profile_run_v1<span style="color:#f92672">.</span>nsys<span style="color:#f92672">-</span>rep
+</span></span></code></pre></div><blockquote>
+<p>⚠️ 注意：</p>
+<p>保存为文件在 <code>run_v1.py</code>中需要引入 <code>Kernels.py</code> 中的方法和变量:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> kernels <span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>    BLOCKS_PER_GRID,
+</span></span><span style="display:flex;"><span>    THREADS_PER_BLOCK,
+</span></span><span style="display:flex;"><span>    divide_by,
+</span></span><span style="display:flex;"><span>    partial_reduce,
+</span></span><span style="display:flex;"><span>    single_thread_sum,
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div></blockquote>
+<p>你可以查阅 <a href="https://docs.nvidia.com/nsight-systems/UserGuide/index.html">Nsight CLI 文档: https://docs.nvidia.com/nsight-systems/UserGuide/index.html</a>，了解 nsys CLI 的所有可用选项。在本教程中，我们将始终使用上述选项。让我们来分析一下这条命令：</p>
+<ul>
+<li><code>profile</code> 将 <code>nsys</code> 置于配置文件模式。还有许多其他模式，如 <code>export</code> 和 <code>launch</code>。</li>
+<li><code>--trace cuda,osrt,nvtx</code> 确保我们 &ldquo;监听 &ldquo;所有CUDA调用（cuda）、操作系统运行库调用（osrt）和 <code>nvtx</code> 注释（本例中没有）。还有更多跟踪选项，如 <code>cublas</code>、<code>cudnn</code>、<code>mpi</code>、<code>dx11</code> 和其他一些选项。请<a href="https://docs.nvidia.com/nsight-systems/UserGuide/index.html">查看文档: https://docs.nvidia.com/nsight-systems/UserGuide/index.html</a>了解所有选项。</li>
+<li><code>--gpu-metrics-device=all</code> 记录所有 GPU 的 GPU 指标，包括 <a href="https://www.nvidia.com/en-us/data-center/tensor-cores/">Tensor Core:https://www.nvidia.com/en-us/data-center/tensor-cores/</a> 的使用情况。</li>
+<li><code>--cuda-memory-usage</code> 跟踪内核的GPU内存使用情况。它可能会大大降低执行速度，需要使用 <code>--trace=cuda</code>。我们使用它是因为我们的脚本速度很快。</li>
+</ul>
+<h2 id="导航-nsight-系统图形用户界面">导航 Nsight 系统图形用户界面<a hidden class="anchor" aria-hidden="true" href="#导航-nsight-系统图形用户界面">#</a></h2>
+<p>如果命令成功退出，我们将在当前文件夹中找到 profile_run_v1.nsys-rep。我们将通过启动 Nsight 系统图形用户界面（文件 &gt; 打开）打开该文件。初始视图略显混乱。因此，我们首先要整理一下：将 &ldquo;事件视图 &ldquo;端口调整到底部，并将 &ldquo;时间轴视图 &ldquo;端口下的 CPU、GPU 和进程最小化。现在只展开 <code>Processes &gt; python &gt; CUDA HW</code>。请参见图 1a 和图 1b。</p>
+<p><img alt="图 1a：打开 nsys 报告并整理界面。" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202406051814514.gif"></p>
+<p><img alt="图 1b：显示主机到设备内存操作（绿色）、设备到主机内存操作（红色）和 CUDA 内核（蓝色）的 nsys 报告" loading="lazy" src="https://miro.medium.com/v2/resize:fit:700/1*OutMPsLu1zdFXy6h7Im-Ig.png"></p>
+<p>首先，让我们找到内核。在 <code>CUDA HW</code> 一行，你会发现绿色和红色的圆球，以及极小的浅蓝色片段（见图 1b）。如果将鼠标悬停在它们上面，就会看到工具提示，红色和绿色的提示是 &ldquo;CUDA 内存操作正在进行中&rdquo;，浅蓝色的提示是 &ldquo;CUDA 内核正在运行（89.7%）&quot;。这些将是我们分析的主要内容。通过这一行，我们可以了解内存传输的时间和方式（红色和绿色），以及内核运行的时间和方式（浅蓝色）。</p>
+<p>让我们再深入研究一下我们的内核。你会看到三个非常小的蓝色片段，每个片段代表一个内核调用。点击并拖动鼠标，从第一个内核调用开始前拖动到最后一个内核调用结束后，然后按下 Shift + Z 键，即可放大该区域。</p>
+<p><img alt="图 2：浏览 nsys 报告并放大到感兴趣的区域" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202406051814515.gif"></p>
+<p>现在我们已经找到了内核，让我们来看看一些指标。为此，我们打开 <code>GPU &gt; GPU Metrics</code> 选项卡。在这个面板中，可以找到计算内核的 &ldquo;Warp Occupancy（ warp 占用率）&quot;（米色）。优化 CUDA 代码的一种方法是确保 warp 占用率在尽可能长的时间内接近 100%。这意味着我们的 GPU 不会闲置。我们注意到第一个和最后一个内核会出现这种情况，但中间的内核不会。这在意料之中，因为中间内核启动的是单线程。本节最后需要注意的是 &ldquo;<code>GPU &gt; GPU Metrics &gt; SMs Active &gt; Tensor Active / FP16 Active</code>&rdquo; 行。该行将显示是否正在使用张量内核。在这种情况下，你应该确认它们没有被使用。</p>
+<p>现在让我们简要查看一下事件视图。右键单击 <code>Processes &gt; python &gt; CUDA HW</code>，然后单击 &ldquo;Show in Events View （在事件视图中显示）&quot;。然后按持续时间从长到短排序。在图 3 中，我们可以看到最慢的事件是两次可翻页内存传输。我们在《<a href="https://mp.weixin.qq.com/s/NJngSLe8CZ-IQ9sVOrA3fg">CUDA by Numba 示例第 3 部分：流与事件</a>》中看到，可翻页内存传输可能不是最佳选择，我们应该优先选择页面锁定或 &ldquo;钉住&rdquo; 内存传输。如果由于使用可分页内存导致内存传输速度变慢，那么事件视图就能很好地识别出这些慢速传输的位置。</p>
+<blockquote>
+<p>专业建议：你可以通过右键单击 &ldquo;<code>Processes &gt; python &gt; CUDA HW &gt; XX% Memory</code>&ldquo;来隔离内存传输。</p>
+</blockquote>
+<p><img alt="图 3.Nsight 系统中的事件视图，显示可翻页（非钉接式）内存传输" loading="lazy" src="https://miro.medium.com/v2/resize:fit:700/1*IX26V774LTQEI48ttyTecQ.png"></p>
+<p>在本节中，我们学习了如何分析一个使用 CUDA 的 Python 程序，以及如何在 Nsight Systems GUI 中可视化该程序的基本信息。我们还注意到，在这个简单的程序中，我们使用的是可翻页内存而不是钉式内存，我们的一个内核没有占用所有 warp（即 CUDA 中的线程束） ，GPU 在内核运行之间有相当长的空闲时间，而且我们没有使用张量内核。</p>
+<h2 id="使用-nvtx-进行注释">使用 NVTX 进行注释<a hidden class="anchor" aria-hidden="true" href="#使用-nvtx-进行注释">#</a></h2>
+<p>在本节中，我们将学习如何通过使用 NVTX 对 Nsight 系统中的部分进行注释来改善我们的分析体验。NVTX 允许我们标记代码的不同区域。它可以标记范围和瞬时事件。如需深入了解，请查看<a href="https://nvtx.readthedocs.io/en/latest/index.html">文档：https://nvtx.readthedocs.io/en/latest/index.html</a>。我们的Colab 里有一段代码： <code>run_v2</code>， 我们将其在本地保存为 <code>run_v2.py</code>，除了注释 <code>run_v1.py</code> 之外，还更改了这一行：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>a <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>ones(size, dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>float32)
+</span></span></code></pre></div><p>到这些：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>a <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>pinned_array(size, dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>float32)
+</span></span><span style="display:flex;"><span>a[<span style="color:#f92672">...</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.0</span>
+</span></span></code></pre></div><p>因此，除了注释外，我们现在还使用了钉状内存。如果你想了解更多有关 CUDA 支持的不同类型内存的信息，请参阅《<a href="https://developer.nvidia.com/blog/how-optimize-data-transfers-cuda-cc/">CUDA C++ 编程指南: https://developer.nvidia.com/blog/how-optimize-data-transfers-cuda-cc/</a>》。值得注意的是，这并不是在 Numba 中钉住数组的唯一方法。之前创建的Numpy数组也可以通过上下文创建，这在Numba文档中有解释。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#%%writefile run_v2.py</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> argparse
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> warnings
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> nvtx
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> numba <span style="color:#f92672">import</span> cuda
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> numba.core.errors <span style="color:#f92672">import</span> NumbaPerformanceWarning
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run</span>(size):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">with</span> nvtx<span style="color:#f92672">.</span>annotate(<span style="color:#e6db74">&#34;Compilation&#34;</span>, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;red&#34;</span>):
+</span></span><span style="display:flex;"><span>        dev_a <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>device_array((BLOCKS_PER_GRID,), dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>float32)
+</span></span><span style="display:flex;"><span>        dev_a_reduce <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>device_array((BLOCKS_PER_GRID,), dtype<span style="color:#f92672">=</span>dev_a<span style="color:#f92672">.</span>dtype)
+</span></span><span style="display:flex;"><span>        dev_a_sum <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>device_array((<span style="color:#ae81ff">1</span>,), dtype<span style="color:#f92672">=</span>dev_a<span style="color:#f92672">.</span>dtype)
+</span></span><span style="display:flex;"><span>        partial_reduce[BLOCKS_PER_GRID, THREADS_PER_BLOCK](dev_a, dev_a_reduce)
+</span></span><span style="display:flex;"><span>        single_thread_sum[<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>](dev_a_reduce, dev_a_sum)
+</span></span><span style="display:flex;"><span>        divide_by[BLOCKS_PER_GRID, THREADS_PER_BLOCK](dev_a, dev_a_sum)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Define host array</span>
+</span></span><span style="display:flex;"><span>    a <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>pinned_array(size, dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>float32)
+</span></span><span style="display:flex;"><span>    a[<span style="color:#f92672">...</span>]  <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.0</span>
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Old sum: </span><span style="color:#e6db74">{</span>a<span style="color:#f92672">.</span>sum()<span style="color:#e6db74">:</span><span style="color:#e6db74">.3f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Array copy to device and array creation on the device.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">with</span> nvtx<span style="color:#f92672">.</span>annotate(<span style="color:#e6db74">&#34;H2D Memory&#34;</span>, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;yellow&#34;</span>):
+</span></span><span style="display:flex;"><span>        dev_a <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>to_device(a)
+</span></span><span style="display:flex;"><span>        dev_a_reduce <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>device_array((BLOCKS_PER_GRID,), dtype<span style="color:#f92672">=</span>dev_a<span style="color:#f92672">.</span>dtype)
+</span></span><span style="display:flex;"><span>        dev_a_sum <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>device_array((<span style="color:#ae81ff">1</span>,), dtype<span style="color:#f92672">=</span>dev_a<span style="color:#f92672">.</span>dtype)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Launching kernels to normalize array</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">with</span> nvtx<span style="color:#f92672">.</span>annotate(<span style="color:#e6db74">&#34;Kernels&#34;</span>, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;green&#34;</span>):
+</span></span><span style="display:flex;"><span>        partial_reduce[BLOCKS_PER_GRID, THREADS_PER_BLOCK](dev_a, dev_a_reduce)
+</span></span><span style="display:flex;"><span>        single_thread_sum[<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>](dev_a_reduce, dev_a_sum)
+</span></span><span style="display:flex;"><span>        divide_by[BLOCKS_PER_GRID, THREADS_PER_BLOCK](dev_a, dev_a_sum)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Array copy to host</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">with</span> nvtx<span style="color:#f92672">.</span>annotate(<span style="color:#e6db74">&#34;D2H Memory&#34;</span>, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;orange&#34;</span>):
+</span></span><span style="display:flex;"><span>        dev_a<span style="color:#f92672">.</span>copy_to_host(a)
+</span></span><span style="display:flex;"><span>    cuda<span style="color:#f92672">.</span>synchronize()
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;New sum: </span><span style="color:#e6db74">{</span>a<span style="color:#f92672">.</span>sum()<span style="color:#e6db74">:</span><span style="color:#e6db74">.3f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+</span></span><span style="display:flex;"><span>  	argv <span style="color:#f92672">=</span> sys<span style="color:#f92672">.</span>argv
+</span></span><span style="display:flex;"><span>    sys<span style="color:#f92672">.</span>argv <span style="color:#f92672">=</span> [argv[<span style="color:#ae81ff">0</span>]]
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    parser <span style="color:#f92672">=</span> argparse<span style="color:#f92672">.</span>ArgumentParser(description<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Simple Example v2&#34;</span>)
+</span></span><span style="display:flex;"><span>    parser<span style="color:#f92672">.</span>add_argument(
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;-n&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;--array-size&#34;</span>,
+</span></span><span style="display:flex;"><span>        type<span style="color:#f92672">=</span>int,
+</span></span><span style="display:flex;"><span>        default<span style="color:#f92672">=</span><span style="color:#ae81ff">100_000_000</span>,
+</span></span><span style="display:flex;"><span>        metavar<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;N&#34;</span>,
+</span></span><span style="display:flex;"><span>        help<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Array size&#34;</span>,
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    args <span style="color:#f92672">=</span> parser<span style="color:#f92672">.</span>parse_args()
+</span></span><span style="display:flex;"><span>    run(size<span style="color:#f92672">=</span>args<span style="color:#f92672">.</span>array_size)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span>    main()
+</span></span></code></pre></div><p>对比这两个文件，你会发现，只需将一些 GPU 内核调用:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">with</span> nvtx<span style="color:#f92672">.</span>annotate(<span style="color:#e6db74">&#34;Region Title&#34;</span>, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;red&#34;</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">...</span>
+</span></span></code></pre></div><blockquote>
+<p>专业提示：你还可以通过在函数定义上方放置 <code>@nvtx.annotate</code> 装饰器来注释函数，通过使用 <code>python -m nvtx run_v2.py</code> 调用脚本来自动注释所有内容，或通过启用或禁用 <code>nvtx.Profile()</code> 在代码中选择性地应用自动注释器。请参阅<a href="https://nvtx.readthedocs.io/en/latest/index.html">文档: https://nvtx.readthedocs.io/en/latest/index.html</a>！</p>
+</blockquote>
+<p>让我们运行这个新脚本并在 Nsight 系统中打开结果。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">$</span> nsys profile \
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">--</span>trace cuda,osrt,nvtx \
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">--</span>gpu<span style="color:#f92672">-</span>metrics<span style="color:#f92672">-</span>device<span style="color:#f92672">=</span>all \
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">--</span>cuda<span style="color:#f92672">-</span>memory<span style="color:#f92672">-</span>usage true \
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">--</span>force<span style="color:#f92672">-</span>overwrite true \
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">--</span>output profile_run_v2 \
+</span></span><span style="display:flex;"><span>  python run_v2<span style="color:#f92672">.</span>py
+</span></span><span style="display:flex;"><span>GPU <span style="color:#ae81ff">0</span>: General Metrics <span style="color:#66d9ef">for</span> NVIDIA TU10x (any frequency)
+</span></span><span style="display:flex;"><span>Old sum: <span style="color:#ae81ff">100000000.000</span>
+</span></span><span style="display:flex;"><span>New sum: <span style="color:#ae81ff">1.000</span>
+</span></span><span style="display:flex;"><span>Generating <span style="color:#e6db74">&#39;/tmp/nsys-report-69ab.qdstrm&#39;</span>
+</span></span><span style="display:flex;"><span>[<span style="color:#ae81ff">1</span><span style="color:#f92672">/</span><span style="color:#ae81ff">1</span>] [<span style="color:#f92672">========================</span><span style="color:#ae81ff">100</span><span style="color:#f92672">%</span>] profile_run_v2<span style="color:#f92672">.</span>nsys<span style="color:#f92672">-</span>rep
+</span></span><span style="display:flex;"><span>Generated:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">/</span>content<span style="color:#f92672">/</span>profile_run_v2<span style="color:#f92672">.</span>nsys<span style="color:#f92672">-</span>rep
+</span></span></code></pre></div><p>同样，我们先将所有内容最小化，只打开 &ldquo;<code>Processes &gt; python &gt; CUDA HW</code>&quot;。参见图 4。请注意，我们现在有了一条新线 <code>NVTX</code>。在时间线窗口的这一行中，我们可以看到不同颜色的区块，它们与我们在代码中创建的注释区域相对应。它们分别是 <code>Compilation</code>（编译）、<code>H2D Memory</code>（H2D 内存）、<code>Kernels</code>（内核）和 <code>D2H Memory</code>（D2H 内存）。其中有些区域可能太小，无法阅读，但如果放大该区域，则可以清晰地看到。</p>
+<p><img alt="图 4.NVTX 注释和带固定内存的事件视图示例" loading="lazy" src="https://miro.medium.com/v2/resize:fit:700/1*TTkJTvyy5IdyCWlLoOYFgQ.png"></p>
+<p>分析器确认了这些内存被钉住，从而确保我们的代码真正使用了钉住的内存。此外，<code>H2D Memory</code> 和 <code>D2H Memory</code> 现在所花费的时间不到之前的一半。一般来说，我们可以期待使用固定内存或预取映射阵列（Numba 不支持）能获得更好的性能。</p>
+<h2 id="流并发">流并发<a hidden class="anchor" aria-hidden="true" href="#流并发">#</a></h2>
+<p>现在，我们将研究是否可以通过引入流来改进这段代码。我们的想法是，在进行内存传输的同时，GPU 可以开始处理数据。这样就可以实现一定程度的并发，从而确保我们尽可能充分地利用经线。</p>
+<p><img alt="图 5.使用不同的数据流可实现并发执行" loading="lazy" src="https://miro.medium.com/v2/resize:fit:700/1*c8Wo1hky73axTxWbGfv2Fg.png"></p>
+<p>在下面的代码中，我们将把数组的处理分成大致相同的部分。每个部分将在单独的流中运行，包括传输数据和计算数组的总和。然后，我们同步所有流，并求和它们的部分和。此时，我们就可以为每个流独立启动规范化内核。</p>
+<p>我们想回答几个问题：</p>
+<ol>
+<li>下面的代码真的会产生并发性吗？我们是否会引入错误？</li>
+<li>是否比使用单流的代码更快？</li>
+<li>warp 占用率是否更好？</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#%%writefile run_v3</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> argparse
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> warnings
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> math <span style="color:#f92672">import</span> ceil
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> nvtx
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> numba <span style="color:#f92672">import</span> cuda
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> numba.core.errors <span style="color:#f92672">import</span> NumbaPerformanceWarning
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run</span>(size, nstreams):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">with</span> nvtx<span style="color:#f92672">.</span>annotate(<span style="color:#e6db74">&#34;Compilation&#34;</span>, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;red&#34;</span>):
+</span></span><span style="display:flex;"><span>        dev_a <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>device_array((BLOCKS_PER_GRID,), dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>float32)
+</span></span><span style="display:flex;"><span>        dev_a_reduce <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>device_array((BLOCKS_PER_GRID,), dtype<span style="color:#f92672">=</span>dev_a<span style="color:#f92672">.</span>dtype)
+</span></span><span style="display:flex;"><span>        dev_a_sum <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>device_array((<span style="color:#ae81ff">1</span>,), dtype<span style="color:#f92672">=</span>dev_a<span style="color:#f92672">.</span>dtype)
+</span></span><span style="display:flex;"><span>        partial_reduce[BLOCKS_PER_GRID, THREADS_PER_BLOCK](dev_a, dev_a_reduce)
+</span></span><span style="display:flex;"><span>        single_thread_sum[<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>](dev_a_reduce, dev_a_sum)
+</span></span><span style="display:flex;"><span>        divide_by[BLOCKS_PER_GRID, THREADS_PER_BLOCK](dev_a, dev_a_sum)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Define host array</span>
+</span></span><span style="display:flex;"><span>    a <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>pinned_array(size, dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>float32)
+</span></span><span style="display:flex;"><span>    a[<span style="color:#f92672">...</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Define regions for streams</span>
+</span></span><span style="display:flex;"><span>    step <span style="color:#f92672">=</span> ceil(size <span style="color:#f92672">/</span> nstreams)
+</span></span><span style="display:flex;"><span>    starts <span style="color:#f92672">=</span> [i <span style="color:#f92672">*</span> step <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(nstreams)]
+</span></span><span style="display:flex;"><span>    ends <span style="color:#f92672">=</span> [min(s <span style="color:#f92672">+</span> step, size) <span style="color:#66d9ef">for</span> s <span style="color:#f92672">in</span> starts]
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Old sum: </span><span style="color:#e6db74">{</span>a<span style="color:#f92672">.</span>sum()<span style="color:#e6db74">:</span><span style="color:#e6db74">.3f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Create streams</span>
+</span></span><span style="display:flex;"><span>    streams <span style="color:#f92672">=</span> [cuda<span style="color:#f92672">.</span>stream()] <span style="color:#f92672">*</span> nstreams
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    cpu_sums <span style="color:#f92672">=</span> [cuda<span style="color:#f92672">.</span>pinned_array(<span style="color:#ae81ff">1</span>, dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>float32) <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(nstreams)]
+</span></span><span style="display:flex;"><span>    devs_a <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">with</span> cuda<span style="color:#f92672">.</span>defer_cleanup():
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i, (stream, start, end) <span style="color:#f92672">in</span> enumerate(zip(streams, starts, ends)):
+</span></span><span style="display:flex;"><span>            cpu_sums[i][<span style="color:#f92672">...</span>] <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>nan
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># Array copy to device and array creation on the device.</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">with</span> nvtx<span style="color:#f92672">.</span>annotate(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;H2D Memory Stream </span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;yellow&#34;</span>):
+</span></span><span style="display:flex;"><span>                dev_a <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>to_device(a[start:end], stream<span style="color:#f92672">=</span>stream)
+</span></span><span style="display:flex;"><span>                dev_a_reduce <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>device_array(
+</span></span><span style="display:flex;"><span>                    (BLOCKS_PER_GRID,), dtype<span style="color:#f92672">=</span>dev_a<span style="color:#f92672">.</span>dtype, stream<span style="color:#f92672">=</span>stream
+</span></span><span style="display:flex;"><span>                )
+</span></span><span style="display:flex;"><span>                dev_a_sum <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>device_array((<span style="color:#ae81ff">1</span>,), dtype<span style="color:#f92672">=</span>dev_a<span style="color:#f92672">.</span>dtype, stream<span style="color:#f92672">=</span>stream)
+</span></span><span style="display:flex;"><span>            devs_a<span style="color:#f92672">.</span>append(dev_a)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># Launching kernels to sum array</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">with</span> nvtx<span style="color:#f92672">.</span>annotate(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Sum Kernels Stream </span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;green&#34;</span>):
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">50</span>):  <span style="color:#75715e"># Make it spend more time in compute</span>
+</span></span><span style="display:flex;"><span>                    partial_reduce[BLOCKS_PER_GRID, THREADS_PER_BLOCK, stream](
+</span></span><span style="display:flex;"><span>                    dev_a, dev_a_reduce
+</span></span><span style="display:flex;"><span>                )
+</span></span><span style="display:flex;"><span>                    single_thread_sum[<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, stream](dev_a_reduce, dev_a_sum)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">with</span> nvtx<span style="color:#f92672">.</span>annotate(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;D2H Memory Stream </span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;orange&#34;</span>):
+</span></span><span style="display:flex;"><span>                dev_a_sum<span style="color:#f92672">.</span>copy_to_host(cpu_sums[i], stream<span style="color:#f92672">=</span>stream)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Ensure all streams are caught up</span>
+</span></span><span style="display:flex;"><span>        cuda<span style="color:#f92672">.</span>synchronize()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Aggregate all 1D arrays into a single 1D array</span>
+</span></span><span style="display:flex;"><span>        a_sum_all <span style="color:#f92672">=</span> sum(cpu_sums)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Send it to the GPU</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">with</span> cuda<span style="color:#f92672">.</span>pinned(a_sum_all):
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">with</span> nvtx<span style="color:#f92672">.</span>annotate(<span style="color:#e6db74">&#34;D2H Memory Default Stream&#34;</span>, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;orange&#34;</span>):
+</span></span><span style="display:flex;"><span>                dev_a_sum_all <span style="color:#f92672">=</span> cuda<span style="color:#f92672">.</span>to_device(a_sum_all)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Normalize via streams</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i, (stream, start, end, dev_a) <span style="color:#f92672">in</span> enumerate(
+</span></span><span style="display:flex;"><span>            zip(streams, starts, ends, devs_a)
+</span></span><span style="display:flex;"><span>        ):
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">with</span> nvtx<span style="color:#f92672">.</span>annotate(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Divide Kernel Stream </span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;green&#34;</span>):
+</span></span><span style="display:flex;"><span>                divide_by[BLOCKS_PER_GRID, THREADS_PER_BLOCK, stream](
+</span></span><span style="display:flex;"><span>                    dev_a, dev_a_sum_all
+</span></span><span style="display:flex;"><span>                )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># Array copy to host</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">with</span> nvtx<span style="color:#f92672">.</span>annotate(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;D2H Memory Stream </span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;orange&#34;</span>):
+</span></span><span style="display:flex;"><span>                dev_a<span style="color:#f92672">.</span>copy_to_host(a[start:end], stream<span style="color:#f92672">=</span>stream)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        cuda<span style="color:#f92672">.</span>synchronize()
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;New sum: </span><span style="color:#e6db74">{</span>a<span style="color:#f92672">.</span>sum()<span style="color:#e6db74">:</span><span style="color:#e6db74">.3f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+</span></span><span style="display:flex;"><span>	  argv <span style="color:#f92672">=</span> sys<span style="color:#f92672">.</span>argv
+</span></span><span style="display:flex;"><span>    sys<span style="color:#f92672">.</span>argv <span style="color:#f92672">=</span> [argv[<span style="color:#ae81ff">0</span>]]
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    parser <span style="color:#f92672">=</span> argparse<span style="color:#f92672">.</span>ArgumentParser(description<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Simple Example v3&#34;</span>)
+</span></span><span style="display:flex;"><span>    parser<span style="color:#f92672">.</span>add_argument(
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;-n&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;--array-size&#34;</span>,
+</span></span><span style="display:flex;"><span>        type<span style="color:#f92672">=</span>int,
+</span></span><span style="display:flex;"><span>        default<span style="color:#f92672">=</span><span style="color:#ae81ff">100_000_000</span>,
+</span></span><span style="display:flex;"><span>        metavar<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;N&#34;</span>,
+</span></span><span style="display:flex;"><span>        help<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Array size&#34;</span>,
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>    parser<span style="color:#f92672">.</span>add_argument(
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;-s&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;--streams&#34;</span>,
+</span></span><span style="display:flex;"><span>        type<span style="color:#f92672">=</span>int,
+</span></span><span style="display:flex;"><span>        default<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>,
+</span></span><span style="display:flex;"><span>        metavar<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;N&#34;</span>,
+</span></span><span style="display:flex;"><span>        help<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Array size&#34;</span>,
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    args <span style="color:#f92672">=</span> parser<span style="color:#f92672">.</span>parse_args()
+</span></span><span style="display:flex;"><span>    run(size<span style="color:#f92672">=</span>args<span style="color:#f92672">.</span>array_size, nstreams<span style="color:#f92672">=</span>args<span style="color:#f92672">.</span>streams)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span>    main()
+</span></span></code></pre></div><p>让我们运行代码并收集结果。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">$</span> nsys profile \
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">--</span>trace cuda,osrt,nvtx \
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">--</span>gpu<span style="color:#f92672">-</span>metrics<span style="color:#f92672">-</span>device<span style="color:#f92672">=</span>all \
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">--</span>cuda<span style="color:#f92672">-</span>memory<span style="color:#f92672">-</span>usage true \
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">--</span>force<span style="color:#f92672">-</span>overwrite true \
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">--</span>output profile_run_v3_4streams \
+</span></span><span style="display:flex;"><span>  python run_v3<span style="color:#f92672">.</span>py <span style="color:#f92672">-</span>s <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>GPU <span style="color:#ae81ff">0</span>: General Metrics <span style="color:#66d9ef">for</span> NVIDIA TU10x (any frequency)
+</span></span><span style="display:flex;"><span>Old sum: <span style="color:#ae81ff">100000000.000</span>
+</span></span><span style="display:flex;"><span>New sum: <span style="color:#ae81ff">1.000</span>
+</span></span><span style="display:flex;"><span>Generating <span style="color:#e6db74">&#39;/tmp/nsys-report-a666.qdstrm&#39;</span>
+</span></span><span style="display:flex;"><span>[<span style="color:#ae81ff">1</span><span style="color:#f92672">/</span><span style="color:#ae81ff">1</span>] [<span style="color:#f92672">========================</span><span style="color:#ae81ff">100</span><span style="color:#f92672">%</span>] profile_run_v3_4streams<span style="color:#f92672">.</span>nsys<span style="color:#f92672">-</span>rep
+</span></span><span style="display:flex;"><span>Generated:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">/</span>content<span style="color:#f92672">/</span>profile_run_v3_4streams<span style="color:#f92672">.</span>nsys<span style="color:#f92672">-</span>rep
+</span></span></code></pre></div><p>程序运行后得到了正确答案。但当我们打开分析文件时（见图 6），我们会发现有两个数据流，而不是 4 个！其中一个基本上完全处于空闲状态！这到底是怎么回事？</p>
+<p><img alt="图 6.多流代码错误示例" loading="lazy" src="https://miro.medium.com/v2/resize:fit:700/1*LKQIb0cooHl_7F0UhTplBA.png"></p>
+<p>在创建数据流时存在一个错误。通过</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>streams <span style="color:#f92672">=</span> [cuda<span style="color:#f92672">.</span>stream()] <span style="color:#f92672">*</span> nstreams
+</span></span></code></pre></div><p>我们实际上是在创建一个单一的数据流，并将其重复 n 次。那么，为什么我们看到的是两个数据流而不是一个呢？事实上，其中一个流的计算量并不大，这说明有一个流我们并没有使用。这个流就是默认流，我们在代码中完全没有使用它，因为所有 GPU 交互都有一个流，也就是我们创建的流。</p>
+<p>我们可以通过以下方法修复这个错误:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>streams <span style="color:#f92672">=</span> [cuda<span style="color:#f92672">.</span>stream() <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(nstreams)]
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Ensure they are all different</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">assert</span> all(s1<span style="color:#f92672">.</span>handle <span style="color:#f92672">!=</span> s2<span style="color:#f92672">.</span>handle <span style="color:#66d9ef">for</span> s1, s2 <span style="color:#f92672">in</span> zip(streams[:<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], streams[<span style="color:#ae81ff">1</span>:]))
+</span></span></code></pre></div><p>上述代码还将确保它们确实是不同的数据流，因此如果我们在代码中设置了这一功能，它就能捕捉到错误。它通过检查数据流指针值来做到这一点。</p>
+<p>现在，我们可以使用 1 个数据流和 8 个数据流运行修正后的代码进行比较。分别见图 7 和图 8。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">$</span>  nsys profile \
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">--</span>trace cuda,osrt,nvtx \
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">--</span>gpu<span style="color:#f92672">-</span>metrics<span style="color:#f92672">-</span>device<span style="color:#f92672">=</span>all \
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">--</span>cuda<span style="color:#f92672">-</span>memory<span style="color:#f92672">-</span>usage true \
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">--</span>force<span style="color:#f92672">-</span>overwrite true \
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">--</span>output profile_run_v3_1stream \
+</span></span><span style="display:flex;"><span>  python run_v3<span style="color:#f92672">.</span>py <span style="color:#f92672">-</span>s <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>GPU <span style="color:#ae81ff">0</span>: General Metrics <span style="color:#66d9ef">for</span> NVIDIA TU10x (any frequency)
+</span></span><span style="display:flex;"><span>Old sum: <span style="color:#ae81ff">100000000.000</span>
+</span></span><span style="display:flex;"><span>New sum: <span style="color:#ae81ff">1.000</span>
+</span></span><span style="display:flex;"><span>Generating <span style="color:#e6db74">&#39;/tmp/nsys-report-de65.qdstrm&#39;</span>
+</span></span><span style="display:flex;"><span>[<span style="color:#ae81ff">1</span><span style="color:#f92672">/</span><span style="color:#ae81ff">1</span>] [<span style="color:#f92672">========================</span><span style="color:#ae81ff">100</span><span style="color:#f92672">%</span>] profile_run_v3_1stream<span style="color:#f92672">.</span>nsys<span style="color:#f92672">-</span>rep
+</span></span><span style="display:flex;"><span>Generated:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">/</span>content<span style="color:#f92672">/</span>profile_run_v3_1stream<span style="color:#f92672">.</span>nsys<span style="color:#f92672">-</span>rep
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">$</span> nsys profile \
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">--</span>trace cuda,osrt,nvtx \
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">--</span>gpu<span style="color:#f92672">-</span>metrics<span style="color:#f92672">-</span>device<span style="color:#f92672">=</span>all \
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">--</span>cuda<span style="color:#f92672">-</span>memory<span style="color:#f92672">-</span>usage true \
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">--</span>force<span style="color:#f92672">-</span>overwrite true \
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">--</span>output profile_run_v3_8streams \
+</span></span><span style="display:flex;"><span>  python run_v3<span style="color:#f92672">.</span>py <span style="color:#f92672">-</span>s <span style="color:#ae81ff">8</span>
+</span></span><span style="display:flex;"><span>GPU <span style="color:#ae81ff">0</span>: General Metrics <span style="color:#66d9ef">for</span> NVIDIA TU10x (any frequency)
+</span></span><span style="display:flex;"><span>Old sum: <span style="color:#ae81ff">100000000.000</span>
+</span></span><span style="display:flex;"><span>New sum: <span style="color:#ae81ff">1.000</span>
+</span></span><span style="display:flex;"><span>Generating <span style="color:#e6db74">&#39;/tmp/nsys-report-1fb7.qdstrm&#39;</span>
+</span></span><span style="display:flex;"><span>[<span style="color:#ae81ff">1</span><span style="color:#f92672">/</span><span style="color:#ae81ff">1</span>] [<span style="color:#f92672">========================</span><span style="color:#ae81ff">100</span><span style="color:#f92672">%</span>] profile_run_v3_8streams<span style="color:#f92672">.</span>nsys<span style="color:#f92672">-</span>rep
+</span></span><span style="display:flex;"><span>Generated:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">/</span>content<span style="color:#f92672">/</span>profile_run_v3_8streams<span style="color:#f92672">.</span>nsys<span style="color:#f92672">-</span>rep
+</span></span></code></pre></div><p><img alt="图 7.单流代码示例" loading="lazy" src="https://miro.medium.com/v2/resize:fit:700/1*o3mOmOq5d5FSdjqbQuvpUA.png"></p>
+<p><img alt="图 8.正确的多流代码示例" loading="lazy" src="https://miro.medium.com/v2/resize:fit:700/1*1uO_aHzWHtu7UAEiamUqWg.png"></p>
+<p>同样，两个结果都是正确的。打开有 8 个数据流的数据流，我们可以看到错误已被修复（图 7）。事实上，我们现在可以看到 9 个数据流（8 个已创建数据流 + 默认数据流）。此外，我们还看到它们同时工作！因此，我们实现了并发！</p>
+<p>遗憾的是，如果我们再深入研究一下，就会发现并发代码的速度并不一定更快。在我的机器上，两个版本的关键部分，从内存传输开始到最后一次 GPU-CPU 复制大约需要 160 毫秒。</p>
+<p>罪魁祸首很可能是 warp 占用率。我们注意到，单流版本的 warp 占用率明显更高。在这个例子中，我们在计算方面获得的收益很可能因为没有有效占用 GPU 而损失掉了。这可能与代码结构有关，因为代码（人为地）调用了太多内核。此外，如果所有线程都被单个流填满，并发性就不会提高，因为其他流必须闲置，直到资源释放。</p>
+<p>这个例子很重要，因为它表明我们对性能的先入为主的概念只是假设。它们需要验证。</p>
+<p>目前，我们已经对 APOD 进行了评估和并行化（通过线程和并发），因此下一步就是部署。我们还注意到并发时性能略有下降，因此在本例中，部署的可能是单流版本。在生产中，下一步将是遵循最适合并行化的下一段代码，并重新启动 APOD。</p>
+<h2 id="结尾">结尾<a hidden class="anchor" aria-hidden="true" href="#结尾">#</a></h2>
+<p>在本文中，我们介绍了如何在NVIDIA Nsight 系统中设置、使用和解释 Python 代码的分析结果。C 和 C++ 代码的分析方法非常相似，事实上，大多数资料都使用了 C 和 C++ 示例。</p>
+<p>我们还展示了分析如何让我们捕捉错误并测试程序性能，确保我们引入的功能确实提高了性能，如果没有，原因何在。</p>
+<blockquote>
+<p>最后， 我所有代码都是放在了 Colab 的一个文件中，其中：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>argv <span style="color:#f92672">=</span> sys<span style="color:#f92672">.</span>argv
+</span></span><span style="display:flex;"><span>    sys<span style="color:#f92672">.</span>argv <span style="color:#f92672">=</span> [argv[<span style="color:#ae81ff">0</span>]]
+</span></span></code></pre></div><p>这一段是因为要兼容 Jupyter Notebook 才写的，否则如果只是执行 Python 文件的话可以去掉。</p>
+<p>另外，如果你不太明白怎么讲这个文件拆成独立的<code>Kernels.py</code>, <code>run_v1.py</code>, <code>run_v2.py</code>, <code>run_v3.py</code>， 可以去这里下载源码：</p>
+<p>链接: <a href="https://pan.baidu.com/s/1gqN3Cza0h4oZoPvzJqKMaw?pwd=euvg">https://pan.baidu.com/s/1gqN3Cza0h4oZoPvzJqKMaw?pwd=euvg</a> 提取码: euvg
+&ndash;来自百度网盘超级会员v8的分享</p>
+</blockquote>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/stable-diffusion-3-%E5%BC%80%E6%BA%90%E4%BA%86%E5%AE%8C%E5%85%A8%E4%B8%8D%E8%BE%93-midjourney/">
+    <span class="title">« Prev</span>
+    <span>Stable Diffusion 3 开源了，完全不输 Midjourney</span>
+  </a>
+  <a class="next" href="http://localhost:1313/posts/numba-%E7%9A%84-cuda-%E7%A4%BA%E4%BE%8B4-4%E5%8E%9F%E5%AD%90%E5%92%8C%E4%BA%92%E6%96%A5/">
+    <span class="title">Next »</span>
+    <span>Numba 的 CUDA 示例：原子和互斥</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">茶桁.MAMT</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>ChatGPT 代码解释器：如何为我节省数小时的工作 | 茶桁.MAMT</title>
+<meta name="keywords" content="">
+<meta name="description" content="创建一个交互式世界地图，显示国家人口数量，配以简短的句子描述。">
+<meta name="author" content="Hivan Du">
+<link rel="canonical" href="http://localhost:1313/posts/chatgpt%E4%BB%A3%E7%A0%81%E8%A7%A3%E9%87%8A%E5%99%A8/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.cd9298b33628769aa1bc1acebbbfd7aa11ce81dfe03484d479e1907760249a1d.css" integrity="sha256-zZKYszYodpqhvBrOu7/XqhHOgd/gNITUeeGQd2Akmh0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/chatgpt%E4%BB%A3%E7%A0%81%E8%A7%A3%E9%87%8A%E5%99%A8/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="茶桁.MAMT (Alt + H)">
+                <img src="http://localhost:1313/%F0%9F%A7%A0" alt="" aria-label="logo"
+                    height="30">茶桁.MAMT</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="http://localhost:1313/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/posts/">文章</a>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+</nav>
+    <h1 class="post-title entry-hint-parent">
+      ChatGPT 代码解释器：如何为我节省数小时的工作
+    </h1>
+    <div class="post-meta">
+
+<span title='2023-07-10 01:22:07 +0800 CST'>July 10, 2023</span>&nbsp;·&nbsp;<span>2 min</span>&nbsp;·&nbsp;<span>Hivan Du</span>
+
+</div>
+  </header> <details class="toc" >
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">Table of Contents</span>
+    </summary>
+
+    <div class="inner"><ul>
+            <li>
+                <a href="#%e6%82%a8%e9%9c%80%e8%a6%81%e5%85%88%e5%90%af%e7%94%a8%e5%ae%83" aria-label="您需要先启用它">您需要先启用它</a></li>
+            <li>
+                <a href="#%e6%9d%a5%e4%b8%aa%e5%85%b7%e4%bd%93%e4%bb%bb%e5%8a%a1" aria-label="来个具体任务">来个具体任务</a></li>
+            <li>
+                <a href="#%e8%ae%a9%e6%88%91%e4%bb%ac%e7%bb%a7%e7%bb%ad%e5%90%a7" aria-label="让我们继续吧">让我们继续吧</a></li>
+            <li>
+                <a href="#%e6%95%b0%e6%8d%ae%e6%b8%85%e6%b4%97%e5%92%8c%e9%a2%84%e5%a4%84%e7%90%86" aria-label="数据清洗和预处理">数据清洗和预处理</a></li>
+            <li>
+                <a href="#%e5%88%9b%e5%bb%ba%e5%8f%af%e8%a7%86%e5%8c%96" aria-label="创建可视化">创建可视化</a></li>
+            <li>
+                <a href="#%e6%9c%80%e5%90%8e%e7%9a%84%e8%af%9d" aria-label="最后的话">最后的话</a></li>
+            <li>
+                <a href="#%e6%95%b0%e6%8d%ae" aria-label="数据">数据</a>
+            </li>
+        </ul>
+    </div>
+</details>
+
+  <div class="post-content md-content"><p><img alt="img" loading="lazy" src="https://qiniu.hivan.me/picGo/20230710011251.jpeg?imgNote"></p>
+<p>2023 年 7 月 6 日，OpenAI 宣布 Code Interpreter 将在接下来的一周内向 ChatGPT Plus 用户开放。它可能是增强 ChatGPT 的能力和功能的最佳插件之一。</p>
+<p>Code Interpreter 可以运行代码，允许上传数据，这样您就可以用它来进行数据清理、分析、可视化等许多其他任务。它就像是您指尖上的数据分析师。</p>
+<p>听起来很棒吧？接下来我们来看看。</p>
+<p>我在一项任务中使用了它，这项任务可能需要我花费几个小时才能完成。根据您的任务和对 Python 库的熟悉程度，这项任务甚至可能需要更长时间。</p>
+<p>在使用 ChatGPT 时，我只需要写几句话并上传两个 CSV 文件。</p>
+<p>我将逐步介绍整个过程，以及 Code Interpreter 在理解数据、清理和预处理数据以及创建数据可视化方面的印象深刻之处。</p>
+<h2 id="您需要先启用它"><strong>您需要先启用它</strong><a hidden class="anchor" aria-hidden="true" href="#您需要先启用它">#</a></h2>
+<p>如果您想在聊天中使用代码解释器，需要先通过设置启用它。</p>
+<p><img alt="如何启用代码解释器" loading="lazy" src="https://qiniu.hivan.me/picGo/20230710011257.png?imgNote"></p>
+<p>如何启用代码解释器</p>
+<p>开启之后，你在接下来开启新的聊天的时候就可以使用它了。</p>
+<h2 id="来个具体任务">来个具体任务<a hidden class="anchor" aria-hidden="true" href="#来个具体任务">#</a></h2>
+<p>我打算创建一个世界地图可视化，其中点的大小与国家的人口成比例。</p>
+<p>我有两个数据集，一个是国家人口，另一个是以纬度和经度表示的位置。</p>
+<p>您可以轻松地在网上找到这些数据集。如果没有，文末我将提供数据集（以及源代码）。</p>
+<h2 id="让我们继续吧">让我们继续吧<a hidden class="anchor" aria-hidden="true" href="#让我们继续吧">#</a></h2>
+<p>由于这是一个简单的任务，我没有花费太多时间在提示工程上。这是我向 ChatGPT 请求的第一句话：</p>
+<p><img alt="img" loading="lazy" src="https://qiniu.hivan.me/picGo/20230710011324.png?imgNote"></p>
+<p>你可以在提示窗口左侧使用加号上传数据集。</p>
+<p><img alt="使用+号上传数据集" loading="lazy" src="https://qiniu.hivan.me/picGo/20230710011303.png?imgNote"></p>
+<p>使用+号上传数据集</p>
+<p>首先要做的是读取数据集，这是显而易见的事情。但这还不够令人印象深刻！</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Code Interpreter 生成的代码</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> pandas <span style="color:#66d9ef">as</span> pd
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 将 CSV 数据加载到 pandas DataFrame 中</span>
+</span></span><span style="display:flex;"><span>population_data <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(<span style="color:#e6db74">&#39;/mnt/data/country_population_historic.csv&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 显示 DataFrame 的前几行</span>
+</span></span><span style="display:flex;"><span>population_data<span style="color:#f92672">.</span>head()
+</span></span></code></pre></div><p>然后，ChatGPT 要求提供国家位置：</p>
+<p><img alt="img" loading="lazy" src="https://qiniu.hivan.me/picGo/20230710011345.png?imgNote"></p>
+<p>由于我已经拥有相关数据了，所以我要做的就只是上传它：</p>
+<p><img alt="img" loading="lazy" src="https://qiniu.hivan.me/picGo/20230710011400.png?imgNote"></p>
+<pre tabindex="0"><code># Code Interpreter 生成的代码
+# 加载国家坐标数据
+country_coordinates = pd.read_csv(&#39;/mnt/data/country_coordinates.csv&#39;)
+
+# 显示前几行
+country_coordinates.head()
+</code></pre><h2 id="数据清洗和预处理"><strong>数据清洗和预处理</strong><a hidden class="anchor" aria-hidden="true" href="#数据清洗和预处理">#</a></h2>
+<p>读取数据后的下一步是清洗和预处理数据。我相信你已经听过很多次，这一步通常需要最多的时间。</p>
+<p>在创建世界地图可视化之前，有一些问题需要处理。ChatGPT 检测到它们并在不到一分钟的时间内提供了解决方案。相当令人印象深刻！</p>
+<p><img alt="img" loading="lazy" src="https://qiniu.hivan.me/picGo/20230710011419.png?imgNote"></p>
+<p>上面代码段中的代码:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 由代码解释器生成的代码</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 检查数据框中的国家名称是否一致</span>
+</span></span><span style="display:flex;"><span>population_countries <span style="color:#f92672">=</span> set(population_data[<span style="color:#e6db74">&#39;Country Name&#39;</span>])
+</span></span><span style="display:flex;"><span>coordinates_countries <span style="color:#f92672">=</span> set(country_coordinates[<span style="color:#e6db74">&#39;name&#39;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 人口数据中的国家但不在坐标数据中</span>
+</span></span><span style="display:flex;"><span>missing_in_coordinates <span style="color:#f92672">=</span> population_countries <span style="color:#f92672">-</span> coordinates_countries
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 坐标数据中的国家但人口数据中没有</span>
+</span></span><span style="display:flex;"><span>missing_in_population <span style="color:#f92672">=</span> coordinates_countries <span style="color:#f92672">-</span> population_countries
+</span></span></code></pre></div><p>在坐标数据集和人口数据集中都有一些国家缺失。</p>
+<p>ChatGPT 在上面的代码片段中做了什么：</p>
+<ul>
+<li>创建了 Python 集合，包含两个数据集中的国家名称。</li>
+<li>分别比较这些集合，找到它们之间的差异。</li>
+</ul>
+<p>ChatGPT 在不到一分钟的时间内解决了这个问题：</p>
+<p><img alt="img" loading="lazy" src="https://qiniu.hivan.me/picGo/20230710011441.png?imgNote"></p>
+<p>以上片段中的代码：</p>
+<pre tabindex="0"><code># Code Interpreter 生成的代码
+# 将人口数据集中的国家名称映射到坐标数据集中
+country_name_mapping = {
+    &#39;Bahamas, The&#39;: &#39;Bahamas&#39;,
+    &#39;Brunei Darussalam&#39;: &#39;Brunei&#39;,
+    &#39;Cabo Verde&#39;: &#39;Cape Verde&#39;,
+    &#39;Congo, Dem. Rep.&#39;: &#39;Congo [DRC]&#39;,
+    &#39;Congo, Rep.&#39;: &#39;Congo [Republic]&#39;,
+    &#34;Cote d&#39;Ivoire&#34;: &#34;Côte d&#39;Ivoire&#34;,
+    &#39;Czechia&#39;: &#39;Czech Republic&#39;,
+    &#39;Egypt, Arab Rep.&#39;: &#39;Egypt&#39;,
+    &#39;Gambia, The&#39;: &#39;Gambia&#39;,
+    &#39;Hong Kong SAR, China&#39;: &#39;Hong Kong&#39;,
+    &#39;Iran, Islamic Rep.&#39;: &#39;Iran&#39;,
+    &#34;Korea, Dem. People&#39;s Rep.&#34;: &#39;North Korea&#39;,
+    &#39;Korea, Rep.&#39;: &#39;South Korea&#39;,
+    &#39;Kyrgyz Republic&#39;: &#39;Kyrgyzstan&#39;,
+    &#39;Lao PDR&#39;: &#39;Laos&#39;,
+    &#39;Macao SAR, China&#39;: &#39;Macau&#39;,
+    &#39;Micronesia, Fed. Sts.&#39;: &#39;Micronesia&#39;,
+    &#39;Myanmar&#39;: &#39;Myanmar [Burma]&#39;,
+    &#39;North Macedonia&#39;: &#39;Macedonia [FYROM]&#39;,
+    &#39;Russian Federation&#39;: &#39;Russia&#39;,
+    &#39;Sao Tome and Principe&#39;: &#39;São Tomé and Príncipe&#39;,
+    &#39;Slovak Republic&#39;: &#39;Slovakia&#39;,
+    &#39;Syrian Arab Republic&#39;: &#39;Syria&#39;,
+    &#39;Turkiye&#39;: &#39;Turkey&#39;,
+    &#39;Venezuela, RB&#39;: &#39;Venezuela&#39;,
+    &#39;Yemen, Rep.&#39;: &#39;Yemen&#39;,
+    &#39;Eswatini&#39;: &#39;Swaziland&#39;
+}
+
+# 清理人口数据集
+population_data_clean = population_data.replace({&#34;Country Name&#34;: country_name_mapping})
+
+# 删除在坐标数据集中不存在的行
+population_data_clean = population_data_clean[population_data_clean[&#39;Country Name&#39;].isin(coordinates_countries)]
+
+# 将人口数据与国家坐标数据合并
+merged_data = pd.merge(population_data_clean, country_coordinates, left_on=&#39;Country Name&#39;, right_on=&#39;name&#39;)
+
+# 只保留必要的列
+merged_data = merged_data[[&#39;Country Name&#39;, &#39;2022&#39;, &#39;latitude&#39;, &#39;longitude&#39;]]
+
+# 重命名列以增加清晰度
+merged_data.columns = [&#39;Country&#39;, &#39;Population&#39;, &#39;Latitude&#39;, &#39;Longitude&#39;]
+
+merged_data.head()
+</code></pre><p><img alt="img" loading="lazy" src="https://qiniu.hivan.me/picGo/20230710011502.png?imgNote"></p>
+<p>清理和预处理的数据</p>
+<p>现在我们已经有了整洁和清晰的数据格式。这个步骤通常需要很多时间和人工。ChatGPT 在大约一分钟内完成了这一步。</p>
+<h2 id="创建可视化">创建可视化<a hidden class="anchor" aria-hidden="true" href="#创建可视化">#</a></h2>
+<p>ChatGPT 首先尝试使用 Matplotlib 库进行创建。然而，由于没有世界地图图像而失败：</p>
+<p><img alt="img" loading="lazy" src="https://qiniu.hivan.me/picGo/20230710011516.png?imgNote"></p>
+<p>然后，我只是要求它使用 Plotly，这就是我一开始想到的。</p>
+<p><img alt="img" loading="lazy" src="https://qiniu.hivan.me/picGo/20230710011535.png?imgNote"></p>
+<p><img alt="img" loading="lazy" src="https://qiniu.hivan.me/picGo/20230710011549.png?imgNote"></p>
+<p>以上代码段中的代码：</p>
+<pre tabindex="0"><code># 代码由代码解释器生成
+import plotly.graph_objects as go
+
+# 创建散点地理图
+fig = go.Figure(data=go.Scattergeo(
+    lon = merged_data[&#39;Longitude&#39;],
+    lat = merged_data[&#39;Latitude&#39;],
+    text = merged_data[&#39;Country&#39;] + &#39;: &#39; + merged_data[&#39;Population&#39;].astype(str),
+    mode = &#39;markers&#39;,
+    marker = dict(
+        size = (merged_data[&#39;Population&#39;] / 1000000) ** 0.5,  # Take square root to better visualize differences
+        sizemode = &#39;diameter&#39;,
+        sizeref = 1,
+        sizemin = 4,
+        color = merged_data[&#39;Population&#39;],
+        colorscale = &#39;Viridis&#39;,
+        colorbar_title = &#34;Millions&#34;,
+    )
+))
+
+# 更新布局
+fig.update_layout(
+    title_text = &#39;2022 World Population&#39;,
+    geo = dict(
+        showframe = False,
+        showcoastlines = True,
+        projection_type = &#39;equirectangular&#39;
+    )
+)
+
+fig.show()
+</code></pre><p>它不能在浏览器中显示交互式世界地图，但成功编写了生成它的代码。我所要做的就是将代码复制粘贴到 Jupyter 笔记本中。</p>
+<p>这是最终结果：</p>
+<p><img alt="img" loading="lazy" src="https://www.notion.so/image/https%3A%2F%2Fmiro.medium.com%2Fv2%2Fresize%3Afit%3A700%2F1*muaYWUJQNpEt0Tpm_UaHzw.gif?id=20caa395-3ab2-4b2b-8a15-d6c4fe9a1ebf&table=block&spaceId=9a074068-2ca2-46e6-b231-935d54db43cd&userId=4f93353d-181a-4410-94d6-f9f4b3a98955&cache=v2"></p>
+<p>互动世界地图，显示国家人口</p>
+<h2 id="最后的话"><strong>最后的话</strong><a hidden class="anchor" aria-hidden="true" href="#最后的话">#</a></h2>
+<p>我们所做的事情：</p>
+<ul>
+<li>读取数据集</li>
+<li>清洗、预处理和合并它们</li>
+<li>创建互动数据可视化</li>
+</ul>
+<p>我们所要做的只是写两个句子（并告诉 ChatGPT 使用 Plotly）。我认为这非常令人印象深刻！</p>
+<h2 id="数据">数据<a hidden class="anchor" aria-hidden="true" href="#数据">#</a></h2>
+<p>本文已经结束。</p>
+<p>文章最后，我将提供数据以及一个 jupyter notebook 内容，和往常一样，数据将付费查看，以获取一些成本。有想要的朋友可以去我公众号内搜索本文购买：</p>
+<p><img alt="个人公众号：坍缩的奇点" loading="lazy" src="https://qiniu.hivan.me/picGo/20230704000058.png?imgNote"></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/bardapi-chatgpt/">
+    <span class="title">« Prev</span>
+    <span>将 Bard API 与 ChatGPT 集成：实时数据访问</span>
+  </a>
+  <a class="next" href="http://localhost:1313/posts/use-ai-to-write-a-snake-game/">
+    <span class="title">Next »</span>
+    <span>利用 AI 写一个『贪吃蛇游戏』</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">茶桁.MAMT</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

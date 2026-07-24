@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head>
+	<meta name="generator" content="Hugo 0.164.0"><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>茶桁.MAMT</title>
+
+<meta name="description" content="ChaHeng Notes，codding and writting ~">
+<meta name="author" content="Hivan Du">
+<link rel="canonical" href="http://localhost:1313/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.cd9298b33628769aa1bc1acebbbfd7aa11ce81dfe03484d479e1907760249a1d.css" integrity="sha256-zZKYszYodpqhvBrOu7/XqhHOgd/gNITUeeGQd2Akmh0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/index.xml" title="rss">
+<link rel="alternate" type="application/json" href="http://localhost:1313/index.json" title="json">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body class="list" id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="茶桁.MAMT (Alt + H)">
+                <img src="http://localhost:1313/%F0%9F%A7%A0" alt="" aria-label="logo"
+                    height="30">茶桁.MAMT</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="http://localhost:1313/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<div class="post-content md-content"><p>Welcome to this blog about <strong>Mathematics</strong> and <strong>Artificial Intelligence</strong>.</p>
+<p>Here you&rsquo;ll find articles exploring the beautiful intersection of mathematical theory and AI实践.</p>
+
+
+</div>
+<article class="first-entry home-info">
+    <header class="entry-header">
+        <h1>茶桁.MAMT</h1>
+    </header>
+    <div class="entry-content md-content">
+        
+        <p>ChaHeng Notes，codding and writting ~</p>
+
+    </div>
+    <footer class="entry-footer">
+        <div class="social-icons" >
+    <a href="https://github.com/" target="_blank" rel="noopener noreferrer me"
+        title="Github">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+    stroke-linecap="round" stroke-linejoin="round">
+    <path
+        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+    </path>
+</svg>
+    </a>
+</div>
+
+    </footer>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">使用 Python 构建颜色选择器
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> 创建一个从图像像素中选择 RGB 通道的工具
+</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2024-10-18 07:03:00 +0800 CST'>October 18, 2024</span>&nbsp;·&nbsp;<span>3 min</span>&nbsp;·&nbsp;<span>Hivan Du</span></footer>
+  <a class="entry-link" aria-label="post link to 使用 Python 构建颜色选择器" href="http://localhost:1313/posts/%E4%BD%BF%E7%94%A8-python-%E6%9E%84%E5%BB%BA%E9%A2%9C%E8%89%B2%E9%80%89%E6%8B%A9%E5%99%A8/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">增强深度学习的图像
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> 使用 Python 通过翻转、调整亮度、颜色抖动和随机噪声来增强数据
+</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2024-10-15 07:03:00 +0800 CST'>October 15, 2024</span>&nbsp;·&nbsp;<span>3 min</span>&nbsp;·&nbsp;<span>Hivan Du</span></footer>
+  <a class="entry-link" aria-label="post link to 增强深度学习的图像" href="http://localhost:1313/posts/%E5%A2%9E%E5%BC%BA%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%9B%BE%E5%83%8F/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">《茶桁的 AI 秘籍》核心基础——目录
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>新专栏《AI秘籍》，你所感兴趣的一切</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2024-10-12 07:03:00 +0800 CST'>October 12, 2024</span>&nbsp;·&nbsp;<span>2 min</span>&nbsp;·&nbsp;<span>Hivan Du</span></footer>
+  <a class="entry-link" aria-label="post link to 《茶桁的 AI 秘籍》核心基础——目录" href="http://localhost:1313/posts/ai-cheats---catalogs/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">使用 Python 构建交互式图像标记器
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> 使用鼠标或键盘标记图像数据
+</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2024-10-11 07:03:00 +0800 CST'>October 11, 2024</span>&nbsp;·&nbsp;<span>3 min</span>&nbsp;·&nbsp;<span>Hivan Du</span></footer>
+  <a class="entry-link" aria-label="post link to 使用 Python 构建交互式图像标记器" href="http://localhost:1313/posts/%E4%BD%BF%E7%94%A8-python-%E6%9E%84%E5%BB%BA%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%9B%BE%E5%83%8F%E6%A0%87%E8%AE%B0%E5%99%A8/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">SHAP 的局限性
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> SHAP 如何受到特征依赖性、因果推理和人为偏见的影响
+</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2024-10-08 07:03:00 +0800 CST'>October 8, 2024</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>Hivan Du</span></footer>
+  <a class="entry-link" aria-label="post link to SHAP 的局限性" href="http://localhost:1313/posts/shap-%E7%9A%84%E5%B1%80%E9%99%90%E6%80%A7/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">使用 Seaborn 热图的 5 种方法（Python 教程）
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> 如何计算 SHAP 特征贡献的概述
+</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2024-10-01 07:03:00 +0800 CST'>October 1, 2024</span>&nbsp;·&nbsp;<span>5 min</span>&nbsp;·&nbsp;<span>Hivan Du</span></footer>
+  <a class="entry-link" aria-label="post link to 使用 Seaborn 热图的 5 种方法（Python 教程）" href="http://localhost:1313/posts/%E4%BD%BF%E7%94%A8-seaborn-%E7%83%AD%E5%9B%BE%E7%9A%84-5-%E7%A7%8D%E6%96%B9%E6%B3%95python-%E6%95%99%E7%A8%8B/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">从 Shapley 到 SHAP — 数学理解
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> 如何计算 SHAP 特征贡献的概述
+</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2024-09-27 07:03:00 +0800 CST'>September 27, 2024</span>&nbsp;·&nbsp;<span>5 min</span>&nbsp;·&nbsp;<span>Hivan Du</span></footer>
+  <a class="entry-link" aria-label="post link to 从 Shapley 到 SHAP — 数学理解" href="http://localhost:1313/posts/%E4%BB%8E-shapley-%E5%88%B0-shap--%E6%95%B0%E5%AD%A6%E7%90%86%E8%A7%A3/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">银行业数据科学家的 6 条经验教训
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> 为什么我的第一份数据科学工作与我预期的不一样
+</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2024-09-24 07:03:00 +0800 CST'>September 24, 2024</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>Hivan Du</span></footer>
+  <a class="entry-link" aria-label="post link to 银行业数据科学家的 6 条经验教训" href="http://localhost:1313/posts/%E9%93%B6%E8%A1%8C%E4%B8%9A%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6%E5%AE%B6%E7%9A%84-6-%E6%9D%A1%E7%BB%8F%E9%AA%8C%E6%95%99%E8%AE%AD/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">PDP 和 ICE 图的终极指南
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> 部分依赖图和单独条件期望图背后的直觉、数学和代码（R 和 Python）
+</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2024-09-20 07:03:00 +0800 CST'>September 20, 2024</span>&nbsp;·&nbsp;<span>8 min</span>&nbsp;·&nbsp;<span>Hivan Du</span></footer>
+  <a class="entry-link" aria-label="post link to PDP 和 ICE 图的终极指南" href="http://localhost:1313/posts/pdp-%E5%92%8C-ice-%E5%9B%BE%E7%9A%84%E7%BB%88%E6%9E%81%E6%8C%87%E5%8D%97/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">使用 CatBoost 实现分类特征的 SHAP
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> 避免对分类特征的 SHAP 值进行后处理
+</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2024-09-17 07:03:00 +0800 CST'>September 17, 2024</span>&nbsp;·&nbsp;<span>3 min</span>&nbsp;·&nbsp;<span>Hivan Du</span></footer>
+  <a class="entry-link" aria-label="post link to 使用 CatBoost 实现分类特征的 SHAP" href="http://localhost:1313/posts/%E4%BD%BF%E7%94%A8-catboost-%E5%AE%9E%E7%8E%B0%E5%88%86%E7%B1%BB%E7%89%B9%E5%BE%81%E7%9A%84-shap/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="next" href="http://localhost:1313/page/2/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">茶桁.MAMT</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

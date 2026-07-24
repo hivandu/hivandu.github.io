@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>AI | 茶桁.MAMT</title>
+<meta name="keywords" content="">
+<meta name="description" content="ChaHeng Notes，codding and writting ~">
+<meta name="author" content="Hivan Du">
+<link rel="canonical" href="http://localhost:1313/categories/ai/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.cd9298b33628769aa1bc1acebbbfd7aa11ce81dfe03484d479e1907760249a1d.css" integrity="sha256-zZKYszYodpqhvBrOu7/XqhHOgd/gNITUeeGQd2Akmh0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/categories/ai/index.xml" title="rss">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/categories/ai/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body class="list" id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="茶桁.MAMT (Alt + H)">
+                <img src="http://localhost:1313/%F0%9F%A7%A0" alt="" aria-label="logo"
+                    height="30">茶桁.MAMT</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="http://localhost:1313/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header"><nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/categories/">分类</a>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+</nav>
+  <h1>
+    AI
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Interpretability 与 Explainability 机器学习
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> Interpretability 模型和 Explainability 模型之间的区别以及为什么它可能不那么重要
+</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2024-07-06 07:03:00 +0800 CST'>July 6, 2024</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>Hivan Du</span></footer>
+  <a class="entry-link" aria-label="post link to Interpretability 与 Explainability 机器学习" href="http://localhost:1313/posts/%E5%8F%AF%E8%A7%A3%E8%AF%BB%E4%B8%8E%E5%8F%AF%E8%A7%A3%E9%87%8A%E7%9A%84%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">深度神经网络语言识别
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> 使用 DNN 和字符 n-gram 对一段文本的语言进行分类（附 Python 代码）
+</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2024-07-05 07:03:00 +0800 CST'>July 5, 2024</span>&nbsp;·&nbsp;<span>4 min</span>&nbsp;·&nbsp;<span>Hivan Du</span></footer>
+  <a class="entry-link" aria-label="post link to 深度神经网络语言识别" href="http://localhost:1313/posts/%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%AF%AD%E8%A8%80%E8%AF%86%E5%88%AB/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">使用 PCA 可视化数据的分类能力
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> 使用 PCA 探索数据分类的效果（使用 Python 代码）
+</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2024-07-04 07:03:00 +0800 CST'>July 4, 2024</span>&nbsp;·&nbsp;<span>2 min</span>&nbsp;·&nbsp;<span>Hivan Du</span></footer>
+  <a class="entry-link" aria-label="post link to 使用 PCA 可视化数据的分类能力" href="http://localhost:1313/posts/%E4%BD%BF%E7%94%A8-pca-%E5%8F%AF%E8%A7%86%E5%8C%96%E6%95%B0%E6%8D%AE%E7%9A%84%E5%88%86%E7%B1%BB%E8%83%BD%E5%8A%9B/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">使用高斯混合模型识别餐厅热点
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>原文：https://towardsdatascience.com/identifying-restaurant-hotspots-with-a-gaussian-mixture-model-2a840ab0c782
+使用 GMM 识别加拿大多伦多的直观餐厅集群（附 Python 代码） 聚类算法（例如 GMM）是一种有用的工具，可帮助识别数据中的模式。它们使我们能够识别数据集中的子组，从而提高你的理解或增强预测模型。在本文中，借助 GMM，我们将尝试使用位置数据识别多伦多的餐厅集群。目标是找到在地理上合理但在其他特征（例如餐厅评级）方面具有不同特征的集群。我们将讨论关键代码，你可以在GitHub[^5]上找到完整的项目。 </p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2024-07-02 07:03:00 +0800 CST'>July 2, 2024</span>&nbsp;·&nbsp;<span>2 min</span>&nbsp;·&nbsp;<span>Hivan Du</span></footer>
+  <a class="entry-link" aria-label="post link to 使用高斯混合模型识别餐厅热点" href="http://localhost:1313/posts/%E4%BD%BF%E7%94%A8%E9%AB%98%E6%96%AF%E6%B7%B7%E5%90%88%E6%A8%A1%E5%9E%8B%E8%AF%86%E5%88%AB%E9%A4%90%E5%8E%85%E7%83%AD%E7%82%B9/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">特征工程的力量
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>原文：The Power of Feature Engineering
+为什么你应该使用逻辑回归来建模非线性决策边界（使用 Python 代码） 作为一名大数据从业者，复杂的机器学习技术非常具有吸引力。使用一些深度神经网络 (DNN) 获得额外的 1% 准确率，并在此过程中启动 GPU 实例，这让人非常满意。然而，这些技术通常将思考留给计算机，让我们对模型的工作原理了解甚少。所以，我想回到基础知识。 </p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2024-07-01 07:03:00 +0800 CST'>July 1, 2024</span>&nbsp;·&nbsp;<span>5 min</span>&nbsp;·&nbsp;<span>Hivan Du</span></footer>
+  <a class="entry-link" aria-label="post link to 特征工程的力量" href="http://localhost:1313/posts/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B%E7%9A%84%E5%8A%9B%E9%87%8F/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">深入研究 LIME 的本地解释
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> 本地可解释模型–不可知论解释（LIME）的直觉、理论和代码 </p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2024-06-27 07:03:00 +0800 CST'>June 27, 2024</span>&nbsp;·&nbsp;<span>4 min</span>&nbsp;·&nbsp;<span>Hivan Du</span></footer>
+  <a class="entry-link" aria-label="post link to 深入研究 LIME 的本地解释" href="http://localhost:1313/posts/%E6%B7%B1%E5%85%A5%E7%A0%94%E7%A9%B6-lime-%E7%9A%84%E6%9C%AC%E5%9C%B0%E8%A7%A3%E9%87%8A/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">如何将 ChatGPT 集成到你的应用中
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>在当今快速发展的技术环境中，将人工智能聊天解决方案集成到你的应用程序中可以显著提升用户体验和参与度。OpenAI 的 ChatGPT 以其对话能力和高级语言理解而闻名，对于希望在其应用程序中实现智能聊天功能的开发人员来说是一个绝佳的选择。那我们今天就来引导你完成将 ChatGPT 集成到你的应用程序中的步骤和最佳实践，为你的用户提供无缝和交互式的体验。 </p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2024-06-21 07:03:00 +0800 CST'>June 21, 2024</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>Hivan Du</span></footer>
+  <a class="entry-link" aria-label="post link to 如何将 ChatGPT 集成到你的应用中" href="http://localhost:1313/posts/%E5%A6%82%E4%BD%95%E5%B0%86-chatgpt-%E9%9B%86%E6%88%90%E5%88%B0%E4%BD%A0%E7%9A%84%E5%BA%94%E7%94%A8%E4%B8%AD/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">掌握大型语言模型的 7 个基本步骤
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>介绍 LLMs 正在改变我们今天与科技互动的方式。这些人工智能程序能够理解和模仿人类语言。它们可以应用于数据分析、客户服务、内容创作和其他领域。但对于新手来说，了解如何使用它们似乎很有挑战性。本文将引导读者了解掌握大型语言模型的 7 个基本步骤。 本文还旨在通过定义七个关键步骤来提供学习 LLM 的完整手册。即使是新手也可以通过将流程分解为易于完成的操作来掌握并有效利用LLM的强大功能。阅读本文后，读者将能够通过了解基础知识并知道如何调整和评估模型来将 LLM 用于各种目的。
+</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2024-06-20 07:03:00 +0800 CST'>June 20, 2024</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>Hivan Du</span></footer>
+  <a class="entry-link" aria-label="post link to 掌握大型语言模型的 7 个基本步骤" href="http://localhost:1313/posts/%E6%8E%8C%E6%8F%A1%E5%A4%A7%E5%9E%8B%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E7%9A%84-7-%E4%B8%AA%E5%9F%BA%E6%9C%AC%E6%AD%A5%E9%AA%A4/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Stable Diffusion 3 开源了，完全不输 Midjourney
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p></p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2024-06-16 07:03:00 +0800 CST'>June 16, 2024</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>Hivan Du</span></footer>
+  <a class="entry-link" aria-label="post link to Stable Diffusion 3 开源了，完全不输 Midjourney" href="http://localhost:1313/posts/stable-diffusion-3-%E5%BC%80%E6%BA%90%E4%BA%86%E5%AE%8C%E5%85%A8%E4%B8%8D%E8%BE%93-midjourney/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">使用 Nsight 系统分析 CUDA：Numba 示例
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> 通过检查 Nsight 系统中的并发和并行 Numba CUDA 代码了解性能分析。
+介绍 优化是编写高性能代码的关键部分，无论你是在编写 Web 服务器还是计算流体力学模拟软件。分析功能可让你对代码做出明智的决策。从某种意义上说，没有分析功能的优化就像盲目飞行：对于拥有专业知识和敏锐直觉的经验丰富的专业人士来说，这基本上没问题，但对于几乎所有其他人来说，这都是灾难的根源。 </p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2024-06-12 07:03:00 +0800 CST'>June 12, 2024</span>&nbsp;·&nbsp;<span>7 min</span>&nbsp;·&nbsp;<span>Hivan Du</span></footer>
+  <a class="entry-link" aria-label="post link to 使用 Nsight 系统分析 CUDA：Numba 示例" href="http://localhost:1313/posts/%E4%BD%BF%E7%94%A8-nsight-%E7%B3%BB%E7%BB%9F%E5%88%86%E6%9E%90-cudanumba-%E7%A4%BA%E4%BE%8B/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="http://localhost:1313/categories/ai/page/2/">
+      «&nbsp;Prev&nbsp;
+    </a>
+    <a class="next" href="http://localhost:1313/categories/ai/page/4/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">茶桁.MAMT</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

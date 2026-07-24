@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>解释预测的艺术 | 茶桁.MAMT</title>
+<meta name="keywords" content="">
+<meta name="description" content="
+如何以人性化的方式解释你的模型
+">
+<meta name="author" content="Hivan Du">
+<link rel="canonical" href="http://localhost:1313/posts/%E8%A7%A3%E9%87%8A%E9%A2%84%E6%B5%8B%E7%9A%84%E8%89%BA%E6%9C%AF/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.cd9298b33628769aa1bc1acebbbfd7aa11ce81dfe03484d479e1907760249a1d.css" integrity="sha256-zZKYszYodpqhvBrOu7/XqhHOgd/gNITUeeGQd2Akmh0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/%E8%A7%A3%E9%87%8A%E9%A2%84%E6%B5%8B%E7%9A%84%E8%89%BA%E6%9C%AF/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="茶桁.MAMT (Alt + H)">
+                <img src="http://localhost:1313/%F0%9F%A7%A0" alt="" aria-label="logo"
+                    height="30">茶桁.MAMT</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="http://localhost:1313/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/posts/">文章</a>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+</nav>
+    <h1 class="post-title entry-hint-parent">
+      解释预测的艺术
+    </h1>
+    <div class="post-meta">
+
+<span title='2024-01-01 00:00:00 +0800 CST'>January 1, 2024</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>Hivan Du</span>
+
+</div>
+  </header> <details class="toc" >
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">Table of Contents</span>
+    </summary>
+
+    <div class="inner"><ul>
+            <li>
+                <a href="#%e6%9c%ac%e5%9c%b0%e8%a7%a3%e9%87%8a%e4%b8%8e%e5%85%a8%e7%90%83%e8%a7%a3%e9%87%8a" aria-label="本地解释与全球解释">本地解释与全球解释</a></li>
+            <li>
+                <a href="#%e8%89%af%e5%a5%bd%e8%a7%a3%e9%87%8a%e7%9a%84%e7%89%b9%e5%be%81" aria-label="良好解释的特征">良好解释的特征</a><ul>
+                    
+            <li>
+                <a href="#%e7%9c%9f%e5%ae%9e%e7%9a%84" aria-label="真实的">真实的</a></li>
+            <li>
+                <a href="#%e9%92%88%e5%af%b9%e7%9b%ae%e6%a0%87%e5%8f%97%e4%bc%97" aria-label="针对目标受众">针对目标受众</a></li>
+            <li>
+                <a href="#%e5%8e%9f%e5%9b%a0%e6%95%b0%e9%87%8f" aria-label="原因数量">原因数量</a></li>
+            <li>
+                <a href="#%e9%87%8d%e8%a6%81%e7%9a%84" aria-label="重要的">重要的</a></li>
+            <li>
+                <a href="#%e4%b8%80%e8%88%ac%e7%9a%84" aria-label="一般的">一般的</a></li>
+            <li>
+                <a href="#%e5%bc%82%e5%b8%b8" aria-label="异常">异常</a></li>
+            <li>
+                <a href="#%e5%af%b9%e6%af%94" aria-label="对比">对比</a></li></ul>
+            </li>
+            <li>
+                <a href="#%e7%94%a8-shap-%e8%a7%a3%e9%87%8a%e6%a8%a1%e5%9e%8b" aria-label="用 SHAP 解释模型">用 SHAP 解释模型</a></li>
+            <li>
+                <a href="#%e5%8f%82%e8%80%83" aria-label="参考">参考</a>
+            </li>
+        </ul>
+    </div>
+</details>
+
+  <div class="post-content md-content"><p><img alt="img" loading="lazy" src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/0*5Nfxkt5x7ruKvvu-"></p>
+<p>数据科学家职责的一个重要部分是解释模型预测。通常，接受解释的人不是技术人员。如果你开始谈论成本函数、超参数或 p 值，你将会遇到茫然的表情。我们需要将这些技术概念转化为外行人能理解的术语。这个过程可能比构建模型本身更具挑战性。</p>
+<p>我们将探索如何给出人性化的解释。我们将通过讨论良好解释的一些关键特征来做到这一点。重点将放在解释个别预测上。最后，我们将通过使用「SHAP 值」解释模型来应用其中的一些知识。我们将看到，当你想要给出人性化的解释时，SHAP 非常有用。</p>
+<h2 id="本地解释与全球解释">本地解释与全球解释<a hidden class="anchor" aria-hidden="true" href="#本地解释与全球解释">#</a></h2>
+<p>在深入讨论之前，让我们先讨论一下你要解释什么以及向谁解释。作为一名数据科学家，你可能需要与各种各样的人沟通。这包括同事、监管者或客户。这些人的技术专长水平各不相同。因此，你需要根据他们的专业知识调整解释的水平。</p>
+<p>在某些情况下，你可能会被要求解释整个模型。我们称之为全局解释。我们希望了解模型总体上捕捉到了哪些趋势。我们可能需要回答诸如“哪些特征最重要？”或“特征 X 与目标变量有什么关系？”之类的问题。</p>
+<p>在其他情况下，我们需要给出局部解释。这就是我们解释单个模型预测的时候。事实上，我们通常必须解释由模型预测得出的决策。这些解释也可以回答诸如“我们为什么拒绝这个贷款申请？”或“为什么给我这个电影推荐？”之类的问题。</p>
+<p><img alt="img" loading="lazy" src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*r3ZSMfKhBU91EIu-KEem9w.png"></p>
+<p>与同事或监管者交谈时，你可能需要给出更多技术性解释。相比之下，客户会期望更简单的解释。你也不太可能需要向客户提供全面的解释。这是因为他们通常只关心对他们个人有影响的决定。我们将重点关注这种情况。即向非技术人员解释个别预测。</p>
+<h2 id="良好解释的特征">良好解释的特征<a hidden class="anchor" aria-hidden="true" href="#良好解释的特征">#</a></h2>
+<p>当我们谈论一个好的解释时，我们指的是一个容易被接受的解释。换句话说，它应该让听众相信一个决定是正确的。要给出这样的解释，你需要考虑一些关键方面。你可以在图 1 中看到这些方面的摘要。在本节的其余部分，我们将深入讨论每一个方面。</p>
+<p><img alt="图 1：良好特征的特征概述" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240726131740.png"></p>
+<h3 id="真实的">真实的<a hidden class="anchor" aria-hidden="true" href="#真实的">#</a></h3>
+<p>这似乎很明显，但一个好的解释应该是真实的。当你考虑我们正在解释的内容时，这可能比你想象的要难。也就是说，我们正在对模型预测给出解释。问题是这些预测可能是不正确的。例如，我们的模型可能过度拟合。这意味着预测可能反映了已建模的噪声。对这些预测的解释不会反映数据中真正的潜在关系。</p>
+<p><img alt="img" loading="lazy" src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*m9BtTmLVG_ck0ZVaqanw6g.png"></p>
+<p>在给出解释时，我们需要考虑我们的模型如何很好地代表现实。我们可以通过评估模型的性能来做到这一点。例如使用交叉验证准确率。即使总体表现良好，一些预测也可能比其他预测更不确定。例如，逻辑回归预测的概率约为 0.5。在你的解释中，我们可能想提及这种不确定性。</p>
+<h3 id="针对目标受众">针对目标受众<a hidden class="anchor" aria-hidden="true" href="#针对目标受众">#</a></h3>
+<p>措辞方式很重要。我们拒绝你的贷款是因为 — “你是加密货币交易员”、“你从事高风险行业”或“你的收入太不稳定”。这些都是相同的原因，只是措辞不同。某些措辞方式可以更好地表达你的观点。有些人可能还会觉得某些方式令人反感。例如，第一个解释可能会被视为个人问题。</p>
+<p>你还应避免使用任何技术或商业术语。“收入在我们的模型中有一个正参数，而你的收入值很低。因此，你被拒绝了，因为你的收入值显著增加了你的违约风险。”这是一个糟糕的解释，因为我们使用了技术术语（即“模型”和“参数”）。我们也有一些商业术语（即“违约风险”）。</p>
+<p>选择最佳的解释方式才是艺术的真正所在。这可能是解释预测最困难的部分。数据科学课程或大学也没有很好地涵盖这一点。最终，这项技能将随着经验和与客户建立关系而获得。</p>
+<h3 id="原因数量">原因数量<a hidden class="anchor" aria-hidden="true" href="#原因数量">#</a></h3>
+<p>人们只想知道事件的主要原因。“为什么通货膨胀这么高？”——“因为油价上涨。”事实上，通货膨胀可能是由多种因素造成的，包括工资增长、政府支出增加或汇率。然而，这些因素可能没有能源成本上涨那么显著。</p>
+<p>在机器学习中，人们并不想知道每个模型特征如何影响预测。通常，解释 1 到 3 个特征的贡献就足够了。问题是你选择解释哪些贡献？接下来的 4 个特征可以帮助你选择最合适的原因。</p>
+<p><img alt="img" loading="lazy" src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*Rnm5Hk9Sj0rLfg5T8R32OQ.png"></p>
+<h3 id="重要的">重要的<a hidden class="anchor" aria-hidden="true" href="#重要的">#</a></h3>
+<p>我们应该选择最重要的原因。换句话说，我们只解释那些影响巨大的因素。对于我们的通货膨胀示例，我们将给出导致最大涨幅的原因。这些原因比那些影响较小的原因更容易被接受。</p>
+<p>对于 ML，我们希望解释对预测贡献最大的特征。我们确定这些特征的方式取决于所使用的模型。对于线性模型，我们可以查看参数权重和特征值。稍后我们将看到 SHAP 值如何用于非线性模型。</p>
+<h3 id="一般的">一般的<a hidden class="anchor" aria-hidden="true" href="#一般的">#</a></h3>
+<p>一个好的理由可以解释许多决定。“你为什么拒绝我的贷款申请？”-“因为你有很多现有债务。”假设这是拒绝许多贷款申请的原因。这个理由更容易被接受，因为它的作用被广泛理解。</p>
+<p>对于 ML，我们可以通过查看某些特征重要性度量来找到一般解释。例如，排列特征重要性。通过 SHAP 值，我们可以查看平均绝对 SHAP。无论采用哪种度量，高值都表明某个特征总体上做出了重大贡献。</p>
+<h3 id="异常">异常<a hidden class="anchor" aria-hidden="true" href="#异常">#</a></h3>
+<p>在其他情况下，一个好的理由可能并不常见。这些理由可以解释对特定决策的重大贡献。但是，一般来说，它们无法解释决策。“你为什么拒绝我的贷款申请？”-“因为你是加密货币交易员”这些类型的理由可能会被接受，因为它们更个人化。也就是说，人们可以理解它对他们有何具体影响。</p>
+<p>对于 ML，我们可以通过查看特征重要性和对各个预测的贡献的组合来查找异常原因。这些特征可能不具有很高的特征重要性。但是，对于特定的预测，它们做出了很大的贡献。</p>
+<p><img alt="img" loading="lazy" src="https://cdn-images-1.readmedium.com/v2/resize:fit:800/1*4f2Q1zbAN1unwZXhilBOWg.png"></p>
+<h3 id="对比">对比<a hidden class="anchor" aria-hidden="true" href="#对比">#</a></h3>
+<p>我们经常需要解释一个决定与另一个决定的区别。客户可能不会问“为什么我的申请被拒绝？”而是问“为什么我的申请被拒绝而他们的申请被接受？”可能是因为两个客户都负债累累。这个原因可能在第一个问题中被接受，但在第二个问题中却不被接受。换句话说，我们需要给出一个能够区分这两个决定的理由。</p>
+<p>对于 ML 来说，这意味着我们需要根据两个客户具有不同值的特征来做出解释。该特征还需要有所不同，从而导致不同的预测。例如，我们可能会发现第一个客户的收入较高。收入特征不同，但这不是一个很好的理由。也就是说，更高的收入不会导致申请被拒绝。</p>
+<p>最后这四个特点似乎相互矛盾。异常原因不可能具有普遍性。异常或普遍原因可能不是最重要的。对比原因既不重要，也不普遍，也不异常。但是，我们可以在解释中使用多种原因。你选择的原因将取决于问题、人以及你认为最有说服力的原因。</p>
+<h2 id="用-shap-解释模型">用 SHAP 解释模型<a hidden class="anchor" aria-hidden="true" href="#用-shap-解释模型">#</a></h2>
+<p>现在让我们把这些特征付诸实践。我们将尝试解释一个用于预测保险收费金额（费用）的模型。你可以在表 1 中看到此数据集的快照。我们的模型特征基于前 6 列。例如，children 是受抚养人的数量。</p>
+<p><img alt="表 1：数据集快照" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240726133245.png"></p>
+<p>(数据集：[kaggle]<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>, 许可证 - 数据库：开放数据库)</p>
+<p>我们不会详细介绍代码，但你可以在我的 [GitHub]<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> 上找到完整的项目。</p>
+<p>总而言之，我们首先进行一些特征工程。我们将性别和吸烟者转换为二进制特征。区域可以采用 4 个不同的值，因此我们从此列创建 4 个虚拟变量。这给我们留下了总共 9 个模型特征。我们使用这些特征来训练一个 XGBoost 模型，以预测收费情况。 模型训练完成后，我们将计算每次预测的 SHAP 值。</p>
+<p>对于每个预测，每个特征都会有一个 SHAP 值。SHAP 值给出了该特征对预测的贡献。换句话说，该特征增加或减少了预测费用。要了解哪些特征很重要，我们可以看看图 2。这里我们取了所有预测的 SHAP 值的绝对平均值。高平均值表示该特征总体上对预测做出了很大贡献。</p>
+<p><img alt="图 2：平均 SHAP 图" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240726135039.png"></p>
+<p>我们可以使用图 2 来帮助确定良好的一般原因或异常原因。例如，我们可以看到吸烟者的绝对平均值较高。这告诉我们，一般来说，该特征可以为预测提供良好的理由。绝对平均值较低的特征可能会提供良好的异常原因。也就是说，如果对于特定预测，它们具有较大的贡献。</p>
+<p>让我们尝试解释一下我们的第一个预测。你可以在图 3中看到此预测的 SHAP 瀑布图。查看 x 轴，我们可以看到基值为 <code>E[f(x)] = 12813</code>。这是所有客户的平均预测费用。最终值为 <code>f(x) = 26726</code>。这是针对该特定客户的预测费用。SHAP 值是介于两者之间的所有值。它们告诉我们与平均预测相比，每个特征如何增加或减少了预测。</p>
+<p><img alt="图 3：第一次预测的 SHAP 瀑布图" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240726135153.png"></p>
+<p>从图 3 中我们可以看到，吸烟者是最重要的特征。也就是说，它使预测费用增加了最多的量。特征值在 y 轴上给出。例如，我们可以看到 <code>1 = smoker</code> 表示该客户吸烟。因此，如果客户问“为什么我的保险费这么高？”，一个很好的解释可能是“你是吸烟者”。我们还看到，在图 2 中，这是一个很好的一般原因。</p>
+<p>因此，吸烟既是重要原因，也是普遍原因。这可能足以让这个人相信保险费是正确的。如果我们想确定，我们可以提到第二重要的特征。查看 y 轴，我们可以看到此人是 62 岁。因此，我们可以跟进第二个原因，“而且你老了。”（我们可能想用更好的方式来表达这一点。）</p>
+<p>出于第二个原因，我们猜测了与目标变量的关系。也就是说，随着年龄的增长，你的费用也会增加。其他特征的关系可能不那么明显。这意味着为了给出好的理由，我们需要一些特征值的背景信息。为此，我们可以使用 SHAP 值的散点图。查看图 4，我们可以看到我们的猜测是正确的。随着年龄的增长，SHAP 值会增加。换句话说，预测的费用会增加。</p>
+<p><img alt="图 4：年龄的 SHAP 值" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240726135302.png"></p>
+<p>在图 5 中，你可以看到第二个预测的瀑布图。为了解释这一点，我们可能会直接跳到客户的年龄。但是，请注意，孩子也做出了重大贡献。请记住，我们在图 2 中看到，这个特征总体上并不重要。换句话说，<code>children</code> 的数量可能是一个很好的异常原因。我们可能更愿意将其作为主要原因。</p>
+<p><img alt="图 5：第二次预测的 SHAP 瀑布图" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240726135346.png"></p>
+<p>从本质上讲，SHAP 值允许你给出对比解释。但是，这仅限于我们想要将预测与平均预测进行比较时。回答诸如“为什么我的收费高于平均水平？”之类的问题很容易。回答诸如“为什么我的收费比我姐姐的要高？”之类的问题需要做更多工作。还有其他计算 SHAP 值的方法可以使这更容易。例如，基线 SHAP 将计算相对于特定预测的值。</p>
+<p>我们专注于使用 SHAP 值来解释单个预测。它们也可用于给出全局解释。即解释整个模型的工作原理。我们通过聚合 SHAP 值并创建不同的图来实现这一点。我们已经看到了一个——平均 SHAP 图。之前写过一篇《[使用 Python 进行 SHAP 简介](Python 中的 SHAP 简介)》，大家可以看看，其中讨论了更多内容。我们还会讨论用于计算 SHAP 值和创建这些图的 Python 代码。</p>
+<p>希望这篇文章对你有所帮助！你还可以阅读我的其他文章，或者查看有关企业 AI 实战项目的教程，相信会让你拥有更多收获。</p>
+<p><img alt="20240726135615" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/20240726135615.png"></p>
+<h2 id="参考">参考<a hidden class="anchor" aria-hidden="true" href="#参考">#</a></h2>
+<p>C. Molnar, Interpretable Machine Learning, 2021, <a href="https://christophm.github.io/interpretable-ml-book/explanation.html">https://christophm.github.io/interpretable-ml-book/explanation.html</a></p>
+<p>T. Miller, Explanation in artificial intelligence: Insights from the social sciences, 2017, <a href="https://arxiv.org/abs/1706.07269">https://arxiv.org/abs/1706.07269</a></p>
+<p>S. Lundberg &amp; S. Lee, A Unified Approach to Interpreting Model Predictions, 2017, <a href="https://arxiv.org/pdf/1705.07874.pdf">https://arxiv.org/pdf/1705.07874.pdf</a></p>
+<hr>
+<p><strong>「AI秘籍」系列课程：</strong></p>
+<ul>
+<li><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3074770001140400130&amp;scene=173&amp;subscene=227&amp;sessionid=undefined&amp;enterid=1717956640&amp;from_msgid=2648748678&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">人工智能应用数学基础</a></li>
+<li><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3035995870421073928&amp;scene=126&amp;uin=&amp;key=&amp;devicetype=iMac+MacBookPro17%2C1+OSX+OSX+14.5+build(23F79)&amp;version=13080710&amp;lang=zh_CN&amp;nettype=WIFI&amp;ascene=78&amp;fontScale=100">人工智能Python基础</a></li>
+<li><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3123885735829061633&amp;scene=173&amp;subscene=227&amp;sessionid=1717956706&amp;enterid=1717956713&amp;from_msgid=2648751062&amp;from_itemidx=1&amp;count=3&amp;nolastread=1#wechat_redirect">人工智能基础核心知识</a></li>
+<li><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg%3D%3D&amp;action=getalbum&amp;album_id=3193965113967132673&amp;subscene=&amp;sessionid=svr_548800ce471&amp;enterid=1704001437&amp;from_msgid=2648751621&amp;from_itemidx=1&amp;count=3&amp;nolastread=1&amp;scene=21#wechat_redirect">人工智能BI核心知识</a></li>
+<li><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3503005363236880386&amp;from_itemidx=1&amp;from_msgid=2648753419#wechat_redirect">人工智能CV核心知识</a></li>
+</ul>
+<p><img alt="AI企业项目实战课优惠二维码" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202407252125233.png"></p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>M. Choi，医疗费用个人数据集（许可证 - 数据库：开放数据库）https://www.kaggle.com/datasets/mirichoi0218/insurance/metadata&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>Github, <a href="https://github.com/hivandu/public_articles/blob/main/src/interpretable_ml/SHAP/SHAP_explanation.ipynb">https://github.com/hivandu/public_articles/blob/main/src/interpretable_ml/SHAP/SHAP_explanation.ipynb</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/tea-trusss-ai-cheats-math-pdf-release-download/">
+    <span class="title">« Prev</span>
+    <span>茶桁的 AI 秘籍 - 数学篇 PDF 发布下载</span>
+  </a>
+  <a class="next" href="http://localhost:1313/posts/reinstall-mac-osx-yosemite/">
+    <span class="title">Next »</span>
+    <span>重裝「Yosemite」</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">茶桁.MAMT</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

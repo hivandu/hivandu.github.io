@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>马拉松跑步数据 | 茶桁.MAMT</title>
+<meta name="keywords" content="">
+<meta name="description" content="先引入数据,准备进行分析">
+<meta name="author" content="Hivan Du">
+<link rel="canonical" href="http://localhost:1313/posts/marathon/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.cd9298b33628769aa1bc1acebbbfd7aa11ce81dfe03484d479e1907760249a1d.css" integrity="sha256-zZKYszYodpqhvBrOu7/XqhHOgd/gNITUeeGQd2Akmh0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/marathon/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="茶桁.MAMT (Alt + H)">
+                <img src="http://localhost:1313/%F0%9F%A7%A0" alt="" aria-label="logo"
+                    height="30">茶桁.MAMT</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="http://localhost:1313/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/posts/">文章</a>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+</nav>
+    <h1 class="post-title entry-hint-parent">
+      马拉松跑步数据
+    </h1>
+    <div class="post-meta">
+
+<span title='2021-09-23 11:33:29 +0800 CST'>September 23, 2021</span>&nbsp;·&nbsp;<span>3 min</span>&nbsp;·&nbsp;<span>Hivan Du</span>
+
+</div>
+  </header> <details class="toc" >
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">Table of Contents</span>
+    </summary>
+
+    <div class="inner"><ul>
+            <li>
+                <a href="#%e6%8f%8f%e8%bf%b0%e7%bb%9f%e8%ae%a1" aria-label="描述统计">描述统计</a></li>
+            <li>
+                <a href="#%e6%95%b0%e6%8d%ae%e5%88%86%e5%b8%83" aria-label="数据分布">数据分布</a></li>
+            <li>
+                <a href="#%e5%af%bb%e6%89%be%e4%bc%98%e7%a7%80%e7%9a%84%e5%8e%9f%e5%9b%a0" aria-label="寻找优秀的原因">寻找优秀的原因</a>
+            </li>
+        </ul>
+    </div>
+</details>
+
+  <div class="post-content md-content"><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 引入数据</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> pandas <span style="color:#66d9ef">as</span> pd
+</span></span><span style="display:flex;"><span>data <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(<span style="color:#e6db74">&#39;~/data/cbcpv/marathon/marathon.csv&#39;</span>)
+</span></span><span style="display:flex;"><span>data<span style="color:#f92672">.</span>sample(<span style="color:#ae81ff">5</span>)
+</span></span></code></pre></div><p><strong>OUT:</strong></p>
+<table>
+	<thead>
+			<tr>
+					<th style="text-align: right"></th>
+					<th style="text-align: right">age</th>
+					<th style="text-align: right">gender</th>
+					<th style="text-align: right">split</th>
+					<th style="text-align: right">final</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: right">19841</td>
+					<td style="text-align: right">34</td>
+					<td style="text-align: right">M</td>
+					<td style="text-align: right"><code>01:55:25</code></td>
+					<td style="text-align: right"><code>04:50:03</code></td>
+			</tr>
+			<tr>
+					<td style="text-align: right">11002</td>
+					<td style="text-align: right">28</td>
+					<td style="text-align: right">W</td>
+					<td style="text-align: right"><code>01:55:00</code></td>
+					<td style="text-align: right"><code>04:11:00</code></td>
+			</tr>
+			<tr>
+					<td style="text-align: right">11619</td>
+					<td style="text-align: right">26</td>
+					<td style="text-align: right">M</td>
+					<td style="text-align: right"><code>01:40:28</code></td>
+					<td style="text-align: right"><code>04:13:52</code></td>
+			</tr>
+			<tr>
+					<td style="text-align: right">4068</td>
+					<td style="text-align: right">34</td>
+					<td style="text-align: right">M</td>
+					<td style="text-align: right"><code>01:38:30</code></td>
+					<td style="text-align: right"><code>03:30:21</code></td>
+			</tr>
+			<tr>
+					<td style="text-align: right">6922</td>
+					<td style="text-align: right">35</td>
+					<td style="text-align: right">M</td>
+					<td style="text-align: right"><code>01:37:44</code></td>
+					<td style="text-align: right"><code>03:48:37</code></td>
+			</tr>
+	</tbody>
+</table>
+<p>这个数据集有以下几个特征：</p>
+<ul>
+<li>age，运动员的年龄</li>
+<li>gender，运动员的性别</li>
+<li>split，半程所用时间</li>
+<li>final，全程所用时间，即最终成绩</li>
+</ul>
+<p>自然,要先了解下数据的具体情况</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>data<span style="color:#f92672">.</span>info()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 输出结果</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#a6e22e">pandas</span><span style="color:#f92672">.</span>core<span style="color:#f92672">.</span>frame<span style="color:#f92672">.</span>DataFrame<span style="color:#e6db74">&#39;&gt;</span>
+</span></span><span style="display:flex;"><span>RangeIndex: <span style="color:#ae81ff">37250</span> entries, <span style="color:#ae81ff">0</span> to <span style="color:#ae81ff">37249</span>
+</span></span><span style="display:flex;"><span>Data columns (total <span style="color:#ae81ff">4</span> columns):
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">#   Column  Non-Null Count  Dtype </span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">---</span>  <span style="color:#f92672">------</span>  <span style="color:#f92672">--------------</span>  <span style="color:#f92672">-----</span> 
+</span></span><span style="display:flex;"><span> <span style="color:#ae81ff">0</span>   age     <span style="color:#ae81ff">37250</span> non<span style="color:#f92672">-</span>null  int64 
+</span></span><span style="display:flex;"><span> <span style="color:#ae81ff">1</span>   gender  <span style="color:#ae81ff">37250</span> non<span style="color:#f92672">-</span>null  object
+</span></span><span style="display:flex;"><span> <span style="color:#ae81ff">2</span>   split   <span style="color:#ae81ff">37250</span> non<span style="color:#f92672">-</span>null  object
+</span></span><span style="display:flex;"><span> <span style="color:#ae81ff">3</span>   final   <span style="color:#ae81ff">37250</span> non<span style="color:#f92672">-</span>null  object
+</span></span><span style="display:flex;"><span>dtypes: int64(<span style="color:#ae81ff">1</span>), object(<span style="color:#ae81ff">3</span>)
+</span></span><span style="display:flex;"><span>memory usage: <span style="color:#ae81ff">1.1</span><span style="color:#f92672">+</span> MB
+</span></span></code></pre></div><p>可以看到并没缺失值, 不过<code>split</code>和<code>final</code>特征中的数据不实数字类型, 用字符串表示了所用时间长度, 所以我们需要进行转化:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> datetime
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">convert_time</span>(s):
+</span></span><span style="display:flex;"><span>    h,m,s<span style="color:#f92672">=</span>map(int, s<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#39;:&#39;</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> datetime<span style="color:#f92672">.</span>timedelta(hours<span style="color:#f92672">=</span>h, minutes<span style="color:#f92672">=</span>m, seconds<span style="color:#f92672">=</span>s)
+</span></span></code></pre></div><p>使用完成的方法进行数据转换,我们从新读取一下数据:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>df<span style="color:#f92672">=</span>pd<span style="color:#f92672">.</span>read_csv(
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;~/data/cbcpv/marathon/marathon.csv&#39;</span>,
+</span></span><span style="display:flex;"><span>    converters<span style="color:#f92672">=</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;split&#39;</span>: convert_time,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;final&#39;</span>: convert_time
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>df<span style="color:#f92672">.</span>dtypes
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 输出结果</span>
+</span></span><span style="display:flex;"><span>age                 int64
+</span></span><span style="display:flex;"><span>gender             object
+</span></span><span style="display:flex;"><span>split     timedelta64[ns]
+</span></span><span style="display:flex;"><span>final     timedelta64[ns]
+</span></span><span style="display:flex;"><span>dtype: object
+</span></span></code></pre></div><p>这次数据已经转换为<code>timedelta64</code>类型, 下面我们就要转化时间为整数, 一般的做法都是秒或者毫秒数:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>d <span style="color:#f92672">=</span> datetime<span style="color:#f92672">.</span>timedelta(hours<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, minutes<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, seconds<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>df2 <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame({<span style="color:#e6db74">&#39;time&#39;</span>:[d]})
+</span></span><span style="display:flex;"><span>df2<span style="color:#f92672">.</span>astype(int)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 输出结果</span>
+</span></span><span style="display:flex;"><span>             time
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0</span>    <span style="color:#ae81ff">3600000000000</span>
+</span></span></code></pre></div><p>我们看到的输出结果,是“纳秒“(ns)单位:</p>
+<p>$$1s=10^9ns$$</p>
+<p>我们还需要转化为秒:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>d<span style="color:#f92672">=</span>datetime<span style="color:#f92672">.</span>timedelta(hours<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, minutes<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, seconds<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>df2<span style="color:#f92672">=</span>pd<span style="color:#f92672">.</span>DataFrame({<span style="color:#e6db74">&#39;time&#39;</span>:[d]})
+</span></span><span style="display:flex;"><span>df2<span style="color:#f92672">.</span>astype(int) <span style="color:#f92672">*</span> <span style="color:#ae81ff">1e-9</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># out</span>
+</span></span><span style="display:flex;"><span>       time
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0</span>    <span style="color:#ae81ff">3600.0</span>
+</span></span></code></pre></div><p>然后我们要讲<code>split</code>和<code>final</code>两个特征的数据进行转化</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>df[<span style="color:#e6db74">&#39;split_sec&#39;</span>]<span style="color:#f92672">=</span>df[<span style="color:#e6db74">&#39;split&#39;</span>]<span style="color:#f92672">.</span>astype(int) <span style="color:#f92672">*</span> <span style="color:#ae81ff">1e-9</span>
+</span></span><span style="display:flex;"><span>df[<span style="color:#e6db74">&#39;final_sec&#39;</span>]<span style="color:#f92672">=</span>df[<span style="color:#e6db74">&#39;final&#39;</span>]<span style="color:#f92672">.</span>astype(int) <span style="color:#f92672">*</span> <span style="color:#ae81ff">1e-9</span>
+</span></span><span style="display:flex;"><span>df<span style="color:#f92672">.</span>sample(<span style="color:#ae81ff">5</span>)
+</span></span></code></pre></div><p><strong>OUT:</strong></p>
+<table>
+	<thead>
+			<tr>
+					<th style="text-align: right"></th>
+					<th style="text-align: right">age</th>
+					<th style="text-align: right">gender</th>
+					<th style="text-align: right">split</th>
+					<th style="text-align: right">final</th>
+					<th style="text-align: right">split_sec</th>
+					<th>final_sec</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: right">11725</td>
+					<td style="text-align: right">35</td>
+					<td style="text-align: right">M</td>
+					<td style="text-align: right"><code>0 days 01:53:53</code></td>
+					<td style="text-align: right"><code>0 days 04:14:19</code></td>
+					<td style="text-align: right">6833.0</td>
+					<td>15259.0</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">19815</td>
+					<td style="text-align: right">24</td>
+					<td style="text-align: right">M</td>
+					<td style="text-align: right"><code>0 days 01:58:45</code></td>
+					<td style="text-align: right"><code>0 days 04:49:57</code></td>
+					<td style="text-align: right">7125.0</td>
+					<td>17397.0</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">5754</td>
+					<td style="text-align: right">49</td>
+					<td style="text-align: right">M</td>
+					<td style="text-align: right"><code>0 days 01:42:39</code></td>
+					<td style="text-align: right"><code>0 days 03:41:05</code></td>
+					<td style="text-align: right">6159.0</td>
+					<td>13265.0</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">33166</td>
+					<td style="text-align: right">46</td>
+					<td style="text-align: right">M</td>
+					<td style="text-align: right"><code>0 days 02:31:37</code></td>
+					<td style="text-align: right"><code>0 days 06:06:17</code></td>
+					<td style="text-align: right">9097.0</td>
+					<td>21977.0</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">9226</td>
+					<td style="text-align: right">36</td>
+					<td style="text-align: right">W</td>
+					<td style="text-align: right"><code>0 days 01:49:06</code></td>
+					<td style="text-align: right"><code>0 days 04:01:55</code></td>
+					<td style="text-align: right">6546.0</td>
+					<td>14515.0</td>
+			</tr>
+	</tbody>
+</table>
+<p>现在多了两个特征<code>split_sec</code>和<code>final_sec</code>,  都是以秒为单位的浮点数.</p>
+<h2 id="描述统计">描述统计<a hidden class="anchor" aria-hidden="true" href="#描述统计">#</a></h2>
+<p>先了解数据:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>df<span style="color:#f92672">.</span>describe()
+</span></span></code></pre></div><p><strong>OUT:</strong></p>
+<table>
+	<thead>
+			<tr>
+					<th style="text-align: right"></th>
+					<th style="text-align: right">age</th>
+					<th style="text-align: right">split</th>
+					<th style="text-align: right">final</th>
+					<th style="text-align: right">split_sec</th>
+					<th>final_sec</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: right">count</td>
+					<td style="text-align: right">37250.000000</td>
+					<td style="text-align: right">37250</td>
+					<td style="text-align: right">37250</td>
+					<td style="text-align: right">37250.000000</td>
+					<td>37250.000000</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">mean</td>
+					<td style="text-align: right">40.697369</td>
+					<td style="text-align: right"><code>0 days 02:03:54.425664429</code></td>
+					<td style="text-align: right"><code>0 days 04:48:09.303597315</code></td>
+					<td style="text-align: right">7434.425664</td>
+					<td>17289.303597</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">std</td>
+					<td style="text-align: right">10.220043</td>
+					<td style="text-align: right"><code>0 days 00:22:55.093889674</code></td>
+					<td style="text-align: right"><code>0 days 01:03:32.145345151</code></td>
+					<td style="text-align: right">1375.093890</td>
+					<td>3812.145345</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">min</td>
+					<td style="text-align: right">17.000000</td>
+					<td style="text-align: right"><code>0 days 01:05:21</code></td>
+					<td style="text-align: right"><code>0 days 02:08:51</code></td>
+					<td style="text-align: right">3921.000000</td>
+					<td>7731.000000</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">25%</td>
+					<td style="text-align: right">33.000000</td>
+					<td style="text-align: right"><code>0 days 01:48:25</code></td>
+					<td style="text-align: right"><code>0 days 04:02:24</code></td>
+					<td style="text-align: right">6505.000000</td>
+					<td>14544.000000</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">50%</td>
+					<td style="text-align: right">40.000000</td>
+					<td style="text-align: right"><code>0 days 02:01:13</code></td>
+					<td style="text-align: right"><code>0 days 04:44:25</code></td>
+					<td style="text-align: right">7273.000000</td>
+					<td>17065.000000</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">75%</td>
+					<td style="text-align: right">48.000000</td>
+					<td style="text-align: right"><code>0 days 02:16:11</code></td>
+					<td style="text-align: right"><code>0 days 05:27:36</code></td>
+					<td style="text-align: right">8171.000000</td>
+					<td>19656.000000</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">max</td>
+					<td style="text-align: right">86.000000</td>
+					<td style="text-align: right"><code>0 days 04:59:49</code></td>
+					<td style="text-align: right"><code>0 days 10:01:08</code></td>
+					<td style="text-align: right">17989.000000</td>
+					<td>36068.000000</td>
+			</tr>
+	</tbody>
+</table>
+<p>居然年龄上最大的数据是 86,  让我们看看特征的数据分布:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">%</span>matplotlib inline
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> seaborn <span style="color:#66d9ef">as</span> sns
+</span></span><span style="display:flex;"><span>ax<span style="color:#f92672">=</span>sns<span style="color:#f92672">.</span>boxplot(x<span style="color:#f92672">=</span>df[<span style="color:#e6db74">&#39;age&#39;</span>])
+</span></span></code></pre></div><p><img alt="image-20210923215638259" loading="lazy" src="https://qiniu.hivan.me/picGo/20210923215638.png?imgNote"></p>
+<p>这个箱线图反应了, 数据里确实有一些“离群值”.</p>
+<h2 id="数据分布">数据分布<a hidden class="anchor" aria-hidden="true" href="#数据分布">#</a></h2>
+<p>研究下数据分布, 看看<code>split_sec</code>和<code>final_sec</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>sns<span style="color:#f92672">.</span>displot(df[<span style="color:#e6db74">&#39;split_sec&#39;</span>])
+</span></span></code></pre></div><p><img alt="image-20210923215655517" loading="lazy" src="https://qiniu.hivan.me/picGo/20210923215655.png?imgNote"></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>sns<span style="color:#f92672">.</span>displot(df[<span style="color:#e6db74">&#39;final_sec&#39;</span>])
+</span></span></code></pre></div><p><img alt="image-20210923215712676" loading="lazy" src="https://qiniu.hivan.me/picGo/20210923215712.png?imgNote"></p>
+<p>整体看来,两个特征下的数据都符合正态分布, 但是<code>final_sec</code>的分布图比较胖.</p>
+<p>这次我们把<code>gender</code>这个分类特征添加进来:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>sns<span style="color:#f92672">.</span>violinplot(x<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;gender&#39;</span>, y<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;final_sec&#39;</span>, data<span style="color:#f92672">=</span>df)
+</span></span></code></pre></div><p><img alt="image-20210923215729962" loading="lazy" src="https://qiniu.hivan.me/picGo/20210923215730.png?imgNote"></p>
+<p>这些看到, 男性运动员在总体上还是比女性运动员要快一些.</p>
+<h2 id="寻找优秀的原因">寻找优秀的原因<a hidden class="anchor" aria-hidden="true" href="#寻找优秀的原因">#</a></h2>
+<p>跑马拉松或者了解这项运动的人都清楚, 运动员很关注整个赛程中前后半程的时间比较,好的选手是后半程用时和前半程近似. 因此, 我们来研究下, 这些运动员前后半程用时情况.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>g<span style="color:#f92672">=</span>sns<span style="color:#f92672">.</span>jointplot(<span style="color:#e6db74">&#39;split_sec&#39;</span>, <span style="color:#e6db74">&#39;final_sec&#39;</span>, data<span style="color:#f92672">=</span>df, kind<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;hex&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 绘制一条直线, 作为参考</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span>g<span style="color:#f92672">.</span>ax_joint<span style="color:#f92672">.</span>plot(np<span style="color:#f92672">.</span>linspace(<span style="color:#ae81ff">4000</span>, <span style="color:#ae81ff">16000</span>), np<span style="color:#f92672">.</span>linspace(<span style="color:#ae81ff">8000</span>, <span style="color:#ae81ff">32000</span>), <span style="color:#e6db74">&#39;:k&#39;</span>)
+</span></span></code></pre></div><p><img alt="image-20210923215745469" loading="lazy" src="https://qiniu.hivan.me/picGo/20210923215745.png?imgNote"></p>
+<p>横坐标是<code>splict_sec</code>特征, 即半程用时. 纵轴表示<code>final_sec</code>特征, 全程用时. 途中可以看出, 的确是越优秀的运动员,前半程用时越接近全程用时的一半, 甚至还有少数后半程跑的更快的.</p>
+<p>我们做个计算来深入研究下:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>df[<span style="color:#e6db74">&#39;split_frac&#39;</span>]<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span><span style="color:#f92672">-</span><span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>df[<span style="color:#e6db74">&#39;split_sec&#39;</span>]<span style="color:#f92672">/</span>df[<span style="color:#e6db74">&#39;final_sec&#39;</span>]
+</span></span><span style="display:flex;"><span>df<span style="color:#f92672">.</span>sample(<span style="color:#ae81ff">5</span>)
+</span></span></code></pre></div><p><strong>OUT:</strong></p>
+<table>
+	<thead>
+			<tr>
+					<th style="text-align: right"></th>
+					<th style="text-align: right">age</th>
+					<th style="text-align: right">gender</th>
+					<th style="text-align: right">split</th>
+					<th style="text-align: right">final</th>
+					<th style="text-align: right">split_sec</th>
+					<th style="text-align: right">final_sec</th>
+					<th>split_frac</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td style="text-align: right">2065</td>
+					<td style="text-align: right">35</td>
+					<td style="text-align: right">W</td>
+					<td style="text-align: right"><code>0 days 01:31:41</code></td>
+					<td style="text-align: right"><code>0 days 03:14:40</code></td>
+					<td style="text-align: right">5501.0</td>
+					<td style="text-align: right">11680.0</td>
+					<td>0.058048</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">9001</td>
+					<td style="text-align: right">43</td>
+					<td style="text-align: right">W</td>
+					<td style="text-align: right"><code>0 days 01:58:19</code></td>
+					<td style="text-align: right"><code>0 days 04:00:44</code></td>
+					<td style="text-align: right">7099.0</td>
+					<td style="text-align: right">14444.0</td>
+					<td>0.017031</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">30039</td>
+					<td style="text-align: right">34</td>
+					<td style="text-align: right">M</td>
+					<td style="text-align: right"><code>0 days 02:25:17</code></td>
+					<td style="text-align: right"><code>0 days 05:39:21</code></td>
+					<td style="text-align: right">8717.0</td>
+					<td style="text-align: right">20361.0</td>
+					<td>0.143755</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">27456</td>
+					<td style="text-align: right">62</td>
+					<td style="text-align: right">W</td>
+					<td style="text-align: right"><code>0 days 02:13:28</code></td>
+					<td style="text-align: right"><code>0 days 05:25:01</code></td>
+					<td style="text-align: right">8008.0</td>
+					<td style="text-align: right">19501.0</td>
+					<td>0.178709</td>
+			</tr>
+			<tr>
+					<td style="text-align: right">13335</td>
+					<td style="text-align: right">41</td>
+					<td style="text-align: right">M</td>
+					<td style="text-align: right"><code>0 days 01:45:36</code></td>
+					<td style="text-align: right"><code>0 days 04:21:00</code></td>
+					<td style="text-align: right">6336.0</td>
+					<td style="text-align: right">15660.0</td>
+					<td>0.190805</td>
+			</tr>
+	</tbody>
+</table>
+<p>用直方图再增加一个参考线来看看<code>split_frac</code>特征中的数据分布:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
+</span></span><span style="display:flex;"><span>sns<span style="color:#f92672">.</span>displot(df[<span style="color:#e6db74">&#39;split_frac&#39;</span>], kde<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 垂直于 x 轴的直线，0 表示 x 轴位置</span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>axvline(<span style="color:#ae81ff">0</span>, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;k&#39;</span>, linestyle<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;--&#39;</span>)
+</span></span></code></pre></div><p><img alt="image-20210923215830370" loading="lazy" src="https://qiniu.hivan.me/picGo/20210923215830.png?imgNote"></p>
+<p>从这张图中, 更清晰的看到全体参赛者的运动安排.</p>
+<p>再来探究下不同特征之间的关系:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>sns<span style="color:#f92672">.</span>pairplot(
+</span></span><span style="display:flex;"><span>    data<span style="color:#f92672">=</span>df,
+</span></span><span style="display:flex;"><span>    vars<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;age&#39;</span>,<span style="color:#e6db74">&#39;split_sec&#39;</span>,<span style="color:#e6db74">&#39;final_sec&#39;</span>,<span style="color:#e6db74">&#39;split_frac&#39;</span>],
+</span></span><span style="display:flex;"><span>    hue<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;gender&#39;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p><img alt="image-20210923215848042" loading="lazy" src="https://qiniu.hivan.me/picGo/20210923215848.png?imgNote"></p>
+<p>让我们来看下 80 岁选手的数量:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>(df<span style="color:#f92672">.</span>age<span style="color:#f92672">&gt;=</span><span style="color:#ae81ff">80</span>)<span style="color:#f92672">.</span>sum()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># OUT</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">15</span>
+</span></span></code></pre></div><p>下面, 我们划分下年龄段,看看各年龄段的成绩分布:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>df[<span style="color:#e6db74">&#39;age_dec&#39;</span>]<span style="color:#f92672">=</span>df[<span style="color:#e6db74">&#39;age&#39;</span>]<span style="color:#f92672">.</span>map(<span style="color:#66d9ef">lambda</span> age: <span style="color:#ae81ff">10</span><span style="color:#f92672">*</span>(age<span style="color:#f92672">//</span><span style="color:#ae81ff">10</span>))
+</span></span><span style="display:flex;"><span>sns<span style="color:#f92672">.</span>violinplot(
+</span></span><span style="display:flex;"><span>    x<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;age_dec&#39;</span>, 
+</span></span><span style="display:flex;"><span>    y<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;split_frac&#39;</span>, 
+</span></span><span style="display:flex;"><span>    hue<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;gender&#39;</span>, 
+</span></span><span style="display:flex;"><span>    data<span style="color:#f92672">=</span>df, 
+</span></span><span style="display:flex;"><span>    split<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>, 
+</span></span><span style="display:flex;"><span>    inner<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;quartile&#39;</span>, 
+</span></span><span style="display:flex;"><span>    palette<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;lightblue&#39;</span>, <span style="color:#e6db74">&#39;lightpink&#39;</span>]
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p><img alt="image-20210923215931464" loading="lazy" src="https://qiniu.hivan.me/picGo/20210923215931.png?imgNote"></p>
+<p>看这张图, 我们发现,不同性别的运动员的<code>split_frac</code>特征数据分布中, 年龄越大,前后端的时间分布比相对集中.</p>
+<p>再看看全程用时分布比较:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>sns<span style="color:#f92672">.</span>violinplot(
+</span></span><span style="display:flex;"><span>    x<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;age_dec&#39;</span>,
+</span></span><span style="display:flex;"><span>    y<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;final_sec&#39;</span>,
+</span></span><span style="display:flex;"><span>    hue<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;gender&#39;</span>,
+</span></span><span style="display:flex;"><span>    data<span style="color:#f92672">=</span>df,
+</span></span><span style="display:flex;"><span>    split<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>,
+</span></span><span style="display:flex;"><span>    inner<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;quartile&#39;</span>,
+</span></span><span style="display:flex;"><span>    palette<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;lightblue&#39;</span>, <span style="color:#e6db74">&#39;lightpink&#39;</span>]
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p><img alt="image-20210923215947281" loading="lazy" src="https://qiniu.hivan.me/picGo/20210923215947.png?imgNote"></p>
+<p>从 30 岁往后, 明显年纪越大,用时越长.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/titanic/">
+    <span class="title">« Prev</span>
+    <span>「泰坦尼克」生存预测</span>
+  </a>
+  <a class="next" href="http://localhost:1313/posts/elements_by_plotnine/">
+    <span class="title">Next »</span>
+    <span>使用 Plotnine 制作元素周期表</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">茶桁.MAMT</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
