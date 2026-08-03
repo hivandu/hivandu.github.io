@@ -1,5 +1,6 @@
 ---
 title: "正在构建 AI Agent？先掌握这 7 种架构模式"
+sub-title: Building AI Agents? Learn These 7 Architecture Patterns First
 date: 2026-08-04
 description: "从 RAG、记忆到规划、反思和知识图谱，这些模式支撑着 ChatGPT、Claude Code、Cursor、GitHub Copilot 以及各类企业级 AI 助手。"
 tags: ["AI", "Agent", "架构", "RAG"]
@@ -10,7 +11,7 @@ categories: ["AI"]
 
 Agent 不是一段提示词。它是分布式系统：检索信息、调用工具、记住上下文、做多步推理、验证自己的输出，再把一堆专业组件协调起来。今天做 AI 应用，理解这些架构模式已经和懂 REST API、数据库、微服务一样重要。
 
-![插图](https://miro.medium.com/v2/resize:fit:700/1*tujBqA1YnAR_T1GxbZUAGg.png)
+![插图](https://raw.githubusercontent.com/hivandu/notes/main/img1*tujBqA1YnAR_T1GxbZUAGg.png)
 
 大多数教程把 Agent 讲成一条直线：`用户 → LLM → 响应`。这条链路应付简单问答没问题。一旦问题需要公司知识库、外部 API、长期记忆或多步推理，它就开始露馅：产生幻觉、忘掉之前的对话、超时，或者在复杂任务上直接失败。
 
@@ -166,10 +167,10 @@ LLM 自己干不了这些事：
 
 ```json
 {
-     "tool": "get_weather",
-     "arguments": {
-       "city": "London"
-     }
+      "tool": "get_weather",
+      "arguments": {
+        "city": "London"
+      }
 }
 ```
 
@@ -334,7 +335,7 @@ BundleOverview.tsx → GraphQL 查询 → Bundle 解析器 → 后端服务 → 
 
 ## 模式对比
 
-![模式对比插图](https://miro.medium.com/v2/resize:fit:700/1*YdJraNd5MYHyZD2QWKIiEg.png)
+![模式对比插图](https://raw.githubusercontent.com/hivandu/notes/main/img2*YdJraNd5MYHyZD2QWKIiEg.png)
 
 ## 整合所有模式
 
@@ -350,4 +351,4 @@ BundleOverview.tsx → GraphQL 查询 → Bundle 解析器 → 后端服务 → 
 
 最好的 AI 应用不是靠一条提示词跑出来的，是靠架构：多种模式协同，产出可靠、可扩展、可信的结果。看得懂这些基石的工程师，做的就不只是 Agent，而是下一代智能软件。
 
-![结语插图](https://miro.medium.com/v2/resize:fit:700/1*0NdhQ9H38MgKGvTMvQD8eQ.png)
+![结语插图](https://raw.githubusercontent.com/hivandu/notes/main/img1*0NdhQ9H38MgKGvTMvQD8eQ.png)
