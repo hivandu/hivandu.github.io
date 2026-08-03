@@ -161,6 +161,43 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">正在构建 AI Agent？先掌握这 7 种架构模式
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> 从 RAG、记忆到规划、反思和知识图谱，这些模式支撑着 ChatGPT、Claude Code、Cursor、GitHub Copilot 以及各类企业级 AI 助手。
+Agent 不是一段提示词。它是分布式系统：检索信息、调用工具、记住上下文、做多步推理、验证自己的输出，再把一堆专业组件协调起来。今天做 AI 应用，理解这些架构模式已经和懂 REST API、数据库、微服务一样重要。
+大多数教程把 Agent 讲成一条直线：用户 → LLM → 响应。这条链路应付简单问答没问题。一旦问题需要公司知识库、外部 API、长期记忆或多步推理，它就开始露馅：产生幻觉、忘掉之前的对话、超时，或者在复杂任务上直接失败。
+原因是，生产环境里的 AI 系统是架构设计出来的，不是靠提示词堆出来的。现代 AI 应用正是把多种模式组合在一起，才做到可靠、可扩展、智能。下面逐一介绍这七种。
+1. 检索增强生成（RAG） 问题所在 LLM 只知道自己训练时见过的东西，不会自动了解：
+你公司的文档 内部 API 客户合同 源代码 数据库 最新的产品变更 文档一变就去微调模型不现实，所以生产系统选择在推理时动态检索相关信息。
+架构流程 用户查询 → 查询重写（可选）→ 向量嵌入 → 混合搜索（向量 &#43; BM25）→ Top-K 检索 → 重排序 → 上下文压缩 → LLM → 最终答案
+工作原理 典型的生产 RAG 流水线分七步：
+把用户查询转成向量嵌入（Embeddings）。 在向量数据库里搜语义相似的内容。 把词法搜索（BM25）和向量搜索结合起来。 用交叉编码器（Cross-encoder）对检索结果重排序。 压缩掉冗余信息。 组装最终 Prompt。 生成回答。 每一步都在提升回答质量，同时省 Token。
+...</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2026-08-03 12:00:00 +0800 CST'>August 3, 2026</span>&nbsp;·&nbsp;<span>3 min</span>&nbsp;·&nbsp;<span>Hivan Du</span></footer>
+  <a class="entry-link" aria-label="post link to 正在构建 AI Agent？先掌握这 7 种架构模式" href="http://localhost:1313/posts/building-ai-agents-7-patterns/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">RAG vs MCP：驱动现代 AI 系统的隐秘之战
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>大多数开发者认为构建 AI 系统的核心在于选择模型，但真正的挑战在于理解何时让 AI 获取知识（RAG），何时让 AI 执行操作（MCP）。本文深入剖析两者的区别、互补性以及混合架构的未来。</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2026-07-24 14:00:00 +0800 CST'>July 24, 2026</span>&nbsp;·&nbsp;<span>2 min</span>&nbsp;·&nbsp;<span>Hivan Du</span></footer>
+  <a class="entry-link" aria-label="post link to RAG vs MCP：驱动现代 AI 系统的隐秘之战" href="http://localhost:1313/posts/rag-vs-mcp%E9%A9%B1%E5%8A%A8%E7%8E%B0%E4%BB%A3-ai-%E7%B3%BB%E7%BB%9F%E7%9A%84%E9%9A%90%E7%A7%98%E4%B9%8B%E6%88%98/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">使用 Python 构建颜色选择器
     </h2>
   </header>
@@ -276,36 +313,6 @@
 
 <span title='2024-09-24 07:03:00 +0800 CST'>September 24, 2024</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>Hivan Du</span></footer>
   <a class="entry-link" aria-label="post link to 银行业数据科学家的 6 条经验教训" href="http://localhost:1313/posts/%E9%93%B6%E8%A1%8C%E4%B8%9A%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6%E5%AE%B6%E7%9A%84-6-%E6%9D%A1%E7%BB%8F%E9%AA%8C%E6%95%99%E8%AE%AD/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">PDP 和 ICE 图的终极指南
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> 部分依赖图和单独条件期望图背后的直觉、数学和代码（R 和 Python）
-</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2024-09-20 07:03:00 +0800 CST'>September 20, 2024</span>&nbsp;·&nbsp;<span>8 min</span>&nbsp;·&nbsp;<span>Hivan Du</span></footer>
-  <a class="entry-link" aria-label="post link to PDP 和 ICE 图的终极指南" href="http://localhost:1313/posts/pdp-%E5%92%8C-ice-%E5%9B%BE%E7%9A%84%E7%BB%88%E6%9E%81%E6%8C%87%E5%8D%97/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">使用 CatBoost 实现分类特征的 SHAP
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> 避免对分类特征的 SHAP 值进行后处理
-</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2024-09-17 07:03:00 +0800 CST'>September 17, 2024</span>&nbsp;·&nbsp;<span>3 min</span>&nbsp;·&nbsp;<span>Hivan Du</span></footer>
-  <a class="entry-link" aria-label="post link to 使用 CatBoost 实现分类特征的 SHAP" href="http://localhost:1313/posts/%E4%BD%BF%E7%94%A8-catboost-%E5%AE%9E%E7%8E%B0%E5%88%86%E7%B1%BB%E7%89%B9%E5%BE%81%E7%9A%84-shap/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

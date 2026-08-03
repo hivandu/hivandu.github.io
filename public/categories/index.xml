@@ -2,31 +2,45 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>分类 on 茶桁.MAMT</title>
-    <link>http://localhost:1313/categories/</link>
+    <link>https://hivan.me/categories/</link>
     <description>Recent content in 分类 on 茶桁.MAMT</description>
     <generator>Hugo</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sat, 12 Oct 2024 07:03:00 +0800</lastBuildDate>
-    <atom:link href="http://localhost:1313/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 24 Jul 2026 14:00:00 +0800</lastBuildDate>
+    <atom:link href="https://hivan.me/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>AI 秘籍</title>
-      <link>http://localhost:1313/categories/ai-%E7%A7%98%E7%B1%8D/</link>
-      <pubDate>Sat, 12 Oct 2024 07:03:00 +0800</pubDate>
-      <guid>http://localhost:1313/categories/ai-%E7%A7%98%E7%B1%8D/</guid>
+      <title>AI</title>
+      <link>https://hivan.me/categories/ai/</link>
+      <pubDate>Fri, 24 Jul 2026 14:00:00 +0800</pubDate>
+      <guid>https://hivan.me/categories/ai/</guid>
       <description></description>
     </item>
     <item>
-      <title>AI</title>
-      <link>http://localhost:1313/categories/ai/</link>
-      <pubDate>Tue, 24 Sep 2024 07:03:00 +0800</pubDate>
-      <guid>http://localhost:1313/categories/ai/</guid>
+      <title>MCP</title>
+      <link>https://hivan.me/categories/mcp/</link>
+      <pubDate>Fri, 24 Jul 2026 14:00:00 +0800</pubDate>
+      <guid>https://hivan.me/categories/mcp/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>RAG</title>
+      <link>https://hivan.me/categories/rag/</link>
+      <pubDate>Fri, 24 Jul 2026 14:00:00 +0800</pubDate>
+      <guid>https://hivan.me/categories/rag/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>AI 秘籍</title>
+      <link>https://hivan.me/categories/ai-%E7%A7%98%E7%B1%8D/</link>
+      <pubDate>Sat, 12 Oct 2024 07:03:00 +0800</pubDate>
+      <guid>https://hivan.me/categories/ai-%E7%A7%98%E7%B1%8D/</guid>
       <description></description>
     </item>
     <item>
       <title>[AI]</title>
-      <link>http://localhost:1313/categories/ai/</link>
+      <link>https://hivan.me/categories/ai/</link>
       <pubDate>Tue, 03 Sep 2024 07:03:00 +0800</pubDate>
-      <guid>http://localhost:1313/categories/ai/</guid>
+      <guid>https://hivan.me/categories/ai/</guid>
       <description></description>
     </item>
   </channel>

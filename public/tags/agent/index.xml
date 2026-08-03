@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Agent on 茶桁.MAMT</title>
+    <link>http://localhost:1313/tags/agent/</link>
+    <description>Recent content in Agent on 茶桁.MAMT</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Mon, 03 Aug 2026 12:00:00 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/agent/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>正在构建 AI Agent？先掌握这 7 种架构模式</title>
+      <link>http://localhost:1313/posts/building-ai-agents-7-patterns/</link>
+      <pubDate>Mon, 03 Aug 2026 12:00:00 +0800</pubDate>
+      <guid>http://localhost:1313/posts/building-ai-agents-7-patterns/</guid>
+      <description>从 RAG、记忆到规划、反思和知识图谱，这些模式支撑着 ChatGPT、Claude Code、Cursor、GitHub Copilot 以及各类企业级 AI 助手。</description>
+    </item>
+  </channel>
+</rss>

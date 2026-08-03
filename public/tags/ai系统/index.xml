@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>AI系统 on 茶桁.MAMT</title>
+    <link>https://hivan.me/tags/ai%E7%B3%BB%E7%BB%9F/</link>
+    <description>Recent content in AI系统 on 茶桁.MAMT</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Fri, 24 Jul 2026 14:00:00 +0800</lastBuildDate>
+    <atom:link href="https://hivan.me/tags/ai%E7%B3%BB%E7%BB%9F/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>RAG vs MCP：驱动现代 AI 系统的隐秘之战</title>
+      <link>https://hivan.me/posts/rag-vs-mcp%E9%A9%B1%E5%8A%A8%E7%8E%B0%E4%BB%A3-ai-%E7%B3%BB%E7%BB%9F%E7%9A%84%E9%9A%90%E7%A7%98%E4%B9%8B%E6%88%98/</link>
+      <pubDate>Fri, 24 Jul 2026 14:00:00 +0800</pubDate>
+      <guid>https://hivan.me/posts/rag-vs-mcp%E9%A9%B1%E5%8A%A8%E7%8E%B0%E4%BB%A3-ai-%E7%B3%BB%E7%BB%9F%E7%9A%84%E9%9A%90%E7%A7%98%E4%B9%8B%E6%88%98/</guid>
+      <description>大多数开发者认为构建 AI 系统的核心在于选择模型，但真正的挑战在于理解何时让 AI 获取知识（RAG），何时让 AI 执行操作（MCP）。本文深入剖析两者的区别、互补性以及混合架构的未来。</description>
+    </item>
+  </channel>
+</rss>

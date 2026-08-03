@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Python on 茶桁.MAMT</title>
-    <link>http://localhost:1313/tags/python/</link>
+    <link>https://hivan.me/tags/python/</link>
     <description>Recent content in Python on 茶桁.MAMT</description>
     <generator>Hugo</generator>
     <language>zh-CN</language>
     <lastBuildDate>Thu, 23 Sep 2021 15:53:29 +0800</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://hivan.me/tags/python/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>「泰坦尼克」生存预测</title>
-      <link>http://localhost:1313/posts/titanic/</link>
+      <link>https://hivan.me/posts/titanic/</link>
       <pubDate>Thu, 23 Sep 2021 15:53:29 +0800</pubDate>
-      <guid>http://localhost:1313/posts/titanic/</guid>
+      <guid>https://hivan.me/posts/titanic/</guid>
       <description>最好的学习就是输出,所以虽然这个预测很多人做过了,我还是在这里再做一遍,纯粹是为了自己学习.</description>
     </item>
   </channel>

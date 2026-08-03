@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>RAG vs MCP：驱动现代 AI 系统的隐秘之战 | 茶桁.MAMT</title>
+<meta name="keywords" content="RAG, MCP, AI系统, LLM, 混合架构">
+<meta name="description" content="大多数开发者认为构建 AI 系统的核心在于选择模型，但真正的挑战在于理解何时让 AI 获取知识（RAG），何时让 AI 执行操作（MCP）。本文深入剖析两者的区别、互补性以及混合架构的未来。">
+<meta name="author" content="Hivan Du">
+<link rel="canonical" href="http://localhost:1313/posts/rag-vs-mcp%E9%A9%B1%E5%8A%A8%E7%8E%B0%E4%BB%A3-ai-%E7%B3%BB%E7%BB%9F%E7%9A%84%E9%9A%90%E7%A7%98%E4%B9%8B%E6%88%98/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.cd9298b33628769aa1bc1acebbbfd7aa11ce81dfe03484d479e1907760249a1d.css" integrity="sha256-zZKYszYodpqhvBrOu7/XqhHOgd/gNITUeeGQd2Akmh0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/rag-vs-mcp%E9%A9%B1%E5%8A%A8%E7%8E%B0%E4%BB%A3-ai-%E7%B3%BB%E7%BB%9F%E7%9A%84%E9%9A%90%E7%A7%98%E4%B9%8B%E6%88%98/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="茶桁.MAMT (Alt + H)">
+                <img src="http://localhost:1313/%F0%9F%A7%A0" alt="" aria-label="logo"
+                    height="30">茶桁.MAMT</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="http://localhost:1313/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/posts/">文章</a>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+</nav>
+    <h1 class="post-title entry-hint-parent">
+      RAG vs MCP：驱动现代 AI 系统的隐秘之战
+    </h1>
+    <div class="post-meta">
+
+<span title='2026-07-24 14:00:00 +0800 CST'>July 24, 2026</span>&nbsp;·&nbsp;<span>2 min</span>&nbsp;·&nbsp;<span>Hivan Du</span>
+
+</div>
+  </header> <details class="toc" >
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">Table of Contents</span>
+    </summary>
+
+    <div class="inner"><ul>
+            <li>
+                <a href="#rag%e8%ae%a9-ai-%e8%af%bb%e6%87%82%e4%bd%a0%e7%9a%84%e6%95%b0%e6%8d%ae" aria-label="RAG：让 AI &ldquo;读懂&quot;你的数据">RAG：让 AI &ldquo;读懂&quot;你的数据</a></li>
+            <li>
+                <a href="#mcp%e8%ae%a9-ai-%e5%8a%a8%e6%89%8b%e6%94%b9%e5%8f%98%e4%b8%96%e7%95%8c" aria-label="MCP：让 AI &ldquo;动手&quot;改变世界">MCP：让 AI &ldquo;动手&quot;改变世界</a></li>
+            <li>
+                <a href="#rag-%e5%92%8c-mcp-%e7%9a%84%e5%ae%9e%e9%99%85%e5%b7%ae%e5%bc%82" aria-label="RAG 和 MCP 的实际差异">RAG 和 MCP 的实际差异</a><ul>
+                    
+            <li>
+                <a href="#%e6%80%a7%e8%83%bd%e4%b8%8e%e6%88%90%e6%9c%ac" aria-label="性能与成本">性能与成本</a></li>
+            <li>
+                <a href="#%e5%ae%89%e5%85%a8%e6%a8%a1%e5%9e%8b" aria-label="安全模型">安全模型</a></li>
+            <li>
+                <a href="#%e6%89%a9%e5%b1%95%e6%80%a7%e4%b8%8e%e7%bb%b4%e6%8a%a4" aria-label="扩展性与维护">扩展性与维护</a></li>
+            <li>
+                <a href="#%e7%8e%b0%e5%ae%9e%e6%83%85%e5%86%b5" aria-label="现实情况">现实情况</a></li></ul>
+            </li>
+            <li>
+                <a href="#%e6%b7%b7%e5%90%88%e6%9e%b6%e6%9e%84rag--mcp-%e6%89%8d%e6%98%af%e7%9c%9f%e5%ae%9e%e4%b8%96%e7%95%8c%e7%9a%84%e7%ad%94%e6%a1%88" aria-label="混合架构：RAG &#43; MCP 才是真实世界的答案">混合架构：RAG + MCP 才是真实世界的答案</a></li>
+            <li>
+                <a href="#%e9%81%bf%e5%9d%91%e7%bb%8f%e9%aa%8c" aria-label="避坑经验">避坑经验</a></li>
+            <li>
+                <a href="#%e5%b1%95%e6%9c%9b" aria-label="展望">展望</a></li>
+            <li>
+                <a href="#%e5%bb%b6%e4%bc%b8%e9%98%85%e8%af%bb" aria-label="延伸阅读">延伸阅读</a>
+            </li>
+        </ul>
+    </div>
+</details>
+
+  <div class="post-content md-content"><blockquote>
+<p><strong>摘要</strong>：大多数开发者认为构建 AI 系统的核心在于选择模型，但真正的挑战在于理解何时让 AI <strong>&ldquo;获取知识&rdquo;</strong>（RAG），何时让 AI <strong>&ldquo;执行操作&rdquo;</strong>（MCP）。本文将深入剖析这两者的区别、互补性以及混合架构的未来。</p>
+</blockquote>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/hivandu/notes/main/imgImage%201024x572.jpeg"></p>
+<p>大多数开发者在搭 AI 系统时，第一反应是挑模型——选 GPT、选 Claude、还是用本地部署的开源模型。这个选择当然重要，但它不是那个&quot;先想清楚再动手&quot;的问题。</p>
+<p>真正应该先回答的是：你的 AI 到底需要<strong>获取知识</strong>，还是需要<strong>执行操作</strong>？</p>
+<p>这两件事对应的技术路线完全不同。前者是 RAG（检索增强生成），后者是 MCP（模型上下文协议）。它们不是二选一的关系，而是两套各有专长的工具。搞清楚什么时候用哪一套——或者什么时候该同时用——才是决定一个 AI 系统能不能用的关键。</p>
+<h2 id="rag让-ai-读懂你的数据">RAG：让 AI &ldquo;读懂&quot;你的数据<a hidden class="anchor" aria-hidden="true" href="#rag让-ai-读懂你的数据">#</a></h2>
+<p>RAG 要解决的是一个很具体的问题：大模型的训练数据有截止日期，而且不包含你企业的私有信息。</p>
+<p>它的核心思路很简单——把用户的查询先投到一个检索系统里，拿到相关的文档片段再喂给 LLM，让它基于这些片段生成回答。</p>
+<p>流程大致如下：</p>
+<p>用户查询 -&gt; 向量数据库（匹配相关片段）-&gt; LLM（结合上下文生成答案）-&gt; 最终回复</p>
+<p>这解决的是&quot;LLM 不知道我的私有数据&quot;的问题。它让 AI 看起来像是在&quot;拥有知识&rdquo;——实际上是给你塞参考资料，让它照本宣科。</p>
+<p>RAG 擅长处理的内容：文档、PDF、企业知识库里的结构化或非结构化文本。它的典型应用场景包括企业内部问答、法律合规搜索、客户支持自动化等。</p>
+<p>性能方面有两个值得注意的特点。<strong>速度快</strong>（通常在百毫秒级别），因为检索是在预处理的向量数据库里做的，不需要等 LLM 慢慢生成。<strong>查询成本低</strong>——单次 token 消耗相对较小。</p>
+<p>但 RAG 有个根本限制：<strong>它是只读的</strong>。它可以检索、摘要、解释已有内容，但不能更新数据库、触发工作流、或者执行任何实际的操作。如果你希望 AI &ldquo;去做&quot;一件事而不是&quot;说&quot;一件事，光靠 RAG 不够。</p>
+<h2 id="mcp让-ai-动手改变世界">MCP：让 AI &ldquo;动手&quot;改变世界<a hidden class="anchor" aria-hidden="true" href="#mcp让-ai-动手改变世界">#</a></h2>
+<p>MCP 解决的是另一个问题：LLM 与现实系统之间有一道墙——它能看到信息但无法改变任何东西。</p>
+<p>通过标准化的接口，MCP 让大模型能够调用 API、操作数据库、驱动工作流。<strong>它的核心思路是让 AI 拥有&quot;手脚&rdquo;</strong>。</p>
+<p>工作流程跟 RAG 不同：用户查询 -&gt; LLM Agent 做规划（把目标拆解成可执行的步骤）-&gt; 调用工具/API/外部系统 -&gt; 执行结果返回 -&gt; LLM 基于执行结果做决策和反馈。</p>
+<p>MCP 的典型能力包括：</p>
+<ul>
+<li><strong>实时交互</strong>：直接连接 CRM、数据库、支付网关等外部系统</li>
+<li><strong>多步推理与执行</strong>：根据上一步的执行结果动态决定下一步行动</li>
+<li><strong>典型场景</strong>：更新客户记录、创建工单、触发支付流程、自动化数据管道</li>
+</ul>
+<p>性能上的特点跟 RAG 恰好相反：<strong>速度偏慢</strong>，因为涉及实时 API 调用和网络延迟；<strong>上下文更大</strong>（通常单次查询超过 3 万 token），因为要处理工具调用的输入输出和返回结果。</p>
+<p>MCP 的挑战也不小：API 稳定性、认证过期更新、集成维护成本——每一块外部系统的接入都需要专门的工程和运维投入。</p>
+<h2 id="rag-和-mcp-的实际差异">RAG 和 MCP 的实际差异<a hidden class="anchor" aria-hidden="true" href="#rag-和-mcp-的实际差异">#</a></h2>
+<h3 id="性能与成本">性能与成本<a hidden class="anchor" aria-hidden="true" href="#性能与成本">#</a></h3>
+<p><img alt="img" loading="lazy" src="https://miro.medium.com/v2/resize:fit:700/1*GUP8jBJkdb1CJdU5Mourfg.png"></p>
+<p><strong>RAG：</strong> 构建阶段贵（需要建立向量索引、做 embedding），但运行成本低。数据量增大时，成本主要取决于索引维护而非查询频率。</p>
+<p>一个大致可以参考的数字：典型单次查询约 9,600 token，检索响应时间约 120ms。</p>
+<p><strong>MCP：</strong> 启动便宜（不需要前期知识库构建），但调用次数多了成本会线性增长。每次 API 调用都产生实时费用和网络开销。</p>
+<p>单次查询通常 3 万 token 左右，速度受限于外部服务的响应时间和网络状况。</p>
+<p><img alt="img" loading="lazy" src="https://miro.medium.com/v2/resize:fit:700/1*gIKh1QjR0rej1uNBksefjA.png"></p>
+<h3 id="安全模型">安全模型<a hidden class="anchor" aria-hidden="true" href="#安全模型">#</a></h3>
+<p>这块两者思路完全不同：</p>
+<p>RAG 把数据集中到向量数据库里——敏感信息被 embedding 后存储在同一个地方，存在单一攻击面的风险。</p>
+<p>MCP 让数据留在原始系统中不移动，通过 OAuth2、mTLS 双向认证、基于身份的访问控制来保证安全。数据是分布式的，不存在集中泄露点。</p>
+<p>简单来说：<strong>RAG 集中管理但集中暴露风险，MCP 保持数据分散但集成复杂度更高。</strong></p>
+<h3 id="扩展性与维护">扩展性与维护<a hidden class="anchor" aria-hidden="true" href="#扩展性与维护">#</a></h3>
+<p><img alt="img" loading="lazy" src="https://miro.medium.com/v2/resize:fit:700/1*OeQOcufq15mJyt12Uql09Q.png"></p>
+<p>RAG 的可扩展性取决于文档量、向量数据库性能和上下文窗口限制。数据更新后需要重新索引或增量更新 embedding，存在数据漂移问题需要持续监控。</p>
+<p>MCP 的可扩展性取决于你接入了多少外部系统、遇到了多少 API 速率限制和网络延迟。每一个集成都需要处理认证更新和接口变更。</p>
+<p>一句话总结：<strong>RAG 是数据密集型，MCP 是系统集成密集型。</strong></p>
+<h3 id="现实情况">现实情况<a hidden class="anchor" aria-hidden="true" href="#现实情况">#</a></h3>
+<p>根据公开数据和行业报告：约 70% 正在部署 AI 应用的公司在使用 RAG，它在企业知识系统中占据主导地位，市场规模已达数十亿美元级别并持续增长。</p>
+<p>MCP 方面还在快速发展阶段。它正成为 Agentic AI 的 emerging standard，已索引超过 10,000 个服务器端点，在自动化工作流领域增长最快。</p>
+<h2 id="混合架构rag--mcp-才是真实世界的答案">混合架构：RAG + MCP 才是真实世界的答案<a hidden class="anchor" aria-hidden="true" href="#混合架构rag--mcp-才是真实世界的答案">#</a></h2>
+<p>行业正在快速收敛到一个模式：<strong>用 RAG 获取知识，用 MCP 执行行动。</strong></p>
+<p>典型的混合工作流是这样的：</p>
+<p>用户查询 -&gt; RAG 检索相关知识 -&gt; MCP 执行动作 -&gt; LLM 整合结果生成最终响应</p>
+<p>举一个例子：用户问&quot;查看这位客户的最后订单，并将其状态标记为高优先级。&rdquo;</p>
+<ol>
+<li>RAG 先介入——从向量数据库中检索该客户的历史订单记录</li>
+<li>MCP 随后调用 CRM API，将对应订单的状态更新为&quot;高优先级&quot;</li>
+<li>LLM 综合查询结果和操作反馈，生成最终的回复内容</li>
+</ol>
+<p>为什么混合架构越来越值得考虑？有几点原因：</p>
+<p>首先是性能。混合系统可以通过 RAG 提供的上下文减少 MCP 盲目调用的次数，通常能将响应质量提高约 30%——具体数字取决于场景。</p>
+<p>其次是完整性。仅靠 RAG 做不到闭环（只知道不说做），仅靠 MCP 缺乏必要的上下文（容易做出错误的操作）。两者结合让系统既能&quot;知道该做什么&quot;又能&quot;实际去做&quot;。</p>
+<h2 id="避坑经验">避坑经验<a hidden class="anchor" aria-hidden="true" href="#避坑经验">#</a></h2>
+<p>在落地过程中，最常见的错误其实很朴实：</p>
+<ul>
+<li>在需要执行操作的场景里只用了 RAG——结果系统能回答问题但无法真正执行流程</li>
+<li>在没有足够 grounding 的环境下单独使用 MCP——LLM 缺乏事实依据，生成的操作可能是错误的</li>
+<li>忽视了隐性成本：RAG 的索引维护费和 MCP 的 API 调用费，这两项在初期很容易被低估</li>
+</ul>
+<p>选型时建议先做一个简单的判断：<strong>你的系统需要的是&quot;回答问题&quot;还是&quot;执行任务&quot;？</strong> 如果答案偏向前者，从 RAG 开始。如果偏向后者，从 MCP 开始。大部分实际项目两者都需要，但可以从单一方向入手，逐步叠加另一侧的能力。</p>
+<h2 id="展望">展望<a hidden class="anchor" aria-hidden="true" href="#展望">#</a></h2>
+<p>几个值得关注的方向：</p>
+<p><strong>Agentic RAG</strong>——把规划能力加到 RAG 上，让它不仅能检索还能制定策略。当前大多数 RAG 系统还是被动地&quot;按查询抓取&quot;，具备自主规划能力的版本在实际应用中能处理更复杂的任务链。</p>
+<p><strong>通用工具协议</strong>——MCP 有望成为 AI 系统的标准化接口，类似于 USB 之于硬件外设。这意味着不同工具和系统之间的集成成本会逐步降低。</p>
+<p><strong>动态路由</strong>——系统能够在 RAG 和 MCP 之间自动判断该走哪条路径，根据实时成本和效率优化调用优先级。这已经在一些高级系统中出现雏形。</p>
+<h2 id="延伸阅读">延伸阅读<a hidden class="anchor" aria-hidden="true" href="#延伸阅读">#</a></h2>
+<ul>
+<li><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3074770001140400130">AI秘籍·人工智能应用数学基础</a></li>
+<li><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3035995870421073928">AI秘籍·人工智能Python基础</a></li>
+<li><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3123885735829061633">AI秘籍·人工智能基础核心知识</a></li>
+<li><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg%3D%3D&amp;action=getalbum&amp;album_id=3193965113967132673">AI秘籍·人工智能BI核心知识</a></li>
+<li><a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzA4NzE4MDQzMg==&amp;action=getalbum&amp;album_id=3503005363236880386">AI秘籍·人工智能CV核心知识</a></li>
+<li><a href="https://www.sanjieke.cn/course/detail/sjk/8005780">AI 进阶：企业项目实战</a>，可直接在橱窗购买或到文末领取优惠后购买</li>
+</ul>
+<p><img alt="智慧物流 订单配送规划海报" loading="lazy" src="https://cdn.jsdelivr.net/gh/hivandu/notes/img/202410241501500.png"></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/rag/">RAG</a></li>
+      <li><a href="http://localhost:1313/tags/mcp/">MCP</a></li>
+      <li><a href="http://localhost:1313/tags/ai%E7%B3%BB%E7%BB%9F/">AI系统</a></li>
+      <li><a href="http://localhost:1313/tags/llm/">LLM</a></li>
+      <li><a href="http://localhost:1313/tags/%E6%B7%B7%E5%90%88%E6%9E%B6%E6%9E%84/">混合架构</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/posts/building-ai-agents-7-patterns/">
+    <span class="title">« Prev</span>
+    <span>正在构建 AI Agent？先掌握这 7 种架构模式</span>
+  </a>
+  <a class="next" href="http://localhost:1313/posts/%E4%BD%BF%E7%94%A8-python-%E6%9E%84%E5%BB%BA%E9%A2%9C%E8%89%B2%E9%80%89%E6%8B%A9%E5%99%A8/">
+    <span class="title">Next »</span>
+    <span>使用 Python 构建颜色选择器</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">茶桁.MAMT</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

@@ -1,7 +1,8 @@
 ---
 title: "正在构建 AI Agent？先掌握这 7 种架构模式"
 sub-title: Building AI Agents? Learn These 7 Architecture Patterns First
-date: 2026-08-04
+date: 2026-08-03T12:00:00+08:00
+draft: false
 description: "从 RAG、记忆到规划、反思和知识图谱，这些模式支撑着 ChatGPT、Claude Code、Cursor、GitHub Copilot 以及各类企业级 AI 助手。"
 tags: ["AI", "Agent", "架构", "RAG"]
 categories: ["AI"]

@@ -141,6 +141,46 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">Knock 升级 -- 快速输入管理员密码
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>本文知乎专栏
+还记得之前介绍过的 Knock 么？只需要敲击两下就能快速解锁 Mac 的 app。
+...</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2024-01-01 00:00:00 +0800 CST'>January 1, 2024</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>Hivan Du</span></footer>
+  <a class="entry-link" aria-label="post link to Knock 升级 -- 快速输入管理员密码" href="http://localhost:1313/posts/knock-update/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">M1 安装 Homebrew(ARM)
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>?&gt; 详情可见作者说明
+安装 ARM 版本 Homebrew 必须安装在/opt/homebrew路径下
+cd /opt sudo mkdir homebrew sudo curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C homebrew 如果不进行 sudo 授权，则会报错；
+环境变量 本人使用zsh, 所以编辑文件~/.zshrc. 添加如下内容：
+path=(&#39;/opt/homebrew/bin&#39; $path) export PATH ?&gt; 如果是使用bash，请修改~/.bashrc
+在终端内执行:
+source ~/.zshrc 现在可以试试执行brew install graphviz试试看能否正常安装回归树可视化模块；
+软件包和迁徙 软件包依然需要使用 X86 版 Homebrew
+arch -x86_64 启用一个 X86 模式中端，之后运行的命令都在 X86 模式下运行，再次安装 Homebrew
+/bin/bash -c &#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&#34; !&gt; 注意：要将 ARM 版本 Homebrew 环境变量设置到最前面，此时两个版本共存时会有限启动 ARM 版本，需要运行 X86 版本时，需要手动输入完整路径arch -x86_64 /usr/local/bin/brew
+...</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2024-01-01 00:00:00 +0800 CST'>January 1, 2024</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>Hivan Du</span></footer>
+  <a class="entry-link" aria-label="post link to M1 安装 Homebrew(ARM)" href="http://localhost:1313/posts/m1_install_homebrew/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">Mac 显示隐藏文件
     </h2>
   </header>
@@ -266,35 +306,6 @@ value 替换成相应的值就 OK 了。
 
 <span title='2024-01-01 00:00:00 +0800 CST'>January 1, 2024</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>Hivan Du</span></footer>
   <a class="entry-link" aria-label="post link to 博客 POST 清理" href="http://localhost:1313/posts/%E5%8D%9A%E5%AE%A2-post-%E6%B8%85%E7%90%86/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">茶桁的 AI 秘籍 - 数学篇 PDF 发布下载
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p></p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2024-01-01 00:00:00 +0800 CST'>January 1, 2024</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>Hivan Du</span></footer>
-  <a class="entry-link" aria-label="post link to 茶桁的 AI 秘籍 - 数学篇 PDF 发布下载" href="http://localhost:1313/posts/tea-trusss-ai-cheats-math-pdf-release-download/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">解释预测的艺术
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> 如何以人性化的方式解释你的模型
-</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2024-01-01 00:00:00 +0800 CST'>January 1, 2024</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>Hivan Du</span></footer>
-  <a class="entry-link" aria-label="post link to 解释预测的艺术" href="http://localhost:1313/posts/%E8%A7%A3%E9%87%8A%E9%A2%84%E6%B5%8B%E7%9A%84%E8%89%BA%E6%9C%AF/"></a>
 </article>
 <footer class="page-footer">
   <nav class="pagination">

@@ -2,136 +2,171 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>标签 on 茶桁.MAMT</title>
-    <link>http://localhost:1313/tags/</link>
+    <link>https://hivan.me/tags/</link>
     <description>Recent content in 标签 on 茶桁.MAMT</description>
     <generator>Hugo</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Fri, 20 Sep 2024 07:03:00 +0800</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 24 Jul 2026 14:00:00 +0800</lastBuildDate>
+    <atom:link href="https://hivan.me/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AI系统</title>
+      <link>https://hivan.me/tags/ai%E7%B3%BB%E7%BB%9F/</link>
+      <pubDate>Fri, 24 Jul 2026 14:00:00 +0800</pubDate>
+      <guid>https://hivan.me/tags/ai%E7%B3%BB%E7%BB%9F/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>LLM</title>
+      <link>https://hivan.me/tags/llm/</link>
+      <pubDate>Fri, 24 Jul 2026 14:00:00 +0800</pubDate>
+      <guid>https://hivan.me/tags/llm/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>MCP</title>
+      <link>https://hivan.me/tags/mcp/</link>
+      <pubDate>Fri, 24 Jul 2026 14:00:00 +0800</pubDate>
+      <guid>https://hivan.me/tags/mcp/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>RAG</title>
+      <link>https://hivan.me/tags/rag/</link>
+      <pubDate>Fri, 24 Jul 2026 14:00:00 +0800</pubDate>
+      <guid>https://hivan.me/tags/rag/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>混合架构</title>
+      <link>https://hivan.me/tags/%E6%B7%B7%E5%90%88%E6%9E%B6%E6%9E%84/</link>
+      <pubDate>Fri, 24 Jul 2026 14:00:00 +0800</pubDate>
+      <guid>https://hivan.me/tags/%E6%B7%B7%E5%90%88%E6%9E%B6%E6%9E%84/</guid>
+      <description></description>
+    </item>
     <item>
       <title>ICE</title>
-      <link>http://localhost:1313/tags/ice/</link>
+      <link>https://hivan.me/tags/ice/</link>
       <pubDate>Fri, 20 Sep 2024 07:03:00 +0800</pubDate>
-      <guid>http://localhost:1313/tags/ice/</guid>
+      <guid>https://hivan.me/tags/ice/</guid>
       <description></description>
     </item>
     <item>
       <title>IML</title>
-      <link>http://localhost:1313/tags/iml/</link>
+      <link>https://hivan.me/tags/iml/</link>
       <pubDate>Fri, 20 Sep 2024 07:03:00 +0800</pubDate>
-      <guid>http://localhost:1313/tags/iml/</guid>
+      <guid>https://hivan.me/tags/iml/</guid>
       <description></description>
     </item>
     <item>
       <title>PDP</title>
-      <link>http://localhost:1313/tags/pdp/</link>
+      <link>https://hivan.me/tags/pdp/</link>
       <pubDate>Fri, 20 Sep 2024 07:03:00 +0800</pubDate>
-      <guid>http://localhost:1313/tags/pdp/</guid>
+      <guid>https://hivan.me/tags/pdp/</guid>
       <description></description>
     </item>
     <item>
       <title>CatBoost</title>
-      <link>http://localhost:1313/tags/catboost/</link>
+      <link>https://hivan.me/tags/catboost/</link>
       <pubDate>Tue, 17 Sep 2024 07:03:00 +0800</pubDate>
-      <guid>http://localhost:1313/tags/catboost/</guid>
+      <guid>https://hivan.me/tags/catboost/</guid>
       <description></description>
     </item>
     <item>
       <title>ML</title>
-      <link>http://localhost:1313/tags/ml/</link>
+      <link>https://hivan.me/tags/ml/</link>
       <pubDate>Tue, 17 Sep 2024 07:03:00 +0800</pubDate>
-      <guid>http://localhost:1313/tags/ml/</guid>
+      <guid>https://hivan.me/tags/ml/</guid>
       <description></description>
     </item>
     <item>
       <title>SHAP</title>
-      <link>http://localhost:1313/tags/shap/</link>
+      <link>https://hivan.me/tags/shap/</link>
       <pubDate>Tue, 17 Sep 2024 07:03:00 +0800</pubDate>
-      <guid>http://localhost:1313/tags/shap/</guid>
+      <guid>https://hivan.me/tags/shap/</guid>
       <description></description>
     </item>
     <item>
       <title>Black-Box</title>
-      <link>http://localhost:1313/tags/black-box/</link>
+      <link>https://hivan.me/tags/black-box/</link>
       <pubDate>Fri, 13 Sep 2024 07:03:00 +0800</pubDate>
-      <guid>http://localhost:1313/tags/black-box/</guid>
+      <guid>https://hivan.me/tags/black-box/</guid>
       <description></description>
     </item>
     <item>
       <title>Model</title>
-      <link>http://localhost:1313/tags/model/</link>
+      <link>https://hivan.me/tags/model/</link>
       <pubDate>Fri, 13 Sep 2024 07:03:00 +0800</pubDate>
-      <guid>http://localhost:1313/tags/model/</guid>
+      <guid>https://hivan.me/tags/model/</guid>
       <description></description>
     </item>
     <item>
       <title>Pandas</title>
-      <link>http://localhost:1313/tags/pandas/</link>
+      <link>https://hivan.me/tags/pandas/</link>
       <pubDate>Tue, 27 Aug 2024 07:03:00 +0800</pubDate>
-      <guid>http://localhost:1313/tags/pandas/</guid>
+      <guid>https://hivan.me/tags/pandas/</guid>
       <description></description>
     </item>
     <item>
       <title>AI</title>
-      <link>http://localhost:1313/tags/ai/</link>
+      <link>https://hivan.me/tags/ai/</link>
       <pubDate>Tue, 06 Aug 2024 07:03:00 +0800</pubDate>
-      <guid>http://localhost:1313/tags/ai/</guid>
+      <guid>https://hivan.me/tags/ai/</guid>
       <description></description>
     </item>
     <item>
       <title>DevOps</title>
-      <link>http://localhost:1313/tags/devops/</link>
+      <link>https://hivan.me/tags/devops/</link>
       <pubDate>Mon, 01 Jan 2024 00:00:00 +0800</pubDate>
-      <guid>http://localhost:1313/tags/devops/</guid>
+      <guid>https://hivan.me/tags/devops/</guid>
       <description></description>
     </item>
     <item>
       <title>MLOps</title>
-      <link>http://localhost:1313/tags/mlops/</link>
+      <link>https://hivan.me/tags/mlops/</link>
       <pubDate>Mon, 01 Jan 2024 00:00:00 +0800</pubDate>
-      <guid>http://localhost:1313/tags/mlops/</guid>
+      <guid>https://hivan.me/tags/mlops/</guid>
       <description></description>
     </item>
     <item>
       <title>XAI</title>
-      <link>http://localhost:1313/tags/xai/</link>
+      <link>https://hivan.me/tags/xai/</link>
       <pubDate>Mon, 01 Jan 2024 00:00:00 +0800</pubDate>
-      <guid>http://localhost:1313/tags/xai/</guid>
+      <guid>https://hivan.me/tags/xai/</guid>
       <description></description>
     </item>
     <item>
       <title>Neural Network</title>
-      <link>http://localhost:1313/tags/neural-network/</link>
+      <link>https://hivan.me/tags/neural-network/</link>
       <pubDate>Thu, 27 Jul 2023 11:30:11 +0800</pubDate>
-      <guid>http://localhost:1313/tags/neural-network/</guid>
+      <guid>https://hivan.me/tags/neural-network/</guid>
       <description></description>
     </item>
     <item>
       <title>ChatGPT</title>
-      <link>http://localhost:1313/tags/chatgpt/</link>
+      <link>https://hivan.me/tags/chatgpt/</link>
       <pubDate>Wed, 10 May 2023 16:38:41 +0800</pubDate>
-      <guid>http://localhost:1313/tags/chatgpt/</guid>
+      <guid>https://hivan.me/tags/chatgpt/</guid>
       <description></description>
     </item>
     <item>
       <title>Chrome</title>
-      <link>http://localhost:1313/tags/chrome/</link>
+      <link>https://hivan.me/tags/chrome/</link>
       <pubDate>Wed, 10 May 2023 16:38:41 +0800</pubDate>
-      <guid>http://localhost:1313/tags/chrome/</guid>
+      <guid>https://hivan.me/tags/chrome/</guid>
       <description></description>
     </item>
     <item>
       <title>Python</title>
-      <link>http://localhost:1313/tags/python/</link>
+      <link>https://hivan.me/tags/python/</link>
       <pubDate>Thu, 23 Sep 2021 15:53:29 +0800</pubDate>
-      <guid>http://localhost:1313/tags/python/</guid>
+      <guid>https://hivan.me/tags/python/</guid>
       <description></description>
     </item>
     <item>
       <title>Google</title>
-      <link>http://localhost:1313/tags/google/</link>
+      <link>https://hivan.me/tags/google/</link>
       <pubDate>Thu, 14 Mar 2013 17:02:09 +0800</pubDate>
-      <guid>http://localhost:1313/tags/google/</guid>
+      <guid>https://hivan.me/tags/google/</guid>
       <description></description>
     </item>
   </channel>
